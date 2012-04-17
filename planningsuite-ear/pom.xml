@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <groupId>eu.scape_project.pw</groupId>
+      <artifactId>planningsuite</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>planningsuite-ear</artifactId>
+  <name>Planningsuite Bundle</name>
+  <packaging>ear</packaging>
+  
+  <build>
+      <plugins>
+          <plugin>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>2.4.3</version>
+              <configuration>
+                  <encoding>UTF-8</encoding>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-ear-plugin</artifactId>
+              <version>2.6</version>
+              <configuration>
+                <version>6</version>                
+                <defaultLibBundleDir>lib</defaultLibBundleDir>
+                <initializeInOrder>true</initializeInOrder>
+                <modules>
+                  <jarModule>
+                      <groupId>eu.scape_project.pw</groupId>
+                      <artifactId>plato-model</artifactId>
+                  </jarModule>
+                  <ejbModule>
+                      <groupId>eu.scape_project.pw</groupId>
+                      <artifactId>planning-core</artifactId>
+                  </ejbModule>
+                  <webModule>
+                      <groupId>eu.scape_project.pw</groupId>
+                      <artifactId>plato</artifactId>
+                      <contextRoot>/plato</contextRoot>
+                  </webModule>
+                  <webModule>
+                      <groupId>eu.scape_project.pw</groupId>
+                      <artifactId>kbrowser</artifactId>
+                      <contextRoot>/kbrowser</contextRoot>
+                  </webModule>
+                </modules>
+                 
+	            <archive>
+	               <manifestEntries>
+	                   <Dependencies>javaee.api, javax.faces.api, org.jboss.as.jpa, org.hibernate, org.javassist, javax.persistence.api, javaee.api, org.jboss.interceptor, org.jboss.as.weld, org.jboss.logging, org.jboss.weld.core, org.jboss.weld.api, org.jboss.weld.spi</Dependencies>
+	               </manifestEntries>
+	            </archive>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
+  
+  <dependencies>
+   <dependency>
+    <groupId>eu.scape_project.pw</groupId>
+    <artifactId>plato-model</artifactId>
+    <version>3.2.0</version>
+   </dependency>
+   <dependency>
+    <groupId>eu.scape_project.pw</groupId>
+    <artifactId>planning-core</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <type>ejb</type>
+   </dependency>
+  <dependency>
+    <groupId>eu.scape_project.pw</groupId>
+    <artifactId>plato</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <type>war</type>
+   </dependency>
+   <dependency>
+    <groupId>eu.scape_project.pw</groupId>
+    <artifactId>kbrowser</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <type>war</type>
+   </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:c="http://java.sun.com/jsp/jstl/core"
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+                    
+    <ui:define name="title">SCAPE Planning Suite - Bug Report</ui:define>
+
+    <ui:define name="content">
+
+        <h1> Report Error </h1>
+        
+        <h:form>
+	        <p>
+		        Dear user, please help us in improving Plato by sending us more information about what happened.<br/>
+		        Your message will be received by the developers and contribute to fixing the encountered error.<br/>
+		        <b>Thank you!</b>
+	        </p>        
+        
+            <p:inputText labelText="Your Email" input="#{bugReport.userEmail}" required="false" helpLink="false" />
+            <p:inputTextArea labelText="Description of Actions before Error" input="#{bugReport.userDescription}" required="false" helpLink="false" />
+            
+            <div class="component">
+	            <div class="label">&nbsp;</div>
+	            <div class="input">    
+		            <a4j:commandButton id="sendBugReport" action="#{bugReport.sendBugReport()}" value="Send Bugreport" />
+		            <br /> <rich:messages for="sendBugReport" />
+	            </div>
+            </div>
+        </h:form>        
+
+    </ui:define>
+</ui:composition>

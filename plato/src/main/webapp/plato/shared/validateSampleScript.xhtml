@@ -1,0 +1,27 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+
+					
+<script type="text/javascript">
+
+function validateSampleRecords()
+{
+   if (document.getElementById) {
+      sampleDesc = document.getElementById('mainform:samplesDescriptionDecorate:samplesDescription');
+      setErrorStyle(sampleDesc);
+
+      table = document.getElementById('mainform:allrecords');
+      rows = table.rows;
+      for (var i = 0; i &lt; rows.length; i++) {
+         row = rows[i];
+         inputname = 'mainform:allrecords:' + i + ':shortName';
+         var input = document.getElementById(inputname);
+         setErrorStyle(input);
+      }
+   }
+   return true;
+}
+</script>       
+            
+</ui:composition>

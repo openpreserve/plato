@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:cc="http://java.sun.com/jsf/composite"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:f="http://java.sun.com/jsf/core">
+
+<cc:interface>
+    <cc:attribute name="leaf" required="true"/>
+    <cc:attribute name="threshold" required="true"/>
+    <cc:attribute name="textid" required="true"/>
+    <cc:attribute name="index" required="true"/>
+</cc:interface>
+
+<cc:implementation>
+   <tr>
+      <td class="margin-top-small margin-bottom-small margin-left-small margin-right-small">
+
+      <div class="inputDecorate">
+         <div style="width:100%">
+            <h:inputText id="#{cc.attrs.textid}Decorate" maxlength="50" value="#{cc.attrs.threshold}">
+               <f:converter converterId="NumberConverter" />
+               <a4j:ajax  event="change" listener="#{cc.attrs.leaf.transformer.touch}" onbeforesubmit="changed()" execute="@this"/> 
+            </h:inputText>
+            <h:outputText styleClass="requiredIndicator" rendered="#{not cc.attrs.leaf.transformer.changed}" value="*" />
+            <h:outputText rendered="#{cc.attrs.leaf.scale.unit != null}" value=" #{cc.attrs.leaf.scale.unit}" />
+            <rich:messages for="#{cc.attrs.textid}Decorate" ajaxRendered="true"/>
+         </div>
+      </div>
+            
+      </td>
+      <td class="margin-top-small margin-bottom-small margin-left-small margin-right-small nowrap">
+         <h:outputText value="-> #{cc.attrs.index}"/>
+      </td>
+   </tr> 
+</cc:implementation>
+</html>

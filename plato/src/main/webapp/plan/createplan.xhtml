@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition 	xmlns="http://www.w3.org/1999/xhtml"
+    				xmlns:h="http://java.sun.com/jsf/html"
+    				xmlns:f="http://java.sun.com/jsf/core"
+    				xmlns:ui="http://java.sun.com/jsf/facelets"
+    				xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+    				xmlns:p="http://java.sun.com/jsf/composite/plato"
+    				xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich"
+   					template="/WEB-INF/templates/default.xhtml">
+ 
+	<ui:define name="title">
+		SCAPE Preservation Planning Tool - New Plan
+	</ui:define>
+	<ui:define name="content">
+	<h1>Create Preservation Plan</h1>
+         <h:form id="mainform">
+             <h:inputText id="changedflag" value="#{createPlan.changed}"
+               style="display:none" />
+
+            <fieldset id="identification">
+                  <p:inputTextArea labelText="Plan name" id="name"
+                     input="#{createPlan.plan.planProperties.name}"
+                     touchable="#{createPlan.plan.planProperties}"
+                     required="true" />
+                  <p:inputTextArea labelText="Plan description"
+                     id="description"
+                     input="#{createPlan.plan.planProperties.description}"
+                     touchable="#{createPlan.plan.planProperties}"
+                     required="true" />
+                  <p:inputText labelText="Responsible planner"
+                     id="author"
+                     input="#{createPlan.plan.planProperties.author}"
+                     touchable="#{createPlan.plan.planProperties}"
+                     required="true" />
+                  <p:inputText labelText="Organisation"
+                     id="organization"
+                     input="#{createPlan.plan.planProperties.organization}"
+                     touchable="#{createPlan.plan.planProperties}"
+                     required="true" />
+
+                  <div class="margin-top-huge">
+                        <label for="private">Private:</label>
+                        <h:selectBooleanCheckbox id="private"
+                          disabled="false"
+                          value="#{createPlan.plan.planProperties.privateProject}" />
+                  </div>
+
+                  <h:commandButton value="Create Plan" id="createProject"
+                     action="#{createPlan.savePlan}" />
+                  <h:commandButton value="Discard Plan" id="discardChanges"
+                     action="#{createPlan.discardPlan}" immediate="true"/>
+            </fieldset>
+         </h:form>
+    </ui:define>
+</ui:composition>

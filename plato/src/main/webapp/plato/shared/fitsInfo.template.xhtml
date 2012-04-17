@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+	<rich:modalPanel id="fitsPanel" width="800" height="500"
+		autosized="false" style="overflow:scroll">
+
+		<f:facet name="header">
+			<h:outputText value="FITS Description" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:graphicImage value="/img/icons/small/close.png"
+				style="cursor:pointer;float:right;align:right"
+				onclick="Richfaces.hideModalPanel('fitsPanel')" />
+		</f:facet>
+
+		<s:div id="fitsModalDiv" >
+			   <h:outputText value="No Info available - FITS is not configured properly" 
+			   		rendered="#{(identifiedRecord == null)}"/>
+			   <h:outputText value="No Info available - FITS characterisation failed." 
+			   		rendered="#{(identifiedRecord != null) and  empty(identifiedRecord.fitsXMLString)}"/>
+
+			   <pre> 
+				   <h:outputText
+				   		value="#{identifiedRecord.fitsXMLString}" 
+				   		rendered="#{(identifiedRecord != null) and not empty(identifiedRecord.fitsXMLString)}"/>
+			   </pre>
+
+		</s:div>
+	</rich:modalPanel>
+
+
+
+
+</ui:composition>

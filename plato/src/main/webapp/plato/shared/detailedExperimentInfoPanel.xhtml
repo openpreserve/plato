@@ -1,0 +1,42 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">
+<!-- requires following parameter
+     - detailedExperimentInfo : bean of type DetailedExperimentInfo 
+ -->
+   <h:form id="experimentReportForm">
+        <rich:popupPanel id="reportPanel" width="700" height="450" domElementAttachment="form" >
+            <f:facet name="header">
+                <h:outputText value="Report Information" />
+            </f:facet>
+            <f:facet name="controls">
+                <h:graphicImage id="closeMapping" 
+                    value="/resources/gfx/icons/cancel.png"
+                    title="Close" width="16" height="16"
+                    onclick="#{rich:component('reportPanel')}.hide()" />
+            </f:facet>            
+            <h:messages />
+          
+            <a4j:outputPanel layout="block" id="reportPanelResults">
+                <h:outputLabel for="experimentSuccessful" class="small">Was the experiment successful? </h:outputLabel>
+                <h:selectBooleanCheckbox id="experimentSuccessful" value="#{detailedExperimentInfo.successful}" />
+                
+                <h:inputTextarea id="programOutputInputField" 
+                    escape="false" style="width:95%;height:300px" 
+                    value="#{detailedExperimentInfo.programOutput}" />
+                <br/>
+                    
+                <a4j:commandLink id="saveDetailedExperimentInfo" action="#{detailedExperimentInfo.touch}"
+                                 render="alternativesTablePanel" oncomplete="#{rich:component('reportPanel')}.hide()" onclick="changed()">
+                     <h:graphicImage
+                         value="/resources/gfx/icons/big/apply.png"
+                         title="Save" width="32" height="32" />
+                </a4j:commandLink>
+             </a4j:outputPanel>                
+         </rich:popupPanel>
+	</h:form>
+</ui:composition>

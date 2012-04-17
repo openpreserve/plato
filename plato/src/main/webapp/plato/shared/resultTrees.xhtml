@@ -1,0 +1,191 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	 xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<a name="resultsMult" />
+	<div class="margin-bottom-huge">
+		<!-- p:help url="/plato/help/aggregation.html" text="How do the aggregation mechanisms work?"/>  -->
+	</div>
+	<div id="menu" class="margin-top-big margin-bottom-big">
+		<h2>Results: Weighted multiplication</h2>
+	</div>
+	<div>
+		<small>Result-Tree with all Alternatives, Aggregation method:
+			Weighted multiplication</small>
+	</div>
+	<div class="margin-bottom-huge">
+		<h:form id="multiTreeform">
+			<div id="treeheader" style="padding-top: 5px; width: 880px">
+				<div class="treetable_cell" style="width: 50%; min-width: 400px">
+					<b>Node</b>
+				</div>
+				<div class="treetable_cell" style="text-align: left; width: 50%;">
+					<b>Results</b>
+				</div>
+			</div>
+			<div id="treecontent" style="clear: both;">
+
+				<rich:tree var="node" id="multTree"
+					style="padding-top:10px;width:880px" showConnectingLines="false">
+
+					<rich:treeModelRecursiveAdaptor roots="#{validatePlan.multNode}"
+						nodes="#{node.children}">
+
+						<rich:treeNode expanded="#{treeHelper.expandedNodes[node]}" styleClass="treenode"
+							highlightedClass="highlighted" iconLeaf="" icon="">
+
+							<div class="treenode">
+								<div
+									style="float: left; position: relative; white-space: normal; width: 40%;">
+									<x:div renderthis="#{node.leaf}">
+										<a href="#results#{node.id}"> <h:outputText
+												value="#{node.name}" /> </a>
+									</x:div>
+									<h:outputText value="#{node.name}" rendered="#{not node.leaf}" />
+								</div>
+								<div style="float: right; position: relative; min-width: 380px;">
+									<table>
+										<a4j:repeat value="#{validatePlan.plan.alternativesDefinition.consideredAlternatives}"
+											var="a" rowKeyVar="i">
+											<tr>
+												<td><h:outputText value="#{a.name}: &nbsp;&nbsp;" />
+												</td>
+												<td width="40px"><h:outputText
+														value="#{node.resultStrings[a.name]}&nbsp;&nbsp;" />
+												</td>
+												<td width="253px"><img
+													width="#{50 * node.results[a.name]}" height="10"
+													src="#{request.contextPath}/resources/gfx/chart/chart-bar#{i}.jpg" />
+												</td>
+											</tr>
+										</a4j:repeat>
+									</table>
+								</div>
+							</div>
+						</rich:treeNode>
+					</rich:treeModelRecursiveAdaptor>
+				</rich:tree>
+			</div>
+		</h:form>
+
+	</div>
+
+	<a name="resultsSum" />
+	<div id="menu" class="margin-top-big margin-bottom-big">
+		<h2>Results: Weighted sum</h2>
+	</div>
+	<div>
+		<small>Result-Tree with all Alternatives, Aggregation method:
+			Weighted sum. <h:form id="switchForm">
+				<x:div renderthis="#{validatePlan.showAllAlternatives}">
+					<h:commandButton value="Hide rejected alternatives"
+						action="#{validatePlan.switchShowAllAlternatives}" />
+				</x:div>
+				<x:div renderthis="#{not validatePlan.showAllAlternatives}">
+					<b>This tree contains only strategies that do not have
+						knock-out evaluation criteria; see above</b>
+					<br />
+					<h:commandButton value="Show all alternatives"
+						action="#{validatePlan.switchShowAllAlternatives}" />
+				</x:div>
+			</h:form> </small>
+	</div>
+
+	<x:div renderthis="#{empty validatePlan.acceptableAlternatives}">
+		<div class="requiredIndicator">None of the considered
+			alternatives have achieved acceptable values - all of them exhibit an
+			unacceptable performance for at least one aspect of the requirements
+			tree. However, to create a preservation plan, a feasible course of
+			action is needed. You may want to reconsider your acceptable
+			threshold settings in the Transformation step. You can do so by
+			returning to that step and changing your settings, and then continue
+			with the workflow.</div>
+	</x:div>
+
+	<x:div
+		renderthis="#{validatePlan.showAllAlternatives or not empty validatePlan.acceptableAlternatives}">
+		<div class="margin-bottom-huge">
+			<h:form id="sumTreeForm">
+				<div id="treeheader" style="padding-top: 5px; width: 880px">
+					<div class="treetable_cell" style="width: 50%; min-width: 400px">
+						<b>Node</b>
+					</div>
+					<div class="treetable_cell" style="text-align: left; width: 50%;">
+						<b>Results</b>
+					</div>
+				</div>
+				<div id="treecontent" style="clear: both;">
+					<rich:tree var="node" id="sumTree"
+						style="padding-top:10px;width:880px" showConnectingLines="false">
+
+						<rich:treeModelRecursiveAdaptor roots="#{validatePlan.sumNode}"
+							nodes="#{node.children}">
+
+							<rich:treeNode expanded="#{treeHelper.expandedNodes[node]}" styleClass="treenode"
+								highlightedClass="highlighted" iconLeaf="" icon="">
+
+								<div class="treenode">
+									<div
+										style="float: left; position: relative; white-space: normal; width: 40%;">
+										<x:div renderthis="#{node.leaf}">
+											<a href="#results#{node.id}"> <h:outputText
+													value="#{node.name}" /> </a>
+										</x:div>
+										<h:outputText value="#{node.name}" rendered="#{not node.leaf}" />
+									</div>
+									<div
+										style="float: right; position: relative; min-width: 380px;">
+										<table>
+
+											<ui:fragment rendered="#{validatePlan.showAllAlternatives}">
+												<a4j:repeat value="#{validatePlan.plan.alternativesDefinition.consideredAlternatives}"
+													var="a" rowKeyVar="i">
+													<tr>
+														<td><h:outputText value="#{a.name}: &nbsp;&nbsp;" />
+														</td>
+														<td width="40px"><h:outputText
+																value="#{node.resultStrings[a.name]}&nbsp;&nbsp;" />
+														</td>
+														<td width="253px"><img
+															width="#{50 * node.results[a.name]}" height="10"
+															src="#{request.contextPath}/resources/gfx/chart/chart-bar#{i}.jpg" />
+														</td>
+													</tr>
+												</a4j:repeat>
+											</ui:fragment>
+											<ui:fragment rendered="#{not validatePlan.showAllAlternatives}">
+												<a4j:repeat value="#{validatePLan.acceptableAlternatives}"
+													var="a" rowKeyVar="i">
+													<tr>
+														<td><h:outputText value="#{a.name}: &nbsp;&nbsp;" />
+														</td>
+														<td width="40px"><h:outputText
+																value="#{node.resultStrings[a.name]}&nbsp;&nbsp;" />
+														</td>
+														<td width="253px"><img
+															width="#{50 * node.results[a.name]}" height="10"
+															src="#{request.contextPath}/resources/gfx/chart/chart-bar#{i}.jpg" />
+														</td>
+													</tr>
+												</a4j:repeat>
+											</ui:fragment>
+
+										</table>
+									</div>
+								</div>
+
+							</rich:treeNode>
+						</rich:treeModelRecursiveAdaptor>
+					</rich:tree>
+				</div>
+			</h:form>
+		</div>
+	</x:div>
+
+</ui:composition>

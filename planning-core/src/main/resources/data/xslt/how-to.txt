@@ -1,0 +1,9 @@
+class path for xalan (adjust!)
+
+set CLASSPATH=C:\if-jboss-trunk\lib\endorsed\xalan.jar;C:\if-jboss-trunk\lib\endorsed\xercesImpl.jar;C:\if-jboss-trunk\lib\endorsed\xml-apis.jar
+
+(xslt transformation needs more heap space)
+java -Xms256m -Xmx512m org.apache.xalan.xslt.Process -IN KBNL_test_jpg.xml -OUT new.xml -XSL Vxxx-to-V1.3.xsl
+
+
+set CLASSPATH=C:\planets\ifr_server\lib\endorsed\xalan.jar;C:\planets\ifr_server\lib\endorsed\xercesImpl.jar;C:\planets\ifr_server\lib\endorsed\xml-apis.jar

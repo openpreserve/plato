@@ -1,0 +1,45 @@
+.title {
+	width:100%;
+	height: 80px;
+	background: #f2f2f2;
+	padding-top: 0px;
+}
+
+
+.bear {
+    /*background:blue;*/
+	width: 60%;
+	height: 80px;
+	display: inline-block;
+	margin-top: 0px;
+	float:left; 
+}
+
+.scape {
+	width: 40%;
+	height: 80px;
+	/*background:red;*/
+	display:inline-block;
+	text-align:right;
+	margin-top: 0px;
+	float: left;
+}
+
+
+table.rf-tb {
+	background-image: url(#{request.contextPath}/resources/gfx/menu.png);
+	background-color: #99CCFF;
+	padding-left: 120px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-bottom: 1px solid black;
+}
+
+td.rf-tb-item {
+	
+}
+
+span.rf-ddm-itm-lbl {
+	color:blue;
+}

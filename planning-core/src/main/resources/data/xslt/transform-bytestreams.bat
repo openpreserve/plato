@@ -1,0 +1,2 @@
+set CLASSPATH=D:\bin\jboss\if-jboss-w-josso-new\lib\endorsed\xalan.jar;D:\bin\jboss\if-jboss-w-josso-new\lib\endorsed\xercesImpl.jar;D:\bin\jboss\if-jboss-w-josso-new\lib\endorsed\xml-apis.jar
+java -Xms256m -Xmx512m org.apache.xalan.xslt.Process -IN %1.xml -OUT %1_new.xml -XSL bytestreams.xsl

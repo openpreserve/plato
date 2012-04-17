@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition 	xmlns="http://www.w3.org/1999/xhtml"
+    				xmlns:h="http://java.sun.com/jsf/html"
+    				xmlns:f="http://java.sun.com/jsf/core"
+    				xmlns:ui="http://java.sun.com/jsf/facelets"
+    				xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+    				xmlns:p="http://java.sun.com/jsf/composite/plato"    
+   					template="/WEB-INF/templates/default.xhtml"
+   					xmlns:a4j="http://richfaces.org/a4j"
+   					xmlns:rich="http://richfaces.org/rich">
+ 
+	<ui:define name="title">
+		SCAPE Planning Suite -  Set Importance Factors
+	</ui:define>
+	<ui:define name="content">
+    	<h1>Set Importance Factors</h1>
+		
+         <h:form id="mainform">
+         	<h:inputText id="changedflag" value="#{setImportanceFactors.changed}" style="display:none" />
+
+            <h:panelGrid columns="2" border="0">
+	            <h:outputText value="Balance weights automatically" />
+	            <h:selectBooleanCheckbox 
+	               id="balanceAutomatically"
+	               value="#{setImportanceFactors.autoBalancingEnabled}">
+	               <a4j:ajax event="change" render="@form" />
+	            </h:selectBooleanCheckbox>
+             </h:panelGrid>
+             
+             <p:help url="/plato/help/weights.html" text="How does the automatic balancing work?"/>
+             
+             <div >
+	             <h:graphicImage value="/resources/gfx/icons/big/emblem-important.png" />
+	             <h:outputText value="The balancing always refers to ONE level of the tree. The best way to do this balancing is to focus in on one level after the other and balance all leaves in this level." />                       
+             </div>
+             <a4j:outputPanel id="a4jTreeTable">
+             <fieldset id="objectivetreeRich" class="size-full">
+	             <legend class="fieldset-full-size-legend">
+	               <ui:include src="/plato/shared/legend_nav.xhtml"></ui:include>
+	               <h:outputText value="Importance Factors" /> 
+	             </legend>
+                 <a4j:commandLink
+                                actionListener="#{setImportanceFactors.resetFocus}"
+                                value="#{setImportanceFactors.plan.tree.root.name} &gt; ..."
+                                eventsQueue="ajaxQ" ignoreDupResponses="true"
+                                render="richTree" />
+                <div id="treeheader" style="padding-top: 5px;">
+                    <div class="treetable_cell" style="width: 120px;"><b>Name</b></div>
+                    <div class="treetable_nodeInfo_imp">
+                        <div class="treetable_cell"  style="width: 400px;"><b>Weight</b></div>
+                        <div class="treetable_cell"  style="width: 60px;"><b>Total weight</b></div>
+                        <div class="treetable_cell"  style="width: 60px;"><b>Lock</b></div>
+                        <div class="treetable_cell"                      ><b>Performance</b></div>
+                    </div>
+                </div>
+                <div id="treecontent" style="clear:both; padding-top: 5px;">                                 
+	                 <rich:tree id="richTree" selectionType="client" immediate="true" var="node">
+	                     <rich:treeModelRecursiveAdaptor roots="#{setImportanceFactors.focusedNode}" nodes="#{node.children}" leaf="#{node.leaf}">
+	                         <rich:treeNode icon="" iconLeaf=""  highlightedClass="highlighted" expanded="false">
+	                             <div class="treetable_cell" style="height: 25px; width: 200px;min-width:180px;text-align:left" >
+		                            <h:outputText id="name" value="#{node.name}"/>
+		                                <a4j:commandLink
+			                             rendered="#{(!node.leaf) and (node.parent!=null)}"
+			                             actionListener="#{setImportanceFactors.focusOn(node)}"
+			                             value=" X"
+			                             render="a4jTreeTable"/>
+	                             </div>
+	                             <div class="treetable_nodeInfo_imp">
+	                                 <div class="treetable_cell" style="width: 400px;" >
+	                                         <!-- Weight informations -->
+	                                         <rich:inputNumberSlider 
+	                                             value="#{node.weight}" style="width: 98%;"
+	                                             minValue="0" maxValue="1" step="0.01"
+	                                             showInput="true" showToolTip="true"
+	                                             enableManualInput="false"
+	                                             disabled="#{!node.child}">
+	                                             <a4j:ajax
+	                                                 disabled="#{!setImportanceFactors.autoBalancingEnabled}"
+	                                                 event="change"
+	                                                 listener="#{node.balanceWeights}"
+	                                                 render="richTree" />
+	                                         </rich:inputNumberSlider>
+	                                 </div>
+	                                                                 
+	                                 <div class="treetable_cell" style="width: 60px;text-align:center;">
+	                                      <!-- Total Weight -->
+	                                     <h:outputText value="#{node.totalWeight}" >
+	                                         <f:convertNumber maxFractionDigits="2" />
+	                                     </h:outputText>
+	                                 </div>
+	                                 <div class="treetable_cell" style="width: 60px;text-align: center;">
+	                                      <!-- Lock -->
+	                                     <h:selectBooleanCheckbox
+	                                         rendered="#{node!=null}"
+	                                         value="#{node.lock}"
+	                                         disabled="#{!node.child}" >
+	                                         <a4j:ajax onbeforesubmit="changed()" event="change"
+	                                             listener="#{node.touch}" />
+	                                     </h:selectBooleanCheckbox>
+	                                 </div>
+	                                 <div class="treetable_cell">
+	                                       <!--  we want to display values aggregated over sample objects here.-->
+	                                      <div class="size-xl">
+                                             <h:dataTable
+                                                 value="#{setImportanceFactors.plan.alternativesDefinition.consideredAlternatives}"
+                                                 var="alter"
+                                                 headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap"
+                                                 columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big nowrap"
+                                                 rendered="#{node.leaf}">
+                                                 <h:column>
+                                                     <f:facet name="header">
+                                                         <h:outputText
+                                                             value="Alternative" />
+                                                     </f:facet>
+                                                     <h:outputText value="#{alter.name}" />
+                                                 </h:column>
+                                                 <h:column>
+                                                     <f:facet name="header">
+                                                         <h:outputText value="Result" />
+                                                     </f:facet>
+                                                     <h:outputText
+                                                         value="#{setImportanceFactors.criterionResultMap[node].results[alter.name]}">
+                                                         <f:convertNumber
+                                                         maxFractionDigits="2" />
+                                                     </h:outputText>
+                                                 </h:column>
+                                             </h:dataTable>
+	                                     </div>
+	                               </div>
+	                             </div>
+	                         </rich:treeNode>
+	                     </rich:treeModelRecursiveAdaptor>
+	                 </rich:tree>
+	              </div>
+             </fieldset>
+         	</a4j:outputPanel>
+            <p:inputTextArea labelText="Comments:"
+               id="setImportanceFactorsComments"
+               input="#{setImportanceFactors.plan.importanceWeighting.comment}"
+               touchable="#{setImportanceFactors.plan.importanceWeighting}"/>
+         	
+        	<p:savediscardproceed bean="#{viewWorkflow}"/>
+         </h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:c="http://java.sun.com/jsp/jstl/core"
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+
+    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+    <ui:define name="content">
+
+        <h1> Create executable plan </h1>
+        
+        <p:help text="What exactly is a preservation plan?" url="/plato/help/plan-template.pdf" />
+        
+        <h:form id="mainform">
+
+           <h:inputText id="changedflag" value="#{createExecutablePlan.changed}" style="display:none" />
+
+           <fieldset class="size-full">
+              <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> When </legend>
+
+              <p:inputTextArea labelText="Triggers and conditions:" id="triggerscond" required="false"
+                               input="#{createExecutablePlan.plan.executablePlanDefinition.triggersConditions}"
+                               touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
+
+              <p:inputTextArea labelText="Validate and QA:" id="validateQA" required="false"
+                               input="#{createExecutablePlan.plan.executablePlanDefinition.validateQA}"
+                               touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
+           </fieldset>
+
+           <fieldset class="size-full">
+              <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> What </legend>
+              
+              <div class="label"><label class="label-text">Tool: </label></div>
+              <div class="input">
+	              <h:inputText label="Tool" id="recommendation" disabled="true" styleClass="p-input-text"
+	                           value="#{createExecutablePlan.plan.recommendation.alternative.name}" />
+              </div>
+
+              <p:inputText labelText="Location of records:" id="path" required="false"
+                           input="#{createExecutablePlan.plan.executablePlanDefinition.objectPath}"
+                           touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
+
+              <p:inputTextArea labelText="Parameters for tool:" id="parameters" required="false"
+                               input="#{createExecutablePlan.plan.executablePlanDefinition.toolParameters}"
+                               touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
+           </fieldset>
+
+           <fieldset id="executable_pp" class="size-full">
+              <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> Executable Preservation Plan </legend>
+              
+              In future releases executable preservation plans can be downloaded here. 
+           </fieldset>
+
+            <p:savediscardproceed bean="#{viewWorkflow}" />
+
+        </h:form>
+        
+    </ui:define>
+</ui:composition>

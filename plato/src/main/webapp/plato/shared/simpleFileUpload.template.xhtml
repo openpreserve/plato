@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:a4j="http://richfaces.org/a4j">
+   <h:panelGroup id="#{id}FileUpload">
+      <h:outputLabel for="#{id}Upload"></h:outputLabel>
+      <s:fileUpload id="#{id}Upload" data="#{data}"
+         style="margin-top:0px" fileName="#{fileName}"
+         contentType="#{contentType}" rendered="#{not dataExistent}" />
+      <h:outputLink
+         value="#{facesContext.externalContext.requestContextPath}/servlets/DownloadServlet?fileId=#{fileId}">
+         <h:outputText value="#{fullName}" />
+      </h:outputLink>
+      <a4j:commandButton style="margin-left:10px; margin-top:0px;"
+         reRender="#{id}FileUpload" value="Remove Upload" eventsQueue="ajaxQ" ignoreDupResponses="true"
+         action="#{bean[actionMethodName]}" rendered="#{dataExistent}" />
+   </h:panelGroup>
+</ui:composition>

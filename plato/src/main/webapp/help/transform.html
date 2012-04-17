@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+<head>
+  <title>PLANETS Preservation Planning Tool</title>
+  <meta name="description" content="PLANETS Preservation Planning Tool"/>
+  <link rel="shortcut icon" type="image/png" href="img/plato_icon.png"/>
+
+  <link rel="stylesheet" href="../css/content.css" type="text/css"/>
+  <link rel="stylesheet" media="screen" href="../css/plato.css" type="text/css" title="Plato"/>
+
+</head>
+<body id="body"><a name="top"></a>
+
+<div id="header">
+  <div><a name="top"></a></div>
+  <h1 class="title1">Transformation of Measured Values</h1>
+  <!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
+  <div class="hnav">
+  	<div>
+		<!-- div on the top right -->
+    </div>
+  </div>
+</div>
+
+<div class="strich">
+  <div></div>
+</div>
+
+<div id="menu">&nbsp;</div>
+
+<div id="spacing-top">
+  <div></div>
+</div>
+
+<div id="content">
+		<p>This page explains how the transformation of measured leaf values in Plato works.</p>
+		<hr/>
+
+<div id="menu">
+  <h2 class="title2">Why Transformation?</h2>
+ </div>
+  		<p>Values in the requirements tree are measured in different units (seconds, euro, bits, goodness values).
+  		To be able to aggregate the different values they have to be transformed to a uniform scale.
+  		Experience has shown that a scale with the resolution of discrete values 0-5 with 0 being an unacceptable value and 5 the best possible result works very well.
+
+		<hr/>
+<div id="menu">
+	 <h2 class="title2">Transformation tables</h2>
+</div>
+	 For every leaf in the tree a transformation table has to be created:
+  		<ul>
+  			<li><b>Ordinal Values, Yes/Acceptable/No</b>
+			<br/>For every ordinal or Yes/Acceptable/No value a numeric value has to be assigned. For an ordinal value that is considered better a higher numeric value has to be assigned than to an ordinal value that is considered worse. For an ordinal value that makes an alternative completely unacceptable '0'.
+			<br/><br/><img src="transform-ordinal.png" alt="Transformation table for ordinal values"/><br/><br/>
+			</li>
+  			<li><b>Numeric Values (Positive Number, Positive Integer, Int Range)</b>
+			<br/>For threshold values numeric values are assigned. By selecting the appropriate 'Threshold stepping' it can be chosen, if the transformation should be linear (interpolating between the values) or if steps should be used.
+			<br/><img src="transform-numeric.png" alt="Transformation table for numeric values"/><br/>
+			<br/>With "Steps" selected for Threshold Stepping, a measured value of eg. 65 would get the same transformed value as 60 ('3'). If you choose "Linear" the value will be interpolated between the transformation values, so a value of '3,5' would be assigned.<br/>
+			<img src="transform-stepping.png" alt="Transformation Stepping "/>
+			<br/>
+			</li>
+  		</ul>
+  		</p>
+		<p><img src="../img/icons/big/emblem-important.png"/><b>The measured values from the evaluation are shown next to the transformation tables.</b><br/>To help you select the correct numeric values for the transformation, all the measured results are shown in a table to the right of the transformation table. For every alternative the sample records (numbered one to number of sample records) are shown in one line.
+		<br/><br/>
+		Additionally an Aggregation Mode has to be selected:
+  		<ul>
+  			<li><b>Worst result: </b>The values for all sample records are transformed (see step "Transform Measured Values")
+  			and the worst result of the transformed values is taken as overall value for this leaf.</li>
+  			<li><b>Arithmetic mean: </b>The arithmetic mean of the transformed values is used as overall value for this leaf.</li>
+  		</ul>				
+		<br/><img src="transform-aggregation.png" alt="Aggregation Method for transformation"/><br/>
+		</p>
+<hr/>
+	<div id="menu">
+	 <h2 class="title2">Examples</h2>
+	 </div>
+		<p>Below are example transformations for ordinal values and numeric values.<br/>
+		<br/><b>Transformation of ordinal values</b><br/>
+		In this example the enumerations in a document are evaluated. If the Enumeration is available and like it is in the original the value 'yes' is assigned. For an enumeration that is still supported but changed, 'acceptable' would be selected. If the enumeration is not supported anymore 'no' is chosen for this values.<br/>The transformed values are '5' for 'yes', as this is the best possible result, '3' for acceptable and '1' for 'no'. We did not assign '0' to 'no', as it is not a knock-out criterion in our scenario.<br/>
+		Next to the transformation table we can see the results for every alternative for the one sample record we have in our fictional plan.<br/>
+		As an aggregation method 'Worst' is selected. If we would have more than one sample record and we have 'acceptable' for one record and 'yes' for every other record, the final value for this alternative would still be '3', as 'acceptable' is the worst result of all records for this alternative.
+		<br/><img src="transform-example1.png" alt="Example for transformation of ordinal values"/><br/>
+		<br/>
+		<b>Transformation of numeric values</b><br/>
+
+		This example shows how many MegaBytes per second an alternative is able to handle. The measured values are again shown next to the transformation table. '0.05' MByte/second is our best result, so we assigned '5' to this value. '0.01' was the worst result, so '1' is assigned. The other values are evenly distributed between these values.<br/>
+		'Steps' is selected for Threshold stepping, so if an alternative would be able to handle 0.019 MByte/second, the resulting value would still be '1'.<br/>
+		As Aggregation Method "Arithmetic Mean" has been selected. If we would have two sample records, 0.01 MByte/second for one of the records and 0.02 MByte/second for the other record the resulting transformed value would be the arithmetic mean of '1' and '2' -> '1.5'.
+		<br/><img src="transform-example2.png" alt="Example for transformation of numeric values"/><br/>
+		</p>
+
+		<div id="spacing-bottom">
+		  <div></div>
+		</div>
+
+<div id="footer-left">
+
+  <div class="strich">
+    <div></div>
+  </div>
+  <div class="contact">Plato help page. Institute of Software Technology and Interactive Systems: &#171;<a href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice bears</a>&#187;</div>
+
+</div>
+
+<div id="footer-right">
+	<span>
+    <div>
+      <a class="toplink" href="#top" title="top" alt="top"><img src="img/go-top.png" border="0"/></a>
+    </div>
+    <!-- Span on the bottom right --></span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,3945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<measurementsDescriptor>
+  <measurableProperties>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/other</propertyId>
+      <name>business: costs: execution: other</name>
+      <description>Execution costs of the action-tool which do not fit to any other given setup costs.</description>
+      <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/hardwareRunning</propertyId>
+      <name>business: costs: execution: run Hardware</name>
+      <description>Running hardware costs arising when using the action-tool (e.g. server rental costs).</description>
+      <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/softwareDevelopNewFeatures</propertyId>
+      <name>business: costs: execution: software develop new features</name>
+      <description>Costs for developing new features which were not available in the software before.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/softwareLicenceRunning</propertyId>
+      <name>business: costs: execution: software licence running</name>
+      <description>Running software licence costs of action-tool.</description>
+      <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/staffRunning</propertyId>
+      <name>business: costs: execution: staff running</name>
+      <description>Running staff costs for operate the action-tool.</description>
+      <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/total</propertyId>
+      <name>business: costs: execution: total</name>
+      <description>Total sum of costs needed to execute the action-tool.</description>
+      <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/execution/totalPerObject</propertyId>
+      <name>business: costs: execution: total per object</name>
+      <description>Total action-tool execution costs incurring per object.</description>
+      <positiveFloatScale><unit>Euro/object</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/hardwareInitial</propertyId>
+      <name>business: costs: setup: initial hardware</name>
+      <description>Initial hardware costs arising when using the action-tool (e.g. new hardware needs to be acquired to get the tool running).</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/other</propertyId>
+      <name>business: costs: setup: other</name>
+      <description>Setup costs of the action-tool which do not fit to any other given setup costs.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/softwareCustomization</propertyId>
+      <name>business: costs: setup: software customization</name>
+      <description>Costs for customizing the software to user needs (e.g. company-branding, performance-settings, etc.)</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/softwareIntegration</propertyId>
+      <name>business: costs: setup: software integration</name>
+      <description>Costs for integrating the software (get it running) in the current environment.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/softwareLicenceInitial</propertyId>
+      <name>business: costs: setup: software licence inital</name>
+      <description>Initial software licence costs of action-tool.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/staffExternalExpertiseNeeded</propertyId>
+      <name>business: costs: setup: staff external expertise needed</name>
+      <description>Cost for required external expertise.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/staffTraining</propertyId>
+      <name>business: costs: setup: staff training</name>
+      <description>Costs for training staff in using the action-tool.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/setup/total</propertyId>
+      <name>business: costs: setup: total</name>
+      <description>Total sum of costs needed to setup the action-tool.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/costs/total</propertyId>
+      <name>business: costs: total</name>
+      <description>Total sum of all costs arising when using the action-tool.</description>
+      <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>business/licencingSchema</propertyId>
+      <name>business: licencing schema</name>
+      <description>Licence applying to the action-tool.</description>
+      <ordinalScale><restriction>openSource/closedSource</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>compatibility/interoperability/interfaces/API/.Net</propertyId>
+      <name>interoperability: .Net API</name>
+      <description>Indicates whether it is possible to interact with the action-tool via a .net Application Programming Interface.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>compatibility/interoperability/interfaces/batchProcessingSupport</propertyId>
+      <name>interoperability: batch processing support</name>
+      <description>Indicates whether the action-tool supports batch processing.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>compatibility/interoperability/interfaces/directoryWatch</propertyId>
+      <name>interoperability: directory watch</name>
+      <description>Indicates whether the action-tool supports input via directory watch. Directory watch polls specified directories for new Files. If new Files are detected they are processed.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>compatibility/interoperability/interfaces/API/java</propertyId>
+      <name>interoperability: java API</name>
+      <description>Indicates whether it is possible to interact with the action-tool via a Java Application Programming Interface.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>compatibility/interoperability/interfaces/API/other</propertyId>
+      <name>interoperability: other API</name>
+      <description>Indicates whether it is possible to interact with the action-tool via any other Application Programming Interface.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/activityLoggingAmount</propertyId>
+      <name>functional suitability: activity logging amount</name>
+      <description>The amount of logging output produced by a component, measured in the length of characters.</description>
+      <positiveIntegerScale><unit>Characters</unit></positiveIntegerScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/activityLoggingFormat</propertyId>
+      <name>functional suitability: activity logging format</name>
+      <description>The format of logging output produced by a component.</description>
+      <ordinalScale><restriction>text/xml/database/none</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/activityTraceability</propertyId>
+      <name>functional suitability: activity traceability</name>
+      <description>Indicates to which degree the activities performed by the action-tool are traceable.</description>
+      <ordinalScale><restriction>good/acceptable/poor/no</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/document/handlingOfNotAllowedImageCompressions</propertyId>
+      <name>functional suitability: document: handling of not allowed image compressions</name>
+      <description>Method the action-tool handles an image compressis which is not permitted in the outcome.</description>
+      <ordinalScale><restriction>convert to still image/remove/leave unchanged</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/document/handlingOfNotAllowedImageFormats</propertyId>
+      <name>functional suitability: document: handling of not allowed image formats</name>
+      <description>Method the action-tool handles a image format which is not permitted in the outcome.</description>
+      <ordinalScale><restriction>convert to still image/remove/leave unchanged</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/document/handlingOfNotAllowedJavaScript</propertyId>
+      <name>functional suitability: document: handling of not allowed JavaScript</name>
+      <description>Method the action-tool handles JavaScript if it is not permitted in the outcome.</description>
+      <ordinalScale><restriction>remove/leave unchanged</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/document/handlingOfNotAllowedMovingImages</propertyId>
+      <name>functional suitability: document: handling of not allowed moving images</name>
+      <description>Method the action-tool handles a moving image if it is not permitted in the outcome.</description>
+      <ordinalScale><restriction>convert to still image/remove/leave unchanged</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/errorReporting</propertyId>
+      <name>functional suitability: error reporting</name>
+      <description>Indicates whether errors at action execution are reported.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/fractionOfObjectsSupported</propertyId>
+      <name>functional suitability: fraction of objects supported</name>
+      <description>Objects supported by the action-tool as percentage of overall objects of this type available.</description>
+      <positiveFloatScale><unit>percent</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/image/XMPSidecarFileSupport</propertyId>
+      <name>functional suitability: image: XMP sidecar file support</name>
+      <description>Indicates if the action-tool is able to handle XMP sidecar files.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/inputObjectValidation</propertyId>
+      <name>functional suitability: input-object validation</name>
+      <description>Indicates if the action-tool validates the input-object before processing.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/macroSupport</propertyId>
+      <name>functional suitability: macro support</name>
+      <description>Indicates if the action-tool supports macros.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/numberInputFormats</propertyId>
+      <name>functional suitability: number of input-formats supported</name>
+      <description>Number of input-formats supported by the action-tool.</description>
+      <positiveIntegerScale><unit>Formats</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/numberOfObjectsSupported</propertyId>
+      <name>functional suitability: number of objects supported</name>
+      <description>Total number of objects supported by the action-tool.</description>
+      <ordinalScale><restriction>Less than 10/10-100/101-500/501-2000/more than 2000</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/numberOutputFormats</propertyId>
+      <name>functional suitability: number of output-formats supported</name>
+      <description>Number of output-formats supported by the action-tool.</description>
+      <positiveIntegerScale><unit>Formats</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/outputFileFormatVerification</propertyId>
+      <name>functional suitability: output-file format verification</name>
+      <description>Indicates if the action-tool verifies its produced output file for format correctness.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/reportedErrorsContainHandlingAdvice</propertyId>
+      <name>functional suitability: reported errors contain handling advice</name>
+      <description>Indicate whether reported error contain a handling advice/suggestion.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/retainFilename</propertyId>
+      <name>functional suitability: retain filename</name>
+      <description>Indicates if the action-tool is able to retain the filename of the input-file for the output-file.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/understandabilityOfReportedErrors</propertyId>
+      <name>functional suitability: understandability of reported errors</name>
+      <description>Indicates tho which degree reported errors are understandable to human users.</description>
+      <ordinalScale><restriction>good/acceptable/poor/no</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/byteStreamMediaSupport</propertyId>
+      <name>functional suitability: video games: byte-stream media support</name>
+      <description>The way the action-tool supports byte stream media.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported as stand-alone file/supported encapsulated in file</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/cdRomSupport</propertyId>
+      <name>functional suitability: video games: cd-rom support</name>
+      <description>Indicates whether the action-tool is able to access and use the cd-rom drive.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysBoxArtwork</propertyId>
+      <name>functional suitability: video games: displays box artwork</name>
+      <description>Indicates whether the action-tool is capable of displaying the box artwork.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysContextDetails</propertyId>
+      <name>functional suitability: video games: displays context details</name>
+      <description>Indicates whether the action-tool is capable of displaying the context details.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysDescriptionOfOriginalMedia</propertyId>
+      <name>functional suitability: video games: displays description of original media</name>
+      <description>Indicates whether the action-tool is capable of displaying the description of the original media.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysManual</propertyId>
+      <name>functional suitability: video games: displays manual</name>
+      <description>Indicates whether the action-tool is capable of displaying the manual.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysNecessarySystemConfiguration</propertyId>
+      <name>functional suitability: video games: displays necessary system configuration</name>
+      <description>Indicates whether the action-tool is capable of displaying the necessary system configuration.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysOriginalMedia</propertyId>
+      <name>functional suitability: video games: displays original media</name>
+      <description>Indicates whether the action-tool is capable of displaying the original media.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysOriginallySuppliedAdditionalItems</propertyId>
+      <name>functional suitability: video games: displays originally supplied additional itmes</name>
+      <description>Indicates whether the action-tool is capable of displaying the originally suplied additional items (like special controllers, accessories, etc.).</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysReferenceToConsoleVideoGameSystem</propertyId>
+      <name>functional suitability: video games: displays reference to console video game system</name>
+      <description>Indicates whether the action-tool is capable of displaying the reference to the console video game system.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysReferenceToPreferredEmulator</propertyId>
+      <name>functional suitability: video games: displays reference to preferred emulator</name>
+      <description>Indicates whether the action-tool is capable of displaying the reference to the preferred emulator.</description>
+      <ordinalScale><restriction>yes - with system configuration/yes - without system configuration/no</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysRegionLockOutInformation</propertyId>
+      <name>functional suitability: video games: displays region lock-out information</name>
+      <description>Indicates whether the action-tool is capable of displaying the region lock-out information.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysTvStandardInformation</propertyId>
+      <name>functional suitability: video games: displays TV standard information</name>
+      <description>Indicates whether the action-tool is capable of displaying the TV standard information.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/displaysDisplayFrequencyInformation</propertyId>
+      <name>functional suitability: video games: displays video display frequency information</name>
+      <description>Indicates whether the action-tool is capable of displaying the display frequency information.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/gameStartMode</propertyId>
+      <name>functional suitability: video games: game start mode</name>
+      <description>indicates in which way video games can be started by the action-tool.</description>
+      <ordinalScale><restriction>command line/user interface/ command line and user interface</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/keyboardSupport</propertyId>
+      <name>functional suitability: video games: keyboard support</name>
+      <description>Indicates whether the action-tool is able to access and use the keyboard.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/mouseSupport</propertyId>
+      <name>functional suitability: video games: mouse support</name>
+      <description>Indicates whether the action-tool is able to access and use the mouse.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/necessaryAccessoriesSupported</propertyId>
+      <name>functional suitability: video games: necessary accessories supported</name>
+      <description>Indicates in which way necessary accessories (e.g. special controller mandatory for playing a video game) are supported by the action-tool.</description>
+      <ordinalScale><restriction>not applicable/Y/N</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/originalAccessoriesSupported</propertyId>
+      <name>functional suitability: video games: original accessories supported</name>
+      <description>Indicates in which way original accessories (special controller, etc.) are supported by the action-tool.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported without special hardware</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/originalMediaSupport</propertyId>
+      <name>functional suitability: video games: original media support</name>
+      <description>The way the action-tool supports original media.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported without special hardware</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/osCommunicationType</propertyId>
+      <name>functional suitability: video games: OS communication type</name>
+      <description>The way the action-tool communicates with the operating system.</description>
+      <ordinalScale><restriction>native/none/via network/via virtual media</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/osPreInstalled</propertyId>
+      <name>functional suitability: video games: OS pre-installed</name>
+      <description>Property especially for emulator action-tools. It indicates if there is an OS preinstalled in the emulated environment.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/recreationLevel</propertyId>
+      <name>functional suitability: video games: recreation level</name>
+      <description>Indicates on which levels the action-tool operates to be able to run the video game.</description>
+      <ordinalScale><restriction>high level and no BIOS is needed/low level and no BIOS is needed/high level and BIOS is needed/low level and BIOS is needed</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/generic/soundSupport</propertyId>
+      <name>functional suitability: video games: sound support</name>
+      <description>Indicates whether sound output is supported by the action tool.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>functionalSuitability/functionalCompleteness/contentSpecific/videoGames/supportedMediaTypes</propertyId>
+      <name>functional suitability: video games: supported media types</name>
+      <description>Media types supported by the action tool.</description>
+      <ordinalScale><restriction>not applicable/neither byte-stream nor original media supported/original media but no byte stream supported/byte stream but not original media supported/byte stream and original media supported</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>maintainability/modifiability/customization</propertyId>
+      <name>maintainability: customization</name>
+      <description>Assessment of how easy it is to customize the action-tool according to specific user needs.</description>
+      <ordinalScale><restriction>good/acceptable/poor/not possible</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>maintainability/modularity/modularDesign</propertyId>
+      <name>maintainability: modular design</name>
+      <description>Assessment of the action-tool design in terms of modularity.</description>
+      <ordinalScale><restriction>yes/no/not observable</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>maintainability/modularity/plugInSystem</propertyId>
+      <name>maintainability: plug-in system</name>
+      <description>Indicates if and in what terms the action-tool implements plug-ins.</description>
+      <ordinalScale><restriction>yes - open specification/yes - closed specification/no/not observable</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/capacity/batchProcessingMaxFiles</propertyId>
+      <name>performance efficiency: batch processing maximum files</name>
+      <description>Maximum number of files supported at one batch run.</description>
+      <positiveIntegerScale><unit>Files</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/resourceUtilization/memoryPerMB</propertyId>
+      <name>performance efficiency: memory per MB-input</name>
+      <description>Memory used per megabyte of input, measured in megabyte.</description>
+      <positiveFloatScale><unit>MB/MB</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/resourceUtilization/memoryPerSample</propertyId>
+      <name>performance efficiency: memory per sample</name>
+      <description>Memory used per sample object, measured in megabytes.</description>
+      <positiveFloatScale><unit>MB</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/resourceUtilization/resourceUtilization</propertyId>
+      <name>performance efficiency: resource utilization</name>
+      <description>Indicates if and in which way the action-tool automatically uses available resources, like multiple processor cores, etc. to prallelize conversions.</description>
+      <ordinalScale><restriction>yes-automatic/yes-manual/no</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/timeBehaviour/throughput</propertyId>
+      <name>performance efficiency: throughput</name>
+      <description>Processing throughput, measured in megabytes per second.</description>
+      <positiveFloatScale><unit>MB/s</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/timeBehaviour/timePerMB</propertyId>
+      <name>performance efficiency: time per MB</name>
+      <description>Elapsed processing time used per MB, measured in milliseconds.</description>
+      <positiveFloatScale><unit>ms/MB</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>performanceEfficiency/timeBehaviour/timePerSample</propertyId>
+      <name>performance efficiency: time per sample</name>
+      <description>Elapsed processing time used per sample object, measured in milliseconds.</description>
+      <positiveFloatScale><unit>ms</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>portability/installability/easeOfIntegrationInCurrentEnvironment</propertyId>
+      <name>portability: ease of integration in current environment</name>
+      <description>Assessment of how easy it is to integrate the action-tool into the current used server environment.</description>
+      <ordinalScale><restriction>good/acceptable/poor/not possible</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>portability/installability/supportedPlattforms/multiplePlatformSupport</propertyId>
+      <name>portability: multiple platform support</name>
+      <description>Indicates if the action-tool is capable of running on different platforms.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>portability/installability/supportedPlattforms/linux</propertyId>
+      <name>portability: runs on Linux</name>
+      <description>Indicates whether the action-tool runs on Linux operating systems.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>portability/installability/supportedPlattforms/macOS</propertyId>
+      <name>portability: runs on MacOS</name>
+      <description>Indicates whether the action-tool runs on MacOS operating systems.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>portability/installability/supportedPlattforms/windows</propertyId>
+      <name>portability: runs on Windows</name>
+      <description>Indicates whether the action-tool runs on Windows operating systems.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/maturity/stabilityIndicators/activeCommunity</propertyId>
+      <name>reliability: active community</name>
+      <description>Indicates if the action-tool has an active comminity around.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/faultTolerance/errorCorrection</propertyId>
+      <name>reliability: error correction</name>
+      <description>Indicates whether the action-tools is able to correct errors occured in the input-object or while converting it to the output-object.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/faultTolerance/errorTolerance</propertyId>
+      <name>reliability: error tolerance</name>
+      <description>Indicates whether the action-tool is able to deal with errors in the input-object or while converting it to the output-object.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/maturity/sustainabilityIndicators/manufacturerStatus</propertyId>
+      <name>reliability: manufacturer status</name>
+      <description>Business status of the action-tool manufacturer.</description>
+      <ordinalScale><restriction>in business/no longer in same business/out of business</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/maturity/stabilityIndicators/releaseCycle</propertyId>
+      <name>reliability: release cycle</name>
+      <description>The average action-tool release cycle.</description>
+      <ordinalScale><restriction>3 months/6 months/1 year/longer than 1 year</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/maturity/stability</propertyId>
+      <name>reliability: runtime stability</name>
+      <description>Runtime stability of the action-tool.</description>
+      <ordinalScale><restriction>stable/largely stable/unstable</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/maturity/stabilityIndicators/supportAvailable</propertyId>
+      <name>reliability: support available</name>
+      <description>Indicates whether support is available for the action-tool.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>reliability/maturity/stabilityIndicators/underDevelopment</propertyId>
+      <name>reliability: under development</name>
+      <description>Indicates whether the action-tool is still under development.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>usability/operability/configurationMethod</propertyId>
+      <name>usability: configuration method</name>
+      <description>Method the action-tool performs global system configuration.</description>
+      <ordinalScale><restriction>internal only / external parameter / configuration file</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>usability/learnability/documentation/availability</propertyId>
+      <name>usability: documentation availibility</name>
+      <description>Availability of the action-tool documentation.</description>
+      <ordinalScale><restriction>yes-free/yes-pay/no</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>usability/learnability/documentation/quality</propertyId>
+      <name>usability: documentation quality</name>
+      <description>Indicates the quality of the action-tool documentation.</description>
+      <ordinalScale><restriction>complete/fragmentary/useless</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>usability/operability/easeOfAdministration</propertyId>
+      <name>usability: ease of administration</name>
+      <description>Assessment of how easy it is to administer the action-tool.</description>
+      <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>usability/operability/easeOfUse</propertyId>
+      <name>usability: ease of use</name>
+      <description>Assessment of how easy it is to use the action-tool.</description>
+      <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
+      <propertyId>usability/operability/objectConfigurationMethod</propertyId>
+      <name>usability: object configuration method</name>
+      <description>Method the action-tool performs object configuration.</description>
+      <ordinalScale><restriction>internal only / external parameter / configuration file / object encapsulated config</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:effect</category>
+      <propertyId>automatedQAPossible</propertyId>
+      <name>automated quality assurance possible</name>
+      <description>Indicates if the outcome supports automated quality assurance.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:effect</category>
+      <propertyId>costs/archivalStorage</propertyId>
+      <name>comparative archival storage costs</name>
+      <description>Archival storage costs compared to the original.</description>
+      <ordinalScale><restriction>increase/unchanged/decrease</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:effect</category>
+      <propertyId>costs/preservationWatchAndPlanning</propertyId>
+      <name>preservation watch and planning</name>
+      <description>Effects on preservation watch an planning costs.</description>
+      <ordinalScale><restriction>increase/unchanged/decrease</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:effect</category>
+      <propertyId>costs/archivalStorageQuantitative</propertyId>
+      <name>quantitative archival storage costs</name>
+      <description>Quantitative archival storage costs per object over a time period of 10 years.</description>
+      <positiveFloatScale><unit>Euro/object/10 years</unit></positiveFloatScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adaption/toolSupport/nrOfFreeNotOpenSourceTools</propertyId>
+      <name># of free tools (not open source)</name>
+      <description>Number of free, not open source tools which support the outcome format.</description>
+      <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adaption/toolSupport/nrOfFreeOpenSourceTools</propertyId>
+      <name># of free tools (open source)</name>
+      <description>Number of free open source tools which support the outcome format.</description>
+      <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adaption/toolSupport/nrOfProprietaryTools</propertyId>
+      <name># of proprietary tools</name>
+      <description>Number of proprietary tools which support the outcome format.</description>
+      <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adaption/toolSupport/nrOfTools</propertyId>
+      <name># of tools</name>
+      <description>Number of all tools which support the outcome format.</description>
+      <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/stability/backwardsCompatibility</propertyId>
+      <name>backwards compatibility</name>
+      <description>Indicates whether the outcome format is backwards compatible to previous versions.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/transparency/complexity</propertyId>
+      <name>complexity</name>
+      <description>Complexity of the outcome format.</description>
+      <ordinalScale><restriction>high/medium/low</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/database/supportForColumnTypeDateTime</propertyId>
+      <name>database: support for column type datetime</name>
+      <description>Indicates whether the outcome format supports the database column type DateTime.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/database/supportForColumnTypeNumber</propertyId>
+      <name>database: support for column type number</name>
+      <description>Indicates whether the outcome format supports the database column type Number.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/database/supportForColumnTypeString</propertyId>
+      <name>database: support for column type string</name>
+      <description>Indicates whether the outcome format supports the database column type String.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/disclosure/documentation/availability</propertyId>
+      <name>documentation availability</name>
+      <description>Availability of the outcome format documentation.</description>
+      <ordinalScale><restriction>yes-free/yes-pay/no</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/disclosure/documentation/quality</propertyId>
+      <name>documentation quality</name>
+      <description>Indicates the quality of the outcome format documentation.</description>
+      <ordinalScale><restriction>complete/fragmentary/useless</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/selfDocumentation/metadata/embedCustomMetadata</propertyId>
+      <name>embed custom metadata</name>
+      <description>Indicates whether additionaly metadata can be embedded in the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/selfDocumentation/metadata/embedImageMetadata</propertyId>
+      <name>embed image metadata</name>
+      <description>Indicates whether image metadata can be embedded in the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/selfDocumentation/metadata/embedPreviewImage</propertyId>
+      <name>embed preview image</name>
+      <description>Indicate whether a preview image can be embedded in the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/recoverability/errorAwareness</propertyId>
+      <name>error awareness</name>
+      <description>Awareness to detect or recover errors.</description>
+      <ordinalScale><restriction>revcoverable/detectable/none</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/disclosure/identificationPossibilities</propertyId>
+      <name>identification possibilities</name>
+      <description>Possibilies to identify the outcome format.</description>
+      <ordinalScale><restriction>automatic_specific/automatic_generic/automatic_tentative/manual/none</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/image/interpretedData</propertyId>
+      <name>image: interpreted data</name>
+      <description>Indicates whether the image contains interpreted data.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/image/pdfCreationPossible</propertyId>
+      <name>image: pdf creation possible</name>
+      <description>Indicates whether it is possible to create a pdf from the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/image/qualityLossAtReinterpretating</propertyId>
+      <name>image: quality loss at reinterpretating</name>
+      <description>Indicates whether a quality loss occurs at reinterpretating the image.</description>
+      <ordinalScale><restriction>minimal/acceptable/not acceptable</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/image/zoomPossible</propertyId>
+      <name>image: zoom possible</name>
+      <description>Indicates whether the outcome format support zooming.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>business/licenceCostsForUse</propertyId>
+      <name>licence costs for use</name>
+      <description>Indicates whether licence costs occur at using the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adoption/toolSupport/nativeBrowserSupport</propertyId>
+      <name>native browser support</name>
+      <description>Indicates whether the format can be natively displayed by browsers.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adoption/toolSupport/ocrPossible</propertyId>
+      <name>ocr possible</name>
+      <description>Indicates whether tools exists which can apply optical character recognition successfully to the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>qualityAndFunctionality/readableAsPlainText</propertyId>
+      <name>readable as plain text</name>
+      <description>Indicates whether the outcome format is human readable as plain text.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/rights</propertyId>
+      <name>rights</name>
+      <description>Existence of rights applying to the outcome format.</description>
+      <ordinalScale><restriction>open/ipr_protected/proprietary</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/stability/speedOfChange</propertyId>
+      <name>speed of change</name>
+      <description>Stability of the outcome format with respect to changes.</description>
+      <ordinalScale><restriction>less than 1 year/1-2 years/3-5 years/more than 5 years</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/stability/standardization</propertyId>
+      <name>standardization</name>
+      <description>Standardization of the outcome format.</description>
+      <ordinalScale><restriction>international standard/de facto standard/none</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/adoption/ubiquity</propertyId>
+      <name>ubiquity</name>
+      <description>Ubiquity or popularity of the outcome format.</description>
+      <ordinalScale><restriction>ubiquitous/widespread/specialised/obsolete</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>technicalProtectionMechanisms/usageRestrictionsPossible</propertyId>
+      <name>usage restrictions possible</name>
+      <description>Indicates whether usage restrictions can be applied to the outcome format.</description>
+      <booleanScale/>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:format</category>
+      <propertyId>sustainability/disclosure/validationPossibilities</propertyId>
+      <name>validation possibilities</name>
+      <description>Possibilies to validate the outcome format.</description>
+      <ordinalScale><restriction>automatic/manual/none</restriction></ordinalScale>
+      <evaluationScope>alternative</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/archivalProcess/clientMachinePresent</propertyId>
+      <name>database: context: archival process client machine present</name>
+      <description>Indicates whether documentation of the client machine which executed the archival process is present.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/archivalProcess/connectionURLPresent</propertyId>
+      <name>database: context: archival process connection url present</name>
+      <description>Indicates whether the connection-url used to connect to the database for executing the archival process is documented.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/archivalProcess/executingUserPresent</propertyId>
+      <name>database: context: archival process executing user present</name>
+      <description>Indicates whether the executing user of the archival process is documented.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/archivalProcess/executionLocationPresent</propertyId>
+      <name>database: context: archival process execution location present</name>
+      <description>Indicates whether the executing user of the archival process is documented.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/archivalProcess/startTimePresent</propertyId>
+      <name>database: context: archival process start time present</name>
+      <description>Indicates whether the start of the archival process is documented.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataDictionary/present</propertyId>
+      <name>database: context: data dictionary present</name>
+      <description>Indicates whether a data dictionary is present in the database.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataDictionary/quality</propertyId>
+      <name>database: context: data dictionary quality</name>
+      <description>Indicates the quality of the present data dictionary.</description>
+      <ordinalScale><restriction>not available/good/acceptable/bad</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataModel/present</propertyId>
+      <name>database: context: data model present</name>
+      <description>Indicates whether a data model is present in the database.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataModel/quality</propertyId>
+      <name>database: context: data model quality</name>
+      <description>Indicates the quality of the present data model.</description>
+      <ordinalScale><restriction>not available/good/acceptable/bad</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataModel/syntax</propertyId>
+      <name>database: context: data model syntax</name>
+      <description>Syntax used in the present data model.</description>
+      <ordinalScale><restriction>not available/ERD/UML/other</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/elementMetadataOrDataDictionaryPresent</propertyId>
+      <name>database: context: either the element metadata or the (external) data dictionary is present</name>
+      <description>Indicates whether metadata is present for each element. This means that either the element metadata or the (external) data dictionary must be present.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/originalDatabaseProductPresent</propertyId>
+      <name>database: context: original database product present</name>
+      <description>Indicates whether the original database product is documented.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/representation/dateTimesAccordingToSQL99Standard</propertyId>
+      <name>database: representation: datetimes according to SQL-99 standard</name>
+      <description>Indicates if datetime representations accord to SQL-99 standard.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/quality</propertyId>
+      <name>image: image quality</name>
+      <description>Judged quality of the whole image.</description>
+      <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/textQuality</propertyId>
+      <name>image: text quality</name>
+      <description>Judged text quality in the given image.</description>
+      <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/audio/music/synchronousToVideo</propertyId>
+      <name>video game: audio: music synchronous to video</name>
+      <description>Indicates how synchronous music appears to the related video.</description>
+      <ordinalScale><restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/audio/sound/synchronousToVideo</propertyId>
+      <name>video game: audio: sound synchronous to video</name>
+      <description>Indicates how synchronous sound appears to the related video.</description>
+      <ordinalScale><restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/audio/speech/synchronousToVideo</propertyId>
+      <name>video game: audio: speech synchronous to video</name>
+      <description>Indicates how synchronous speech appears to the related video.</description>
+      <ordinalScale><restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/documentation/boxArtworkAvailable</propertyId>
+      <name>video game: documentation: box artwork available</name>
+      <description>Indicates whether box artwork is available.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/documentation/manualAvailable</propertyId>
+      <name>video game: documentation: manual available</name>
+      <description>Indicates whether the manual is available.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/documentation/originalMediaAvailable</propertyId>
+      <name>video game: documentation: original media available</name>
+      <description>Indicates whether information about the original game media is available.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/documentation/systemRequirementsSpecificationAvailable</propertyId>
+      <name>video game: documentation: systems requirements specification available</name>
+      <description>Indicates whether an actual systems requirements specification is available.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/gameConfiguration</propertyId>
+      <name>video game: game configuration</name>
+      <description>The way game configuration takes place.</description>
+      <ordinalScale><restriction>manual/pre-configured/not needed</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/gameInstallationNecessary</propertyId>
+      <name>video game: game installation necessary</name>
+      <description>Indicates whether it is necessary to install the game, before being able to play it.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/gamePlayable</propertyId>
+      <name>video game: game playable</name>
+      <description>Indicates whether the game is playable.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/gameStarts</propertyId>
+      <name>video game: game starts</name>
+      <description>Indicates whether the game starts. A game starts successfully if the start screen of the game shows up. A black screen after a start attempt is not enough to evaluate this property to true.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/2DBackgroundScrolling</propertyId>
+      <name>video game: graphics: 2D background scrolling</name>
+      <description>Indicates how good 2D background scrolling is working.</description>
+      <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/2DCollisionDetection</propertyId>
+      <name>video game: graphics: 2D collision detection</name>
+      <description>Indicates how good 2D collission detection is working.</description>
+      <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/2DObjectLayerPlacement</propertyId>
+      <name>video game: graphics: 2D object layer placement</name>
+      <description>Indicates how good 2D object loayer placement is working.</description>
+      <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/2DObjectPositionPlacement</propertyId>
+      <name>video game: graphics: 2D object position placement</name>
+      <description>Indicates how good 2D object position placement is working.</description>
+      <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/3DObjectCalculation</propertyId>
+      <name>video game: graphics: 3D object calculation</name>
+      <description>Indicates how good 3D object calculation is working.</description>
+      <ordinalScale><restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/3DObjectClipping</propertyId>
+      <name>video game: graphics: 3D object clipping</name>
+      <description>Indicates how good 3D object clipping is working.</description>
+      <ordinalScale><restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/3DTextureQuality</propertyId>
+      <name>video game: graphics: 3D texture quality</name>
+      <description>Indicates the quality of 3D texture quality.</description>
+      <ordinalScale><restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/screenOverlay</propertyId>
+      <name>video game: graphics: screen overlay</name>
+      <description>Indicates in which way screen overlays are supported.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported manually by loading image/supported by auto-detection/supported through encapsulation</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/additionalItemsSupported</propertyId>
+      <name>video game: interactivity: additional items supported</name>
+      <description>Indicates if additional items (like game boards used in role-playing games) are supported by the game emulation itself (and therefore are not required physical), or if they are not supported and therefore are required to be physically present - otherwise the game cannot be played.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/specialController/controllerFeedback/audible</propertyId>
+      <name>video game: interactivity: original hardware: special controller audible feedback</name>
+      <description>Indicates original special controller audible feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/specialController/controllerFeedback/force</propertyId>
+      <name>video game: interactivity: original hardware: special controller force feedback</name>
+      <description>Indicates original special controller force feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/specialController/responseDelay</propertyId>
+      <name>video game: interactivity: original hardware: special controller response delay</name>
+      <description>Indicates original special controller response delay (if applicable).</description>
+      <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/specialController/support</propertyId>
+      <name>video game: interactivity: original hardware: special controller support</name>
+      <description>Indicates if and under what circumstances original special controller are supported.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported with special software/native supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/specialController/controllerFeedback/visual</propertyId>
+      <name>video game: interactivity: original hardware: special controller visual feedback</name>
+      <description>Indicates original special controller visual feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/standardController/controllerFeedback/audible</propertyId>
+      <name>video game: interactivity: original hardware: standard controller audible feedback</name>
+      <description>Indicates original standard controller audible feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/standardController/controllerFeedback/force</propertyId>
+      <name>video game: interactivity: original hardware: standard controller force feedback</name>
+      <description>Indicates original standard controller force feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/standardController/responseDelay</propertyId>
+      <name>video game: interactivity: original hardware: standard controller response delay</name>
+      <description>Indicates original standard controller response delay (if applicable).</description>
+      <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/standardController/support</propertyId>
+      <name>video game: interactivity: original hardware: standard controller support</name>
+      <description>Indicates if and under what circumstances original standard controller are supported.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported with special software/native supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/originalHardware/standardController/controllerFeedback/visual</propertyId>
+      <name>video game: interactivity: original hardware: standard controller visual feedback</name>
+      <description>Indicates original standard controller visual feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/overlay/responseDelay</propertyId>
+      <name>video game: interactivity: overlay response delay</name>
+      <description>Indicates overlay response delay (if applicable).</description>
+      <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/overlay/support</propertyId>
+      <name>video game: interactivity: overlay support</name>
+      <description>Indicates whether overlays are supported</description>
+      <ordinalScale><restriction>not applicable/not supported but necessary for game play/not supported and not necessary for game play/supported but not necessary for game play/supported and necessary for game play</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/overlay/usability</propertyId>
+      <name>video game: interactivity: overlay usability</name>
+      <description>Indicates overlay usability (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not usable/usable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCGamingHardware/controllerFeedback/audible</propertyId>
+      <name>video game: interactivity: PC gaming hardware audible controller feedback</name>
+      <description>Indicates personal computer gaming hardware audible controller feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCGamingHardware/controllerFeedback/force</propertyId>
+      <name>video game: interactivity: PC gaming hardware force controller feedback</name>
+      <description>Indicates personal computer gaming hardware controller force feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCGamingHardware/originalFeel</propertyId>
+      <name>video game: interactivity: PC gaming hardware original feel</name>
+      <description>Indicates if and in which way standard pc gaming hardware exists which resembles the feel of the original.</description>
+      <ordinalScale><restriction>controllers resembling original controller not available/controllers resembling original controller not supported/controllers resembling original controller supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCGamingHardware/originalLook</propertyId>
+      <name>video game: interactivity: PC gaming hardware original look</name>
+      <description>Indicates if and in which way standard pc gaming hardware exists which resembles the look of the original.</description>
+      <ordinalScale><restriction>controllers resembling original controller not available/controllers resembling original controller not supported/controllers resembling original controller supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCGamingHardware/responseDelay</propertyId>
+      <name>video game: interactivity: PC gaming hardware response delay</name>
+      <description>Indicates personal computer gaming hardware response delay (if applicable).</description>
+      <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCGamingHardware/controllerFeedback/visual</propertyId>
+      <name>video game: interactivity: PC gaming hardware visual controller feedback</name>
+      <description>Indicates personal computer gaming hardware visual controller feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCStandardHardware/controllerFeedback/audible</propertyId>
+      <name>video game: interactivity: PC standard hardware audible controller feedback</name>
+      <description>Indicates personal computer standard hardware audible controller feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCStandardHardware/controllerFeedback/force</propertyId>
+      <name>video game: interactivity: PC standard hardware force controller feedback</name>
+      <description>Indicates personal computer standard hardware controller force feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCStandardHardware/responseDelay</propertyId>
+      <name>video game: interactivity: PC standard hardware response delay</name>
+      <description>Indicates personal computer standard hardware response delay (if applicable).</description>
+      <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCStandardHardware/support</propertyId>
+      <name>video game: interactivity: PC standard hardware support</name>
+      <description>Indicates if and in which way personal computer standard hardware is supported.</description>
+      <ordinalScale><restriction>supported and resemble look of original controller/supported/not supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCStandardHardware/usability</propertyId>
+      <name>video game: interactivity: PC standard hardware usability</name>
+      <description>Indicates personal computer standard hardware usability (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not acceptable/fairly playable/well playable/perfectly playable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/interactivity/input/PCStandardHardware/controllerFeedback/visual</propertyId>
+      <name>video game: interactivity: PC standard hardware visual controller feedback</name>
+      <description>Indicates personal computer standard hardware visual controller feedback (if applicable).</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/networkSupport/lagForNetworkPlay</propertyId>
+      <name>video game: network support: lag for network play</name>
+      <description>Indicates the lag occuring at network play.</description>
+      <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/networkSupport/networkProtocols</propertyId>
+      <name>video game: network support: network protocols</name>
+      <description>Indicates whether network protocols are supported by the game.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/networkSupport/useOfOriginalServers</propertyId>
+      <name>video game: network support: use of original servers</name>
+      <description>Indicates it the use of the original servers is supported at network play.</description>
+      <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>compression</propertyId>
+      <name>compression</name>
+      <description>Compression used in outcome object.</description>
+      <ordinalScale><restriction>none/lossless/lossy</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/interactiveElements/comments</propertyId>
+      <name>document content: comments</name>
+      <description>Indicates in which way comments are preserved in the document.</description>
+      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/interactiveElements/forms</propertyId>
+      <name>document content: forms</name>
+      <description>Indicates in which way forms are preserved in the document.</description>
+      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/interactiveElements/references</propertyId>
+      <name>document content: references</name>
+      <description>Indicates in which way references are preserved in the document.</description>
+      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/interactiveElements/scripts</propertyId>
+      <name>document content: scripts</name>
+      <description>Indicates in which way scripts are preserved in the document.</description>
+      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/interactiveElements/urls</propertyId>
+      <name>document content: URL</name>
+      <description>Indicates in which way URLs are preserved in the document.</description>
+      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/features/accessibility</propertyId>
+      <name>document features: accessibility</name>
+      <description>Indicates whether the document is accessible.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/features/contentMachineReadable</propertyId>
+      <name>document features: content machine readable</name>
+      <description>Indicates whether the document content is machine readable.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/features/searchability</propertyId>
+      <name>document features: searchability</name>
+      <description>Indicates if and in which way the document is searchable.</description>
+      <ordinalScale><restriction>full/partial/no</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>format/conforms</propertyId>
+      <name>format: conforms</name>
+      <description>Indicates whether the format of the result conforms to the output format specified by the component.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>format/valid</propertyId>
+      <name>format: valid</name>
+      <description>Indicates whether the format of the object is valid.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>format/validAndWellformed</propertyId>
+      <name>format: valid and well-formed</name>
+      <description>Indicates whether the format of the object is valid and well formed.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>format/wellformed</propertyId>
+      <name>format: well-formed</name>
+      <description>Indicates whether the format of the object is well formed.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/allDataValidAndWellFormed</propertyId>
+      <name>image metadata: all data valid and well-formed</name>
+      <description>Indicates if all associated metadata is valid and well-formed.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/METS/validDcMods</propertyId>
+      <name>image metadata: mets: valid DC/MODS</name>
+      <description>Indicates if  METS-metadata contains valid DC/MODS data.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/METS/validMix</propertyId>
+      <name>image metadata: mets: valid MIX</name>
+      <description>Indicates if  METS-metadata contains valid MIX data.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/METS/validPremis</propertyId>
+      <name>image metadata: mets: valid PREMIS</name>
+      <description>Indicates if  METS-metadata contains valid PREMIS data.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/xmp/validDc</propertyId>
+      <name>image metadata: xmp: valid DC</name>
+      <description>Indicates if XMP-metadata contains valid Dublin Core data.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/xmp/validExif</propertyId>
+      <name>image metadata: xmp: valid EXIF</name>
+      <description>Indicates if XMP-metadata contains valid EXIF data.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/xmp/validIptc</propertyId>
+      <name>image metadata: xmp: valid IPTC</name>
+      <description>Indicates if  XMP-metadata contains valid IPTC data.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>relativeFileSize</propertyId>
+      <name>relative filesize</name>
+      <description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
+      <positiveFloatScale><unit>output/input ratio</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/blobs/bitstreams</propertyId>
+      <name>database: content: blobs bitstreams</name>
+      <description>Bitstreams of database binary large objects (blobs)</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/blobs/contents</propertyId>
+      <name>database: content: blobs contents</name>
+      <description>Content of database binary large objects (blobs)</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/blobs/formatMetadata</propertyId>
+      <name>database: content: blobs format metadata</name>
+      <description>Format metadata of database binary large objects (blobs)</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/constraints/candidateKeys</propertyId>
+      <name>database: content: candidate keys (indexes)</name>
+      <description>Database candidate keys (indexes)</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/constraints/checkConstraints</propertyId>
+      <name>database: content: check constraints</name>
+      <description>Database check constraints</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/columnsDatatypes</propertyId>
+      <name>database: content: columns datatypes</name>
+      <description>Datatypes of database columns</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseColumnsDatatypesPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/constraints/foreignKeys</propertyId>
+      <name>database: content: foreign keys</name>
+      <description>Database foreign keys</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/constraints/primaryKeys</propertyId>
+      <name>database: content: primary keys</name>
+      <description>Database primary keys</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/privileges</propertyId>
+      <name>database: content: privileges</name>
+      <description>Database privileges</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databasePrivilegesPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/roles</propertyId>
+      <name>database: content: roles</name>
+      <description>Database roles</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseRolesPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/routines</propertyId>
+      <name>database: content: routines</name>
+      <description>Database routines</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseRoutinesPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/schemas</propertyId>
+      <name>database: content: schemas</name>
+      <description>Database schemas</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseSchemasPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/sequences</propertyId>
+      <name>database: content: sequences</name>
+      <description>Database sequences</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/strings</propertyId>
+      <name>database: content: strings</name>
+      <description>Database strings</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseStringsPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/systemTables</propertyId>
+      <name>database: content: system tables</name>
+      <description>Database system tables</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/columns/tableColumnCounts</propertyId>
+      <name>database: content: table column counts</name>
+      <description>Column counts of all database tables</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/tableRowCounts</propertyId>
+      <name>database: content: table row counts</name>
+      <description>Row counts of all database tables</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/triggers</propertyId>
+      <name>database: content: triggers</name>
+      <description>Database triggers</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseTriggersPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/udt</propertyId>
+      <name>database: content: user defined datatypes (UDT)</name>
+      <description>Database user defined datatypes (UDT)</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseUDTPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/users</propertyId>
+      <name>database: content: users</name>
+      <description>Database users</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseUsersPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/content/views</propertyId>
+      <name>database: content: views</name>
+      <description>Database views</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseViewsPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/columns</propertyId>
+      <name>database: context: columns</name>
+      <description>Database columns</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/constraints</propertyId>
+      <name>database: context: constraints</name>
+      <description>Database constraints</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataOriginTimespan</propertyId>
+      <name>database: context: data origin timespan</name>
+      <description>Timespan from now to data creation time</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/dataOwner</propertyId>
+      <name>database: context: data owner</name>
+      <description>Owner of the data</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/databaseName</propertyId>
+      <name>database: context: database name</name>
+      <description>Database name</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/databasePurpose</propertyId>
+      <name>database: context: database purpose</name>
+      <description>Database purpose</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/FKs</propertyId>
+      <name>database: context: FKs</name>
+      <description>Database FKs</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/indexes</propertyId>
+      <name>database: context: indexes</name>
+      <description>Database indexes</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/PKs</propertyId>
+      <name>database: context: PKs</name>
+      <description>Database PKs</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/privileges</propertyId>
+      <name>database: context: privileges</name>
+      <description>Database privileges</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/roles</propertyId>
+      <name>database: context: roles</name>
+      <description>Database roles</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/routines</propertyId>
+      <name>database: context: routines</name>
+      <description>Database routines</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/schemas</propertyId>
+      <name>database: context: schemas</name>
+      <description>Database schemas</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/sequences</propertyId>
+      <name>database: context: sequences</name>
+      <description>Database sequences</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/tables</propertyId>
+      <name>database: context: tables</name>
+      <description>Database tables</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/traceability/changeHistoryAndChangelog</propertyId>
+      <name>database: context: traceability: change history and changelog</name>
+      <description>Change history and changelog data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/traceability/explicitAuditTrail</propertyId>
+      <name>database: context: traceability: explicit audit trail</name>
+      <description>Explicit audit trail as stored in tables</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/traceability/implicitAuditTrail</propertyId>
+      <name>database: context: traceability: implicit audit trail</name>
+      <description>Implicit audit trail as kept in db system</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/triggers</propertyId>
+      <name>database: context: triggers</name>
+      <description>Database triggers</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/users</propertyId>
+      <name>database: context: users</name>
+      <description>Database users</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/context/views</propertyId>
+      <name>database: context: views</name>
+      <description>Database views</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/lookAndFeel</propertyId>
+      <name>database: look and feel</name>
+      <description>Look and feel of the database.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/representation/characterEncoding</propertyId>
+      <name>database: representation: character encoding</name>
+      <description>Character encoding used in given database representation.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseCharacterEncodingTrend"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/representation/numbersPrecision</propertyId>
+      <name>database: representation: numbers precision</name>
+      <description>Precision of number representation.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseNumbersPrecisionComparison"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/representation/stringsEncodings</propertyId>
+      <name>database: representation: strings encodings</name>
+      <description>Database strings encodings</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseStringsEncodingsPreserved"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>database/representation/timeEncoding</propertyId>
+      <name>database: representation: time encoding</name>
+      <description>Time encoding used in given database representation.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="databaseTimeEncodingTrend"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/attachedFiles</propertyId>
+      <name>document content: attached files</name>
+      <description>Attached files used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/lists/bulletLists</propertyId>
+      <name>document content: bullet lists</name>
+      <description>Bullet lists used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/characterSet</propertyId>
+      <name>document content: character set</name>
+      <description>Character set used in the document.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/specialCharacters/diacritics</propertyId>
+      <name>document content: diacritics</name>
+      <description>Diacritics used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/equations/captions</propertyId>
+      <name>document content: equation captions</name>
+      <description>Equation captions used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/equations/positions</propertyId>
+      <name>document content: equation positions</name>
+      <description>Equation positions used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/equations/sizes</propertyId>
+      <name>document content: equation sizes</name>
+      <description>Equation sizes used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/equations/strucutures</propertyId>
+      <name>document content: equation structures</name>
+      <description>Equation structures used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/equations/total</propertyId>
+      <name>document content: equation total</name>
+      <description>Equations used in this document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/figures/captions</propertyId>
+      <name>document content: figure captions</name>
+      <description>Figure captions used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/figures/colorDepths</propertyId>
+      <name>document content: figure color depths</name>
+      <description>Figure color depths used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/figures/positions</propertyId>
+      <name>document content: figure positions</name>
+      <description>Figure positions used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/figures/resolutions</propertyId>
+      <name>document content: figure resolutions</name>
+      <description>Figure resolutions used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/figures/sizes</propertyId>
+      <name>document content: figure sizes</name>
+      <description>Figure sizes used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/figures/total</propertyId>
+      <name>document content: figures total</name>
+      <description>Figures used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/font/colors</propertyId>
+      <name>document content: font colors</name>
+      <description>Font colors used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/font/encodings</propertyId>
+      <name>document content: font encoding</name>
+      <description>Font encoding used in the document.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/font/sizes</propertyId>
+      <name>document content: font sizes</name>
+      <description>Font sizes used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/font/styles</propertyId>
+      <name>document content: font styles</name>
+      <description>Font styles used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/font/textMarks</propertyId>
+      <name>document content: font text marks</name>
+      <description>Indicates if font text marks exists in the document.</description>
+      <booleanScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/foonotes</propertyId>
+      <name>document content: foonotes</name>
+      <description>Foonotes used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/formulas</propertyId>
+      <name>document content: formulas</name>
+      <description>Formulas in the document</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/multimedia</propertyId>
+      <name>document content: multimedia</name>
+      <description>Multimedia elements used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/numberOfCharacter</propertyId>
+      <name>document content: number of characters</name>
+      <description>Number of characters the document consists of.</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/lists/numberedLists</propertyId>
+      <name>document content: numbered lists</name>
+      <description>Numbered lists used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/specialCharacters/symbols</propertyId>
+      <name>document content: symbols</name>
+      <description>Symbols used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/tables</propertyId>
+      <name>document content: tables</name>
+      <description>Tables used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/text</propertyId>
+      <name>document content: text</name>
+      <description>Text content of the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/content/specialCharacters/umlauts</propertyId>
+      <name>document content: umlauts</name>
+      <description>Umlauts used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/layout/background</propertyId>
+      <name>document layout: background</name>
+      <description>Background of the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/layout/logo</propertyId>
+      <name>document layout: logo</name>
+      <description>Logo used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/layout/pageOrientation</propertyId>
+      <name>document layout: page orientation</name>
+      <description>Page orientation used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/layout/pageSize</propertyId>
+      <name>document layout: page size</name>
+      <description>Page size used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/layout/watermark</propertyId>
+      <name>document layout: watermark</name>
+      <description>Watermark used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/author</propertyId>
+      <name>document metadata: author</name>
+      <description>Author placed in the documents metadata.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/authorInRecord</propertyId>
+      <name>document metadata: author in record</name>
+      <description>Author placed in the records metadata.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/contentDescription</propertyId>
+      <name>document metadata: content description</name>
+      <description>Content description placed in the documents metadata.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/date</propertyId>
+      <name>document metadata: date</name>
+      <description>Date placed in the documents metadata.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/dateInRecord</propertyId>
+      <name>document metadata: date in record</name>
+      <description>Date placed in the records metadata.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/entireData</propertyId>
+      <name>document metadata: entire data</name>
+      <description>Entire metadata of the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/language</propertyId>
+      <name>document metadata: language</name>
+      <description>Document language placed in the documents metadata</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/subject</propertyId>
+      <name>document metadata: subject</name>
+      <description>Subject placed in the documents metadata.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/title</propertyId>
+      <name>document metadata: title</name>
+      <description>Title placed in the documents metadata.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/metadata/titleInRecord</propertyId>
+      <name>document metadata: title in record</name>
+      <description>Title placed in the records metadata.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/bibliography</propertyId>
+      <name>document structure: bibliography</name>
+      <description>Bibliography used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/footers</propertyId>
+      <name>document structure: footers</name>
+      <description>Footers used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/headers</propertyId>
+      <name>document structure: headers</name>
+      <description>Headers used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/intendations</propertyId>
+      <name>document structure: intendations</name>
+      <description>Intendations used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/lineSpacings</propertyId>
+      <name>document structure: line spacings</name>
+      <description>Line spacings used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/numberOfPages</propertyId>
+      <name>document structure: number of pages</name>
+      <description>The documents number of pages.</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/pageNumbering</propertyId>
+      <name>document structure: page numberings</name>
+      <description>Page numberings used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/paragraphs</propertyId>
+      <name>document structure: paragraphs</name>
+      <description>Paragraphs used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/tableOfContents</propertyId>
+      <name>document structure: table of contents</name>
+      <description>Table of contents used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/textPaging</propertyId>
+      <name>document structure: text paging</name>
+      <description>Text paging (how text is distributed on pages) of the document</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>document/structure/titleAndHeadlines</propertyId>
+      <name>document structure: titles and headlines</name>
+      <description>Titles and headlines used in the document.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/captureDevice</propertyId>
+      <name>image metadata: capture device</name>
+      <description>Device used to create the image data</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/creationDateTime</propertyId>
+      <name>image metadata: creation dateTime</name>
+      <description>Date or DateTime the image was created</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/dc/data</propertyId>
+      <name>image metadata: dc: all data</name>
+      <description>All DC data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/gps/data</propertyId>
+      <name>image metadata: exif: all gps data</name>
+      <description>All EXIF GPS data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/tiff/data</propertyId>
+      <name>image metadata: exif: all tiff data</name>
+      <description>All EXIF TIFF data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/apertureValue</propertyId>
+      <name>image metadata: exif: aperture value</name>
+      <description>Lens aperture</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/artist</propertyId>
+      <name>image metadata: exif: artist</name>
+      <description>Person who created the image.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/bitsPerSample</propertyId>
+      <name>image metadata: exif: bits per sample</name>
+      <description>Number of bits per component.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/brightnessValue</propertyId>
+      <name>image metadata: exif: brightness value</name>
+      <description></description>
+      <floatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/cfaPattern</propertyId>
+      <name>image metadata: exif: cfa pattern</name>
+      <description>Color Filter Array (CFA) geometric pattern of the image sensor when one-chip color area sinsor is used.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/compression</propertyId>
+      <name>image metadata: exif: compression</name>
+      <description>Compression scheme</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/contrast</propertyId>
+      <name>image metadata: exif: contrast</name>
+      <description>Contrast</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/exposureBiasValue</propertyId>
+      <name>image metadata: exif: exposure bias value</name>
+      <description>Brightness values measured when the image was captured, using APEX (Additive Szstem of Photographic Exposure) values.</description>
+      <floatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/exposureIndex</propertyId>
+      <name>image metadata: exif: exposure index</name>
+      <description>Exposure index setting the camera selected</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/exposureMode</propertyId>
+      <name>image metadata: exif: exposure mode</name>
+      <description>Exposure mode</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/exposureProgram</propertyId>
+      <name>image metadata: exif: exposure program</name>
+      <description>Class of the program used by the camera to set exposure when the picture is taken.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/exposureTime</propertyId>
+      <name>image metadata: exif: exposure time</name>
+      <description>Exposure time used when the image was captured.</description>
+      <floatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/fnumber</propertyId>
+      <name>image metadata: exif: f number</name>
+      <description>Lens f-number (ratio of lens aperture to focal length) used when the image was captured.</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/flash</propertyId>
+      <name>image metadata: exif: flash</name>
+      <description>Status of the flash when the image was shot.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/focalLenghtIn35mmFilm</propertyId>
+      <name>image metadata: exif: focal lenght in 35mm film</name>
+      <description>Focal length in 35mm film.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/focalLength</propertyId>
+      <name>image metadata: exif: focal length</name>
+      <description>The lens focal length in meters used to capture the image.</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/imageDescription</propertyId>
+      <name>image metadata: exif: image description</name>
+      <description>Image title</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/imageHeight</propertyId>
+      <name>image metadata: exif: image height</name>
+      <description>Image resolution in height direction.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/imageWidth</propertyId>
+      <name>image metadata: exif: image width</name>
+      <description>Image resolution in width direction.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/isoSpeed</propertyId>
+      <name>image metadata: exif: iso-speed value</name>
+      <description>ISO speed</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/lightSource</propertyId>
+      <name>image metadata: exif: light source</name>
+      <description>Light source that was present when the image was captured.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/make</propertyId>
+      <name>image metadata: exif: make</name>
+      <description>Manufactorer of image input equipment.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/meteringMode</propertyId>
+      <name>image metadata: exif: metering mode</name>
+      <description>Metering mode</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/model</propertyId>
+      <name>image metadata: exif: model</name>
+      <description>Model of image input equipment.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/oECF</propertyId>
+      <name>image metadata: exif: oECF</name>
+      <description>Opto-Electric Conversion Function (OECF) specified in ISO 14524</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/photometricInterpretation</propertyId>
+      <name>image metadata: exif: photometric interpretation</name>
+      <description>Pixel composition</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/resolutionUnit</propertyId>
+      <name>image metadata: exif: resolution unit</name>
+      <description>Unit of X and Y resolution</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/samplesPerPixel</propertyId>
+      <name>image metadata: exif: samples per pixel</name>
+      <description>Number of components</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/saturation</propertyId>
+      <name>image metadata: exif: saturation</name>
+      <description>Saturation</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/sensingMethod</propertyId>
+      <name>image metadata: exif: sensing method</name>
+      <description>Image Sensor type on the camera or input device.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/sharpness</propertyId>
+      <name>image metadata: exif: sharpness</name>
+      <description>Sharpness</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/shutterSpeedValue</propertyId>
+      <name>image metadata: exif: shutter speed value</name>
+      <description>Shutter speed</description>
+      <floatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/ifd0/software</propertyId>
+      <name>image metadata: exif: software</name>
+      <description>Software used</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/spectralSensitivity</propertyId>
+      <name>image metadata: exif: spectral sensivity</name>
+      <description>Spectral sensitivity of each channel of the camera used.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/subjectDistance</propertyId>
+      <name>image metadata: exif: subject distance</name>
+      <description>Distance in meters, between the frontal plane of the camera lens and the subject on which the camera was focused.</description>
+      <positiveFloatScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/exifVersion</propertyId>
+      <name>image metadata: exif: version</name>
+      <description>Version of the EXIF standard supported.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/exif/pictureTakingConditions/whiteBalance</propertyId>
+      <name>image metadata: exif: white balance</name>
+      <description>White balance</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/imageHeight</propertyId>
+      <name>image metadata: image height</name>
+      <description>Image resolution in height direction.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/imageResolution</propertyId>
+      <name>image metadata: image resolution</name>
+      <description>Image resoluion represented as string.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/imageWidth</propertyId>
+      <name>image metadata: image width</name>
+      <description>Image resolution in width direction.</description>
+      <positiveIntegerScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/iptc/data</propertyId>
+      <name>image metadata: iptc: all data</name>
+      <description>All IPCT data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/orientation</propertyId>
+      <name>image metadata: orientation</name>
+      <description>Image orientation as textual value.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/privateTags/data</propertyId>
+      <name>image metadata: private-tags: all data</name>
+      <description>All private-tags data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/producer</propertyId>
+      <name>image metadata: producer</name>
+      <description>Textual information about the producer of the object.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/resolutionUnit</propertyId>
+      <name>image metadata: resolution unit</name>
+      <description>Defines the unit of measure used to determine image height and image width.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/sceneType</propertyId>
+      <name>image metadata: scene type</name>
+      <description>Scene type</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/software</propertyId>
+      <name>image metadata: software</name>
+      <description>Software used</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/tiff/data</propertyId>
+      <name>image metadata: tiff properties</name>
+      <description>Tiff properties data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/metadata/xmp/data</propertyId>
+      <name>image metadata: xmp: all data</name>
+      <description>All XMP data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="retained"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/aspectRatio</propertyId>
+      <name>image: aspect ratio</name>
+      <description>Aspect ratio of image, calculated as width/height. The number 1,35 can thus be read as 1,35:1</description>
+      <positiveFloatScale><unit>width/height ratio</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/bitsPerSample</propertyId>
+      <name>image: bits per sample</name>
+      <description>Bits per component for each pixel</description>
+      <freeStringScale><unit>bpp</unit></freeStringScale>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+        <metric metricId="greaterOrEqual"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/colourSpace</propertyId>
+      <name>image: colour space</name>
+      <description>Colour model of the decompressed image data.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/height</propertyId>
+      <name>image: height</name>
+      <description>Height of an image, measured in number of pixels on the y-axis.</description>
+      <positiveIntegerScale><unit>pixel</unit></positiveIntegerScale>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/iccProfile</propertyId>
+      <name>image: ICC colour profile</name>
+      <description>ICC profile data</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/ocrText</propertyId>
+      <name>image: ocr text</name>
+      <description>Optical character recognition text extraxted from the image</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/orientation</propertyId>
+      <name>image: orientation</name>
+      <description>Orientation of the image, with respect to the placement of widht and height, as it was saved to disk.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/resolution</propertyId>
+      <name>image: resolution</name>
+      <description>Width and height of an image in number of pixels represented as string (e.g. 1024x768).</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/resolutionUnit</propertyId>
+      <name>image: resolution unit</name>
+      <description>Defines the unit of measure used to determine image height and image width.</description>
+      <freeStringScale/>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/samplingFrequencyUnit</propertyId>
+      <name>image: sampling frequency unit</name>
+      <description>The unit of measurement for XSamplingFrequency and YSamplingFrequency.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/similarity</propertyId>
+      <name>image: similarity</name>
+      <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+        <metric metricId="ae"/>
+        <metric metricId="pae"/>
+        <metric metricId="psnr"/>
+        <metric metricId="mae"/>
+        <metric metricId="mse"/>
+        <metric metricId="rmse"/>
+        <metric metricId="mepp"/>
+        <metric metricId="ssimSimple"/>
+        <metric metricId="ssimSimpleHue"/>
+        <metric metricId="ssimSimpleSaturation"/>
+        <metric metricId="equalJudged"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/width</propertyId>
+      <name>image: width</name>
+      <description>Width of an image, measured in number of pixels on the x-axis.</description>
+      <positiveIntegerScale><unit>pixel</unit></positiveIntegerScale>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/xSamplingFrequency</propertyId>
+      <name>image: x sampling frequency</name>
+      <description>The number of pixels, per definition samplingFrequencyUnit in the image height.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>image/ySamplingFrequency</propertyId>
+      <name>image: y sampling frequency</name>
+      <description>The number of pixels, per definition samplingFrequencyUnit in the image width.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="equal"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/audio/music/quality</propertyId>
+      <name>video game: audio: music quality</name>
+      <description>Indicates music quality of the game.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="videoGameAudioCompliance"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/audio/sound/quality</propertyId>
+      <name>video game: audio: sound quality</name>
+      <description>Indicates sound quality of the game.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="videoGameAudioCompliance"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/audio/speech/quality</propertyId>
+      <name>video game: audio: speech quality</name>
+      <description>Indicates speech quality of the game.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="videoGameAudioCompliance"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/gameSpeed</propertyId>
+      <name>video game: game speed</name>
+      <description>Speed performance of the game.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="deviationInPercent"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/colours</propertyId>
+      <name>video game: graphics: colours</name>
+      <description>Graphics colour characteristics.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="videoGameImageColourCompliance"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/frameRate</propertyId>
+      <name>video game: graphics: frame rate</name>
+      <description>Frame rate of the game.</description>
+      <positiveFloatScale><unit>FPS</unit></positiveFloatScale>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="deviationInPercent"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/hardwareSupportedSpecialEffectsQuality</propertyId>
+      <name>video game: graphics: hardware supported special effects quality</name>
+      <description>Indicates the quality of hardware supported special effects.</description>
+      <ordinalScale><restriction>no objects displayed/not applicable/severe differences to original/small differences to original/no differences noticeable</restriction></ordinalScale>
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="videoGameHWSupportedSpecialEffectsCompliance"/>
+      </possibleMetrics>
+    </property>
+    <property>
+      <category>outcome:object</category>
+      <propertyId>videoGame/graphics/imageQuality</propertyId>
+      <name>video game: graphics: image quality</name>
+      <description>Overall graphics image quality.</description>
+
+      <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="videoGameImageQualityCompliance"/>
+      </possibleMetrics>
+    </property>
+  </measurableProperties>
+  <metrics>
+    <metric>
+      <metricId>equal</metricId>
+      <name>equal</name>
+      <description>Comparison of two values for equality</description>
+      <booleanScale>
+        <unit>equality</unit>
+      </booleanScale>
+    </metric>
+    <metric>
+      <metricId>greaterOrEqual</metricId>
+      <name>Greater than or equal</name>
+      <description>Comparison of two values for greater than or equal</description>
+      <booleanScale>
+        <unit>greaterOrEqual</unit>
+      </booleanScale>
+    </metric>
+    <metric>
+      <metricId>retained</metricId>
+      <name>retained</name>
+      <description>Indicator if all values in source measurement do exist in result measurement</description>
+      <booleanScale>
+        <unit>retained</unit>
+      </booleanScale>
+    </metric>
+    <metric>
+      <metricId>ae</metricId>
+      <name>AE</name>
+      <description>Absolute Error count of the number of different pixels (0=equal)</description>
+      <positiveFloatScale>
+        <unit>AE</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>pae</metricId>
+      <name>PAE</name>
+      <description>Peak Absolute Error</description>
+      <positiveFloatScale>
+        <unit>PAE</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>psnr</metricId>
+      <name>PSNR</name>
+      <description>Peak Signal to noise ratio (used in image compression papers). The ratio of mean square difference to the maximum mean square that can exist between any two images, expressed as a decibel value. The higher the PSNR the closer the closer the images are, with a maximum difference occurring at 1. A PSNR of 20 means differences are 1/100 of maximum.</description>
+      <positiveFloatScale>
+        <unit>PSNR</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>mae</metricId>
+      <name>MAE</name>
+      <description>Mean absolute error  (average channel error distance)</description>
+      <positiveFloatScale>
+        <unit>MAE</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>mse</metricId>
+      <name>MSE</name>
+      <description>Mean squared error (averaged squared error distance)</description>
+      <positiveFloatScale>
+        <unit>MSE</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>rmse</metricId>
+      <name>RMSE</name>
+      <description>(sq)root mean squared error -- IE:  sqrt(MSE)</description>
+      <positiveFloatScale>
+        <unit>RMSE</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>mepp</metricId>
+      <name>MEPP</name>
+      <description>Normalized Mean Error AND Normalized Maximum Error</description>
+      <positiveFloatScale>
+        <unit>MEPP</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>ssimSimple</metricId>
+      <name>SSIM simple</name>
+      <description/>
+      <floatScale>
+        <unit>SSIM</unit>
+      </floatScale>
+    </metric>
+    <metric>
+      <metricId>ssimSimpleHue</metricId>
+      <name>SSIM simple hue</name>
+      <description/>
+      <floatScale>
+        <unit>SSIM</unit>
+      </floatScale>
+    </metric>
+    <metric>
+      <metricId>ssimSimpleSaturation</metricId>
+      <name>SSIM simple saturation</name>
+      <description/>
+      <floatScale>
+        <unit>SSIM</unit>
+      </floatScale>
+    </metric>
+    <metric>
+      <metricId>equalJudged</metricId>
+      <name>Equality judgement</name>
+      <description>Judged comparison for equality</description>
+      <ordinalScale>
+        <restriction>equal/unsignificant changes/significant changes</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>deviationInPercent</metricId>
+      <name>deviation in percent</name>
+      <description>Deviation to the original measured in percent. 0% means no deviation.</description>
+      <positiveFloatScale>
+        <unit>percent</unit>
+      </positiveFloatScale>
+    </metric>
+    <metric>
+      <metricId>videoGameImageQualityCompliance</metricId>
+      <name>video game image quality compliance</name>
+      <description>Assess video game image quality compliance</description>
+      <ordinalScale>
+        <restriction>nothing displayed/severe errors on whole image/errors noticeable but don not affect gameplay/near perfect/no difference to original notiecable</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>videoGameImageColourCompliance</metricId>
+      <name>video game colour compliance</name>
+      <description>Assess video game colour compliance</description>
+      <ordinalScale>
+        <restriction>severe errors affecting gameplay/errors but not affecting gamepley/near perfect/as in original</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>videoGameHWSupportedSpecialEffectsCompliance</metricId>
+      <name>video game hardware supported special effects compliance</name>
+      <description>Assess video game hardware supported special effects compliance</description>
+      <ordinalScale>
+        <restriction>no objects displayed/not applicable/severe differences to original/small differences to original/no differences noticeable</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>videoGameAudioCompliance</metricId>
+      <name>video game audio compliance</name>
+      <description>Assess video game audio compliance</description>
+      <ordinalScale>
+        <restriction>not applicable/not supported/errors not acceptable/errors acceptable/near perfect/like original</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseCharacterEncodingTrend</metricId>
+      <name>database character encoding trend</name>
+      <description>Assess database character encoding trend</description>
+      <ordinalScale>
+        <restriction>unicode/original/other</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseTimeEncodingTrend</metricId>
+      <name>database time encoding trend</name>
+      <description>Assess database time encoding trend</description>
+      <ordinalScale>
+        <restriction>ISO8601/original/other</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseSchemasPreserved</metricId>
+      <name>database schemas preserved</name>
+      <description>Assess if and in which way database schemas are preserved</description>
+      <ordinalScale>
+        <restriction>all/all containing views or tables that are visible to archive users/incomplete/none</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseUDTPreserved</metricId>
+      <name>database user defined datatypes (UDT) preserved</name>
+      <description>Assess if and in which way database user defined datatypes (UDT) are preserved</description>
+      <ordinalScale>
+        <restriction>Y/Y but converted to standard datatypes/N</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseViewsPreserved</metricId>
+      <name>database views preserved</name>
+      <description>Assess if and in which way database views are preserved</description>
+      <ordinalScale>
+        <restriction>Y - converted to SQL99/Y - unchanged/ Y - converted to a table/N</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseRoutinesPreserved</metricId>
+      <name>database routines preserved</name>
+      <description>Assess if and in which way database routines are preserved</description>
+      <ordinalScale>
+        <restriction>Y - converted to SQL99/Y - unchanged/Y - only header available/N</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseColumnsDatatypesPreserved</metricId>
+      <name>database columns datatypes preserved</name>
+      <description>Assess if and in which way database column datatypes are preserved</description>
+      <ordinalScale>
+        <restriction>Y - compatible to original/Y - not compatible to original/N</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseNumbersPrecisionComparison</metricId>
+      <name>database numbers precision comparison</name>
+      <description>Comparison of database number precisions</description>
+      <ordinalScale>
+        <restriction>same/higher/lower</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databasePrivilegesPreserved</metricId>
+      <name>database privileges preserved</name>
+      <description>Assess if and in which way database privileges are preserved</description>
+      <ordinalScale>
+        <restriction>all/all connected to objects, users or roles/some missing/none</restriction>
+      </ordinalScale>all/all connected to objects, users or roles/some missing/none>
+    </metric>
+    <metric>
+      <metricId>databaseRolesPreserved</metricId>
+      <name>database roles preserved</name>
+      <description>Assess if and in which way database roles are preserved</description>
+      <ordinalScale>
+        <restriction>all/all connected to privileges or tables or views/some missing/none</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseStringsPreserved</metricId>
+      <name>database strings preserved</name>
+      <description>Assess if and in which way database strings are preserved</description>
+      <ordinalScale>
+        <restriction>Y/Y but truncated/N</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseStringsEncodingsPreserved</metricId>
+      <name>database strings encodings preserved</name>
+      <description>Assess if and in which way database string encodings are preserved</description>
+      <ordinalScale>
+        <restriction>Y - unchanged/N - changed/N - lost</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseTriggersPreserved</metricId>
+      <name>database triggers preserved</name>
+      <description>Assess if and in which way database triggers are preserved</description>
+      <ordinalScale>
+        <restriction>Y - defined and valid/Y but invalid/N</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>databaseUsersPreserved</metricId>
+      <name>database users preserved</name>
+      <description>Assess if and in which way database users are preserved</description>
+      <ordinalScale>
+        <restriction>all/all connected to privileges or tables or views/some missing/none</restriction>
+      </ordinalScale>
+    </metric>
+  </metrics>
+</measurementsDescriptor>

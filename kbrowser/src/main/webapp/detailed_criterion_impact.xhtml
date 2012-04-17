@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich" xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions" template="WEB-INF/templates/default.xhtml">
+
+    <ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
+
+    <ui:define name="content">
+        <h:outputScript library="jqplot" name="jquery.jqplot.min.js" target="head" />
+        <h:outputScript library="jqplot" name="plugins/jqplot.canvasTextRenderer.min.js" target="head" />
+        <h:outputScript library="jqplot" name="plugins/jqplot.pieRenderer.min.js" target="head" />
+        <h:outputScript library="jqplot" name="plugins/jqplot.barRenderer.min.js" target="head" />
+        <h:outputScript library="jqplot" name="plugins/jqplot.categoryAxisRenderer.min.js" target="head" />
+        <h:outputScript library="jqplot" name="plugins/jqplot.pointLabels.min.js" target="head" />
+        <h:outputStylesheet library="jqplot" name="jquery.jqplot.min.css" target="head" />
+        <h:outputScript library="jqplot" name="plugins/jqplot.canvasAxisLabelRenderer.min.js" target="head" />
+        <h:outputScript library="js" name="jqplot.js" target="head" />
+        <h:outputScript library="js" name="jqplot_potential_range.js" target="head" />
+
+        <h:outputStylesheet library="css" name="kbrowser.css" target="head" />
+
+        <h1>Detailed Criterion Impact</h1>
+
+        <h:form id="loadingform" name="loadingform">
+            <a4j:status name="loadingStatus" startStyleClass="loadingStatus-start" stopStyleClass="loadingStatus-stop"
+                onstart="document.getElementById('mainContent').style.display='none';"
+                onstop="document.getElementById('mainContent').style.display='block';">
+                <f:facet name="start">
+                    <h:graphicImage library="gfx" name="ajax-loader.gif" styleClass="loadingStatus-start-image" />
+                    <div class="loadingStatus-start-message">
+                        Loading Knowledge Browser data...<br />This may take a few minutes.
+                    </div>
+                </f:facet>
+            </a4j:status>
+            <a4j:jsFunction name="initData" actionListener="#{kBrowser.initData()}" render="general_result, impact_factors_table"
+                status="loadingStatus" />
+        </h:form>
+
+        <div id="mainContent" style="display: none;">
+            <h:form id="panelform" name="panelform">
+
+	            <a4j:outputPanel id="impact_factors_table">
+	                <h:panelGroup layout="block" styleClass="pagePart">
+	                    
+	                    <table class="rf-dt">
+	                         <thead class="rf-dt-thd">
+	                             <tr>
+	                                 <th colspan="4" class="rf-dt-hdr-c" style="background-color: #7F7F7F;">Legend</th>
+	                             </tr>
+	                            <!--<tr class="tableStyle-header rf-dt-hdr">
+	                                <th colspan="3" class="rf-dt-hdr-c">Legend</th>
+	                            </tr>
+	                            <tr>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                                <th class="rf-dt-hdr-c">IF</th>
+	                                <th class="rf-dt-hdr-c">Name</th>
+	                            </tr> 
+	                            -->
+	                        </thead>
+	                        <tbody class="rf-dt-b">
+	                            <tr>
+	                                <td class="rf-dt-c">IF1: Count</td>
+	                                <td class="rf-dt-c">IF7: Discounted Potential</td>
+	                                <td class="rf-dt-c">IF13: Rejection Potential Count</td>
+	                            </tr>
+	                            <tr>
+	                                <td class="rf-dt-c">IF2: Spread</td>
+	                                <td class="rf-dt-c">IF8: Discounted Range</td>
+	                                <td class="rf-dt-c">IF14: Rejection Potential Rate</td>
+	                            </tr>
+	                            <tr>
+	                                <td class="rf-dt-c">IF3 :Weight</td>
+	                                <td class="rf-dt-c">IF9: Maximum Potential</td>
+	                                <td class="rf-dt-c">IF15: Rejection Count</td>
+	                            </tr>
+	                            <tr>
+	                                <td class="rf-dt-c">IF4: Discounted Weight</td>
+	                                <td class="rf-dt-c">IF10: Maximum Range</td>
+	                                <td class="rf-dt-c">IF16: Rejection Rate</td>
+	                            </tr>
+	                            <tr>    
+	                                <td class="rf-dt-c">IF5: Potential</td>
+	                                <td class="rf-dt-c">IF11: Variation</td>
+	                                <td class="rf-dt-c">IF17: Reject Count</td>
+	                            </tr>
+	                            <tr>
+	                                <td class="rf-dt-c">IF6: Range</td>
+	                                <td class="rf-dt-c">IF12: Maximum Variation</td>
+	                                <td class="rf-dt-c">IF18: Reject Rate</td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                    
+	                    <rich:dataTable value="#{kBrowser.importanceAnalysis.tableRows}" var="row" styleClass="tableStyle"
+	                        headerClass="tableStyle-header" rowClass="tableStyle-row">
+	                        <rich:column sortBy="#{row.category}" sortOrder="#{kBrowser.cifIfSortOrder[0]}">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="Category" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(0)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.category}" />
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.property} #{row.metric}" sortOrder="#{kBrowser.cifIfSortOrder[1]}">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="Criterion" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(1)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.property} #{row.metric}" />
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if1}" sortOrder="#{kBrowser.cifIfSortOrder[2]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF1" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(2)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if1}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if2}" sortOrder="#{kBrowser.cifIfSortOrder[3]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF2" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(3)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if2 * 100}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>%
+	                            </rich:column>
+	                        <rich:column sortBy="#{row.if3}" sortOrder="#{kBrowser.cifIfSortOrder[4]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF3" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(4)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if3}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if4}" sortOrder="#{kBrowser.cifIfSortOrder[5]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF4" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(5)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if4}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if5}" sortOrder="#{kBrowser.cifIfSortOrder[6]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF5" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(6)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if5}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if6}" sortOrder="#{kBrowser.cifIfSortOrder[7]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF6" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(7)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if6}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if7}" sortOrder="#{kBrowser.cifIfSortOrder[8]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF7" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(8)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if7}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if8}" sortOrder="#{kBrowser.cifIfSortOrder[9]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF8" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(9)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if8}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if9}" sortOrder="#{kBrowser.cifIfSortOrder[10]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF9" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(10)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if9}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if10}" sortOrder="#{kBrowser.cifIfSortOrder[11]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF10" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(11)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if10}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if11}" sortOrder="#{kBrowser.cifIfSortOrder[12]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF11" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(12)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if11}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if12}" sortOrder="#{kBrowser.cifIfSortOrder[13]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF12" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(13)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if12}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if13}" sortOrder="#{kBrowser.cifIfSortOrder[14]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF13" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(14)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if13}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if14}" sortOrder="#{kBrowser.cifIfSortOrder[15]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF14" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(15)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if14 * 100}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>%
+	                            </rich:column>
+	                        <rich:column sortBy="#{row.if15}" sortOrder="#{kBrowser.cifIfSortOrder[16]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF15" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(16)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if15}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if16}" sortOrder="#{kBrowser.cifIfSortOrder[17]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF16" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(17)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if16 * 100}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>%
+	                            </rich:column>
+	                        <rich:column sortBy="#{row.if17}" sortOrder="#{kBrowser.cifIfSortOrder[18]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF17" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(18)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if17}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>
+	                        </rich:column>
+	                        <rich:column sortBy="#{row.if18}" sortOrder="#{kBrowser.cifIfSortOrder[19]}" styleClass="right-aligned">
+	                            <f:facet name="header">
+	                                <a4j:commandLink value="IF18" render="impact_factors_table" action="#{kBrowser.sortCifByColumn(19)}" />
+	                            </f:facet>
+	                            <h:outputText value="#{row.if18 * 100}">
+	                                <f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+	                            </h:outputText>%
+	                            </rich:column>
+	                    </rich:dataTable>
+	
+	                    <div style="margin-top: 10px;">#{kBrowser.importanceAnalysis.tableRowsCount} rows</div>
+	                </h:panelGroup>
+	            </a4j:outputPanel>
+
+            </h:form>
+        </div>
+
+        <h:outputScript>window.onload=initData();</h:outputScript>
+    </ui:define>
+</ui:composition>

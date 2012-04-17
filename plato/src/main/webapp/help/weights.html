@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+<head>
+  <title>PLANETS Preservation Planning Tool</title>
+  <meta name="description" content="PLANETS Preservation Planning Tool"/>
+  <link rel="shortcut icon" type="image/png" href="img/plato_icon.png"/>
+
+  <link rel="stylesheet" href="../css/content.css" type="text/css"/>
+  <link rel="stylesheet" media="screen" href="../css/plato.css" type="text/css" title="Plato"/>
+
+</head>
+<body id="body"><a name="top"></a>
+
+<div id="header">
+  <div><a name="top"></a></div>
+  <h1 class="title1">Setting importance factors and balancing weights</h1>
+  <!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
+  <div class="hnav">
+  	<div>
+		<!-- div on the top right -->
+    </div>
+  </div>
+</div>
+
+<div class="strich">
+  <div></div>
+</div>
+
+<div id="menu">&nbsp;<!-- Menu - will not be displayed if div is completely empty! --></div>
+
+<div id="spacing-top">
+  <div></div>
+</div>
+
+<div id="content">
+		<p>This page explains the automatic weight balancing of objective trees in Plato.</p>
+
+  <h2 class="title2">Setting importance factors</h2>
+  		<p>
+  		When you reach this step the first time, Plato will automatically balance the relative importance of all nodes in the tree equally.<br/>
+  		Using the tree table editor, you can then set the relative importance factors of all siblings in a branch for all levels.<br/>
+  		The sum of weights on each level must always be equal to 1; this will be validated before you can proceed.<br/>
+  		The column 'total weight' provides the overall influence of a node on the root value. For example, a node with weight 0,5 that is child of a node with weight 0,5 which is directly under the root will have a total weight of 0,5*0,5=0,25.
+  		</p>
+
+		<h2 class="title2">Automatic balancing</h2>
+		<p>
+		If the flag 'Balance weights automatically' is checked, Plato will activate an automatic balancing that relieves you of checking the sum yourself.
+		Just use the sliders to increase weights of nodes that you deem important. The remaining weights will be balanced automatically.
+		Each weight becomes locked once you adjusted it yourself, so that it is not rebalanced afterwards. This is indicated by the 'lock' column.
+		</p>
+		<h2 class="title2">A simple example</h2>
+		<p>
+		Assume you have a root node with four nodes - A,B,C,D. When you reach the page, all weights are set to 0,25.<br/>
+		Now you adjust the weight of node A to 0,4 - the remaining weights are set to 0,2 each and node A is locked.<br/>
+		Now you adjust the weight of node D to 0,4. The effect is that node D becomes locked, too, while B and C are set to 0,1 each. Node A is not affected, because it is already locked.<br/>
+		</p>
+
+<h3>Example screenshots</h3>
+<p>
+The two screens below show the balancing of weights on the top level and one level below. <br/>
+The next level is reached by clicking the "X" next to a node. You can return to the top by clicking on 
+the name of the root which is displayed on top (in this case: "Yearbook objectives"). 
+</p>
+		  <div>
+		  <img src="weights.png" alt="weights balancing on top level"/>
+		  <img src="weights2.png" alt="weights balancing on second level"/>
+		  
+		  </div>
+		<div id="spacing-bottom">
+		</div>
+</div>
+<div id="footer-left">
+
+  <div class="strich">
+    <div></div>
+  </div>
+  <div class="contact">Institute of Software Technology and Interactive Systems: &#171;<a href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice bears</a>&#187;</div>
+
+</div>
+
+<div id="footer-right">
+	<span>
+      <a class="toplink" href="#top" title="top">
+     	 <img src="img/go-top.png" border="0"/>
+      </a>
+    <!-- Span on the bottom right --></span>
+</div>
+
+</body>
+</html>

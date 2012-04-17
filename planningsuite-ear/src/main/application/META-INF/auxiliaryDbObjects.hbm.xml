@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Database objects created used for knowledgebrowser (see eu.planets_project.pp.plato.bean.KBrowser). 
+ Attention: This code only works for MySQL-DBMS -->
+<hibernate-mapping>
+    <!-- stored procedure used to calculate the relative weight of a treenode. -->
+    <database-object>
+        <create>
+            CREATE PROCEDURE calculateRelativeWeight(IN tnId INTEGER, OUT relWeight DOUBLE)
+            BEGIN
+                DECLARE wght DOUBLE;
+                DECLARE parentRelWeight DOUBLE;
+                DECLARE parent INTEGER;
+                
+                SELECT weight, parent_fk INTO wght, parent FROM TreeNode WHERE id=tnId;
+                
+                IF parent IS NULL THEN
+                    SET relWeight = wght;
+                ELSE 
+                    CALL calculateRelativeWeight(parent, parentRelWeight);
+                    SET relWeight = wght * parentRelWeight;
+                END IF;
+            END;
+        </create>
+        <drop>
+            DROP PROCEDURE IF EXISTS calculateRelativeWeight;
+        </drop>    
+    </database-object>
+    
+    <!-- stored function used as a wrapper for calculateRelativeWeight(), to be used in SELECT statements. -->
+    <database-object>
+        <create>
+            CREATE FUNCTION relativeWeight(tnId INTEGER)
+            RETURNS DOUBLE
+            BEGIN
+                DECLARE relWeight DOUBLE;
+                
+                CALL calculateRelativeWeight(tnId, relWeight);
+                
+                RETURN relWeight;
+            END;
+        </create>
+        <drop>
+            DROP FUNCTION IF EXISTS relativeWeight;
+        </drop>    
+    </database-object>
+    
+    <!-- stored procedure used to get the root-node for a given treenode. -->
+    <database-object>
+        <create>
+            CREATE PROCEDURE calculateRootNode(IN tnId INTEGER, OUT rootId INTEGER)
+            BEGIN
+                DECLARE parent INTEGER;
+                DECLARE parentRoot INTEGER;
+                
+                SELECT parent_fk INTO parent FROM TreeNode WHERE id=tnId;
+                
+                IF parent IS NULL THEN
+                    SET rootId = tnId;
+                ELSE 
+                    CALL calculateRootNode(parent, parentRoot);
+                    SET rootId = parentRoot;
+                END IF;
+            END;
+        </create>
+        <drop>
+            DROP PROCEDURE IF EXISTS calculateRootNode;
+        </drop>    
+    </database-object>
+
+    <!-- stored function used as a wrapper for calculateRootNode(), to be used in SELECT statements. -->
+    <database-object>
+        <create>
+            CREATE FUNCTION rootNode(tnId INTEGER)
+            RETURNS INTEGER
+            BEGIN
+                DECLARE rootId INTEGER;
+                
+                CALL calculateRootNode(tnId, rootId);
+                
+                RETURN rootId;
+            END;
+        </create>
+        <drop>
+            DROP FUNCTION IF EXISTS rootNode;
+        </drop>    
+    </database-object>
+    
+    <!-- Before creation of the VPlanLeaf_ValueList view, a drop on the same-named table has to be executed. 
+         This has to be done because hibernate sometimes generates a table from the annotated Entity-class before this scripts are executed.
+         In this case the creation of the view would fail. So we drop the table for safety reasons before and after this create the view.
+         Note: "DROP TABLE .." and "CREATE VIEW ..." statements are separated into two database-objects because two ore more statements
+         are not working in one section because the delimiter(;) is not recognized correctly. -->
+    <database-object>
+        <create>            
+            DROP TABLE IF EXISTS VPlanLeaf_ValueList;
+        </create>
+        <drop/>
+    </database-object>
+    
+    <!-- Before creation of the VPlanLeaf view, a drop on the same-named table has to be executed. 
+         This has to be done because hibernate sometimes generates a table from the annotated Entity-class before this scripts are executed.
+         In this case the creation of the view would fail. So we drop the table for safety reasons before and after this create the view.
+         Note: "DROP TABLE .." and "CREATE VIEW ..." statements are separated into two database-objects because two ore more statements
+         are not working in one section because the delimiter(;) is not recognized correctly. -->
+    <database-object>
+        <create>            
+            DROP TABLE IF EXISTS VPlanLeaf;
+        </create>
+        <drop/>
+    </database-object>
+    
+    <!-- View which gets all plan-leaves (which belong to a relevant plan) with all necessary data for knowledgebrowser (see eu.planets_project.pp.plato.bean.KBrowser). -->
+    <database-object>
+        <create>
+            CREATE OR REPLACE VIEW VPlanLeaf AS SELECT t.id, weight AS absoluteWeight, relativeWeight(t.id) AS relativeWeight, t.scale_id, t.transformer_id, t.criterion_id, p.id as planId, t.aggregationMode FROM TreeNode t, ObjectiveTree o, Plan p WHERE t.nodetype='L' AND rootNode(t.id) IN (SELECT o.root_id FROM Plan p, PlanProperties pp, ObjectiveTree o WHERE (pp.state="WEIGHTS_SET" OR pp.state="ANALYSED" OR pp.state="EXECUTEABLE_PLAN_CREATED" OR pp.state="PLAN_DEFINED" OR pp.state="PLAN_VALIDATED") AND pp.name NOT LIKE 'MY DEMO PLAN%' AND p.planProperties_id=pp.id AND p.tree_id=o.id) AND rootNode(t.id)=o.root_id AND o.id=p.tree_id;
+        </create>
+        <drop>
+            DROP VIEW IF EXISTS VPlanLeaf;
+        </drop>    
+    </database-object>
+    
+    <!-- View used as JoinTable for view VPlanLeaf to associate the corresponding measured values -->
+    <database-object>
+        <create>
+            CREATE OR REPLACE VIEW VPlanLeaf_ValueList AS SELECT TreeNode_id as VPlanLeaf_id, valueMap_id, valueMap_KEY FROM TreeNode_ValueList WHERE (TreeNode_id, valueMap_KEY) IN (SELECT l.id, a.name FROM VPlanLeaf l, Plan p, AlternativesDefinition ad, Alternative a WHERE l.planId=p.id AND ad.id=p.alternativesdefinition_id AND a.parent_id=ad.id AND a.discarded=0);
+        </create>
+        <drop>
+            DROP VIEW IF EXISTS VPlanLeaf_ValueList;
+        </drop>    
+    </database-object>
+</hibernate-mapping>

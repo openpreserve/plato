@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   	  xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:rich="http://richfaces.org/rich">
+   
+
+<cc:interface>
+	<cc:attribute name="id" required="true"/>
+    <cc:attribute name="data" required="false"/>
+	<cc:attribute name="listener" required="false"/>	
+	
+</cc:interface>
+
+<cc:implementation>
+	<rich:fileUpload  listener="#{cc.attr.listener}"> uploadData="#{cc.attrs.data}">
+	</rich:fileUpload>
+</cc:implementation>
+
+</html>
+
+
+
+
+<!-- 
+<ui:remove>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:f="http://java.sun.com/jsf/core">
+   <f:subview rendered="#{rendered !http://www.google.hr/= null? rendered : true}">
+      <s:fileUpload id="#{id != null? id : 'fileUpload'}_theUpload" data="#{data}"
+         fileName="#{fileName}" contentType="#{contentType}" />
+      <h:commandButton value="#{text != null? text : 'Upload File'}"
+         id="#{id != null? id : 'fileUpload'}_theCommandButton"
+         action="#{bean[actionMethodName]}" onclick="changed()" />
+      <a href="../help/fields.html##{id != null? id : 'fileUpload'}" target="_blank">
+         <img src="../img/help-browser.png" alt="Help Link"/>
+      </a>
+   </f:subview>
+</ui:composition>
+</ui:remove>
+ -->

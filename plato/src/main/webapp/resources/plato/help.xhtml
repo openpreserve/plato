@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:cc="http://java.sun.com/jsf/composite"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:c="http://java.sun.com/jsp/jstl/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<cc:interface>
+    <cc:attribute name="url" required="true"/>
+    <cc:attribute name="text" required="true"/>
+</cc:interface>
+
+<cc:implementation>
+    <div align="right" class="help"> <a  target="_blank" href="#{cc.attrs.url}">#{cc.attrs.text}</a></div>
+</cc:implementation>
+
+</html>

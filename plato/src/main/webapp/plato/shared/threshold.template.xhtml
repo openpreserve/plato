@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:a4j="http://richfaces.org/a4j">
+   
+ <tr>
+      <td class="margin-top-small margin-bottom-small margin-left-small margin-right-small">
+      <s:decorate id="#{textid}Decorate">
+      <div class="inputDecorate">
+         <div class="#{invalid?'errors':''}" style="width:100%">
+            <s:validateAll>
+   			  <h:inputText id="#{textid}" maxlength="50" value="#{threshold}">
+               <f:converter converterId="NumberConverter" />
+               <a4j:support
+                  ajaxSingle="true"
+                  onsubmit="changed()"
+                  event="onchange"
+                  action="#{leaf.transformer.touch}"/>
+            </h:inputText>
+            <h:outputText styleClass="requiredIndicator" rendered="#{not leaf.transformer.changed}" value="*" />
+            <h:outputText rendered="#{leaf.scale.unit != Null}" value=" #{leaf.scale.unit}" />
+			</s:validateAll>
+         </div>
+         <s:message styleClass="errorMessage" />
+      </div>
+  	 </s:decorate>            
+         <div class="nonwrapped">
+            <h:message styleClass="discreet-error" for="num1" />
+         </div>
+      </td>
+      <td class="margin-top-small margin-bottom-small margin-left-small margin-right-small nowrap">
+         <h:outputText value="-> #{index}"/>
+      </td>
+   </tr>	
+   
+</ui:composition>

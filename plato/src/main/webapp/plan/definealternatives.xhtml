@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"    
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+
+    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+    <ui:define name="content">
+	<h:outputStylesheet name="css/workflow.css"/>
+        <h1>Define the alternatives to consider for the plan</h1>
+		<div id="anchors">
+            <ul class="anchors">
+               <li class="anchors">
+                  <a href="#create-alternatives" class="anchors">Create alternatives from applicable services</a>
+               </li>
+               <li class="anchors">
+                  <a href="#descriptive_information" class="anchors">Descriptive Information</a>
+               </li>
+            </ul>
+         </div>
+        <h:form id="alternativesList_form">
+            <h:inputText id="changedflag" value="#{defineAlternatives.changed}" style="display:none" />
+        
+            <a4j:outputPanel layout="block" id="alterativesTablePanel">
+	            <h:dataTable value="#{defineAlternatives.alternatives}" var="alternative" id="alternativesTable"
+	            styleClass="tableStyle" 
+                 headerClass="tableStyle-header"
+                 rowClasses="tableStyle-row" >
+	                <h:column>
+	                   <f:facet name="header">Name</f:facet>
+	                   <a4j:commandLink value="#{alternative.name}" action="#{defineAlternatives.showEditAlternative(alternative)}"
+	                                    execute="@this" render="editAlternativePanel"/>
+	                </h:column>
+	                <h:column>
+	                   <f:facet name="header">Description</f:facet>
+	                   #{alternative.description}
+	                </h:column>
+	                <h:column>
+	                   <f:facet name="header">Experience</f:facet>
+	                   <!-- 
+	                   <h:outputLink rendered="#{alternative.action != null and alternative.action.experienceBase != null}" value="#{alternative.action.experienceBase}" target="_blank">
+	                        <f:verbatim>Experience base</f:verbatim>
+	                   </h:outputLink>
+	                   -->
+	                </h:column>
+	                <h:column>
+	                    <f:facet name="header">Remove</f:facet>
+                        <h:outputText rendered="#{alternative.id == defineAlternatives.alternativeIdAllowedToRemove}"
+                                      value="This alternative has associated evaluation values. These will be removed as well. Are you sure?" />
+	                    <a4j:commandButton action="#{defineAlternatives.tryRemoveAlternative(alternative)}" value="Remove"
+	                                       render="alterativesTablePanel" execute="@this" onclick="changed()" />
+	                </h:column>
+                </h:dataTable>
+            </a4j:outputPanel>
+            
+            <a4j:commandButton action="#{defineAlternatives.showAddNewAlternative}" value="Add new Alternative" render="editAlternativePanel" execute="@this" />
+        
+	        <a4j:outputPanel layout="block" id="editAlternativePanel">
+	            <a4j:outputPanel rendered="#{defineAlternatives.editableAlternative != null}">
+	               <fieldset class="size-full">
+	               <legend class="fieldset-full-size-legend">
+		 				<h:outputText value="Alternative" />
+		 			</legend>	                   
+<!-- 
+		                Name <h:inputText value="#{defineAlternatives.editableAlternativeName}" id="alternativeName" required="true">
+                            <f:validateLength for="alternativeName" minimum="1" maximum="30" />
+		                </h:inputText> * <br/>
+-->
+
+		                <p:inputText        labelText="Name:" id="alternativeName" required="true"
+		                                    input="#{defineAlternatives.editableAlternativeName}"/> <br/>
+		                <p:inputTextArea    labelText="Description:" id="alternativeDescription" required="true"
+		                                    input="#{defineAlternatives.editableAlternative.description}" 
+		                                    touchable="#{defineAlternatives.editableAlternative}"/> <br/>
+		                <p:inputTextArea    labelText="Reason for considering:" id="alternativeReason" required="false"
+		                                    input="#{defineAlternatives.editableAlternative.resourceDescription.reasonForConsidering}" 
+		                                    touchable="#{defineAlternatives.editableAlternative}"/> <br/>
+		                <p:inputTextArea    labelText="Configuration description:" id="alternativeConfigurationDescription" required="false"
+		                                    input="#{defineAlternatives.editableAlternative.resourceDescription.configSettings}" 
+		                                    touchable="#{defineAlternatives.editableAlternative}"/> <br/>
+		                <p:inputTextArea    labelText="Indicator of necessary resources:" id="indicatorOfNecessaryResources" required="false"
+		                                    input="#{defineAlternatives.editableAlternative.resourceDescription.necessaryResources}" 
+		                                    touchable="#{defineAlternatives.editableAlternative}"/> <br/>
+		                <a4j:commandButton action="#{defineAlternatives.editAlternative}" value="Save" render="alterativesTablePanel, editAlternativePanel" onclick="changed()" />
+		                <a4j:commandButton action="#{defineAlternatives.closeEditArea}" value="Cancel" render="editAlternativePanel" execute="@this"/>
+	                </fieldset>
+	            </a4j:outputPanel>
+	        </a4j:outputPanel>
+            <a4j:outputPanel rendered="#{(defineAlternatives.editableAlternative == null) and (defineAlternatives.availableRegistries != null)}">
+              <fieldset id="create-alternatives" class="size-full">
+                    <legend class="fieldset-full-size-legend">
+                     <ui:include src="/plato/shared/legend_nav.xhtml" />
+                    <h:outputText value="Create alternatives from applicable services" />
+                    </legend>
+              
+                    <strong>
+                       <h:outputText value="To enable the automated search for services, please provide at least one sample object with data and use DROID to identify it."
+                           rendered="#{!defineAlternatives.formatInfoAvailable}"/><br/>
+                   </strong>
+                   <x:div renderthis="#{defineAlternatives.formatInfoAvailable}">
+                       <strong>
+                           <h:outputText
+                               value="Sample #{defineAlternatives.sampleWithFormat.fullname} has 
+                               the following format: #{defineAlternatives.sampleWithFormat.formatInfo.longName}. " />
+                           <br />
+                           <h:outputText
+                               value="You can look up preservation services that are able to handle this object type in the following registries:" />
+                       </strong>
+                   <div>
+                       <div style="float: left;">
+                           <rich:dataTable
+                               value="#{defineAlternatives.availableRegistries}" var="registry">
+                               <rich:column >
+                                   <strong>
+                                       <h:outputText value="#{registry.shortname}" />
+                                   </strong>
+                                   <br />
+                                   <h:graphicImage value="#{registry.logo}" alt="#{registry.shortname}" height="40" width="120"/>
+                                   <br />
+                                   <h:commandButton
+                                       id="showServices" value="Show Services"
+                                       action="#{defineAlternatives.showPreservationServices(registry)}" />
+                               </rich:column>
+                               <rich:column >
+                                   <h:graphicImage id="active"
+                                       alt="active" url="/resources/gfx/icons/small/go-next.png"
+                                       height="25" width="25"
+                                       rendered="#{defineAlternatives.registrySelection[registry]}" />
+                               </rich:column>
+                           </rich:dataTable>
+                       </div>
+                       <div style="float: right;">
+                           <h:commandButton
+                               id="createAlternatives_2"
+                               value="Create alternatives for selected services"
+                               action="#{defineAlternatives.createAlternativesForPreservationActions}"
+                               rendered="#{defineAlternatives.numOfAvailableActions > 20}" />
+                           <h:dataTable
+                               value="#{defineAlternatives.availableActions}" var="action" id="table"
+                               rendered="#{not empty defineAlternatives.availableActions}">
+                               <h:column>
+                                   <f:facet name="header">
+                                   </f:facet>
+                                   <h:selectBooleanCheckbox value="#{action.selected}" />
+                               </h:column>
+                               <h:column id="shortname">
+                                   <f:facet name="header">
+                                       <h:outputText value="Preservation Action" />
+                                   </f:facet>
+                                   <h:outputText value="#{action.shortname}" />
+                               </h:column>
+                               <h:column id="targetformat">
+                                   <f:facet name="header">
+                                       <h:outputText value="Target Format" />
+                                   </f:facet>
+                                   <h:outputText value="#{action.targetFormat}" />
+                               </h:column>
+                               <h:column id="info">
+                                   <f:facet name="header">
+                                       <h:outputText value="Info" />
+                                   </f:facet>
+                                   <h:outputText value="#{action.info}" />
+                               </h:column>
+                               <h:column>
+                                   <f:facet name="header">
+                                       <h:outputText value="Experience" />
+                                   </f:facet>
+                                   <h:link ></h:link>
+                                   <x:div renderthis="#{action.experienceBase != ''}">
+                                       <a target="_blank" href="#{action.experienceBase}">Experience base</a>
+                                   </x:div>
+                               </h:column>
+                           </h:dataTable>
+                           <h:commandButton
+                               id="createAlternatives"
+                               value="Create alternatives for selected services"
+                               action="#{defineAlternatives.createAlternativesForPreservationActions}"
+                               rendered="#{not empty defineAlternatives.availableActions}" />
+                       </div>
+                       <div style="clear:both;"/>
+                   </div>
+                   </x:div>
+               </fieldset>            
+            </a4j:outputPanel>
+            <a4j:outputPanel layout="block">
+                <fieldset id="descriptive_information" class="size-full">
+                    <legend class="fieldset-full-size-legend">
+                    <ui:include src="/plato/shared/legend_nav.xhtml" />
+                    <h:outputText value="Descriptive Information"/></legend>
+                    <p:inputTextArea labelText="Documentation:" id="documentation" required="false"
+                                     input="#{defineAlternatives.plan.alternativesDefinition.description}"
+                                     touchable="#{defineAlternatives.editableAlternative}" />
+                </fieldset>
+            </a4j:outputPanel>
+
+            <p:savediscardproceed bean="#{viewWorkflow}" />
+        </h:form>
+
+    </ui:define>
+</ui:composition>

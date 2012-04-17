@@ -1,0 +1,144 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>eu.scape_project.pw</groupId>
+  <artifactId>planningsuite</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Planning Suite</name>
+
+  <modules>
+    <module>plato-model</module>
+    <module>planning-core</module>
+    <module>kbrowser</module>
+    <module>plato</module>
+    <module>minimee</module>
+    <module>minimee-view</module>
+    <module>planningsuite-ear</module>
+  </modules>
+
+<developers>
+    <developer>
+      <id>MH</id>
+      <name>Markus Hamm</name>
+      <email>hamm@ifs.tuwien.ac.at</email>
+      <organization>IMP, IFS, UT Vienna</organization>
+      <organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
+    </developer>
+    <developer>
+      <id>MK</id>
+      <name>Michael Kraxner</name>
+      <email>kraxner@ifs.tuwien.ac.at</email>
+      <organization>IMP, IFS, UT Vienna</organization>
+      <organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
+    </developer>
+    <developer>
+      <id>MP</id>
+      <name>Markus Planng</name>
+      <email>plangg@ifs.tuwien.ac.at</email>
+      <organization>IMP, IFS, UT Vienna</organization>
+      <organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
+    </developer>
+    <developer>
+      <id>CB</id>
+      <name>Christoph Becker</name>
+      <email>becker@ifs.tuwien.ac.at</email>
+      <organization>IMP, IFS, UT Vienna</organization>
+      <organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
+    </developer>
+  </developers>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.8.1</junit.version>
+  </properties>
+
+  <build>
+    <plugins>
+        <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-project-info-reports-plugin</artifactId>
+	        <version>2.1.1</version>
+        </plugin>    
+	    <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-compiler-plugin</artifactId>
+	        <version>2.3.1</version>
+	        <configuration>
+	            <source>1.6</source>
+	            <target>1.6</target>
+	        </configuration>
+	    </plugin>    
+	    <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-pmd-plugin</artifactId>
+			<version>2.6</version>
+			<configuration>
+				<linkXref>true</linkXref>
+				<sourceEncoding>ISO-8859-1</sourceEncoding>
+				<minimumTokens>30</minimumTokens>
+				<targetJdk>1.6</targetJdk>
+			</configuration>
+    	</plugin>
+     </plugins>
+  </build>
+  <dependencyManagement>
+    <dependencies>
+	  <dependency>
+	       <groupId>junit</groupId>
+	       <artifactId>junit</artifactId>
+	       <version>${junit.version}</version>
+	       <scope>test</scope>
+	   </dependency>
+	   <dependency>
+	       <groupId>org.mockito</groupId>
+	       <artifactId>mockito-core</artifactId>
+	       <version>1.9.0-rc1</version>
+	       <scope>test</scope>
+	   </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.6.1</version>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>1.6.1</version>
+        </dependency>
+        <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+          <version>1.2.14</version>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+   <repositories>
+    <repository>
+      <id>jboss</id>
+      <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+    </repository>
+  </repositories>
+
+<reporting>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-report-plugin</artifactId>
+      <version>2.4.2</version> 
+      <configuration>
+        <aggregate>true</aggregate>
+        <!--also set this to link to generated source reports  -->
+        <linkXRef>true</linkXRef>
+      </configuration>
+    </plugin>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.4.2</version>
+      </plugin>    
+  </plugins>
+</reporting>
+</project>
+
+

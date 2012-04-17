@@ -1,0 +1,14 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://simple.org/simple/V1.0.0"
+      xmlns="http://simple.org/simple/V1.0.0"
+elementFormDefault="qualified"
+attributeFormDefault="unqualified">
+
+<xs:element name="root">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="one"/>
+<xs:element name="two"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

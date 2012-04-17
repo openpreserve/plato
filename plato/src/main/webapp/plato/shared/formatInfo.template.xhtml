@@ -1,0 +1,43 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:p="http://planets-project.eu/taglibs/plato" >
+        <div class="nonwrapped">
+           <p:inputText labelText="PUID" id="puid"
+              input="#{value.puid}"/>
+           <h:outputLabel for="lookupPronom" class="small"
+              rendered="#{value.puid}"/>
+           <h:outputLink
+              id="lookupPronom"
+              rendered="#{value.puid}"
+              target="blank"
+              value="http://www.nationalarchives.gov.uk/pronom/#{value.puid}">
+              Look up PRONOM for details
+              <img src="../img/logos/tna.ico" title =" PRONOM" alt="PRONOM" style="vertical-align:middle;" />
+           </h:outputLink>
+        </div>
+        <div class="nonwrapped">
+           <p:inputText labelText="Name" id="formatname"
+              input="#{value.name}"/>
+        </div>
+        <div class="nonwrapped">
+           <p:inputText labelText="Version"
+              id="formatversion"
+              input="#{value.version}"/>
+        </div>
+        <div class="nonwrapped">
+           <p:inputText labelText="Mime-type"
+              id="formatmimetype"
+              input="#{value.mimeType}"/>
+        </div>
+        <div class="nonwrapped">
+           <p:inputText labelText="Extension"
+              id="formatdefaultextension"
+              input="#{value.defaultExtension}"/>
+        </div>   
+</ui:composition>

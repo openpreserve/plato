@@ -1,0 +1,27 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich">
+<s:div style="float: right; width:250px; text-align:left"
+									rendered="#{node.leaf and (node.scale != null)}">
+									<h:outputText value="#{node.scale.displayName} " />
+									<h:outputText value="[#{node.scale.unit}]"
+										rendered="#{not empty(node.scale.unit)}" />
+									<h:outputText rendered="#{node.scale.restricted}"
+										value=" #{node.scale.restriction}" />
+								</s:div>
+ <s:div rendered="#{(node.description != null) and (node.description != '')}"
+									style="clear: both; width: 300px; white-space: normal; font-size: 80%;">
+								<p><h:outputText
+									value="(#{node.description})" /></p>
+								</s:div>
+								<s:div rendered="#{node.leaf and node.mapped}" 
+									style="clear: both; width: 300px; white-space: normal; font-size: 80%;">
+								<p><h:outputText value="#{node.criterion.uri}" /></p>	
+								</s:div>
+</ui:composition>
+		

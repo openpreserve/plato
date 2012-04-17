@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition 	xmlns="http://www.w3.org/1999/xhtml"
+    				xmlns:h="http://java.sun.com/jsf/html"
+    				xmlns:f="http://java.sun.com/jsf/core"
+    				xmlns:ui="http://java.sun.com/jsf/facelets"
+    				xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+    				xmlns:p="http://java.sun.com/jsf/composite/plato"    
+   					template="/WEB-INF/templates/default.xhtml"
+   					xmlns:a4j="http://richfaces.org/a4j"
+   					xmlns:rich="http://richfaces.org/rich">
+ 
+	<ui:define name="title"> SCAPE Planning Suite - Transform Measured Values </ui:define>
+	
+	<ui:define name="content">
+    	
+    	<h1>Transform Measured Values</h1>
+
+		<p:help url="/plato/help/transform.html" text="What is this transformation and how does it work?" />
+
+        <h:form id="mainform">
+            <h:inputText id="changedflag" value="#{transform.changed}" style="display:none" />
+        	
+			<fieldset id="treenavigationset" class="size-full">
+	            <legend class="fieldset-full-size-legend"> Select the tree parts to display </legend>
+				<rich:tree switchType="client" immediate="true" var="node">
+	                <rich:treeModelRecursiveAdaptor roots="#{transform.treeRoots}" nodes="#{node.children}" leaf="#{node.leaf}">
+	                    <rich:treeNode iconLeaf="" icon="">
+	                        <a4j:commandLink value="#{node.name}" action="#{transform.selectTreeNode(node)}" render="editLeavesPanel" />
+	                    </rich:treeNode>
+	                </rich:treeModelRecursiveAdaptor>
+	            </rich:tree>
+            </fieldset>
+                        
+            <fieldset id="comments" class="size-full">
+                <legend class="fieldset-full-size-legend"> Comments </legend>
+                <p:inputTextArea labelText="Comments:"
+                                 id="comments"
+                                 input="#{transform.plan.transformation.comment}"
+                                 required="false" />                                 
+            </fieldset>
+            
+            <a4j:outputPanel layout="block" id="editLeavesPanel">
+                <fieldset class="size-full">
+                    <legend class="fieldset-full-size-legend">Define the transformation functions</legend>
+
+                    <!-- Does not work property at expanding/folding nodes because of this bug: https://issues.jboss.org/browse/RF-11111 -->
+		            <a4j:status>
+		                <f:facet name="start">
+		                    <h:graphicImage value="/resources/gfx/processing.gif" alt="Processing, please wait...."/>
+		                </f:facet>
+		                <f:facet name="stop"> </f:facet>
+		            </a4j:status>
+
+                    <h:outputText value="No leaves selected" rendered="#{(empty transform.leaves) and (empty transform.errorLeaves)}"/>
+                    
+                    <ui:include  src="/plato/shared/transformationLeafList.xhtml" rendered="#{not empty transform.leaves}">
+                         <ui:param name="leaves" value="#{transform.leaves}" />
+                         <ui:param name="consideredAlternatives" value="#{transform.plan.alternativesDefinition.consideredAlternatives}" />
+                         <ui:param name="samples" value="#{transform.plan.sampleRecordsDefinition.records}" />
+                    </ui:include>
+                    <ui:include  src="/plato/shared/transformationLeafList.xhtml" rendered="#{not empty transform.errorLeaves}">
+                         <ui:param name="leaves" value="#{transform.errorLeaves}" />
+                         <ui:param name="consideredAlternatives" value="#{transform.plan.alternativesDefinition.consideredAlternatives}" />
+                         <ui:param name="samples" value="#{transform.plan.sampleRecordsDefinition.records}" />
+                    </ui:include>
+
+                </fieldset>
+            </a4j:outputPanel>
+            
+            <fieldset class="size-full">
+                <p>
+	                You can calculate default transformation settings based on the distribution
+	                of the evaluation values. This is currently a very primitive function that needs
+	                further adjustment.
+	                <br/>
+	                <rich:messages for="calculateDefaultTransfomationSettings" ajaxRendered="true"/>
+                    <a4j:commandButton id="calculateDefaultTransfomationSettings" value="Calculate default transformation settings" action="#{transform.calculateDefaultTransformers()}"
+                                       render="editLeavesPanel" />
+                    <br/>
+                    Make sure you check all transformation functions and approve them. 
+                    Transformation settings that have not been defined or not yet approved 
+                    are marked with a star (*).
+                </p>
+                <hr/>
+                <p>
+                    The planning process requires you to either enter by yourself or confirm all transformation settings.
+                    In order to approve transformation settings for all listed leaves, please select<br/>
+                    <rich:messages for="confirmTransformationSettings" ajaxRendered="true" /> 
+                    <a4j:commandButton id="confirmTransformationSettings" value="Confirm transformation settings" action="#{transform.approve()}"
+                                       render="editLeavesPanel" />
+                </p>
+            </fieldset>
+        	
+            <p:savediscardproceed bean="#{viewWorkflow}"/>
+        </h:form>
+         
+	</ui:define>
+</ui:composition>

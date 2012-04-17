@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"    
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+
+    <ui:define name="title">SCAPE Planning Suite - Plan Settings</ui:define>
+    <ui:define name="content">
+    
+        <h1>Plan Settings</h1>
+        
+        <h:messages id="facesMessages" />
+        
+        <h:panelGroup layout="block">
+            This page provides basic security options that you may use to protect, unprotect and delete plans that you have created. <br/>
+            These options are only available to the user who created this plan.
+        </h:panelGroup>
+
+        <h:form id="administrationForm">
+            <fieldset class="size-full">
+                <legend class="fieldset-full-size-legend">Administration</legend>        
+	            Plan '#{planSettings.plan.planProperties.name}' has been created by: #{planSettings.plan.planProperties.changeLog.createdBy}. <br/>
+	            Plan '#{planSettings.plan.planProperties.name}' is owned by: #{planSettings.plan.planProperties.owner}.
+	            
+	            <a4j:outputPanel rendered="#{planSettings.userAllowedToModify}" layout="block" id="modifySettings">
+	                Private:
+	                <h:selectBooleanCheckbox value="#{planSettings.plan.planProperties.privateProject}">
+	                   <a4j:ajax event="change" render="reportPublicCheckbox" listener="#{planSettings.resetPublishReportIfNecessary}"/>
+	                </h:selectBooleanCheckbox>
+	                <br/>
+	                Publish report: <h:selectBooleanCheckbox id="reportPublicCheckbox" value="#{planSettings.plan.planProperties.reportPublic}" disabled="#{planSettings.publishReportDisabled}"/>
+	                <span style="font-size:8pt">
+	                    (This option requires the plan to be set to private. 
+	                    It makes your report publicly available to other Plato users while prohibiting them from loading and editing your plan.)
+	                </span>
+	                <br/><br/>
+	                Permanently delete this plan:
+	                <h:commandButton value="Delete" action="#{planSettings.deletePlan}" 
+	                                 onclick="if (!confirm('Are you sure you want to delete this plan?')) return false;"/> <br/><br/>
+	                <a4j:commandButton id="saveButton" value="Save changes" action="#{planSettings.save}" render="facesMessages"/>
+	            </a4j:outputPanel>            
+	            <a4j:outputPanel rendered="#{!planSettings.userAllowedToModify}" layout="block" id="modifySettingsDisabled">
+	               Sorry, You are not the owner of this plan and thus not allowed to change it.
+	            </a4j:outputPanel>
+            </fieldset>
+        </h:form>
+        
+        <h:form id="finalReportForm">
+            <fieldset class="size-full">
+                <legend class="fieldset-full-size-legend">Final Report</legend>
+                
+                <a4j:outputPanel layout="block" id="uploadReportPanel">
+	                <rich:fileUpload id="uploadReport" fileUploadListener="#{planSettings.uploadReport}" allowFlash="false" autoclear="true" 
+	                                 rendered="#{planSettings.userAllowedToModify and !planSettings.plan.planProperties.reportUpload.dataExistent}" render="uploadReportPanel, removeReportPanel" />
+                </a4j:outputPanel>
+
+                <a4j:outputPanel layout="block" id="removeReportPanel">
+ 	                <a4j:outputPanel rendered="#{planSettings.userAllowedToModify and planSettings.plan.planProperties.reportUpload.dataExistent}">
+ 	                    <h:commandLink value="#{planSettings.plan.planProperties.reportUpload.fullname}" action="#{planSettings.downloadReport}" />
+	                    <a4j:commandButton value="Remove" action="#{planSettings.removeReport()}" render="uploadReportPanel, removeReportPanel"/>
+	                </a4j:outputPanel>
+                </a4j:outputPanel>                
+            </fieldset>
+        </h:form>
+        
+        <h:form id="authForm">
+            <fieldset class="size-full">
+                <legend class="fieldset-full-size-legend">Authentication</legend>
+                <p>Some actions need separated authentication. Enter your personal code here.</p>
+                <h:inputSecret value="#{planSettings.authPassword}" />
+                <a4j:commandButton action="#{planSettings.authenticate()}" value="Authenticate" render="facesMessages" />
+            </fieldset>
+        </h:form>        
+
+    </ui:define>
+</ui:composition>

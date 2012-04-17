@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:c="http://java.sun.com/jsp/jstl/core"
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+
+    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+    <ui:define name="content">
+
+        <h1>Identify Requirements</h1>
+		<div id="anchors">
+            <ul class="anchors">
+               <li class="anchors">
+                  <a href="#objectivetreeRich" class="anchors">Objective Tree</a>
+               </li>
+               <li class="anchors">
+                  <a href="#descriptiveinformation" class="anchors">Descriptive Information</a>
+               </li>
+               <li class="anchors">
+                  <a href="#uploads" class="anchors">Uploads</a>
+               </li>
+               <li class="anchors">
+                  <a href="#importexport" class="anchors">Import/Export</a>
+               </li>
+            </ul>
+         </div>
+        <div class="margin-bottom-huge; overflow:scroll">
+	        <h:form id="treeForm">
+                <h:inputText id="changedflag" value="#{identifyRequirements.changed}" style="display:none" />	        
+	            <fieldset id="objectivetreeRich" class="center-position size-full">
+	            <legend class="fieldset-full-size-legend"> 
+	            	<ui:include src="/plato/shared/legend_nav.xhtml" /> 
+	            	<h:outputText value=" Objective Tree"/>
+	            </legend>
+	            <a4j:outputPanel layout="block">
+                    Edit: 
+                    <h:selectOneMenu value="#{identifyRequirements.editingNodeComments}">
+		                <f:selectItem itemValue="true" itemLabel="Comments" />
+		                <f:selectItem itemValue="false" itemLabel="Scale, restriction, unit" />
+		                <a4j:ajax event="change" render="objectivetree" />
+	               </h:selectOneMenu>
+	            </a4j:outputPanel>
+	
+	            <a4j:outputPanel layout="block" id="objectivetree">
+	                <!-- tree-header -->
+	                <div id="treeheader" style="padding-top: 5px;">
+	                    <div class="treetable_cell" style="width: 420px;text-align:center">
+	                        <b>Node</b>
+	                    </div>
+	                    <div class="treetable_nodeInfo" style="width: 550px;text-align:center">
+	                        <a4j:outputPanel layout="block" rendered="#{not identifyRequirements.editingNodeComments}" styleClass="treetable_cell" style="width: 545px;">
+	                            <div class="treetable_cell" style="text-align: center; width: 80px;"><b>Edit</b></div>
+	                            <div class="treetable_cell" style="width: 30px;"><b>Single</b></div>
+	                            <div class="treetable_cell" style="width: 120px;"><b>Scale</b></div>
+	                            <div class="treetable_cell" style="width: 230px;text-align:center;"><b>Restriction</b></div>
+	                            <div class="treetable_cell" style="width: 60px;text-align:center;"><b>Unit</b></div>
+	                        </a4j:outputPanel>
+	                        <a4j:outputPanel layout="block" rendered="#{identifyRequirements.editingNodeComments}"
+	                                         styleClass="treetable_cell" style="text-align:center;padding-left:200px;">
+	                            <b>Description</b>
+	                        </a4j:outputPanel>
+	                    </div>
+	                </div>
+	                
+	                <!-- tree-content -->
+	                <div id="treecontent" style="clear: both;">
+		                <rich:tree id="richTree" selectionType="client" immediate="true" var="node" style="padding-top:10px;">
+		                    <rich:treeModelRecursiveAdaptor roots="#{identifyRequirements.treeRoots}" nodes="#{node.children}" leaf="#{node.leaf}">
+		                        <rich:treeNode highlightedClass="highlighted" iconLeaf="" icon="" expanded="#{identifyRequirements.requirementstreeHelper.expandedNodes[node]}"> <!-- styleClass="xx-rf-trn-cnt" iconClass="xx-rf-trn-ico " labelClass="xx-identreq-rf-trn-lbl" > -->
+		                            <div class="treetable_cell" style="height: #{identifyRequirements.editingNodeComments?75:25}px; width: 40px;">
+		                                <div class="inputDecorate">
+		                                <span class="#{invalid?'errors':''}">
+		                                    <h:inputText
+		                                        style="border:1px solid #DDDDDD; width:270px; background-color: #{empty(node.name)? '#F08080':'white'};"
+		                                        onblur="this.style.backgroundColor = (this.value==null||this.value=='')?'#F08080':'white';"
+		                                        onkeypress="this.style.backgroundColor = (this.value==null||this.value=='')?'#F08080':'white';"
+		                                        required="true" requiredMessage="Please provide a name."
+		                                        id="name" value="#{node.name}">
+		                                        <f:validateLength maximum="255" minimum="1" />
+		                                        <a4j:ajax onbeforesubmit="changed()" event="change" listener="#{node.touch}" />
+		                                    </h:inputText>
+		                                    <rich:message for="name"/>
+		                               </span>
+	                                   </div>
+		                                
+									   <a4j:outputPanel layout="block" rendered="#{identifyRequirements.editingNodeComments and node.leaf and (node.scale != null)}"
+										                style="white-space:normal;width:400px;">
+										   <h:outputText value="#{node.scale.displayName}  " />
+										   <h:outputText rendered="#{node.scale.restricted}" value="#{node.scale.restriction}  " />
+										   <h:outputText value="[#{node.scale.unit}]" rendered="#{not empty(node.scale.unit)}" />
+										   <br/>
+                                           <h:outputText value="#{(node.mapped ? (node.criterion.uri):'')}"/>
+									   </a4j:outputPanel>
+		                            </div>
+		                            
+		                            <div class="treetable_nodeInfo" style="width:530px;">
+			                            <a4j:outputPanel layout="block" styleClass="treetable_cell" style="width:50px;" rendered="#{not identifyRequirements.editingNodeComments}">
+			                                <h:panelGrid id="menuPanel" columns="2" border="0">			                                
+			                                    <rich:dropDownMenu mode="ajax" direction="bottomRight" jointPoint="topRight" hideDelay="500" style="position: static;">
+			                                        <f:facet name="label">
+			                                            <h:graphicImage
+			                                                value="/resources/gfx/icons/small/preferences-system.png"
+			                                                id="addLeafpic" />
+			                                        </f:facet>
+			                                        <rich:menuItem id="addLeaf" rendered="#{!node.leaf}"
+			                                            action="#{identifyRequirements.addLeaf(node)}"
+			                                            label="Add a leaf node" onclick="changed();"
+			                                            render="richTree">
+			                                            <f:facet name="icon">
+			                                                <h:graphicImage value="/resources/gfx/treetable/add-leaf.png"
+			                                                    width="16" height="16" />
+			                                            </f:facet>
+			                                        </rich:menuItem>
+			                                        <rich:menuItem id="addNode" rendered="#{!node.leaf}"
+			                                            action="#{identifyRequirements.addNode(node)}"
+			                                            label="Add an inner node" onclick="changed();"
+			                                            render="richTree">
+			                                            <f:facet name="icon">
+			                                                <h:graphicImage value="/resources/gfx/treetable/add-node.png"
+			                                                    width="16" height="16" />
+			                                            </f:facet>
+			                                        </rich:menuItem>
+			                                        <rich:menuItem id="removeNode" rendered="#{node.parent!=null}"
+			                                            label="Remove" action="#{identifyRequirements.removeTreeNode(node)}"
+			                                            render="richTree">
+			                                            <f:facet name="icon">
+			                                                <h:graphicImage value="/resources/gfx/treetable/trash-node.png"
+			                                                    width="16" height="16" />
+			                                            </f:facet>
+			                                        </rich:menuItem>
+			                                        <rich:menuItem id="convertToNode" rendered="#{node.leaf}"
+			                                            label="Convert to branch"
+			                                            action="#{identifyRequirements.convertToNode(node)}"
+			                                            onclick="changed();" render="richTree">
+			                                            <f:facet name="icon">
+			                                                <h:graphicImage value="/resources/gfx/treetable/add-node.png"
+			                                                    width="16" height="16" />
+			                                            </f:facet>			    
+			                                        </rich:menuItem>
+			                                        <rich:menuItem id="convertToLeaf" label="Convert to leaf"
+			                                            rendered="#{not node.leaf and node.parent != null}"
+			                                            action="#{identifyRequirements.convertToLeaf(node)}"
+			                                            onclick="if(!confirm('Are you sure you want to convert this node and remove all of its children?'))return false;changed();"
+			                                            render="richTree">
+			                                            <f:facet name="icon">
+			                                                <h:graphicImage value="/resources/gfx/treetable/add-leaf.png"
+			                                                    width="16" height="16" />
+			                                            </f:facet>
+			                                        </rich:menuItem>
+			                                    </rich:dropDownMenu>
+				                                <a4j:outputPanel layout="block" styleClass="mappingDiv" rendered="#{node.leaf and not identifyRequirements.editingNodeComments}">
+					                                <a4j:commandLink
+					                                    action="#{identifyRequirements.selectLeaf(node)}"
+					                                    render="propertyMappingEditor"
+					                                    oncomplete="#{rich:component('editLeafMapping')}.show();" execute="@this">
+					                                    <h:graphicImage id="showMapping"
+					                                        value="/resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
+					                                        title="Edit measurement info: #{(node.mapped ? (node.criterion.uri):'')}"
+					                                        width="22" height="22" />
+					                                </a4j:commandLink>
+				                                </a4j:outputPanel>
+			                                </h:panelGrid>
+			                            </a4j:outputPanel>
+			                            
+			                            <a4j:outputPanel layout="block" id="scaleEdits" rendered="#{not identifyRequirements.editingNodeComments}" styleClass="treetable_cell">
+			                                <div class="treetable_cell" style="width: 50px; text-align: center">
+			                                    <h:selectBooleanCheckbox id="single" rendered="#{node.leaf}" onchange="changed();" value="#{node.single}">
+    			                                     <a4j:ajax event="change" />
+			                                    </h:selectBooleanCheckbox>
+			                                </div>
+			
+			                                <a4j:outputPanel layout="block" rendered="#{node.leaf}" styleClass="treetable_cell" style="width: 135px;">
+			                                    <h:selectOneMenu style="font-size:smaller;" valueChangeListener="#{node.touch}"
+			                                                     value="#{node.scaleByClassName}" id="idScaleList">
+			                                        <f:selectItem itemValue="" />
+			                                        <f:selectItems value="#{identifyRequirements.scaleList}" />
+			                                        <a4j:ajax onbeforesubmit="changed()" event="change" listener="#{node.touchIncludingScale}" render="richTree" />
+			                                    </h:selectOneMenu>
+			                                </a4j:outputPanel>
+			
+			                                <div class="treetable_cell" style="width: 200px;">
+			                                    <div class="inputDecorate">
+				                                    <span class="#{invalid?'errors':''}">
+				                                        <h:inputText id="restriction" 
+ 						                                             value="#{node.scale.restriction}" style="font-size:smaller;" 
+ 						                                             disabled="#{node.leaf and (node.scale.immutableRestriction)}"
+ 						                                             rendered="#{node.leaf and (node.scale != null) and node.scale.restricted}">
+				                                            <f:validateLength maximum="255" />
+				                                            <a4j:ajax onbeforesubmit="changed()" event="change" listener="#{node.touchIncludingScale}" render="restriction" />
+				                                        </h:inputText>
+				                                    </span>
+				                                    <rich:message for="restriction" />
+			                                    </div>
+			                                    <h:inputText disabled="true" value=""
+			                                                 rendered="#{node.leaf and (node.scale != null) and (not node.scale.restricted)}" />
+			                                </div>
+			                                
+			                                <div class="treetable_cell" style="width: 90px;">
+			                                    <div class="inputDecorate">
+				                                    <span class="#{invalid?'errors':''}">
+				                                        <h:inputText value="#{node.scale.unit}" id="unit" style="font-size:smaller;" 
+				                                                     rendered="#{node.leaf and (node.scale != null)}">
+				                                            <f:validateLength maximum="255" />
+				                                            <a4j:ajax onbeforesubmit="changed()" event="change" listener="#{node.touchIncludingScale}" />
+				                                        </h:inputText>
+				                                    </span> 
+				                                    <rich:message for="unit" />
+			                                    </div>
+				                                <h:inputText disabled="true" value=""
+				                                             rendered="#{node.leaf and (node.scale == null)}" /></div>
+			                            </a4j:outputPanel>   
+			                                                                                 
+			                            <a4j:outputPanel layout="block" rendered="#{identifyRequirements.editingNodeComments}" style="margin-right:50px;padding-left:150px;">
+			                                <h:inputTextarea id="node_description" rows="2"
+			                                                 value="#{node.description}" style="width: 350px;">
+			                                    <f:validateLength maximum="32672" />
+			                                </h:inputTextarea>
+                                        </a4j:outputPanel>
+		                            </div>
+		                        </rich:treeNode>
+		                    </rich:treeModelRecursiveAdaptor>
+		                </rich:tree>
+	                </div>
+	            </a4j:outputPanel>
+	            </fieldset>
+	            
+	            <fieldset id="descriptiveinformation" class="center-position size-full">
+	               <legend class="fieldset-full-size-legend">
+	               	<ui:include src="/plato/shared/legend_nav.xhtml" /> 
+	               	Descriptive Information 
+	               	</legend>
+                   <p:inputTextArea id="description"
+	                                labelText="Description:"
+	                                input="#{identifyRequirements.plan.requirementsDefinition.description}" 
+	                                required="false" />
+                </fieldset>
+                
+                <fieldset id="uploads" class="center-position size-full">
+                    <legend class="fieldset-full-size-legend"> 
+                    	<ui:include src="/plato/shared/legend_nav.xhtml" /> 
+                    	Uploads 
+                    </legend>
+                    
+                    <a4j:outputPanel layout="block" id="uploadsPanel">
+	                    <p>Please attach extended documentation (about the requirements definition process, about suggested measurements, 
+	                       or about reasons for certain requirements) here:</p>
+	                    <ui:repeat var="file" value="#{identifyRequirements.plan.requirementsDefinition.uploads}">
+	                        <h:commandLink value="#{file.fullname}" action="#{identifyRequirements.downloadAttachedFile(file)}" />
+	                        (<h:outputText value="#{file.sizeInMB}">
+	                           <f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+	                        </h:outputText> MB)
+	                        <a4j:commandButton action="#{identifyRequirements.removeAttachedFile(file)}" value="Remove" render="uploadsPanel"/>
+	                        <br/>
+	                    </ui:repeat>
+	                    <a4j:commandButton value="Attach documentation file" oncomplete="#{rich:component('uploadPanel')}.show()" />
+                    </a4j:outputPanel>
+                </fieldset>
+
+                <fieldset id="importexport" class="center-position size-full">
+                    <legend class="fieldset-full-size-legend"> 
+                    	<ui:include src="/plato/shared/legend_nav.xhtml" /> 
+                    	Import / Export 
+                    </legend>
+                    
+                    <a4j:outputPanel layout="block" id="importPanel">
+                        <b>Import</b>
+	                    <p>
+		                    You can replace the current objective tree with a tree specified in Freemind format by uploading it here. 
+		                    Bear in mind that this replaces your current tree!
+		                    <a target="_blank" href="/plato/help/upload.html">How can I specify trees in XML?</a>
+	                    </p>
+	                    
+	                    <rich:messages for="importPanel" id="importErrors"/>
+	                    <a4j:commandButton value="Select File" oncomplete="#{rich:component('selectImportPanel')}.show()" />
+	                    <a4j:outputPanel layout="inline" rendered="#{identifyRequirements.importFile != null}">
+	                       #{identifyRequirements.importFile.fullname}
+	                       <a4j:commandButton value="Import tree" action="#{identifyRequirements.importFreeMindWithoutUnits()}" render="importPanel, objectivetree" />
+	                       <a4j:commandButton value="Import tree including units" action="#{identifyRequirements.importFreeMindWithUnits()}" render="importPanel, objectivetree" />
+	                    </a4j:outputPanel>
+                    </a4j:outputPanel>
+                    
+                    <br/>
+                    <b>Export</b>
+                    <p>
+                        If you want to continue working on the tree in Freemind, you can download the current objective tree as mindmap file for Freemind.
+                        Please save the tree before downloading it!
+                    </p>
+                    <h:commandButton value="Download tree as mindmap" action="#{identifyRequirements.downloadTreeAsFreeMind()}" />
+                </fieldset>
+
+	            <p:savediscardproceed bean="#{viewWorkflow}" />
+	        </h:form>
+        </div>
+
+        
+        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
+                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
+                        This workaround is described here: http://community.jboss.org/thread/171909
+                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
+                        the second click (on buttons, etc.).
+        -->
+        <h:form>
+        <!-- attach files panel -->
+            <rich:popupPanel id="uploadPanel" width="500" height="450" domElementAttachment="form">
+                <f:facet name="header">
+                    <h:outputText value="Upload file" />
+                </f:facet>
+                <f:facet name="controls">
+                    <h:graphicImage id="closeMapping" 
+                        value="/resources/gfx/icons/cancel.png"
+                        title="Close" width="16" height="16"
+                        onclick="#{rich:component('uploadPanel')}.hide()" />
+                </f:facet>            
+                <h:messages />
+              
+                <rich:fileUpload id="uploadResultFile" fileUploadListener="#{identifyRequirements.uploadFile}" 
+                                 render="uploadsPanel" onuploadcomplete="#{rich:component('uploadPanel')}.hide()" />
+            </rich:popupPanel>
+        <!-- / attach files panel -->
+        </h:form>
+
+        
+        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
+                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
+                        This workaround is described here: http://community.jboss.org/thread/171909
+                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
+                        the second click (on buttons, etc.).
+        -->
+        <h:form>
+        <!-- select import panel -->
+            <rich:popupPanel id="selectImportPanel" width="500" height="450" domElementAttachment="form">
+                <f:facet name="header">
+                    <h:outputText value="Select file" />
+                </f:facet>
+                <f:facet name="controls">
+                    <h:graphicImage id="closeMapping" 
+                        value="/resources/gfx/icons/cancel.png"
+                        title="Close" width="16" height="16"
+                        onclick="#{rich:component('selectImportPanel')}.hide()" />
+                </f:facet>            
+                <h:messages />
+              
+                <rich:fileUpload id="selectImportFile" fileUploadListener="#{identifyRequirements.selectImportFile}" addLabel="Select" uploadLabel="Done"
+                                 render="importPanel" onuploadcomplete="#{rich:component('selectImportPanel')}.hide()" />
+            </rich:popupPanel>
+        <!-- / select import panel -->
+        </h:form>        
+
+	    <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
+	                    outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
+	                    This workaround is described here: http://community.jboss.org/thread/171909
+	                    If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
+	                    the second click (on buttons, etc.).
+	    -->
+	    <h:form>
+	    <!-- criterion selection -->
+	      <rich:popupPanel id="editLeafMapping" width="700" height="400" domElementAttachment="form">
+	        <f:facet name="header">
+	            <h:outputText value="Select a criterion" />
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:graphicImage id="closeMapping" 
+	                value="/resources/gfx/icons/cancel.png"
+	                title="Close" width="16" height="16"
+	                onclick="#{rich:component('editLeafMapping')}.hide()" />
+	        </f:facet>
+	        
+	       <h:messages />
+	   
+	       <table style="width: 60em;">
+	           <tr>
+	               <th></th>
+	               <th>Criterion selection</th>
+	               <th></th>
+	           </tr>
+	           <tr>
+	               <th style="width: 15em;"><i>Category</i></th>
+	               <th style="width: 35em;"><i>Property</i></th>
+	               <th style="width: 10em;"><i>Metric</i></th>
+	           </tr>
+	           <tr style="background-color: #F2F2F2;">
+	               <td>
+	                    <h:selectOneListbox size="7" id="categories_select" value="#{identifyRequirements.critSelector.selectedCategory}" required="false" style="width: 14em;">
+	                        <f:selectItems value="#{identifyRequirements.critSelector.categories}" var="cat" noSelectionValue="(all)"
+	                                       itemLabel="#{cat}" itemValue="#{cat}" />
+	                        <a4j:ajax event="change"
+	                                     render="properties_select, metrics_select, criterion_description, savePropertyMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.selectCategory}"/>
+	                    </h:selectOneListbox>                  
+	               </td>
+	               <td>
+	                    <h:selectOneListbox size="7" id="properties_select" value="#{identifyRequirements.critSelector.selectedMeasurablePropertyString}" required="false" style="width: 34em;">
+	                        <f:selectItems value="#{identifyRequirements.critSelector.filteredMeasurableProperties}" var="prop" 
+	                                       itemLabel="#{prop.name}" itemValue="#{prop.name}" />
+	                        <a4j:ajax event="change"
+	                                     render="metrics_select, criterion_description, savePropertyMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.selectProperty}"/>
+	                    </h:selectOneListbox>
+	               </td>
+	               <td>
+	                    <h:selectOneListbox size="7" id="metrics_select" value="#{identifyRequirements.critSelector.selectedMetricString}" required="false" style="width: 10em;">
+	                        <f:selectItems id="metrics_select_items" value="#{identifyRequirements.critSelector.metrics}" var="met" 
+	                                       itemLabel="#{met.name}" itemValue="#{met.metricId}" noSelectionLabel="(none)" />
+	                        <a4j:ajax event="change"
+	                                     render="criterion_description, savePropertyMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.selectMetric}"/>
+	                    </h:selectOneListbox>
+	               </td>
+	           </tr>
+	           <tr style="background-color: #F2F2F2;">
+	               <td>
+	                   Properties in Category: <h:outputText id="properties_statistics" value="#{identifyRequirements.critSelector.filteredMeasurablePropertiesCount}" />
+	               </td>
+	               <td> </td>
+	               <td> </td>
+	           </tr>
+	       </table>
+	        
+	        <br/><br/>
+	        <h:panelGroup id="criterion_description">
+	            <table class="size-xxl border" style="width: 60em; border: 1px solid #DDDDDD;">
+	                <tr>
+	                    <th class="align-left" style="width: 20em;">Criterion Characteristic</th>
+	                    <th class="align-left" style="width: 40em;">Value</th>
+	                </tr>                
+	                <tr>
+	                    <td>criterion description</td>
+	                    <c:if test="#{identifyRequirements.critSelector.selectedMeasurableProperty == null}">
+	                        <td>N/A</td>
+	                    </c:if>
+	                    <c:if test="#{identifyRequirements.critSelector.selectedMeasurableProperty != null}">
+	                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedMeasurableProperty.description}" /></td>
+	                    </c:if>
+	                </tr> 
+	                <tr>
+	                    <td>metric</td>
+	                    <c:if test="#{identifyRequirements.critSelector.selectedMetric != null}">
+	                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedMetric.description}" /></td>
+	                    </c:if>
+	                    <c:if test="#{identifyRequirements.critSelector.selectedMetric == null}">
+	                        <td></td>
+	                    </c:if>
+	                </tr>
+	            </table>       
+	        </h:panelGroup>
+	        
+	        <br/><br/>
+	        
+	        <h:panelGroup id="savePropertyMappingButton">
+	            <a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
+	                rendered="#{identifyRequirements.critSelector.measurableCriterionSelected}"
+	                action="#{identifyRequirements.assignCriterionMapping}"
+	                oncomplete="#{rich:component('editLeafMapping')}.hide()"
+	                onclick="changed()"
+	                render="richTree">
+	                <h:graphicImage
+	                    value="/resources/gfx/icons/apply.png"
+	                    title="Save Criterion mapping" width="32" height="32" />
+	            </a4j:commandLink>
+	            <h:graphicImage
+	                rendered="#{!identifyRequirements.critSelector.measurableCriterionSelected}"
+	                value="/resources/gfx/icons/apply-disabled.png"
+	                title="Save Criterion mapping" width="32" height="32" />
+	        </h:panelGroup>
+	        
+	        <a4j:outputPanel layout="inline" id="removeMappingButton" style="float: right;">
+                <a4j:commandLink id="removeCriterionMapping" style="color: #FFFFFF;"
+                    action="#{identifyRequirements.detachCriterionMapping()}"
+                    oncomplete="#{rich:component('editLeafMapping')}.hide()"
+                    onclick="changed()"
+                    render="richTree">
+                    <h:graphicImage
+                        value="/resources/gfx/icons/user-trash.png"
+                        title="Save Criterion mapping" width="32" height="32" />
+                </a4j:commandLink>
+	        </a4j:outputPanel>
+	      </rich:popupPanel>
+	      <!-- / criterion selection -->
+	      </h:form>      
+      
+    </ui:define>
+</ui:composition>
+        

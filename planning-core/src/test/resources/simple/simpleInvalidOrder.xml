@@ -1,0 +1,8 @@
+<root  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://simple.org/simple/V1.0.0"
+    xsi:schemaLocation="http://simple.org/simple/V1.0.0 simple.xsd">
+   <two>
+   </two>
+   <one>
+   </one>
+</root>

@@ -1,0 +1,157 @@
+#content div.treetable_cell {
+	float: left;
+	vertical-align: middle;
+	height: 100%;
+}
+
+#content div.treetable_cell input {
+	margin-top: 0px;
+	width: 95%;
+}
+
+#content div.treetable_nodeInfo {
+	float: right;
+	align: right;
+	min-width: 500px;
+	width: 600px;
+}
+
+#content div.treetable_nodeInfo_big {
+	float: right;
+	width: 750px;
+}
+
+#content div.treetable_nodeInfo_imp {
+	float: right;
+	width: 850px;
+}
+
+#content div.treetable_nodeInfo_imp div.treetable_cell input {
+	width: 30px;
+}
+
+.treenode {
+	border-top: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	text-decoration: none;
+}
+
+.highlighted {
+	background-color: #ddf0f7;
+	text-decoration: none;
+	color: black;
+}
+
+.sensitiveNode {
+	background-color: #FFCC66;
+}
+
+.sensitiveNodeChildren {
+	background-color: #FFFFCC;
+}
+
+.mappingDiv {
+	vertical-align: top;
+	width: 3px;
+	float: left;
+	text-align: center;
+}
+
+.menuNode {
+	padding: 0px;
+	border: 1px solid #E4EAEF
+}
+
+span.rf-trn-cnt {
+	display: block;
+}
+
+span.rf-trn-ico {
+	display: block;
+	float: left;
+}
+
+span.rf-trn-lbl {
+	display: block;
+}
+
+span.rf-trn-hnd {
+	display: block;
+	float: left;
+}
+
+span.rf-insl-trc-cntr {
+	width: 90%;
+}
+
+span.rf-insl-inp-cntr .rf-insl-inp {
+	vertical-align: top;
+}
+
+.rf-dt-hdr-c,.rf-dt-shdr-c {
+	background-image: url(none);
+	background: #017298;
+	color: white;
+}
+
+th.rf-dt-shdr-c a {
+	color: white;
+	display: block;
+}
+
+th.rf-dt-shdr-c a:hover {
+	color: #cccccc;
+}
+
+th.rf-dt-hdr-c a {
+	color: white;
+	display: block;
+}
+
+th.rf-dt-hdr-c a:hover {
+	color: white;
+}
+
+td.rf-tab-hdr-act {
+	background: #017298;
+	color: white;
+}
+
+table.tableStyle-big-font td.rf-dt-c {
+	font-size: 14px;
+}
+
+table.tableStyle-big-font th.rf-dt-hdr-c,table.tableStyle-big-font th.rf-dt-shdr-c {
+	font-size: 14px;
+}
+
+td.rf-tab-hdr-inact {
+	background: #1c8baf;
+	color: white;
+}
+
+div.rf-tab-hdr-brd {
+	background: #1c8baf;
+}
+
+/*
+td.rf-dt-c {
+	background:#1c8baf;
+}
+*/
+.rf-tab-cnt {
+	font-size: 1em;
+}
+
+.big-font .rf-trn {
+	font-size: 14px;
+}
+
+.rf-trn-ico-exp, .rf-trn-ico-colps {
+	background: url(/kbrowser/resources/gfx/icons/icon-folder.png) no-repeat center;
+}
+
+.rf-trn-ico-lf {
+	background: url(/kbrowser/resources/gfx/icons/icon-text-x-generic-template.png) no-repeat center;
+}

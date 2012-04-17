@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="mainform">
+
+            <a4j:outputPanel layout="block" rendered="#{param['sessionExpired'] == 'true'}" styleClass="warning">
+                Your session has expired because of a long inactivity period. <br/>
+                Please try again to execute your desired action. <br/>
+            </a4j:outputPanel>
+
+			<div class="menu-container-information">
+				<p>
+				    In planning, you have to evaluate potential preservation actions against your requirements. 
+				    That includes defining a number of specific decision criteria that are driving the evaluation. 
+				    We analysed hundreds of decision criteria from more than a dozen case studies, categorised them, 
+				    mapped them to established quality models and analysed how to measure the different kinds of criteria 
+				    so that evaluation and decision making is based on real measures instead of vague judgements or industry 
+				    averages. Our <a href="http://onlinelibrary.wiley.com/doi/10.1002/asi.21527/abstract" target="_blank">article
+				     in JASIST</a> discusses the measurement side of things and the distribution of criteria across different groups.
+				</p>
+				<p>
+					Now this is quite interesting in itself, but does not tell us how important decision criteria are: 
+					If I have created a plan using 35 critera that I considered in my decision, which of these were actually 
+					the critical ones? What if I evaluated this one incorrectly? What are the most critical aspects across multiple 
+					organisations? How much of a decision about image migration is typically driven by considerations about the target 
+					formats?
+				</p>
+				<p>
+				    To answer questions like these, we built the tool you see here. The Knowledge Browser quantifies the impact of 
+				    decision criteria and can show you what effect different measures have in the real world: It computes impact 
+				    factors for criteria such as "Average relative filesize resulting from a migration" or "Compound impact of all 
+				    format-related decision criteria in case studies on images", all based on real-world case studies from Plato's 
+				    knowledge base. In our <a href="http://www.ifs.tuwien.ac.at/~becker/pubs/hamm_ipres2011.pdf" target="_blank">IPRES 
+				    article</a> and the <a href="http://www.scape-project.eu/deliverable/d14-1-report-on-decision-factors-and-their-influence-on-planning-draft" target="_blank">SCAPE deliverable D14.1</a>, 
+				    we discuss the methods and techniques behind this and summarise results.
+			    </p>				
+				<p>
+					Here, you can
+					<ul>
+						<li>filter the set of plans to do the analysis on,</li>
+						<li>analyse the impact of single decision criteria, and</li>
+						<li>create groups of criteria that are of specific interest to you,</li>
+						<li>analyse the impact of these criteria sets.</li>
+					</ul>
+				</p>
+			</div>
+
+			<div class="menu-container-actions">
+				<ul class="actions">
+
+					<li class="home-item"><h:commandLink action="#{planSelector.init}">
+							<div class="home-item-container">
+								<div class="home-item-text">Select plans to analyse</div>
+								<div>
+									<h:graphicImage value="resources/gfx/system-search.png" width="80px" height="80px" />
+								</div>
+							</div>
+						</h:commandLink></li>
+
+					<li class="home-item"><h:commandLink action="#{kBrowser.init}">
+							<div class="home-item-container">
+								<div class="home-item-text">Analyse criteria</div>
+								<div>
+									<h:graphicImage value="resources/gfx/criteria_set.png" width="80px" height="80px" />
+								</div>
+							</div>
+						</h:commandLink></li>
+
+					<li class="home-item"><h:commandLink action="#{criteriaHierarchyHelper.init}">
+							<div class="home-item-container">
+								<div class="home-item-text">Manage criteria set</div>
+								<div>
+									<h:graphicImage value="resources/gfx/preferences.png" width="80px" height="80px" />
+								</div>
+							</div>
+						</h:commandLink></li>
+
+					<li class="home-item"><h:commandLink action="#{criteriaHierarchyHelper.loadAllHierarchiesDataForSummary}">
+							<div class="home-item-container">
+								<div class="home-item-text">Analyse criteria sets</div>
+								<div>
+									<h:graphicImage value="resources/gfx/criteria_set.png" width="80px" height="80px" />
+								</div>
+							</div>
+						</h:commandLink></li>
+
+					<li class="home-item"><a href="/../plato/index.jsf">
+							<div class="home-item-container">
+								<div class="home-item-text">Planning Tool</div>
+								<div>
+									<h:graphicImage value="resources/gfx/plato_logo_notext.png" width="80px" height="80px" />
+								</div>
+							</div>
+					</a></li>
+					
+				</ul>
+			</div>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+	<rich:modalPanel id="jhovePanel" width="800" height="500"
+		autosized="false" style="overflow:scroll">
+
+		<f:facet name="header">
+			<h:outputText value="JHove Tree View" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:graphicImage value="/img/icons/small/close.png"
+				style="cursor:pointer;float:right;align:right"
+				onclick="Richfaces.hideModalPanel('jhovePanel')" />
+		</f:facet>
+
+		<s:div id="myModalDiv">
+			<table>
+				<tr>
+					<td width="50%" valign="top">
+					<rich:tree switchType="client" immediate="true"
+						adviseNodeOpened="#{expandedTreeHelper.adviseNodeOpened}">
+						<rich:recursiveTreeNodesAdaptor roots="#{tree1_root}" var="node1"
+							nodes="#{node1.children}">
+							<rich:treeNode>
+							 <div style="clear:both;width:200px;white-space:normal;">
+								<h:outputText value="#{node1.name}">
+								</h:outputText>
+							  </div>
+
+							</rich:treeNode>
+						</rich:recursiveTreeNodesAdaptor>
+					</rich:tree></td>
+					<td width="50%" valign="top">
+					<rich:tree switchType="client" immediate="true"
+						adviseNodeOpened="#{expandedTreeHelper.adviseNodeOpened}"
+						rendered="#{tree2_root!= null}">
+						<rich:recursiveTreeNodesAdaptor roots="#{tree2_root}" var="node2"
+							nodes="#{node2.children}">
+							<rich:treeNode>
+								<h:outputText value="#{node2.name}">
+								</h:outputText>
+							</rich:treeNode>
+						</rich:recursiveTreeNodesAdaptor>
+					</rich:tree></td>
+				</tr>
+			</table>
+		</s:div>
+	</rich:modalPanel>
+
+
+
+
+</ui:composition>

@@ -1,0 +1,58 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="scripts"></ui:define>
+
+	<ui:define name="content">
+		<div id="content">
+		<div class="margin-bottom-small border-bottom big">MiniMEE: Utilities for the administrator</div>
+		<div class="margin-bottom-big">
+		<h:form id="adminform">
+			<h:commandButton id="reloadRegistry"
+				action="#{miniMeeAdmin.reloadRegistry}"
+				value="Reload the deployed registry XML" />
+			<br />
+			<h:inputText value="#{miniMeeAdmin.localPath}" id="localPath"/>
+			<h:commandButton id="reloadRegistryFromPath"
+				action="#{miniMeeAdmin.reloadRegistryFromPath}"
+				value="Reload the registry from absolute local path" />
+			<br />
+			<h:commandButton id="benchmark"
+				action="#{miniMeeAdmin.benchmark}"
+				value="Calculate and set the benchmark score" />
+			<br />
+			<h:commandButton id="verifySetup"
+				action="#{miniMeeAdmin.verifySetup}"
+				value="Verify setup" />
+
+              <h:dataTable value="#{miniMeeAdmin.configs}" var="config"
+                  headerClass="align-horizontal-center margin-bottom-big margin-top-big margin-right-big margin-left-big" 
+                  columnClasses="margin-bottom-big margin-top-big margin-right-big margin-left-big align-horizontal-left border"
+                  rowClasses="margin-bottom-big margin-top-big border"
+                  styleClass="margin-top-big margin-bottom-big margin-left-big">
+                  <h:column>
+                      <f:facet name="header">
+                          <h:outputText style="font-weight:normal" value="ToolConfig" />
+                      </f:facet>
+                      <h:outputText style="font-weight:bold" value="#{config} " />
+                  </h:column>
+                  <h:column>
+                      <f:facet name="header">
+                          <h:outputText style="font-weight:normal" value="Status" />
+                      </f:facet>
+                      <h:outputText style="font-weight:bold" value="#{miniMeeAdmin.initResults[config]} " />
+                  </h:column>
+              </h:dataTable>
+
+		</h:form>
+	<br/>
+		</div>
+		
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,103 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://planets-project.eu/taglibs/plato"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<f:loadBundle basename="plato_messages" var="msg"/>
+	<h:form>
+	<c:if test="#{viewWorkflowManager.active}">
+        <rich:toolbar width="100%" height="30px"  itemSeparator="none">
+        	<rich:toolbarGroup>
+	            <rich:dropDownMenu mode="ajax">
+	                <f:facet name="label"> 
+	                    <h:panelGroup>
+	                        <h:outputText value="Plan"/>
+	                    </h:panelGroup>
+	                </f:facet>
+	                <rich:menuItem submitMode="client">
+	                    <h:commandLink onclick="return mayExit_noClick();" value="Close Plan"   
+	                                   action="#{viewWorkflowManager.endWorkflow()}" />
+	                </rich:menuItem>
+	                <rich:menuItem submitMode="client">
+				        <h:link value="Plan Settings" onclick="return mayExit_noClick();" outcome="/plan/plansettings.jsf">
+				            <f:param name="cid" value="#{javax.enterprise.context.conversation.id}"/>
+				        </h:link>
+	                </rich:menuItem>
+                    <rich:menuItem submitMode="client" >
+                        <h:commandLink onclick="return mayExit_noClick();" value="Download Plan"   
+                                       action="#{planSettings.downloadPlan()}" />
+                    </rich:menuItem>
+	            </rich:dropDownMenu>
+	        </rich:toolbarGroup>
+	        
+	        <rich:toolbarGroup rendered="#{!empty menu.getViewItems('')}">               
+               <c:forEach items="#{menu.getViewItems('')}" var="wfStep">
+                   <h:commandLink onclick="return mayExit_noClick();" value="#{wfStep.name}"   
+                                  action="#{viewWorkflow.goToStep(wfStep.currentPlanState)}"
+                                  disabled="#{not viewWorkflow.reachable(wfStep.currentPlanState)}" />
+				</c:forEach>
+			</rich:toolbarGroup>
+
+            <rich:toolbarGroup rendered="#{!empty menu.mainmenuItems}">
+	     		<c:forEach items="#{menu.mainmenuItems}" var="mainitem">
+		           <rich:dropDownMenu mode="ajax">
+		               <f:facet name="label"> 
+		                   <h:panelGroup>
+		                       <h:outputText value="#{msg[mainitem]}"/>
+		                   </h:panelGroup>
+		               </f:facet>
+		               <c:forEach items="#{menu.getViewItems(mainitem)}" var="wfStep">
+                            <rich:menuItem submitMode="client" onclick="">
+	                            <h:commandLink  onclick="return mayExit_noClick();" value="#{wfStep.name}"
+	                                            action="#{viewWorkflow.goToStep(wfStep.currentPlanState)}"  
+	                                            disabled="#{not viewWorkflow.reachable(wfStep.currentPlanState)}" />
+                            </rich:menuItem>
+							<ui:remove>
+								<rich:menuSeparator />
+							</ui:remove>
+						</c:forEach>
+		           </rich:dropDownMenu>
+				</c:forEach>
+			</rich:toolbarGroup> 
+		</rich:toolbar>
+		</c:if>
+		
+		<c:if test="#{!viewWorkflowManager.active}">
+		<rich:toolbar width="100%" height="30px"  itemSeparator="grid">
+		    <ui:remove>
+        	<!--
+        	<rich:toolbarGroup>
+	            <rich:dropDownMenu mode="ajax">
+	                <f:facet name="label"> 
+	                    <h:panelGroup>
+	                        <h:outputText value="Plan"/>
+	                    </h:panelGroup>
+	                </f:facet>
+	                
+                    <rich:menuItem submitMode="client">
+                        <h:commandLink value="List my plans" action="#{planLister.listMyProjects}" />
+                    </rich:menuItem>
+                    <rich:menuItem submitMode="client">
+                        <h:commandLink value="List public plans" action="#{planLister.listPublicProjects()}" />
+                    </rich:menuItem>
+                    <rich:menuItem submitMode="client">
+                        <h:commandLink value="List all plans" action="#{planLister.listAllProjects()}" />
+                    </rich:menuItem>
+	                <rich:menuSeparator />
+                    <rich:menuItem submitMode="client">
+                        <h:commandLink value="New plan" action="#{createPlan.createPlan}" />
+                    </rich:menuItem>
+	            </rich:dropDownMenu>
+	           </rich:toolbarGroup>
+	           -->
+	           </ui:remove>
+           </rich:toolbar>
+		</c:if>
+		
+	</h:form>		
+</ui:composition>

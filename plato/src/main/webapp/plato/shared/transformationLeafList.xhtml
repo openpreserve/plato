@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                xmlns:p="http://java.sun.com/jsf/composite/plato"    
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+			<h:dataTable style="width:100%" value="#{leaves}" var="leaf">
+			    <h:column>
+			    
+                <h2>
+                   <h:outputText value="#{leaf.parent.name} > #{leaf.name}" />
+                </h2>
+                <!-- TABLE LAYOUT! -->
+                <table>
+                   <tr>
+                      <td style="width:500px">
+                         <!-- Ordinal -->
+                         <a4j:outputPanel layout="block" rendered='#{leaf.scale.type == "ordinal"}'>
+                            <h:dataTable  style="width:100%"
+                               value="#{leaf.scale.list}"
+                               var="ordinalValue"
+                               headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap"
+                               columnClasses="margin-top-small margin-bottom-small margin-left-small margin-right-small">
+                               <h:column>
+                                  <f:facet name="header">
+                                     <h:outputText  value="Ordinal Value" />
+                                  </f:facet>
+                                  <h:outputText
+                                     value="#{ordinalValue}" />
+                               </h:column>
+                               <h:column>
+                                  <f:facet name="header">
+                                     <h:outputText value="Target Value" />
+                                  </f:facet>
+                                     <h:outputText  value="-> " />
+                                     <h:inputText maxlength="20"
+                                        id="targetval"
+                                        value="#{leaf.transformer.mapping[ordinalValue].value}">
+                                        <f:validator validatorId="TargetValueValidator"/>
+                                        <f:converter converterId="NumberConverter" />
+                                        <a4j:ajax event="change" listener="#{leaf.transformer.touch}" onbeforesubmit="changed()" execute="@this"/>
+                                     </h:inputText>
+                                     <h:outputText styleClass="requiredIndicator"
+                                        rendered="#{not leaf.transformer.changed}"
+                                        value="*" />
+                                  <div class="nonwrapped">
+                                     <rich:message for="targetval" />
+                                  </div>
+                               </h:column>
+                            </h:dataTable>
+                         </a4j:outputPanel>
+                         
+                         <!-- Numerical -->
+                         <a4j:outputPanel layout="block" rendered='#{leaf.scale.type != "ordinal"}'>
+                            <table style="width:100%">
+                               <tr>
+                                  <th  class="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap">
+                                     Threshold
+                                  </th>
+                                  <th class="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap">
+                                     Target value
+                                  </th>
+                               </tr>
+                               
+                               <p:threshold leaf="#{leaf}" threshold="#{leaf.transformer.threshold1}" textid="num1" index="1"/>
+                               <p:threshold leaf="#{leaf}" threshold="#{leaf.transformer.threshold2}" textid="num2" index="2"/>
+                               <p:threshold leaf="#{leaf}" threshold="#{leaf.transformer.threshold3}" textid="num3" index="3"/>
+                               <p:threshold leaf="#{leaf}" threshold="#{leaf.transformer.threshold4}" textid="num4" index="4"/>
+                               <p:threshold leaf="#{leaf}" threshold="#{leaf.transformer.threshold5}" textid="num5" index="5"/>                  
+                            </table>
+                            
+                            <h3>
+                               <h:outputText
+                                  value="Threshold stepping:" />
+                            </h3>
+                            <h:selectOneRadio style="width:450px;" value="#{leaf.transformer.mode}" required="true">
+                               <f:selectItems value="#{leaf.transformer.mode.enumValues}" var="enumValue" itemLabel="#{enumValue.name}" />
+                               <a4j:ajax event="change" listener="#{leaf.transformer.touch}" onbeforesubmit="changed()" execute="@this"/>
+                            </h:selectOneRadio>
+                            
+                         </a4j:outputPanel>
+                         <!-- TABLE LAYOUT -->
+                      </td>
+                      
+                      <td style="width:50px"></td>
+                      <td>
+                      
+                         <!-- TODO stylesheet: dieser datatable RECHTS von allem was innerhalb dieses forEachs vor diesem comment ist -->
+                         <!-- TABLE LAYOUT -->
+                         <h:dataTable
+                            value="#{consideredAlternatives}"
+                            var="alter"
+                            headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border"
+                            columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big">
+                            <h:column>
+                               <f:facet name="header">
+                                  <h:outputText
+                                     value="Results" />
+                               </f:facet>
+                               <h:outputText
+                                  value="#{alter.name}" />
+                            </h:column>
+                                  <h:column rendered="#{leaf.single}">
+                                     <f:facet name="header">
+                                        <h:outputText value="Single" />
+                                     </f:facet>
+                                     <h:outputText value="#{leaf.valueMap[alter.name].list[0].value}">
+                                        <f:convertNumber maxFractionDigits="2" />
+                                     </h:outputText>
+                                  </h:column>
+
+								  <!-- rendered is only possible inside the c:foreach at the column level.
+							           so iteration happens a bit too oft, but that's ok, nothing is rendered
+									   if it is a single leaf -->
+                                  <c:forEach items="#{samples}"
+                                     varStatus="status">
+                                     <h:column rendered="#{not leaf.single}">
+                                        <f:facet
+                                           name="header">
+                                           <h:outputText
+                                              value="#{status.index + 1}" />
+                                        </f:facet>
+                                        <h:outputText value="#{leaf.valueMap[alter.name].list[status.index].value}">
+                                           <f:convertNumber maxFractionDigits="2" />
+                                        </h:outputText>
+                                     </h:column>
+                                  </c:forEach>
+                         </h:dataTable>
+                      </td>
+                   </tr>
+                </table>
+                
+                <c:if test="#{!leaf.single}">
+                   <h3>
+                      <h:outputText value="Aggregation mode: " />
+                   </h3>
+                   <!-- Default value for the scale type is selected automatically by the model -->
+                   <h:selectOneRadio style="width:500px;" value="#{leaf.aggregationMode}" required="true">
+                      <f:selectItems value="#{leaf.aggregationMode.enumValues}" var="enumValue" itemLabel="#{enumValue.name}" />
+                      <a4j:ajax event="change" listener="#{leaf.touch}" onbeforesubmit="changed()" execute="@this"/>
+                   </h:selectOneRadio>
+                </c:if>
+                
+                <div class="margin-top-small margin-bottom-small border-bottom big" />
+                
+                </h:column>
+            </h:dataTable>
+
+</ui:composition>

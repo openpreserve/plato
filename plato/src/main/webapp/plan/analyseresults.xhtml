@@ -1,0 +1,883 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:c="http://java.sun.com/jsp/jstl/core"
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+
+    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+    <ui:define name="content">
+    <h:outputStylesheet name="css/workflow.css"/>
+
+        <h1> Analyse results for #{analyseResults.plan.planProperties.name}</h1>
+        
+        <!-- ********** plan data ********** -->
+        
+        <div class="center-position">
+	        <div><small> Report creation date: #{analyseResults.currentDate} </small></div>
+	        <h:form>
+	            <div id="future_in_menu_bar" />
+	            <a4j:outputPanel layout="inline" id="changelogButtons">
+		            <a4j:commandButton id="changelogButtonHide" rendered="#{analyseResults.displayChangelogs}" value="Hide Changelogs"
+		                               action="#{analyseResults.switchDisplayChangelogs}" render="changelogButtons, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evaluationTable" />
+		            <a4j:commandButton id="changelogButtonShow" rendered="#{!analyseResults.displayChangelogs}" value="Display Changelogs"
+		                               action="#{analyseResults.switchDisplayChangelogs}" render="changelogButtons, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evaluationTable" />
+                </a4j:outputPanel>
+	        </h:form>
+        </div>
+        
+        <div class="component">
+	        <div class="label"><strong><h:outputLabel for="planname">Plan name</h:outputLabel></strong></div> 
+	        <div class="input"><h:outputText id="planname" value="#{analyseResults.plan.planProperties.name}" /></div>
+        </div>
+        <div class="component">
+	        <div class="label"><strong><h:outputLabel for="statename">Current state</h:outputLabel></strong> </div>
+	        <div class="input"><h:outputText id="statename" value="#{analyseResults.plan.stateName}" /></div>
+        </div>
+        <div class="component">
+	        <div class="label"><strong><h:outputLabel for="plandescription">Plan description</h:outputLabel></strong></div> 
+	        <div class="input"><h:outputText id="plandescription" value="#{analyseResults.plan.planProperties.description}" /></div>
+        </div>
+        <div class="component">
+	        <div class="label"><strong><h:outputLabel for="planners">Responsible planners</h:outputLabel></strong></div>
+	        <div class="input"> <h:outputText id="planners" value="#{analyseResults.plan.planProperties.author}" /></div>
+        </div>
+        <div class="component">
+	        <div class="label"><strong><h:outputLabel for="organization">Organization</h:outputLabel></strong></div>
+	        <div class="input"> <h:outputText id="organization" value="#{analyseResults.plan.planProperties.organization}" /></div>
+        </div>
+
+        <a4j:outputPanel layout="inline" id="planChangelog">
+        <a4j:outputPanel layout="block" rendered="#{analyseResults.displayChangelogs}">
+            <table class="table-small">
+                <tr>
+                    <th width="80px" class="tableStyle-header"></th>
+                    <th width="160px" class="tableStyle-header">Date</th>
+                    <th width="160px" class="tableStyle-header">User</th>
+                </tr>
+                <tr>
+                    <td>Created</td>
+                    <td><h:outputText value="#{analyseResults.plan.planProperties.changeLog.createdString}" /></td>
+                    <td><h:outputText value="#{analyseResults.plan.planProperties.changeLog.createdBy}" /></td>
+                </tr>
+                <tr>
+                    <td>Changed</td>
+                    <td><h:outputText value="#{analyseResults.plan.planProperties.changeLog.changedString}" /></td>
+                    <td><h:outputText value="#{analyseResults.plan.planProperties.changeLog.changedBy}" /></td>
+                </tr>
+            </table>
+        </a4j:outputPanel>
+        </a4j:outputPanel>
+
+        <!-- ********** navigation ********** -->
+        
+        <ul class="anchors">
+            <li class="anchors"><a href="#identstatus" class="anchors">Identification and Status</a></li>
+            <li class="anchors"><a href="#institutionalsetting" class="anchors">Institutional Setting</a></li>
+            <li class="anchors"><a href="#samplerecords" class="anchors">Collection and Sample Records</a></li>
+            <li class="anchors"><a href="#requirements" class="anchors">Requirements</a></li>
+            <li class="anchors"><a href="#alternatives" class="anchors">Alternatives</a></li>
+            <li class="anchors"><a href="#gonogo" class="anchors">Go-Decision</a></li>
+            <li class="anchors"><a href="#experiments" class="anchors">Experiments</a></li>
+            <li class="anchors"><a href="#evaluation" class="anchors">Evaluation &amp; Transformation</a></li>
+            <li class="anchors"><a href="#resultsMult" class="anchors">Results: Weighted multiplication</a></li>
+            <li class="anchors"><a href="#resultsSum" class="anchors">Results: Weighted sum</a></li>
+            <li class="anchors"><a href="#sensitivity-analysis" class="anchors">Sensitivity analysis</a></li>
+            <li class="anchors"><a href="#conclusion" class="anchors">Conclusion</a></li>
+        </ul>
+
+        <!-- ********** identification and status ********** -->
+        
+        <a name="identstatus" />
+        
+        <div id="menu" class="menu-step"> <h2>Identification and Status</h2> </div>
+
+        <table border="0" class="text-table">
+            <tr>
+                <th width="20%"></th>
+                <th width="80%"></th>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Identification code<br/></b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode1" value="#{analyseResults.plan.projectBasis.identificationCode}" /></td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Planning purpose<br/></b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode4" value="#{analyseResults.plan.projectBasis.planningPurpose}" /></td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Plan relations</b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode10" value="#{analyseResults.plan.projectBasis.planRelations}" /></td>
+            </tr>
+            
+            <tr>
+                <td  style="padding-top:10px"><b>Triggers</b></td>
+                <td style="padding-top:10px">
+                    <table  class="tableStyle">
+                        <tr>
+                            <th width="170px" class="tableStyle-header">Trigger</th>
+                            <th class="tableStyle-header">Description</th>
+                        </tr>
+    
+                        <p:outputTrigger trigger="#{analyseResults.plan.projectBasis.triggers.newCollection}" />
+                        <p:outputTrigger trigger="#{analyseResults.plan.projectBasis.triggers.periodicReview}" />
+                        <p:outputTrigger trigger="#{analyseResults.plan.projectBasis.triggers.changedEnvironment}" />
+                        <p:outputTrigger trigger="#{analyseResults.plan.projectBasis.triggers.changedObjective}" />
+                        <p:outputTrigger trigger="#{analyseResults.plan.projectBasis.triggers.changedCollectionProfile}" />
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <h:form id="policytreeform">                                     
+             <ui:include src="/plato/shared/policytree.xhtml">
+                 <ui:param name="treeHelper" value="#{analyseResults.policytreeHelper}" />
+                 <ui:param name="policyTree" value="#{analyseResults.plan.projectBasis.policyTree}" />
+                 <ui:param name="policyRoot" value="#{analyseResults.policyRoots}" />
+             </ui:include>
+        </h:form>
+
+        <a4j:outputPanel layout="inline" id="basisChangelog">
+        <a4j:outputPanel layout="block" rendered="#{analyseResults.displayChangelogs}">
+            <table class="table-small">
+                <tr>
+                    <th width="80px" class="tableStyle-header"></th>
+                    <th width="160px" class="tableStyle-header">Date</th>
+                    <th width="160px" class="tableStyle-header">User</th>
+                </tr>
+                <tr>
+                    <td>Created</td>
+                    <td><h:outputText value="#{analyseResults.plan.projectBasis.changeLog.createdString}" /></td>
+                    <td><h:outputText value="#{analyseResults.plan.projectBasis.changeLog.createdBy}" /></td>
+                </tr>
+                <tr>
+                    <td>Changed</td>
+                    <td><h:outputText value="#{analyseResults.plan.projectBasis.changeLog.changedString}" /></td>
+                    <td><h:outputText value="#{analyseResults.plan.projectBasis.changeLog.changedBy}" /></td>
+                </tr>
+            </table>        
+        </a4j:outputPanel>
+        </a4j:outputPanel>        
+
+        <!-- ********** institutional setting ********** -->
+        
+        <a name="institutionalsetting" />
+        
+        <div id="menu" class="menu-step"> <h2>Institutional Setting</h2> </div>
+        
+        <table>    
+            <tr>
+                <td  style="padding-top:10px"><b>Document types<br/></b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode2" value="#{analyseResults.plan.projectBasis.documentTypes}" /></td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Mandate<br/></b></td>
+                <td  style="padding-top:10px">
+                  <h:outputText id="idcode3" value="#{analyseResults.plan.projectBasis.mandate}" />
+                </td>
+            </tr>
+
+            <tr>
+                <td  style="padding-top:10px"><b>Designated community<br/></b></td>
+                <td  style="padding-top:10px">
+                  <h:outputText id="idcode5" value="#{analyseResults.plan.projectBasis.designatedCommunity}" />
+                </td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Applying policies</b></td>
+                <td  style="padding-top:10px">
+                  <h:outputText id="idcode6" value="#{analyseResults.plan.projectBasis.applyingPolicies}" />
+                </td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Relevant organisational procedures and workflows</b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode7" value="#{analyseResults.plan.projectBasis.organisationalProcedures}" /></td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Contracts and agreements specifying preservation rights</b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode8" value="#{analyseResults.plan.projectBasis.preservationRights}" /></td>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Reference to agreements of maintenance and access</b></td>
+                <td  style="padding-top:10px"><h:outputText id="idcode9" value="#{analyseResults.plan.projectBasis.referenceToAgreements}" /></td>
+            </tr>
+        </table>        
+        
+        <!-- ********** sample records ********** -->
+        
+        <a name="samplerecords" />
+        
+        <div id="menu" class="menu-step"> <h2>Collection and Sample Records</h2> </div>
+        
+        <table>
+            <tr>
+                <th width="20%"></th>
+                <th width="80%"></th>
+            </tr>
+            <tr>
+                <td  style="padding-top:10px"><b>Samples description:<br />
+                </b></td>
+                <td  style="padding-top:10px"><h:outputText id="idsamplesdescription"
+                    value="#{analyseResults.plan.sampleRecordsDefinition.samplesDescription}" /></td>
+            </tr>
+        </table>
+
+        <h3>Collection profile</h3>
+        <fieldset class="size-full">
+	        <div style="clear:both;"><strong><h:outputLabel for="collid">Collection ID:</h:outputLabel></strong> <h:outputText
+	            id="collid" value="#{analyseResults.plan.sampleRecordsDefinition.collectionProfile.collectionID}" /></div>
+	        <div style="clear:both;"><strong><h:outputLabel for="colldesc">Description:</h:outputLabel></strong> <h:outputText
+	            id="colldesc" value="#{analyseResults.plan.sampleRecordsDefinition.collectionProfile.description}" /></div>
+	        <div style="clear:both;"><strong><h:outputLabel for="colltype">Type of objects:</h:outputLabel></strong> <h:outputText
+	            id="colltype" value="#{analyseResults.plan.sampleRecordsDefinition.collectionProfile.typeOfObjects}" /></div>
+	        <div style="clear:both;"><strong><h:outputLabel for="collnum">Number of objects:</h:outputLabel></strong> <h:outputText
+	            id="collnum" value="#{analyseResults.plan.sampleRecordsDefinition.collectionProfile.numberOfObjects}" /></div>
+	        <div style="clear:both;"><strong><h:outputLabel for="growthrate">Expected growth rate:</h:outputLabel></strong> <h:outputText
+	            id="growthrate" value="#{analyseResults.plan.sampleRecordsDefinition.collectionProfile.expectedGrowthRate}" /></div>
+
+	        <a4j:outputPanel layout="inline" id="collectionChangelog">
+	        <a4j:outputPanel layout="block" rendered="#{analyseResults.displayChangelogs}">
+	            <tr>
+	                <td><strong>Changelog:</strong></td>
+	                <td>
+	                <table class="table-small">
+	                    <tr>
+	                        <th width="80px" class="tableStyle-header"></th>
+	                        <th width="160px" class="tableStyle-header">Date</th>
+	                        <th width="160px" class="tableStyle-header">User</th>
+	                    </tr>
+	                    <tr>
+	                        <td>Created</td>
+	                        <td><h:outputText value="#{analyseResults.plan.sampleRecordsDefinition.changeLog.createdString}" /></td>
+	                        <td><h:outputText value="#{analyseResults.plan.sampleRecordsDefinition.changeLog.createdBy}" /></td>
+	                    </tr>
+	                    <tr>
+	                        <td>Changed</td>
+	                        <td><h:outputText value="#{analyseResults.plan.sampleRecordsDefinition.changeLog.changedString}" /></td>
+	                        <td><h:outputText value="#{analyseResults.plan.sampleRecordsDefinition.changeLog.changedBy}" /></td>
+	                    </tr>
+	                </table>
+	                </td>
+	            </tr>
+	        </a4j:outputPanel>
+	        </a4j:outputPanel>        
+        </fieldset>
+        
+        <h:form id="samplesform" class="center-position">
+            <div>
+            <h:dataTable value="#{analyseResults.plan.sampleRecordsDefinition.records}" var="sampleRecord"
+                styleClass="tableStyle table-small"
+                headerClass="tableStyle-header"
+                >
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Name" />
+                    </f:facet>
+                    <h:outputText rendered="#{not sampleRecord.dataExistent}" value="#{sampleRecord.fullname}" />
+                    <h:commandLink rendered="#{sampleRecord.dataExistent}" action="#{analyseResults.downloadSample(sampleRecord)}">
+                        <h:outputText value="#{sampleRecord.fullname}" />
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Short name" />
+                    </f:facet>
+                    <h:outputText value="#{sampleRecord.shortName}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Description" />
+                    </f:facet>
+                    <h:outputText value="#{sampleRecord.description}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Original environment" />
+                    </f:facet>
+                    <h:outputText value="#{sampleRecord.originalTechnicalEnvironment}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Data" />
+                    </f:facet>
+                    <h:outputText value="No data" rendered="#{not sampleRecord.dataExistent}" />
+                    <h:outputText value="Data existent (#{sampleRecord.data.size}B)" rendered="#{sampleRecord.dataExistent}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Object-format" />
+                    </f:facet>
+                    <table class="margin-bottom-huge">
+                        <tr>
+                            <td width="100px"><strong>PUID:</strong></td>
+                            <td><h:outputText value="#{sampleRecord.formatInfo.puid}" /></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td><h:outputText value="#{sampleRecord.formatInfo.name}" /></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Version:</strong></td>
+                            <td><h:outputText value="#{sampleRecord.formatInfo.version}" /></td>
+                        </tr>
+                        <tr>
+                            <td><strong>mime-type:</strong></td>
+                            <td><h:outputText value="#{sampleRecord.formatInfo.mimeType}" /></td>
+                        </tr>
+                    </table>
+                </h:column>
+
+                <h:column rendered="#{analyseResults.displayChangelogs}">
+                    <f:facet name="header">
+                        <h:outputText value="Changelog" />
+                    </f:facet>
+                    <table class="table-small">
+                        <tr>
+                            <th width="80px" class="tableStyle-header"></th>
+                            <th width="160px" class="tableStyle-header">Date</th>
+                            <th width="160px" class="tableStyle-header">User</th>
+                        </tr>
+                        <tr>
+                            <td>Created</td>
+                            <td><h:outputText value="#{sampleRecord.changeLog.createdString}" /></td>
+                            <td><h:outputText value="#{sampleRecord.changeLog.createdBy}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Changed</td>
+                            <td><h:outputText value="#{sampleRecord.changeLog.changedString}" /></td>
+                            <td><h:outputText value="#{sampleRecord.changeLog.changedBy}" /></td>
+                        </tr>
+                    </table>
+                </h:column>
+
+            </h:dataTable>
+            </div>
+        </h:form>
+
+        <!-- ********** requirements ********** -->
+        
+        <a name="requirements" />
+        
+        <div id="menu" class="menu-step"> <h2>Requirements &amp; Weighting</h2> </div>
+        
+        <a4j:outputPanel layout="block" styleClass="center-position" id="requirements">
+            <ui:include src="/plato/shared/treeSummary.xhtml">
+                <ui:param name="treeHelper" value="#{analyseResults.requirementstreeHelper}" />
+                <ui:param name="rootNode" value="#{analyseResults.requirementsRoots}" />
+                <ui:param name="displayChangelogs" value="#{analyseResults.displayChangelogs}" />
+            </ui:include>
+        </a4j:outputPanel>        
+        
+        <!-- ********** alternatives ********** -->
+        
+        <a name="alternatives" />
+        
+        <div id="menu" class="menu-step"> <h2>Alternatives</h2> </div>
+        
+        <div class="center-position">
+            <strong><h:outputLabel for="alternativesDescription">Evaluation comments:</h:outputLabel></strong>
+            <h:outputText id="alternativesDescription" value="#{analyseResults.plan.alternativesDefinition.description}" />
+        </div>
+
+        <h:dataTable id="alternativesTable"
+            value="#{analyseResults.plan.alternativesDefinition.alternatives}" var="alt"
+            class="tableStyle table-small"
+            headerClass="tableStyle-header"
+            >
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name" />
+                </f:facet>
+                <h:outputText value="#{alt.name}" class="size-max" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Description" />
+                </f:facet>
+                <h:outputText value="#{alt.description}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Reason for considering" />
+                </f:facet>
+                <h:outputText value="#{alt.resourceDescription.reasonForConsidering}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Config settings" />
+                </f:facet>
+                <h:outputText value="#{alt.resourceDescription.configSettings}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Necessary resources" />
+                </f:facet>
+                <h:outputText value="#{alt.resourceDescription.necessaryResources}" />
+            </h:column>
+
+            <h:column rendered="#{analyseResults.displayChangelogs}">
+                <f:facet name="header">
+                    <h:outputText value="Changelog" />
+                </f:facet>
+                <table>
+                    <tr>
+                        <th width="80px"></th>
+                        <th width="160px">Date</th>
+                        <th width="160px">User</th>
+                    </tr>
+                    <tr>
+                        <td>Created</td>
+                        <td><h:outputText value="#{alt.changeLog.createdString}" /></td>
+                        <td><h:outputText value="#{alt.changeLog.createdBy}" /></td>
+                    </tr>
+                    <tr>
+                        <td>Changed</td>
+                        <td><h:outputText value="#{alt.changeLog.changedString}" /></td>
+                        <td><h:outputText value="#{alt.changeLog.changedBy}" /></td>
+                    </tr>
+                </table>
+            </h:column>
+        </h:dataTable>
+        
+        <!-- ********** go-decisions ********** -->
+        
+        <a name="gonogo" />
+        
+        <div id="menu" class="menu-step"> <h2>Go-Decision</h2> </div>
+
+        <div class="center-position">
+            <div style="clear:both;">
+                <strong><h:outputLabel for="godecision">Decision:</h:outputLabel></strong>
+                <h:outputText id="godecision" value="#{analyseResults.plan.decision.decision}" />
+            </div>
+            <div style="clear:both;">
+                <strong><h:outputLabel for="goreason">Reason:</h:outputLabel></strong>
+                <h:outputText id="goreason" value="#{analyseResults.plan.decision.reason}" />
+            </div>
+	        <div style="clear:both;">
+	           <strong><h:outputLabel for="actionneeded">Action needed:</h:outputLabel></strong>
+	           <h:outputText id="actionneeded" value="#{analyseResults.plan.decision.actionNeeded}" />
+            </div>
+        </div>
+
+        <!-- ********** experiments ********** -->
+        
+        <a name="experiments" />
+        
+        <div id="menu" class="menu-step"> <h2>Experiments</h2> </div>
+
+        <h:dataTable id="experimentsTable" class="tableStyle table-small"
+            value="#{analyseResults.plan.alternativesDefinition.consideredAlternatives}" var="alt"
+            headerClass="tableStyle-header">
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Alternative" />
+                </f:facet>
+                <h:outputText value="#{alt.name}" class="size-max" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Experiment description" />
+                </f:facet>
+                <h:outputText value="#{alt.experiment.description}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Run description" />
+                </f:facet>
+                <h:outputText value="#{alt.experiment.detailedRunDescription}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Experiment data uploaded" />
+                </f:facet>
+
+                <h:outputText value="Yes" rendered="#{alt.experiment.recordUploaded}" />
+                <h:outputText value="No" rendered="#{not alt.experiment.recordUploaded}" />
+            </h:column>
+
+            <!-- TODO
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Result" />
+            </f:facet>
+            Download
+        </h:column> -->
+
+            <h:column rendered="#{analyseResults.displayChangelogs}">
+                <f:facet name="header">
+                    <h:outputText value="Changelog" />
+                </f:facet>
+                <table class="table-small">
+                    <tr>
+                        <th width="80px" class="tableStyle-header"></th>
+                        <th width="160px" class="tableStyle-header">Date</th>
+                        <th width="160px" class="tableStyle-header">User</th>
+                    </tr>
+                    <tr>
+                        <td>Created</td>
+                        <td><h:outputText value="#{alt.experiment.changeLog.createdString}" /></td>
+                        <td><h:outputText value="#{alt.experiment.changeLog.createdBy}" /></td>
+                    </tr>
+                    <tr>
+                        <td>Changed</td>
+                        <td><h:outputText value="#{alt.experiment.changeLog.changedString}" /></td>
+                        <td><h:outputText value="#{alt.experiment.changeLog.changedBy}" /></td>
+                    </tr>
+                </table>
+            </h:column>
+        </h:dataTable>
+
+        <!-- ********** evaluation ********** -->
+        
+        <a name="evaluation" />
+        
+        <div id="menu" class="menu-step"> <h2>Evaluation &amp; Transformation</h2> </div>
+
+        <a4j:outputPanel layout="block" styleClass="center-position" id="evaluationTable">
+	        <ui:repeat value="#{analyseResults.leafBeans}" var="bean">
+	            <a name="results#{bean.leaf.id}" />
+	            <h3><h:outputText value="#{bean.leaf.parent.name} > #{bean.leaf.name}" /></h3>
+	
+	            <!-- TABLE LAYOUT! -->
+	            <table border="0">
+	                <tr>
+	                    <td class="column-validation-results">
+	                     <h4>Results</h4>
+	
+	                     <rich:dataTable value="#{analyseResults.plan.alternativesDefinition.consideredAlternatives}" var="alter"
+	                         headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border "
+	                         columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big ">
+	                         <rich:column>
+	                             <f:facet name="header">
+	                                 <h:outputText value="Alternatives" />
+	                             </f:facet>
+	                             <h:outputText value="#{alter.name}" />
+	                         </rich:column>
+	
+	                         <rich:column rendered="#{bean.leaf.single}">
+	                             <f:facet name="header">
+	                                 <h:outputText value="Result" />
+	                             </f:facet>
+	                             <h:outputText value="#{bean.leaf.valueMap[alter.name].list[0].value}" />
+	                         </rich:column>
+	
+	                         <c:forEach items="#{analyseResults.plan.sampleRecordsDefinition.records}" varStatus="status">
+	                             <rich:column rendered="#{not bean.leaf.single}">
+	                                 <f:facet name="header">
+	                                     <h:outputText value="#{status.index+1}" />
+	                                 </f:facet>
+	                                 <h:outputText value="#{bean.leaf.valueMap[alter.name].list[status.index].value}" />
+	                                 </rich:column>
+	                         </c:forEach>
+	                     </rich:dataTable>
+	                    </td>
+	                    <td class="column-validation-results">
+	                     <h4>Transformer</h4>
+	
+	                     <!-- Ordinal -->
+	                     <f:subview rendered='#{bean.leaf.scale.type == "ordinal"}'>
+	                         <h:dataTable value="#{bean.leaf.scale.list}" var="ordinalValue"
+	                             styleClass="rf-dt"
+                                 headerClass="rf-dt-shdr-c"
+                                 columnClasses="rf-dt-c,rf-dt-c">
+	                             <h:column>
+	                                 <f:facet name="header">
+	                                     <h:outputText value="Ordinal Value" />
+	                                 </f:facet>
+	                                 <h:outputText value="#{ordinalValue}" />
+	                             </h:column>
+	
+	                             <h:column>
+	                                 <f:facet name="header">
+	                                     <h:outputText value="Target Value" />
+	                                 </f:facet>
+	                                 <h:outputText value="-> " />
+	                                 <h:outputText value="#{bean.leaf.transformer.mapping[ordinalValue].value}" />
+	                             </h:column>
+	                         </h:dataTable>
+	                     </f:subview> 
+	                                            
+	                     <!-- Numerical --> 
+	                     <f:subview rendered='#{bean.leaf.scale.type != "ordinal"}'>
+	                         <table class="rf-dt">
+	                             <tr>
+	                                 <th class="rf-dt-shdr-c">Threshold</th>
+	                                 <th class="rf-dt-shdr-c">Target value</th>
+	                             </tr>
+	
+	                             <p:thresholditem threshold="#{bean.leaf.transformer.threshold1}" index="1" unit="#{bean.leaf.scale.unit}"/>
+	                             <p:thresholditem threshold="#{bean.leaf.transformer.threshold2}" index="2" unit="#{bean.leaf.scale.unit}"/>
+	                             <p:thresholditem threshold="#{bean.leaf.transformer.threshold3}" index="3" unit="#{bean.leaf.scale.unit}"/>
+	                             <p:thresholditem threshold="#{bean.leaf.transformer.threshold4}" index="4" unit="#{bean.leaf.scale.unit}"/>
+	                             <p:thresholditem threshold="#{bean.leaf.transformer.threshold5}" index="5" unit="#{bean.leaf.scale.unit}"/>
+	                     
+	                         </table>
+	                         <h:outputText value="Threshold stepping:" /><br/>
+	                         <h:outputText value="#{bean.leaf.transformer.mode}" />
+	                     </f:subview>
+	
+	                     <ui:fragment rendered="#{analyseResults.displayChangelogs}">	
+	                         <h4>Transformer-Changelog</h4>
+	
+	                         <table class="table-small">
+	                             <tr>
+	                                 <th width="80px" class="tableStyle-header"></th>
+	                                 <th width="160px" class="tableStyle-header">Date</th>
+	                                 <th width="160px" class="tableStyle-header">User</th>
+	                             </tr>
+	                             <tr>
+	                                 <td>Created</td>
+	                                 <td><h:outputText value="#{bean.leaf.transformer.changeLog.createdString}" /></td>
+	                                 <td><h:outputText value="#{bean.leaf.transformer.changeLog.createdBy}" /></td>
+	                             </tr>
+	                             <tr>
+	                                 <td>Changed</td>
+	                                 <td><h:outputText value="#{bean.leaf.transformer.changeLog.changedString}" /></td>
+	                                 <td><h:outputText value="#{bean.leaf.transformer.changeLog.changedBy}" /></td>
+	                             </tr>
+	                         </table>
+	                     </ui:fragment>
+	                    </td>
+	                    <td class="column-validation-results">
+	                     <h4>Transformed Results</h4>
+	
+	                     <!-- Transformed + aggregated values --> 
+	                     <rich:dataTable
+	                         value="#{analyseResults.plan.alternativesDefinition.consideredAlternatives}" var="alter"
+	                         headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap"
+	                         columnClasses="margin-top-small margin-bottom-small margin-left-big comment-medium">
+	                         <rich:column>
+	                             <f:facet name="header">
+	                                 <h:outputText value="Alternatives" />
+	                             </f:facet>
+	                             <h:outputText value="#{alter.name}" />
+	                         </rich:column>
+	
+	                         <!-- <ui:fragment rendered="#{bean.leaf.single}">-->
+	                                 <rich:column rendered="#{bean.leaf.single}">
+	                                     <f:facet name="header">
+	                                         <h:outputText value="Result" />
+	                                     </f:facet>
+	                                     <h:outputText value="#{bean.resultValues[alter]}">
+	                                         <f:convertNumber maxFractionDigits="2" />
+	                                     </h:outputText>
+	                                 </rich:column>
+	                             <!-- </ui:fragment>-->
+	
+	                             <!-- <ui:fragment rendered="#{not bean.leaf.single}">-->
+	                                 <c:forEach items="#{analyseResults.plan.sampleRecordsDefinition.records}" varStatus="status">
+	                                     <rich:column rendered="#{not bean.leaf.single}">
+	                                         <f:facet name="header">
+	                                             <h:outputText value="#{status.index + 1}" />
+	                                         </f:facet>
+	                                         <h:outputText value="#{bean.transformedValues[alter].list[status.index].value}">
+	                                             <f:convertNumber maxFractionDigits="2" />
+	                                         </h:outputText>
+	                                     </rich:column>
+	                                 </c:forEach>
+	
+	                                 <rich:column rendered="#{not bean.leaf.single}">
+	                                     <f:facet name="header">
+	                                         <h:outputText value="Aggregated result" />
+	                                     </f:facet>
+	                                     <h:outputText value="#{bean.resultValues[alter]}">
+	                                         <f:convertNumber maxFractionDigits="2" />
+	                                     </h:outputText>
+	
+	                                 </rich:column>
+	
+	                             <!-- </ui:fragment>-->
+	
+	                         <rich:column>
+	                             <f:facet name="header">
+	                                 <h:outputText value="Comments" />
+	                             </f:facet>
+	                             <h:outputText value="#{bean.leaf.valueMap[alter.name].comment}" />
+	                         </rich:column>	
+	                     </rich:dataTable> 
+	                     
+	                     <h:outputText value="Aggregation mode: #{bean.leaf.aggregationMode}" rendered="#{!bean.leaf.single}" />
+	                    </td>
+	                </tr>
+	            </table>
+	
+	            <div class="margin-top-small margin-bottom-small border-bottom big" />
+	        </ui:repeat>
+	
+	        <div style="clear:both;">
+	            <strong><h:outputLabel for="evalcomments">Evaluation comments:</h:outputLabel></strong>
+	            <h:outputText id="evalcomments" value="#{analyseResults.plan.evaluation.comment}" />
+	        </div>
+	        <div style="clear:both;">
+	            <strong><h:outputLabel for="transcomments">Transformation comments:</h:outputLabel></strong>
+	            <h:outputText id="transcomments" value="#{analyseResults.plan.transformation.comment}" />
+	        </div>	        
+        </a4j:outputPanel>
+
+        <!-- ********** results weighted multiplication ********** -->
+        
+        <a name="resultsMult" />
+
+        
+        <p:help text="How do the aggregation mechanisms work?" url="/plato/help/aggregation.html" />
+        <div id="menu" class="menu-step"> 
+        <h2>Results: Weighted multiplication</h2> </div>
+	    <div class="center-position"> <small>Result-Tree with all Alternatives, Aggregation method: Weighted multiplication</small> </div>
+
+        <div class="center-position">
+	        <ui:include src="/plato/shared/resultTree.xhtml">
+               <ui:param name="treeHelper" value="#{analyseResults.resultstreeHelper}"/>
+	           <ui:param name="rootNode" value="#{analyseResults.aggMultResultNodes}" />
+	           <ui:param name="alternatives" value="#{analyseResults.plan.alternativesDefinition.consideredAlternatives}" />
+	        </ui:include>
+        </div>
+        
+        <!-- ********** results weighted multiplication ********** -->
+        
+        <a name="resultsSum" />
+
+        <div id="menu" class="menu-step"> <h2>Results: Weighted sum</h2> </div>
+        
+        <a4j:outputPanel layout="block" id="weightedSumResults" styleClass="center-position"> 
+            <small>
+                Result-Tree with all Alternatives, Aggregation method: Weighted sum
+                
+                <h:form>                    
+	                <a4j:commandButton value="Hide rejected alternatives" action="#{analyseResults.switchShowAllConsideredAlternativesForWeightedSum()}"
+	                                   rendered="#{analyseResults.showAllConsideredAlternativesForWeightedSum}" render="weightedSumResults" />                                     
+	                <a4j:outputPanel layout="block" rendered="#{!analyseResults.showAllConsideredAlternativesForWeightedSum}">
+	                    <b>This tree contains only strategies that do not have knock-out evaluation criteria; see above</b> <br/>
+	                    <a4j:commandButton value="Show all alternatives" action="#{analyseResults.switchShowAllConsideredAlternativesForWeightedSum()}"
+	                                       render="weightedSumResults"/>
+	                </a4j:outputPanel>                
+                </h:form>
+            </small>
+            
+		    <a4j:outputPanel layout="block" rendered="#{empty analyseResults.acceptableAlternatives}" styleClass="requiredIndicator">
+	            None of the considered
+	            alternatives have achieved acceptable values - all of them exhibit an
+	            unacceptable performance for at least one aspect of the requirements
+	            tree. However, to create a preservation plan, a feasible course of
+	            action is needed. You may want to reconsider your acceptable
+	            threshold settings in the Transformation step. You can do so by
+	            returning to that step and changing your settings, and then continue
+	            with the workflow.
+		    </a4j:outputPanel>
+		    
+		    <a4j:outputPanel layout="block" rendered="#{analyseResults.showAllConsideredAlternativesForWeightedSum or not empty analyseResults.acceptableAlternatives}">
+		        <ui:include src="/plato/shared/resultTree.xhtml">
+		           <ui:param name="treeHelper" value="#{analyseResults.resultstreeHelper}"/>
+		           <ui:param name="rootNode" value="#{analyseResults.aggSumResultNodes}" />
+		           <ui:param name="alternatives" value="#{analyseResults.weightedSumResultTreeShownAlternatives}" />
+		        </ui:include>
+		    </a4j:outputPanel>
+        </a4j:outputPanel>
+        
+        <!-- ********** sensitivity analysis ********** -->
+        
+        <a name="sensitivity-analysis" />
+
+        <p:help url="/plato/help/sensitivity-analysis.html" text="What is sensitivity analysis and how does it work?" />
+
+        <div id="menu" class="menu-step"> <h2>Sensitivity analysis</h2> </div>
+        
+        <rich:tree var="node" style="padding-top:10px;width:880px" showConnectingLines="false" styleClass="center-position">
+            <rich:treeModelRecursiveAdaptor roots="#{analyseResults.aggSumResultNodes}" nodes="#{node.children}" leaf="#{node.leaf}">
+                <rich:treeNode styleClass="treenode" highlightedClass="highlighted" iconLeaf="" icon="">
+                    <div class="treenode">
+                        <div style="float: left; position: relative; white-space: normal; width: 40%;">
+                            <a4j:outputPanel layout="block" styleClass="#{node.style}">                        
+	                            <a4j:outputPanel layout="block" rendered="#{node.leaf}">
+	                                <a href="#results#{node.id}"> <h:outputText value="#{node.name}" /> </a>
+	                            </a4j:outputPanel>
+	                            <h:outputText value="#{node.name}" rendered="#{not node.leaf}" />
+	                            <br/>
+
+	                            <a4j:outputPanel layout="block" rendered="#{not node.leaf}">
+	                                <h:outputText style="font-size:10px;"
+	                                    value="Changes in the importance factors might result in a different ordering of the alternatives."
+	                                    rendered="#{node.sensitive}"/>
+	                                <h:outputText style="font-size:10px;"
+	                                    rendered="#{(node.anyChildSensitive) and (not node.sensitive)}"
+	                                    value="Some requiremens further down the tree have unstable importance factors. Expand the tree to see them." />                          
+	                            </a4j:outputPanel>	                            
+                            </a4j:outputPanel>
+                        </div>
+                        <div style="float: right; position: relative; min-width: 380px;">
+                            <table>
+                                <a4j:repeat value="#{analyseResults.acceptableAlternatives}" var="a" rowKeyVar="i">
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="#{a.name}: &nbsp;&nbsp;" />
+                                        </td>
+                                        <td width="40px">
+                                            <h:outputText value="#{node.resultStrings[a.name]}&nbsp;&nbsp;" />
+                                        </td>
+                                        <td width="253px">
+                                            <img width="#{50 * node.results[a.name]}" height="10" src="#{request.contextPath}/resources/gfx/chart/chart-bar#{i}.jpg" />
+                                        </td>
+                                    </tr>
+                                </a4j:repeat>
+                            </table>
+                        </div>
+                    </div>
+                </rich:treeNode>
+            </rich:treeModelRecursiveAdaptor>
+        </rich:tree>
+
+        <!-- ********** conclusion ********** -->
+        
+        <a name="conclusion" />
+
+        <div id="menu" class="menu-step"> <h2>Conclusion</h2> </div>
+
+        <h:form id="mainform">
+	        <fieldset id="recommendation" class="size-full">
+	            <legend>Recommendation</legend>
+	               <h:inputText id="changedflag" value="#{analyseResults.changed}" style="display:none" />
+	               <div>
+	                   <h:outputLabel for="recommendation"> Recommendation: </h:outputLabel>
+	                   <h:selectOneMenu value="#{analyseResults.recommendedAlternativeAsString}">
+	                       <f:selectItem itemLabel="" itemValue="#{null}"/>
+	                       <f:selectItems value="#{analyseResults.acceptableAlternatives}" var="alt" 
+	                                      itemLabel="#{alt.name}" itemValue="#{alt.name}" />
+	                       <a4j:ajax onbeforesubmit="changed()" event="change" />
+	                   </h:selectOneMenu>
+	               </div>
+	               <div>
+                       <p:inputTextArea labelText="Reasoning" id="reasoning" required="true" 
+                                        input="#{analyseResults.plan.recommendation.reasoning}" touchable="#{analyseResults.plan.recommendation}" />
+	               </div>
+	               <div>
+                       <p:inputTextArea labelText="Effects on applying this strategy" id="effects" required="true" 
+                                        input="#{analyseResults.plan.recommendation.effects}" touchable="#{analyseResults.plan.recommendation}" />
+	               </div>
+	         </fieldset>
+	         
+	         <p:savediscardproceed bean="#{viewWorkflow}" />
+         </h:form>
+        
+    </ui:define>
+</ui:composition>

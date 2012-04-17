@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is not required if you don't need any extra configuration. -->
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://java.sun.com/xml/ns/javaee         http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ <application>
+  <message-bundle>kbrowser_messages</message-bundle>
+ </application>
+ <!-- This descriptor activates the JSF 2.0 Servlet 
+ Write your navigation rules here. You are encouraged to use CDI for 
+      creating @Named managed beans. -->
+      
+ <factory>
+    <exception-handler-factory>
+        eu.scape_project.pw.planning.application.DefaultExceptionHandlerFactory    
+    </exception-handler-factory>
+ </factory>
+</faces-config>

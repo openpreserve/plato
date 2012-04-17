@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:cc="http://java.sun.com/jsf/composite"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://java.sun.com/jsf/composite/plato">
+
+<cc:interface>
+    <cc:attribute name="id" required="false"></cc:attribute>    
+    <cc:attribute name="formatInfo" required="false"></cc:attribute>
+</cc:interface>
+
+<cc:implementation>
+   <fieldset>
+        <p:inputText labelText="PUID:" id="puid"
+           input="#{cc.attrs.formatInfo.puid}" touchable="#{cc.attrs.formatInfo}"/>
+        <h:outputLabel for="lookupPronom" class="small"
+           rendered="#{cc.attrs.formatInfo.puid}"/>
+        <h:outputLink
+           id="lookupPronom"
+           rendered="#{cc.attrs.formatInfo.puid}"
+           target="blank"
+           value="http://www.nationalarchives.gov.uk/pronom/#{value.puid}">
+           Look up PRONOM for details
+           <img src="../img/logos/tna.ico" title =" PRONOM" alt="PRONOM" style="vertical-align:middle;" />
+        </h:outputLink>
+        <p:inputText labelText="Name:" id="formatname" input="#{cc.attrs.formatInfo.name}" touchable="#{cc.attrs.formatInfo}"/>
+        <p:inputText labelText="Version:" id="formatversion" input="#{cc.attrs.formatInfo.version}" touchable="#{cc.attrs.formatInfo}"/>
+        <p:inputText labelText="Mime-type:"  id="formatmimetype" input="#{cc.attrs.formatInfo.mimeType}" touchable="#{cc.attrs.formatInfo}"/>
+        <p:inputText labelText="Extension:" id="formatdefaultextension" input="#{cc.attrs.formatInfo.defaultExtension}" touchable="#{cc.attrs.formatInfo}"/>
+   </fieldset>
+</cc:implementation>          
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">
+<!-- requires two parameters
+     - experimentStatus   : ExperimentStatus.java bean
+     - runExperimentsBean : a bean providing a method startExperiments() 
+ -->
+<a4j:queue name="pollQueue"></a4j:queue>
+<a4j:queue name="cmdQueue"></a4j:queue>
+ 
+<h:form id="pollform">
+      <a4j:poll id="poll" interval="1000" enabled="#{experimentStatus.started and (not experimentStatus.finished)}" 
+          render="poll,execRefreshPanel" action="#{experimentStatus.keepAlive}">
+          <a4j:attachQueue name="pollQueue"></a4j:attachQueue>
+      </a4j:poll>
+</h:form>
+<h:form id="executeExperimentsForm">
+<rich:popupPanel id="execPanel" width="600" height="200" domElementAttachment="form">
+    <f:facet name="header">
+        <h:outputText value="Run Migrations" />
+    </f:facet>
+    <f:facet name="controls">
+        <h:graphicImage id="closeMapping" 
+            value="/resources/gfx/icons/cancel.png"
+            title="Close" width="16" height="16"
+            onclick="#{rich:component('execPanel')}.hide()" />
+    </f:facet>            
+    <a4j:outputPanel id="execRefreshPanel">
+       <a4j:outputPanel rendered="#{not experimentStatus.started}">
+           <h:outputText value="Alternatives queued for execution: #{experimentStatus.altTotal}" />
+           <br/>
+           <h:outputText value="Each will be applied to #{experimentStatus.samplesTotal} sample object(s)." />
+           <br/>
+           
+           <a4j:commandButton
+               onbegin=""
+               action="#{runExperimentsBean.startExperiments}" 
+               title="Start experiments"
+               render="poll"
+               value="Start">
+               <a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
+               </a4j:commandButton>    
+       </a4j:outputPanel>
+       
+       <a4j:outputPanel rendered="#{experimentStatus.started}">
+           <h:outputText value="Applying alternative #{experimentStatus.altIndex + 1} of #{experimentStatus.altTotal}" /><br/>
+           <h:outputText value=" .. to sample  #{experimentStatus.sampleIndex + 1} of #{experimentStatus.samplesTotal}" />
+           <br/><br/>
+           <h:outputText value="Current alternative: #{experimentStatus.currentAlternative.name}" rendered="#{experimentStatus.currentAlternative != null}"/><br/>
+           <h:outputText value="Current sample object: #{experimentStatus.currentSample.shortName}" rendered="#{experimentStatus.currentSample != null}"/>
+           <br/><br/>
+           <a4j:commandButton
+               rendered="#{not (experimentStatus.finished or experimentStatus.canceled)}"  
+               action="#{experimentStatus.setCanceled(true)}" 
+               value="Cancel experiments"/>
+
+           <h:outputText rendered="#{experimentStatus.canceled and (not experimentStatus.finished)}" value="Canceling experiments. Please wait until the currently active migration has finished."/>
+           <a4j:outputPanel  rendered="#{experimentStatus.finished}">
+               <b>
+               <h:outputText rendered="#{not experimentStatus.canceled}" value="Finished experiments!"/>
+               <h:outputText rendered="#{experimentStatus.canceled}" value="Canceled experiments!"/>
+               </b>
+               <a4j:commandButton  
+                   action="#{experimentStatus.clear()}" 
+                   title="Ok"  
+                   value="Close"
+                   oncomplete="#{rich:component('execPanel')}.hide()"
+                   render="mainForm,executeExperimentsForm"/>
+            </a4j:outputPanel>
+        </a4j:outputPanel>
+       </a4j:outputPanel>           
+    </rich:popupPanel>
+</h:form>         
+
+</ui:composition>

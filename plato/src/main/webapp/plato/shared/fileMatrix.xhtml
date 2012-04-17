@@ -1,0 +1,64 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<table
+		class="tableStyle">
+		<tr>
+			<td class="tableStyle-header" width="30%"><b>Alternatives</b>
+			</td>
+			<td colspan="3" class="tableStyle-header" width="70%"><b>Objects</b>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<ui:repeat var="record" value="#{samples}">
+				<td align="center">
+				    <h:outputText id="sample"
+						value="#{record.sampleIndex}"
+						rendered="#{not record.dataExistent}" />
+					<br /> 
+					<rich:tooltip  value="#{record.shortName}" target="sample" />
+					<a4j:outputPanel>
+				    <h:commandLink
+				        id="downloadSample"
+						rendered="#{record.dataExistent}"
+						action="#{workflowstep.downloadSampleObject(record)}" >
+						<h:outputText value="Sample #{record.sampleIndex}" />
+					</h:commandLink>
+					<rich:tooltip target="downloadSample">Download #{record.shortName}</rich:tooltip>
+					</a4j:outputPanel>
+					</td>
+					
+			</ui:repeat>
+		</tr>
+		<ui:repeat var="altern" value="#{consideredAlternatives}">
+			<tr
+				style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8;">
+				<td><h:outputText value="#{altern.name}" />
+				</td>
+				<ui:repeat var="record" value="#{samples}">
+					<td	style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8; text-align: center;">
+						<h:commandButton id="downloadResult" value="Download"
+							rendered="#{record!=null and altern.experiment.results[record]!=null  and altern.experiment.results[record].dataExistent}"
+							action="#{workflowstep.downloadResultFile(altern, record)}" />
+                        <rich:tooltip target="downloadResult">Download result of applying #{altern.name} to #{record.shortName}</rich:tooltip>
+                        
+						<a4j:commandButton
+							rendered="#{record!=null and altern.experiment.results[record]!=null  and altern.experiment.results[record].dataExistent}"
+							action="#{workflowstep.setTreeFromRecordAltern(record,altern)}"
+							styleClass="small" value="Compare" eventsQueue="ajaxQ"
+							ignoreDupResponses="true"
+							image="/resources/gfx/icons/small/compareView.png"
+							oncomplete="Richfaces.showModalPanel('jhovePanel', {top:'100px'});"
+							render="jhovePanel" />
+					</td>
+				</ui:repeat>
+			</tr>
+		</ui:repeat>
+	</table>
+	
+</ui:composition>

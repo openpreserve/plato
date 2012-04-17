@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:p="http://planets-project.eu/taglibs/plato"
+   xmlns:a4j="http://richfaces.org/a4j">
+   <rich:modalPanel id="propertyMappingEditor" width="600" >
+        <f:facet name="header">
+            <h:outputText value="Edit object property mapping for: #{opmSelectedLeaf.name}" />
+        </f:facet>
+	<f:facet name="controls">
+	    <h:graphicImage id="closeMapping" 
+		value="../img/icons/big/cancel.png"
+		title="Close" width="16" height="16"
+		onclick="Richfaces.hideModalPanel('propertyMappingEditor')" />
+        </f:facet>
+        <h:form id="propertyMappingForm"> 
+        <h:outputText value="test"/>
+            <s:div style="height:100%;" rendered="#{empty mappingStatus.value}">
+                 <s:div rendered="#{opmSelectedLeaf.mapped}">
+                     <fieldset>
+                     	<legend>Measurement Info</legend>
+                        <h:outputText value="Name: #{opmSelectedLeaf.criterion.uri}"/>
+                     </fieldset>
+                     <fieldset>
+                     	<legend>Property</legend>
+                        <h:outputText value="Category: #{opmSelectedLeaf.criterion.property.category}"/>
+                        <h:outputText value="Name: #{opmSelectedLeaf.criterion.property.name}"/>
+                        <h:outputText value="Description:"/>
+                        <br/>
+                        <h:inputTextarea rows="3" disabled="true"
+                             value="#{opmSelectedLeaf.criterion.property.description}"
+                             style="width:95%;"/>
+                     </fieldset>
+                     <s:div rendered="#{opmSelectedLeaf.criterion.metric != null}">
+	                     <fieldset>
+     						<legend>Metric</legend>
+	                        <h:outputText value="Metric: #{opmSelectedLeaf.criterion.metric.name}" />
+	                        <h:outputText value="Description:"/>
+	                        <br/>
+	                        <h:inputTextarea rows="3" disabled="true"
+	                             value="#{opmSelectedLeaf.criterion.metric.description}"
+	                             style="width:95%;"/>
+                         </fieldset>
+                     </s:div>
+                     <fieldset>
+                     	<legend>Measure</legend>
+                        <h:outputText value="Scale: #opmSelectedLeaf.criterion.scale.displayName}"/>
+                        <h:outputText value="Unit: #{opmSelectedLeaf.criterion.unit}"/>
+                     </fieldset>
+                 </s:div>
+                 <div>
+                     <a4j:commandLink id="editMapping" 
+                         action="#{criterionMapper.editMapping()}"
+                         reRender="propertyMappingForm"
+                         rendered="#{not empty propertiesModel}">
+                         <h:graphicImage
+                             value="../img/go-next.png"
+                             title="Edit Mapping" width="32" height="32" />
+                     </a4j:commandLink>
+                 </div>
+              </s:div>
+              <!-- end mapping status: empty  -->
+
+              <!-- mapping status: category  -->
+              <s:div rendered="#{(mappingStatus.value == 'category')}">
+                 <fieldset>
+                 	<legend>Criterion Category</legend>
+                    <h:selectOneMenu 
+                        value="#{criterionMapper.mappingCategory}" id="mappingCategorySelect" converter="#{emptyStringToNullConverter}">
+                           <s:selectItems 
+						    value=#{categoriesModel}
+						    var="cat"
+						    label="#{cat}"
+						    itemValue="#{cat}"
+						  />                           
+                     </h:selectOneMenu>
+                 </fieldset>
+              </s:div>
+
+              <!-- mapping status: property -->
+              <s:div rendered="#{(mappingStatus.value == 'property')}">
+              	<fieldset>
+              		<legend>Property</legend>
+                    <h:selectOneMenu 
+                        value="#{criterionMapper.mappingProperty}" id="idObjectProperty" converter="#{emptyStringToNullConverter}">
+                           <s:selectItems 
+						    value=#{propertiesModel}
+						    var="prop"
+						    label="#{prop.name}"
+						    itemValue="#{prop}"
+						  />                           
+                        
+                        <a4j:support event="onchange" reRender="panelProperty" />
+                    </h:selectOneMenu>
+	                <s:div id="panelProperty">
+	                    <s:div rendered="#{mappingProperty != null}">
+                           <h:outputText value="PropertyId: #{mappingProperty.propertyId}"/> <br/>
+                           <h:outputText value="Description:"/>
+                           <br/>
+                           <h:inputTextarea rows="3" disabled="true"
+                                id="idopdescr"
+                                value="#{mappingProperty.description}"
+                                rendered="#{mappingProperty != null}"
+                                style="width:99%;"/>
+
+ 						  <h:outputText value="Scale: #{mappingProperty.scale.displayName}" rendered="#{mappingProperty.scale != null}"/>
+ 						  <h:outputText value="Unit: #{mappingProperty.scale.unit}" rendered="#{mappingProperty.scale != null}"/>
+	                     </s:div>
+	                </s:div>
+              	</fieldset>
+                 <div>
+                     <a4j:commandLink id="editMetric"
+                         disabled="#{mappingProperty == null}" 
+                         action="#{criterionMapper.editMetric()}"
+                         reRender="propertyMappingForm">
+                         <h:graphicImage
+                             value="../img/go-next.png"
+                             title="Choose metric" width="32" height="32" />
+                     </a4j:commandLink>
+                     <a4j:commandLink id="savePropertyMapping"
+                         disabled="#{mappingProperty == null}" 
+                         action="#{criterionMapper.savePropertyMapping()}"
+                         reRender="propertyMappingForm">
+                         <h:graphicImage
+                             value="../img/icons/big/apply.png"
+                             title="Save Property mapping" width="32" height="32" />
+                     </a4j:commandLink>
+                 </div>
+                </s:div>
+                
+                <!-- mapping status = metric -->
+                <s:div rendered="#{(mappingStatus.value == 'metric')}">
+                   <fieldset>
+                      <legend>Property</legend>
+                      <h:outputText value="Category: #{mappingProperty.category}"/>
+                      <h:outputText value="Name: #{mappingProperty.name}"/>
+                      <h:outputText value="Description:"/>
+                      <br/>
+                      <h:inputTextarea rows="3" disabled="true"
+                           value="#{mappingProperty.description}"
+                           style="width:95%;"/>
+                   </fieldset>
+                   <fieldset>
+                   		<legend>Metric</legend>
+                     <h:selectOneMenu 
+                        value="#{criterionMapper.mappingMetric}" id="idMappingMetric">   
+                        <f:selectItems value="#{metricsModel}" />
+                        <f:converter converterId="emptyStringToNullConverter"/>
+                        <a4j:support event="onchange" reRender="panelMetric" />
+                     </h:selectOneMenu>
+                     <s:div id="panelMetric">
+                         <s:div rendered="#{mappingMetric != null}">
+                              <div>
+                                <h:outputText value="Description:"/>
+                                <br/>
+                                <h:inputTextarea rows="3" disabled="true"
+                                     id="idmdescr"
+                                     value="#{mappingMetric.description}"
+                                     rendered="#{mappingMetric != null}"
+                                     style="width:99%;"/>
+                              </div>
+	 						  <h:outputText value="Scale: #{mappingmetric.scale.displayName}" rendered="#{mappingMetric.scale != null}"/>
+	 						  <h:outputText value="Unit: #{mappingMetric.scale.unit}" rendered="#{mappingMetric.scale != null}"/>
+                         </s:div>
+                     </s:div>
+                   </fieldset>
+                 <div>
+                     <a4j:commandLink id="saveMapping"
+                         disabled="#{mappingMetric == null}" 
+                         action="#{criterionMapper.savePropertyMapping()}"
+                          reRender="propertyMappingForm">
+                         <h:graphicImage
+                             value="../img/icons/big/apply.png"
+                             title="Save" width="32" height="32" />
+                     </a4j:commandLink>
+                 </div>
+             </s:div>
+         </h:form>            
+   </rich:modalPanel>
+
+</ui:composition>

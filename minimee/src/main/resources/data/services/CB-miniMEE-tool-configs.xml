@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<minimee>
+<hardware>
+	<machine id="localPC"
+	         cpus="2" 
+	         cpuType="Intel Core 2 Duo" 
+	         cpuClock="2400" 
+	         memory="2048" 
+	         operatingSystem="Windows XP"/>
+	<machine id="apollon"
+	         cpus="HOW MANY?" 
+	         cpuType="Intel Core 2 Duo" 
+	         cpuClock="UNKNOWN" 
+	         memory="HOW MUCH?" 
+	         operatingSystem="SOME LINUX"/>
+</hardware>
+<engines>
+	<emulation-engine name="grate-connector"
+		class="at.tuwien.minimee.emulation.GrateConnector">
+	</emulation-engine>
+	
+	<engine name="default"
+	class="at.tuwien.minimee.migration.engines.MiniMeeDefaultMigrationEngine"
+	machine="localPC">
+		<includedEngines/>
+		<measurableProperties>
+			<property name="machine:name"> 
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:cpus">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:cputype">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:cpuclock"> 
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:memory">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:os">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="performance:time:elapsed"> 
+				<positiveFloatScale unit="msec" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="performance:time:elapsedPerMB">
+				<positiveFloatScale unit="msec" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="result:relativeFilesizePercent">
+				<positiveFloatScale unit="percent" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="result:filesize">
+				<positiveFloatScale unit="byte" displayName="Positive number" restriction=""/>
+			</property>
+		</measurableProperties>
+	</engine>
+	
+
+	<engine name="defaultJava"
+	class="at.tuwien.minimee.migration.engines.MonitorEngineDefaultJava"
+	machine="localPC">
+		<includedEngines/>
+		<measurableProperties>
+			<property name="machine:name"> 
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:cpus">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:cputype">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:cpuclock"> 
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:memory">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="machine:os">
+				<freeStringScale unit="" restriction=""/>
+			</property>
+			<property name="performance:time:elapsed"> 
+				<positiveFloatScale unit="msec" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="performance:time:elapsedPerMB">
+				<positiveFloatScale unit="msec" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="result:relativeFilesizePercent">
+				<positiveFloatScale unit="percent" displayName="Positive number" restriction=""/>
+			</property>
+		</measurableProperties>
+	</engine>
+
+
+	<engine name="HPROF" class="at.tuwien.minimee.migration.engines.MonitorEngineHPROF"
+	machine="localPC">
+		<includedEngines/>
+		<measurableProperties>
+			<property name="performance:memory:gross">
+				<positiveFloatScale unit="MB" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="performance:memory:net">
+				<positiveFloatScale unit="MB" displayName="Positive number" restriction=""/>
+			</property>
+		</measurableProperties>
+	</engine> 
+	<engine name="XCL" class="at.tuwien.minimee.migration.engines.XCLEngine" machine="localPC"
+	configParam="D:/temp/xcl/">
+		<includedEngines/>
+		<nextEngine>default</nextEngine>
+		<measurableProperties>
+			<property name="xcl:test">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+		</measurableProperties>
+	</engine>
+	
+	<engine name="imCompare" class="at.tuwien.minimee.migration.engines.ImageMagickIdentifyEngine" 
+	machine="localPC">
+		<includedEngines/>
+		<nextEngine>default</nextEngine>
+		<measurableProperties>
+			<property name="imagequality:AE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:PAE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:PSNR">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:MAE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:MSE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:RMSE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:MEPP">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+		</measurableProperties>
+	</engine>
+	
+	<engine name="imCompareJava" class="at.tuwien.minimee.migration.engines.ImageMagickIdentifyEngine" 
+	machine="localPC">
+		<includedEngines/>
+		<nextEngine>JIP</nextEngine>
+		<measurableProperties>
+			<property name="imagequality:AE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:PAE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:PSNR">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:MAE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:MSE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:RMSE">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+			<property name="imagequality:MEPP">
+				<positiveFloatScale unit="test" displayName="Positive number" restriction=""/>
+			</property>
+		</measurableProperties>
+	</engine>	
+	
+	<engine name="JIP" 
+			class="at.tuwien.minimee.migration.engines.MonitorEngineJIP"
+			machine="localPC"
+			configParam="d:/miniMEE/jip/jip-1.1.1/profile/profile.jar">
+		<includedEngines/>
+			<measurableProperties>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number" restriction=""/>
+				</property>
+				<property name="performance:totalTimeInJava">
+					<positiveFloatScale unit="msec" displayName="Positive number" restriction=""/>
+				</property>
+			</measurableProperties>		
+	</engine>
+</engines>
+
+<tools>
+
+		<tool name="JavaIO-Riccardo"
+		      executablePath="d:/ImageConverter.jar">
+			<config url="jpg2pngJavaIO-imC"  benchmark="true">
+				<name>JPG to PNG</name>
+				<params>-a png</params>
+				<inEnding>jpg</inEnding>
+				<outEnding>png</outEnding>
+				<engineName>imCompareJava</engineName>
+			</config>	
+		</tool>		
+
+		<tool name="ImageMagick"
+		 executablePath="C:/Progra~1/ImageMagick-6.4.9-Q16/im-convert">
+			<config url="im-jpg2png-imC"  benchmark="true">
+				<name>JPG to PNG</name>
+				<params></params>
+				<inEnding>jpg</inEnding>
+				<outEnding>png</outEnding>
+				<engineName>imCompare</engineName>
+			</config>	
+		
+			<config url="im-png2tif-imC"  benchmark="true">
+				<name>PNG to TIF</name>
+				<params></params>
+				<inEnding>png</inEnding>
+				<outEnding>tiff</outEnding>
+				<engineName>imCompare</engineName>
+			</config>	
+		</tool>			
+
+		<tool name="GRATE" 
+	executablePath="http://planets.ruf.uni-freiburg.de/~randy/plato_interface/plato_uploader.php">
+		<config url="grateVideos">
+			<name>Qemu Windows 98 with video players</name>
+			<params>1</params>
+		</config>
+		<config url="grateImages">
+			<name>Qemu Windows 98 with image viewer</name>
+			<params>2</params>
+		</config>
+		<config url="grateDocuments">
+			<name>Qemu Windows 98 with document viewers</name>
+			<params>3</params>
+		</config>
+	</tool>
+</tools>
+</minimee>

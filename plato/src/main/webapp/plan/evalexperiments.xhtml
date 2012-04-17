@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition 	xmlns="http://www.w3.org/1999/xhtml"
+    				xmlns:h="http://java.sun.com/jsf/html"
+    				xmlns:f="http://java.sun.com/jsf/core"
+    				xmlns:ui="http://java.sun.com/jsf/facelets"
+    				xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+    				xmlns:p="http://java.sun.com/jsf/composite/plato"    
+   					template="/WEB-INF/templates/default.xhtml"
+   					xmlns:a4j="http://richfaces.org/a4j"
+   					xmlns:rich="http://richfaces.org/rich">
+ 
+	<ui:define name="title">SCAPE Planning Suite - Evaluate Experiment</ui:define>
+	<ui:define name="content">
+         <h1>Evaluate Experiment</h1>
+		
+         <h:form id="mainform">
+         	<h:inputText id="changedflag" value="#{evalexperiments.changed}" style="display:none" />
+         	
+             <p:help url="/plato/help/evaluate.html"  text="What is the task here?" />
+             
+            <div style="float:right;">
+	             <ui:include src="/plato/shared/fileMatrix.xhtml">
+	                 <ui:param name="samples"
+	                     value="#{evalexperiments.plan.sampleRecordsDefinition.records}" />
+	                 <ui:param name="consideredAlternatives"
+	                     value="#{evalexperiments.plan.alternativesDefinition.consideredAlternatives}" />
+	                 <ui:param name="workflowstep" value="#{evalexperiments}" />
+	             </ui:include>
+            </div>
+             
+             <fieldset id="treenavigationset" style="width:50%;" class="size-full">
+                 <legend class="fieldset-full-size-legend">
+                     <h:outputText value="Select the tree parts to display" />
+                 </legend>
+                 <rich:tree selectionType="client" immediate="true" var="node">
+                     <rich:treeModelRecursiveAdaptor
+                         roots="#{evalexperiments.treeRoot}" nodes="#{node.children}" leaf="#{node.leaf}">
+                         <rich:treeNode highlightedClass="highlighted" iconLeaf="" icon="" expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
+                          
+                             <a4j:commandLink  render="leavesLists" 
+                                 action="#{evalexperiments.select(node)}">
+                                 <h:outputText value="#{node.name}" />
+                             </a4j:commandLink>
+                         </rich:treeNode>
+                     </rich:treeModelRecursiveAdaptor>
+                 </rich:tree>
+             </fieldset>
+             <div style="clear:both;"/>
+             <h:outputLink target="_blank" value="showmigrationresult-metadata.jsf" rendered="#{not empty(evalexperiments.measurableProperties)}">
+                 Show measured properties
+             </h:outputLink>
+             
+
+            <fieldset id="leafSet" class="size-full">
+                <legend class="fieldset-full-size-legend">
+                  <h:outputText value="Leaves to evaluate" />
+               </legend>
+               <a4j:outputPanel id="leavesLists">
+	               <h:outputText value="No leaves selected" rendered="#{empty evalexperiments.leaves}"/>
+
+                    <div style="height:20px;font-weight:bold;">
+                        <a4j:status startStyleClass="ajaxStatus" startText="Processing, please wait.... "/>
+                    </div>
+	               
+	               <ui:include  src="/plato/shared/evaluationLeafList.xhtml" rendered="#{not empty evalexperiments.leaves}">
+	                    <ui:param name="leaves" value="#{evalexperiments.leaves}" />
+	                    <ui:param name="consideredAlternatives" value="#{evalexperiments.plan.alternativesDefinition.consideredAlternatives}" />
+	                    <ui:param name="samples" value="#{evalexperiments.plan.sampleRecordsDefinition.records}" />
+	                    <ui:param name="workflowstep" value="#{evalexperiments}" />
+	               </ui:include>         
+               </a4j:outputPanel>
+            </fieldset>
+            <fieldset id="autoEval" class="size-full">
+            <x:div renderthis="#{evalexperiments.autoEvaluationAvailable}">
+                <p>
+                Since your tree contains criteria that are mapped to measurable properties and metrics, you can call the evaluation plugins here.<br/>
+                <a4j:commandButton value="Evaluate all criteria" 
+                                action="#{evalexperiments.evaluateAll}" 
+                                styleClass="save" 
+                                style="height: 4.5em; width:20em; background-image: url(../resources/gfx/play.png)"
+                                eventsQueue="ajaxQ" 
+                                render="mainform"
+                                ignoreDupResponses="true"/>
+                <br/>
+                </p>
+            </x:div>
+            <ui:remove>
+            <!--  we want to do this differently -->
+            <x:div style="width:100%">  
+                <h:inputTextarea style="width:70%" rows="10" value="#{evaluationMessage}" disabled="true"/>
+            </x:div>
+            </ui:remove>
+                <hr/>
+                <p>
+                Please make sure you check all evaluation results and approve them. Values that have not been evaluated or not yet approved are marked with a star (*).
+                    The planning process requires you to either enter by yourself or confirm all evaluation results.
+                    In order to confirm values that you have not entered yourself, please select<br/>
+                    <h:commandButton value="Approve all values" action="#{evalexperiments.approve}" />
+                </p>
+            </fieldset>
+             <fieldset id="comments" class="size-full">
+                <legend class="fieldset-full-size-legend">
+                  <h:outputText value="Comments" />
+               </legend>
+                    <p:inputTextArea id="evaluateExperimentComments" input="#{evalexperiments.plan.evaluation.comment}" touchable="#{evalexperiments.plan.evaluation}"/>
+             </fieldset>
+            
+            <p:savediscardproceed bean="#{viewWorkflow}" />      
+	     </h:form>
+	</ui:define>
+</ui:composition>

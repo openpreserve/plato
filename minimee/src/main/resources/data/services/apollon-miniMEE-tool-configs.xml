@@ -1,0 +1,963 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<minimee>
+	<hardware>
+		<machine id="localPC" cpus="2" cpuType="Intel Core 2 Duo"
+			cpuClock="2400" memory="2048" operatingSystem="Windows XP" />
+		<machine id="apollon" cpus="HOW MANY?" cpuType="Intel Core 2 Duo"
+			cpuClock="UNKNOWN" memory="HOW MUCH?" operatingSystem="SOME LINUX" />
+	</hardware>
+
+	<evaluators>
+		<evaluator name="XCL"
+			class="at.tuwien.minimee.migration.evaluators.XCLEvaluator"
+			configParam="/home/jboss/minimee-config/evaluators/xcl/" />
+		<evaluator name="ImageCompare"
+			class="at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator" />
+	</evaluators>
+	<engines>
+		<emulation-engine name="grate-connector"
+			class="at.tuwien.minimee.emulation.GrateConnector">
+		</emulation-engine>
+
+		<engine name="default"
+			class="at.tuwien.minimee.migration.engines.MiniMeeDefaultMigrationEngine"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="machine:name">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:cpus">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:cputype">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:cpuclock">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:memory">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:os">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="performance:time:elapsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:elapsedPerMB">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:relativeFilesizePercent">
+					<positiveFloatScale unit="percent" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:filesize">
+					<positiveFloatScale unit="byte" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+
+		<engine name="defaultJava"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineDefaultJava"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="machine:name">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:cpus">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:cputype">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:cpuclock">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:memory">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="machine:os">
+					<freeStringScale unit="" restriction="" />
+				</property>
+				<property name="performance:time:elapsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:elapsedPerMB">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:relativeFilesizePercent">
+					<positiveFloatScale unit="percent" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+
+
+		<engine name="HPROF"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineHPROF"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:memory:gross">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:memory:net">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+
+		<engine name="TIME"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineTime"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+
+				<property name="performance:time:elapsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:elapsedPerMB">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:relativeFilesizePercent">
+					<positiveFloatScale unit="percent" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:filesize">
+					<positiveFloatScale unit="byte" displayName="Positive number"
+						restriction="" />
+				</property>
+
+			</measurableProperties>
+		</engine>
+
+		<engine name="TIMEJava"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineTimeJava"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+
+				<property name="performance:time:elapsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:elapsedPerMB">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:relativeFilesizePercent">
+					<positiveFloatScale unit="percent" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="result:filesize">
+					<positiveFloatScale unit="byte" displayName="Positive number"
+						restriction="" />
+				</property>
+
+			</measurableProperties>
+		</engine>
+
+
+		<engine name="TOP"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineTOPDefault"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:memory:gross">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:memory:net">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+
+				<property name="performance:averageResidentSize">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:averageSharedMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:averageVirtualMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:memory:net">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxSharedMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:memory:gross">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:totalCpuTimeUsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+		<engine name="PSLIST_MONITOR"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineWinPslist"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:memory:used">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+		<engine name="TOPJava"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineTOPJava"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:memory:gross">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:memory:net">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+
+				<property name="performance:averageResidentSize">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:averageSharedMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:averageVirtualMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxResidentSize">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxSharedMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxVirtualMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:totalCpuTimeUsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+		<engine name="TOPOpenOffice"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineTOPOpenOffice"
+			machine="apollon">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:memory:gross">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:memory:net">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+
+				<property name="performance:averageResidentSize">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:averageSharedMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:averageVirtualMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxResidentSize">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxSharedMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:maxVirtualMemory">
+					<positiveFloatScale unit="MB" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:totalCpuTimeUsed">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+		<engine name="JIP"
+			class="at.tuwien.minimee.migration.engines.MonitorEngineJIP" machine="apollon"
+			configParam="/home/jboss/minimee-config/engines/jip-1.1.1/profile/profile.jar">
+			<includedEngines />
+			<measurableProperties>
+				<property name="performance:time:used">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+				<property name="performance:totalTimeInJava">
+					<positiveFloatScale unit="msec" displayName="Positive number"
+						restriction="" />
+				</property>
+			</measurableProperties>
+		</engine>
+		<engine name="combined-JIP-HPROF"
+			class="at.tuwien.minimee.migration.engines.MultipleMonitoringMigrationEngine"
+			machine="apollon">
+			<includedEngines>
+				<includedEngine>defaultJava</includedEngine>
+				<includedEngine>HPROF</includedEngine>
+				<includedEngine>JIP</includedEngine>
+			</includedEngines>
+		</engine>
+		<engine name="combined-TOP-JIP-HPROF"
+			class="at.tuwien.minimee.migration.engines.MultipleMonitoringMigrationEngine"
+			machine="apollon">
+			<includedEngines>
+				<includedEngine>TOPJava</includedEngine>
+				<includedEngine>HPROF</includedEngine>
+				<includedEngine>JIP</includedEngine>
+			</includedEngines>
+		</engine>
+	</engines>
+
+	<tools>
+
+		<!--
+			Common, tested tools, only adjust paths - not names or urls! (create
+			new config if required)
+		-->
+
+		<tool name="ImageIO"
+			executablePath="/home/jboss/minimee-config/migration-tools/ImageConverter.jar">
+
+			<config url="gifToPNG-JavaImageIO">
+				<name>GIF to PNG</name>
+				<params>-a png</params>
+				<inEnding>GIF</inEnding>
+				<outEnding>PNG</outEnding>
+				<engineName>combined-JIP-HPROF</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+
+			</config>
+
+			<config url="jpg2png-JavaImageIO" benchmark="true">
+				<name>JPG to PNG</name>
+				<params>-a png</params>
+				<inEnding>jpg</inEnding>
+				<outEnding>png</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="jpg2tiff-JavaImageIO" benchmark="true">
+				<name>JPG to TIFF</name>
+				<params>-a tiff</params>
+				<inEnding>jpg</inEnding>
+				<outEnding>tiff</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="jpg2bmp-JavaIO" benchmark="true">
+				<name>JPG to BMP</name>
+				<params>-a bmp</params>
+				<inEnding>jpg</inEnding>
+				<outEnding>bmp</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="jpg2greyscalejpg-JavaImageIO">
+				<name>JPG to JPG greyscale image</name>
+				<params>-a toGrayScaleJPG</params>
+				<inEnding>jpg</inEnding>
+				<outEnding>jpg</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="png2jpg-JavaImageIO" benchmark="true">
+				<name>PNG to JPG</name>
+				<params>-a jpg</params>
+				<inEnding>png</inEnding>
+				<outEnding>jpg</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="png2tiff-JavaImageIO" benchmark="true">
+				<name>PNG to TIFF</name>
+				<params>-a tiff</params>
+				<inEnding>png</inEnding>
+				<outEnding>tiff</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+		</tool>
+
+
+		<!--
+ ImageMagick 
+ -->
+
+		<tool identifier="http://dbpedia.org/data/ImageMagick" name="ImageMagick"
+			executablePath="convert -verbose">
+
+			<config url="gif2png-ImageMagick" benchmark="true">
+				<name>GIF to PNG</name>
+				<params>-verbose</params>
+				<inEnding>GIF</inEnding>
+				<outEnding>PNG</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+			<config url="gif2tif-ImageMagick" benchmark="true">
+				<name>GIF to TIF</name>
+				<params></params>
+				<inEnding>GIF</inEnding>
+				<outEnding>TIF</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+			<config url="gif2jpg-ImageMagick" benchmark="true">
+				<name>GIF to JPG</name>
+				<params></params>
+				<inEnding>GIF</inEnding>
+				<outEnding>JPG</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="jpg2png-ImageMagick" benchmark="true">
+				<name>JPG to PNG</name>
+				<params></params>
+				<inEnding>JPG</inEnding>
+				<outEnding>PNG</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+			<config url="jpg2tif-ImageMagick" benchmark="true">
+				<name>JPG to TIF</name>
+				<params></params>
+				<inEnding>JPG</inEnding>
+				<outEnding>TIF</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="png2tif-ImageMagick" benchmark="true">
+				<name>PNG to TIF</name>
+				<params></params>
+				<inEnding>PNG</inEnding>
+				<outEnding>TIF</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="tif2jp2000-ImageMagick" benchmark="true">
+				<name>TIF to JPEG 2000</name>
+				<params></params>
+				<inEnding>TIF</inEnding>
+				<outEnding>JP2</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+		</tool>
+
+		<!--
+ GraphicsMagick 
+ -->
+
+		<tool identifier="http://dbpedia.org/data/GraphicsMagick" name="GraphicsMagick"
+			executablePath="gm convert -verbose">
+
+			<config url="gif2png-GraphicsMagick" benchmark="true">
+				<name>GIF to PNG</name>
+				<params>-verbose</params>
+				<inEnding>GIF</inEnding>
+				<outEnding>PNG</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+			<config url="gif2tif-GraphicsMagick" benchmark="true">
+				<name>GIF to TIF</name>
+				<params></params>
+				<inEnding>GIF</inEnding>
+				<outEnding>TIF</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+			<config url="gif2jpg-GraphicsMagick" benchmark="true">
+				<name>GIF to JPG</name>
+				<params></params>
+				<inEnding>GIF</inEnding>
+				<outEnding>JPG</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="jpg2png-GraphicsMagick" benchmark="true">
+				<name>JPG to PNG</name>
+				<params></params>
+				<inEnding>JPG</inEnding>
+				<outEnding>PNG</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+			<config url="jpg2tif-GraphicsMagick" benchmark="true">
+				<name>JPG to TIF</name>
+				<params></params>
+				<inEnding>JPG</inEnding>
+				<outEnding>TIF</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="png2tif-GraphicsMagick" benchmark="true">
+				<name>PNG to TIF</name>
+				<params></params>
+				<inEnding>PNG</inEnding>
+				<outEnding>TIF</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="tif2jp2000-GraphicsMagick" benchmark="true">
+				<name>TIF to JPEG 2000</name>
+				<params></params>
+				<inEnding>TIF</inEnding>
+				<outEnding>JP2</outEnding>
+				<engineName>default</engineName>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+				</evaluators>
+			</config>
+
+		</tool>
+
+		<!-- my private actions - under development -->
+		<tool name="GIMP"
+			executablePath="/home/jboss/minimee-config/migration-tools/gimp/gimpMigrate.sh">
+
+			<!--
+				1. param: script name 2. param: tiff compression (0 ... none, 1 ...
+				LZW, 2 ... PACKBITS, 3 ... DEFLATE, 4 ... JPEG, 5 ... CCITT G3 Fax,
+				6 ... CCITT G4 Fax
+			-->
+			<config url="png2tif-gimp">
+				<name>PNG to TIF</name>
+				<params>migratePNGtoTIFF 0</params>
+				<noOutFile></noOutFile>
+				<inEnding></inEnding>
+				<engineName>default</engineName>
+				<outEnding>tif</outEnding>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<!--
+				1. param: script name 2. param: tiff compression (0 ... none, 1 ...
+				LZW, 2 ... PACKBITS, 3 ... DEFLATE, 4 ... JPEG, 5 ... CCITT G3 Fax,
+				6 ... CCITT G4 Fax
+			-->
+			<config url="jpg2tif-gimp">
+				<name>JPG to TIF</name>
+				<params>migrateJPGtoTIFF 0</params>
+				<noOutFile></noOutFile>
+				<inEnding></inEnding>
+				<engineName>default</engineName>
+				<outEnding>tif</outEnding>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<!--
+				1. param: script name 2. param: interlace (0 ... no, 1 ... yes) 3.
+				param: compression grad (0 - 9)
+			-->
+			<config url="jpg2png-gimp">
+				<name>JPG to PNG</name>
+				<params>migrateJPGtoPNG 1 0</params>
+				<noOutFile></noOutFile>
+				<inEnding></inEnding>
+				<engineName>default</engineName>
+				<outEnding>png</outEnding>
+				<evaluators>
+					<evaluator>ImageCompare</evaluator>
+					<evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+		</tool>
+
+
+		<tool name="LAME" executablePath="lame"
+			initialisationDir="/home/jboss/minimee-config/score/data/wav">
+			<config url="wav2mp3lame192" benchmark="true">
+				<name>LAME to mp3/192kbit</name>
+				<params>-b 192 -h</params>
+				<engineName>PSLIST_MONITOR</engineName>
+				<outEnding>mp3</outEnding>
+
+			</config>
+			<config url="wav2mp3lame320" benchmark="true">
+				<name>LAME to mp3/320kbit</name>
+				<params>-b 320 -h</params>
+				<engineName>default</engineName>
+				<outEnding>mp3</outEnding>
+			</config>
+			<config url="wav2mp3lameV9" benchmark="true">
+				<name>LAME to mp3/VBR highest quality</name>
+				<params>-V 9 -h</params>
+				<engineName>default</engineName>
+				<outEnding>mp3</outEnding>
+			</config>
+		</tool>
+
+		<tool name="FLAC" executablePath="flac"
+			initialisationDir="/home/jboss/minimee-config/score/data/wav">
+			<config url="wav2flacDefault" benchmark="true">
+				<name>Wave to FLAC</name>
+				<params></params>
+				<noOutFile>true</noOutFile>
+				<inEnding>wav</inEnding>
+				<outEnding>flac</outEnding>
+			</config>
+			<config url="wav2flacFastest" benchmark="true">
+				<name>Wave to FLAC</name>
+				<params>--fast</params>
+				<noOutFile>true</noOutFile>
+				<inEnding>wav</inEnding>
+				<outEnding>flac</outEnding>
+			</config>
+			<config url="wav2flacHighest" benchmark="true">
+				<name>Wave to FLAC</name>
+				<params>--best</params>
+				<noOutFile>true</noOutFile>
+				<inEnding>wav</inEnding>
+				<outEnding>flac</outEnding>
+			</config>
+			<config url="wav2flacVerified">
+				<name>Wave to FLAC fastest with verification</name>
+				<params>--verify</params>
+				<noOutFile>true</noOutFile>
+				<inEnding>wav</inEnding>
+				<outEnding>flac</outEnding>
+			</config>
+			<config url="wav2flacFastestVerified">
+				<name>Wave to FLAC fastest with verification</name>
+				<params>--fast --verify</params>
+				<noOutFile>true</noOutFile>
+				<inEnding>wav</inEnding>
+				<outEnding>flac</outEnding>
+			</config>
+			<config url="wav2flacHighestVerified">
+				<name>Wave to FLAC highest with verification</name>
+				<params>--best --verify</params>
+				<noOutFile>true</noOutFile>
+				<inEnding>wav</inEnding>
+				<outEnding>flac</outEnding>
+			</config>
+			<config url="flac2wavSafest">
+				<name>FLAC to Wave safest with verification</name>
+				<params>-d --verify -o %OUTFILE%</params>
+			<noOutFile>true</noOutFile>
+			<inEnding>flac</inEnding>
+			<outEnding>wav</outEnding>
+		</config>
+		<config url="flac2wavFastest">
+			<name>FLAC to Wave fastest</name>
+			<params>-d --fast -o %OUTFILE%</params>
+			<noOutFile>true</noOutFile>
+			<inEnding>flac</inEnding>
+			<outEnding>wav</outEnding>
+		</config>
+		<config url="flac2AiffFastest">
+			<name>FLAC to AIFF fastest</name>
+			<params>-d --fast -o  %OUTFILE%</params>
+			<noOutFile>true</noOutFile>
+			<inEnding>flac</inEnding>
+			<outEnding>aiff</outEnding>
+		</config>
+		<config url="flac2AiffSafest">
+			<name>FLAC to AIFF safest</name>
+			<params>-d --verify -o  %OUTFILE%</params>
+			<noOutFile>true</noOutFile>
+			<inEnding>flac</inEnding>
+			<outEnding>aiff</outEnding>
+		</config>
+		</tool>
+		
+		<tool name="JavaIO-Riccardo"
+		 executablePath="java -jar /home/jboss/minimee-config/migration-tools/ImageConverter.jar"
+		  initialisationDir="/home/jboss/minimee-config/score/data/jpg">
+			<config url="imgToGreyscaleToJPG">
+				<name>JPG to a jpeg greyscale image</name>
+				<params>-a toGrayScaleJPG</params>
+   			    <inEnding>jpg</inEnding>
+				<engineName>default</engineName>
+                <outEnding>jpg</outEnding>
+			    <evaluators>
+		          <evaluator>ImageCompare</evaluator>
+	    	      <evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+			<config url="jpg2png"  benchmark="true">
+				<name>JPG to PNG</name>
+				<params>-a png</params>
+				<inEnding>jpg</inEnding>
+				<engineName>default</engineName>
+        		<outEnding>png</outEnding>
+			    <evaluators>
+		          <evaluator>ImageCompare</evaluator>
+	    	      <evaluator>XCL</evaluator>
+				</evaluators>
+			</config>	
+
+			<config url="png2tif-JavaIO"  benchmark="true">
+				<name>PNG to TIF</name>
+				<params>-a tif</params>
+                <inEnding>png</inEnding>
+				<engineName>default</engineName>
+                <outEnding>tif</outEnding>
+			    <evaluators>
+		          <evaluator>ImageCompare</evaluator>
+	    	      <evaluator>XCL</evaluator>
+				</evaluators>
+			</config>
+
+			<config url="png2jpg"  benchmark="true">
+				<name>PNG to JPG</name>
+				<params>-a jpg</params>
+                <inEnding>png</inEnding>
+				<engineName>default</engineName>
+                <outEnding>jpg</outEnding>
+			</config>
+			<config url="jpg2bmp" benchmark="true">
+				<name>JPG to BMP</name>
+				<params>-a bmp</params>
+				<inEnding>jpg</inEnding>
+				<engineName>default</engineName>
+                <outEnding>bmp</outEnding>
+			</config>	
+
+		</tool>
+		<tool name="Acme-Riccardo" executablePath="java -jar /home/jboss/minimee-config/migration-tools/AcmeImageConverter.jar" 
+			 initialisationDir="/home/jboss/minimee-config/score/data/jpg">
+			<config url="img2jpgAcme" benchmark="true">
+				<name>Convert an image to JPG</name>
+				<params>-a jpg</params>
+   			    <outEnding>jpg</outEnding>
+				<engineName>default</engineName>
+			</config>
+			<config url="img2gifAcme" benchmark="true">
+				<name>Convert an image to GIF</name>
+				<params>-a gif</params>
+				<outEnding>gif</outEnding>
+				<engineName>default</engineName>
+			</config>	
+			<config url="img2ppmAcme" benchmark="true">
+				<name>Convert an image to PPM</name>
+				<params>-a ppm</params>
+				<outEnding>ppm</outEnding>
+				<engineName>default</engineName>
+			</config>	
+		</tool>
+		<tool name="ImageMagick" executablePath="convert">
+			<config url="pdf2tiff">
+			  <name>ImageMagick pdf2tiff</name>
+			  <engineName>default</engineName>
+			  <params></params>
+              <outEnding>tiff</outEnding>
+			</config>
+		<!-- How to create multi-page tiff or multiple tiff files? How to return the output files?
+		<config url="pdf2tiff-multi">
+		  <name>ImageMagick pdf2tiff</name>
+		  <executablePath>convert</executablePath>	  
+ 		  <inEnding>pdf</inEnding>
+		  <outEnding>%02d.tiff</outEnding>  
+		  <params></params>
+		</config>		
+		-->
+	</tool>
+	<tool name="Ghostscript PS2PDF" executablePath="ps2pdf">
+		<config url="ps2pdf">
+		  <name>Ghostscript ps2pdf</name>
+		  <params></params>
+ 		  <inEnding>ps</inEnding>
+		  <outEnding>pdf</outEnding>
+		  <engineName>default</engineName>
+		</config>
+	</tool>
+	
+	
+	<tool name="openoffice" executablePath="openOfficeConvert.sh">
+		<config url="ooOdt2PDF">
+			<name>ODT to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>odt</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>
+		<config url="ooSxw2PDF">
+			<name>SXW to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>sxw</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>	
+		<config url="ooDoc2PDF">
+			<name>Doc to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>doc</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>
+		
+		<config url="ooXls2PDF">
+			<name>Xls to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>xls</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>
+		<config url="ooOds2PDF">
+			<name>Ods to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>ods</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>		
+		
+		<config url="ooPpt2PDF">
+			<name>PPT to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>ppt</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>		
+		<config url="ooOdp2PDF">
+			<name>ODP to PDF with OpenOffice</name>
+			<params>8100</params>
+			<inEnding>odp</inEnding>
+			<outEnding>pdf</outEnding>
+			<engineName>TOPOpenOffice</engineName>
+		</config>		
+	</tool>
+	
+	<tool name="GRATE" 
+	executablePath="http://planets.ruf.uni-freiburg.de/~randy/plato_interface/plato_uploader.php">
+		<config url="grateVideos">
+			<name>Qemu Windows 98 with video players</name>
+			<params>1</params>
+		</config>
+		<config url="grateImages">
+			<name>Qemu Windows 98 with image viewer</name>
+			<params>2</params>
+		</config>
+		<config url="grateDocuments">
+			<name>Qemu Windows 98 with document viewers</name>
+			<params>3</params>
+		</config>
+	</tool>
+
+</tools>
+</minimee>

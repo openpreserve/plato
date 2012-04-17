@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+	 <h:outputStylesheet name="css/plans.css"/>
+		<a4j:outputPanel layout="inline" rendered="#{(planLister.projectSelection == 'MYPROJECTS') || (planLister.projectSelection == 'PUBLICPROJECTS')}">
+            <h1>List of plans</h1>
+		</a4j:outputPanel>
+        <a4j:outputPanel layout="inline" rendered="#{(planLister.projectSelection == 'FTEPROJECTS') || (planLister.projectSelection == 'PUBLICFTEPROJECTS')}">
+            <h1>Fast track results</h1>
+        </a4j:outputPanel>
+        <a4j:outputPanel layout="inline" rendered="#{planLister.projectSelection == 'ALLPROJECTS'}">
+            <h1>List of all plans and fast track results</h1>
+        </a4j:outputPanel>
+	
+		<h:form id="listprojects">
+		
+		    <ui:remove>
+		        <!--
+				<fieldset id="import" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<h:outputText value="XML import" />
+					</legend>
+					<h:inputText id="importDir" value="#{planLister.directory}" class="input-dir"/>
+					<h:commandButton id="xmlimportDir"
+						action="#{planLister.importFromDir}"
+						value="Import all XMLs in server directory" />
+				</fieldset>
+				-->
+			</ui:remove>			
+			
+			<h:commandButton id="list" action="#{planLister.listAll}" value="List all" class="margin-top"/>
+			
+			<a4j:outputPanel layout="block" id="planListPanel">
+				<h:dataTable value="#{planLister.list}" var="p"
+				             rendered="#{planLister.list != null}"
+					         styleClass="tableStyle margin-top" 
+              			     headerClass="tableStyle-header"
+              			     rowClasses="plans-row1, plans-row2" border="0"
+              			     columnClasses="column-type,column-id,column-name,column-description,column-author,column-action,column-report">
+					<h:column>
+						<f:facet name="header">
+						   Type
+						</f:facet>
+						#{p.state.fasttrack? 'FTE' : 'Full'}
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						#{p.id}
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Name" />
+						</f:facet>
+						#{p.name}
+					</h:column>
+					<h:column >
+						<f:facet name="header">
+							<h:outputText value="Description" />
+						</f:facet>
+						#{p.description}
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Author" />
+						</f:facet>
+						#{p.author}
+					</h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="State" />
+                        </f:facet>
+                        #{p.state.name}
+                    </h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Action" />
+						</f:facet>
+						<h:commandLink value="Load" action="#{viewWorkflowManager.startWorkflow(p.id)}" rendered="#{p.open}" disabled="#{p.readOnly}" />
+
+						<h:outputText value="locked" rendered="#{not p.open}" />
+
+                        <a4j:commandButton action="#{planLister.unlock(p.id)}" value="Unlock" rendered="#{not p.open and p.allowReload}" render="planListPanel"/>
+						<br />
+					</h:column>
+				</h:dataTable>
+		    </a4j:outputPanel>
+		</h:form>
+		
+		<rich:collapsiblePanel header="Upload a plan" expanded="false" switchType="client" style="margin-top: 40px; width: 500px;">
+	        <div class="margin-top">
+	            <h:form enctype="multipart/form-data">
+	                 <rich:fileUpload id="upload" fileUploadListener="#{planLister.listener}" allowFlash="false" acceptedTypes="xml" autoclear="true"
+	                                  render="planListPanel" />
+	            </h:form>               
+	        </div>
+		</rich:collapsiblePanel>		
+
+	</ui:define>
+</ui:composition>

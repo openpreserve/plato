@@ -1,0 +1,71 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:c="http://java.sun.com/jstl/core"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:p="http://planets-project.eu/taglibs/plato"  >
+   <head>
+      <title>
+         PLANETS Preservation Planning Tool - Measured properties
+      </title>
+      <meta http-equiv="Content-Type"
+         content="text/html; charset=UTF-8" />
+      <meta name="description"
+         content="PLANETS Preservation Planning Tool" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <link rel="shortcut icon" type="image/png"
+         href="../img/plato_icon.png" />
+      <link rel="stylesheet" href="../css/content.css" type="text/css" />
+      <link rel="stylesheet" media="screen" href="../css/plato.css"
+         type="text/css" title="Plato" />
+      <link rel="stylesheet" media="screen" href="../css/header.css"
+         type="text/css" title="Plato" />
+      <link rel="stylesheet" href="../css/menu.css" type="text/css" />
+      <link rel="stylesheet" media="screen" href="../css/footer.css"
+         type="text/css" title="Plato" />
+      <link rel="stylesheet" media="print" href="../css/print.css"
+         type="text/css" />
+      <link rel="stylesheet" href="../css/content-treetable.css"
+         type="text/css" />
+      <link rel="stylesheet" href="../css/content-slider.css"
+         type="text/css" />
+   </head>
+   <body id="top">
+      <div id="header">
+         <a href="/plato" title="home" alt="home site">
+            <img src="../img/polarbear.gif" id="polarbear"
+               alt="Vienna University of Technology" height="100"
+               width="150" />
+         </a>
+         <h1>
+            PLANETS Preservation Planning Tool
+            <em>(Plato)</em>
+         </h1>
+         <img src="../img/plato_right.jpg" id="planetsLogo"
+            alt="Information &amp; Software Engineering Group"
+            height="100" width="150" />
+       </div>
+       <s:div id="content">
+          <h1>Measured properties</h1> 
+          <p:measurableProperties 
+              records="#{selectedPlan.sampleRecordsDefinition.records}"
+              properties="#{measurableProperties}"
+              alternatives="#{selectedPlan.alternativesDefinition.consideredAlternatives}" />
+       </s:div>       
+       <div id="footer">
+         <p id="teamInfo">
+            Release 3.0 - Institute of Software Technology and
+            Interactive Systems: &#171;
+            <a
+               href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">
+               off-ice bears
+            </a>
+            &#187;
+         </p>
+         <a class="toplink" href="#top" title="top" alt="top">
+            <img src="../img/icons/small/go-top.png" border="0" />
+         </a>
+      </div>
+   </body>
+</html>

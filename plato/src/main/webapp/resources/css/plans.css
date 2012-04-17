@@ -1,0 +1,62 @@
+/**
+ css only for plans.xhtml file 
+ */
+
+input.input-dir {
+	width:30%;
+	margin-right:10px;
+}
+
+.plans-row1 {
+	background-color: #F2F2F2;
+	padding-bottom: 5px;
+	font-size:12px;
+}
+
+.plans-row2 {
+	background-color: #EEEEEE;
+	padding-bottom: 5px;
+	font-size:12px;
+}
+
+.column-type {
+	width:4%;
+	text-align:center;
+	border:1px solid white;
+}
+
+.column-id {
+	width:2%;
+	text-align:center;
+	border:1px solid white;
+}
+.column-name {
+	width:6%;
+	padding-left:5px;
+	padding-right:2px;
+	border:1px solid white;
+}
+
+.column-description {
+	width:35%;
+	padding-left:10px;
+	border: 1px solid white;
+}
+
+.column-author {
+	width:10%;
+	text-align:center;
+	border: 1px solid white;
+}
+
+.column-action {
+	width:6%;
+	text-align:center;
+	border: 1px solid white;
+}
+
+.column-report {
+	width:10%;
+	text-align:center;
+	border: 1px solid white;
+}

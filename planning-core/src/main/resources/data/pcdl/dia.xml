@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pcdl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="pcdl.xsd" version="1.1">
+<MigrationTool id="x-sfw/381">
+<GeneralInfo>
+<Name>Dia</Name>
+<Version>0.96.1</Version>
+<Description>Dia is a diagram creation program released under the GPL license. It can load and save diagrams to a custom XML format, and can export diagrams to a number of formats, including EPS, SVG, XFIG, WMF and PNG.</Description>
+<Location>http://www.gnome.org/projects/dia/</Location>
+
+<CreationDate>2007-03-29</CreationDate>
+<Developer>
+<Name>Alexander Larsson</Name>
+<Website/>
+<Mail>alla@lysator.liu.se</Mail>
+<Support>false</Support>
+<Source>
+<SuppliedBy>
+<Name>Administrator</Name>
+<Website>http://www.institute.com/johndoe</Website>
+<Mail>johndoe@institute.org</Mail>
+</SuppliedBy>
+<SuppliedAt>2002-05-30T09:00:00</SuppliedAt>
+<LastModifiedBy>
+<Name>AnotherAdministrator</Name>
+<Website>http://www.institute.org/another</Website>
+<Mail>another@institute.org</Mail>
+</LastModifiedBy>
+<LastModifiedAt>2002-05-30T09:30:00</LastModifiedAt>
+</Source>
+</Developer>
+    
+    <Interface>
+        <InputFormat>
+            <File type="x-fmt/381" optional="true"/>
+            <File type="fmt/84" optional="true"/>
+        </InputFormat>
+        <InputMaxSize>
+            <Amount>48</Amount>
+        </InputMaxSize>
+        <InterfaceType>GUI</InterfaceType>
+        <ProgrammingInterface>false</ProgrammingInterface>
+        <Languages>
+            <Language>en</Language>
+        </Languages>
+    </Interface>
+    <Licensing>
+        <PriceEUROS>0</PriceEUROS>
+        <License>GPL</License>
+        <OpenSource>true</OpenSource>
+        <Schema>openSource</Schema>
+    </Licensing>
+    <Documentation>
+        <UserGuide>
+            <Creator>
+                <Name>Kevin Breith</Name>
+            </Creator>
+            <Creator>
+                <Name>Henry House</Name>
+            </Creator>
+            <Creator>
+                <Name>Judith Samson</Name>
+            </Creator>
+            <Location>http://www.gnome.org/projects/dia/doc/dia-manual.pdf</Location>
+            <ReleaseDate>2000-10-06</ReleaseDate>
+        </UserGuide>
+    </Documentation>
+
+    
+</GeneralInfo>
+  
+<HostEnvironment>
+<OperatingSystem>sfw/183</OperatingSystem>
+<OperatingSystem>x-sfw/37</OperatingSystem>
+<OperatingSystem>x-sfw/31</OperatingSystem>
+<OperatingSystem>x-sfw/9</OperatingSystem>
+<OperatingSystem>x-sfw/8</OperatingSystem>
+<ProcessorSpeedMinimum>
+<AmountMHz>120</AmountMHz>
+</ProcessorSpeedMinimum>
+<ProcessorSpeedRecommended>
+<AmountMHz>400</AmountMHz>
+</ProcessorSpeedRecommended>
+<MemoryMinimum>
+<Amount>256</Amount>
+</MemoryMinimum>
+<MemoryRecommended>
+<Amount>512</Amount>
+</MemoryRecommended>
+<StorageSpaceMinimum>
+<Amount>4</Amount>
+</StorageSpaceMinimum>
+<StorageSpaceRecommended>
+<Amount>12</Amount>
+</StorageSpaceRecommended>
+</HostEnvironment>
+    <evaluation>
+        <Usability>
+            <numberOfItems>1</numberOfItems>
+            <value>4.0</value>
+            <unit>utility</unit>
+            <variance>0</variance>
+            <min>4.0</min>
+            <max>4.0</max>
+            <description>Current average from miniMEE</description>
+            <source>
+                <SuppliedBy>
+                    <Name>miniMEE</Name>
+                    <URL>www.ifs.tuwien.ac.at/dp/minimee</URL>
+                </SuppliedBy>
+                <SuppliedAt>2009-07-30T08:34:34</SuppliedAt>
+                <LastModifiedBy>
+                    <Name>cb</Name>
+                </LastModifiedBy>
+                <LastModifiedAt>2009-07-30T08:34:34</LastModifiedAt>
+            </source>
+        </Usability>
+    </evaluation>
+<Source>
+<SuppliedBy>
+<Name>Administrator</Name>
+<Website>http://www.institute.com/johndoe</Website>
+<Mail>johndoe@institute.org</Mail>
+</SuppliedBy>
+<SuppliedAt>2002-05-30T09:00:00</SuppliedAt>
+<LastModifiedBy>
+<Name>AnotherAdministrator</Name>
+<Website>http://www.institute.org/another</Website>
+<Mail>another@institute.org</Mail>
+</LastModifiedBy>
+<LastModifiedAt>2002-05-30T09:30:00</LastModifiedAt>
+</Source>
+<OutputFormat>
+<File type="fmt/54" optional="false"/>
+<File type="x-fmt/540" optional="false"/>
+</OutputFormat>
+<BatchProcessing>false</BatchProcessing>
+</MigrationTool>
+</pcdl>

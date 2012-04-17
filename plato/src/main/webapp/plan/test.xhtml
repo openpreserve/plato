@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+                    xmlns:p="http://java.sun.com/jsf/composite/plato"    
+                    template="/WEB-INF/templates/default.xhtml"
+                    xmlns:a4j="http://richfaces.org/a4j"
+                    xmlns:rich="http://richfaces.org/rich">
+
+    <ui:define name="title">Test Page</ui:define>
+    <ui:define name="content">
+        <h1>Test Page</h1>
+                     
+        This is a test.
+        
+        Number: #{testBean.number}
+        <br/><br/>
+        #{testBean.plan.id}<br/>
+        #{testBean.plan.planProperties.name}<br/>
+        
+        <br/><br/>
+        <h:form>
+            <p:inputText labelText="change name" input="#{testBean.plan.planProperties.name}" required="false"/>
+            <h:commandButton value="change" action="#{testBean.changeName}" />
+        </h:form>
+    </ui:define>
+</ui:composition>

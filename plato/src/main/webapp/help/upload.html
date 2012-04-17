@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+<head>
+  <title>PLANETS Preservation Planning Tool</title>
+  <meta name="description" content="PLANETS Preservation Planning Tool"/>
+  <link rel="shortcut icon" type="image/png" href="../img/plato_icon.png"/>
+
+  <link rel="stylesheet" href="../css/content.css" type="text/css"/>
+  <link rel="stylesheet" media="screen" href="../css/plato.css" type="text/css" title="Plato"/>
+
+</head>
+<body id="body"><a name="top"></a>
+
+<div id="header">
+  <div><a name="top"></a></div>
+  <h1 class="title1">How to correctly specify requirements using Freemind</h1>
+  <!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
+  <div class="hnav">
+  	<div>
+		<!-- div on the top right -->
+    </div>
+  </div>
+</div>
+
+<div class="strich">
+  <div></div>
+</div>
+
+<div id="menu">&nbsp;<!-- Menu - will not be displayed if div is completely empty! --></div>
+
+<div id="spacing-top">
+  <div></div>
+</div>
+
+<div id="content">
+		<p>This page explains the syntax that should be used when specifying objective trees with the mind-mapping software <a href="http://freemind.sourceforge.net">Freemind</a>.</p>
+<div id="menu">  <h2 class="title2">Tree structure</h2> </div>
+In general, just construct a mindmap containing the structure, save it and upload the .mm file.<br/>
+The leaf nodes of the mindmap will be taken either
+<ul><li>as leaf nodes, if you unchecked the box 'has units', or</li>
+<li>as scale definitions for the level above which contains the leaf nodes, if you checked the box.</li>
+</ul>
+ <div id="menu">  <h2 class="title2">Using scales</h2> </div>
+		<p>If you choose to define scales, you have to specify a scale for <b>every</b> leaf node.<br/>
+		This means you have to add a child node to every leaf with a text specifying the type of scale.
+
+		The following types are possible:
+		</p>
+		<ul>
+		<li>Yes/No scales can be specified by the text 'Y/N'.</li>
+		<li>If you want to specify arbitrary values such as 'same/slight differences/unusable', you should separate the values by a slash.<br/>
+		For example, Availability of documentation in the provided example can have one of the values
+			<ul>
+				<li>public,</li>
+				<li>limited, or</li>
+				<li>none.</li>
+			</ul>
+		</li>
+		<li>If you enter any other text, this is assumed to be the measurement unit of a numeric scale, such as 'seconds' or 'MB'.</li>
+		</ul>
+		<p>
+		The following tree fragment contains various types of scales.<br/>
+		<img src="img/template.png" alt="example tree with scales"/>
+		<br/>
+		For numeric values, you can specify a range of values by using the "lower/upper" notation. The 'other objective' in the provided tree has a numeric range between 0 and 5.<br/>
+		Note that the example tree shown here is incomplete and cannot be uploaded because some leaf nodes contain units, whereas others don't.<br/>
+		A valid tree without measurement units is provided below. <br/>
+		<img src="img/collection-nounits.png" alt="example tree without scales"/>
+		</p>
+
+
+		<p>Finally, you can define mappings to measurable properties and metrics directly in the Freemind tree by using annotations.<br/>
+		As an example, consider the two screenshots below where a minimal tree is shown that contains mappings to automated measurements.<br/>
+		Note that these are case-sensitive and correspond to the mappings which you can define in the tree editor. Be careful with the URLs of the measurements, they have to be valid!
+		<img src="freemind-mapped1.png" alt="example tree with mapped measurements"/>
+		<img src="freemind-mapped2.png" alt="example tree with mapped measurements"/>
+		</p>
+
+		<div id="spacing-bottom">
+		  <div></div>
+		</div>
+</div>
+<div id="footer-left">
+
+  <div class="strich">
+  </div>
+  <div class="contact">Plato help page. Institute of Software Technology and Interactive Systems: &#171;<a href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice bears</a>&#187;</div>
+</div>
+
+
+<div id="footer-right">
+	<span>
+      <a class="toplink" href="#top" title="top">
+      	<img src="../../img/go-top.png" border="0"/>
+      </a>
+    <!-- Span on the bottom right -->
+    </span>
+</div>
+
+</body>
+</html>

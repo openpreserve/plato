@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition 	xmlns="http://www.w3.org/1999/xhtml"
+    				xmlns:h="http://java.sun.com/jsf/html"
+    				xmlns:f="http://java.sun.com/jsf/core"
+    				xmlns:ui="http://java.sun.com/jsf/facelets"
+    				xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
+    				xmlns:p="http://java.sun.com/jsf/composite/plato"    
+   					template="/WEB-INF/templates/default.xhtml"
+   					xmlns:a4j="http://richfaces.org/a4j"
+   					xmlns:rich="http://richfaces.org/rich">
+
+   <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+   <ui:define name="content">
+   <h:outputStylesheet name="css/workflow.css"/>
+         <h1>Define Sample Objects</h1>
+         <div id="anchors">
+            <ul class="anchors">
+               <li class="anchors">
+                  <a href="#collectionprofile" class="anchors">Collection Profile</a>
+               </li>
+               <li class="anchors">
+                  <a href="#samplesamples" class="anchors">Sample Objects</a>
+               </li>
+            </ul>
+         </div>
+         <h:form id="mainform">
+            <h:inputText id="changedflag" value="#{defineSampleRecords.changed}"
+                style="display:none" />
+
+             <fieldset id="collectionprofile" class="size-full">
+               <legend class="fieldset-full-size-legend">
+               	  <ui:include src="/plato/shared/legend_nav.xhtml" /> 
+                  <h:outputText value="Collection Profile"/>
+               </legend>
+               <p:inputTextArea labelText="Collection ID:"
+                  id="collectionID"
+                  input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.collectionID}"
+                  touchable="#{defineSampleRecords.sampleRecordsDefintion}"/>
+               <p:inputTextArea labelText="Description:"
+                  id="collectionDescription"
+                  input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.description}"
+                  touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
+               <p:inputTextArea labelText="Type of objects:"
+                  id="collectionTypeOfObjects"
+                  input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.typeOfObjects}"
+                  touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
+               <p:inputTextArea labelText="Number of objects:"
+                  id="collectionNumberOfObjects"
+                  input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.numberOfObjects}"
+                  touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
+               <p:inputTextArea labelText="Expected growth rate:"
+                  id="collectionExpectedGrowthRate"
+                  input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.expectedGrowthRate}"
+                  touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
+                <p:inputTextArea labelText="Retention period (time horizon):"
+                  id="collectionRetentionPeriod"
+                  input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.retentionPeriod}"
+                  touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
+            </fieldset>
+            <!-- 
+            <p:help url="/plato/help/samples.html" text="What are sample objects and why do I need them?"/>
+             -->
+            <fieldset id="samplesamples" class="size-full">
+               <legend class="fieldset-full-size-legend">
+                  <ui:include src="/plato/shared/legend_nav.xhtml" /> 
+                  <h:outputText value="Sample Objects"/>
+               </legend>
+               <div>
+                  <p:inputTextArea
+                     labelText="Description of sample objects:"
+                     id="samplesDescription"
+                     input="#{defineSampleRecords.sampleRecordsDefintion.samplesDescription}"
+                     touchable="#{defineSampleRecords.sampleRecordsDefintion}"
+                     required="true"/>
+               </div>
+               
+               <a4j:outputPanel layout="block" id="sampleRecordsList">
+                   <!-- div class="margin-bottom-big">< in case the project doesn't have any samples so far, we display a message -->
+                   <h:outputText value="No samples added so far" rendered="#{defineSampleRecords.samples == null}" />
+               
+                   <!-- we display all records -->
+	               <h:dataTable id="allrecords" value="#{defineSampleRecords.samples}" var="row"
+	                  rendered="#{defineSampleRecords.samples != null}"
+	                  styleClass="tableStyle" 
+	                  headerClass="tableStyle-header"
+	                  rowClasses="tableStyle-row"
+	                  columnClasses="sampleobject, objectformat">
+	                  <h:column>
+	                     <f:facet name="header">
+	                        <h:outputText value="Sample Object" />
+	                     </f:facet>
+	                     <!-- the question is if this samplesample already has a name, "row.data == null" is useless -->
+	                     <div class="nonwrapped">
+	                        <p:inputText labelText="Full name:"
+	                           id="fullName" input="#{row.fullname}"
+	                           touchable="#{row}"
+	                           disabled="#{row.dataExistent}"
+	                           required="true" />
+	                     </div>
+	                     <div class="nonwrapped">
+	                        <p:inputText labelText="Short name:"
+	                           id="shortName" input="#{row.shortName}"
+	                           maxlength="255"
+	                           required="true" touchable="#{row}"/>
+	                     </div>
+	                     <h:outputLabel for="datayes" class="small">
+	                        Has data:
+	                     </h:outputLabel>
+	                     <!-- we would like to show a tooltip text for this element but unfortunately it is not  -->
+	                     <!-- maybe the data-object is there but empty -->
+	                     <div id="data" class="nonwrapped ">
+	                        <h:selectBooleanCheckbox id="datayes"
+	                           disabled="true"
+	                           value="#{row.dataExistent}" />
+	                        <h:outputText
+	                           rendered="#{row.dataExistent}"
+	                           disabled="true"
+	                           value=" #{row.sizeInMB} MB"/>
+	                        <h:commandButton value="download"
+	                           action="#{defineSampleRecords.download(row)}"
+	                           rendered="#{row.dataExistent}" />
+	                     </div>
+	                     <div class="float-off">
+	                        <p:inputTextArea
+	                           labelText="Original technical environment:"
+	                           id="originalTechnicalEnvironment"
+	                           input="#{row.originalTechnicalEnvironment}"
+	                           maxlength="5000"
+	                           touchable="#{row}"/>
+	                     </div>
+	                     <div class="float-off">
+	                        <p:inputTextArea labelText="Description:"
+	                           id="sampleRecordDescription"
+	                           input="#{row.description}"
+	                           maxlength="5000" touchable="#{row}"/>
+	                     </div>
+	                     <div class="margin-top-big margin-bottom-big">
+	                        <a4j:commandButton id="cbutton#{row.id}"
+	                           rendered="#{defineSampleRecords.allowRemove != row.id}"
+	                           value="Remove sample"
+	                           action="#{defineSampleRecords.askRemoveSample(row)}"
+	                           render="sampleRecordsList" 
+	                           execute="@this" />
+	                        <h:outputText
+	                           rendered="#{defineSampleRecords.allowRemove == row.id}"
+	                           value="This sample has associated evaluation values. These will be removed as well. Are you sure?"
+	                           class="size-max" />
+	                        <a4j:commandButton
+	                           rendered="#{defineSampleRecords.allowRemove == row.id}"
+	                           value="Yes, remove it."
+	                           action="#{defineSampleRecords.removeSample(row)}"
+	                           onclick="changed()"
+	                           render="sampleRecordsList"/>
+	                     </div>
+	                  </h:column>
+	                  <h:column>
+	                     <f:facet name="header">
+	                        <h:outputText value="Object Format" />
+	                     </f:facet>
+	                     
+	                     <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
+	                     <div style="text-align: center;">
+		                     <a4j:commandButton value="View FITS Characteristics" action="#{defineSampleRecords.selectSampleObject(row)}"
+		                                        oncomplete="#{rich:component('fitsXmlPanel')}.show()" render="fitsXmlPanel"
+		                                        style="vertical-align: middle;" />
+		                     <a href="http://code.google.com/p/fits/" target="_blank">
+		                          <h:graphicImage id="fits" value="/resources/gfx/logos/fits.png" style="vertical-align: middle; margin-left: 30px;" />
+                             </a>
+                         </div>
+	                  </h:column>
+	               </h:dataTable>
+               </a4j:outputPanel>
+                  
+               <div class="margin-bottom-huge margin-top-big" />
+            </fieldset>
+            
+            <p:savediscardproceed bean="#{viewWorkflow}" />
+            <h3>Add new sample without file</h3>
+            <div>
+               <a4j:commandButton value="Add sample" id="addRecord"
+                  action="#{defineSampleRecords.newSample}"
+                  onclick="changed()"
+                  render="sampleRecordsList" />
+            </div>
+	         <h3>Upload new samples</h3>
+             <rich:fileUpload id="upload" fileUploadListener="#{defineSampleRecords.listener}" allowFlash="false">
+                <a4j:ajax event="uploadcomplete" execute="@none" render="sampleRecordsList"  />             
+             </rich:fileUpload>
+        </h:form>
+        
+        
+        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
+                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
+                        This workaround is described here: http://community.jboss.org/thread/171909
+                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
+                        the second click (on buttons, etc.).
+        -->
+        <h:form>
+        <!-- FITS xml panel -->
+            <rich:popupPanel id="fitsXmlPanel" width="800" height="600" domElementAttachment="form">
+                <f:facet name="header">
+                    <h:outputText value="FITS XML data" />
+                </f:facet>
+                <f:facet name="controls">
+                    <h:graphicImage id="closeMapping" 
+                        value="/resources/gfx/icons/cancel.png"
+                        title="Close" width="16" height="16"
+                        onclick="#{rich:component('fitsXmlPanel')}.hide()" />
+                </f:facet>            
+                <h:messages />
+              
+                <h:inputTextarea value="#{defineSampleRecords.selectedSampleObject.fitsXMLString}" cols="145" rows="35" />
+            </rich:popupPanel>
+        <!-- / FITS xml panel -->
+        </h:form>        
+        
+        
+    </ui:define>
+</ui:composition>

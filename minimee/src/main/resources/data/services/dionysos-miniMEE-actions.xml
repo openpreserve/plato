@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<preservationActionServices>
+<preservationActionService type="migration">
+	<name>RAW to tiff </name>
+	<description>RAW file to tiff using dcraw (auto white balance)</description>
+	<externalInfo/>
+    <sourceFormats>
+        <format>
+          <puid></puid>
+          <name></name>
+          <extension>CRW</extension>
+       </format>                  
+        <format>
+          <puid></puid>
+          <name></name>
+          <extension>RAW</extension>
+       </format>                  
+     </sourceFormats>
+    <targetFormat>
+        <puid></puid>
+        <name></name>
+        <extension>tiff</extension>
+    </targetFormat>
+	<url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/raw2tiff-dcraw-wb-auto</url>    
+</preservationActionService>
+
+ <preservationActionService type="migration">
+      <name>ImageIO to greyscale</name>
+      <description>Jpeg to Greyscale converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPG</extension>
+         </format> 
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPE</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPEG</extension>
+         </format>        
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>jpg</extension>
+      </targetFormat>
+      
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2greyscalejpg-ImageIO</url>
+   </preservationActionService>
+   
+   
+   <preservationActionService type="migration">
+      <name>PNGtoTIF (GIMP)</name>
+      <description>PNG to TIF converted using GIMP package</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>png</extension>
+         </format>  
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>tif</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/png2tif-gimp</url>
+   </preservationActionService>
+
+   <preservationActionService type="migration">
+      <name>PNGtoTIF (ImageMagick)</name>
+      <description>Migration of PNG to TIF with ImageMagick</description>
+      <externalInfo>
+         <url>http://www.imagemagick.org/</url>
+         <url>http://filext.com/file-extension/TIF</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>PNG</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>TIF</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/png2tiff-ImageMagick</url>
+   </preservationActionService>   
+
+   <preservationActionService type="migration">
+      <name>GIFtoPNG (ImageMagick)</name>
+      <description>Migration of GIF to PNG with ImageMagick</description>
+      <externalInfo>
+         <url>http://www.imagemagick.org/</url>
+         <url>http://filext.com/file-extension/Png</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>GIF</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>PNG</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/gif2png-ImageMagick</url>
+   </preservationActionService>
+
+   <preservationActionService type="migration">
+      <name>JPGtoTIFF (GIMP)</name>
+      <description>JPG to TIFF converted using GIMP package</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpeg</extension>
+         </format>  
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>tif</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2tif-gimp</url>
+   </preservationActionService>
+   
+
+   <preservationActionService type="migration">
+      <name>JPGtoPNG (GIMP)</name>
+      <description>JPG to PNG converted using GIMP package</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpeg</extension>
+         </format>  
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>png</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2png-gimp</url>
+   </preservationActionService>
+   
+   
+   <preservationActionService type="migration">
+      <name>Image2JPG (Acme)</name>
+      <description>Image to JPG converted using Acme package</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpe</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpeg</extension>
+         </format>     
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>bmp</extension>
+         </format>   
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>png</extension>
+         </format>           
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>jpg</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/img2jpgAcme</url>
+   </preservationActionService>
+   
+   <preservationActionService type="migration">
+      <name>Image2GIF (Acme)</name>
+      <description>Image to GIF converted using Acme package</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpe</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpeg</extension>
+         </format>     
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>bmp</extension>
+         </format>   
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>png</extension>
+         </format>           
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>gif</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/img2gifAcme</url>
+   </preservationActionService>
+   
+   <preservationActionService type="migration">
+      <name>Image2PPM (Acme)</name>
+      <description>Image to PPM converted using Acme package</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpe</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpeg</extension>
+         </format>     
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>bmp</extension>
+         </format>   
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>png</extension>
+         </format>           
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>ppm</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/img2ppmAcme</url>
+   </preservationActionService>
+
+
+<preservationActionService type="migration">
+      <name>ImageIO PNG2JPG</name>
+      <description>PNG to JPG converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>PNG</extension>
+         </format>  
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>jpg</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/png2jpg-ImageIO</url>
+   </preservationActionService>
+
+<preservationActionService type="migration">
+      <name>ImageIO JPG2PNG</name>
+      <description>Jpeg to PNG converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPG</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPE</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPEG</extension>
+         </format>              
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>png</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2png-ImageIO</url>
+   </preservationActionService>
+
+<preservationActionService type="migration">
+      <name>ImageIO JPG2TIF</name>
+      <description>Jpeg to TIF converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPG</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPE</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPEG</extension>
+         </format>              
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>tif</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2tiff-ImageIO</url>
+   </preservationActionService>
+
+<preservationActionService type="migration">
+      <name>ImageIO JPG2TIF</name>
+      <description>Jpeg to TIF converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPG</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPE</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPEG</extension>
+         </format>              
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name>BMP</name>
+          <extension>bmp</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2bmp-ImageIO</url>
+   </preservationActionService>
+   
+<!-- Only from Java 1.6 available
+<preservationActionService type="migration">
+      <name>ImageIO JPG2GIF</name>
+      <description>Jpeg to GIF converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpe</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpeg</extension>
+         </format>              
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name>GIF</name>
+          <extension>gif</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2gif</url>
+   </preservationActionService>  -->
+
+<preservationActionService type="migration">
+      <name>ImageIO JPG2BMP</name>
+      <description>Jpeg to BMP converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpe</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>jpeg</extension>
+         </format>              
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>bmp</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2bmp-ImageIO</url>
+   </preservationActionService>
+
+<!-- Only from Java 1.6 available
+<preservationActionService type="migration">
+      <name>ImageIO JPG2TIFF</name>
+      <description>Jpeg to TIFF converted using ImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpg</extension>
+         </format>  
+          <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpe</extension>
+         </format>
+         <format>
+            <puid></puid>
+            <name>Jpeg</name>
+            <extension>jpeg</extension>
+         </format>              
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name>TIFF</name>
+          <extension>tif</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2tif</url>
+   </preservationActionService>-->
+
+   <preservationActionService type="migration">
+      <name>LAME wav to mp3/192</name>
+      <description>Migration of WAV to MP3 with LAME, 192 kbit high quality</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>mp3</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2mp3lame192</url>
+   </preservationActionService>
+    
+   <preservationActionService type="migration">
+      <name>LAME wav to mp3/320</name>
+      <description>Migration of WAV to MP3 with LAME, 320 kbit high quality</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>mp3</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2mp3lame320</url>
+   </preservationActionService>
+   
+    <preservationActionService type="migration">
+      <name>LAME wav to mp3/VBR</name>
+      <description>Migration of WAV to MP3 with LAME, VBR highest quality</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>mp3</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2mp3lameV9</url>
+   </preservationActionService>
+
+   <preservationActionService type="migration">
+      <name>Convert to flac, default</name>
+      <description>Migration of WAV to FLAC, default options</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>flac</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2flacDefault</url>
+   </preservationActionService>
+
+
+   <preservationActionService type="migration">
+      <name>Convert to flac, fast</name>
+      <description>Migration of WAV to FLAC, fastest</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>flac</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2flacFastest</url>
+   </preservationActionService>
+
+   <preservationActionService type="migration">
+      <name>Convert to flac, slow</name>
+      <description>Migration of WAV to FLAC, highest compression, slowest</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>flac</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2flacHighest</url>
+   </preservationActionService>
+
+   <preservationActionService type="migration">
+      <name>Decode flac to wave, safe</name>
+      <description>Decode FLAC to WAV, safest</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+           <puid></puid>
+           <name></name>
+           <extension>flac</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+           <puid></puid>
+           <name></name>
+           <extension>wav</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/flac2wavSafest</url>
+   </preservationActionService>
+
+  <preservationActionService type="migration">
+      <name>Decode flac to AIFF, safe</name>
+      <description>Decode FLAC to AIFF, safest</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+           <puid></puid>
+           <name></name>
+           <extension>flac</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+           <puid></puid>
+           <name></name>
+           <extension>aiff</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/flac2AiffSafest</url>
+   </preservationActionService>
+
+
+   <preservationActionService type="migration">
+      <name>Decode flac to wave, fast</name>
+      <description>Decode FLAC to WAV, fastest</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+           <puid></puid>
+           <name></name>
+           <extension>flac</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+           <puid></puid>
+           <name></name>
+           <extension>wav</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/flac2wavFastest</url>
+   </preservationActionService>
+
+  <preservationActionService type="migration">
+      <name>Decode flac to AIFF, fast</name>
+      <description>Decode FLAC to AIFF, fastest</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+           <puid></puid>
+           <name></name>
+           <extension>flac</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+           <puid></puid>
+           <name></name>
+           <extension>aiff</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/flac2AiffFastest</url>
+   </preservationActionService>
+
+
+   <preservationActionService type="migration">
+      <name>Convert to flac, verified</name>
+      <description>Migration of WAV to FLAC, with verification</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>flac</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2flacVerified</url>
+   </preservationActionService>
+
+   <preservationActionService type="migration">
+      <name>Convert to flac, fast, verified</name>
+      <description>Migration of WAV to FLAC, fastest and verified</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>flac</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2flacFastestVerified</url>
+   </preservationActionService>
+
+  <preservationActionService type="migration">
+      <name>Convert to flac, slow, verified</name>
+      <description>Migration of WAV to FLAC, highest compression, verified</description>
+      <externalInfo>
+      	<url>http://flac.sourceforge.net/documentation.html</url>
+      	<url>http://flac.sourceforge.net/documentation_format_overview.html</url>
+      	<url>http://flac.sourceforge.net/comparison.html</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>wav</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>flac</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/wav2flacHighestVerified</url>
+   </preservationActionService>
+
+</preservationActionServices>

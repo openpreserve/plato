@@ -1,0 +1,1303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" template="WEB-INF/templates/default.xhtml">
+
+	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
+
+	<ui:define name="content">
+		<h:outputScript library="jqplot" name="jquery.jqplot.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.canvasTextRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.canvasAxisLabelRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.categoryAxisRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.pointLabels.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.pieRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.barRenderer.min.js" target="head" />
+		<h:outputStylesheet library="jqplot" name="jquery.jqplot.min.css" target="head" />
+		<h:outputScript library="js" name="jqplot_scores.js" target="head" />
+		<h:outputScript library="js" name="jqplot_potential_to_range.js" target="head" />
+
+		<h:outputStylesheet library="css" name="kbrowser.css" target="head" />
+
+		<h1>Analyse criteria</h1>
+
+		<h:form id="loadingform" name="loadingform">
+			<a4j:status name="loadingStatus" startStyleClass="loadingStatus-start" stopStyleClass="loadingStatus-stop"
+				onstart="document.getElementById('mainContent').style.display='none';"
+				onstop="document.getElementById('mainContent').style.display='block';">
+				<f:facet name="start">
+					<h:graphicImage library="gfx" name="ajax-loader.gif" styleClass="loadingStatus-start-image" />
+					<div class="loadingStatus-start-message">
+						Loading Knowledge Browser data...<br />This may take a few minutes.
+					</div>
+				</f:facet>
+			</a4j:status>
+			<a4j:jsFunction name="initData" actionListener="#{kBrowser.initData()}"
+				render="general_results, impact_factors_table, critierion_selection, critierion_description" status="loadingStatus" />
+		</h:form>
+
+		<div id="mainContent" style="display: none;">
+			<h:form id="panelform" name="panelform">
+				<rich:tabPanel switchType="ajax">
+					<rich:tab header="Browse">
+						<a4j:outputPanel id="general_results">
+							<h:panelGroup layout="block" styleClass="pagePart">
+								<div class="outstanding-number">#{kBrowser.nrRelevantPlans}</div>
+								<div class="outstanding-number-text">
+									selected <br /> plans
+								</div>
+								<div class="outstanding-number" style="margin-left: 70px;">#{kBrowser.nrPlanLeaves}</div>
+								<div class="outstanding-number-text">
+									decision <br /> criteria
+								</div>
+								<div class="outstanding-number" style="margin-left: 70px;">#{kBrowser.nrMappedPlanLeaves}</div>
+								<div class="outstanding-number-text">
+									mapped <br /> decision criteria
+								</div>
+								<div class="outstanding-number" style="margin-left: 70px;">#{kBrowser.nrCriteriaUsedAtLeastOnce}</div>
+								<div class="outstanding-number-text">
+									standardised <br />criteria used
+								</div>
+								<div style="clear: both;" />
+							</h:panelGroup>
+							<ui:remove>
+								<!--
+						    <br/><br/>
+						    <span class="big-font" style="line-height: 22px;">
+							    #{kBrowser.nrRelevantPlans} plans selected to analyse. <br/>
+							    These plans contain #{kBrowser.nrPlanLeaves} decision criteria of which #{kBrowser.nrMappedPlanLeaves} are mapped to unique criteria. <br/>
+							    #{kBrowser.nrCriteriaUsedAtLeastOnce} criteria out of #{kBrowser.nrOverallCriteria} available are used.
+						    </span>
+						    -->
+							</ui:remove>
+
+							<ui:remove>
+								<!--
+							<h:panelGroup layout="block" styleClass="pagePart">
+								
+								<h:panelGroup layout="block" styleClass="layout-twocolumn-left">
+
+									<table class="tableStyle propertiesTable rf-dt">
+										<thead class="rf-dt-thd">
+											<tr class="tableStyle-header rf-dt-hdr">
+												<th colspan="2" class="rf-dt-hdr-c">Plans</th>
+											</tr>
+										</thead>
+										<tbody class="rf-dt-b">
+											<tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+												<td class="rf-dt-c">Relevant plans</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrRelevantPlans}" /></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Overall leaves</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrPlanLeaves}" /></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Mapped leaves</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrMappedPlanLeaves}" /></td>
+											</tr>
+										</tbody>
+									</table>
+									
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" styleClass="layout-twocolumn-right">
+									<table class="tableStyle propertiesTable rf-dt">
+										<thead class="rf-dt-thd">
+											<tr class="tableStyle-header rf-dt-hdr">
+												<th colspan="2" class="rf-dt-hdr-c">Properties</th>
+											</tr>
+										</thead>
+										<tbody class="rf-dt-b">
+											<tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+												<td class="rf-dt-c">Available properties</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.allMeasurablePropertiesCount}" /></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Properties used at least once</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.usedMeasurablePropertiesCount}" /></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Available criteria</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrOverallCriteria}" /></td>
+											</tr>
+											<tr>
+												<td class="rf-dt-c">Criteria used at least once</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCriteriaUsedAtLeastOnce}" /></td>
+											</tr>
+										</tbody>
+									</table>
+								</h:panelGroup>
+							</h:panelGroup>
+							-->
+							</ui:remove>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel id="critierion_selection">
+							<h:panelGroup layout="block" styleClass="pagePart">
+
+								<h:messages />
+
+								<table class="tableStyle rf-dt">
+									<thead class="rf-dt-thd">
+										<ui:remove>
+											<!--
+										<tr class="tableStyle-header rf-dt-hdr">
+											<th colspan="3" class="rf-dt-hdr-c">Criterion selection</th>
+										</tr>
+										-->
+										</ui:remove>
+										<tr class="tableStyle-header rf-dt-shdr">
+											<th class="rf-dt-shdr-c" style="width: 25%">Category</th>
+											<th class="rf-dt-shdr-c" style="width: 50%">Property</th>
+											<th class="rf-dt-shdr-c" style="width: 25%">Metric</th>
+										</tr>
+									</thead>
+									<tbody class="rf-dt-b">
+										<tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+											<td class="rf-dt-c"><h:selectOneListbox size="10" id="categories_select"
+													value="#{kBrowser.selectedCategory}" required="false" style="width: 100%">
+													<f:selectItem itemLabel="(all)" />
+													<f:selectItems value="#{kBrowser.categories}" var="cat" itemLabel="#{cat}" itemValue="#{cat}" />
+													<a4j:ajax event="change" listener="#{kBrowser.selectCategory}"
+														render="criteria_information properties_select metrics_select" />
+												</h:selectOneListbox></td>
+											<td class="rf-dt-c"><h:selectOneListbox size="10" id="properties_select"
+													value="#{kBrowser.selectedMeasurablePropertyString}" required="false" style="width: 100%">
+													<f:selectItems value="#{kBrowser.filteredMeasurableProperties}" var="prop" itemLabel="#{prop.name}"
+														itemValue="#{prop.name}" />
+													<a4j:ajax event="change" render="criteria_information metrics_select" listener="#{kBrowser.selectProperty}" />
+												</h:selectOneListbox></td>
+											<td class="rf-dt-c"><h:selectOneListbox size="10" id="metrics_select"
+													value="#{kBrowser.selectedMetricString}" required="false" style="width: 100%">
+													<f:selectItem itemLabel="(none)" />
+													<f:selectItems id="metrics_select_items" value="#{kBrowser.metrics}" var="met" itemLabel="#{met.name}"
+														itemValue="#{met.metricId}" noSelectionLabel="(none)" />
+													<a4j:ajax event="change" render="criteria_information" listener="#{kBrowser.selectMetric}" />
+												</h:selectOneListbox></td>
+										</tr>
+										<ui:remove>
+											<!--
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">Properties in Category: <h:outputText id="properties_statistics"
+													value="#{kBrowser.filteredMeasurablePropertiesCount}" />
+											</td>
+											<td colspan="2"><h:selectBooleanCheckbox id="onlyusedproperties_checkbox"
+													value="#{kBrowser.showOnlyUsedProperties}">
+													<a4j:ajax event="change"
+														render="criteria_information properties_select metrics_select properties_statistics criterion_description specific_result impact_factors transformer_table evaluations_charts transformer_chart"
+														listener="#{kBrowser.selectShowOnlyUsedProperties}" />
+											 Display only used properties
+									         </h:selectBooleanCheckbox></td>
+										</tr>
+										-->
+										</ui:remove>
+									</tbody>
+								</table>
+							</h:panelGroup>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel id="criteria_information" layout="block">
+							<rich:tabPanel switchType="ajax"
+								rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+								<rich:tab header="Summary">
+									<a4j:outputPanel id="criteria_summary">
+										<ui:remove>
+											<!--
+		                                <div class="layout-twocolumn-left">
+		                                    <table class="tableStyle propertiesTable rf-dt">
+		                                        <thead class="rf-dt-thd">
+		                                            <tr class="tableStyle-header rf-dt-hdr">
+		                                                <th colspan="2" class="rf-dt-hdr-c">Criterion</th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody class="rf-dt-b">
+		                                            <tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+		                                                <td class="rf-dt-c" style="width: 50px;">Property</td>
+		                                                <c:if test="#{!kBrowser.isPropertySelected}">
+		                                                    <td class="rf-dt-c">N/A</td>
+		                                                </c:if>
+		                                                <c:if test="#{kBrowser.isPropertySelected}">
+		                                                    <td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMeasurableProperty.description}" /></td>
+		                                                </c:if>
+		                                            </tr>
+		                                            <tr class="tableStyle-row rf-dt-r">
+		                                                <td class="rf-dt-c" style="width: 50px;">Metric</td>
+		                                                <c:if test="#{kBrowser.selectedMetric != null}">
+		                                                    <td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMetric.description}" /></td>
+		                                                </c:if>
+		                                                <c:if test="#{kBrowser.selectedMetric == null}">
+		                                                    <td class="rf-dt-c"></td>
+		                                                </c:if>
+		                                            </tr>
+		                                            <tr class="tableStyle-row rf-dt-r">
+		                                                <td class="rf-dt-c" style="width: 50px;">Scale</td>
+		                                                <c:if test="#{!kBrowser.isMeasurableCriterionSelected}">
+		                                                    <td class="rf-dt-c">N/A</td>
+		                                                </c:if>
+		                                                <c:if test="#{kBrowser.isMeasurableCriterionSelected}">
+		                                                    <c:choose>
+		                                                        <c:when test="#{kBrowser.selectedMetric == null}">
+		                                                            <td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMeasurableProperty.scale.displayName}" /></td>
+		                                                        </c:when>
+		                                                        <c:otherwise>
+		                                                            <td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMetric.scale.displayName}" /></td>
+		                                                        </c:otherwise>
+		                                                    </c:choose>
+		                                                </c:if>
+		                                            </tr>
+		                                        </tbody>
+		                                    </table>
+		                                    
+		                                    <a4j:outputPanel layout="block" rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+		                                        <table class="tableStyle propertiesTable rf-dt" style="margin-top: 15px;">
+		                                            <thead class="rf-dt-thd">
+		                                                <tr class="tableStyle-header rf-dt-hdr">
+		                                                    <th colspan="2" class="rf-dt-hdr-c">Impact</th>
+		                                                </tr>
+		                                            </thead>
+		                                            <tbody class="rf-dt-b">
+		                                                <tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+		                                                    <td class="rf-dt-c" style="width: 100px;">Coverage</td>
+		                                                    <td class="rf-dt-c">
+		                                                        <h:outputText value="#{kBrowser.cplIf2}">           
+		                                                            <f:convertNumber type="number" maxFractionDigits="2" />
+		                                                        </h:outputText> %
+		                                                    </td>
+		                                                </tr>
+		                                                <tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+		                                                    <td class="rf-dt-c" style="width: 100px;">Range</td>
+		                                                    <td class="rf-dt-c">
+		                                                        <h:outputText value="#{kBrowser.cplIf6}">
+		                                                            <f:convertNumber type="number" maxFractionDigits="4" />
+		                                                        </h:outputText>
+	                                                        </td>
+		                                                </tr>
+		                                                <tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+		                                                    <td class="rf-dt-c" style="width: 100px;">Criticality</td>
+		                                                    <td class="rf-dt-c">
+	                                                            <h:outputText value="#{kBrowser.cplIf18}">           
+	                                                                <f:convertNumber type="number" maxFractionDigits="2" />
+	                                                            </h:outputText> %
+		                                                    </td>
+		                                                </tr>
+		                                            </tbody>
+		                                        </table>
+	                                        </a4j:outputPanel>
+		                                </div>
+		                                -->
+										</ui:remove>
+
+										<h2>
+											<h:outputText value="#{kBrowser.selectedMeasurableProperty.name}"
+												rendered="#{kBrowser.selectedMeasurableProperty != null}" />
+											<h:outputText value=" #{kBrowser.selectedMetric.name}" rendered="#{kBrowser.selectedMetric != null}" />
+										</h2>
+
+										<h:panelGroup layout="block" styleClass="layout-twocolumn-left very-big-font">
+											<h:panelGroup layout="block" styleClass="panel">
+												#{kBrowser.selectedMeasurableProperty.description}
+												<p />
+												<i>Measurement Scale:</i>
+												<a4j:outputPanel layout="inline" rendered="#{kBrowser.selectedMetric == null}">
+                                                	#{kBrowser.selectedMeasurableProperty.scale.displayName}
+                                            	</a4j:outputPanel>
+												<a4j:outputPanel layout="inline" rendered="#{kBrowser.selectedMetric != null}">
+                                                	#{kBrowser.selectedMetric.scale.displayName}
+                                            	</a4j:outputPanel>
+												<br />
+												<a4j:outputPanel layout="inline" rendered="#{kBrowser.hasCriterionNumericScale}">
+													<i>Measurement Unit:</i>
+													<c:if test="#{kBrowser.selectedMetric == null}">
+                                                        #{kBrowser.selectedMeasurableProperty.scale.unit}
+                                                    </c:if>
+													<c:if test="#{kBrowser.selectedMetric != null}">
+                                                        #{kBrowser.selectedMetric.scale.unit}
+                                                    </c:if>
+												</a4j:outputPanel>
+											</h:panelGroup>
+											<h:panelGroup layout="block" styleClass="panel">
+												<div style="width: 100px; float: left;" class="very-huge-font">
+													Coverage: <br /> Range: <br /> Criticality: <br />
+												</div>
+												<div style="margin-left: 110px;" class="very-huge-font">
+													<h:outputText value="#{kBrowser.cplIf2}">
+														<f:convertNumber type="number" maxFractionDigits="2" />
+													</h:outputText>
+													% <br />
+													<h:outputText value="#{kBrowser.cplIf6}">
+														<f:convertNumber type="number" maxFractionDigits="4" />
+													</h:outputText>
+													<br />
+													<h:outputText value="#{kBrowser.cplIf18}">
+														<f:convertNumber type="number" maxFractionDigits="2" />
+													</h:outputText>
+													%
+												</div>
+											</h:panelGroup>
+
+
+											<ui:remove>
+												<!--
+											<div style="font-size: 20px; line-height: 30px;">
+												Coverage:
+												<h:outputText value="#{kBrowser.cplIf2}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText>
+												% <br /> Range:
+												<h:outputText value="#{kBrowser.cplIf6}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText>
+												<br /> Criticality:
+												<h:outputText value="#{kBrowser.cplIf18}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText>
+												%
+											</div>
+											-->
+											</ui:remove>
+										</h:panelGroup>
+
+										<a4j:outputPanel layout="block"
+											rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}"
+											styleClass="layout-twocolumn-right">
+											<div id="summary_scoredistribution_chart" class="chart" />
+
+											<a4j:jsFunction name="showSummaryScoreDistribution" data="#{kBrowser.scoreDistribution}"
+												oncomplete="plotDistributionOfScoresBar('summary_scoredistribution_chart', event.data);">
+											</a4j:jsFunction>
+
+											<h:outputScript>
+												<f:verbatim>
+			                                        showSummaryScoreDistribution();
+			                                    </f:verbatim>
+											</h:outputScript>
+										</a4j:outputPanel>
+
+										<div style="clear: both;" />
+
+									</a4j:outputPanel>
+								</rich:tab>
+
+								<rich:tab header="Details">
+									<a4j:outputPanel id="criteria_details">
+										<h:panelGroup styleClass="pagePart">
+											<h:panelGroup layout="block"
+												rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}"
+												styleClass="layout-twocolumn-left">
+												<table class="tableStyle-big-font propertiesTable rf-dt">
+													<thead class="rf-dt-thd">
+														<tr class="tableStyle-header rf-dt-hdr">
+															<th colspan="2" class="rf-dt-hdr-c" style="width: 200px;">Impact Factors</th>
+														</tr>
+													</thead>
+													<tbody class="rf-dt-b">
+														<tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+															<td class="rf-dt-c" style="width: 200px;">IF1: Count</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf1}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF2: Spread</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf2}">
+																	<f:convertNumber type="number" maxFractionDigits="2" />
+																</h:outputText> %</td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF3: Weight</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf3}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF4: Discounted Weight</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf4}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF5: Potential</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf5}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c" style="width: 200px;">IF6: Range</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf6}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF7: Discounted Potential</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf7}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF8: Discounted Range</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf8}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF9: Maximum Potential</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf9}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF10: Maximum Range</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf10}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF11: Variation</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf11}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF12: Maximum Variation</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf12}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF13: Rejection Potential Count</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf13}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF14: Rejection Potential Rate</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf14}">
+																	<f:convertNumber type="number" maxFractionDigits="2" />
+																</h:outputText> %</td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF15: Rejection Count</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf15}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF16: Rejection Rate</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf16}">
+																	<f:convertNumber type="number" maxFractionDigits="2" />
+																</h:outputText> %</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c" style="width: 200px;">IF17: Reject Count</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf17}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c" style="width: 200px;">IF18: Reject Rate</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf18}">
+																	<f:convertNumber type="number" maxFractionDigits="2" />
+																</h:outputText> %</td>
+														</tr>
+													</tbody>
+												</table>
+											</h:panelGroup>
+
+											<h:panelGroup layout="block" styleClass="layout-twocolumn-right"
+												rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+
+												<div id="potential_range_max_chart" class="chart" />
+
+												<a4j:jsFunction name="showPotentialToRangeDiagram" data="#{kBrowser.potentialToRangeData}"
+													oncomplete="plotPotentialToRangeMax('potential_range_max_chart', event.data);">
+												</a4j:jsFunction>
+
+												<h:outputScript>
+													<f:verbatim>
+			                                        showPotentialToRangeDiagram();
+			                                    </f:verbatim>
+												</h:outputScript>
+											</h:panelGroup>
+										</h:panelGroup>
+										<h:panelGroup styleClass="pagePart">
+											<h:panelGroup layout="block" styleClass="layout-twocolumn-left2">
+												<table class="rf-dt">
+													<thead class="rf-dt-thd">
+														<tr>
+															<th colspan="1" class="rf-dt-hdr-c" style="background-color: #7F7F7F;">Impact factor</th>
+															<th colspan="1" class="rf-dt-hdr-c" style="background-color: #7F7F7F;">Definition</th>
+														</tr>
+													</thead>
+													<tbody class="rf-dt-b">
+														<tr>
+															<td class="rf-dt-c">IF1:Count</td>
+															<td class="rf-dt-c">Number of plans using this criterion</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF2: Spread</td>
+															<td class="rf-dt-c">Percentage of plans using this criterion</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF3 :Weight</td>
+															<td class="rf-dt-c">Average total weight of this criterion</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF4: Discounted Weight</td>
+															<td class="rf-dt-c">Sum of total weights of this criterion, divided by number of all plans</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF5: Potential</td>
+															<td class="rf-dt-c">Average potential output range of this criterion</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF6: Range</td>
+															<td class="rf-dt-c">Average actual output range of this criterion</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF7: Discounted Potential</td>
+															<td class="rf-dt-c">Sum of all criterion potential output ranges, divided by number of all plans</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF8: Discounted Range</td>
+															<td class="rf-dt-c">Sum of all criterion actual output ranges, divided by number of all plans</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF9: Maximum Potential</td>
+															<td class="rf-dt-c">Maximum potential output range</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF10: Maximum Range</td>
+															<td class="rf-dt-c">Maximum actual output range</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF11: Variation</td>
+															<td class="rf-dt-c">Average relative output range</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF12: Maximum Variation</td>
+															<td class="rf-dt-c">Maximum relative output range</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF13: Rejection Potential Count</td>
+															<td class="rf-dt-c">Number of utility functions with an output range including 0.</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF14: Rejection Potential Rate</td>
+															<td class="rf-dt-c">Percentage of utility functions with an output range including 0.</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF15: Rejection Count</td>
+															<td class="rf-dt-c">Number of utility functions actually rejecting alternatives.</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF16: Rejection Rate</td>
+															<td class="rf-dt-c">Percentage of utility functions actually rejecting alternatives.</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF17: Reject Count</td>
+															<td class="rf-dt-c">Number of rejected alternatives</td>
+														</tr>
+														<tr>
+															<td class="rf-dt-c">IF18: Reject Rate</td>
+															<td class="rf-dt-c">Percentage of rejected alternatives</td>
+														</tr>
+													</tbody>
+												</table>
+											</h:panelGroup>
+										</h:panelGroup>
+										<div style="clear: both;" />
+									</a4j:outputPanel>
+								</rich:tab>
+
+								<rich:tab header="Scores">
+									<a4j:outputPanel id="criteria_scores">
+										<h:panelGroup layout="block" rendered="#{kBrowser.hasCriterionEvaluations}" styleClass="pagePart">
+											<div id="scores_scoredistribution_piechart" class="layout-twocolumn-left chart" />
+											<div id="scores_scoredistribution_barchart" class="layout-twocolumn-right chart" />
+											<div style="clear: both;" />
+
+											<a4j:jsFunction name="showScoreDistribution" data="#{kBrowser.scoreDistribution}"
+												oncomplete="plotDistributionOfScoresBar('scores_scoredistribution_barchart', event.data); plotDistributionOfScoresPie('scores_scoredistribution_piechart', event.data);">
+											</a4j:jsFunction>
+
+											<h:outputScript>
+												<f:verbatim>
+			                                        showScoreDistribution();
+			                                    </f:verbatim>
+											</h:outputScript>
+
+										</h:panelGroup>
+										<h:panelGroup layout="block" styleClass="pagePart"
+											rendered="#{kBrowser.isMeasurableCriterionSelected and fn:length(kBrowser.transformerTable.chartDataPoints)> 0}">
+											<div id="transformerChart" class="chart" />
+
+											<h:outputScript>
+			                                    var transformerChartPoints = <h:outputText
+													value="#{kBrowser.transformerTable.chartDataPoints}"
+													converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+			                                    var transformerIDs = <h:outputText
+													value="#{kBrowser.transformerTable.transformerMappingIdentification}"
+													converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+			                                    plotTransformerValues('transformerChart', transformerChartPoints, transformerIDs,
+			                                                          <c:if test="#{kBrowser.selectedMetric == null}">'#{kBrowser.selectedMeasurableProperty.scale.unit}'</c:if>
+												<c:if test="#{kBrowser.selectedMetric != null}">'#{kBrowser.selectedMetric.scale.unit}'</c:if>);
+			                                </h:outputScript>
+										</h:panelGroup>
+
+										<h:panelGroup layout="block" styleClass="pagePart"
+											rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+											<h:panelGroup styleClass="layout-twocolumn-left" layout="block">
+												<rich:dataTable value="#{kBrowser.transformerTable.transformerMappings}" var="mapping" rowKeyVar="rowkey"
+													styleClass="tableStyle-big-font">
+
+													<rich:column>
+														<c:if test="#{kBrowser.transformerTable.ordinal}">
+															<f:facet name="header">Ordinal Transformer</f:facet>
+														</c:if>
+														<c:if test="#{!kBrowser.transformerTable.ordinal}">
+															<f:facet name="header">Numeric Transformer</f:facet>
+														</c:if>
+														<h:outputText
+															value="Plan #{rowkey + 1} #{kBrowser.transformerTable.transformerMappingIdentification[rowkey]}" />
+													</rich:column>
+
+													<c:forEach items="#{kBrowser.transformerTable.targetValues}" var="targetValue">
+														<rich:column>
+															<f:facet name="header">
+																<h:outputText value="#{targetValue}" />
+															</f:facet>
+															<h:outputText value="#{mapping[targetValue]}" />
+
+														</rich:column>
+													</c:forEach>
+												</rich:dataTable>
+											</h:panelGroup>
+											<div style="clear: both;" />
+										</h:panelGroup>
+									</a4j:outputPanel>
+								</rich:tab>
+
+								<rich:tab header="Characteristics">
+									<a4j:outputPanel id="criteria_characteristics">
+										<ui:remove>
+											<!--
+	                                    <h:panelGroup layout="block" styleClass="panel layout-twocolumn-left">
+	                                       #{kBrowser.selectedMeasurableProperty.description}
+	                                       <p />
+	                                       <i>Measurement Scale:</i>
+	                                       <a4j:outputPanel layout="inline" rendered="#{kBrowser.selectedMetric == null}">
+	                                           #{kBrowser.selectedMeasurableProperty.scale.displayName}
+	                                       </a4j:outputPanel>
+	                                       <a4j:outputPanel layout="inline" rendered="#{kBrowser.selectedMetric != null}">
+	                                           #{kBrowser.selectedMetric.scale.displayName}
+	                                       </a4j:outputPanel>
+	                                    </h:panelGroup>
+	                                    -->
+										</ui:remove>
+
+										<div style="clear: both;" />
+
+										<h:panelGroup layout="block" styleClass="pagePart">
+											<h:panelGroup layout="block"
+												rendered="#{kBrowser.isCategorySelected or kBrowser.isPropertySelected or kBrowser.isMeasurableCriterionSelected}"
+												styleClass="layout-twocolumn-left propertiesTable">
+												<table class="tableStyle-big-font rf-dt">
+													<tbody class="rf-dt-b">
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Category</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMeasurableProperty.category.category}" /><h:outputText value=":#{kBrowser.selectedMeasurableProperty.category.subCategory}" rendered="#{kBrowser.selectedMeasurableProperty.category.subCategory != ''}"/></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Description</td>
+															<td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMeasurableProperty.description}" /></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Measurement scale</td>
+															<td class="rf-dt-c"><a4j:outputPanel layout="inline" rendered="#{kBrowser.selectedMetric == null}">
+					                                               #{kBrowser.selectedMeasurableProperty.scale.displayName}
+					                                           </a4j:outputPanel> <a4j:outputPanel layout="inline"
+																	rendered="#{kBrowser.selectedMetric != null}">
+					                                               #{kBrowser.selectedMetric.scale.displayName}
+					                                           </a4j:outputPanel></td>
+														</tr>
+														<c:if test="#{kBrowser.hasCriterionNumericScale}">
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Measurement unit</td>
+																<td class="rf-dt-c"><c:if test="#{kBrowser.selectedMetric == null}">
+	                                                                    #{kBrowser.selectedMeasurableProperty.scale.unit}
+	                                                                </c:if> <c:if test="#{kBrowser.selectedMetric != null}">
+	                                                                    #{kBrowser.selectedMetric.scale.unit}
+	                                                                </c:if></td>
+															</tr>
+														</c:if>
+														<c:if test="#{kBrowser.isCategorySelected}">
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Leaves in category</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrPlanLeavesInCategory}" /></td>
+															</tr>
+														</c:if>
+														<c:if test="#{kBrowser.isPropertySelected}">
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Leaves using property</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrPlanLeavesUsingProperty}" /></td>
+															</tr>
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Leaves using criterion</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCriterionPlanLeaves}" /></td>
+															</tr>
+														</c:if>
+														<c:if test="#{kBrowser.isMeasurableCriterionSelected}">
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Average weight</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplAverageWeight}">
+																		<f:convertNumber type="number" maxFractionDigits="4" />
+																	</h:outputText></td>
+															</tr>
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Average total weight</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf3}">
+																		<f:convertNumber type="number" maxFractionDigits="4" />
+																	</h:outputText></td>
+															</tr>
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Measurements obtained</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCPLMeasurementsObtained}" /></td>
+															</tr>
+															<c:if test="#{kBrowser.hasCriterionNumericScale}">
+																<tr class="tableStyle-row rf-dt-r">
+																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Minimum measurement</td>
+																	<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplNumericMeasurementsMin}">
+																			<f:convertNumber type="number" maxFractionDigits="2" />
+																		</h:outputText></td>
+																</tr>
+																<tr class="tableStyle-row rf-dt-r">
+																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Maximum measurement</td>
+																	<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplNumericMeasurementsMax}">
+																			<f:convertNumber type="number" maxFractionDigits="2" />
+																		</h:outputText></td>
+																</tr>
+																<tr class="tableStyle-row rf-dt-r">
+																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Average measurement</td>
+																	<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplNumericMeasurementsAvg}">
+																			<f:convertNumber type="number" maxFractionDigits="2" />
+																		</h:outputText></td>
+																</tr>
+															</c:if>
+															<c:if test="#{kBrowser.hasCriterionOrdinalScale}">
+																<ui:repeat var="measurement" value="#{kBrowser.cplOrdinalMeasurementsList}">
+																	<tr class="tableStyle-row rf-dt-r">
+																		<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;<h:outputText value="#{measurement.key}" /></td>
+																		<td class="rf-dt-c"><h:outputText value="#{measurement.value}" /></td>
+																	</tr>
+																</ui:repeat>
+															</c:if>
+															<tr class="tableStyle-row rf-dt-r">
+																<td class="rf-dt-c">Evaluations</td>
+																<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCPLEvaluations}" /></td>
+															</tr>
+														</c:if>
+													</tbody>
+												</table>
+											</h:panelGroup>
+											<div style="clear: both;" />
+										</h:panelGroup>
+									</a4j:outputPanel>
+								</rich:tab>
+							</rich:tabPanel>
+						</a4j:outputPanel>
+
+						<ui:remove>
+							<!--
+						<a4j:outputPanel id="criterion_description">
+							<h:panelGroup layout="block" styleClass="pagePart">
+								<table class="tableStyle propertiesTable rf-dt">
+									<thead class="rf-dt-thd">
+										<tr class="tableStyle-header rf-dt-hdr">
+											<th colspan="2" class="rf-dt-hdr-c">Criterion Characteristic</th>
+										</tr>
+									</thead>
+									<tbody class="rf-dt-b">
+										<tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+											<td class="rf-dt-c">Property description</td>
+											<c:if test="#{!kBrowser.isPropertySelected}">
+												<td class="rf-dt-c">N/A</td>
+											</c:if>
+											<c:if test="#{kBrowser.isPropertySelected}">
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMeasurableProperty.description}" /></td>
+											</c:if>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">Metric</td>
+											<c:if test="#{kBrowser.selectedMetric != null}">
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMetric.description}" /></td>
+											</c:if>
+											<c:if test="#{kBrowser.selectedMetric == null}">
+												<td class="rf-dt-c"></td>
+											</c:if>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">Scale</td>
+											<c:if test="#{!kBrowser.isMeasurableCriterionSelected}">
+												<td class="rf-dt-c">N/A</td>
+											</c:if>
+											<c:if test="#{kBrowser.isMeasurableCriterionSelected}">
+												<c:choose>
+													<c:when test="#{kBrowser.selectedMetric == null}">
+														<td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMeasurableProperty.scale.displayName}" /></td>
+													</c:when>
+													<c:otherwise>
+														<td class="rf-dt-c"><h:outputText value="#{kBrowser.selectedMetric.scale.displayName}" /></td>
+													</c:otherwise>
+												</c:choose>
+											</c:if>
+										</tr>
+									</tbody>
+								</table>
+							</h:panelGroup>
+						</a4j:outputPanel>
+						-->
+						</ui:remove>
+
+						<ui:remove>
+							<!--
+						<a4j:outputPanel id="specific_result">
+							<h:panelGroup layout="block" styleClass="pagePart"
+								rendered="#{kBrowser.isCategorySelected or kBrowser.isPropertySelected or kBrowser.isMeasurableCriterionSelected}">
+								<table class="tableStyle propertiesTable rf-dt">
+									<thead class="rf-dt-thd">
+										<tr class="tableStyle-header rf-dt-hdr">
+											<th colspan="2" class="rf-dt-hdr-c">Criterion Statistic</th>
+										</tr>
+									</thead>
+									<tbody class="rf-dt-b">
+										<c:if test="#{kBrowser.isCategorySelected}">
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Leaves in category</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrPlanLeavesInCategory}" /></td>
+											</tr>
+										</c:if>
+										<c:if test="#{kBrowser.isPropertySelected}">
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Leaves using property</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrPlanLeavesUsingProperty}" /></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Leaves using criterion</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCriterionPlanLeaves}" /></td>
+											</tr>
+										</c:if>
+										<c:if test="#{kBrowser.isMeasurableCriterionSelected}">
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">AVG weight</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplAverageWeight}">
+														<f:convertNumber type="number" maxFractionDigits="4" />
+													</h:outputText></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">AVG total weight</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf3}">
+														<f:convertNumber type="number" maxFractionDigits="4" />
+													</h:outputText></td>
+											</tr>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Measurements obtained</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCPLMeasurementsObtained}" /></td>
+											</tr>
+											<c:if test="#{kBrowser.hasCriterionNumericScale}">
+												<tr class="tableStyle-row rf-dt-r">
+													<td class="rf-dt-c">&nbsp;&nbsp;MIN measurement</td>
+													<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplNumericMeasurementsMin}">
+															<f:convertNumber type="number" maxFractionDigits="2" />
+														</h:outputText></td>
+												</tr>
+												<tr class="tableStyle-row rf-dt-r">
+													<td class="rf-dt-c">&nbsp;&nbsp;MAX measurement</td>
+													<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplNumericMeasurementsMax}">
+															<f:convertNumber type="number" maxFractionDigits="2" />
+														</h:outputText></td>
+												</tr>
+												<tr class="tableStyle-row rf-dt-r">
+													<td class="rf-dt-c">&nbsp;&nbsp;AVG measurement</td>
+													<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplNumericMeasurementsAvg}">
+															<f:convertNumber type="number" maxFractionDigits="2" />
+														</h:outputText></td>
+												</tr>
+											</c:if>
+											<c:if test="#{kBrowser.hasCriterionOrdinalScale}">
+												<c:forEach items="#{kBrowser.cplOrdinalMeasurements}" var="measurement">
+													<tr class="tableStyle-row rf-dt-r">
+														<td colspan="2" class="rf-dt-c">&nbsp;&nbsp;<h:outputText value="#{measurement}" /></td>
+													</tr>
+												</c:forEach>
+											</c:if>
+											<tr class="tableStyle-row rf-dt-r">
+												<td class="rf-dt-c">Evaluations</td>
+												<td class="rf-dt-c"><h:outputText value="#{kBrowser.nrCPLEvaluations}" /></td>
+											</tr>
+										</c:if>
+									</tbody>
+								</table>
+							</h:panelGroup>
+						</a4j:outputPanel>
+						-->
+						</ui:remove>
+
+						<ui:remove>
+							<!--
+						<a4j:outputPanel id="impact_factors">
+							<h:panelGroup layout="block" styleClass="pagePart"
+								rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+								<table class="tableStyle propertiesTable rf-dt">
+									<thead class="rf-dt-thd">
+										<tr class="tableStyle-header rf-dt-hdr">
+											<th colspan="2" class="rf-dt-hdr-c">Criterion Impact Factors</th>
+										</tr>
+									</thead>
+									<tbody class="rf-dt-b">
+										<tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
+											<td class="rf-dt-c">IF1: Count</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf1}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF2: Spread</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf2}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText> %</td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF3: Weight</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf3}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF4: Discounted Weight</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf4}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF5: Potential</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf5}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr>
+											<td class="rf-dt-c">IF6: Range</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf6}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF7: Discounted Potential</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf7}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF8: Discounted Range</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf8}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF9: Maximum Potential</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf9}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF10: Maximum Range</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf10}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF11: Variation</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf11}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF12: Maximum Variation</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf12}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF13: Rejection Potential Count</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf13}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF14: Rejection Potential Rate</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf14}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText> %</td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF15: Rejection Count</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf15}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF16: Rejection Rate</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf16}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText> %</td>
+										</tr>
+										<tr>
+											<td class="rf-dt-c">IF17: Reject Count</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf17}">
+													<f:convertNumber type="number" maxFractionDigits="4" />
+												</h:outputText></td>
+										</tr>
+										<tr class="tableStyle-row rf-dt-r">
+											<td class="rf-dt-c">IF18: Reject Rate</td>
+											<td class="rf-dt-c"><h:outputText value="#{kBrowser.cplIf18}">
+													<f:convertNumber type="number" maxFractionDigits="2" />
+												</h:outputText> %</td>
+										</tr>
+									</tbody>
+								</table>
+							</h:panelGroup>
+
+							<h:panelGroup layout="block" styleClass="pagePart"
+								rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+
+								<div id="potential_range_chart" class="layout-twocolumn-left chart" />
+								<div id="max_potential_range_chart" class="layout-twocolumn-right chart" />
+								<div style="clear: both;" />
+
+								<a4j:jsFunction name="showPotentialToRangeDiagram" data="#{kBrowser.potentialToRangeData}"
+									oncomplete="plotPotentialToRange('potential_range_chart', event.data);">
+								</a4j:jsFunction>
+
+								<a4j:jsFunction name="showMaxPotentialToRangeDiagram" data="#{kBrowser.maxPotentialToRangeData}"
+									oncomplete="plotPotentialToRange('max_potential_range_chart', event.data);">
+								</a4j:jsFunction>
+
+								<h:outputScript>
+									<f:verbatim>
+										showPotentialToRangeDiagram();
+										showMaxPotentialToRangeDiagram();
+									</f:verbatim>
+								</h:outputScript>
+
+							</h:panelGroup>
+
+						</a4j:outputPanel>
+						-->
+						</ui:remove>
+
+
+						<ui:remove>
+							<!--
+						<a4j:outputPanel id="evaluations_charts" layout="block">
+							<h:panelGroup layout="block" styleClass="pagePart" rendered="#{kBrowser.hasCriterionEvaluations}">
+								<div id="scoresdistribution_piechart" class="layout-twocolumn-left chart" />
+								<div id="scoresdistribution_barchart" class="layout-twocolumn-right chart" />
+								<div style="clear: both;" />
+
+								<h:outputScript>
+									var evaluatedValues = {'evaluatedValuesZero': #{kBrowser.evaluatedValuesZero},
+												  		   'evaluatedValuesToOne': #{kBrowser.evaluatedValuesToOne},
+												  		   'evaluatedValuesToTwo': #{kBrowser.evaluatedValuesToTwo},
+												  		   'evaluatedValuesToThree': #{kBrowser.evaluatedValuesToThree},
+												  		   'evaluatedValuesToFour': #{kBrowser.evaluatedValuesToFour},
+												  		   'evaluatedValuesToFive': #{kBrowser.evaluatedValuesToFive}};
+				
+									plotEvaluatedValuesAsPie('scoresdistribution_piechart', evaluatedValues);
+									plotEvaluatedValuesAsBar('scoresdistribution_barchart', evaluatedValues);
+								</h:outputScript>
+							</h:panelGroup>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel id="transformer_chart" layout="block">
+							<h:panelGroup layout="block" styleClass="pagePart"
+								rendered="#{kBrowser.isMeasurableCriterionSelected and fn:length(kBrowser.transformerTable.chartDataPoints)> 0}">
+								<div id="transformerChart" class="chart" />
+
+								<h:outputScript>
+							        var transformerChartPoints = <h:outputText value="#{kBrowser.transformerTable.chartDataPoints}"
+										converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+							        var transformerIDs = <h:outputText value="#{kBrowser.transformerTable.transformerMappingIdentification}"
+										converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+							        plotTransformerValues(transformerChartPoints, transformerIDs);
+			        			</h:outputScript>
+							</h:panelGroup>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel id="transformer_table">
+							<h:panelGroup layout="block" styleClass="pagePart"
+								rendered="#{kBrowser.isMeasurableCriterionSelected and kBrowser.nrCriterionPlanLeaves > 0}">
+								<rich:dataTable value="#{kBrowser.transformerTable.transformerMappings}" var="mapping" rowKeyVar="rowkey">
+
+									<rich:column>
+										<c:if test="#{kBrowser.transformerTable.ordinal}">
+											<f:facet name="header">Ordinal Transformer</f:facet>
+										</c:if>
+										<c:if test="#{!kBrowser.transformerTable.ordinal}">
+											<f:facet name="header">Numeric Transformer</f:facet>
+										</c:if>
+										<h:outputText value="#{kBrowser.transformerTable.transformerMappingIdentification[rowkey]} #{rowkey + 1}" />
+									</rich:column>
+
+									<c:forEach items="#{kBrowser.transformerTable.targetValues}" var="targetValue">
+										<rich:column>
+											<f:facet name="header">
+												<h:outputText value="#{targetValue}" />
+											</f:facet>
+											<h:outputText value="#{mapping[targetValue]}" />
+
+										</rich:column>
+									</c:forEach>
+								</rich:dataTable>
+							</h:panelGroup>
+						</a4j:outputPanel>
+						-->
+						</ui:remove>
+
+
+
+					</rich:tab>
+					<rich:tab header="Rank">
+						<a4j:outputPanel id="impact_factors_table">
+
+							<h:panelGroup layout="block" styleClass="pagePart">
+
+								<rich:dataTable value="#{kBrowser.importanceAnalysis.tableRows}" var="row" styleClass="tableStyle-big-font"
+									headerClass="tableStyle-header" rowClass="tableStyle-row">
+									<rich:column sortBy="#{row.category}" sortOrder="#{kBrowser.cifIfSortOrderCompact[0]}">
+										<f:facet name="header">
+											<a4j:commandLink render="impact_factors_table" action="#{kBrowser.sortCifByColumnCompact(0)}">
+										     Category
+                                                <h:graphicImage library="gfx" name="icons/sort-descending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[0] == 'descending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-ascending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[0] == 'ascending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-unsorted.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[0] == 'unsorted'}" />
+											</a4j:commandLink>
+										</f:facet>
+										<h:outputText value="#{row.category}" />
+									</rich:column>
+									<rich:column sortBy="#{row.property} #{row.metric}" sortOrder="#{kBrowser.cifIfSortOrderCompact[1]}">
+										<f:facet name="header">
+											<a4j:commandLink render="impact_factors_table" action="#{kBrowser.sortCifByColumnCompact(1)}">
+										     Criterion
+                                                <h:graphicImage library="gfx" name="icons/sort-descending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[1] == 'descending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-ascending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[1] == 'ascending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-unsorted.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[1] == 'unsorted'}" />
+											</a4j:commandLink>
+										</f:facet>
+										<h:outputText value="#{row.property} #{row.metric}" />
+									</rich:column>
+									<rich:column sortBy="#{row.if2}" sortOrder="#{kBrowser.cifIfSortOrderCompact[2]}" styleClass="right-aligned"
+										style="min-width: 84px;">
+										<f:facet name="header">
+											<a4j:commandLink render="impact_factors_table" action="#{kBrowser.sortCifByColumnCompact(2)}">
+										     Coverage
+                                                <h:graphicImage library="gfx" name="icons/sort-descending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[2] == 'descending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-ascending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[2] == 'ascending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-unsorted.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[2] == 'unsorted'}" />
+											</a4j:commandLink>
+										</f:facet>
+										<h:outputText value="#{row.if2 * 100}">
+											<f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+										</h:outputText>%
+									</rich:column>
+									<rich:column sortBy="#{row.if6}" sortOrder="#{kBrowser.cifIfSortOrderCompact[3]}" styleClass="right-aligned"
+										style="min-width: 60px;">
+										<f:facet name="header">
+											<a4j:commandLink render="impact_factors_table" action="#{kBrowser.sortCifByColumnCompact(3)}">
+										     Range											
+										     <h:graphicImage library="gfx" name="icons/sort-descending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[3] == 'descending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-ascending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[3] == 'ascending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-unsorted.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[3] == 'unsorted'}" />
+												<!-- <br/> <span style="font-size: 10px;">Avg. Output Range</span> -->
+											</a4j:commandLink>
+										</f:facet>
+										<h:outputText value="#{row.if6}">
+											<f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+										</h:outputText>
+									</rich:column>
+									<rich:column sortBy="#{row.if18}" sortOrder="#{kBrowser.cifIfSortOrderCompact[4]}" styleClass="right-aligned"
+										style="min-width: 80px;">
+										<f:facet name="header">
+											<a4j:commandLink render="impact_factors_table" action="#{kBrowser.sortCifByColumnCompact(4)}">
+												<!-- Rejection Percentage -->
+										     Criticality
+                                                <h:graphicImage library="gfx" name="icons/sort-descending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[4] == 'descending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-ascending.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[4] == 'ascending'}" />
+												<h:graphicImage library="gfx" name="icons/sort-unsorted.png"
+													rendered="#{kBrowser.cifIfSortOrderCompact[4] == 'unsorted'}" />
+												<!-- <br/> <span style="font-size: 10px;">% of Alternatives rejected</span> -->
+											</a4j:commandLink>
+										</f:facet>
+										<h:outputText value="#{row.if18 * 100}">
+											<f:convertNumber groupingUsed="#{false}" maxFractionDigits="2" />
+										</h:outputText>%
+									</rich:column>
+								</rich:dataTable>
+
+								<div style="margin-top: 10px;">#{kBrowser.importanceAnalysis.tableRowsCount} rows</div>
+							</h:panelGroup>
+
+							<h:panelGroup layout="block" styleClass="pagePart">
+								<table class="rf-dt">
+									<thead class="rf-dt-thd">
+										<tr>
+											<th colspan="1" class="rf-dt-hdr-c" style="background-color: #7F7F7F;">Impact factor</th>
+											<th colspan="1" class="rf-dt-hdr-c" style="background-color: #7F7F7F;">Definition</th>
+										</tr>
+									</thead>
+									<tbody class="rf-dt-b">
+										<tr>
+											<td class="rf-dt-c">Coverage</td>
+											<td class="rf-dt-c">Percentage of plans that consider this criterion</td>
+										</tr>
+										<tr>
+											<td class="rf-dt-c">Range</td>
+											<td class="rf-dt-c">Average actual output range of this criterion</td>
+										</tr>
+										<tr>
+											<td class="rf-dt-c">Criticality</td>
+											<td class="rf-dt-c">Percentage of rejected alternatives</td>
+										</tr>
+									</tbody>
+								</table>
+							</h:panelGroup>
+
+							<h:panelGroup layout="block" styleClass="pagePart">
+								<h:outputLink value="detailed_criterion_impact.jsf" target="_blank">Show full table</h:outputLink>
+							</h:panelGroup>
+						</a4j:outputPanel>
+					</rich:tab>
+
+				</rich:tabPanel>
+			</h:form>
+
+		</div>
+
+		<h:outputScript>window.onload=initData();</h:outputScript>
+	</ui:define>
+</ui:composition>

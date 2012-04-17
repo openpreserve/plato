@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://planets-project.eu/taglibs/plato"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:s="http://jboss.com/products/seam/taglib" >
+
+	<rich:modalPanel id="#{panelId}" width="700" height="400"
+				autosized="false" style="overflow:scroll">
+				<f:facet name="header">
+					<h:outputText value="#{heading}"/>
+				</f:facet>
+				<f:facet name="controls">
+					<a4j:commandLink
+					eventsQueue="ajaxQ" ignoreDupResponses="true"
+						action="#{identifyRequirements.cancelFragmentOperation()}"
+						oncomplete="Richfaces.hideModalPanel('#{panelId}');"
+						value="Close">
+					</a4j:commandLink> 
+				</f:facet>
+				<s:div id="saveDiv">
+				
+					<p:help url="/plato/help/templates.html"
+						text="How can I use the knowledge base? " />
+				
+					<rich:tree id="libraryTree" switchType="ajax" immediate="true"
+						adviseNodeOpened="#{treeHelper.adviseNodeOpened}">
+
+						<rich:recursiveTreeNodesAdaptor roots="#{roots}"
+							var="node" nodes="#{node.children}">
+
+							<rich:treeNode 
+							styleClass="treenode"
+					    highlightedClass="highlighted"
+							iconLeaf=""
+							 icon="">
+							<div class="treetable_cell" style="width: 80px;">
+									
+								<div style="float: left;width:200px">
+									<!-- save tree/branch/node into library  -->
+									<a4j:commandLink
+										rendered="#{(!node.leaf)}"
+										action="#{bean[action]}"
+										ajaxSingle="true"
+										eventsQueue="ajaxQ" ignoreDupResponses="true"
+										value="#{node.name}"
+										reRender="#{panelId}"
+										oncomplete="Richfaces.hideModalPanel('#{panelId}');">
+										<a4j:actionparam name="savenode" assignTo="#{node}"/>
+									</a4j:commandLink>
+									
+									<!-- we are about to save, but not into a leaf  -->
+									<h:outputText rendered="#{node.leaf}"
+										value="#{node.name}"/>
+										
+								</div>
+								</div>
+							</rich:treeNode>
+						</rich:recursiveTreeNodesAdaptor>
+					</rich:tree>
+		</s:div>
+	</rich:modalPanel>
+
+</ui:composition>

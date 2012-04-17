@@ -1,0 +1,283 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
+
+	<ui:define name="content">
+
+		<h:outputStylesheet library="css" name="kbrowser.css" target="head" />
+
+		<h:outputScript library="jqplot" name="jquery.jqplot.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.canvasTextRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.barRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.categoryAxisRenderer.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.pointLabels.min.js" target="head" />
+		<h:outputScript library="jqplot" name="plugins/jqplot.canvasAxisLabelRenderer.min.js" target="head" />
+		<h:outputStylesheet library="jqplot" name="jquery.jqplot.min.css" target="head" />
+		<h:outputScript library="js" name="jqplot_potential_to_range.js" target="head" />
+
+		<h1>Criteria Sets Full</h1>
+
+		<h:form>
+			<h:panelGroup layout="block" styleClass="pagePart">
+				<table class="rf-dt">
+					<thead class="rf-dt-thd">
+						<tr>
+							<th colspan="4" class="rf-dt-hdr-c" style="background-color: #7F7F7F;">Legend</th>
+						</tr>
+					</thead>
+					<tbody class="rf-dt-b">
+						<tr>
+							<td class="rf-dt-c">SIF1: Spread</td>
+							<td class="rf-dt-c">SIF5: Maximum potential</td>
+							<td class="rf-dt-c">SIF9: Maximum variation</td>
+							<td class="rf-dt-c">SIF13: Rejection rate</td>
+						</tr>
+						<tr>
+							<td class="rf-dt-c">SIF2: Coverage</td>
+							<td class="rf-dt-c">SIF6: Range</td>
+							<td class="rf-dt-c">SIF10: Rejection potential count</td>
+							<td class="rf-dt-c">SIF14: Reject spread</td>
+						</tr>
+						<tr>
+						</tr>
+						<tr>
+							<td class="rf-dt-c">SIF3: Weight</td>
+							<td class="rf-dt-c">SIF7: Maximum range</td>
+							<td class="rf-dt-c">SIF11: Rejection potential rate</td>
+							<td class="rf-dt-c">SIF15: Reject count</td>
+						</tr>
+						<tr>
+							<td class="rf-dt-c">SIF4: Potential</td>
+							<td class="rf-dt-c">SIF8: Variation</td>
+							<td class="rf-dt-c">SIF12: Rejection count</td>
+							<td class="rf-dt-c">SIF16: Reject rate</td>
+						</tr>
+					</tbody>
+				</table>
+			</h:panelGroup>
+
+            <h:panelGroup layout="block" styleClass="pagePart" id="summaryTable">
+				<rich:dataTable value="#{criteriaSetsFull.allCriteriaSetsForSummary}" var="set" styleClass="tableStyle"
+					headerClass="tableStyle-header" rowClass="tableStyle-row" style="margin-top: ">
+					<rich:column sortBy="#{set.name}" sortOrder="#{criteriaSetsFull.summaryTableSortOrder[0]}">
+						<f:facet name="header" style="border-color:black;">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(0)}">
+									Name
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.name}" />
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.nrOfSuccessiveLeaves}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[1]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(1)}">
+									Size
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.nrOfSuccessiveLeaves}" />
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF1}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[2]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(2)}">
+									SIF1
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF1}">
+							<f:convertNumber type="percent" maxFractionDigits="2" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF2}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[3]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(3)}">
+									SIF2
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF2}">
+							<f:convertNumber type="percent" maxFractionDigits="2" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF3}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[4]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(4)}">
+									SIF3
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF3}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF4}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[5]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(5)}">
+									SIF4
+							</a4j:commandLink>
+						</f:facet>
+						<a4j:commandLink oncomplete="showSelectedPotentialToRangeDiagram();">
+							<f:setPropertyActionListener target="#{criteriaSetsFull.selectedCriteriaSet}" value="#{set}" />
+							<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF4}">
+								<f:convertNumber type="number" maxFractionDigits="3" />
+							</h:outputText>
+						</a4j:commandLink>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF5}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[6]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(6)}">
+									SIF5
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF5}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF6}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[7]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(7)}">
+									SIF6
+							</a4j:commandLink>
+
+						</f:facet>
+						<a4j:commandLink oncomplete="showSelectedPotentialToRangeDiagram();">
+							<f:setPropertyActionListener target="#{criteriaSetsFull.selectedCriteriaSet}" value="#{set}" />
+							<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF6}">
+								<f:convertNumber type="number" maxFractionDigits="3" />
+							</h:outputText>
+						</a4j:commandLink>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF7}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[8]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(8)}">
+									SIF7
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF7}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF8}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[9]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(9)}">
+									SIF8
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF8}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF9}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[10]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(10)}">
+									SIF9
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF9}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF10}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[11]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(11)}">
+									SIF10
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF10}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF11}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[12]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(12)}">
+									SIF11
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF11}">
+							<f:convertNumber type="percent" maxFractionDigits="2" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF12}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[13]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(13)}">
+									SIF12
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF12}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF13}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[14]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(14)}">
+									SIF13
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF13}">
+							<f:convertNumber type="percent" maxFractionDigits="2" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF14}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[15]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(15)}">
+									SIF14
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF14}">
+							<f:convertNumber type="percent" maxFractionDigits="2" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF15}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[16]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(16)}">
+									SIF15
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF15}">
+							<f:convertNumber type="number" maxFractionDigits="3" />
+						</h:outputText>
+					</rich:column>
+					<rich:column sortBy="#{set.criteriaTreeRoot.importanceFactorSIF16}"
+						sortOrder="#{criteriaSetsFull.summaryTableSortOrder[17]}" styleClass="right-aligned">
+						<f:facet name="header">
+							<a4j:commandLink render="summaryTable" action="#{criteriaSetsFull.sortSummaryTableByColumn(17)}">
+									SIF16
+							</a4j:commandLink>
+						</f:facet>
+						<h:outputText value="#{set.criteriaTreeRoot.importanceFactorSIF16}">
+							<f:convertNumber type="percent" maxFractionDigits="2" />
+						</h:outputText>
+					</rich:column>
+				</rich:dataTable>
+			</h:panelGroup>
+
+
+
+			<h:panelGroup layout="block" styleClass="pagePart">
+				<h:commandButton action="#{criteriaSetsFull.exportCriteriaSetsFullToCSV}" value="Export table to CSV" />
+			</h:panelGroup>
+		</h:form>
+
+		<rich:popupPanel id="potential_range_panel" autosized="true"
+			onmaskclick="#{rich:component('potential_range_panel')}.hide()" styleClass="popup-panel-fixed-width">
+			<div id="potential_range_popup_chart" class="popup-chart-fixed-width" />
+			<a4j:jsFunction name="showSelectedPotentialToRangeDiagram" data="#{criteriaSetsFull.selectedPotentialToRangeData}"
+				oncomplete="#{rich:component('potential_range_panel')}.show(); plotPotentialToRangeHorizontal('potential_range_popup_chart', event.data, true, false); ">
+			</a4j:jsFunction>
+		</rich:popupPanel>
+
+	</ui:define>
+</ui:composition>
