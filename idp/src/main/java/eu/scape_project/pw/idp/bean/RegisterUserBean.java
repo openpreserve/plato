@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.idp.bean;
+package eu.scape_project.pw.idp.bean;
 
 public class RegisterUserBean {
 

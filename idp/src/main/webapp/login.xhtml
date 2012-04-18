@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:rich="http://richfaces.org/rich"
-	xmlns:a4j="http://richfaces.org/a4j" template="/WEB-INF/templates/default.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
 
 	<ui:define name="content">
 
-Test	
+		<form action="j_security_check" method="post">
+			<h:panelGrid columns="2">
+				<h:outputText value="Username:" />
+				<h:inputText id="j_username" autocomplete="off" />
+				<h:outputText value="Password:" />
+				<h:inputSecret id="j_password" autocomplete="off" />
+				<h:commandButton type="submit" value="Login" />
+				<h:commandButton type="reset" value="Reset" />
+			</h:panelGrid>
+		</form>
 
 	</ui:define>
 </ui:composition>

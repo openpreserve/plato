@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.idp;
+package eu.scape_project.pw.idp;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
