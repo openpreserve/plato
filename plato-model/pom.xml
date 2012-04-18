@@ -5,7 +5,7 @@
 
   <parent>
     <artifactId>planningsuite</artifactId>
-    <groupId>eu.scape_project.pw</groupId>
+    <groupId>eu.scape-project.pw</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 

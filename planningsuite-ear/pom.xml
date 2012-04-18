@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-      <groupId>eu.scape_project.pw</groupId>
+      <groupId>eu.scape-project.pw</groupId>
       <artifactId>planningsuite</artifactId>
       <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -30,20 +30,20 @@
                 <initializeInOrder>true</initializeInOrder>
                 <modules>
                   <jarModule>
-                      <groupId>eu.scape_project.pw</groupId>
+                      <groupId>eu.scape-project.pw</groupId>
                       <artifactId>plato-model</artifactId>
                   </jarModule>
                   <ejbModule>
-                      <groupId>eu.scape_project.pw</groupId>
+                      <groupId>eu.scape-project.pw</groupId>
                       <artifactId>planning-core</artifactId>
                   </ejbModule>
                   <webModule>
-                      <groupId>eu.scape_project.pw</groupId>
+                      <groupId>eu.scape-project.pw</groupId>
                       <artifactId>plato</artifactId>
                       <contextRoot>/plato</contextRoot>
                   </webModule>
                   <webModule>
-                      <groupId>eu.scape_project.pw</groupId>
+                      <groupId>eu.scape-project.pw</groupId>
                       <artifactId>kbrowser</artifactId>
                       <contextRoot>/kbrowser</contextRoot>
                   </webModule>
@@ -61,24 +61,24 @@
   
   <dependencies>
    <dependency>
-    <groupId>eu.scape_project.pw</groupId>
+    <groupId>eu.scape-project.pw</groupId>
     <artifactId>plato-model</artifactId>
     <version>3.2.0</version>
    </dependency>
    <dependency>
-    <groupId>eu.scape_project.pw</groupId>
+    <groupId>eu.scape-project.pw</groupId>
     <artifactId>planning-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <type>ejb</type>
    </dependency>
   <dependency>
-    <groupId>eu.scape_project.pw</groupId>
+    <groupId>eu.scape-project.pw</groupId>
     <artifactId>plato</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <type>war</type>
    </dependency>
    <dependency>
-    <groupId>eu.scape_project.pw</groupId>
+    <groupId>eu.scape-project.pw</groupId>
     <artifactId>kbrowser</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <type>war</type>

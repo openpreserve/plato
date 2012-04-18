@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>eu.scape_project.pw</groupId>
+		<groupId>eu.scape-project.pw</groupId>
 		<artifactId>planningsuite</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -104,20 +104,20 @@
 		</dependency>
 
 		<dependency>
-			<groupId>eu.scape_project.pw</groupId>
+			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
 			<version>3.2.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>eu.scape_project.pw</groupId>
+			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>planning-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 			<type>ejb</type>
 		</dependency>
 	    <dependency>
-	        <groupId>eu.scape_project.pw</groupId>
+	        <groupId>eu.scape-project.pw</groupId>
 	        <artifactId>minimee</artifactId>
 	        <version>0.0.1-SNAPSHOT</version>
 	    </dependency>		
