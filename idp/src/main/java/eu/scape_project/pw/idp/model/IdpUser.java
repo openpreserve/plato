@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,15 +19,9 @@ import javax.persistence.ManyToMany;
 public class IdpUser {
 
   /**
-   * Unique Id of the user.
+   * Unique name of the user.
    */
   @Id
-  @GeneratedValue
-  private long id;
-
-  /**
-   * Unique username of the user.
-   */
   @Column(unique = true)
   private String username;
 
@@ -56,7 +49,7 @@ public class IdpUser {
    * Roles of this user.
    */
   @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, targetEntity = IdpRole.class, fetch = FetchType.EAGER)
-  @JoinTable(name = "IdpUserRoles", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+  @JoinTable(name = "IdpUserRoles", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "rolename"))
   private List<IdpRole> roles = new ArrayList<IdpRole>();
 
   public String getUsername() {
@@ -103,12 +96,12 @@ public class IdpUser {
     return firstName + " " + lastName;
   }
 
-  public long getId() {
-    return id;
+  public List<IdpRole> getRoles() {
+    return roles;
   }
 
-  public void setId(final long id) {
-    this.id = id;
+  public void setRoles(final List<IdpRole> roles) {
+    this.roles = roles;
   }
 
 }

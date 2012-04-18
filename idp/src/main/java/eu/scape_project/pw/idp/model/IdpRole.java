@@ -12,31 +12,17 @@ import javax.persistence.Id;
 public class IdpRole {
 
   /**
-   * Unique Id of the user.
+   * Unique name of the user.
    */
   @Id
-  @GeneratedValue
-  private long id;
-
-  /**
-   * Unique username of the user.
-   */
   @Column(unique = true)
   private String roleName;
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
 
   public String getRoleName() {
     return roleName;
   }
 
-  public void setRoleName(String roleName) {
+  public void setRoleName(final String roleName) {
     this.roleName = roleName;
   }
 
