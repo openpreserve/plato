@@ -15,6 +15,7 @@
     <module>minimee</module>
     <module>minimee-view</module>
     <module>planningsuite-ear</module>
+	<module>idp</module>
   </modules>
 
 <developers>
