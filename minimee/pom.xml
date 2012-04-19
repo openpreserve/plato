@@ -7,9 +7,7 @@
     <groupId>eu.scape-project.pw</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>eu.scape-project.pw</groupId>
   <artifactId>minimee</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>Minimee</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

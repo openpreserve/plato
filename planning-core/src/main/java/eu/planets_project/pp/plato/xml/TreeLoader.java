@@ -53,7 +53,7 @@ public class TreeLoader implements Serializable {
             MindMap map = new MindMap();
 
 	        SAXParser parser = validatingParserFactory.getValidatingParser();
-			parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://freemind.sourceforge.net/freemind.xsd");
+		parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://freemind.sourceforge.net/freemind.xsd");
 	        // load content into temporary structure
 	        Digester digester = new Digester(parser);
 	        digester.setEntityResolver(new SchemaResolver().addSchemaLocation("http://freemind.sourceforge.net/freemind.xsd", "data/schemas/freemind.xsd"));
