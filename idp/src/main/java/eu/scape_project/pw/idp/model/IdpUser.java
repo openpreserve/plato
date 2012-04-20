@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 /**
  * User object used in the identity provider.
@@ -23,6 +26,7 @@ public class IdpUser {
    */
   @Id
   @Column(unique = true)
+  @Size(min = 4)
   private String username;
 
   /**
@@ -38,11 +42,13 @@ public class IdpUser {
   /**
    * E-Mail of the user.
    */
+  @Email
   private String email;
 
   /**
    * Password of the user.
    */
+  @Size(min = 6)
   private String password;
 
   /**
