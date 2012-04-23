@@ -16,37 +16,63 @@
 
 		<h:form>
 			<h:outputText value="Firstname:" />
-			<h:inputText id="firstname" autocomplete="off" value="#{addUser.user.firstName}" required="true" requiredMessage="Please enter your firstname"/>
-			<rich:messages for="firstname"/>
-			<br/>
+			<h:inputText id="firstname" autocomplete="off"
+				value="#{addUser.user.firstName}" required="true"
+				requiredMessage="Please enter your firstname" />
+			<rich:messages for="firstname" />
+			<br />
 			<h:outputText value="Lastname:" />
-			<h:inputText id="lastname" autocomplete="off" value="#{addUser.user.lastName}" required="true" requiredMessage="Please enter your lastname"/>
-			<rich:messages for="lastname"/>
-			<br/>
+			<h:inputText id="lastname" autocomplete="off"
+				value="#{addUser.user.lastName}" required="true"
+				requiredMessage="Please enter your lastname" />
+			<rich:messages for="lastname" />
+			<br />
 			<h:outputText value="Email:" />
-			<h:inputText id="email" autocomplete="off" value="#{addUser.user.email}" required="true" requiredMessage="Please enter your Email address."/>
-			<rich:messages for="email"/>
-			<br/>
+			<h:inputText id="email" autocomplete="off"
+				value="#{addUser.user.email}" required="true"
+				requiredMessage="Please enter your Email address." />
+			<rich:messages for="email" />
+			<br />
 			<h:outputText value="Username:" />
-			<h:inputText id="username" autocomplete="off" value="#{addUser.user.username}" required="true" requiredMessage="Please provide a username">
-				<f:validator binding="#{UsernameExistsValidator}"/>
+			<h:inputText id="username" autocomplete="off"
+				value="#{addUser.user.username}" required="true"
+				requiredMessage="Please provide a username">
+				<f:validator binding="#{UsernameExistsValidator}" />
 			</h:inputText>
-			<rich:messages for="username"/>
-			<br/>
+			<rich:messages for="username" />
+			<br />
 			<h:outputText value="Password:" />
-			<h:inputSecret id="password" autocomplete="off" redisplay="true" value="#{addUser.user.password}" required="true" requiredMessage="Please provide a password">
+			<h:inputSecret id="password" autocomplete="off" redisplay="true"
+				value="#{addUser.user.password}" required="true"
+				requiredMessage="Please provide a password">
 				<f:validator validatorId="ConfirmPasswordValidator" />
-				<f:attribute name="pwConfirm" value="#{confirmPassword.submittedValue}" />
+				<f:attribute name="pwConfirm"
+					value="#{confirmPassword.submittedValue}" />
 			</h:inputSecret>
-			<rich:messages for="password"/>
-			<br/>
+			<rich:messages for="password" />
+			<br />
 			<h:outputText value="Password confirmation:" />
-			<h:inputSecret id="confirmPassword" binding="#{confirmPassword}" autocomplete="off" redisplay="true" required="true" requiredMessage="Please provide the password confirmation" />
-			<rich:messages for="confirmPassword"/>
+			<h:inputSecret id="confirmPassword" binding="#{confirmPassword}"
+				autocomplete="off" redisplay="true" required="true"
+				requiredMessage="Please provide the password confirmation" />
+			<rich:messages for="confirmPassword" />
+			<br />
+
+			<h:outputText
+				value="#{addUser.reCaptcha.createRecaptchaHtml(null, null)}"
+				escape="false" />
+
+			<!-- not displayed input field used to have a component to attach the recaptcha validator to -->
+			<h:inputText id="recaptchaHelper" value="" style="display:none">
+				<f:validator validatorId="ReCaptchaValidator" />
+			</h:inputText>
+			<rich:messages for="recaptchaHelper" />
 			<br/>
 
-			<h:commandButton type="submit" value="Add" action="#{addUser.addUser()}"/>
-			<h:commandButton type="submit" value="Cancel" action="login.jsf" immediate="true" />
+			<h:commandButton type="submit" value="Add"
+				action="#{addUser.addUser()}" />
+			<h:commandButton type="submit" value="Cancel" action="login.jsf"
+				immediate="true" />
 		</h:form>
 
 	</ui:define>

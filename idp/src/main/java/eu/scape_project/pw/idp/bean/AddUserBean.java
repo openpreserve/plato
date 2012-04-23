@@ -4,6 +4,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaFactory;
+
 import eu.scape_project.pw.idp.UserManager;
 import eu.scape_project.pw.idp.model.IdpUser;
 
@@ -11,27 +14,39 @@ import eu.scape_project.pw.idp.model.IdpUser;
 @ViewScoped
 public class AddUserBean {
 
-  private IdpUser user;
-  
-  @Inject
-  private UserManager userManager;
+    private IdpUser user;
 
-  public AddUserBean() {
-    user = new IdpUser();
-  }
+    private ReCaptcha reCaptcha;
 
-  public String addUser() {
-    userManager.addUser(user);
-    return "login.jsf";
-  }
+    @Inject
+    private UserManager userManager;
 
-  // ---------- getter/setter ----------
+    public AddUserBean() {
+        user = new IdpUser();
+        reCaptcha = ReCaptchaFactory.newReCaptcha("6Lclf9ASAAAAAJE2REWGZ7chcFgndfWIhAY01v_n",
+            "6Lclf9ASAAAAAGMQlB8N-6a-UeKKXH6eMuB1hnEH", false);
+    }
 
-  public IdpUser getUser() {
-    return user;
-  }
+    public String addUser() {
+        userManager.addUser(user);
+        return "login.jsf";
+    }
 
-  public void setUser(IdpUser user) {
-    this.user = user;
-  }
+    // ---------- getter/setter ----------
+
+    public IdpUser getUser() {
+        return user;
+    }
+
+    public void setUser(IdpUser user) {
+        this.user = user;
+    }
+
+    public ReCaptcha getReCaptcha() {
+        return reCaptcha;
+    }
+
+    public void setReCaptcha(ReCaptcha reCaptcha) {
+        this.reCaptcha = reCaptcha;
+    }
 }

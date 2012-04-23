@@ -6,4 +6,8 @@
   <validator-id>ConfirmPasswordValidator</validator-id>
   <validator-class>eu.scape_project.pw.idp.validator.ConfirmPasswordValidator</validator-class>
  </validator>
+ <validator>
+  <validator-id>ReCaptchaValidator</validator-id>
+  <validator-class>eu.scape_project.pw.idp.validator.ReCaptchaValidator</validator-class>
+ </validator>
 </faces-config>
