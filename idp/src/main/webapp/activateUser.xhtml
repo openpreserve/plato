@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="title">Idendity Provider</ui:define>
+
+	<ui:define name="content">
+
+		<h1>Activate User</h1>
+
+		#{addUser.activateUser()}
+
+		<a4j:outputPanel layout="block">
+			<a4j:outputPanel layout="inline" rendered="#{addUser.activateUserSuccessful}">
+				Your user account is now activated. <br/>
+				You can login at the <h:outputLink value="login.jsf">login page</h:outputLink>.
+			</a4j:outputPanel>
+	
+			<a4j:outputPanel layout="inline" rendered="#{!addUser.activateUserSuccessful}">
+				Activation of your user account failed. <br/>
+				If you have any questions, please write us an email on plato@ifs.tuwien.ac.at.
+			</a4j:outputPanel>
+		</a4j:outputPanel>
+		
+		
+	</ui:define>
+</ui:composition>

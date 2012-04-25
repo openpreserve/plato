@@ -55,6 +55,14 @@
 		</web-resource-collection>
 	</security-constraint>
 
+	<!-- Allow full access to activation-page -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All Access</web-resource-name>
+			<url-pattern>/activateUser.jsf</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
 	<!-- Define a security constraint that gives unlimited access to images -->
 	<security-constraint>
 		<web-resource-collection>
