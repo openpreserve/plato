@@ -94,11 +94,11 @@
 		    </a4j:outputPanel>
 		</h:form>
 		
-		<rich:collapsiblePanel header="Upload a plan" expanded="false" switchType="client" style="margin-top: 40px; width: 500px;">
+		<rich:collapsiblePanel id="uploadPanel" header="Upload a plan" expanded="false" switchType="client" style="margin-top: 40px; width: 500px;">
 	        <div class="margin-top">
 	            <h:form enctype="multipart/form-data">
 	                 <rich:fileUpload id="upload" fileUploadListener="#{planLister.listener}" allowFlash="false" acceptedTypes="xml" autoclear="true"
-	                                  render="planListPanel" />
+	                                  render="planListPanel messages" />
 	            </h:form>               
 	        </div>
 		</rich:collapsiblePanel>		

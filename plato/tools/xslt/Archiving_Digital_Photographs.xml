@@ -300,18 +300,19 @@ Results are retrieved manually.</description>
 <propertyId>image/similarity</propertyId>
 <name>image: similarity</name>
 <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>equal</metricId>
 <name>equal</name>
 <description>Comparison of two values for equality</description>
 <booleanScale unit="equality" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -493,18 +494,19 @@ Results are retrieved manually.</description>
 <propertyId>image/similarity</propertyId>
 <name>image: similarity</name>
 <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>ssimSimple</metricId>
 <name>SSIM simple</name>
 <description/>
 <floatScale unit="SSIM">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </floatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -686,18 +688,19 @@ Results are retrieved manually.</description>
 <propertyId>image/similarity</propertyId>
 <name>image: similarity</name>
 <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>ssimSimpleSaturation</metricId>
 <name>SSIM simple saturation</name>
 <description/>
 <floatScale unit="SSIM">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </floatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -879,18 +882,19 @@ Results are retrieved manually.</description>
 <propertyId>image/similarity</propertyId>
 <name>image: similarity</name>
 <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>ssimSimpleHue</metricId>
 <name>SSIM simple hue</name>
 <description/>
 <floatScale unit="SSIM">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </floatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -1069,18 +1073,19 @@ Results are retrieved manually.</description>
 <propertyId>image/similarity</propertyId>
 <name>image: similarity</name>
 <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>equalJudged</metricId>
 <name>Equality judgement</name>
 <description>Judged comparison for equality</description>
 <ordinalScale unit="" restriction="equal/unsignificant changes/significant changes">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -1290,21 +1295,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/shutterSpeedValue</propertyId>
 <name>image metadata: exif: shutter speed value</name>
 <description>Shutter speed</description>
+<subject>null</subject>
 <floatScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </floatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -1494,21 +1500,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/fnumber</propertyId>
 <name>image metadata: exif: f number</name>
 <description>Lens f-number (ratio of lens aperture to focal length) used when the image was captured.</description>
+<subject>null</subject>
 <positiveFloatScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -1698,21 +1705,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/cfaPattern</propertyId>
 <name>image metadata: exif: cfa pattern</name>
 <description>Color Filter Array (CFA) geometric pattern of the image sensor when one-chip color area sinsor is used.</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -1902,21 +1910,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/exposureProgram</propertyId>
 <name>image metadata: exif: exposure program</name>
 <description>Class of the program used by the camera to set exposure when the picture is taken.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:06" changed="2012-03-16T18:05:06"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -2106,21 +2115,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/exposureMode</propertyId>
 <name>image metadata: exif: exposure mode</name>
 <description>Exposure mode</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -2310,21 +2320,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/spectralSensitivity</propertyId>
 <name>image metadata: exif: spectral sensivity</name>
 <description>Spectral sensitivity of each channel of the camera used.</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -2514,21 +2525,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/isoSpeed</propertyId>
 <name>image metadata: exif: iso-speed value</name>
 <description>ISO speed</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -2718,21 +2730,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/oECF</propertyId>
 <name>image metadata: exif: oECF</name>
 <description>Opto-Electric Conversion Function (OECF) specified in ISO 14524</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -2922,21 +2935,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/brightnessValue</propertyId>
 <name>image metadata: exif: brightness value</name>
 <description/>
+<subject>null</subject>
 <floatScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </floatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -3126,21 +3140,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/exposureBiasValue</propertyId>
 <name>image metadata: exif: exposure bias value</name>
 <description>Brightness values measured when the image was captured, using APEX (Additive Szstem of Photographic Exposure) values.</description>
+<subject>null</subject>
 <floatScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </floatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -3330,21 +3345,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/subjectDistance</propertyId>
 <name>image metadata: exif: subject distance</name>
 <description>Distance in meters, between the frontal plane of the camera lens and the subject on which the camera was focused.</description>
+<subject>null</subject>
 <positiveFloatScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -3534,21 +3550,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/meteringMode</propertyId>
 <name>image metadata: exif: metering mode</name>
 <description>Metering mode</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -3738,21 +3755,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/lightSource</propertyId>
 <name>image metadata: exif: light source</name>
 <description>Light source that was present when the image was captured.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -3942,21 +3960,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/flash</propertyId>
 <name>image metadata: exif: flash</name>
 <description>Status of the flash when the image was shot.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:06" changed="2012-03-16T18:05:06"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -4146,21 +4165,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/focalLength</propertyId>
 <name>image metadata: exif: focal length</name>
 <description>The lens focal length in meters used to capture the image.</description>
+<subject>null</subject>
 <positiveFloatScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:06" changed="2012-03-16T18:05:06"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -4350,21 +4370,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/focalLenghtIn35mmFilm</propertyId>
 <name>image metadata: exif: focal lenght in 35mm film</name>
 <description>Focal length in 35mm film.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -4560,21 +4581,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/exposureIndex</propertyId>
 <name>image metadata: exif: exposure index</name>
 <description>Exposure index setting the camera selected</description>
+<subject>null</subject>
 <positiveFloatScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -4764,21 +4786,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/sensingMethod</propertyId>
 <name>image metadata: exif: sensing method</name>
 <description>Image Sensor type on the camera or input device.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -4968,21 +4991,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/sharpness</propertyId>
 <name>image metadata: exif: sharpness</name>
 <description>Sharpness</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -5172,21 +5196,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/whiteBalance</propertyId>
 <name>image metadata: exif: white balance</name>
 <description>White balance</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -5376,21 +5401,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/contrast</propertyId>
 <name>image metadata: exif: contrast</name>
 <description>Contrast</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -5580,21 +5606,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/pictureTakingConditions/saturation</propertyId>
 <name>image metadata: exif: saturation</name>
 <description>Saturation</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -5775,18 +5802,19 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/gps/data</propertyId>
 <name>image metadata: exif: all gps data</name>
 <description>All EXIF GPS data</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -6149,21 +6177,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/imageWidth</propertyId>
 <name>image metadata: exif: image width</name>
 <description>Image resolution in width direction.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -6341,21 +6370,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/imageHeight</propertyId>
 <name>image metadata: exif: image height</name>
 <description>Image resolution in height direction.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -6533,21 +6563,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/bitsPerSample</propertyId>
 <name>image metadata: exif: bits per sample</name>
 <description>Number of bits per component.</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -6725,21 +6756,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/compression</propertyId>
 <name>image metadata: exif: compression</name>
 <description>Compression scheme</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -6917,21 +6949,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/photometricInterpretation</propertyId>
 <name>image metadata: exif: photometric interpretation</name>
 <description>Pixel composition</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -7109,21 +7142,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/make</propertyId>
 <name>image metadata: exif: make</name>
 <description>Manufactorer of image input equipment.</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -7301,21 +7335,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/model</propertyId>
 <name>image metadata: exif: model</name>
 <description>Model of image input equipment.</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -7493,21 +7528,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/samplesPerPixel</propertyId>
 <name>image metadata: exif: samples per pixel</name>
 <description>Number of components</description>
+<subject>null</subject>
 <positiveIntegerScale unit="" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveIntegerScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -7685,21 +7721,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/resolutionUnit</propertyId>
 <name>image metadata: exif: resolution unit</name>
 <description>Unit of X and Y resolution</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -7877,21 +7914,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/imageDescription</propertyId>
 <name>image metadata: exif: image description</name>
 <description>Image title</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -8069,21 +8107,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/software</propertyId>
 <name>image metadata: exif: software</name>
 <description>Software used</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -8261,21 +8300,22 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/exif/ifd0/artist</propertyId>
 <name>image metadata: exif: artist</name>
 <description>Person who created the image.</description>
+<subject>null</subject>
 <freeStringScale unit="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </freeStringScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -8455,18 +8495,19 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/iptc/data</propertyId>
 <name>image metadata: iptc: all data</name>
 <description>All IPCT data</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -8644,18 +8685,19 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/xmp/data</propertyId>
 <name>image metadata: xmp: all data</name>
 <description>All XMP data</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -8833,18 +8875,19 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/privateTags/data</propertyId>
 <name>image metadata: private-tags: all data</name>
 <description>All private-tags data</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9022,18 +9065,19 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>image/metadata/dc/data</propertyId>
 <name>image metadata: dc: all data</name>
 <description>All DC data</description>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<subject>null</subject>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
 <metric>
 <metricId>retained</metricId>
 <name>retained</name>
 <description>Indicator if all values in source measurement do exist in result measurement</description>
 <booleanScale unit="retained" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </metric>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9220,12 +9264,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/adoption/ubiquity</propertyId>
 <name>ubiquity</name>
 <description>Ubiquity or popularity of the outcome format.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="ubiquitous/widespread/specialised/obsolete">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9310,12 +9355,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/disclosure/documentation/availability</propertyId>
 <name>documentation availability</name>
 <description>Availability of the outcome format documentation.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="yes-free/yes-pay/no">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9389,12 +9435,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/stability/standardization</propertyId>
 <name>standardization</name>
 <description>Standardization of the outcome format.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="international standard/de facto standard/none">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9472,12 +9519,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/stability/speedOfChange</propertyId>
 <name>speed of change</name>
 <description>Stability of the outcome format with respect to changes.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="less than 1 year/1-2 years/3-5 years/more than 5 years">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9551,12 +9599,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>qualityAndFunctionality/image/interpretedData</propertyId>
 <name>image: interpreted data</name>
 <description>Indicates whether the image contains interpreted data.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9632,12 +9681,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/recoverability/errorAwareness</propertyId>
 <name>error awareness</name>
 <description>Awareness to detect or recover errors.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="revcoverable/detectable/none">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:04" changed="2012-03-16T18:05:04"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9718,12 +9768,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>compression</propertyId>
 <name>compression</name>
 <description>Compression used in outcome object.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="none/lossless/lossy">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9805,12 +9856,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>qualityAndFunctionality/image/qualityLossAtReinterpretating</propertyId>
 <name>image: quality loss at reinterpretating</name>
 <description>Indicates whether a quality loss occurs at reinterpretating the image.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="minimal/acceptable/not acceptable">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -9888,12 +9940,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>relativeFileSize</propertyId>
 <name>relative filesize</name>
 <description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
+<subject>null</subject>
 <positiveFloatScale unit="output/input ratio" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10073,12 +10126,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/selfDocumentation/metadata/embedCustomMetadata</propertyId>
 <name>embed custom metadata</name>
 <description>Indicates whether additionaly metadata can be embedded in the outcome format.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10158,12 +10212,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>sustainability/selfDocumentation/metadata/embedPreviewImage</propertyId>
 <name>embed preview image</name>
 <description>Indicate whether a preview image can be embedded in the outcome format.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10247,12 +10302,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>functionalSuitability/functionalCompleteness/generic/errorReporting</propertyId>
 <name>functional suitability: error reporting</name>
 <description>Indicates whether errors at action execution are reported.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:06" changed="2012-03-16T18:05:06"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10333,12 +10389,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>usability/operability/easeOfUse</propertyId>
 <name>usability: ease of use</name>
 <description>Assessment of how easy it is to use the action-tool.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="good/acceptable/poor">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10411,12 +10468,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>reliability/faultTolerance/errorTolerance</propertyId>
 <name>reliability: error tolerance</name>
 <description>Indicates whether the action-tool is able to deal with errors in the input-object or while converting it to the output-object.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10498,12 +10556,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>performanceEfficiency/resourceUtilization/resourceUtilization</propertyId>
 <name>performance efficiency: resource utilization</name>
 <description>Indicates if and in which way the action-tool automatically uses available resources, like multiple processor cores, etc. to prallelize conversions.</description>
+<subject>null</subject>
 <ordinalScale unit="" restriction="yes-automatic/yes-manual/no">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </ordinalScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:06" changed="2012-03-16T18:05:06"/>
+<changelog created="2012-04-11T15:21:29" changed="2012-04-11T15:21:29"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10576,12 +10635,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>functionalSuitability/functionalCompleteness/image/XMPSidecarFileSupport</propertyId>
 <name>functional suitability: image: XMP sidecar file support</name>
 <description>Indicates if the action-tool is able to handle XMP sidecar files.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10654,12 +10714,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>functionalSuitability/functionalCompleteness/generic/outputFileFormatVerification</propertyId>
 <name>functional suitability: output-file format verification</name>
 <description>Indicates if the action-tool verifies its produced output file for format correctness.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10734,12 +10795,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>compatibility/interoperability/interfaces/batchProcessingSupport</propertyId>
 <name>interoperability: batch processing support</name>
 <description>Indicates whether the action-tool supports batch processing.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10819,12 +10881,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>portability/installability/supportedPlattforms/windows</propertyId>
 <name>portability: runs on Windows</name>
 <description>Indicates whether the action-tool runs on Windows operating systems.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10904,12 +10967,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>portability/installability/supportedPlattforms/macOS</propertyId>
 <name>portability: runs on MacOS</name>
 <description>Indicates whether the action-tool runs on MacOS operating systems.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -10989,12 +11053,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>portability/installability/supportedPlattforms/linux</propertyId>
 <name>portability: runs on Linux</name>
 <description>Indicates whether the action-tool runs on Linux operating systems.</description>
+<subject>null</subject>
 <booleanScale unit="" restriction="Yes/No">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </booleanScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:05" changed="2012-03-16T18:05:05"/>
+<changelog created="2012-04-11T15:21:28" changed="2012-04-11T15:21:28"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -11154,12 +11219,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>business/costs/execution/other</propertyId>
 <name>business: costs: execution: other</name>
 <description>Execution costs of the action-tool which do not fit to any other given setup costs.</description>
+<subject>null</subject>
 <positiveFloatScale unit="Euro/year" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:02" changed="2012-03-16T18:05:02"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -11236,12 +11302,13 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 <propertyId>business/costs/setup/softwareLicenceInitial</propertyId>
 <name>business: costs: setup: software licence inital</name>
 <description>Initial software licence costs of action-tool.</description>
+<subject>null</subject>
 <positiveFloatScale unit="Euro" restriction="">
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </positiveFloatScale>
-<changelog created="2012-03-16T18:05:01" changed="2012-03-16T18:05:01"/>
+<changelog created="2012-04-11T15:21:26" changed="2012-04-11T15:21:26"/>
 </property>
-<changelog created="2012-03-16T18:05:03" changed="2012-03-16T18:05:03"/>
+<changelog created="2012-04-11T15:21:27" changed="2012-04-11T15:21:27"/>
 </criterion>
 <evaluation>
 <alternative key="Adobe DNG Converter -u">
@@ -11306,7 +11373,7 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 </node>
 </tree>
 <executablePlan>
-<changelog created="2012-03-16T18:09:04" changed="2012-03-16T18:09:04"/>
+<changelog created="2012-04-11T15:24:36" changed="2012-04-11T15:24:36"/>
 </executablePlan>
 <planDefinition currency="EUR">
 <triggers>

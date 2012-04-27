@@ -134,9 +134,10 @@ public class ProjectImporter implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    static final String platoSchema = "plato-V4.0.0.xsd";
+    static final String PLATO_SCHEMA = "plato-V4.0.0.xsd";
+    static final String PLATO_SCHEMA_URI = "http://ifs.tuwien.ac.at/dp/plato/" + PLATO_SCHEMA;
 
-    static final String[] planSchemas = {platoSchema};
+    static final String[] PLAN_SCHEMAS = {PLATO_SCHEMA_URI};
 
     @Inject
     private Logger log;
@@ -574,12 +575,12 @@ public class ProjectImporter implements Serializable {
             }
 
             SAXParser parser = validatingParserFactory.getValidatingParser();
-            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, planSchemas);
+            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PLAN_SCHEMAS);
 
             Digester digester = new Digester(parser);
 
             SchemaResolver schemaResolver = new SchemaResolver();
-            schemaResolver.addSchemaLocation(platoSchema, "data/schemas/" + platoSchema);
+            schemaResolver.addSchemaLocation(PLATO_SCHEMA_URI, "data/schemas/" + PLATO_SCHEMA);
             digester.setEntityResolver(schemaResolver);
 
             digester.setErrorHandler(new StrictErrorHandler());

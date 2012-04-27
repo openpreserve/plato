@@ -25,134 +25,131 @@ import eu.scape_project.pw.planning.xml.ProjectImporter;
 
 /**
  * controller for listing plans
+ * 
  * @author cb
  * @see {@link PlanManager}
  */
 @SessionScoped
 @Named("planLister")
 public class PlanListerView implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject private Logger log;
-	
-	@Inject	private EntityManager em;
-	
-	@Inject private	PlanManager planManager;
-	
-	@Inject	private ProjectImporter projectImporter;
-	
-	@Inject	private FacesMessages facesMessages;
-	
-    @Inject private Conversation conversation;
-	
+    @Inject
+    private Logger log;
+
+    @Inject
+    private EntityManager em;
+
+    @Inject
+    private PlanManager planManager;
+
+    @Inject
+    private ProjectImporter projectImporter;
+
+    @Inject
+    private FacesMessages facesMessages;
+
+    @Inject
+    private Conversation conversation;
+
     private PlanProperties selectedProp;
-    
+
     /**
-     * Variable determining the plan selection which should be shown to the user.
+     * Variable determining the plan selection which should be shown to the
+     * user.
      */
     private WhichProjects projectSelection = WhichProjects.ALLPROJECTS;
-    
+
     /*
-	private String directory = "";
-	
-	public String importFromDir() {
-		try {
-			projectImporter.importFromDir(directory);
-		} catch (PlatoException e) {
-			log.debug(e);
-		}
-		return listAll();
-		
-	}
-	
-	public String getDirectory() {
-		return directory;
-	}
+     * private String directory = "";
+     * 
+     * public String importFromDir() { try {
+     * projectImporter.importFromDir(directory); } catch (PlatoException e) {
+     * log.debug(e); } return listAll();
+     * 
+     * }
+     * 
+     * public String getDirectory() { return directory; }
+     * 
+     * public void setDirectory(String directory) { this.directory = directory;
+     * }
+     */
 
-	public void setDirectory(String directory) {
-		this.directory = directory;
-	}
-	*/
+    private List<PlanProperties> list;
 
-	private List<PlanProperties> list;
-	
-	public List<PlanProperties> getList() {
-		return list;
-	}
+    public List<PlanProperties> getList() {
+        return this.list;
+    }
 
-	public String listAll() {
-		projectSelection = WhichProjects.ALLPROJECTS;
-		list = planManager.list(projectSelection);
-		log.debug("listing "+list.size()+" plans");
-		return "/plans.jsf";
-	}
+    public String listAll() {
+        this.projectSelection = WhichProjects.ALLPROJECTS;
+        this.list = this.planManager.list(this.projectSelection);
+        this.log.debug("listing " + this.list.size() + " plans");
+        return "/plans.jsf";
+    }
 
-	public String listFTEProjects() {
-		projectSelection = WhichProjects.FTEPROJECTS;
-		list = planManager.list(projectSelection);
-		log.debug("listing "+list.size()+" plans");
-		return "/plans.jsf";
-	}
+    public String listFTEProjects() {
+        this.projectSelection = WhichProjects.FTEPROJECTS;
+        this.list = this.planManager.list(this.projectSelection);
+        this.log.debug("listing " + this.list.size() + " plans");
+        return "/plans.jsf";
+    }
 
+    public String listAllProjects() {
+        this.projectSelection = WhichProjects.ALLPROJECTS;
+        this.list = this.planManager.list(this.projectSelection);
+        this.log.debug("listing " + this.list.size() + " plans");
+        return "/plans.jsf";
+    }
 
-	public String listAllProjects() {
-		projectSelection = WhichProjects.ALLPROJECTS;
-		list = planManager.list(projectSelection);
-		log.debug("listing "+list.size()+" plans");
-		return "/plans.jsf";
-	}
+    public String listMyProjects() {
+        this.projectSelection = WhichProjects.MYPROJECTS;
+        this.list = this.planManager.list(this.projectSelection);
+        this.log.debug("listing " + this.list.size() + " plans");
+        return "/plans.jsf";
+    }
 
+    public String listPublicProjects() {
+        this.projectSelection = WhichProjects.PUBLICPROJECTS;
+        this.list = this.planManager.list(this.projectSelection);
+        this.log.debug("listing " + this.list.size() + " plans");
+        return "/plans.jsf";
+    }
 
-	public String listMyProjects() {
-		projectSelection = WhichProjects.MYPROJECTS;
-		list = planManager.list(projectSelection);
-		log.debug("listing "+list.size()+" plans");
-		return "/plans.jsf";
-	}
+    public String listPublicFTEResults() {
+        this.projectSelection = WhichProjects.PUBLICFTEPROJECTS;
+        this.list = this.planManager.list(this.projectSelection);
+        this.log.debug("listing " + this.list.size() + " plans");
+        return "/plans.jsf";
+    }
 
+    public String unlock(final int pid) {
+        this.planManager.unlockPlan(pid);
+        this.list = this.planManager.list(this.projectSelection);
+        return null;
+    }
 
-	public String listPublicProjects() {
-		projectSelection = WhichProjects.PUBLICPROJECTS;
-		list = planManager.list(projectSelection);
-		log.debug("listing "+list.size()+" plans");
-		return "/plans.jsf";
-	}
+    public void listener(FileUploadEvent event) throws Exception {
+        final UploadedFile item = event.getUploadedFile();
 
+        final File tmp = File.createTempFile(item.getName(), "xml");
+        tmp.deleteOnExit();
+        FileUtils.writeToFile(item.getInputStream(), new FileOutputStream(tmp));
+        try {
+            this.projectImporter.importPlans(tmp);
+            tmp.delete();
 
-	public String  listPublicFTEResults() {
-		projectSelection = WhichProjects.PUBLICFTEPROJECTS;
-		list = planManager.list(projectSelection);
-		log.debug("listing "+list.size()+" plans");
-		return "/plans.jsf";
-	}	
+            this.list = this.planManager.list(this.projectSelection);
+        } catch (final PlatoException e) {
+            this.log.error("Failed to upload plan: " + item.getName(), e);
 
-	public String unlock(int pid) {
-		planManager.unlockPlan(pid);
-		list = planManager.list(projectSelection);
-		return null;
-	}
-	
-	public void listener(FileUploadEvent event) throws Exception {
-		UploadedFile item = event.getUploadedFile();
-		
-		File tmp = File.createTempFile(item.getName(), "xml");
-		tmp.deleteOnExit();
-		FileUtils.writeToFile(item.getInputStream(), new FileOutputStream(tmp)); 
-		try {
-			projectImporter.importPlans(tmp);
-			tmp.delete();
-			
-			list = planManager.list(projectSelection);
-		} catch (PlatoException e) {
-	        log.error("Failed to upload plan: " + item.getName(), e);
+            this.facesMessages.addError("Failed to upload plan: " + item.getName());
+        }
+    }
 
-	        facesMessages.addError("Failed to upload plan: " + item.getName());
-		}
-	}
+    // --------------- getter/setter ---------------
 
-	// --------------- getter/setter ---------------
-	
-	public WhichProjects getProjectSelection() {
-		return projectSelection;
-	}
+    public WhichProjects getProjectSelection() {
+        return this.projectSelection;
+    }
 }

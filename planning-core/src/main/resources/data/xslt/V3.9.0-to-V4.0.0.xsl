@@ -51,6 +51,37 @@
 <xsl:template match="oldplato:plans/@version">
     <xsl:attribute name="version">4.0.0</xsl:attribute>
 </xsl:template>
+
+<xsl:template match="oldplato:criterion">
+	<xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
+	    <xsl:variable name="schema" select="substring-before(oldplato:property/oldplato:category,':')"/>
+	    <xsl:variable name="part">
+	       <xsl:call-template name="append_non_empty">
+	       		<xsl:with-param name="content" select="substring-after(oldplato:property/oldplato:category,':')"/>
+	       		<xsl:with-param name="suffix" select="'/'"/>
+	       </xsl:call-template>
+	    </xsl:variable>
+	    <xsl:variable name="metric">
+	    	<xsl:call-template name="append_non_empty">
+	    		<xsl:with-param name="content" select="oldplato:metric/oldplato:metricId"/>
+	    		<xsl:with-param name="prefix" select="'#'"/>
+	    	</xsl:call-template>
+	    </xsl:variable>
+
+        <xsl:attribute name="ID"> <xsl:value-of select="concat($schema, '://', $part, oldplato:property/oldplato:propertyId, $metric)"/> </xsl:attribute>
+		   	
+      <xsl:apply-templates select="*"/>
+	</xsl:element>
+</xsl:template>
+
+<xsl:template name="append_non_empty" >
+	<xsl:param name="content" select="''"/>
+	<xsl:param name="prefix" select="''"/>
+	<xsl:param name="suffix" select="''"/>
+	<xsl:if test="$content != ''">
+		<xsl:value-of select="concat($prefix, $content, $suffix)"></xsl:value-of>
+	</xsl:if>
+</xsl:template>
  
 
 
