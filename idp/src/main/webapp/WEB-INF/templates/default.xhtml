@@ -46,46 +46,26 @@
 	      return true;
 	  }
 	</script>
+	<link href="http://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" type="text/css" />
 </h:head>
 <h:body>
 
-	<div id="main-div">
-		<div id="header">
-			<div id="bear">
-				<a href="#{request.contextPath}/"> <h:graphicImage library="gfx" name="plato-logo.png" height="60px"
-						alt="Plato 4" />
-				</a>
-			</div>
-			<div id="scape">
-				<h:link value="feedback" outcome="/feedback.jsf" />
-				<a href="http://www.scape-project.eu/" target="_blank"> <h:graphicImage library="gfx" name="scape-logo.png"
-						height="60px" alt="SCAPE" /></a>
-			</div>
-		</div>
+	
+	<div id="header">
+		SCAPE-PW Identity provider
+		<ui:remove> 
+		<!-- 
+		<a href="http://www.scape-project.eu/" target="_blank"> <h:graphicImage library="gfx" name="scape-logo.png"
+				height="60px" alt="SCAPE" /></a>
+		-->
+		</ui:remove>
+	</div>
 
-		<div id="menu-toolbar">
-			<ui:fragment rendered="#{viewWorkflowManager.active}">
-				<ui:include src="/plato/shared/menu.xhtml">
-					<ui:param name="viewWorkflow" value="#{viewWorkflow}" />
-				</ui:include>
-			</ui:fragment>
-			<ui:fragment rendered="#{!viewWorkflowManager.active}">
-				<ui:include src="/plato/shared/menu.xhtml">
-					<ui:param name="viewWorkflow" value="null" />
-				</ui:include>
-			</ui:fragment>
-		</div>
-
-
-
-		<div id="content">
-			<h:messages id="messages" globalOnly="true" />
-			<ui:insert name="content">
-                    [Template content will be inserted here]
-            </ui:insert>
-		</div>
-
-
+	<div id="content">
+		<h:messages id="messages" globalOnly="true" />
+		<ui:insert name="content">
+                   [Template content will be inserted here]
+           </ui:insert>
 	</div>
 
 	<div id="footer">

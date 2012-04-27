@@ -8,22 +8,24 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
+	<ui:define name="title">SCAPE-PW Identity provider</ui:define>
 
 	<ui:define name="content">
-
+	
+		<h1>Sign in</h1>
+	
 		<form action="j_security_check" method="post">
 			<h:panelGrid columns="2">
 				<h:outputText value="Username:" />
 				<h:inputText id="j_username" autocomplete="off" />
 				<h:outputText value="Password:" />
 				<h:inputSecret id="j_password" autocomplete="off" />
-				<h:commandButton type="submit" value="Login" />
-				<h:commandButton type="reset" value="Reset" />
+				<h:commandButton type="submit" value="Login" class="submitButton"/>
+				<h:commandButton type="reset" value="Reset" class="submitButton"/>
 			</h:panelGrid>
 		</form>
 
-		<h:outputLink value="addUser.jsf">Add User</h:outputLink>
+		<h:outputLink value="addUser.jsf">Create an account</h:outputLink>
 
 	</ui:define>
 </ui:composition>
