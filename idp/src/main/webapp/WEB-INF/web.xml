@@ -37,7 +37,7 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
-	
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -74,13 +74,13 @@
 	<!-- Define a Security Constraint on this Application -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Manager command</web-resource-name>
+			<web-resource-name>IDP</web-resource-name>
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>manager</role-name>
-			<role-name>Sales</role-name>
-			<role-name>Employee</role-name>
+			<role-name>admin</role-name>
+			<role-name>user</role-name>
+			<role-name>authenticated</role-name>
 		</auth-constraint>
 	</security-constraint>
 
@@ -98,13 +98,13 @@
 
 	<!-- Security roles referenced by this web application -->
 	<security-role>
-		<role-name>manager</role-name>
+		<role-name>admin</role-name>
 	</security-role>
 	<security-role>
-		<role-name>Sales</role-name>
+		<role-name>user</role-name>
 	</security-role>
 	<security-role>
-		<role-name>Employee</role-name>
+		<role-name>authenticated</role-name>
 	</security-role>
 
 </web-app>
