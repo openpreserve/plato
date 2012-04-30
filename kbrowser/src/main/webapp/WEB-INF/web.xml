@@ -42,4 +42,22 @@
   <welcome-file>default.htm</welcome-file>
   <welcome-file>default.jsp</welcome-file>
  </welcome-file-list>
+ 
+ 	<!-- Define a Security Constraint on this Application -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>KBrowser</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>authenticated</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-role>
+		<description>
+			The role that is required to log in to KBrowser
+    	</description>
+		<role-name>authenticated</role-name>
+	</security-role>
 </web-app>

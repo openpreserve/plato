@@ -27,7 +27,7 @@
           <archive>
             <manifestEntries>
               <Built-By>Plato Development Team</Built-By>
-              <Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api, org.joda.time, org.hibernate, org.hibernate.validator, org.dom4j</Dependencies>
+              <Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api, org.joda.time, org.hibernate, org.hibernate.validator, org.dom4j, org.picketlink</Dependencies>
             </manifestEntries>
           </archive>
         </configuration>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+	<security-domain>sp</security-domain>
+	<valve>
+		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.SPRedirectFormAuthenticator
+		</class-name>
+		<!-- <class-name>org.picketlink.identity.federation.bindings.tomcat.sp.SPPostFormAuthenticator 
+			</class-name> -->
+
+	</valve>
+
+</jboss-web>
