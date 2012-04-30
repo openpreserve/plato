@@ -67,7 +67,7 @@ body {
 }
 
 #content {
-	width:996px;
+	width:630px;
 	margin:auto;
 	margin-top: 10px;
 	padding: 10px;	
@@ -97,7 +97,7 @@ body {
     text-align: center;
     color: #666666;
     font-size: 0.85em;
-    padding: 3em 0 0 0;
+    padding: 1em 0 0 0;
 }
 
 #title {
@@ -114,6 +114,9 @@ body {
     color: #FFF;
     padding: 4px 30px 4px 30px;
     border: none;
+    
+    margin-right: 10px;
+    margin-top: 5px;
  
     text-shadow: 0px 1px 1px #666;
     text-decoration: none;
@@ -238,7 +241,7 @@ fieldset.size-full {
 	padding-top:0px;
 }
 .label {
-	width:30%;
+	width: 90px;
 	/*position: relative;
 	display: inline-block; 
 	top: 0;
@@ -251,6 +254,17 @@ fieldset.size-full {
 	float:left;
 	padding-right:5px;
 }
+
+.label-long {
+	width: 170px;
+	text-align: right;
+	margin-left:0px;
+	margin-right:0px;
+	margin-top: 0px;
+	float:left;
+	padding-right:5px;
+}
+
 .input {
 	display: inline-block;
 	width:60%;
@@ -497,4 +511,8 @@ div.warning {
     border-radius: 5px;
     box-shadow: 0px 2px 10px 2px #888;
     font-family: Helvetica;
+}
+
+.rf-msgs-sum {
+	color: red;
 }

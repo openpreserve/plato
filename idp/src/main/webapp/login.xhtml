@@ -15,16 +15,15 @@
 		<h1>Sign in</h1>
 	
 		<form action="j_security_check" method="post">
-			<h:panelGrid columns="2">
-				<h:outputText value="Username:" />
-				<h:inputText id="j_username" autocomplete="off" />
-				<h:outputText value="Password:" />
-				<h:inputSecret id="j_password" autocomplete="off" />
-				<h:commandButton type="submit" value="Login" class="submitButton"/>
-				<h:commandButton type="reset" value="Reset" class="submitButton"/>
-			</h:panelGrid>
+			<h:outputLabel for="j_username" value="Username:" styleClass="label"/>
+			<h:inputText id="j_username" autocomplete="off" label="Username"/> <br/>
+			<h:outputLabel for="j_password" value="Password:" styleClass="label"/>
+			<h:inputSecret id="j_password" autocomplete="off" label="Password"/> <br/>
+			<h:commandButton type="submit" value="Login" class="submitButton"/>
+			<h:commandButton type="reset" value="Reset" class="submitButton"/>
 		</form>
 
+		<br/>
 		<h:outputLink value="addUser.jsf">Create an account</h:outputLink>
 
 	</ui:define>
