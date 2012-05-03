@@ -4,4 +4,4 @@
 target/
 .svn/
 .DS_Store
-.jsfdia
+*.jsfdia
