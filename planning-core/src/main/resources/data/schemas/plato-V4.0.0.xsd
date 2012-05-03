@@ -655,6 +655,7 @@
 			<xs:element name="metric" type="metricType" minOccurs="0"/>
 			<xs:element name="changelog" type="changeLogType"/>
 		</xs:sequence>    
+		<xs:attribute name="ID" type="xs:anyURI" use="required" />
     </xs:complexType>
     
     <xs:complexType name="measurablePropertyType">
@@ -663,6 +664,7 @@
 			<xs:element name="propertyId" type="xs:string"/>
 			<xs:element name="name" type="xs:string"/>
 			<xs:element name="description" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="subject" type="xs:string" />
 			<xs:sequence minOccurs="0">
 				<xs:choice>
 					<xs:element name="ordinalScale" type="ordinalScaleType"/>

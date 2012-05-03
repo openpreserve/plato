@@ -135,9 +135,9 @@ public class ProjectImporter implements Serializable {
     private static final long serialVersionUID = 1L;
 
     static final String PLATO_SCHEMA = "plato-V4.0.0.xsd";
-    static final String PLATO_SCHEMA_URI = "http://ifs.tuwien.ac.at/dp/plato/" + PLATO_SCHEMA;
+    static final String PLATO_SCHEMA_URI = "http://ifs.tuwien.ac.at/dp/plato/" + ProjectImporter.PLATO_SCHEMA;
 
-    static final String[] PLAN_SCHEMAS = {PLATO_SCHEMA_URI};
+    static final String[] PLAN_SCHEMAS = {ProjectImporter.PLATO_SCHEMA_URI};
 
     @Inject
     private Logger log;
@@ -175,16 +175,16 @@ public class ProjectImporter implements Serializable {
 
     private List<String> appliedTransformations;
 
-    private ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
+    private final ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
 
     /**
      * Deserializes the plans stored in the file
      */
-    public List<Plan> importProjects(String file) throws PlatoException {
+    public List<Plan> importProjects(final String file) throws PlatoException {
         try {
-            FileInputStream in = new FileInputStream(file);
-            return importProjects(in);
-        } catch (FileNotFoundException e) {
+            final FileInputStream in = new FileInputStream(file);
+            return this.importProjects(in);
+        } catch (final FileNotFoundException e) {
             throw new PlatoException("IMPORT FAILED: could not find file " + file, e);
         }
     }
@@ -195,16 +195,16 @@ public class ProjectImporter implements Serializable {
      * @param p
      * @throws PlatoException
      */
-    public void storeDigitalObjects(Plan p) throws PlatoException {
+    public void storeDigitalObjects(final Plan p) throws PlatoException {
         try {
-            List<DigitalObject> digitalObjects = p.getDigitalObjects();
-            for (DigitalObject o : digitalObjects) {
+            final List<DigitalObject> digitalObjects = p.getDigitalObjects();
+            for (final DigitalObject o : digitalObjects) {
                 if (o.getData().getSize() > 0) {
-                    String pid = storage.store(null, o.getData().getRealByteStream().getData());
+                    final String pid = this.storage.store(null, o.getData().getRealByteStream().getData());
                     o.setPid(pid);
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new PlatoException(e);
         }
     }
@@ -216,23 +216,23 @@ public class ProjectImporter implements Serializable {
      * @return
      * @throws PlatoException
      */
-    public int importAllProjectsFromDir(String dir) throws PlatoException {
+    public int importAllProjectsFromDir(final String dir) throws PlatoException {
         int count = 0;
-        File f = new File(dir);
+        final File f = new File(dir);
         if (!f.exists()) {
             throw new PlatoException("Directory not found: " + dir);
         }
-        String files[] = f.list();
+        final String files[] = f.list();
         if (files == null) {
             throw new PlatoException("Directory is empty: " + dir);
         }
-        for (String s : files) {
-            log.debug("importing file: " + s);
-            String file = f.getAbsolutePath() + File.separator + s;
-            log.info("Importing file: " + file);
-            for (Plan p : importProjects(file)) {
-                storeDigitalObjects(p);
-                em.persist(p);
+        for (final String s : files) {
+            this.log.debug("importing file: " + s);
+            final String file = f.getAbsolutePath() + File.separator + s;
+            this.log.info("Importing file: " + file);
+            for (final Plan p : this.importProjects(file)) {
+                this.storeDigitalObjects(p);
+                this.em.persist(p);
                 count++;
             }
             // FIXME: if persisting to the database fails, the
@@ -248,11 +248,11 @@ public class ProjectImporter implements Serializable {
      * @param file
      * @throws PlatoException
      */
-    public void importPlans(File file) throws PlatoException {
-        log.debug("importing file: " + file.getName());
-        for (Plan p : importProjects(file.getAbsolutePath())) {
-            storeDigitalObjects(p);
-            em.persist(p);
+    public void importPlans(final File file) throws PlatoException {
+        this.log.debug("importing file: " + file.getName());
+        for (final Plan p : importProjects(file.getAbsolutePath())) {
+            this.storeDigitalObjects(p);
+            this.em.persist(p);
         }
     }
 
@@ -276,8 +276,8 @@ public class ProjectImporter implements Serializable {
      * 
      * @param p
      */
-    public void setProject(Plan p) {
-        plans.add(p);
+    public void setProject(final Plan p) {
+        this.plans.add(p);
     }
 
     /**
@@ -285,8 +285,8 @@ public class ProjectImporter implements Serializable {
      * 
      * @param t
      */
-    public void setTemplate(TemplateTree t) {
-        templates.add(t);
+    public void setTemplate(final TemplateTree t) {
+        this.templates.add(t);
     }
 
     @Remove
@@ -307,10 +307,10 @@ public class ProjectImporter implements Serializable {
      * @throws SAXException
      *             if parsing the XML representation fails
      */
-    public String getCurrentVersionData(InputStream in, String tempPath) throws IOException, SAXException {
-        appliedTransformations = new ArrayList<String>();
+    public String getCurrentVersionData(final InputStream in, final String tempPath) throws IOException, SAXException {
+        this.appliedTransformations = new ArrayList<String>();
 
-        String originalFile = tempPath + "_original.xml";
+        final String originalFile = tempPath + "_original.xml";
         FileUtils.writeToFile(in, new FileOutputStream(originalFile));
 
         /** check for the version of the file **/
@@ -321,11 +321,11 @@ public class ProjectImporter implements Serializable {
         // nodes(project, projects),
         // with a different name (fileVersion)
         // to be backwards compatible we create rules for all these attributes
-        fileVersion = "xxx";
-        Digester d = new Digester();
+        this.fileVersion = "xxx";
+        final Digester d = new Digester();
         d.setValidating(false);
-        StrictErrorHandler errorHandler = new StrictErrorHandler();
-        d.setErrorHandler(errorHandler);
+//        final StrictErrorHandler errorHandler = new StrictErrorHandler();
+//        d.setErrorHandler(errorHandler);
         d.push(this);
         // to read the version we have to support all versions:
         d.addSetProperties("*/projects", "version", "fileVersion");
@@ -337,13 +337,13 @@ public class ProjectImporter implements Serializable {
         // since V1.9 the root node is plans:
         d.addSetProperties("*/plans", "version", "fileVersion");
 
-        InputStream inV = new FileInputStream(originalFile);
+        final InputStream inV = new FileInputStream(originalFile);
         d.parse(inV);
         inV.close();
         /** this could be more sophisticated, but for now this is enough **/
         String version = "1.0";
-        if (fileVersion != null) {
-            version = fileVersion;
+        if (this.fileVersion != null) {
+            version = this.fileVersion;
         }
 
         String fileTo = originalFile;
@@ -354,15 +354,15 @@ public class ProjectImporter implements Serializable {
             fileFrom = fileTo;
             fileTo = fileFrom + "_V1.3.xml";
             /** this is an old export file, transform it to the 1.3 schema **/
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/Vxxx-to-V1.3.xsl");
-            appliedTransformations.add("Vxxx-to-V1.3.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/Vxxx-to-V1.3.xsl");
+            this.appliedTransformations.add("Vxxx-to-V1.3.xsl");
             version = "1.3";
         }
         if (success && "1.3".equals(version)) {
             fileFrom = fileTo;
             fileTo = fileFrom + "_V1.9.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V1.3-to-V1.9.xsl");
-            appliedTransformations.add("V1.3-to-V1.9.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V1.3-to-V1.9.xsl");
+            this.appliedTransformations.add("V1.3-to-V1.9.xsl");
             version = "1.9";
         }
         // with release of Plato 2.0 and its schema ProjectExporter creates
@@ -374,24 +374,24 @@ public class ProjectImporter implements Serializable {
             // transform the document to version 2.1
             fileFrom = fileTo;
             fileTo = fileFrom + "_V2.1.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V2.0-to-V2.1.xsl");
-            appliedTransformations.add("V2.0-to-V2.1.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V2.0-to-V2.1.xsl");
+            this.appliedTransformations.add("V2.0-to-V2.1.xsl");
             version = "2.1";
         }
         if (success && "2.1".equals(version)) {
             // transform the document to version 2.1.2
             fileFrom = fileTo;
             fileTo = fileFrom + "_V2.1.2.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V2.1-to-V2.1.2.xsl");
-            appliedTransformations.add("V2.1-to-V2.1.2.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V2.1-to-V2.1.2.xsl");
+            this.appliedTransformations.add("V2.1-to-V2.1.2.xsl");
             version = "2.1.2";
         }
         if (success && "2.1.1".equals(version)) {
             // transform the document to version 2.1.2
             fileFrom = fileTo;
             fileTo = fileFrom + "_V2.1.2.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V2.1.1-to-V2.1.2.xsl");
-            appliedTransformations.add("V2.1.1-to-V2.1.2.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V2.1.1-to-V2.1.2.xsl");
+            this.appliedTransformations.add("V2.1.1-to-V2.1.2.xsl");
             version = "2.1.2";
         }
 
@@ -399,32 +399,32 @@ public class ProjectImporter implements Serializable {
             // transform the document to version 3.0.0
             fileFrom = fileTo;
             fileTo = fileFrom + "_V3.0.0.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V2.1.2-to-V3.0.0.xsl");
-            appliedTransformations.add("V2.1.2-to-V3.0.0.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V2.1.2-to-V3.0.0.xsl");
+            this.appliedTransformations.add("V2.1.2-to-V3.0.0.xsl");
             version = "3.0.0";
         }
         if (success && "3.0.0".equals(version)) {
             // transform the document to version 3.0.1
             fileFrom = fileTo;
             fileTo = fileFrom + "_V3.0.1.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V3.0.0-to-V3.0.1.xsl");
-            appliedTransformations.add("V3.0.0-to-V3.0.1.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V3.0.0-to-V3.0.1.xsl");
+            this.appliedTransformations.add("V3.0.0-to-V3.0.1.xsl");
             version = "3.0.1";
         }
         if (success && "3.0.1".equals(version)) {
             // transform the document to version 3.0.1
             fileFrom = fileTo;
             fileTo = fileFrom + "_V3.9.0.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V3.0.1-to-V3.9.0.xsl");
-            appliedTransformations.add("V3.0.1-to-V3.9.0.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V3.0.1-to-V3.9.0.xsl");
+            this.appliedTransformations.add("V3.0.1-to-V3.9.0.xsl");
             version = "3.9.0";
         }
         if (success && "3.9.0".equals(version)) {
             // transform the document to version 3.0.1
             fileFrom = fileTo;
             fileTo = fileFrom + "_V4.0.0.xml";
-            success = transformXmlData(fileFrom, fileTo, "data/xslt/V3.9.0-to-V4.0.0.xsl");
-            appliedTransformations.add("V3.9.0-to-V4.0.0.xsl");
+            success = this.transformXmlData(fileFrom, fileTo, "data/xslt/V3.9.0-to-V4.0.0.xsl");
+            this.appliedTransformations.add("V3.9.0-to-V4.0.0.xsl");
             version = "4.0.0";
         }
 
@@ -435,27 +435,28 @@ public class ProjectImporter implements Serializable {
         }
     }
 
-    public boolean transformXmlData(String fromFile, String toFile, String xslFile) throws IOException {
+    public boolean transformXmlData(final String fromFile, final String toFile, final String xslFile)
+        throws IOException {
         try {
-            InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslFile);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
+            final InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslFile);
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
 
-            OutputStream transformedOut = new FileOutputStream(toFile);
-            Result outputTarget = new StreamResult(transformedOut);
+            final OutputStream transformedOut = new FileOutputStream(toFile);
+            final Result outputTarget = new StreamResult(transformedOut);
 
-            Source xmlSource = new StreamSource(new FileInputStream(fromFile));
+            final Source xmlSource = new StreamSource(new FileInputStream(fromFile));
 
             transformer.transform(xmlSource, outputTarget);
             transformedOut.close();
             return true;
 
-        } catch (TransformerConfigurationException e) {
-            log.debug(e.getMessage(), e);
-        } catch (TransformerFactoryConfigurationError e) {
-            log.debug(e.getMessage(), e);
-        } catch (TransformerException e) {
-            log.debug(e.getMessage(), e);
+        } catch (final TransformerConfigurationException e) {
+            this.log.debug(e.getMessage(), e);
+        } catch (final TransformerFactoryConfigurationError e) {
+            this.log.debug(e.getMessage(), e);
+        } catch (final TransformerException e) {
+            this.log.debug(e.getMessage(), e);
         }
         return false;
 
@@ -477,20 +478,20 @@ public class ProjectImporter implements Serializable {
      * @throws SAXException
      * @throws IOException
      */
-    public void storeTemplatesInLibrary(byte[] xml) throws SAXException, IOException {
+    public void storeTemplatesInLibrary(final byte[] xml) throws SAXException, IOException {
 
-        List<TemplateTree> templates = importTemplates(xml);
+        final List<TemplateTree> templates = this.importTemplates(xml);
         /*
          * store all templates
          */
-        for (TemplateTree template : templates) {
+        for (final TemplateTree template : templates) {
 
             // we get the template tree ("Public Templates") from the database
             TemplateTree tdb;
             try {
-                tdb = (TemplateTree) em.createQuery("select n from TemplateTree n where name = :name")
+                tdb = (TemplateTree) this.em.createQuery("select n from TemplateTree n where name = :name")
                     .setParameter("name", template.getName()).getSingleResult();
-            } catch (NoResultException e) {
+            } catch (final NoResultException e) {
                 tdb = new TemplateTree(template.getName(), null);
             }
 
@@ -498,13 +499,13 @@ public class ProjectImporter implements Serializable {
 
                 // we get the templates and add them to the tree
                 // and store them
-                for (TreeNode n : template.getRoot().getChildren()) {
+                for (final TreeNode n : template.getRoot().getChildren()) {
                     tdb.getRoot().addChild(n);
-                    em.persist(n);
+                    this.em.persist(n);
                 }
 
-                em.persist(em.merge(tdb));
-                em.flush();
+                this.em.persist(this.em.merge(tdb));
+                this.em.flush();
 
             }
         }
@@ -515,11 +516,11 @@ public class ProjectImporter implements Serializable {
      * 
      * @return list of read templates.
      */
-    public List<TemplateTree> importTemplates(byte[] in) throws IOException, SAXException {
+    public List<TemplateTree> importTemplates(final byte[] in) throws IOException, SAXException {
 
-        Digester digester = new Digester();
+        final Digester digester = new Digester();
         // digester.setValidating(true);
-        StrictErrorHandler errorHandler = new StrictErrorHandler();
+        final StrictErrorHandler errorHandler = new StrictErrorHandler();
         digester.setErrorHandler(errorHandler);
 
         // At the moment XML files for template tree's are only used internally,
@@ -549,8 +550,8 @@ public class ProjectImporter implements Serializable {
          * t.getOwner()); }
          */
 
-        for (TemplateTree template : templates) {
-            replaceCriteriaReferences(template.getRoot().getAllLeaves());
+        for (final TemplateTree template : this.templates) {
+            this.replaceCriteriaReferences(template.getRoot().getAllLeaves());
         }
 
         return this.templates;
@@ -561,26 +562,27 @@ public class ProjectImporter implements Serializable {
      * 
      * @return list of read plans
      */
-    public List<Plan> importProjects(InputStream in) throws PlatoException {
-        String tempPath = OS.getTmpPath() + "import_xml" + System.currentTimeMillis() + "/";
-        File tempDir = new File(tempPath);
+    public List<Plan> importProjects(final InputStream in) throws PlatoException {
+        final String tempPath = OS.getTmpPath() + "import_xml" + System.currentTimeMillis() + "/";
+        final File tempDir = new File(tempPath);
         tempDir.deleteOnExit();
         tempDir.mkdirs();
         try {
-            String currentVersionFile = getCurrentVersionData(in, tempPath);
+            final String currentVersionFile = this.getCurrentVersionData(in, tempPath);
 
             if (currentVersionFile == null) {
-                log.error("Failed to migrate plans.");
+                this.log.error("Failed to migrate plans.");
                 return this.plans;
             }
 
-            SAXParser parser = validatingParserFactory.getValidatingParser();
-            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PLAN_SCHEMAS);
+            final SAXParser parser = this.validatingParserFactory.getValidatingParser();
+            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, ProjectImporter.PLAN_SCHEMAS);
 
-            Digester digester = new Digester(parser);
+            final Digester digester = new Digester(parser);
 
-            SchemaResolver schemaResolver = new SchemaResolver();
-            schemaResolver.addSchemaLocation(PLATO_SCHEMA_URI, "data/schemas/" + PLATO_SCHEMA);
+            final SchemaResolver schemaResolver = new SchemaResolver();
+            schemaResolver.addSchemaLocation(ProjectImporter.PLATO_SCHEMA_URI, "data/schemas/"
+                + ProjectImporter.PLATO_SCHEMA);
             digester.setEntityResolver(schemaResolver);
 
             digester.setErrorHandler(new StrictErrorHandler());
@@ -605,7 +607,8 @@ public class ProjectImporter implements Serializable {
             digester.addFactoryCreate("*/plan/properties/state", PlanStateFactory.class);
             digester.addSetNext("*/plan/properties/state", "setState");
 
-            addCreateUpload(digester, "*/plan/properties/report", "setReportUpload", DigitalObject.class);
+            ProjectImporter.addCreateUpload(digester, "*/plan/properties/report", "setReportUpload",
+                DigitalObject.class);
 
             digester.addObjectCreate("*/plan/basis", ProjectBasis.class);
             digester.addSetProperties("*/plan/basis");
@@ -689,7 +692,8 @@ public class ProjectImporter implements Serializable {
             digester.addSetProperties("*/record/formatInfo");
             digester.addSetNext("*/record/formatInfo", "setFormatInfo");
 
-            addCreateUpload(digester, "*/record/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
+            ProjectImporter.addCreateUpload(digester, "*/record/xcdlDescription", "setXcdlDescription",
+                XcdlDescription.class);
 
             // - collection profile
             digester.addObjectCreate("*/plan/sampleRecords/collectionProfile", CollectionProfile.class);
@@ -714,7 +718,8 @@ public class ProjectImporter implements Serializable {
             // - uploads
             digester.addObjectCreate("*/plan/requirementsDefinition/uploads", ArrayList.class);
             digester.addSetNext("*/plan/requirementsDefinition/uploads", "setUploads");
-            addCreateUpload(digester, "*/plan/requirementsDefinition/uploads/upload", "add", DigitalObject.class);
+            ProjectImporter.addCreateUpload(digester, "*/plan/requirementsDefinition/uploads/upload", "add",
+                DigitalObject.class);
 
             // alternatives
             digester.addObjectCreate("*/plan/alternatives", AlternativesDefinition.class);
@@ -758,8 +763,9 @@ public class ProjectImporter implements Serializable {
             digester.addCallMethod("*/experiment/description", "setDescription", 0);
             digester.addCallMethod("*/experiment/settings", "setSettings", 0);
 
-            addCreateUpload(digester, "*/experiment/results/result", null, DigitalObject.class);
-            addCreateUpload(digester, "*/result/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
+            ProjectImporter.addCreateUpload(digester, "*/experiment/results/result", null, DigitalObject.class);
+            ProjectImporter.addCreateUpload(digester, "*/result/xcdlDescription", "setXcdlDescription",
+                XcdlDescription.class);
 
             // call function addUpload of ExperimentWrapper
             CallMethodRule r = new CallMethodRule(1, "addResult", 2); // method
@@ -821,15 +827,15 @@ public class ProjectImporter implements Serializable {
              * need to store the value as XML-element instead of an attribute
              * naming them "ResultValues" wasn't nice too
              */
-            addCreateValue(digester, BooleanValue.class, "setValue");
-            addCreateValue(digester, FloatRangeValue.class, "setValue");
-            addCreateValue(digester, IntegerValue.class, "setValue");
-            addCreateValue(digester, IntRangeValue.class, "setValue");
-            addCreateValue(digester, OrdinalValue.class, "setValue");
-            addCreateValue(digester, PositiveFloatValue.class, "setValue");
-            addCreateValue(digester, PositiveIntegerValue.class, "setValue");
-            addCreateValue(digester, YanValue.class, "setValue");
-            addCreateValue(digester, FreeStringValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, BooleanValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, FloatRangeValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, IntegerValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, IntRangeValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, OrdinalValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, PositiveFloatValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, PositiveIntegerValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, YanValue.class, "setValue");
+            ProjectImporter.addCreateValue(digester, FreeStringValue.class, "setValue");
 
             // go no go decision
             digester.addObjectCreate("*/plan/decision", Decision.class);
@@ -899,16 +905,16 @@ public class ProjectImporter implements Serializable {
              * for each result-type a set of rules they are added to the
              * valueMap by the rules above
              */
-            addCreateResultValue(digester, BooleanValue.class);
-            addCreateResultValue(digester, FloatValue.class);
-            addCreateResultValue(digester, FloatRangeValue.class);
-            addCreateResultValue(digester, IntegerValue.class);
-            addCreateResultValue(digester, IntRangeValue.class);
-            addCreateResultValue(digester, OrdinalValue.class);
-            addCreateResultValue(digester, PositiveFloatValue.class);
-            addCreateResultValue(digester, PositiveIntegerValue.class);
-            addCreateResultValue(digester, YanValue.class);
-            addCreateResultValue(digester, FreeStringValue.class);
+            ProjectImporter.addCreateResultValue(digester, BooleanValue.class);
+            ProjectImporter.addCreateResultValue(digester, FloatValue.class);
+            ProjectImporter.addCreateResultValue(digester, FloatRangeValue.class);
+            ProjectImporter.addCreateResultValue(digester, IntegerValue.class);
+            ProjectImporter.addCreateResultValue(digester, IntRangeValue.class);
+            ProjectImporter.addCreateResultValue(digester, OrdinalValue.class);
+            ProjectImporter.addCreateResultValue(digester, PositiveFloatValue.class);
+            ProjectImporter.addCreateResultValue(digester, PositiveIntegerValue.class);
+            ProjectImporter.addCreateResultValue(digester, YanValue.class);
+            ProjectImporter.addCreateResultValue(digester, FreeStringValue.class);
 
             /*
              * 1. The valueMap has an entry for each (considered) alternative
@@ -946,7 +952,7 @@ public class ProjectImporter implements Serializable {
             // (last
             // in - first out!)
 
-            CallMethodRule rr = new CallMethodRule(1, "setNodeContent", 2);
+            final CallMethodRule rr = new CallMethodRule(1, "setNodeContent", 2);
             digester.addRule("*/plan/executablePlan/planWorkflow/workflowConf", rr);
             // right below the wrapper is an instance of
             // ExecutablePlanDefinition
@@ -965,7 +971,7 @@ public class ProjectImporter implements Serializable {
             // then an element for workflowConf
             digester.addRule("*/plan/executablePlan/eprintsPlan", new NodeCreateRule());
 
-            CallMethodRule rr2 = new CallMethodRule(1, "setNodeContentEPrintsPlan", 2);
+            final CallMethodRule rr2 = new CallMethodRule(1, "setNodeContentEPrintsPlan", 2);
             digester.addRule("*/plan/executablePlan/eprintsPlan", rr2);
             // right below the wrapper is an instance of
             // ExecutablePlanDefinition
@@ -1008,8 +1014,8 @@ public class ProjectImporter implements Serializable {
             // finally parse the XML representation with all created rules
             digester.parse(new FileInputStream(currentVersionFile));
 
-            for (Plan plan : plans) {
-                String projectName = plan.getPlanProperties().getName();
+            for (final Plan plan : this.plans) {
+                final String projectName = plan.getPlanProperties().getName();
                 if ((projectName != null) && (!"".equals(projectName))) {
                     /*
                      * establish links from values to scales
@@ -1019,18 +1025,18 @@ public class ProjectImporter implements Serializable {
                     /*
                      * establish references of Experiment.uploads
                      */
-                    HashMap<String, SampleObject> records = new HashMap<String, SampleObject>();
-                    for (SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
+                    final HashMap<String, SampleObject> records = new HashMap<String, SampleObject>();
+                    for (final SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
                         records.put(record.getShortName(), record);
                     }
-                    for (Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
+                    for (final Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
                         if ((alt.getExperiment() != null) && (alt.getExperiment() instanceof ExperimentWrapper)) {
                             alt.setExperiment(((ExperimentWrapper) alt.getExperiment()).getExperiment(records));
                         }
                     }
 
                     // DESCRIBE all DigitalObjects with Jhove.
-                    for (SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
+                    for (final SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
                         if (record.isDataExistent()) {
                             // characterise
                             // FIXME UPGRADE
@@ -1064,17 +1070,17 @@ public class ProjectImporter implements Serializable {
                     }
 
                     // CHECK NUMERIC TRANSFORMER THRESHOLDS
-                    for (Leaf l : plan.getTree().getRoot().getAllLeaves()) {
-                        eu.planets_project.pp.plato.model.transform.Transformer t = l.getTransformer();
+                    for (final Leaf l : plan.getTree().getRoot().getAllLeaves()) {
+                        final eu.planets_project.pp.plato.model.transform.Transformer t = l.getTransformer();
                         if (t != null && t instanceof NumericTransformer) {
-                            NumericTransformer nt = (NumericTransformer) t;
+                            final NumericTransformer nt = (NumericTransformer) t;
                             if (!nt.checkOrder()) {
-                                StringBuffer sb = new StringBuffer("NUMERICTRANSFORMER THRESHOLD ERROR ");
+                                final StringBuffer sb = new StringBuffer("NUMERICTRANSFORMER THRESHOLD ERROR ");
                                 sb.append(l.getName()).append("::NUMERICTRANSFORMER:: ");
                                 sb.append(nt.getThreshold1()).append(" ").append(nt.getThreshold2()).append(" ")
                                     .append(nt.getThreshold3()).append(" ").append(nt.getThreshold4()).append(" ")
                                     .append(nt.getThreshold5());
-                                log.error(sb.toString());
+                                this.log.error(sb.toString());
                             }
                         }
                     }
@@ -1082,8 +1088,8 @@ public class ProjectImporter implements Serializable {
                     /*
                      * establish references to selected alternative
                      */
-                    HashMap<String, Alternative> alternatives = new HashMap<String, Alternative>();
-                    for (Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
+                    final HashMap<String, Alternative> alternatives = new HashMap<String, Alternative>();
+                    for (final Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
                         alternatives.put(alt.getName(), alt);
                     }
                     if ((plan.getRecommendation() != null)
@@ -1105,18 +1111,18 @@ public class ProjectImporter implements Serializable {
                      * which criterion instance we need for each property/metric
                      * pair
                      */
-                    List<Leaf> leaves = plan.getTree().getRoot().getAllLeaves();
-                    replaceCriteriaReferences(leaves);
+                    final List<Leaf> leaves = plan.getTree().getRoot().getAllLeaves();
+                    this.replaceCriteriaReferences(leaves);
 
                 } else {
                     throw new PlatoException("Could not find any project data.");
                 }
             }
-        } catch (ParserConfigurationException e) {
+        } catch (final ParserConfigurationException e) {
             throw new PlatoException("Failed to import plans.", e);
-        } catch (SAXException e) {
+        } catch (final SAXException e) {
             throw new PlatoException("Failed to import plans.", e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new PlatoException("Failed to import plans.", e);
         } finally {
             OS.deleteDirectory(tempDir);
@@ -1125,12 +1131,18 @@ public class ProjectImporter implements Serializable {
         return this.plans;
     }
 
-    private void replaceCriteriaReferences(List<Leaf> leaves) {
-        for (Leaf l : leaves) {
-            if (l.getCriterion() != null) {
+    private void replaceCriteriaReferences(final List<Leaf> leaves) {
+        for (final Leaf l : leaves) {
+            Criterion parsedCriterion = l.getCriterion(); 
+            if (parsedCriterion != null) {
                 // FIXME: unknown criteria should not be removed / error message
-                l.setCriterion(criteriaManager.getCriterion(l.getCriterion().getProperty(), l.getCriterion()
-                    .getMetric()));
+                Criterion criterion = this.criteriaManager.getCriterion(parsedCriterion.getUri());
+                if (criterion == null) {
+                    // this is an unknown criterion, we do not want to add them to the list of well known criteria
+                    // but we have to inform the user about this problem
+                    
+                }
+                l.setCriterion(criterion);
             }
         }
     }
@@ -1144,11 +1156,13 @@ public class ProjectImporter implements Serializable {
      * @param pattern
      * @param method
      */
-    private static void addCreateUpload(Digester digester, String pattern, String method, Class objectType) {
+    private static void addCreateUpload(final Digester digester, final String pattern, final String method,
+        final Class objectType) {
         digester.addObjectCreate(pattern, objectType);
         digester.addSetProperties(pattern);
-        if ((method != null) && (!"".equals(method)))
+        if ((method != null) && (!"".equals(method))) {
             digester.addSetNext(pattern, method);
+        }
         /*
          * Note: It is not possible to read element data, process it and pass it
          * to a function with a simple digester Rule, neither you can define a
@@ -1170,7 +1184,7 @@ public class ProjectImporter implements Serializable {
 
     }
 
-    public void setFileVersion(String fileVersion) {
+    public void setFileVersion(final String fileVersion) {
         this.fileVersion = fileVersion;
     }
 
@@ -1179,7 +1193,7 @@ public class ProjectImporter implements Serializable {
      * only! Rules for importing measured values of alternatives are defined
      * seperately in importProjects()! (Refactored to its own method by Kevin)
      */
-    private static void addTreeParsingRulesToDigester(Digester digester) {
+    private static void addTreeParsingRulesToDigester(final Digester digester) {
         digester.addObjectCreate("*/plan/tree", ObjectiveTree.class);
         digester.addSetProperties("*/plan/tree");
         digester.addSetNext("*/plan/tree", "setTree");
@@ -1203,24 +1217,25 @@ public class ProjectImporter implements Serializable {
         digester.addCallMethod("*/leaf/description", "setDescription", 0);
 
         digester.addObjectCreate("*/criterion", Criterion.class);
+        digester.addSetProperties("*/criterion", "ID", "uri");
         digester.addSetNext("*/criterion", "setCriterion");
-        addPropertyRules(digester, "*/criterion/property");
-        // and the selected metric
-        addMetricRules(digester, "*/criterion/metric", "setMetric");
+//        ProjectImporter.addPropertyRules(digester, "*/criterion/property");
+//        // and the selected metric
+//        ProjectImporter.addMetricRules(digester, "*/criterion/metric", "setMetric");
 
         /*
          * for each scale-type a set of rules
          */
-        addCreateScale(digester, BooleanScale.class);
-        addCreateScale(digester, FloatRangeScale.class);
-        addCreateScale(digester, FloatScale.class);
-        addCreateScale(digester, IntegerScale.class);
-        addCreateScale(digester, IntRangeScale.class);
-        addCreateScale(digester, OrdinalScale.class);
-        addCreateScale(digester, PositiveFloatScale.class);
-        addCreateScale(digester, PositiveIntegerScale.class);
-        addCreateScale(digester, YanScale.class);
-        addCreateScale(digester, FreeStringScale.class);
+        ProjectImporter.addCreateScale(digester, BooleanScale.class);
+        ProjectImporter.addCreateScale(digester, FloatRangeScale.class);
+        ProjectImporter.addCreateScale(digester, FloatScale.class);
+        ProjectImporter.addCreateScale(digester, IntegerScale.class);
+        ProjectImporter.addCreateScale(digester, IntRangeScale.class);
+        ProjectImporter.addCreateScale(digester, OrdinalScale.class);
+        ProjectImporter.addCreateScale(digester, PositiveFloatScale.class);
+        ProjectImporter.addCreateScale(digester, PositiveIntegerScale.class);
+        ProjectImporter.addCreateScale(digester, YanScale.class);
+        ProjectImporter.addCreateScale(digester, FreeStringScale.class);
 
         /*
          * for each transformer type a set of rules
@@ -1265,12 +1280,12 @@ public class ProjectImporter implements Serializable {
                                                               // second
     }
 
-    private static void addCreateResultValue(Digester digester, Class c) {
+    private static void addCreateResultValue(final Digester digester, final Class c) {
         String name = c.getName();
         name = name.substring(name.lastIndexOf(".") + 1);
         name = name.substring(0, 1).toLowerCase() + name.substring(1);
 
-        String pattern = "*/" + name.replace("Value", "Result");
+        final String pattern = "*/" + name.replace("Value", "Result");
         digester.addObjectCreate(pattern, c);
         digester.addSetProperties(pattern);
         digester.addBeanPropertySetter(pattern + "/value");
@@ -1278,30 +1293,30 @@ public class ProjectImporter implements Serializable {
         digester.addSetNext(pattern, "add");
     }
 
-    private static void addCreateValue(Digester digester, Class c, String setNextMethod) {
+    private static void addCreateValue(final Digester digester, final Class c, final String setNextMethod) {
         String name = c.getName();
         name = name.substring(name.lastIndexOf(".") + 1);
         name = name.substring(0, 1).toLowerCase() + name.substring(1);
 
-        String pattern = "*/" + name;
+        final String pattern = "*/" + name;
         digester.addObjectCreate(pattern, c);
         // digester.addSetProperties(pattern);
         digester.addBeanPropertySetter(pattern + "/value");
         digester.addSetNext(pattern, setNextMethod);
     }
 
-    private static void addCreateScale(Digester digester, Class c) {
+    private static void addCreateScale(final Digester digester, final Class c) {
         String name = c.getName();
         name = name.substring(name.lastIndexOf(".") + 1);
         name = name.substring(0, 1).toLowerCase() + name.substring(1);
 
-        String pattern = "*/" + name;
+        final String pattern = "*/" + name;
         digester.addObjectCreate(pattern, c);
         digester.addSetProperties(pattern);
         digester.addSetNext(pattern, "setScale");
     }
 
-    private static void addPropertyRules(Digester digester, String pattern) {
+    private static void addPropertyRules(final Digester digester, final String pattern) {
         digester.addObjectCreate(pattern, MeasurableProperty.class);
         digester.addSetNext(pattern, "setProperty");
         digester.addSetProperties(pattern);
@@ -1321,7 +1336,7 @@ public class ProjectImporter implements Serializable {
 
     }
 
-    private static void addMetricRules(Digester digester, String pattern, String method) {
+    private static void addMetricRules(final Digester digester, final String pattern, final String method) {
         digester.addObjectCreate(pattern, Metric.class);
         digester.addSetProperties(pattern);
         digester.addBeanPropertySetter(pattern + "/metricId");
@@ -1332,6 +1347,6 @@ public class ProjectImporter implements Serializable {
     }
 
     public List<String> getAppliedTransformations() {
-        return appliedTransformations;
+        return this.appliedTransformations;
     }
 }

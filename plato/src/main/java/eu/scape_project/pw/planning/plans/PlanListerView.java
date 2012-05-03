@@ -71,85 +71,101 @@ public class PlanListerView implements Serializable {
      * 
      * public String getDirectory() { return directory; }
      * 
-     * public void setDirectory(String directory) { this.directory = directory;
-     * }
+     * public void setDirectory(String directory) { directory = directory; }
      */
 
     private List<PlanProperties> list;
 
     public List<PlanProperties> getList() {
-        return this.list;
+        return list;
     }
 
     public String listAll() {
-        this.projectSelection = WhichProjects.ALLPROJECTS;
-        this.list = this.planManager.list(this.projectSelection);
-        this.log.debug("listing " + this.list.size() + " plans");
+        projectSelection = WhichProjects.ALLPROJECTS;
+        list = planManager.list(projectSelection);
+        log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
     public String listFTEProjects() {
-        this.projectSelection = WhichProjects.FTEPROJECTS;
-        this.list = this.planManager.list(this.projectSelection);
-        this.log.debug("listing " + this.list.size() + " plans");
+        projectSelection = WhichProjects.FTEPROJECTS;
+        list = planManager.list(projectSelection);
+        log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
     public String listAllProjects() {
-        this.projectSelection = WhichProjects.ALLPROJECTS;
-        this.list = this.planManager.list(this.projectSelection);
-        this.log.debug("listing " + this.list.size() + " plans");
+        projectSelection = WhichProjects.ALLPROJECTS;
+        list = planManager.list(projectSelection);
+        log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
     public String listMyProjects() {
-        this.projectSelection = WhichProjects.MYPROJECTS;
-        this.list = this.planManager.list(this.projectSelection);
-        this.log.debug("listing " + this.list.size() + " plans");
+        projectSelection = WhichProjects.MYPROJECTS;
+        list = planManager.list(projectSelection);
+        log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
     public String listPublicProjects() {
-        this.projectSelection = WhichProjects.PUBLICPROJECTS;
-        this.list = this.planManager.list(this.projectSelection);
-        this.log.debug("listing " + this.list.size() + " plans");
+        projectSelection = WhichProjects.PUBLICPROJECTS;
+        list = planManager.list(projectSelection);
+        log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
     public String listPublicFTEResults() {
-        this.projectSelection = WhichProjects.PUBLICFTEPROJECTS;
-        this.list = this.planManager.list(this.projectSelection);
-        this.log.debug("listing " + this.list.size() + " plans");
+        projectSelection = WhichProjects.PUBLICFTEPROJECTS;
+        list = planManager.list(projectSelection);
+        log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
     public String unlock(final int pid) {
-        this.planManager.unlockPlan(pid);
-        this.list = this.planManager.list(this.projectSelection);
+        planManager.unlockPlan(pid);
+        list = planManager.list(projectSelection);
         return null;
     }
 
-    public void listener(FileUploadEvent event) throws Exception {
-        final UploadedFile item = event.getUploadedFile();
+    public void listener(final FileUploadEvent event) throws Exception {
+        UploadedFile item = event.getUploadedFile();
 
-        final File tmp = File.createTempFile(item.getName(), "xml");
+        File tmp = File.createTempFile(item.getName(), "xml");
         tmp.deleteOnExit();
         FileUtils.writeToFile(item.getInputStream(), new FileOutputStream(tmp));
         try {
-            this.projectImporter.importPlans(tmp);
+            projectImporter.importPlans(tmp);
             tmp.delete();
 
-            this.list = this.planManager.list(this.projectSelection);
-        } catch (final PlatoException e) {
-            this.log.error("Failed to upload plan: " + item.getName(), e);
+            List<String> appliedTransformations = projectImporter.getAppliedTransformations();
 
-            this.facesMessages.addError("Failed to upload plan: " + item.getName());
+            if (!appliedTransformations.isEmpty()) {
+                StringBuffer msg = new StringBuffer();
+                msg.append("The following transformations have been applied:<br/><br/>");
+                msg.append("<ul>");
+                for (String xsl : appliedTransformations) {
+
+                    msg.append("<li>").append("<a href='/data/xslt/" + xsl + "' target='_blank'>" + xsl + "</a>")
+                        .append("</li>");
+                }
+                msg.append("</ul>");
+                facesMessages.addInfo(null, 
+                    "Your XML file was outdated, therefore it had to be migrated to the current Plato XML format.",
+                    msg.toString());
+            }
+
+            list = planManager.list(projectSelection);
+        } catch (PlatoException e) {
+            log.error("Failed to upload plan: " + item.getName(), e);
+
+            facesMessages.addError("Failed to upload plan: " + item.getName());
         }
     }
 
     // --------------- getter/setter ---------------
 
     public WhichProjects getProjectSelection() {
-        return this.projectSelection;
+        return projectSelection;
     }
 }
