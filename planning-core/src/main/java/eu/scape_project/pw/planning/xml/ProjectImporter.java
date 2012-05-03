@@ -578,14 +578,14 @@ public class ProjectImporter implements Serializable {
             final SAXParser parser = this.validatingParserFactory.getValidatingParser();
             parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, ProjectImporter.PLAN_SCHEMAS);
 
-            final Digester digester = new Digester(parser);
+            final Digester digester = new Digester();//parser);
 
             final SchemaResolver schemaResolver = new SchemaResolver();
             schemaResolver.addSchemaLocation(ProjectImporter.PLATO_SCHEMA_URI, "data/schemas/"
                 + ProjectImporter.PLATO_SCHEMA);
             digester.setEntityResolver(schemaResolver);
 
-            digester.setErrorHandler(new StrictErrorHandler());
+//            digester.setErrorHandler(new StrictErrorHandler());
 
             digester.setNamespaceAware(true);
 
@@ -1219,9 +1219,9 @@ public class ProjectImporter implements Serializable {
         digester.addObjectCreate("*/criterion", Criterion.class);
         digester.addSetProperties("*/criterion", "ID", "uri");
         digester.addSetNext("*/criterion", "setCriterion");
-//        ProjectImporter.addPropertyRules(digester, "*/criterion/property");
-//        // and the selected metric
-//        ProjectImporter.addMetricRules(digester, "*/criterion/metric", "setMetric");
+        ProjectImporter.addPropertyRules(digester, "*/criterion/property");
+        // and the selected metric
+        ProjectImporter.addMetricRules(digester, "*/criterion/metric", "setMetric");
 
         /*
          * for each scale-type a set of rules
@@ -1325,7 +1325,7 @@ public class ProjectImporter implements Serializable {
         digester.addBeanPropertySetter(pattern + "/propertyId");
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
-        digester.addBeanPropertySetter(pattern + "/subject");
+        digester.addBeanPropertySetter(pattern + "/evaluationScope");
 
         // scale is created automatically with global rule
         // digester.addObjectCreate(pattern + "/possibleMetrics",

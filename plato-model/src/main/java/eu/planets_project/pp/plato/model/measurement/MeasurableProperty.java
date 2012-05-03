@@ -61,7 +61,7 @@ public class MeasurableProperty implements Comparable<MeasurableProperty>, ITouc
     private CriterionCategory category;
     
     @Enumerated(EnumType.STRING)
-    private Subject subject;
+    private EvaluationScope evaluationScope;
     
     @OneToOne(cascade=CascadeType.ALL)
     private Scale scale;
@@ -207,21 +207,13 @@ public class MeasurableProperty implements Comparable<MeasurableProperty>, ITouc
             }
         }
     }
-/*
-    public List<Criterion> getCriteria() {
-        return criteria;
+
+    public EvaluationScope getEvaluationScope() {
+        return evaluationScope;
     }
 
-    public void setCriteria(List<Criterion> criteria) {
-        this.criteria = criteria;
+    public void setEvaluationScope(EvaluationScope evaluationScope) {
+        this.evaluationScope = evaluationScope;
     }
-*/
-
-	public Subject getSubject() {
-		return subject;
-	}
-
-	public void setSubject(Subject subject) {
-		this.subject = subject;
-	}
+    
 }

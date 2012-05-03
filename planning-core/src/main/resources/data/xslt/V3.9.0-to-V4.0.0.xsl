@@ -54,7 +54,7 @@
 
 <xsl:template match="oldplato:criterion">
 	<xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
-	    <xsl:variable name="schema" select="substring-before(oldplato:property/oldplato:category,':')"/>
+	    <xsl:variable name="schema" select="substring-before(concat(oldplato:property/oldplato:category, ':'),':')"/>
 	    <xsl:variable name="part">
 	       <xsl:call-template name="append_non_empty">
 	       		<xsl:with-param name="content" select="substring-after(oldplato:property/oldplato:category,':')"/>

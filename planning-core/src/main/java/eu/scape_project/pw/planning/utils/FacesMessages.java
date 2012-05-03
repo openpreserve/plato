@@ -29,7 +29,7 @@ public class FacesMessages implements Serializable {
      *            Message to publish.
      */
     public void addInfo(final String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, ""));
+        addMessage(FacesMessage.SEVERITY_INFO, null, message, "");
     }
     
     /**
@@ -42,15 +42,19 @@ public class FacesMessages implements Serializable {
      *            Message to publish.
      */
     public void addInfo(final String componentId, final String message) {
-        String clientId = resolveClientId(componentId);
-        FacesContext.getCurrentInstance().addMessage(clientId,
-            new FacesMessage(FacesMessage.SEVERITY_INFO, message, ""));
+        addMessage(FacesMessage.SEVERITY_INFO, componentId, message, "");
     }
 
     public void addInfo(final String componentId, final String message, final String detailedInfo) {
-        String clientId = resolveClientId(componentId);
-        FacesContext.getCurrentInstance().addMessage(clientId,
-            new FacesMessage(FacesMessage.SEVERITY_INFO, message, detailedInfo));
+        addMessage(FacesMessage.SEVERITY_INFO, componentId, message, detailedInfo);
+    }
+    
+    private void addMessage(final FacesMessage.Severity severity, final String componentId, final String message, final String detailedInfo) {
+        String clientId = null;
+        if (componentId != null) {
+            resolveClientId(componentId);
+        }
+        FacesContext.getCurrentInstance().addMessage(clientId, new FacesMessage(severity, message, detailedInfo));
     }
 
     /**
@@ -60,7 +64,7 @@ public class FacesMessages implements Serializable {
      *            Message to publish.
      */
     public void addError(final String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, ""));
+        addMessage(FacesMessage.SEVERITY_ERROR, null, message, "");
     }
 
     /**
@@ -73,9 +77,7 @@ public class FacesMessages implements Serializable {
      *            Message to publish.
      */
     public void addError(final String componentId, final String message) {
-        String clientId = resolveClientId(componentId);
-        FacesContext.getCurrentInstance().addMessage(clientId,
-            new FacesMessage(FacesMessage.SEVERITY_ERROR, message, ""));
+        addMessage(FacesMessage.SEVERITY_ERROR, componentId, message, "");
     }
 
     /**
@@ -85,7 +87,7 @@ public class FacesMessages implements Serializable {
      *            Message to publish.
      */
     public void addWarning(final String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, message, ""));
+        addMessage(FacesMessage.SEVERITY_WARN, null, message, "");
     }
 
     /**
@@ -98,9 +100,7 @@ public class FacesMessages implements Serializable {
      *            Message to publish.
      */
     public void addWarning(final String componentId, final String message) {
-        String clientId = resolveClientId(componentId);
-        FacesContext.getCurrentInstance().addMessage(clientId,
-            new FacesMessage(FacesMessage.SEVERITY_WARN, message, ""));
+        addMessage(FacesMessage.SEVERITY_WARN, componentId, message, "");
     }
 
     /**
