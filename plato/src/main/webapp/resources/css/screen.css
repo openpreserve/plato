@@ -438,17 +438,13 @@ div.help {
    display: block;
 }
 
-div.warning {
-	text-align: center;
+ul#messages{
     margin-left:auto;
-    margin-right:auto;
+    margin-right:auto;	
     margin-bottom: 20px;
+    padding: 10px;
     width: 900px;
-    background-color: #FFCC33;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+	background-color: #a9daeb;
     border-bottom: 1px solid gray;
     border-right: 1px solid gray;
     border-top: 1px solid gray;
@@ -456,4 +452,18 @@ div.warning {
     border-radius: 5px;
     box-shadow: 0px 2px 10px 2px #888;
     font-family: Helvetica;
+}
+
+#messages .error {
+    list-style-image: url(#{request.contextPath}/javax.faces.resource/error.png.jsf?ln=org.richfaces);	
+    margin-left: 30px;
+}
+
+#messages .warning {
+    list-style-image: url(#{request.contextPath}/javax.faces.resource/warning.png.jsf?ln=org.richfaces);	
+    margin-left: 20px;
+}
+#messages .info {
+    list-style-image: url(#{request.contextPath}/javax.faces.resource/info.png.jsf?ln=org.richfaces);	
+    margin-left: 20px;
 }

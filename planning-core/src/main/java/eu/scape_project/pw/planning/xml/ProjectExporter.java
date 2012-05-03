@@ -400,7 +400,7 @@ public class ProjectExporter implements Serializable {
             addStringElement(propertyEl, "propertyId", prop.getPropertyId());
             addStringElement(propertyEl, "name", prop.getName());
             addStringElement(propertyEl, "description", prop.getDescription());
-            addStringElement(propertyEl, "subject", prop.getSubject().toString());
+            addStringElement(propertyEl, "evaluationScope",  prop.getEvaluationScope() != null ? prop.getEvaluationScope().toString() : "");
 
             addScale(prop.getScale(), propertyEl);
             // note: we only keep the selected property and metric

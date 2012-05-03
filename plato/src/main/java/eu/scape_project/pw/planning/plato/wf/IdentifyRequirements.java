@@ -16,7 +16,7 @@ import eu.planets_project.pp.plato.model.DigitalObject;
 import eu.planets_project.pp.plato.model.PlanState;
 import eu.planets_project.pp.plato.model.User;
 import eu.planets_project.pp.plato.model.measurement.Criterion;
-import eu.planets_project.pp.plato.model.measurement.Subject;
+import eu.planets_project.pp.plato.model.measurement.EvaluationScope;
 import eu.planets_project.pp.plato.model.tree.Leaf;
 import eu.planets_project.pp.plato.model.tree.Node;
 import eu.planets_project.pp.plato.model.tree.ObjectiveTree;
@@ -205,7 +205,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     public void assignCriterionToLeaf(Criterion criterion, Leaf leaf) {
     	leaf.setCriterion(criterion);
     	leaf.setScale(criterion.getScale());
-    	leaf.setSingle(criterion.getProperty().getSubject() == Subject.ACTION);
+    	leaf.setSingle(criterion.getProperty().getEvaluationScope() == EvaluationScope.ALTERNATIVE);
     	leaf.touchIncludingScale();
     }
     

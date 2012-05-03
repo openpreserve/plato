@@ -8,7 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-   <groupId>eu.scape-project.pw</groupId>
    <artifactId>minimee-view</artifactId>
    <version>7.0.0.Final</version>
    <packaging>war</packaging>
