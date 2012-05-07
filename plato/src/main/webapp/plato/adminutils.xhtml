@@ -56,6 +56,18 @@
 		        <br />
 		    </fieldset>
 		    
+		    <fieldset id="manageCriteria">
+		    	<legend>Manage Criteria</legend>
+		    	<a4j:commandButton action="#{criteriaManager.reload()}" value="Reload Criteria from XML" status="reloadCriteriaStatus"/>
+		    	
+				<a4j:status name="reloadCriteriaStatus">
+                    <f:facet name="start">
+                        <h:graphicImage value="/resources/gfx/processing.gif" alt="Processing, please wait...."/>
+                    </f:facet>
+                    <f:facet name="stop"> </f:facet>
+                </a4j:status>
+		    </fieldset>
+		    
 		    <fieldset id="unlock">
 		        <legend> unlock/delete one plan </legend>
 		        

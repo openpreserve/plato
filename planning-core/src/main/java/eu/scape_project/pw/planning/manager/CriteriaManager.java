@@ -157,8 +157,6 @@ public class CriteriaManager implements Serializable {
      * ATTENTION:
      * From all available CRUD operation only CReate and Update are covered. Delete operations are not executed.
      * Thus, if you have deleted Properties in your XML they are not deleted in database as well.
-     * 
-     * FIXME: make accessible via admin interface
      */
     @Lock(LockType.WRITE)
     public void reload() {
