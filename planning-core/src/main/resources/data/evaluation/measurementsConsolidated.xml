@@ -1549,41 +1549,57 @@
       <category>outcome:object</category>
       <propertyId>document/content/interactiveElements/comments</propertyId>
       <name>document content: comments</name>
-      <description>Indicates in which way comments are preserved in the document.</description>
-      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <description>Comments in the document.</description>
+
       <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="interactiveElementPreserved"/>
+      </possibleMetrics>
     </property>
     <property>
       <category>outcome:object</category>
       <propertyId>document/content/interactiveElements/forms</propertyId>
       <name>document content: forms</name>
-      <description>Indicates in which way forms are preserved in the document.</description>
-      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <description>Forms in the document.</description>
+
       <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="interactiveElementPreserved"/>
+      </possibleMetrics>
     </property>
     <property>
       <category>outcome:object</category>
       <propertyId>document/content/interactiveElements/references</propertyId>
       <name>document content: references</name>
-      <description>Indicates in which way references are preserved in the document.</description>
-      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <description>References in the document.</description>
+
       <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="interactiveElementPreserved"/>
+      </possibleMetrics>
     </property>
     <property>
       <category>outcome:object</category>
       <propertyId>document/content/interactiveElements/scripts</propertyId>
       <name>document content: scripts</name>
-      <description>Indicates in which way scripts are preserved in the document.</description>
-      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <description>Scripts in the document.</description>
+
       <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="interactiveElementPreserved"/>
+      </possibleMetrics>
     </property>
     <property>
       <category>outcome:object</category>
       <propertyId>document/content/interactiveElements/urls</propertyId>
       <name>document content: URL</name>
-      <description>Indicates in which way URLs are preserved in the document.</description>
-      <ordinalScale><restriction>work/deactivated/not preserved</restriction></ordinalScale>
+      <description>URLs in the document.</description>
+
       <evaluationScope>outcome</evaluationScope>
+      <possibleMetrics>
+        <metric metricId="interactiveElementPreserved"/>
+        <metric metricId="visualEqual"/>
+      </possibleMetrics>
     </property>
     <property>
       <category>outcome:object</category>
@@ -3940,6 +3956,22 @@
       <ordinalScale>
         <restriction>all/all connected to privileges or tables or views/some missing/none</restriction>
       </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>interactiveElementPreserved</metricId>
+      <name>interactive element preserved</name>
+      <description>Indicates in which way an interactive element is preserved.</description>
+      <ordinalScale>
+        <restriction>work/deactivated/not preserved</restriction>
+      </ordinalScale>
+    </metric>
+    <metric>
+      <metricId>visualEqual</metricId>
+      <name>visual equal</name>
+      <description>Comparison of two objects for visual equality.</description>
+      <booleanScale>
+        <unit>visual equality</unit>
+      </booleanScale>
     </metric>
   </metrics>
 </measurementsDescriptor>
