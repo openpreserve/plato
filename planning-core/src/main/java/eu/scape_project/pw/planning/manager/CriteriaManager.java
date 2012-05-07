@@ -154,6 +154,9 @@ public class CriteriaManager implements Serializable {
      * Reads the XML file from {@link #DESCRIPTOR_FILE} and adds the contained criteria to the database.
      * For criteria that already exist in the database (as designated by URI), the information is updated. 
      * @see eu.planets_project.pp.plato.application.ICriteriaManager#reload()
+     * ATTENTION:
+     * From all available CRUD operation only CReate and Update are covered. Delete operations are not executed.
+     * Thus, if you have deleted Properties in your XML they are not deleted in database as well.
      * 
      * FIXME: make accessible via admin interface
      */
@@ -180,23 +183,20 @@ public class CriteriaManager implements Serializable {
                         // a new metric, store it
                         em.persist(digestedMetric);
                         knownMetrics.put(key, digestedMetric);
+                        log.info("added metric " + ", " + digestedMetric.getMetricId());
                     } else {
-                        // metric already exits, check for differences
-                        if (!digestedMetric.getDescription().equals(knownMetric.getDescription()) ||
-                            !digestedMetric.getName().equals(knownMetric.getName()) ||
-                            !digestedMetric.getScale().getType().equals(knownMetric.getScale().getType()) ||
-                            !digestedMetric.getScale().getUnit().equals(knownMetric.getScale().getUnit())) { 
-                            // TODO: raise event in case there are differences
-                            log.info("updating metric "+digestedMetric.getId()+", "+digestedMetric.getMetricId());
-                            knownMetric = em.merge(knownMetric);
-                            knownMetric.setDescription(digestedMetric.getDescription());
-                            knownMetric.setName(digestedMetric.getName());
-                            knownMetric.setScale(digestedMetric.getScale());
-                            em.persist(knownMetric);
-                            knownMetrics.put(key, knownMetric);
-                        }
+                        // metric already exits - overwrite it
+                        // TODO: raise event in case there are differences
+                        knownMetric = em.merge(knownMetric);
+                        knownMetric.setDescription(digestedMetric.getDescription());
+                        knownMetric.setName(digestedMetric.getName());
+                        knownMetric.setScale(digestedMetric.getScale());
+                        em.persist(knownMetric);
+                        knownMetrics.put(key, knownMetric);
+                        log.info("updated metric " + digestedMetric.getMetricId());
                     }
                 }
+                
                 // refresh all properties
                 for (String key : digestedProperties.keySet()) {
                     MeasurableProperty digestedProperty = digestedProperties.get(key);
@@ -207,23 +207,19 @@ public class CriteriaManager implements Serializable {
                         em.persist(digestedProperty);
                         knownProperty = em.merge(digestedProperty);
                         knownProperties.put(key, knownProperty);
+                        log.info("added property " + digestedProperty.getPropertyId());
                     } else {
-                        // property already exits, check for differences
-                        if (!digestedProperty.getName().equals(knownProperty.getName()) ||
-                            !digestedProperty.getDescription().equals(knownProperty.getDescription()) ||
-                            (digestedProperty.getScale() == null) && (knownProperty.getScale() != null) ||
-                            (digestedProperty.getScale() != null) && (knownProperty.getScale() == null) ||
-                            !digestedProperty.getScale().getType().equals(knownProperty.getScale().getType()) ||
-                            !digestedProperty.getScale().getUnit().equals(knownProperty.getScale().getUnit())) {
-                            knownProperty = em.merge(knownProperty);
-                            knownProperty.setName(digestedProperty.getName());
-                            knownProperty.setDescription(digestedProperty.getDescription());
-                            knownProperty.setScale(digestedProperty.getScale());
-                            em.persist(knownProperty);
-                            knownProperty = em.merge(knownProperty);
-                            knownProperties.put(key, knownProperty);
-                        }
+                        // property already exits - overwrite it
+                        knownProperty = em.merge(knownProperty);
+                        knownProperty.setName(digestedProperty.getName());
+                        knownProperty.setDescription(digestedProperty.getDescription());
+                        knownProperty.setScale(digestedProperty.getScale());
+                        em.persist(knownProperty);
+                        knownProperty = em.merge(knownProperty);
+                        knownProperties.put(key, knownProperty);
+                        log.info("updated property " + digestedProperty.getPropertyId());
                     }
+                    
                     // and refresh corresponding criteria too
                     if (knownProperty.getScale() != null) {
                         // this is also a non-derived measurable property
@@ -257,11 +253,9 @@ public class CriteriaManager implements Serializable {
                         } else {
                             // a criterion has only references to property and metric, no update is necessary 
                         }
-                        
-                    
-                    
                 }
             }
+                
             // have to attach possible Metrics to MeasurableProperties at reload too!
             attachPossibleMetricsToMeasurableProperties();
         } catch (Exception e) {
@@ -287,8 +281,13 @@ public class CriteriaManager implements Serializable {
         }
     }
     
+    // Method used for testing purposes (mocking the EntityManager)
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+    
     @PostConstruct 
-    public void init(){
+    public void init() {
         load();
         if (knownCriteria.isEmpty()) {
             reload();
