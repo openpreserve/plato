@@ -209,9 +209,11 @@ public class CriteriaManager implements Serializable {
                     } else {
                         // property already exits - overwrite it
                         knownProperty = em.merge(knownProperty);
+                        knownProperty.setCategory(digestedProperty.getCategory());
                         knownProperty.setName(digestedProperty.getName());
                         knownProperty.setDescription(digestedProperty.getDescription());
                         knownProperty.setScale(digestedProperty.getScale());
+                        knownProperty.setEvaluationScope(digestedProperty.getEvaluationScope());
                         em.persist(knownProperty);
                         knownProperty = em.merge(knownProperty);
                         knownProperties.put(key, knownProperty);

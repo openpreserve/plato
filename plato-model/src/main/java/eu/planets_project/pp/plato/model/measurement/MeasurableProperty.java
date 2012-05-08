@@ -205,6 +205,16 @@ public class MeasurableProperty implements Comparable<MeasurableProperty>, ITouc
             }
         }
     }
+    
+    /**
+     * Method allowing setting of evaluationScope via its string representation.
+     * (This is currently used by MeasurementsDescriptorParser.setupDigester() function)
+     * 
+     * @param evalScopeString Evaluation scope string representation.
+     */
+    public void setEvaluationScopeAsString(String evalScopeString) {
+        evaluationScope = EvaluationScope.valueOf(evalScopeString);
+    }
 
     public EvaluationScope getEvaluationScope() {
         return evaluationScope;

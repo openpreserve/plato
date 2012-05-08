@@ -116,6 +116,7 @@ public class MeasurementsDescriptorParser {
         d.addBeanPropertySetter("*/property/propertyId");
         d.addBeanPropertySetter("*/property/name");
         d.addBeanPropertySetter("*/property/description");
+        d.addBeanPropertySetter("*/property/evaluationScope", "evaluationScopeAsString");
         d.addObjectCreate("*/property/possibleMetrics", ArrayList.class);
         d.addSetNext("*/property/possibleMetrics", "setPossibleMetrics");
 //        d.addObjectCreate("*/property/possibleMetrics/metric", Metric.class);
