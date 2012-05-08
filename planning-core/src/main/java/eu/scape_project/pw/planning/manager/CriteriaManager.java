@@ -234,6 +234,12 @@ public class CriteriaManager implements Serializable {
                             em.persist(criterion);
                             criterion = em.merge(criterion);
                             knownCriteria.put(criterion.getUri(), criterion);
+                            log.info("added criterion "  + criterion.getUri());
+                        }
+                        else {
+                            criterion.setProperty(knownProperty);
+                            knownCriteria.put(criterion.getUri(), criterion);
+                            log.info("updated criterion in memory" + criterion.getUri());
                         }
                     }
                     for (Metric metric : digestedProperty.getPossibleMetrics()) {
@@ -250,8 +256,12 @@ public class CriteriaManager implements Serializable {
                             em.persist(criterion);
                             criterion = em.merge(criterion);
                             knownCriteria.put(criterion.getUri(), criterion);
+                            log.info("added criterion "  + criterion.getUri() + "#" + metric.getMetricId());
                         } else {
-                            // a criterion has only references to property and metric, no update is necessary 
+                            criterion.setProperty(knownProperty);
+                            criterion.setMetric(knownMetrics.get(metric.getMetricId()));
+                            knownCriteria.put(criterion.getUri(), criterion);
+                            log.info("updated criterion in memory"  + criterion.getUri() + "#" + metric.getMetricId());
                         }
                 }
             }
