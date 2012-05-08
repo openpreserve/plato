@@ -7,7 +7,7 @@
       <name>business: costs: execution: other</name>
       <description>Execution costs of the action-tool which do not fit to any other given setup costs.</description>
       <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -15,7 +15,7 @@
       <name>business: costs: execution: run Hardware</name>
       <description>Running hardware costs arising when using the action-tool (e.g. server rental costs).</description>
       <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -23,7 +23,7 @@
       <name>business: costs: execution: software develop new features</name>
       <description>Costs for developing new features which were not available in the software before.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -31,7 +31,7 @@
       <name>business: costs: execution: software licence running</name>
       <description>Running software licence costs of action-tool.</description>
       <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -39,7 +39,7 @@
       <name>business: costs: execution: staff running</name>
       <description>Running staff costs for operate the action-tool.</description>
       <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -47,7 +47,7 @@
       <name>business: costs: execution: total</name>
       <description>Total sum of costs needed to execute the action-tool.</description>
       <positiveFloatScale><unit>Euro/year</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -55,7 +55,7 @@
       <name>business: costs: execution: total per object</name>
       <description>Total action-tool execution costs incurring per object.</description>
       <positiveFloatScale><unit>Euro/object</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -63,7 +63,7 @@
       <name>business: costs: setup: initial hardware</name>
       <description>Initial hardware costs arising when using the action-tool (e.g. new hardware needs to be acquired to get the tool running).</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -71,7 +71,7 @@
       <name>business: costs: setup: other</name>
       <description>Setup costs of the action-tool which do not fit to any other given setup costs.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -79,7 +79,7 @@
       <name>business: costs: setup: software customization</name>
       <description>Costs for customizing the software to user needs (e.g. company-branding, performance-settings, etc.)</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -87,7 +87,7 @@
       <name>business: costs: setup: software integration</name>
       <description>Costs for integrating the software (get it running) in the current environment.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -95,7 +95,7 @@
       <name>business: costs: setup: software licence inital</name>
       <description>Initial software licence costs of action-tool.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -103,7 +103,7 @@
       <name>business: costs: setup: staff external expertise needed</name>
       <description>Cost for required external expertise.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -111,7 +111,7 @@
       <name>business: costs: setup: staff training</name>
       <description>Costs for training staff in using the action-tool.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -119,7 +119,7 @@
       <name>business: costs: setup: total</name>
       <description>Total sum of costs needed to setup the action-tool.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -127,7 +127,7 @@
       <name>business: costs: total</name>
       <description>Total sum of all costs arising when using the action-tool.</description>
       <positiveFloatScale><unit>Euro</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -135,7 +135,7 @@
       <name>business: licencing schema</name>
       <description>Licence applying to the action-tool.</description>
       <ordinalScale><restriction>openSource/closedSource</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -143,7 +143,7 @@
       <name>interoperability: .Net API</name>
       <description>Indicates whether it is possible to interact with the action-tool via a .net Application Programming Interface.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -151,7 +151,7 @@
       <name>interoperability: batch processing support</name>
       <description>Indicates whether the action-tool supports batch processing.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -159,7 +159,7 @@
       <name>interoperability: directory watch</name>
       <description>Indicates whether the action-tool supports input via directory watch. Directory watch polls specified directories for new Files. If new Files are detected they are processed.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -167,7 +167,7 @@
       <name>interoperability: java API</name>
       <description>Indicates whether it is possible to interact with the action-tool via a Java Application Programming Interface.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -175,7 +175,7 @@
       <name>interoperability: other API</name>
       <description>Indicates whether it is possible to interact with the action-tool via any other Application Programming Interface.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -183,7 +183,7 @@
       <name>functional suitability: activity logging amount</name>
       <description>The amount of logging output produced by a component, measured in the length of characters.</description>
       <positiveIntegerScale><unit>Characters</unit></positiveIntegerScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -191,7 +191,7 @@
       <name>functional suitability: activity logging format</name>
       <description>The format of logging output produced by a component.</description>
       <ordinalScale><restriction>text/xml/database/none</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -199,7 +199,7 @@
       <name>functional suitability: activity traceability</name>
       <description>Indicates to which degree the activities performed by the action-tool are traceable.</description>
       <ordinalScale><restriction>good/acceptable/poor/no</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -207,7 +207,7 @@
       <name>functional suitability: document: handling of not allowed image compressions</name>
       <description>Method the action-tool handles an image compressis which is not permitted in the outcome.</description>
       <ordinalScale><restriction>convert to still image/remove/leave unchanged</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -215,7 +215,7 @@
       <name>functional suitability: document: handling of not allowed image formats</name>
       <description>Method the action-tool handles a image format which is not permitted in the outcome.</description>
       <ordinalScale><restriction>convert to still image/remove/leave unchanged</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -223,7 +223,7 @@
       <name>functional suitability: document: handling of not allowed JavaScript</name>
       <description>Method the action-tool handles JavaScript if it is not permitted in the outcome.</description>
       <ordinalScale><restriction>remove/leave unchanged</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -231,7 +231,7 @@
       <name>functional suitability: document: handling of not allowed moving images</name>
       <description>Method the action-tool handles a moving image if it is not permitted in the outcome.</description>
       <ordinalScale><restriction>convert to still image/remove/leave unchanged</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -239,7 +239,7 @@
       <name>functional suitability: error reporting</name>
       <description>Indicates whether errors at action execution are reported.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -247,7 +247,7 @@
       <name>functional suitability: fraction of objects supported</name>
       <description>Objects supported by the action-tool as percentage of overall objects of this type available.</description>
       <positiveFloatScale><unit>percent</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -255,7 +255,7 @@
       <name>functional suitability: image: XMP sidecar file support</name>
       <description>Indicates if the action-tool is able to handle XMP sidecar files.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -263,7 +263,7 @@
       <name>functional suitability: input-object validation</name>
       <description>Indicates if the action-tool validates the input-object before processing.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -271,7 +271,7 @@
       <name>functional suitability: macro support</name>
       <description>Indicates if the action-tool supports macros.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -279,7 +279,7 @@
       <name>functional suitability: number of input-formats supported</name>
       <description>Number of input-formats supported by the action-tool.</description>
       <positiveIntegerScale><unit>Formats</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -287,7 +287,7 @@
       <name>functional suitability: number of objects supported</name>
       <description>Total number of objects supported by the action-tool.</description>
       <ordinalScale><restriction>Less than 10/10-100/101-500/501-2000/more than 2000</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -295,7 +295,7 @@
       <name>functional suitability: number of output-formats supported</name>
       <description>Number of output-formats supported by the action-tool.</description>
       <positiveIntegerScale><unit>Formats</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -303,7 +303,7 @@
       <name>functional suitability: output-file format verification</name>
       <description>Indicates if the action-tool verifies its produced output file for format correctness.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -311,7 +311,7 @@
       <name>functional suitability: reported errors contain handling advice</name>
       <description>Indicate whether reported error contain a handling advice/suggestion.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -319,7 +319,7 @@
       <name>functional suitability: retain filename</name>
       <description>Indicates if the action-tool is able to retain the filename of the input-file for the output-file.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -327,7 +327,7 @@
       <name>functional suitability: understandability of reported errors</name>
       <description>Indicates tho which degree reported errors are understandable to human users.</description>
       <ordinalScale><restriction>good/acceptable/poor/no</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -335,7 +335,7 @@
       <name>functional suitability: video games: byte-stream media support</name>
       <description>The way the action-tool supports byte stream media.</description>
       <ordinalScale><restriction>not applicable/not supported/supported as stand-alone file/supported encapsulated in file</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -343,7 +343,7 @@
       <name>functional suitability: video games: cd-rom support</name>
       <description>Indicates whether the action-tool is able to access and use the cd-rom drive.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -351,7 +351,7 @@
       <name>functional suitability: video games: displays box artwork</name>
       <description>Indicates whether the action-tool is capable of displaying the box artwork.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -359,7 +359,7 @@
       <name>functional suitability: video games: displays context details</name>
       <description>Indicates whether the action-tool is capable of displaying the context details.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -367,7 +367,7 @@
       <name>functional suitability: video games: displays description of original media</name>
       <description>Indicates whether the action-tool is capable of displaying the description of the original media.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -375,7 +375,7 @@
       <name>functional suitability: video games: displays manual</name>
       <description>Indicates whether the action-tool is capable of displaying the manual.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -383,7 +383,7 @@
       <name>functional suitability: video games: displays necessary system configuration</name>
       <description>Indicates whether the action-tool is capable of displaying the necessary system configuration.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -391,7 +391,7 @@
       <name>functional suitability: video games: displays original media</name>
       <description>Indicates whether the action-tool is capable of displaying the original media.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -399,7 +399,7 @@
       <name>functional suitability: video games: displays originally supplied additional itmes</name>
       <description>Indicates whether the action-tool is capable of displaying the originally suplied additional items (like special controllers, accessories, etc.).</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -407,7 +407,7 @@
       <name>functional suitability: video games: displays reference to console video game system</name>
       <description>Indicates whether the action-tool is capable of displaying the reference to the console video game system.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -415,7 +415,7 @@
       <name>functional suitability: video games: displays reference to preferred emulator</name>
       <description>Indicates whether the action-tool is capable of displaying the reference to the preferred emulator.</description>
       <ordinalScale><restriction>yes - with system configuration/yes - without system configuration/no</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -423,7 +423,7 @@
       <name>functional suitability: video games: displays region lock-out information</name>
       <description>Indicates whether the action-tool is capable of displaying the region lock-out information.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -431,7 +431,7 @@
       <name>functional suitability: video games: displays TV standard information</name>
       <description>Indicates whether the action-tool is capable of displaying the TV standard information.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -439,7 +439,7 @@
       <name>functional suitability: video games: displays video display frequency information</name>
       <description>Indicates whether the action-tool is capable of displaying the display frequency information.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -447,7 +447,7 @@
       <name>functional suitability: video games: game start mode</name>
       <description>indicates in which way video games can be started by the action-tool.</description>
       <ordinalScale><restriction>command line/user interface/ command line and user interface</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -455,7 +455,7 @@
       <name>functional suitability: video games: keyboard support</name>
       <description>Indicates whether the action-tool is able to access and use the keyboard.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -463,7 +463,7 @@
       <name>functional suitability: video games: mouse support</name>
       <description>Indicates whether the action-tool is able to access and use the mouse.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -471,7 +471,7 @@
       <name>functional suitability: video games: necessary accessories supported</name>
       <description>Indicates in which way necessary accessories (e.g. special controller mandatory for playing a video game) are supported by the action-tool.</description>
       <ordinalScale><restriction>not applicable/Y/N</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -479,7 +479,7 @@
       <name>functional suitability: video games: original accessories supported</name>
       <description>Indicates in which way original accessories (special controller, etc.) are supported by the action-tool.</description>
       <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported without special hardware</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -487,7 +487,7 @@
       <name>functional suitability: video games: original media support</name>
       <description>The way the action-tool supports original media.</description>
       <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported without special hardware</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -495,7 +495,7 @@
       <name>functional suitability: video games: OS communication type</name>
       <description>The way the action-tool communicates with the operating system.</description>
       <ordinalScale><restriction>native/none/via network/via virtual media</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -503,7 +503,7 @@
       <name>functional suitability: video games: OS pre-installed</name>
       <description>Property especially for emulator action-tools. It indicates if there is an OS preinstalled in the emulated environment.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -511,7 +511,7 @@
       <name>functional suitability: video games: recreation level</name>
       <description>Indicates on which levels the action-tool operates to be able to run the video game.</description>
       <ordinalScale><restriction>high level and no BIOS is needed/low level and no BIOS is needed/high level and BIOS is needed/low level and BIOS is needed</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -519,7 +519,7 @@
       <name>functional suitability: video games: sound support</name>
       <description>Indicates whether sound output is supported by the action tool.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -527,7 +527,7 @@
       <name>functional suitability: video games: supported media types</name>
       <description>Media types supported by the action tool.</description>
       <ordinalScale><restriction>not applicable/neither byte-stream nor original media supported/original media but no byte stream supported/byte stream but not original media supported/byte stream and original media supported</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -535,7 +535,7 @@
       <name>maintainability: customization</name>
       <description>Assessment of how easy it is to customize the action-tool according to specific user needs.</description>
       <ordinalScale><restriction>good/acceptable/poor/not possible</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -543,7 +543,7 @@
       <name>maintainability: modular design</name>
       <description>Assessment of the action-tool design in terms of modularity.</description>
       <ordinalScale><restriction>yes/no/not observable</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -551,7 +551,7 @@
       <name>maintainability: plug-in system</name>
       <description>Indicates if and in what terms the action-tool implements plug-ins.</description>
       <ordinalScale><restriction>yes - open specification/yes - closed specification/no/not observable</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -559,7 +559,7 @@
       <name>performance efficiency: batch processing maximum files</name>
       <description>Maximum number of files supported at one batch run.</description>
       <positiveIntegerScale><unit>Files</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -567,7 +567,7 @@
       <name>performance efficiency: memory per MB-input</name>
       <description>Memory used per megabyte of input, measured in megabyte.</description>
       <positiveFloatScale><unit>MB/MB</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -575,7 +575,7 @@
       <name>performance efficiency: memory per sample</name>
       <description>Memory used per sample object, measured in megabytes.</description>
       <positiveFloatScale><unit>MB</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -583,7 +583,7 @@
       <name>performance efficiency: resource utilization</name>
       <description>Indicates if and in which way the action-tool automatically uses available resources, like multiple processor cores, etc. to prallelize conversions.</description>
       <ordinalScale><restriction>yes-automatic/yes-manual/no</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -591,7 +591,7 @@
       <name>performance efficiency: throughput</name>
       <description>Processing throughput, measured in megabytes per second.</description>
       <positiveFloatScale><unit>MB/s</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -599,7 +599,7 @@
       <name>performance efficiency: time per MB</name>
       <description>Elapsed processing time used per MB, measured in milliseconds.</description>
       <positiveFloatScale><unit>ms/MB</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -607,7 +607,7 @@
       <name>performance efficiency: time per sample</name>
       <description>Elapsed processing time used per sample object, measured in milliseconds.</description>
       <positiveFloatScale><unit>ms</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -615,7 +615,7 @@
       <name>portability: ease of integration in current environment</name>
       <description>Assessment of how easy it is to integrate the action-tool into the current used server environment.</description>
       <ordinalScale><restriction>good/acceptable/poor/not possible</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -623,7 +623,7 @@
       <name>portability: multiple platform support</name>
       <description>Indicates if the action-tool is capable of running on different platforms.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -631,7 +631,7 @@
       <name>portability: runs on Linux</name>
       <description>Indicates whether the action-tool runs on Linux operating systems.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -639,7 +639,7 @@
       <name>portability: runs on MacOS</name>
       <description>Indicates whether the action-tool runs on MacOS operating systems.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -647,7 +647,7 @@
       <name>portability: runs on Windows</name>
       <description>Indicates whether the action-tool runs on Windows operating systems.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -655,7 +655,7 @@
       <name>reliability: active community</name>
       <description>Indicates if the action-tool has an active comminity around.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -663,7 +663,7 @@
       <name>reliability: error correction</name>
       <description>Indicates whether the action-tools is able to correct errors occured in the input-object or while converting it to the output-object.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -671,7 +671,7 @@
       <name>reliability: error tolerance</name>
       <description>Indicates whether the action-tool is able to deal with errors in the input-object or while converting it to the output-object.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -679,7 +679,7 @@
       <name>reliability: manufacturer status</name>
       <description>Business status of the action-tool manufacturer.</description>
       <ordinalScale><restriction>in business/no longer in same business/out of business</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -687,7 +687,7 @@
       <name>reliability: release cycle</name>
       <description>The average action-tool release cycle.</description>
       <ordinalScale><restriction>3 months/6 months/1 year/longer than 1 year</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -695,7 +695,7 @@
       <name>reliability: runtime stability</name>
       <description>Runtime stability of the action-tool.</description>
       <ordinalScale><restriction>stable/largely stable/unstable</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -703,7 +703,7 @@
       <name>reliability: support available</name>
       <description>Indicates whether support is available for the action-tool.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -711,7 +711,7 @@
       <name>reliability: under development</name>
       <description>Indicates whether the action-tool is still under development.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -719,7 +719,7 @@
       <name>usability: configuration method</name>
       <description>Method the action-tool performs global system configuration.</description>
       <ordinalScale><restriction>internal only / external parameter / configuration file</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -727,7 +727,7 @@
       <name>usability: documentation availibility</name>
       <description>Availability of the action-tool documentation.</description>
       <ordinalScale><restriction>yes-free/yes-pay/no</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -735,7 +735,7 @@
       <name>usability: documentation quality</name>
       <description>Indicates the quality of the action-tool documentation.</description>
       <ordinalScale><restriction>complete/fragmentary/useless</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -743,7 +743,7 @@
       <name>usability: ease of administration</name>
       <description>Assessment of how easy it is to administer the action-tool.</description>
       <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -751,7 +751,7 @@
       <name>usability: ease of use</name>
       <description>Assessment of how easy it is to use the action-tool.</description>
       <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>action</category>
@@ -759,7 +759,7 @@
       <name>usability: object configuration method</name>
       <description>Method the action-tool performs object configuration.</description>
       <ordinalScale><restriction>internal only / external parameter / configuration file / object encapsulated config</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:effect</category>
@@ -767,7 +767,7 @@
       <name>automated quality assurance possible</name>
       <description>Indicates if the outcome supports automated quality assurance.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:effect</category>
@@ -775,7 +775,7 @@
       <name>comparative archival storage costs</name>
       <description>Archival storage costs compared to the original.</description>
       <ordinalScale><restriction>increase/unchanged/decrease</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:effect</category>
@@ -783,7 +783,7 @@
       <name>preservation watch and planning</name>
       <description>Effects on preservation watch an planning costs.</description>
       <ordinalScale><restriction>increase/unchanged/decrease</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:effect</category>
@@ -791,7 +791,7 @@
       <name>quantitative archival storage costs</name>
       <description>Quantitative archival storage costs per object over a time period of 10 years.</description>
       <positiveFloatScale><unit>Euro/object/10 years</unit></positiveFloatScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -799,7 +799,7 @@
       <name># of free tools (not open source)</name>
       <description>Number of free, not open source tools which support the outcome format.</description>
       <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -807,7 +807,7 @@
       <name># of free tools (open source)</name>
       <description>Number of free open source tools which support the outcome format.</description>
       <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -815,7 +815,7 @@
       <name># of proprietary tools</name>
       <description>Number of proprietary tools which support the outcome format.</description>
       <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -823,7 +823,7 @@
       <name># of tools</name>
       <description>Number of all tools which support the outcome format.</description>
       <positiveIntegerScale><unit># tools</unit></positiveIntegerScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -831,7 +831,7 @@
       <name>backwards compatibility</name>
       <description>Indicates whether the outcome format is backwards compatible to previous versions.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -839,7 +839,7 @@
       <name>complexity</name>
       <description>Complexity of the outcome format.</description>
       <ordinalScale><restriction>high/medium/low</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -847,7 +847,7 @@
       <name>database: support for column type datetime</name>
       <description>Indicates whether the outcome format supports the database column type DateTime.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -855,7 +855,7 @@
       <name>database: support for column type number</name>
       <description>Indicates whether the outcome format supports the database column type Number.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -863,7 +863,7 @@
       <name>database: support for column type string</name>
       <description>Indicates whether the outcome format supports the database column type String.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -871,7 +871,7 @@
       <name>documentation availability</name>
       <description>Availability of the outcome format documentation.</description>
       <ordinalScale><restriction>yes-free/yes-pay/no</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -879,7 +879,7 @@
       <name>documentation quality</name>
       <description>Indicates the quality of the outcome format documentation.</description>
       <ordinalScale><restriction>complete/fragmentary/useless</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -887,7 +887,7 @@
       <name>embed custom metadata</name>
       <description>Indicates whether additionaly metadata can be embedded in the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -895,7 +895,7 @@
       <name>embed image metadata</name>
       <description>Indicates whether image metadata can be embedded in the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -903,7 +903,7 @@
       <name>embed preview image</name>
       <description>Indicate whether a preview image can be embedded in the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -911,7 +911,7 @@
       <name>error awareness</name>
       <description>Awareness to detect or recover errors.</description>
       <ordinalScale><restriction>revcoverable/detectable/none</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -919,7 +919,7 @@
       <name>identification possibilities</name>
       <description>Possibilies to identify the outcome format.</description>
       <ordinalScale><restriction>automatic_specific/automatic_generic/automatic_tentative/manual/none</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -927,7 +927,7 @@
       <name>image: interpreted data</name>
       <description>Indicates whether the image contains interpreted data.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -935,7 +935,7 @@
       <name>image: pdf creation possible</name>
       <description>Indicates whether it is possible to create a pdf from the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -943,7 +943,7 @@
       <name>image: quality loss at reinterpretating</name>
       <description>Indicates whether a quality loss occurs at reinterpretating the image.</description>
       <ordinalScale><restriction>minimal/acceptable/not acceptable</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -951,7 +951,7 @@
       <name>image: zoom possible</name>
       <description>Indicates whether the outcome format support zooming.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -959,7 +959,7 @@
       <name>licence costs for use</name>
       <description>Indicates whether licence costs occur at using the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -967,7 +967,7 @@
       <name>native browser support</name>
       <description>Indicates whether the format can be natively displayed by browsers.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -975,7 +975,7 @@
       <name>ocr possible</name>
       <description>Indicates whether tools exists which can apply optical character recognition successfully to the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -983,7 +983,7 @@
       <name>readable as plain text</name>
       <description>Indicates whether the outcome format is human readable as plain text.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -991,7 +991,7 @@
       <name>rights</name>
       <description>Existence of rights applying to the outcome format.</description>
       <ordinalScale><restriction>open/ipr_protected/proprietary</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -999,7 +999,7 @@
       <name>speed of change</name>
       <description>Stability of the outcome format with respect to changes.</description>
       <ordinalScale><restriction>less than 1 year/1-2 years/3-5 years/more than 5 years</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -1007,7 +1007,7 @@
       <name>standardization</name>
       <description>Standardization of the outcome format.</description>
       <ordinalScale><restriction>international standard/de facto standard/none</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -1015,7 +1015,7 @@
       <name>ubiquity</name>
       <description>Ubiquity or popularity of the outcome format.</description>
       <ordinalScale><restriction>ubiquitous/widespread/specialised/obsolete</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -1023,7 +1023,7 @@
       <name>usage restrictions possible</name>
       <description>Indicates whether usage restrictions can be applied to the outcome format.</description>
       <booleanScale/>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:format</category>
@@ -1031,7 +1031,7 @@
       <name>validation possibilities</name>
       <description>Possibilies to validate the outcome format.</description>
       <ordinalScale><restriction>automatic/manual/none</restriction></ordinalScale>
-      <evaluationScope>alternative</evaluationScope>
+      <evaluationScope>ALTERNATIVE</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1039,7 +1039,7 @@
       <name>database: context: archival process client machine present</name>
       <description>Indicates whether documentation of the client machine which executed the archival process is present.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1047,7 +1047,7 @@
       <name>database: context: archival process connection url present</name>
       <description>Indicates whether the connection-url used to connect to the database for executing the archival process is documented.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1055,7 +1055,7 @@
       <name>database: context: archival process executing user present</name>
       <description>Indicates whether the executing user of the archival process is documented.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1063,7 +1063,7 @@
       <name>database: context: archival process execution location present</name>
       <description>Indicates whether the executing user of the archival process is documented.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1071,7 +1071,7 @@
       <name>database: context: archival process start time present</name>
       <description>Indicates whether the start of the archival process is documented.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1079,7 +1079,7 @@
       <name>database: context: data dictionary present</name>
       <description>Indicates whether a data dictionary is present in the database.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1087,7 +1087,7 @@
       <name>database: context: data dictionary quality</name>
       <description>Indicates the quality of the present data dictionary.</description>
       <ordinalScale><restriction>not available/good/acceptable/bad</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1095,7 +1095,7 @@
       <name>database: context: data model present</name>
       <description>Indicates whether a data model is present in the database.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1103,7 +1103,7 @@
       <name>database: context: data model quality</name>
       <description>Indicates the quality of the present data model.</description>
       <ordinalScale><restriction>not available/good/acceptable/bad</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1111,7 +1111,7 @@
       <name>database: context: data model syntax</name>
       <description>Syntax used in the present data model.</description>
       <ordinalScale><restriction>not available/ERD/UML/other</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1119,7 +1119,7 @@
       <name>database: context: either the element metadata or the (external) data dictionary is present</name>
       <description>Indicates whether metadata is present for each element. This means that either the element metadata or the (external) data dictionary must be present.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1127,7 +1127,7 @@
       <name>database: context: original database product present</name>
       <description>Indicates whether the original database product is documented.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1135,7 +1135,7 @@
       <name>database: representation: datetimes according to SQL-99 standard</name>
       <description>Indicates if datetime representations accord to SQL-99 standard.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1143,7 +1143,7 @@
       <name>image: image quality</name>
       <description>Judged quality of the whole image.</description>
       <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1151,7 +1151,7 @@
       <name>image: text quality</name>
       <description>Judged text quality in the given image.</description>
       <ordinalScale><restriction>good/acceptable/poor</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1159,7 +1159,7 @@
       <name>video game: audio: music synchronous to video</name>
       <description>Indicates how synchronous music appears to the related video.</description>
       <ordinalScale><restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1167,7 +1167,7 @@
       <name>video game: audio: sound synchronous to video</name>
       <description>Indicates how synchronous sound appears to the related video.</description>
       <ordinalScale><restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1175,7 +1175,7 @@
       <name>video game: audio: speech synchronous to video</name>
       <description>Indicates how synchronous speech appears to the related video.</description>
       <ordinalScale><restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1183,7 +1183,7 @@
       <name>video game: documentation: box artwork available</name>
       <description>Indicates whether box artwork is available.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1191,7 +1191,7 @@
       <name>video game: documentation: manual available</name>
       <description>Indicates whether the manual is available.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1199,7 +1199,7 @@
       <name>video game: documentation: original media available</name>
       <description>Indicates whether information about the original game media is available.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1207,7 +1207,7 @@
       <name>video game: documentation: systems requirements specification available</name>
       <description>Indicates whether an actual systems requirements specification is available.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1215,7 +1215,7 @@
       <name>video game: game configuration</name>
       <description>The way game configuration takes place.</description>
       <ordinalScale><restriction>manual/pre-configured/not needed</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1223,7 +1223,7 @@
       <name>video game: game installation necessary</name>
       <description>Indicates whether it is necessary to install the game, before being able to play it.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1231,7 +1231,7 @@
       <name>video game: game playable</name>
       <description>Indicates whether the game is playable.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1239,7 +1239,7 @@
       <name>video game: game starts</name>
       <description>Indicates whether the game starts. A game starts successfully if the start screen of the game shows up. A black screen after a start attempt is not enough to evaluate this property to true.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1247,7 +1247,7 @@
       <name>video game: graphics: 2D background scrolling</name>
       <description>Indicates how good 2D background scrolling is working.</description>
       <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1255,7 +1255,7 @@
       <name>video game: graphics: 2D collision detection</name>
       <description>Indicates how good 2D collission detection is working.</description>
       <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1263,7 +1263,7 @@
       <name>video game: graphics: 2D object layer placement</name>
       <description>Indicates how good 2D object loayer placement is working.</description>
       <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1271,7 +1271,7 @@
       <name>video game: graphics: 2D object position placement</name>
       <description>Indicates how good 2D object position placement is working.</description>
       <ordinalScale><restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1279,7 +1279,7 @@
       <name>video game: graphics: 3D object calculation</name>
       <description>Indicates how good 3D object calculation is working.</description>
       <ordinalScale><restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1287,7 +1287,7 @@
       <name>video game: graphics: 3D object clipping</name>
       <description>Indicates how good 3D object clipping is working.</description>
       <ordinalScale><restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1295,7 +1295,7 @@
       <name>video game: graphics: 3D texture quality</name>
       <description>Indicates the quality of 3D texture quality.</description>
       <ordinalScale><restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1303,7 +1303,7 @@
       <name>video game: graphics: screen overlay</name>
       <description>Indicates in which way screen overlays are supported.</description>
       <ordinalScale><restriction>not applicable/not supported/supported manually by loading image/supported by auto-detection/supported through encapsulation</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1311,7 +1311,7 @@
       <name>video game: interactivity: additional items supported</name>
       <description>Indicates if additional items (like game boards used in role-playing games) are supported by the game emulation itself (and therefore are not required physical), or if they are not supported and therefore are required to be physically present - otherwise the game cannot be played.</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1319,7 +1319,7 @@
       <name>video game: interactivity: original hardware: special controller audible feedback</name>
       <description>Indicates original special controller audible feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1327,7 +1327,7 @@
       <name>video game: interactivity: original hardware: special controller force feedback</name>
       <description>Indicates original special controller force feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1335,7 +1335,7 @@
       <name>video game: interactivity: original hardware: special controller response delay</name>
       <description>Indicates original special controller response delay (if applicable).</description>
       <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1343,7 +1343,7 @@
       <name>video game: interactivity: original hardware: special controller support</name>
       <description>Indicates if and under what circumstances original special controller are supported.</description>
       <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported with special software/native supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1351,7 +1351,7 @@
       <name>video game: interactivity: original hardware: special controller visual feedback</name>
       <description>Indicates original special controller visual feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1359,7 +1359,7 @@
       <name>video game: interactivity: original hardware: standard controller audible feedback</name>
       <description>Indicates original standard controller audible feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1367,7 +1367,7 @@
       <name>video game: interactivity: original hardware: standard controller force feedback</name>
       <description>Indicates original standard controller force feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1375,7 +1375,7 @@
       <name>video game: interactivity: original hardware: standard controller response delay</name>
       <description>Indicates original standard controller response delay (if applicable).</description>
       <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1383,7 +1383,7 @@
       <name>video game: interactivity: original hardware: standard controller support</name>
       <description>Indicates if and under what circumstances original standard controller are supported.</description>
       <ordinalScale><restriction>not applicable/not supported/supported with special hardware/supported with special software/native supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1391,7 +1391,7 @@
       <name>video game: interactivity: original hardware: standard controller visual feedback</name>
       <description>Indicates original standard controller visual feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1399,7 +1399,7 @@
       <name>video game: interactivity: overlay response delay</name>
       <description>Indicates overlay response delay (if applicable).</description>
       <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1407,7 +1407,7 @@
       <name>video game: interactivity: overlay support</name>
       <description>Indicates whether overlays are supported</description>
       <ordinalScale><restriction>not applicable/not supported but necessary for game play/not supported and not necessary for game play/supported but not necessary for game play/supported and necessary for game play</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1415,7 +1415,7 @@
       <name>video game: interactivity: overlay usability</name>
       <description>Indicates overlay usability (if applicable).</description>
       <ordinalScale><restriction>not applicable/not usable/usable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1423,7 +1423,7 @@
       <name>video game: interactivity: PC gaming hardware audible controller feedback</name>
       <description>Indicates personal computer gaming hardware audible controller feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1431,7 +1431,7 @@
       <name>video game: interactivity: PC gaming hardware force controller feedback</name>
       <description>Indicates personal computer gaming hardware controller force feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1439,7 +1439,7 @@
       <name>video game: interactivity: PC gaming hardware original feel</name>
       <description>Indicates if and in which way standard pc gaming hardware exists which resembles the feel of the original.</description>
       <ordinalScale><restriction>controllers resembling original controller not available/controllers resembling original controller not supported/controllers resembling original controller supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1447,7 +1447,7 @@
       <name>video game: interactivity: PC gaming hardware original look</name>
       <description>Indicates if and in which way standard pc gaming hardware exists which resembles the look of the original.</description>
       <ordinalScale><restriction>controllers resembling original controller not available/controllers resembling original controller not supported/controllers resembling original controller supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1455,7 +1455,7 @@
       <name>video game: interactivity: PC gaming hardware response delay</name>
       <description>Indicates personal computer gaming hardware response delay (if applicable).</description>
       <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1463,7 +1463,7 @@
       <name>video game: interactivity: PC gaming hardware visual controller feedback</name>
       <description>Indicates personal computer gaming hardware visual controller feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1471,7 +1471,7 @@
       <name>video game: interactivity: PC standard hardware audible controller feedback</name>
       <description>Indicates personal computer standard hardware audible controller feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1479,7 +1479,7 @@
       <name>video game: interactivity: PC standard hardware force controller feedback</name>
       <description>Indicates personal computer standard hardware controller force feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1487,7 +1487,7 @@
       <name>video game: interactivity: PC standard hardware response delay</name>
       <description>Indicates personal computer standard hardware response delay (if applicable).</description>
       <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1495,7 +1495,7 @@
       <name>video game: interactivity: PC standard hardware support</name>
       <description>Indicates if and in which way personal computer standard hardware is supported.</description>
       <ordinalScale><restriction>supported and resemble look of original controller/supported/not supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1503,7 +1503,7 @@
       <name>video game: interactivity: PC standard hardware usability</name>
       <description>Indicates personal computer standard hardware usability (if applicable).</description>
       <ordinalScale><restriction>not applicable/not acceptable/fairly playable/well playable/perfectly playable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1511,7 +1511,7 @@
       <name>video game: interactivity: PC standard hardware visual controller feedback</name>
       <description>Indicates personal computer standard hardware visual controller feedback (if applicable).</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1519,7 +1519,7 @@
       <name>video game: network support: lag for network play</name>
       <description>Indicates the lag occuring at network play.</description>
       <ordinalScale><restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1527,7 +1527,7 @@
       <name>video game: network support: network protocols</name>
       <description>Indicates whether network protocols are supported by the game.</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1535,7 +1535,7 @@
       <name>video game: network support: use of original servers</name>
       <description>Indicates it the use of the original servers is supported at network play.</description>
       <ordinalScale><restriction>not applicable/not supported/supported</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1543,7 +1543,7 @@
       <name>compression</name>
       <description>Compression used in outcome object.</description>
       <ordinalScale><restriction>none/lossless/lossy</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1551,7 +1551,7 @@
       <name>document content: comments</name>
       <description>Comments in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="interactiveElementPreserved"/>
       </possibleMetrics>
@@ -1562,7 +1562,7 @@
       <name>document content: forms</name>
       <description>Forms in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="interactiveElementPreserved"/>
       </possibleMetrics>
@@ -1573,7 +1573,7 @@
       <name>document content: references</name>
       <description>References in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="interactiveElementPreserved"/>
       </possibleMetrics>
@@ -1584,7 +1584,7 @@
       <name>document content: scripts</name>
       <description>Scripts in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="interactiveElementPreserved"/>
       </possibleMetrics>
@@ -1595,7 +1595,7 @@
       <name>document content: URL</name>
       <description>URLs in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="interactiveElementPreserved"/>
         <metric metricId="visualEqual"/>
@@ -1607,7 +1607,7 @@
       <name>document features: accessibility</name>
       <description>Indicates whether the document is accessible.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1615,7 +1615,7 @@
       <name>document features: content machine readable</name>
       <description>Indicates whether the document content is machine readable.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1623,7 +1623,7 @@
       <name>document features: searchability</name>
       <description>Indicates if and in which way the document is searchable.</description>
       <ordinalScale><restriction>full/partial/no</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1631,7 +1631,7 @@
       <name>format: conforms</name>
       <description>Indicates whether the format of the result conforms to the output format specified by the component.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1639,7 +1639,7 @@
       <name>format: valid</name>
       <description>Indicates whether the format of the object is valid.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1647,7 +1647,7 @@
       <name>format: valid and well-formed</name>
       <description>Indicates whether the format of the object is valid and well formed.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1655,7 +1655,7 @@
       <name>format: well-formed</name>
       <description>Indicates whether the format of the object is well formed.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1663,7 +1663,7 @@
       <name>image metadata: all data valid and well-formed</name>
       <description>Indicates if all associated metadata is valid and well-formed.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1671,7 +1671,7 @@
       <name>image metadata: mets: valid DC/MODS</name>
       <description>Indicates if  METS-metadata contains valid DC/MODS data.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1679,7 +1679,7 @@
       <name>image metadata: mets: valid MIX</name>
       <description>Indicates if  METS-metadata contains valid MIX data.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1687,7 +1687,7 @@
       <name>image metadata: mets: valid PREMIS</name>
       <description>Indicates if  METS-metadata contains valid PREMIS data.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1695,7 +1695,7 @@
       <name>image metadata: xmp: valid DC</name>
       <description>Indicates if XMP-metadata contains valid Dublin Core data.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1703,7 +1703,7 @@
       <name>image metadata: xmp: valid EXIF</name>
       <description>Indicates if XMP-metadata contains valid EXIF data.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1711,7 +1711,7 @@
       <name>image metadata: xmp: valid IPTC</name>
       <description>Indicates if  XMP-metadata contains valid IPTC data.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1719,7 +1719,7 @@
       <name>relative filesize</name>
       <description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
       <positiveFloatScale><unit>output/input ratio</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
     </property>
     <property>
       <category>outcome:object</category>
@@ -1727,7 +1727,7 @@
       <name>database: content: blobs bitstreams</name>
       <description>Bitstreams of database binary large objects (blobs)</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1738,7 +1738,7 @@
       <name>database: content: blobs contents</name>
       <description>Content of database binary large objects (blobs)</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1749,7 +1749,7 @@
       <name>database: content: blobs format metadata</name>
       <description>Format metadata of database binary large objects (blobs)</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1760,7 +1760,7 @@
       <name>database: content: candidate keys (indexes)</name>
       <description>Database candidate keys (indexes)</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1771,7 +1771,7 @@
       <name>database: content: check constraints</name>
       <description>Database check constraints</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1782,7 +1782,7 @@
       <name>database: content: columns datatypes</name>
       <description>Datatypes of database columns</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseColumnsDatatypesPreserved"/>
       </possibleMetrics>
@@ -1793,7 +1793,7 @@
       <name>database: content: foreign keys</name>
       <description>Database foreign keys</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1804,7 +1804,7 @@
       <name>database: content: primary keys</name>
       <description>Database primary keys</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1815,7 +1815,7 @@
       <name>database: content: privileges</name>
       <description>Database privileges</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databasePrivilegesPreserved"/>
       </possibleMetrics>
@@ -1826,7 +1826,7 @@
       <name>database: content: roles</name>
       <description>Database roles</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseRolesPreserved"/>
       </possibleMetrics>
@@ -1837,7 +1837,7 @@
       <name>database: content: routines</name>
       <description>Database routines</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseRoutinesPreserved"/>
       </possibleMetrics>
@@ -1848,7 +1848,7 @@
       <name>database: content: schemas</name>
       <description>Database schemas</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseSchemasPreserved"/>
       </possibleMetrics>
@@ -1859,7 +1859,7 @@
       <name>database: content: sequences</name>
       <description>Database sequences</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1870,7 +1870,7 @@
       <name>database: content: strings</name>
       <description>Database strings</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseStringsPreserved"/>
       </possibleMetrics>
@@ -1881,7 +1881,7 @@
       <name>database: content: system tables</name>
       <description>Database system tables</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1892,7 +1892,7 @@
       <name>database: content: table column counts</name>
       <description>Column counts of all database tables</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -1903,7 +1903,7 @@
       <name>database: content: table row counts</name>
       <description>Row counts of all database tables</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -1914,7 +1914,7 @@
       <name>database: content: triggers</name>
       <description>Database triggers</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseTriggersPreserved"/>
       </possibleMetrics>
@@ -1925,7 +1925,7 @@
       <name>database: content: user defined datatypes (UDT)</name>
       <description>Database user defined datatypes (UDT)</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseUDTPreserved"/>
       </possibleMetrics>
@@ -1936,7 +1936,7 @@
       <name>database: content: users</name>
       <description>Database users</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseUsersPreserved"/>
       </possibleMetrics>
@@ -1947,7 +1947,7 @@
       <name>database: content: views</name>
       <description>Database views</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseViewsPreserved"/>
       </possibleMetrics>
@@ -1958,7 +1958,7 @@
       <name>database: context: columns</name>
       <description>Database columns</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1969,7 +1969,7 @@
       <name>database: context: constraints</name>
       <description>Database constraints</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1980,7 +1980,7 @@
       <name>database: context: data origin timespan</name>
       <description>Timespan from now to data creation time</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -1991,7 +1991,7 @@
       <name>database: context: data owner</name>
       <description>Owner of the data</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2002,7 +2002,7 @@
       <name>database: context: database name</name>
       <description>Database name</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2013,7 +2013,7 @@
       <name>database: context: database purpose</name>
       <description>Database purpose</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2024,7 +2024,7 @@
       <name>database: context: FKs</name>
       <description>Database FKs</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2035,7 +2035,7 @@
       <name>database: context: indexes</name>
       <description>Database indexes</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2046,7 +2046,7 @@
       <name>database: context: PKs</name>
       <description>Database PKs</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2057,7 +2057,7 @@
       <name>database: context: privileges</name>
       <description>Database privileges</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2068,7 +2068,7 @@
       <name>database: context: roles</name>
       <description>Database roles</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2079,7 +2079,7 @@
       <name>database: context: routines</name>
       <description>Database routines</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2090,7 +2090,7 @@
       <name>database: context: schemas</name>
       <description>Database schemas</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2101,7 +2101,7 @@
       <name>database: context: sequences</name>
       <description>Database sequences</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2112,7 +2112,7 @@
       <name>database: context: tables</name>
       <description>Database tables</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2123,7 +2123,7 @@
       <name>database: context: traceability: change history and changelog</name>
       <description>Change history and changelog data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2134,7 +2134,7 @@
       <name>database: context: traceability: explicit audit trail</name>
       <description>Explicit audit trail as stored in tables</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2145,7 +2145,7 @@
       <name>database: context: traceability: implicit audit trail</name>
       <description>Implicit audit trail as kept in db system</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2156,7 +2156,7 @@
       <name>database: context: triggers</name>
       <description>Database triggers</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2167,7 +2167,7 @@
       <name>database: context: users</name>
       <description>Database users</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2178,7 +2178,7 @@
       <name>database: context: views</name>
       <description>Database views</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2189,7 +2189,7 @@
       <name>database: look and feel</name>
       <description>Look and feel of the database.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2200,7 +2200,7 @@
       <name>database: representation: character encoding</name>
       <description>Character encoding used in given database representation.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseCharacterEncodingTrend"/>
       </possibleMetrics>
@@ -2211,7 +2211,7 @@
       <name>database: representation: numbers precision</name>
       <description>Precision of number representation.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseNumbersPrecisionComparison"/>
       </possibleMetrics>
@@ -2222,7 +2222,7 @@
       <name>database: representation: strings encodings</name>
       <description>Database strings encodings</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseStringsEncodingsPreserved"/>
       </possibleMetrics>
@@ -2233,7 +2233,7 @@
       <name>database: representation: time encoding</name>
       <description>Time encoding used in given database representation.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="databaseTimeEncodingTrend"/>
       </possibleMetrics>
@@ -2244,7 +2244,7 @@
       <name>document content: attached files</name>
       <description>Attached files used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2255,7 +2255,7 @@
       <name>document content: bullet lists</name>
       <description>Bullet lists used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2266,7 +2266,7 @@
       <name>document content: character set</name>
       <description>Character set used in the document.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2277,7 +2277,7 @@
       <name>document content: diacritics</name>
       <description>Diacritics used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2288,7 +2288,7 @@
       <name>document content: equation captions</name>
       <description>Equation captions used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2299,7 +2299,7 @@
       <name>document content: equation positions</name>
       <description>Equation positions used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2310,7 +2310,7 @@
       <name>document content: equation sizes</name>
       <description>Equation sizes used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2321,7 +2321,7 @@
       <name>document content: equation structures</name>
       <description>Equation structures used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2332,7 +2332,7 @@
       <name>document content: equation total</name>
       <description>Equations used in this document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2343,7 +2343,7 @@
       <name>document content: figure captions</name>
       <description>Figure captions used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2354,7 +2354,7 @@
       <name>document content: figure color depths</name>
       <description>Figure color depths used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2365,7 +2365,7 @@
       <name>document content: figure positions</name>
       <description>Figure positions used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2376,7 +2376,7 @@
       <name>document content: figure resolutions</name>
       <description>Figure resolutions used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2387,7 +2387,7 @@
       <name>document content: figure sizes</name>
       <description>Figure sizes used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2398,7 +2398,7 @@
       <name>document content: figures total</name>
       <description>Figures used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2409,7 +2409,7 @@
       <name>document content: font colors</name>
       <description>Font colors used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2420,7 +2420,7 @@
       <name>document content: font encoding</name>
       <description>Font encoding used in the document.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2431,7 +2431,7 @@
       <name>document content: font sizes</name>
       <description>Font sizes used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2442,7 +2442,7 @@
       <name>document content: font styles</name>
       <description>Font styles used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2453,7 +2453,7 @@
       <name>document content: font text marks</name>
       <description>Indicates if font text marks exists in the document.</description>
       <booleanScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2464,7 +2464,7 @@
       <name>document content: foonotes</name>
       <description>Foonotes used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2475,7 +2475,7 @@
       <name>document content: formulas</name>
       <description>Formulas in the document</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2486,7 +2486,7 @@
       <name>document content: multimedia</name>
       <description>Multimedia elements used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2497,7 +2497,7 @@
       <name>document content: number of characters</name>
       <description>Number of characters the document consists of.</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2508,7 +2508,7 @@
       <name>document content: numbered lists</name>
       <description>Numbered lists used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2519,7 +2519,7 @@
       <name>document content: symbols</name>
       <description>Symbols used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2530,7 +2530,7 @@
       <name>document content: tables</name>
       <description>Tables used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2541,7 +2541,7 @@
       <name>document content: text</name>
       <description>Text content of the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2552,7 +2552,7 @@
       <name>document content: umlauts</name>
       <description>Umlauts used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2563,7 +2563,7 @@
       <name>document layout: background</name>
       <description>Background of the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2574,7 +2574,7 @@
       <name>document layout: logo</name>
       <description>Logo used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2585,7 +2585,7 @@
       <name>document layout: page orientation</name>
       <description>Page orientation used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2596,7 +2596,7 @@
       <name>document layout: page size</name>
       <description>Page size used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2607,7 +2607,7 @@
       <name>document layout: watermark</name>
       <description>Watermark used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2618,7 +2618,7 @@
       <name>document metadata: author</name>
       <description>Author placed in the documents metadata.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2629,7 +2629,7 @@
       <name>document metadata: author in record</name>
       <description>Author placed in the records metadata.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2640,7 +2640,7 @@
       <name>document metadata: content description</name>
       <description>Content description placed in the documents metadata.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2651,7 +2651,7 @@
       <name>document metadata: date</name>
       <description>Date placed in the documents metadata.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2662,7 +2662,7 @@
       <name>document metadata: date in record</name>
       <description>Date placed in the records metadata.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2673,7 +2673,7 @@
       <name>document metadata: entire data</name>
       <description>Entire metadata of the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2684,7 +2684,7 @@
       <name>document metadata: language</name>
       <description>Document language placed in the documents metadata</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2695,7 +2695,7 @@
       <name>document metadata: subject</name>
       <description>Subject placed in the documents metadata.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2706,7 +2706,7 @@
       <name>document metadata: title</name>
       <description>Title placed in the documents metadata.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2717,7 +2717,7 @@
       <name>document metadata: title in record</name>
       <description>Title placed in the records metadata.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2728,7 +2728,7 @@
       <name>document structure: bibliography</name>
       <description>Bibliography used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2739,7 +2739,7 @@
       <name>document structure: footers</name>
       <description>Footers used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2750,7 +2750,7 @@
       <name>document structure: headers</name>
       <description>Headers used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2761,7 +2761,7 @@
       <name>document structure: intendations</name>
       <description>Intendations used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2772,7 +2772,7 @@
       <name>document structure: line spacings</name>
       <description>Line spacings used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2783,7 +2783,7 @@
       <name>document structure: number of pages</name>
       <description>The documents number of pages.</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -2794,7 +2794,7 @@
       <name>document structure: page numberings</name>
       <description>Page numberings used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2805,7 +2805,7 @@
       <name>document structure: paragraphs</name>
       <description>Paragraphs used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2816,7 +2816,7 @@
       <name>document structure: table of contents</name>
       <description>Table of contents used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2827,7 +2827,7 @@
       <name>document structure: text paging</name>
       <description>Text paging (how text is distributed on pages) of the document</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2838,7 +2838,7 @@
       <name>document structure: titles and headlines</name>
       <description>Titles and headlines used in the document.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equalJudged"/>
       </possibleMetrics>
@@ -2849,7 +2849,7 @@
       <name>image metadata: capture device</name>
       <description>Device used to create the image data</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2860,7 +2860,7 @@
       <name>image metadata: creation dateTime</name>
       <description>Date or DateTime the image was created</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2871,7 +2871,7 @@
       <name>image metadata: dc: all data</name>
       <description>All DC data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2882,7 +2882,7 @@
       <name>image metadata: exif: all gps data</name>
       <description>All EXIF GPS data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2893,7 +2893,7 @@
       <name>image metadata: exif: all tiff data</name>
       <description>All EXIF TIFF data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2904,7 +2904,7 @@
       <name>image metadata: exif: aperture value</name>
       <description>Lens aperture</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2915,7 +2915,7 @@
       <name>image metadata: exif: artist</name>
       <description>Person who created the image.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2926,7 +2926,7 @@
       <name>image metadata: exif: bits per sample</name>
       <description>Number of bits per component.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2937,7 +2937,7 @@
       <name>image metadata: exif: brightness value</name>
       <description></description>
       <floatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2948,7 +2948,7 @@
       <name>image metadata: exif: cfa pattern</name>
       <description>Color Filter Array (CFA) geometric pattern of the image sensor when one-chip color area sinsor is used.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2959,7 +2959,7 @@
       <name>image metadata: exif: compression</name>
       <description>Compression scheme</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2970,7 +2970,7 @@
       <name>image metadata: exif: contrast</name>
       <description>Contrast</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2981,7 +2981,7 @@
       <name>image metadata: exif: exposure bias value</name>
       <description>Brightness values measured when the image was captured, using APEX (Additive Szstem of Photographic Exposure) values.</description>
       <floatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -2992,7 +2992,7 @@
       <name>image metadata: exif: exposure index</name>
       <description>Exposure index setting the camera selected</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3003,7 +3003,7 @@
       <name>image metadata: exif: exposure mode</name>
       <description>Exposure mode</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3014,7 +3014,7 @@
       <name>image metadata: exif: exposure program</name>
       <description>Class of the program used by the camera to set exposure when the picture is taken.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3025,7 +3025,7 @@
       <name>image metadata: exif: exposure time</name>
       <description>Exposure time used when the image was captured.</description>
       <floatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3036,7 +3036,7 @@
       <name>image metadata: exif: f number</name>
       <description>Lens f-number (ratio of lens aperture to focal length) used when the image was captured.</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3047,7 +3047,7 @@
       <name>image metadata: exif: flash</name>
       <description>Status of the flash when the image was shot.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3058,7 +3058,7 @@
       <name>image metadata: exif: focal lenght in 35mm film</name>
       <description>Focal length in 35mm film.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3069,7 +3069,7 @@
       <name>image metadata: exif: focal length</name>
       <description>The lens focal length in meters used to capture the image.</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3080,7 +3080,7 @@
       <name>image metadata: exif: image description</name>
       <description>Image title</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3091,7 +3091,7 @@
       <name>image metadata: exif: image height</name>
       <description>Image resolution in height direction.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3102,7 +3102,7 @@
       <name>image metadata: exif: image width</name>
       <description>Image resolution in width direction.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3113,7 +3113,7 @@
       <name>image metadata: exif: iso-speed value</name>
       <description>ISO speed</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3124,7 +3124,7 @@
       <name>image metadata: exif: light source</name>
       <description>Light source that was present when the image was captured.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3135,7 +3135,7 @@
       <name>image metadata: exif: make</name>
       <description>Manufactorer of image input equipment.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3146,7 +3146,7 @@
       <name>image metadata: exif: metering mode</name>
       <description>Metering mode</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3157,7 +3157,7 @@
       <name>image metadata: exif: model</name>
       <description>Model of image input equipment.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3168,7 +3168,7 @@
       <name>image metadata: exif: oECF</name>
       <description>Opto-Electric Conversion Function (OECF) specified in ISO 14524</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3179,7 +3179,7 @@
       <name>image metadata: exif: photometric interpretation</name>
       <description>Pixel composition</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3190,7 +3190,7 @@
       <name>image metadata: exif: resolution unit</name>
       <description>Unit of X and Y resolution</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3201,7 +3201,7 @@
       <name>image metadata: exif: samples per pixel</name>
       <description>Number of components</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3212,7 +3212,7 @@
       <name>image metadata: exif: saturation</name>
       <description>Saturation</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3223,7 +3223,7 @@
       <name>image metadata: exif: sensing method</name>
       <description>Image Sensor type on the camera or input device.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3234,7 +3234,7 @@
       <name>image metadata: exif: sharpness</name>
       <description>Sharpness</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3245,7 +3245,7 @@
       <name>image metadata: exif: shutter speed value</name>
       <description>Shutter speed</description>
       <floatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3256,7 +3256,7 @@
       <name>image metadata: exif: software</name>
       <description>Software used</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3267,7 +3267,7 @@
       <name>image metadata: exif: spectral sensivity</name>
       <description>Spectral sensitivity of each channel of the camera used.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3278,7 +3278,7 @@
       <name>image metadata: exif: subject distance</name>
       <description>Distance in meters, between the frontal plane of the camera lens and the subject on which the camera was focused.</description>
       <positiveFloatScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3289,7 +3289,7 @@
       <name>image metadata: exif: version</name>
       <description>Version of the EXIF standard supported.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3300,7 +3300,7 @@
       <name>image metadata: exif: white balance</name>
       <description>White balance</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3311,7 +3311,7 @@
       <name>image metadata: image height</name>
       <description>Image resolution in height direction.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3322,7 +3322,7 @@
       <name>image metadata: image resolution</name>
       <description>Image resoluion represented as string.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3333,7 +3333,7 @@
       <name>image metadata: image width</name>
       <description>Image resolution in width direction.</description>
       <positiveIntegerScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3344,7 +3344,7 @@
       <name>image metadata: iptc: all data</name>
       <description>All IPCT data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3355,7 +3355,7 @@
       <name>image metadata: orientation</name>
       <description>Image orientation as textual value.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3366,7 +3366,7 @@
       <name>image metadata: private-tags: all data</name>
       <description>All private-tags data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3377,7 +3377,7 @@
       <name>image metadata: producer</name>
       <description>Textual information about the producer of the object.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3388,7 +3388,7 @@
       <name>image metadata: resolution unit</name>
       <description>Defines the unit of measure used to determine image height and image width.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3399,7 +3399,7 @@
       <name>image metadata: scene type</name>
       <description>Scene type</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3410,7 +3410,7 @@
       <name>image metadata: software</name>
       <description>Software used</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3421,7 +3421,7 @@
       <name>image metadata: tiff properties</name>
       <description>Tiff properties data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3432,7 +3432,7 @@
       <name>image metadata: xmp: all data</name>
       <description>All XMP data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="retained"/>
       </possibleMetrics>
@@ -3443,7 +3443,7 @@
       <name>image: aspect ratio</name>
       <description>Aspect ratio of image, calculated as width/height. The number 1,35 can thus be read as 1,35:1</description>
       <positiveFloatScale><unit>width/height ratio</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3454,7 +3454,7 @@
       <name>image: bits per sample</name>
       <description>Bits per component for each pixel</description>
       <freeStringScale><unit>bpp</unit></freeStringScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
         <metric metricId="greaterOrEqual"/>
@@ -3466,7 +3466,7 @@
       <name>image: colour space</name>
       <description>Colour model of the decompressed image data.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3477,7 +3477,7 @@
       <name>image: height</name>
       <description>Height of an image, measured in number of pixels on the y-axis.</description>
       <positiveIntegerScale><unit>pixel</unit></positiveIntegerScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3488,7 +3488,7 @@
       <name>image: ICC colour profile</name>
       <description>ICC profile data</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3499,7 +3499,7 @@
       <name>image: ocr text</name>
       <description>Optical character recognition text extraxted from the image</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3510,7 +3510,7 @@
       <name>image: orientation</name>
       <description>Orientation of the image, with respect to the placement of widht and height, as it was saved to disk.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3521,7 +3521,7 @@
       <name>image: resolution</name>
       <description>Width and height of an image in number of pixels represented as string (e.g. 1024x768).</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3532,7 +3532,7 @@
       <name>image: resolution unit</name>
       <description>Defines the unit of measure used to determine image height and image width.</description>
       <freeStringScale/>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3543,7 +3543,7 @@
       <name>image: sampling frequency unit</name>
       <description>The unit of measurement for XSamplingFrequency and YSamplingFrequency.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3554,7 +3554,7 @@
       <name>image: similarity</name>
       <description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
         <metric metricId="ae"/>
@@ -3576,7 +3576,7 @@
       <name>image: width</name>
       <description>Width of an image, measured in number of pixels on the x-axis.</description>
       <positiveIntegerScale><unit>pixel</unit></positiveIntegerScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3587,7 +3587,7 @@
       <name>image: x sampling frequency</name>
       <description>The number of pixels, per definition samplingFrequencyUnit in the image height.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3598,7 +3598,7 @@
       <name>image: y sampling frequency</name>
       <description>The number of pixels, per definition samplingFrequencyUnit in the image width.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="equal"/>
       </possibleMetrics>
@@ -3609,7 +3609,7 @@
       <name>video game: audio: music quality</name>
       <description>Indicates music quality of the game.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="videoGameAudioCompliance"/>
       </possibleMetrics>
@@ -3620,7 +3620,7 @@
       <name>video game: audio: sound quality</name>
       <description>Indicates sound quality of the game.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="videoGameAudioCompliance"/>
       </possibleMetrics>
@@ -3631,7 +3631,7 @@
       <name>video game: audio: speech quality</name>
       <description>Indicates speech quality of the game.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="videoGameAudioCompliance"/>
       </possibleMetrics>
@@ -3642,7 +3642,7 @@
       <name>video game: game speed</name>
       <description>Speed performance of the game.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="deviationInPercent"/>
       </possibleMetrics>
@@ -3653,7 +3653,7 @@
       <name>video game: graphics: colours</name>
       <description>Graphics colour characteristics.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="videoGameImageColourCompliance"/>
       </possibleMetrics>
@@ -3664,7 +3664,7 @@
       <name>video game: graphics: frame rate</name>
       <description>Frame rate of the game.</description>
       <positiveFloatScale><unit>FPS</unit></positiveFloatScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="deviationInPercent"/>
       </possibleMetrics>
@@ -3675,7 +3675,7 @@
       <name>video game: graphics: hardware supported special effects quality</name>
       <description>Indicates the quality of hardware supported special effects.</description>
       <ordinalScale><restriction>no objects displayed/not applicable/severe differences to original/small differences to original/no differences noticeable</restriction></ordinalScale>
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="videoGameHWSupportedSpecialEffectsCompliance"/>
       </possibleMetrics>
@@ -3686,7 +3686,7 @@
       <name>video game: graphics: image quality</name>
       <description>Overall graphics image quality.</description>
 
-      <evaluationScope>outcome</evaluationScope>
+      <evaluationScope>OUTCOME</evaluationScope>
       <possibleMetrics>
         <metric metricId="videoGameImageQualityCompliance"/>
       </possibleMetrics>
