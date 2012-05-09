@@ -611,6 +611,14 @@
     </property>
     <property>
       <category>action</category>
+      <propertyId>performanceEfficiency/timeBehaviour/document/timePerPage</propertyId>
+      <name>performance efficiency: document: time per page</name>
+      <description>Elapsed processing time used per document page, measured in milliseconds.</description>
+      <positiveFloatScale><unit>ms</unit></positiveFloatScale>
+      <evaluationScope>OUTCOME</evaluationScope>
+    </property>
+    <property>
+      <category>action</category>
       <propertyId>portability/installability/easeOfIntegrationInCurrentEnvironment</propertyId>
       <name>portability: ease of integration in current environment</name>
       <description>Assessment of how easy it is to integrate the action-tool into the current used server environment.</description>
