@@ -213,7 +213,10 @@ public class MeasurableProperty implements Comparable<MeasurableProperty>, ITouc
      * @param evalScopeString Evaluation scope string representation.
      */
     public void setEvaluationScopeAsString(String evalScopeString) {
-        evaluationScope = EvaluationScope.valueOf(evalScopeString);
+        // only set evaluationScope if a meaningful string is passed
+        if (!evalScopeString.isEmpty()) {
+            evaluationScope = EvaluationScope.valueOf(evalScopeString);
+        }
     }
 
     public EvaluationScope getEvaluationScope() {

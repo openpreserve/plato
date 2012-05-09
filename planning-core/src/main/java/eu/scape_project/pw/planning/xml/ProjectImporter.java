@@ -1325,7 +1325,7 @@ public class ProjectImporter implements Serializable {
         digester.addBeanPropertySetter(pattern + "/propertyId");
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
-        digester.addBeanPropertySetter(pattern + "/evaluationScope");
+        digester.addBeanPropertySetter(pattern + "/evaluationScope", "evaluationScopeAsString");
 
         // scale is created automatically with global rule
         // digester.addObjectCreate(pattern + "/possibleMetrics",
