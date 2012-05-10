@@ -38,8 +38,8 @@ public class AddUserBean {
   private Boolean activateUserSuccessful;
 
   /**
-   * Temporary dummy variable only required to map the recaptchaHelper input
-   * field. Therefore, this field has no impact on this class.
+   * Temporary (dummy) variable only required to map the recaptchaHelper jsf-input-tag to an value (which is mandatory).
+   * Thus, this field has no impact on this class functionality.
    */
   private String recaptchaHelper;
 
@@ -56,20 +56,6 @@ public class AddUserBean {
   }
 
   public void addUser() {
-    // Set standard role
-    IdpRole role = null;
-    try {
-      role = em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
-        .setParameter("rolename", "authenticated").getSingleResult();
-    } catch (NoResultException e) {
-      role = new IdpRole();
-      role.setRoleName("authenticated");
-    }
-
-    List<IdpRole> roles = user.getRoles();
-    roles.add(role);
-    user.setRoles(roles);
-
     // create user
     userManager.addUser(user);
     addUserSuccessful = true;

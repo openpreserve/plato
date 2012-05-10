@@ -16,9 +16,11 @@ import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 
@@ -33,10 +35,23 @@ public class UserManager {
     /**
      * Method responsible for adding a new user.
      * 
-     * @param user
-     *            User to add.
+     * @param user User to add.
      */
     public void addUser(IdpUser user) {
+        // Set standard role
+        IdpRole role = null;
+        try {
+          role = em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
+            .setParameter("rolename", "authenticated").getSingleResult();
+        } catch (NoResultException e) {
+          role = new IdpRole();
+          role.setRoleName("authenticated");
+        }
+
+        List<IdpRole> roles = user.getRoles();
+        roles.add(role);
+        user.setRoles(roles);        
+        
         // create a user actionToken which is needed for activation
         user.setActionToken(UUID.randomUUID().toString());
         em.persist(user);
