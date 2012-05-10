@@ -23,61 +23,64 @@ import eu.scape_project.pw.planning.utils.FacesMessages;
 @Named("takeGoDecision")
 @ConversationScoped
 public class TakeGoDecisionView extends AbstractView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject private Logger log;
-	
-	@Inject	private FacesMessages facesMessages;
-	
-	@Inject private TakeGoDecision takeGoDecision;
+    @Inject
+    private Logger log;
 
-	private List<Alternative> alternatives;
-	
-	private Decision goDecision;
-	
-	public TakeGoDecisionView() {
-    	currentPlanState = PlanState.ALTERNATIVES_DEFINED;
-    	name = "Take Go Decision";
-    	viewUrl = "/plan/takegodecision.jsf";
-    	group = "menu.evaluateAlternatives";
-    	
-	}
-	
-	public void init(Plan plan) {
-    	super.init(plan);
-    	alternatives = plan.getAlternativesDefinition().getAlternatives();
-    	goDecision = plan.getDecision();
-	}
+    @Inject
+    private FacesMessages facesMessages;
 
-	public List<Alternative> getAlternatives() {
-		return alternatives;
-	}
+    @Inject
+    private TakeGoDecision takeGoDecision;
 
-	public void setAlternatives(List<Alternative> alternatives) {
-		this.alternatives = alternatives;
-	}
+    private List<Alternative> alternatives;
 
-	public Decision getGoDecision() {
-		return goDecision;
-	}
+    private Decision goDecision;
 
-	public void setGoDecision(Decision goDecision) {
-		this.goDecision = goDecision;
-	}
+    public TakeGoDecisionView() {
+        currentPlanState = PlanState.ALTERNATIVES_DEFINED;
+        name = "Take Go Decision";
+        viewUrl = "/plan/takegodecision.jsf";
+        group = "menu.evaluateAlternatives";
 
-	public List<SelectItem> getGoDecisionSelectItems() {
-		List<SelectItem> selectItems = new ArrayList<SelectItem>();
-		selectItems.add(new SelectItem(GoDecision.UNDEFINED, "Undefined"));
-		selectItems.add(new SelectItem(GoDecision.GO, "Go"));
-		selectItems.add(new SelectItem(GoDecision.PROVISIONAL_GO, "Provisional Go"));
-		selectItems.add(new SelectItem(GoDecision.DEFERRED_GO, "Deferred Go"));
-		selectItems.add(new SelectItem(GoDecision.NO_GO, "No Go"));
-		
-		return selectItems;
-	}
+    }
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return takeGoDecision;
-	}
+    public void init(Plan plan) {
+        super.init(plan);
+        alternatives = plan.getAlternativesDefinition().getAlternatives();
+        goDecision = plan.getDecision();
+    }
+
+    public List<Alternative> getAlternatives() {
+        return alternatives;
+    }
+
+    public void setAlternatives(List<Alternative> alternatives) {
+        this.alternatives = alternatives;
+    }
+
+    public Decision getGoDecision() {
+        return goDecision;
+    }
+
+    public void setGoDecision(Decision goDecision) {
+        this.goDecision = goDecision;
+    }
+
+    public List<SelectItem> getGoDecisionSelectItems() {
+        List<SelectItem> selectItems = new ArrayList<SelectItem>();
+        selectItems.add(new SelectItem(GoDecision.UNDEFINED, "Undefined"));
+        selectItems.add(new SelectItem(GoDecision.GO, "Go"));
+        selectItems.add(new SelectItem(GoDecision.PROVISIONAL_GO, "Provisional Go"));
+        selectItems.add(new SelectItem(GoDecision.DEFERRED_GO, "Deferred Go"));
+        selectItems.add(new SelectItem(GoDecision.NO_GO, "No Go"));
+
+        return selectItems;
+    }
+
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return takeGoDecision;
+    }
 }

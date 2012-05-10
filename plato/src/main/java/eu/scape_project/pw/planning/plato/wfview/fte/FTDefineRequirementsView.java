@@ -25,154 +25,161 @@ import eu.scape_project.pw.planning.plato.wf.beans.FastTrackTemplate;
 import eu.scape_project.pw.planning.plato.wfview.AbstractView;
 import eu.scape_project.pw.planning.utils.Downloader;
 
-
 @Named("defineRequirementsFTE")
 @ConversationScoped
 public class FTDefineRequirementsView extends AbstractView {
-	private static final long serialVersionUID = 1L;
-	
-	@Inject private FTDefineRequirements ftDefineRequirements;
-	
-	@Inject private Downloader downloader;
-	
-	@Inject private Logger log;
-	
-	@Inject private TreeHelperBean treeHelper;
+    private static final long serialVersionUID = 1L;
 
-	private List<FastTrackTemplate> ftTemplates;
-	
-	private FastTrackTemplate selectedFTTemplate;
-	
-	/**
-	 * Variable encapsulating the ObjectiveTree-Root in a list.
-	 * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
-	 */
-	private List<TreeNode> treeRoots;
-	
-	public FTDefineRequirementsView(){
-    	currentPlanState = PlanState.FTE_INITIALISED;
-    	name = "Define Requirements";
-    	viewUrl = "/fte/FTdefinerequirements.jsf";
-    	ftTemplates  = new ArrayList<FastTrackTemplate>();
-    	selectedFTTemplate = null;
-    	treeRoots = new ArrayList<TreeNode>();
-	}
-	
-	public void init(Plan p) {
-		super.init(p);
-		ftTemplates = ftDefineRequirements.getAvailableFTTemplates();
-		treeRoots.clear();
-		treeRoots.add(plan.getTree().getRoot());
-		
-		// all leaves are shown, unless the users decided to change this. 
-		if (treeHelper.getExpandedNodes().isEmpty()) {
-			treeHelper.expandAll(plan.getTree().getRoot());
-		}
-	}
+    @Inject
+    private FTDefineRequirements ftDefineRequirements;
 
-	/**
-	 * Method responsible for fetching all plan sample objects 
-	 * 
-	 * @return List of all plan sample objects. 
-	 */
-	public List<SampleObject> getSamples() {
-		List<SampleObject> samples = plan.getSampleRecordsDefinition().getRecords();
-		if (samples.size() == 0) {
-			return null;
-		} else {
-			return samples;
-		}
-	}
-	
+    @Inject
+    private Downloader downloader;
+
+    @Inject
+    private Logger log;
+
+    @Inject
+    private TreeHelperBean treeHelper;
+
+    private List<FastTrackTemplate> ftTemplates;
+
+    private FastTrackTemplate selectedFTTemplate;
+
+    /**
+     * Variable encapsulating the ObjectiveTree-Root in a list. This is
+     * required, because <rich:treeModelRecursiveAdaptor> root variable requires
+     * a list to work properly.
+     */
+    private List<TreeNode> treeRoots;
+
+    public FTDefineRequirementsView() {
+        currentPlanState = PlanState.FTE_INITIALISED;
+        name = "Define Requirements";
+        viewUrl = "/fte/FTdefinerequirements.jsf";
+        ftTemplates = new ArrayList<FastTrackTemplate>();
+        selectedFTTemplate = null;
+        treeRoots = new ArrayList<TreeNode>();
+    }
+
+    public void init(Plan p) {
+        super.init(p);
+        ftTemplates = ftDefineRequirements.getAvailableFTTemplates();
+        treeRoots.clear();
+        treeRoots.add(plan.getTree().getRoot());
+
+        // all leaves are shown, unless the users decided to change this.
+        if (treeHelper.getExpandedNodes().isEmpty()) {
+            treeHelper.expandAll(plan.getTree().getRoot());
+        }
+    }
+
+    /**
+     * Method responsible for fetching all plan sample objects
+     * 
+     * @return List of all plan sample objects.
+     */
+    public List<SampleObject> getSamples() {
+        List<SampleObject> samples = plan.getSampleRecordsDefinition().getRecords();
+        if (samples.size() == 0) {
+            return null;
+        } else {
+            return samples;
+        }
+    }
+
     /**
      * Method responsible for removing a sample record.
      */
     public void removeSample(SampleObject sample) {
-    		ftDefineRequirements.removeSample(sample);
+        ftDefineRequirements.removeSample(sample);
     }
-    
+
     /**
-     * Starts a download for the given digital object. 
-     * Uses {@link eu.planets_project.pp.plato.util.Downloader} to perform the download.
+     * Starts a download for the given digital object. Uses
+     * {@link eu.planets_project.pp.plato.util.Downloader} to perform the
+     * download.
      */
     public void download(DigitalObject object) {
-    	try {
-			downloader.download(ftDefineRequirements.fetchDigitalObject(object));
-		} catch (StorageException e) {
-			facesMessages.addError("Error at downloading file");
-			log.error("FAiled to download file.", e);
-		}
+        try {
+            downloader.download(ftDefineRequirements.fetchDigitalObject(object));
+        } catch (StorageException e) {
+            facesMessages.addError("Error at downloading file");
+            log.error("FAiled to download file.", e);
+        }
     }
 
-	/**
-	 * Method responsible for uploading/attaching a file.
-	 * 
-	 * @param event Richfaces FileUploadEvent data.
-	 */
-    public void uploadFile(FileUploadEvent event) {
-		UploadedFile file = event.getUploadedFile();
-		
-		// Put file-data into a digital object
-		DigitalObject digitalObject = new DigitalObject();
-		digitalObject.setFullname(file.getName());
-		digitalObject.getData().setData(file.getData());
-		digitalObject.setContentType(file.getContentType());
-		
-		try {
-			ftDefineRequirements.addSample(digitalObject);
-		} catch (PlanningException e) {
-			log.error("Failed to upload a file", e);
-			facesMessages.addError("Failed to upload file.");
-		}
-    }
-    
     /**
-     * Method responsible for applying the currently selected fast-track template (which is {@link selectedFTTemplate}).
+     * Method responsible for uploading/attaching a file.
+     * 
+     * @param event
+     *            Richfaces FileUploadEvent data.
+     */
+    public void uploadFile(FileUploadEvent event) {
+        UploadedFile file = event.getUploadedFile();
+
+        // Put file-data into a digital object
+        DigitalObject digitalObject = new DigitalObject();
+        digitalObject.setFullname(file.getName());
+        digitalObject.getData().setData(file.getData());
+        digitalObject.setContentType(file.getContentType());
+
+        try {
+            ftDefineRequirements.addSample(digitalObject);
+        } catch (PlanningException e) {
+            log.error("Failed to upload a file", e);
+            facesMessages.addError("Failed to upload file.");
+        }
+    }
+
+    /**
+     * Method responsible for applying the currently selected fast-track
+     * template (which is {@link selectedFTTemplate}).
      */
     public void useSelectedFastTrackTemplate() {
-    	try {
-			ftDefineRequirements.useFastTrackTemplate(selectedFTTemplate);
-			// reset the tree-root for the view - it has changed
-			treeRoots.clear();
-			treeRoots.add(plan.getTree().getRoot());
-		} catch (PlanningException e) {
-			log.error(e.getMessage(), e);
-			facesMessages.addError(e.getMessage());
-		}
+        try {
+            ftDefineRequirements.useFastTrackTemplate(selectedFTTemplate);
+            // reset the tree-root for the view - it has changed
+            treeRoots.clear();
+            treeRoots.add(plan.getTree().getRoot());
+        } catch (PlanningException e) {
+            log.error(e.getMessage(), e);
+            facesMessages.addError(e.getMessage());
+        }
     }
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return ftDefineRequirements;
-	}
-	
-	// --------------- getter/setter ---------------
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return ftDefineRequirements;
+    }
 
-	public List<FastTrackTemplate> getFtTemplates() {
-		return ftTemplates;
-	}
+    // --------------- getter/setter ---------------
 
-	public void setFtTemplates(List<FastTrackTemplate> ftTemplates) {
-		this.ftTemplates = ftTemplates;
-	}
+    public List<FastTrackTemplate> getFtTemplates() {
+        return ftTemplates;
+    }
 
-	public FastTrackTemplate getSelectedFTTemplate() {
-		return selectedFTTemplate;
-	}
+    public void setFtTemplates(List<FastTrackTemplate> ftTemplates) {
+        this.ftTemplates = ftTemplates;
+    }
 
-	public void setSelectedFTTemplate(FastTrackTemplate selectedFTTemplate) {
-		this.selectedFTTemplate = selectedFTTemplate;
-	}
+    public FastTrackTemplate getSelectedFTTemplate() {
+        return selectedFTTemplate;
+    }
 
-	public List<TreeNode> getTreeRoots() {
-		return treeRoots;
-	}
+    public void setSelectedFTTemplate(FastTrackTemplate selectedFTTemplate) {
+        this.selectedFTTemplate = selectedFTTemplate;
+    }
 
-	public void setTreeRoots(List<TreeNode> treeRoots) {
-		this.treeRoots = treeRoots;
-	}
+    public List<TreeNode> getTreeRoots() {
+        return treeRoots;
+    }
 
-	public TreeHelperBean getTreeHelper() {
-		return treeHelper;
-	}
+    public void setTreeRoots(List<TreeNode> treeRoots) {
+        this.treeRoots = treeRoots;
+    }
+
+    public TreeHelperBean getTreeHelper() {
+        return treeHelper;
+    }
 }
