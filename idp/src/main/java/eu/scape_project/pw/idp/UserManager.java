@@ -31,6 +31,8 @@ public class UserManager {
 
     @Inject
     private Logger log;
+    
+    private final String idpUserStandardRoleName = "authenticated";
 
     /**
      * Method responsible for adding a new user.
@@ -42,10 +44,10 @@ public class UserManager {
         IdpRole role = null;
         try {
           role = em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
-            .setParameter("rolename", "authenticated").getSingleResult();
+            .setParameter("rolename", idpUserStandardRoleName).getSingleResult();
         } catch (NoResultException e) {
           role = new IdpRole();
-          role.setRoleName("authenticated");
+          role.setRoleName(idpUserStandardRoleName);
         }
 
         List<IdpRole> roles = user.getRoles();
