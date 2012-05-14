@@ -77,9 +77,6 @@ public class IdpUser {
      */
     private String actionToken;
 
-    /**
-     * Default constructor
-     */
     public IdpUser() {
         this.status = IdpUserState.CREATED;
     }
