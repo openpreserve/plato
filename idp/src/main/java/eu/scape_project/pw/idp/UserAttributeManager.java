@@ -65,14 +65,16 @@ public class UserAttributeManager implements AttributeManager {
                     object = user.getLastName();
                 } else if (attributeKey.equals("email")) {
                     object = user.getEmail();
-                } else if (attributeKey.equals("roles")) {
-                    List<IdpRole> roles = user.getRoles();
-                    ArrayList<String> roleNames = new ArrayList<String>(roles.size());
-                    for (IdpRole role : roles) {
-                        roleNames.add(role.getRoleName());
-                    }
-                    attributes.put(attributeKey, roleNames);
                 }
+                // else if (attributeKey.equals("userRoles")) {
+                // List<IdpRole> roles = user.getRoles();
+                // ArrayList<String> roleNames = new
+                // ArrayList<String>(roles.size());
+                // for (IdpRole role : roles) {
+                // roleNames.add(role.getRoleName());
+                // }
+                // attributes.put(attributeKey, roleNames);
+                // }
 
                 if (object != null) {
                     attributes.put(attributeKey, object);

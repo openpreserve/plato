@@ -5,10 +5,11 @@
 		class="org.picketlink.identity.federation.web.handlers.saml2.SAML2LogOutHandler" />
 	<Handler
 		class="org.picketlink.identity.federation.web.handlers.saml2.SAML2AuthenticationHandler" />
-	<!-- <Handler class="org.picketlink.identity.federation.web.handlers.saml2.SAML2AttributeHandler"> 
-		<Option Key="ATTRIBUTE_KEYS" Value="username,firstName,lastName,email,roles" 
-		/> <Option Key="ATTRIBUTE_MANAGER" Value="eu.scape_project.pw.idp.UserAttributeManager" 
-		/> </Handler> -->
+	<Handler
+		class="org.picketlink.identity.federation.web.handlers.saml2.SAML2AttributeHandler">
+		<Option Key="ATTRIBUTE_KEYS" Value="username,firstName,lastName,email,userRoles" />
+		<Option Key="ATTRIBUTE_MANAGER" Value="eu.scape_project.pw.idp.UserAttributeManager" />
+	</Handler>
 	<Handler
 		class="org.picketlink.identity.federation.web.handlers.saml2.RolesGenerationHandler" />
 </Handlers>

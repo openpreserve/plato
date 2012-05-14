@@ -12,11 +12,7 @@ package eu.planets_project.pp.plato.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
+//@Entity
 public class Role implements Serializable, Comparable<Role> {
 
     /**
@@ -24,19 +20,19 @@ public class Role implements Serializable, Comparable<Role> {
      */
     private static final long serialVersionUID = 2613722499444439263L;
 
-    @Id
-    @GeneratedValue
-    private int id;
-    
-    private String name;  
-    
-    public int getId() {
-        return id;
-    }
+    // @Id
+    // @GeneratedValue
+    // private int id;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String name;
+
+    // public int getId() {
+    // return id;
+    // }
+    //
+    // public void setId(int id) {
+    // this.id = id;
+    // }
 
     public String getName() {
         return name;
@@ -45,15 +41,15 @@ public class Role implements Serializable, Comparable<Role> {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public int compareTo(Role r) {
         if (r != null && r.getName().equals(name)) {
             return 0;
         }
         return 1;
     }
-    
+
     public boolean equals(Object o) {
-        return (o instanceof Role && ((Role)o).getName().equals(name));
+        return (o instanceof Role && ((Role) o).getName().equals(name));
     }
 }
