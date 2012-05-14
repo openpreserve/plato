@@ -17,19 +17,18 @@ public class ReCaptchaValidator implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        
+
         String remoteAddr = request.getRemoteAddr();
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
         reCaptcha.setPrivateKey("6Lclf9ASAAAAAGMQlB8N-6a-UeKKXH6eMuB1hnEH");
-        
+
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");
         ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
 
         if (reCaptchaResponse.isValid()) {
             return;
-        }
-        else {
+        } else {
             throw new ValidatorException(new FacesMessage("Invalid ReCaptcha text. Please try again."));
         }
     }

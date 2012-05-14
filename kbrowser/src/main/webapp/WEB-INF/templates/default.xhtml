@@ -1,7 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<title>The SCAPE Planning Suite</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -52,14 +55,17 @@
 	<div id="main-div">
 		<div id="header">
 			<div id="bear">
-				<a href="#{request.contextPath}/"> <h:graphicImage library="gfx" name="plato-logo.png" height="60px"
-						alt="Plato 4" />
+				<a href="#{request.contextPath}/"> <h:graphicImage library="gfx"
+						name="plato-logo.png" height="60px" alt="Plato 4" />
 				</a>
 			</div>
 			<div id="scape">
 				<h:link value="feedback" outcome="/feedback.jsf" />
-				<a href="http://www.scape-project.eu/" target="_blank"> <h:graphicImage library="gfx" name="scape-logo.png"
-						height="60px" alt="SCAPE" /></a>
+				<div id="current-user">
+					<h:outputText value="#{user.getUsername()}" />
+				</div>
+				<a href="http://www.scape-project.eu/" target="_blank"> <h:graphicImage
+						library="gfx" name="scape-logo.png" height="60px" alt="SCAPE" /></a>
 			</div>
 		</div>
 
@@ -89,13 +95,16 @@
 	</div>
 
 	<div id="footer">
-		(c) 2006-2012 Institute of Software Technology and Interactive Systems: &#171; <a
-			href="mailto:plato@ifs.tuwien.ac.at?subject=[SCAPE-PlanningSuite:]"> off-ice bears </a> &#187;
+		(c) 2006-2012 Institute of Software Technology and Interactive
+		Systems: &#171; <a
+			href="mailto:plato@ifs.tuwien.ac.at?subject=[SCAPE-PlanningSuite:]">
+			off-ice bears </a> &#187;
 	</div>
 
 	<h:outputStylesheet library="css" name="screen.css" target="head" />
 	<h:outputStylesheet library="css" name="menu.css" target="head" />
-	<h:outputStylesheet library="css" name="content-treetable.css" target="head" />
+	<h:outputStylesheet library="css" name="content-treetable.css"
+		target="head" />
 
 </h:body>
 </html>

@@ -21,15 +21,16 @@ import org.slf4j.Logger;
  * </pre>
  */
 public class Resources {
-  // use @SuppressWarnings to tell IDE to ignore warnings about field not being
-  // referenced directly
-  @SuppressWarnings("unused")
-  @Produces
-  @PersistenceContext
-  private EntityManager em;
+    // use @SuppressWarnings to tell IDE to ignore warnings about field not
+    // being
+    // referenced directly
+    @SuppressWarnings("unused")
+    @Produces
+    @PersistenceContext
+    private EntityManager em;
 
-  @Produces
-  public Logger createLogger(InjectionPoint injectionPoint) {
-    return org.slf4j.LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
-  }
+    @Produces
+    public Logger createLogger(InjectionPoint injectionPoint) {
+        return org.slf4j.LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
+    }
 }
