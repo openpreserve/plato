@@ -19,6 +19,7 @@
 	</properties>
 
 	<build>
+		<finalName>idp</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>

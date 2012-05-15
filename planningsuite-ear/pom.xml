@@ -12,6 +12,7 @@
   <packaging>ear</packaging>
   
   <build>
+  	  <finalName>planningsuite-ear</finalName>
       <plugins>
           <plugin>
               <artifactId>maven-resources-plugin</artifactId>
