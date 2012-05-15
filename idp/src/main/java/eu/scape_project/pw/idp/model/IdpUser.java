@@ -6,20 +6,25 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+
+import eu.scape_project.pw.idp.PasswordHashingEntityListener;
 
 /**
  * User object used in the identity provider.
  */
 @Entity
+@EntityListeners(PasswordHashingEntityListener.class)
 public class IdpUser {
     @Id
     @GeneratedValue
@@ -51,7 +56,13 @@ public class IdpUser {
     /**
      * Password of the user.
      */
+    @Transient
     @Size(min = 6)
+    private String plainPassword;
+
+    /**
+     * Password hash of the user.
+     */
     private String password;
 
     /**
@@ -87,7 +98,7 @@ public class IdpUser {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getUsername() {
         return username;
     }
@@ -120,11 +131,19 @@ public class IdpUser {
         this.email = email;
     }
 
+    public String getPlainPassword() {
+        return plainPassword;
+    }
+
+    public void setPlainPassword(final String password) {
+        this.plainPassword = password;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(final String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

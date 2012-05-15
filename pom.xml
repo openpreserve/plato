@@ -16,7 +16,6 @@
     <module>minimee-view</module>
     <module>planningsuite-ear</module>
 	<module>idp</module>
-    <module>sp-test2</module>
   </modules>
 
 <developers>

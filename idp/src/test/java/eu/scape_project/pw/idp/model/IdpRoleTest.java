@@ -112,7 +112,7 @@ public class IdpRoleTest {
     private IdpUser createUser(String username) {
         IdpUser user = new IdpUser();
         user.setUsername(username);
-        user.setPassword("mypass");
+        user.setPlainPassword("mypass");
         user.setFirstName("Max");
         user.setLastName("Mustermann");
         user.setEmail("max@mustermann.at");

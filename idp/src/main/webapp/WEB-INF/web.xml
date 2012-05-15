@@ -78,8 +78,6 @@
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>admin</role-name>
-			<role-name>user</role-name>
 			<role-name>authenticated</role-name>
 		</auth-constraint>
 	</security-constraint>
@@ -92,17 +90,9 @@
 			<form-login-page>/login.jsf</form-login-page>
 			<form-error-page>/jsp/login-error.jsp</form-error-page>
 		</form-login-config>
-	<!-- <form-login-config> <form-login-page>/jsp/login.jsp</form-login-page> 
-		<form-error-page>/jsp/login-error.jsp</form-error-page> </form-login-config> -->
 	</login-config>
 
 	<!-- Security roles referenced by this web application -->
-	<security-role>
-		<role-name>admin</role-name>
-	</security-role>
-	<security-role>
-		<role-name>user</role-name>
-	</security-role>
 	<security-role>
 		<role-name>authenticated</role-name>
 	</security-role>

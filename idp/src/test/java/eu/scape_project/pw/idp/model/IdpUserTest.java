@@ -49,7 +49,7 @@ public class IdpUserTest {
 
         IdpUser user = new IdpUser();
         user.setUsername("testUser");
-        user.setPassword("mypass");
+        user.setPlainPassword("mypass");
         user.setFirstName("Max");
         user.setLastName("Mustermann");
         user.setEmail("max@mustermann.at");
@@ -69,7 +69,7 @@ public class IdpUserTest {
 
         assertNotNull(fetchedUser);
         assertEquals(user.getUsername(), fetchedUser.getUsername());
-        assertEquals(user.getPassword(), fetchedUser.getPassword());
+        assertEquals(user.getPlainPassword(), fetchedUser.getPlainPassword());
         assertEquals(user.getFirstName(), fetchedUser.getFirstName());
         assertEquals(user.getLastName(), fetchedUser.getLastName());
         assertEquals(user.getEmail(), fetchedUser.getEmail());
@@ -96,7 +96,7 @@ public class IdpUserTest {
 
         IdpUser user = new IdpUser();
         user.setUsername("testUser");
-        user.setPassword("mypass");
+        user.setPlainPassword("mypass");
         user.setFirstName("Max");
         user.setLastName("Mustermann");
         user.setEmail("max@mustermann.at");
@@ -115,7 +115,7 @@ public class IdpUserTest {
         em.getTransaction().begin();
         user.getRoles().remove(adminRole);
         user.setFirstName("Markus");
-        user.setPassword("newPassword");
+        user.setPlainPassword("newPassword");
         em.persist(user);
         em.getTransaction().commit();
 
@@ -125,7 +125,7 @@ public class IdpUserTest {
 
         assertNotNull(fetchedUser);
         assertEquals(user.getUsername(), fetchedUser.getUsername());
-        assertEquals(user.getPassword(), fetchedUser.getPassword());
+        assertEquals(user.getPlainPassword(), fetchedUser.getPlainPassword());
         assertEquals(user.getFirstName(), fetchedUser.getFirstName());
         assertEquals(user.getLastName(), fetchedUser.getLastName());
         assertEquals(user.getEmail(), fetchedUser.getEmail());

@@ -63,6 +63,10 @@ public class SessionScopeProducer implements Serializable {
         // Get userprincipal
         Principal principal = request.getUserPrincipal();
 
+        if (principal == null) {
+            return null;
+        }
+
         // Read user from DB
         User user = getUserFromDB(principal.getName());
         // Create new user object
@@ -93,6 +97,7 @@ public class SessionScopeProducer implements Serializable {
                 }
             }
 
+            // Roles are stored with key null
             List<Object> roleNames = (List<Object>) attributes.get(null);
             if (roleNames != null) {
                 ArrayList<Role> roles = new ArrayList<Role>(roleNames.size());
@@ -164,7 +169,8 @@ public class SessionScopeProducer implements Serializable {
         Organisation organisation = new Organisation();
         organisation.setName(username);
         user.setOrganisation(organisation);
-
+        em.persist(organisation);
+        em.persist(user);
         return user;
     }
 }

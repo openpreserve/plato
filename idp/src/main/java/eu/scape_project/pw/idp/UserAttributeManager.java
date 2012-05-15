@@ -1,7 +1,6 @@
 package eu.scape_project.pw.idp;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpSession;
 
+import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.picketlink.identity.federation.core.interfaces.AttributeManager;
 import org.slf4j.Logger;
 
-import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 

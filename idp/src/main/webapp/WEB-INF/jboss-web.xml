@@ -17,8 +17,8 @@
 		</param>
 		<param>
 			<param-name>attributeList</param-name>
-			<param-value>username,firstName,lastName,email,userRoles</param-value>
+			<param-value>username,firstName,lastName,email,userRoles
+			</param-value>
 		</param>
 	</valve>
-
 </jboss-web>

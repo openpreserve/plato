@@ -50,7 +50,7 @@
 				<br />
 				<h:outputLabel for="password" value="Password:" styleClass="label-long"/>
 				<h:inputSecret id="password" autocomplete="off" redisplay="true"
-					value="#{addUser.user.password}" required="true"
+					value="#{addUser.user.plainPassword}" required="true"
 					requiredMessage="Please provide a password">
 					<f:validator validatorId="ConfirmPasswordValidator" />
 					<f:attribute name="pwConfirm"

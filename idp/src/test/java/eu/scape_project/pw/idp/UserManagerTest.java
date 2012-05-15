@@ -50,7 +50,7 @@ public class UserManagerTest {
         submittedUser.setFirstName("lastname");
         submittedUser.setEmail("email");
         submittedUser.setUsername("username");
-        submittedUser.setPassword("password");
+        submittedUser.setPlainPassword("password");
         userManager.addUser(submittedUser);
         
         // -- assert --
@@ -78,7 +78,7 @@ public class UserManagerTest {
         submittedUser.setFirstName("lastname");
         submittedUser.setEmail("email");
         submittedUser.setUsername("username");
-        submittedUser.setPassword("password");
+        submittedUser.setPlainPassword("password");
         userManager.addUser(submittedUser);
         
         // -- assert --
