@@ -6,18 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.servlet.http.HttpSession;
 
-import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.picketlink.identity.federation.core.interfaces.AttributeManager;
-import org.slf4j.Logger;
 
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
@@ -27,8 +23,6 @@ import eu.scape_project.pw.idp.model.IdpUserState;
  */
 @Stateless
 public class UserAttributeManager implements AttributeManager {
-    @Inject
-    private Logger log;
 
     /**
      * @see AttributeManager#getAttributes(Principal, List)
@@ -88,10 +82,5 @@ public class UserAttributeManager implements AttributeManager {
         }
 
         return attributes;
-    }
-
-    @Override
-    public String toString() {
-        return UserAttributeManager.class.getName();
     }
 }

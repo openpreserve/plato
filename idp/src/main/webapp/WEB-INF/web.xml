@@ -88,7 +88,7 @@
 		<realm-name>PicketLink IDP Application</realm-name>
 		<form-login-config>
 			<form-login-page>/login.jsf</form-login-page>
-			<form-error-page>/jsp/login-error.jsp</form-error-page>
+			<form-error-page>/login-error.jsf</form-error-page>
 		</form-login-config>
 	</login-config>
 

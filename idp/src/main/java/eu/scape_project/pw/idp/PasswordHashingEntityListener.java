@@ -7,6 +7,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import eu.scape_project.pw.idp.model.IdpUser;
 
+/**
+ * EntityListener class that hashes the plaintext password befor storing the
+ * user into the DB.
+ */
 public class PasswordHashingEntityListener {
 
     /**

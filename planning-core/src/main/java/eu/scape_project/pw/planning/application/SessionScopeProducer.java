@@ -97,6 +97,14 @@ public class SessionScopeProducer implements Serializable {
                 }
             }
 
+            List<Object> emailList = (List<Object>) attributes.get("email");
+            if (emailList != null) {
+                if (emailList.size() > 0) {
+                    String email = (String) emailList.get(0);
+                    user.setEmail(email);
+                }
+            }
+
             // Roles are stored with key null
             List<Object> roleNames = (List<Object>) attributes.get(null);
             if (roleNames != null) {

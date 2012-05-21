@@ -1,6 +1,7 @@
 package eu.scape_project.pw.idp.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
@@ -85,8 +87,22 @@ public class IdpUser {
      */
     private String actionToken;
 
+    private Date dateCreated;
+
+    /**
+     * Constructor for IdpUser.
+     */
     public IdpUser() {
         this.status = IdpUserState.CREATED;
+    }
+
+    /**
+     * Fills the date created before persisting the object.
+     */
+    @SuppressWarnings("unused")
+    @PrePersist
+    private void fillDateCreated() {
+        dateCreated = new Date();
     }
 
     // ---------- getter/setter ----------
@@ -174,4 +190,9 @@ public class IdpUser {
     public void setActionToken(String actionToken) {
         this.actionToken = actionToken;
     }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
 }

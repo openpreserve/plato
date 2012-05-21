@@ -20,6 +20,9 @@ import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 
+/**
+ * Class responsible for managing users in the identity provider.
+ */
 @Stateless
 public class UserManager {
     @Inject
@@ -27,29 +30,30 @@ public class UserManager {
 
     @Inject
     private Logger log;
-    
+
     private final String idpUserStandardRoleName = "authenticated";
 
     /**
      * Method responsible for adding a new user.
      * 
-     * @param user User to add.
+     * @param user
+     *            User to add.
      */
     public void addUser(IdpUser user) {
         // Set standard role
         IdpRole role = null;
         try {
-          role = em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
-            .setParameter("rolename", idpUserStandardRoleName).getSingleResult();
+            role = em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
+                .setParameter("rolename", idpUserStandardRoleName).getSingleResult();
         } catch (NoResultException e) {
-          role = new IdpRole();
-          role.setRoleName(idpUserStandardRoleName);
+            role = new IdpRole();
+            role.setRoleName(idpUserStandardRoleName);
         }
 
         List<IdpRole> roles = user.getRoles();
         roles.add(role);
-        user.setRoles(roles);        
-        
+        user.setRoles(roles);
+
         // create a user actionToken which is needed for activation
         user.setActionToken(UUID.randomUUID().toString());
         em.persist(user);
@@ -89,8 +93,10 @@ public class UserManager {
      * Method responsible for sending a email to the user, including a link to
      * activate his user account.
      * 
-     * @param user User the activation mail should be sent to
-     * @param serverString Name and port of the server the user was added.
+     * @param user
+     *            User the activation mail should be sent to
+     * @param serverString
+     *            Name and port of the server the user was added.
      * @return True if activation email was sent. False otherwise
      */
     public boolean sendActivationMail(IdpUser user, String serverString) {
@@ -114,7 +120,7 @@ public class UserManager {
             message.setFrom(new InternetAddress(mailProps.getProperty("FROM")));
             message.setRecipient(RecipientType.TO, new InternetAddress(mailProps.getProperty("TO")));
             message.setSubject("Please Confirm your Planningsuite user account");
-            
+
             StringBuilder builder = new StringBuilder();
             builder.append("Dear " + user.getFirstName() + " " + user.getLastName() + ", \n\n");
             builder.append("Please use the following link to confirm your Planningsuite user account: \n");

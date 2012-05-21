@@ -70,8 +70,10 @@ public class IdpUserTest {
         assertNotNull(fetchedUser);
         assertEquals(user.getUsername(), fetchedUser.getUsername());
         assertEquals(user.getPlainPassword(), fetchedUser.getPlainPassword());
+        assertEquals(user.getPassword(), fetchedUser.getPassword());
         assertEquals(user.getFirstName(), fetchedUser.getFirstName());
         assertEquals(user.getLastName(), fetchedUser.getLastName());
+        assertEquals(user.getFullName(), fetchedUser.getFullName());
         assertEquals(user.getEmail(), fetchedUser.getEmail());
         assertEquals(user.getStatus(), fetchedUser.getStatus());
         assertEquals(user.getActionToken(), fetchedUser.getActionToken());
@@ -118,7 +120,7 @@ public class IdpUserTest {
         user.setPlainPassword("newPassword");
         em.persist(user);
         em.getTransaction().commit();
-
+        
         // see if update was successful
         IdpUser fetchedUser = (IdpUser) em.createQuery("SELECT u FROM IdpUser u WHERE u.username = :username")
             .setParameter("username", "testUser").getSingleResult();
@@ -126,8 +128,10 @@ public class IdpUserTest {
         assertNotNull(fetchedUser);
         assertEquals(user.getUsername(), fetchedUser.getUsername());
         assertEquals(user.getPlainPassword(), fetchedUser.getPlainPassword());
+        assertEquals(user.getPassword(), fetchedUser.getPassword());
         assertEquals(user.getFirstName(), fetchedUser.getFirstName());
         assertEquals(user.getLastName(), fetchedUser.getLastName());
+        assertEquals(user.getFullName(), fetchedUser.getFullName());
         assertEquals(user.getEmail(), fetchedUser.getEmail());
         assertEquals(user.getStatus(), fetchedUser.getStatus());
         assertEquals(user.getActionToken(), fetchedUser.getActionToken());
