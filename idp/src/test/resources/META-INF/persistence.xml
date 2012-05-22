@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+  <persistence-unit name="platodbTest" >
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    
+    <class>eu.scape_project.pw.idp.model.IdpUser</class>
+    <class>eu.scape_project.pw.idp.model.IdpRole</class>
+    <class>eu.scape_project.pw.idp.model.IdpUserState</class>
+    
+    <properties>
+      <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/platodb7test?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8" />
+      <property name="hibernate.connection.username" value="plato" />
+      <property name="hibernate.connection.password" value="plato" />
+      <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+      <property name="hibernate.show_sql" value="false" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+    </properties>
+  </persistence-unit>
+</persistence>

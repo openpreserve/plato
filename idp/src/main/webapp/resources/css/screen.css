@@ -3,7 +3,7 @@ body {
     margin-right: auto;
     padding: 0px;
     background:  #DADADA;
-    font-family: Verdana, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     font-size: 0.9em;
     /*width: 1024px;*/
 }
@@ -21,12 +21,20 @@ body {
 	background: white;
 }
 #header {
+	/*
 	width:996px;
 	margin-left:auto;
 	margin-right:auto;
 	margin-bottom:auto;
 	margin-top:0px;
 	/* height: 100%;*/
+	font-family: 'Audiowide', cursive;
+	font-size: 30px;
+	color: #1B81A3;
+	text-align: center;
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #bear {
@@ -40,13 +48,8 @@ body {
 }
 
 #scape {
-	width: 400px;
-	height: 60px;
 	/*background:red;*/
 	/* display:inline-block; */
-	text-align:right;
-	padding: 0;
-	margin: 0 0 0 600px;
 }
 
 #scape a {
@@ -64,10 +67,16 @@ body {
 }
 
 #content {
-	width:996px;
+	width:630px;
 	margin:auto;
-	margin-top: 20px;
-   /* width: 1024px;*/
+	margin-top: 10px;
+	padding: 10px;	
+	-moz-box-shadow: 0 0 5px #888;
+	-webkit-box-shadow: 0 0 5px#888;
+	box-shadow: 0 0 5px #888;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: white;
 }
 
 #sidebar {
@@ -88,7 +97,7 @@ body {
     text-align: center;
     color: #666666;
     font-size: 0.85em;
-    padding: 3em 0 0 0;
+    padding: 1em 0 0 0;
 }
 
 #title {
@@ -98,9 +107,43 @@ body {
 	padding-top: 0px;
 }
 
+.submitButton {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFF;
+    padding: 4px 30px 4px 30px;
+    border: none;
+    
+    margin-right: 10px;
+    margin-top: 5px;
+ 
+    text-shadow: 0px 1px 1px #666;
+    text-decoration: none;
+ 
+    -moz-box-shadow: 0 1px 3px #111;
+    -webkit-box-shadow: 0 1px 3px #111;
+    box-shadow: 0 1px 3px #111;
+ 
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+ 
+	background: #3d9bbb; /* Old browsers */
+	background: -moz-linear-gradient(top,  #3d9bbb 0%, #1b81a3 100%, #1b81a3 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3d9bbb), color-stop(100%,#1b81a3), color-stop(100%,#1b81a3)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #3d9bbb 0%,#1b81a3 100%,#1b81a3 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #3d9bbb 0%,#1b81a3 100%,#1b81a3 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #3d9bbb 0%,#1b81a3 100%,#1b81a3 100%); /* IE10+ */
+	background: linear-gradient(top,  #3d9bbb 0%,#1b81a3 100%,#1b81a3 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3d9bbb', endColorstr='#1b81a3',GradientType=0 ); /* IE6-9 */
+ 
+    cursor: pointer;
+}
 
-
-
+.submitButton:hover {
+	color: #99D4E7;
+}
 
 
 
@@ -145,9 +188,10 @@ stuff to reuse in different components
 }
 
 h1{
-	border-bottom: 1px solid #E6E6E6;
-	color: #7F7F7F;
+	/* border-bottom: 1px solid #E6E6E6; */
+	color: #1B81A3;
 	font-size: 22px;
+	margin-top: 0;
 }
 
 h2 {
@@ -197,7 +241,7 @@ fieldset.size-full {
 	padding-top:0px;
 }
 .label {
-	width:30%;
+	width: 90px;
 	/*position: relative;
 	display: inline-block; 
 	top: 0;
@@ -210,6 +254,17 @@ fieldset.size-full {
 	float:left;
 	padding-right:5px;
 }
+
+.label-long {
+	width: 170px;
+	text-align: right;
+	margin-left:0px;
+	margin-right:0px;
+	margin-top: 0px;
+	float:left;
+	padding-right:5px;
+}
+
 .input {
 	display: inline-block;
 	width:60%;
@@ -456,4 +511,8 @@ div.warning {
     border-radius: 5px;
     box-shadow: 0px 2px 10px 2px #888;
     font-family: Helvetica;
+}
+
+.rf-msgs-sum {
+	color: red;
 }

@@ -24,48 +24,51 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
-//FIXME this needs to be outjected by a component
-//@Name("user")
-//@Scope(ScopeType.SESSION)
+// FIXME this needs to be outjected by a component
+// @Name("user")
+// @Scope(ScopeType.SESSION)
 public class User implements Serializable {
     private static final long serialVersionUID = 3842938596189922641L;
 
     @Id
     @GeneratedValue
     private long id;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String username;
-    
+
+    @Transient
     private String firstName;
-    
+
+    @Transient
     private String lastName;
-    
+
+    @Transient
     private String email;
-    
-    private String password;
-    
+
     @Transient
     private String fullName;
-    
+
     // @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     // @ManyToMany(mappedBy = "users")
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
-                        CascadeType.REFRESH },targetEntity=Role.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    // @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+    // CascadeType.REFRESH}, targetEntity = Role.class, fetch = FetchType.EAGER)
+    // @JoinTable(name = "user_role", joinColumns = @JoinColumn(name =
+    // "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+    @Transient
     private List<Role> roles = new ArrayList<Role>();
-    
+
     @ManyToOne
     private Organisation organisation;
-    
+
     public String getFullName() {
         return (firstName + " " + lastName);
     }
-    
+
     public boolean hasRole(String role) {
         for (Role r : roles) {
             if (r.getName().equals(role)) {
@@ -74,8 +77,7 @@ public class User implements Serializable {
         }
         return false;
     }
-    
-    
+
     public boolean isAdmin() {
         for (Role r : roles) {
             if ("admin".equals(r.getName())) {
@@ -84,7 +86,7 @@ public class User implements Serializable {
         }
         return false;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -93,14 +95,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }  
-    
     public Organisation getOrganisation() {
         return organisation;
     }
@@ -148,20 +142,12 @@ public class User implements Serializable {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    
+
     /*
-    public User clone() {
-        User u = new User();
-        u.setEmail(email);
-        u.setFirstName(firstName);
-        u.setLastName(lastName);
-        u.setOrganisation(organisation);
-        u.setPassword(password);
-        List<Role> userroles = new ArrayList<Role>();
-        userroles.addAll(roles);
-        u.setRoles(userroles);
-        u.setUsername(username);
-        return u;
-    }
-    */
+     * public User clone() { User u = new User(); u.setEmail(email);
+     * u.setFirstName(firstName); u.setLastName(lastName);
+     * u.setOrganisation(organisation); u.setPassword(password); List<Role>
+     * userroles = new ArrayList<Role>(); userroles.addAll(roles);
+     * u.setRoles(userroles); u.setUsername(username); return u; }
+     */
 }

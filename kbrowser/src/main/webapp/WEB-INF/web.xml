@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
- <display-name>planningcenter</display-name>
+ <display-name>Plato KBrowser</display-name>
  
  <session-config>
     <session-timeout>
@@ -42,4 +42,22 @@
   <welcome-file>default.htm</welcome-file>
   <welcome-file>default.jsp</welcome-file>
  </welcome-file-list>
+ 
+ 	<!-- Define a Security Constraint on this Application -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>KBrowser</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>authenticated</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-role>
+		<description>
+			The role that is required to log in to KBrowser
+    	</description>
+		<role-name>authenticated</role-name>
+	</security-role>
 </web-app>

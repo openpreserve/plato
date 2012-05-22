@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:rich="http://richfaces.org/rich"
-	xmlns:a4j="http://richfaces.org/a4j" template="/WEB-INF/templates/default.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
+	<ui:define name="title">SCAPE-PW Identity provider</ui:define>
 
 	<ui:define name="content">
+	
+		<h1>Sign in</h1>
+	
+		<form action="j_security_check" method="post">
+			<h:outputLabel for="j_username" value="Username:" styleClass="label"/>
+			<h:inputText id="j_username" autocomplete="off" label="Username"/> <br/>
+			<h:outputLabel for="j_password" value="Password:" styleClass="label"/>
+			<h:inputSecret id="j_password" autocomplete="off" label="Password"/> <br/>
+			<h:commandButton type="submit" value="Login" class="submitButton"/>
+			<h:commandButton type="reset" value="Reset" class="submitButton"/>
+		</form>
 
-Test	
+		<br/>
+		<h:outputLink value="addUser.jsf">Create an account</h:outputLink>
 
 	</ui:define>
 </ui:composition>

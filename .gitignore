@@ -4,4 +4,6 @@
 target/
 .svn/
 .DS_Store
+.checkstyle
 *.jsfdia
+*~

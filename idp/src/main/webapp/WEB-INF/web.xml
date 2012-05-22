@@ -5,25 +5,24 @@
 	version="3.0">
 
 	<display-name>IDP</display-name>
-	<description>
-    Identity provider
-  </description>
+	<description>Identity provider</description>
 
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>server</param-value>
 	</context-param>
-
 	<context-param>
 		<param-name>org.richfaces.SKIN</param-name>
 		<param-value>blueSky</param-value>
 	</context-param>
-
 	<context-param>
 		<param-name>org.richfaces.CONTROL_SKINNING</param-name>
 		<param-value>enable</param-value>
 	</context-param>
-
 	<context-param>
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
 		<param-value>true</param-value>
@@ -36,12 +35,9 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
+		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
-	<context-param>
-		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Production</param-value>
-	</context-param>
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -51,7 +47,23 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
-	<!-- Define a security constraint that gives unlimted access to images -->
+	<!-- Allow full access to signup-page -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All Access</web-resource-name>
+			<url-pattern>/addUser.jsf</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<!-- Allow full access to activation-page -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All Access</web-resource-name>
+			<url-pattern>/activateUser.jsf</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<!-- Define a security constraint that gives unlimited access to images -->
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Resources</web-resource-name>
@@ -62,13 +74,11 @@
 	<!-- Define a Security Constraint on this Application -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Manager command</web-resource-name>
+			<web-resource-name>IDP</web-resource-name>
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>manager</role-name>
-			<role-name>Sales</role-name>
-			<role-name>Employee</role-name>
+			<role-name>authenticated</role-name>
 		</auth-constraint>
 	</security-constraint>
 
@@ -77,24 +87,14 @@
 		<auth-method>FORM</auth-method>
 		<realm-name>PicketLink IDP Application</realm-name>
 		<form-login-config>
-			<form-login-page>/login.xhtml</form-login-page>
-			<form-error-page>/jsp/login-error.jsp</form-error-page>
+			<form-login-page>/login.jsf</form-login-page>
+			<form-error-page>/login-error.jsf</form-error-page>
 		</form-login-config>
-		<!-- <form-login-config> <form-login-page>/jsp/login.jsp</form-login-page> 
-			<form-error-page>/jsp/login-error.jsp</form-error-page> </form-login-config> -->
 	</login-config>
 
 	<!-- Security roles referenced by this web application -->
 	<security-role>
-		<role-name>manager</role-name>
+		<role-name>authenticated</role-name>
 	</security-role>
-	<security-role>
-		<role-name>Sales</role-name>
-	</security-role>
-	<security-role>
-		<role-name>Employee</role-name>
-	</security-role>
-
-
 
 </web-app>
