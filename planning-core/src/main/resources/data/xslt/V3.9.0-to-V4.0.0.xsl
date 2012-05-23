@@ -4,6 +4,9 @@
    ==========================================================
    Changes:
       * changes default namespace to ifs.tuwien.ac.at/dp/plato/
+      * criterion has now an ID, other content is only there for documentation
+      * rename subject to evaluationScope
+      * remove empty value elements of *Result
       
    ==========================================================
 
@@ -26,7 +29,8 @@
     xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-4.0.0.xsd"
     xmlns:oldwdt="http://www.planets-project.eu/wdt"
     xmlns:oldplato="http://www.planets-project.eu/plato"
-    exclude-result-prefixes="java xalan ">
+    exclude-result-prefixes="java xalan oldplato oldwdt"
+    >
 
 <xsl:output method="xml" indent="yes" encoding="UTF-8" />
 <xsl:preserve-space elements="*"/>
@@ -53,6 +57,7 @@
 </xsl:template>
 
 <xsl:template match="oldplato:criterion">
+	<xsl:if test="oldplato:property/oldplato:category/text()">
 	<xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
 	    <xsl:variable name="schema" select="substring-before(concat(oldplato:property/oldplato:category, ':'),':')"/>
 	    <xsl:variable name="part">
@@ -72,6 +77,7 @@
 		   	
       <xsl:apply-templates select="*"/>
 	</xsl:element>
+	</xsl:if>
 </xsl:template>
 
 <xsl:template name="append_non_empty" >
@@ -82,7 +88,21 @@
 		<xsl:value-of select="concat($prefix, $content, $suffix)"></xsl:value-of>
 	</xsl:if>
 </xsl:template>
- 
 
+<xsl:template match="oldplato:subject">
+	<xsl:if test="text() and text() != 'null'">
+		<xsl:element name="evaluationScope" namespace="http://ifs.tuwien.ac.at/dp/plato">
+				<xsl:apply-templates />
+		</xsl:element>
+	</xsl:if>
+</xsl:template>
+ 
+<xsl:template match="*[substring(name(), string-length(name())-5 ) = 'Result']/oldplato:value" >
+	<xsl:if test="text()">
+		<xsl:element name="value" namespace="http://ifs.tuwien.ac.at/dp/plato">
+			<xsl:value-of select="text()"></xsl:value-of>
+		</xsl:element>
+	</xsl:if>
+</xsl:template>
 
 </xsl:stylesheet>

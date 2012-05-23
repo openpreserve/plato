@@ -7,7 +7,13 @@
  Responsible partner:  TUWIEN - Vienna University of Technology, Department of Software Technology  and Interactive Systems
  Further information:
  www.planets-project.eu
- www.ifs.tuwien.ac.at/dp -->
+ www.ifs.tuwien.ac.at/dp 
+ 
+ Changes in V4.0.0:
+ 
+ - evaluationScopeType  optional " minOccurs="0"
+ 
+ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns="http://ifs.tuwien.ac.at/dp/plato"
 	targetNamespace="http://ifs.tuwien.ac.at/dp/plato"  
@@ -664,7 +670,7 @@
 			<xs:element name="propertyId" type="xs:string"/>
 			<xs:element name="name" type="xs:string"/>
 			<xs:element name="description" type="maxLengthString" minOccurs="0"/>
-			<xs:element name="subject" type="xs:string" />
+			<xs:element name="evaluationScope" type="evaluationScopeType" minOccurs="0"/>
 			<xs:sequence minOccurs="0">
 				<xs:choice>
 					<xs:element name="ordinalScale" type="ordinalScaleType"/>
@@ -706,6 +712,7 @@
     	</xs:sequence>
     </xs:complexType>
     
+   
 	<!-- scale definitions -->
 	
 	<xs:complexType name="ordinalScaleType">
@@ -942,6 +949,12 @@
 	</xs:complexType>	
 	
 	<!-- result type definitions -->
+	<xs:complexType abstract="true" name="resultType">
+		<xs:sequence>
+			<xs:element name="comment" type="hugeString" minOccurs="0"/>			
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="booleanResultType">
 		<xs:sequence>
 			<xs:element name="value" minOccurs="0" >
@@ -973,14 +986,14 @@
 	</xs:complexType>
 	<xs:complexType name="ordinalResultType">
 		<xs:sequence>
-			<xs:element name="value" type="xs:string" minOccurs="1" />
+			<xs:element name="value" type="xs:string" minOccurs="0" />
 			<xs:element name="comment" type="hugeString" minOccurs="0"/>			
 			<xs:element name="changelog" type="changeLogType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="positiveFloatResultType">
 		<xs:sequence>
-			<xs:element name="value" minOccurs="1" >
+			<xs:element name="value" minOccurs="0" >
 				<xs:simpleType>
 					<xs:restriction base="xs:double">
 						<xs:minInclusive value="0"/>
@@ -1000,7 +1013,7 @@
 	</xs:complexType>
 	<xs:complexType name="positiveIntegerResultType">
 		<xs:sequence>
-			<xs:element name="value" minOccurs="1">
+			<xs:element name="value" minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
 						<xs:minInclusive value="0"/>
@@ -1025,7 +1038,16 @@
 			<xs:element name="changelog" type="changeLogType"/>
 		</xs:sequence>
 	</xs:complexType>	
+    <xs:simpleType name="evaluationScopeType">
+    	<xs:restriction base="xs:string">
+    		<xs:enumeration value="ALTERNATIVE"/>
+    		<xs:enumeration value="OUTCOME"/>
+    	</xs:restriction>
+    </xs:simpleType>
+
+
    <!-- basic types -->	
+   
 	<xs:simpleType name="longString">
 		<xs:restriction base="xs:string">
 			<xs:maxLength value="5000"/>
