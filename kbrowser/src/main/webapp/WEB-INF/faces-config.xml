@@ -12,7 +12,7 @@
       
  <factory>
     <exception-handler-factory>
-        eu.scape_project.pw.planning.application.DefaultExceptionHandlerFactory    
+        eu.scape_project.planning.application.DefaultExceptionHandlerFactory    
     </exception-handler-factory>
  </factory>
 </faces-config>

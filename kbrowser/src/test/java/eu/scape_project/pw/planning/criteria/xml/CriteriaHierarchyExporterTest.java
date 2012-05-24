@@ -4,6 +4,7 @@ import junit.framework.TestSuite;
 
 import org.custommonkey.xmlunit.XMLTestCase;
 
+import eu.scape_project.planning.criteria.xml.CriteriaHierarchyExporter;
 import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.CriteriaNode;

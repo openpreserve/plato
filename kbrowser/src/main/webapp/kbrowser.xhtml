@@ -637,10 +637,10 @@
 											<h:outputScript>
 			                                    var transformerChartPoints = <h:outputText
 													value="#{kBrowser.transformerTable.chartDataPoints}"
-													converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+													converter="eu.scape_project.planning.criteria.converters.JsonConverter" />;
 			                                    var transformerIDs = <h:outputText
 													value="#{kBrowser.transformerTable.transformerMappingIdentification}"
-													converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+													converter="eu.scape_project.planning.criteria.converters.JsonConverter" />;
 			                                    plotTransformerValues('transformerChart', transformerChartPoints, transformerIDs,
 			                                                          <c:if test="#{kBrowser.selectedMetric == null}">'#{kBrowser.selectedMeasurableProperty.scale.unit}'</c:if>
 												<c:if test="#{kBrowser.selectedMetric != null}">'#{kBrowser.selectedMetric.scale.unit}'</c:if>);
@@ -1127,9 +1127,9 @@
 
 								<h:outputScript>
 							        var transformerChartPoints = <h:outputText value="#{kBrowser.transformerTable.chartDataPoints}"
-										converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+										converter="eu.scape_project.planning.criteria.converters.JsonConverter" />;
 							        var transformerIDs = <h:outputText value="#{kBrowser.transformerTable.transformerMappingIdentification}"
-										converter="eu.scape_project.pw.planning.criteria.converters.JsonConverter" />;
+										converter="eu.scape_project.planning.criteria.converters.JsonConverter" />;
 							        plotTransformerValues(transformerChartPoints, transformerIDs);
 			        			</h:outputScript>
 							</h:panelGroup>
