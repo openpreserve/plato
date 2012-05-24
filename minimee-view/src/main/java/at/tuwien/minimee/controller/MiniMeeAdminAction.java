@@ -32,7 +32,7 @@ import at.tuwien.minimee.registry.ToolRegistry;
 import at.tuwien.minimee.util.FileUtils;
 import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.measurement.ToolExperience;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FacesMessages;
 
 /**
  * provides administrative utilities for the MiniMEE engines and registry

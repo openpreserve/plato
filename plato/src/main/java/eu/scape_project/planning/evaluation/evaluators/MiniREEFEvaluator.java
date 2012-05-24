@@ -26,10 +26,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.tuwien.minireef.ResultSet;
-import eu.planets_project.pp.plato.evaluation.EvaluatorBase;
-import eu.planets_project.pp.plato.evaluation.EvaluatorException;
-import eu.planets_project.pp.plato.evaluation.IActionEvaluator;
-import eu.planets_project.pp.plato.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.EvaluatorBase;
+import eu.scape_project.planning.evaluation.EvaluatorException;
+import eu.scape_project.planning.evaluation.IActionEvaluator;
+import eu.scape_project.planning.evaluation.IStatusListener;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.scales.Scale;

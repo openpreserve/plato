@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.application.ErrorMessage;
+import eu.scape_project.planning.application.Messages;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.pw.planning.application.ErrorMessage;
-import eu.scape_project.pw.planning.application.Messages;
 
 @RequestScoped
 public class BugReport implements Serializable {

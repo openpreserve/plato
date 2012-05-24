@@ -13,6 +13,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import eu.scape_project.planning.xml.SchemaResolver;
+import eu.scape_project.planning.xml.StrictDefaultHandler;
+import eu.scape_project.planning.xml.ValidatingParserFactory;
+
 public class SchemaValidationTest {
 	
 	private ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory(); 

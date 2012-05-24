@@ -17,6 +17,7 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
@@ -25,12 +26,11 @@ import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.values.Value;
-import eu.scape_project.pw.planning.manager.PlanManager;
-import eu.scape_project.pw.planning.utils.MemoryTest;
-import eu.scape_project.pw.planning.utils.OS;
-import eu.scape_project.pw.planning.xml.ProjectExportAction;
-import eu.scape_project.pw.planning.xml.ProjectExporter;
-import eu.scape_project.pw.planning.xml.ProjectImporter;
+import eu.scape_project.planning.utils.MemoryTest;
+import eu.scape_project.planning.utils.OS;
+import eu.scape_project.planning.xml.ProjectExportAction;
+import eu.scape_project.planning.xml.ProjectExporter;
+import eu.scape_project.planning.xml.ProjectImporter;
 
 @Stateless
 public class AdminActions implements Serializable {

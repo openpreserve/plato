@@ -15,13 +15,13 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.PlanManager;
+import eu.scape_project.planning.manager.PlanManager.WhichProjects;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.pw.planning.manager.PlanManager;
-import eu.scape_project.pw.planning.manager.PlanManager.WhichProjects;
-import eu.scape_project.pw.planning.utils.FacesMessages;
-import eu.scape_project.pw.planning.utils.FileUtils;
-import eu.scape_project.pw.planning.xml.ProjectImporter;
+import eu.scape_project.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.xml.ProjectImporter;
 
 /**
  * controller for listing plans

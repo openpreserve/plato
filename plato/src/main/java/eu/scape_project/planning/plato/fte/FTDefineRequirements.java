@@ -31,7 +31,7 @@ import eu.scape_project.planning.plato.wf.DefineSampleObjects;
 import eu.scape_project.planning.plato.wf.IdentifyRequirements;
 import eu.scape_project.planning.plato.wf.beans.FastTrackTemplate;
 import eu.scape_project.planning.plato.wf.beans.FastTrackTemplates;
-import eu.scape_project.pw.planning.xml.ProjectImporter;
+import eu.scape_project.planning.xml.ProjectImporter;
 
 /**
  * @author Markus Hamm, Michael Kraxner

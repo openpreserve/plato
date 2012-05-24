@@ -9,11 +9,11 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
-import eu.scape_project.pw.planning.manager.PlanManager;
 
 /**
  * Backing bean to create new plans following the full workflow.

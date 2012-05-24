@@ -30,8 +30,8 @@ import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.xml.TreeLoader;
 import eu.scape_project.planning.criteria.xml.CriteriaHierarchyExporter;
+import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
@@ -42,9 +42,9 @@ import eu.scape_project.planning.model.measurement.Criterion;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
-import eu.scape_project.pw.planning.manager.CriteriaManager;
-import eu.scape_project.pw.planning.utils.Downloader;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.Downloader;
+import eu.scape_project.planning.utils.FacesMessages;
+import eu.scape_project.planning.xml.TreeLoader;
 
 /**
  * Class responsible for supporting the view property_hierarchy.xhtml, 

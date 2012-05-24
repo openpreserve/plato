@@ -9,6 +9,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
@@ -21,8 +23,6 @@ import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 import eu.scape_project.planning.plato.bean.ExperimentStatus;
 import eu.scape_project.planning.services.preservationaction.PreservationActionServiceFactory;
-import eu.scape_project.pw.planning.manager.DigitalObjectManager;
-import eu.scape_project.pw.planning.manager.StorageException;
 
 @Stateful
 public class ExperimentRunner implements Serializable {

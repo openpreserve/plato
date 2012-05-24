@@ -25,10 +25,9 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import eu.planets_project.pp.plato.evaluation.evaluators.XmlExtractor;
-import eu.planets_project.pp.plato.services.characterisation.fits.FitsIntegration;
-import eu.planets_project.pp.plato.services.characterisation.fits.FitsNamespaceContext;
+import eu.scape_project.planning.evaluation.evaluators.XmlExtractor;
 import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
@@ -37,7 +36,8 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.tree.Leaf;
-import eu.scape_project.pw.planning.manager.StorageException;
+import eu.scape_project.planning.services.characterisation.fits.FitsIntegration;
+import eu.scape_project.planning.services.characterisation.fits.FitsNamespaceContext;
 
 /**
  * Business logic for workflow step Define Sample Objects

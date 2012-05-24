@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.User;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FacesMessages;
 
 @ManagedBean(name = "bugReport")
 @ViewScoped

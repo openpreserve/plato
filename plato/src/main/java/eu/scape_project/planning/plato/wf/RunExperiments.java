@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Experiment;
@@ -18,7 +19,6 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.plato.ExperimentRunner;
 import eu.scape_project.planning.plato.bean.ExperimentStatus;
-import eu.scape_project.pw.planning.manager.StorageException;
 
 /**
  * Business logic for workflow step Run Experiments

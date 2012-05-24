@@ -12,6 +12,7 @@ import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
@@ -22,8 +23,7 @@ import eu.scape_project.planning.plato.fte.FTDefineRequirements;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.beans.FastTrackTemplate;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.pw.planning.manager.StorageException;
-import eu.scape_project.pw.planning.utils.Downloader;
+import eu.scape_project.planning.utils.Downloader;
 
 @Named("defineRequirementsFTE")
 @ConversationScoped

@@ -31,10 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator;
-import eu.planets_project.pp.plato.evaluation.EvaluatorBase;
-import eu.planets_project.pp.plato.evaluation.EvaluatorException;
-import eu.planets_project.pp.plato.evaluation.IObjectEvaluator;
-import eu.planets_project.pp.plato.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.EvaluatorBase;
+import eu.scape_project.planning.evaluation.EvaluatorException;
+import eu.scape_project.planning.evaluation.IObjectEvaluator;
+import eu.scape_project.planning.evaluation.IStatusListener;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
@@ -44,7 +44,7 @@ import eu.scape_project.planning.model.values.BooleanValue;
 import eu.scape_project.planning.model.values.FloatValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 import eu.scape_project.planning.model.values.Value;
-import eu.scape_project.pw.planning.utils.OS;
+import eu.scape_project.planning.utils.OS;
 
 public class ImageComparisonEvaluator extends EvaluatorBase implements IObjectEvaluator {
     private static final String NAME = "imagecompare (imagemagick)";

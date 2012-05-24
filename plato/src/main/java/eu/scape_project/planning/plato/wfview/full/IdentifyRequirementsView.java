@@ -15,6 +15,7 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
@@ -37,8 +38,7 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.IdentifyRequirements;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.beans.CriterionSelector;
-import eu.scape_project.pw.planning.manager.StorageException;
-import eu.scape_project.pw.planning.utils.Downloader;
+import eu.scape_project.planning.utils.Downloader;
 
 /**
  * @author Michael Kraxner, Markus Hamm

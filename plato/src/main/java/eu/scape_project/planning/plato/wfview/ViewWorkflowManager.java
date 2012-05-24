@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
-import eu.scape_project.pw.planning.manager.PlanManager;
-import eu.scape_project.pw.planning.utils.LoggerFactory;
+import eu.scape_project.planning.utils.LoggerFactory;
 
 /**
  * Class responsible for executing all administrative worfklow tasks

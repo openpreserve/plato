@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
+import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
@@ -25,11 +27,9 @@ import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineSampleObjects;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.pw.planning.manager.ByteStreamManager;
-import eu.scape_project.pw.planning.manager.PlanManager;
-import eu.scape_project.pw.planning.utils.Downloader;
-import eu.scape_project.pw.planning.utils.FacesMessages;
-import eu.scape_project.pw.planning.utils.FileUtils;
+import eu.scape_project.planning.utils.Downloader;
+import eu.scape_project.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FileUtils;
 
 /**
  * @author kraxner

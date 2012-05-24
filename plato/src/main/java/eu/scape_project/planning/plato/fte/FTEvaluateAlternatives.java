@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 
 import com.hp.hpl.jena.sparql.function.library.eval;
 
-import eu.planets_project.pp.plato.services.PlanningServiceException;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.EvaluationStatus;
@@ -25,6 +24,7 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wf.EvaluateExperiments;
 import eu.scape_project.planning.plato.wf.RunExperiments;
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.preservationaction.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.validation.ValidationError;
 

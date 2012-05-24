@@ -18,7 +18,7 @@ import eu.scape_project.planning.model.Decision.GoDecision;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.TakeGoDecision;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("takeGoDecision")
 @ConversationScoped

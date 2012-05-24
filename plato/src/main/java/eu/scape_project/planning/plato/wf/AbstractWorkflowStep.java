@@ -11,22 +11,22 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.bean.PrepareChangesForPersist;
-import eu.planets_project.pp.plato.services.characterisation.fits.FitsIntegration;
-import eu.planets_project.pp.plato.validation.PlanValidator;
+import eu.scape_project.planning.bean.PrepareChangesForPersist;
 import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.PlanManager;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.services.characterisation.fits.FitsIntegration;
+import eu.scape_project.planning.utils.XmlXPathEvaluator;
+import eu.scape_project.planning.validation.PlanValidator;
 import eu.scape_project.planning.validation.ValidationError;
-import eu.scape_project.pw.planning.manager.ByteStreamManager;
-import eu.scape_project.pw.planning.manager.DigitalObjectManager;
-import eu.scape_project.pw.planning.manager.PlanManager;
-import eu.scape_project.pw.planning.manager.StorageException;
-import eu.scape_project.pw.planning.utils.XmlXPathEvaluator;
 
 /**
  * Base class for steps of the workflow  

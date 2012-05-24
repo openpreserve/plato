@@ -10,9 +10,9 @@ import javax.naming.directory.InvalidAttributesException;
 
 import org.richfaces.event.FileUploadEvent;
 
-import eu.scape_project.pw.planning.application.Messages;
-import eu.scape_project.pw.planning.application.NewsMessage;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.application.Messages;
+import eu.scape_project.planning.application.NewsMessage;
+import eu.scape_project.planning.utils.FacesMessages;
 
 /**
  * Class used as backing-bean for the admin-utils view.

@@ -6,16 +6,16 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.bean.PrepareChangesForPersist;
 import eu.scape_project.planning.LoadedPlan;
+import eu.scape_project.planning.bean.PrepareChangesForPersist;
+import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.PlanManager;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.pw.planning.manager.ByteStreamManager;
-import eu.scape_project.pw.planning.manager.DigitalObjectManager;
-import eu.scape_project.pw.planning.manager.PlanManager;
-import eu.scape_project.pw.planning.manager.StorageException;
 
 public class PlanSettings implements Serializable {
 	private static final long serialVersionUID = 1697444685695759020L;

@@ -27,9 +27,9 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.evaluation.IActionEvaluator;
-import eu.planets_project.pp.plato.evaluation.IEvaluator;
-import eu.planets_project.pp.plato.evaluation.IObjectEvaluator;
+import eu.scape_project.planning.evaluation.IActionEvaluator;
+import eu.scape_project.planning.evaluation.IEvaluator;
+import eu.scape_project.planning.evaluation.IObjectEvaluator;
 
 
 public class MiniRED implements Serializable {

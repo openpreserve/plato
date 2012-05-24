@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
+import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
@@ -42,7 +43,6 @@ import eu.scape_project.planning.model.scales.IntegerScale;
 import eu.scape_project.planning.model.scales.PositiveFloatScale;
 import eu.scape_project.planning.model.scales.PositiveIntegerScale;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.pw.planning.manager.CriteriaManager;
 
 /**
  * Backing bean responsible for supporting view/kbrowser.xhtml

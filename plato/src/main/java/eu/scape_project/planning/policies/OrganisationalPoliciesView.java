@@ -15,7 +15,7 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.plato.bean.TreeHelperBean;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("organisationalPolicies")
 @SessionScoped

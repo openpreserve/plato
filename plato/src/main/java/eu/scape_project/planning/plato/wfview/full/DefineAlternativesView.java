@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.services.PlanningServiceException;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
@@ -25,9 +24,10 @@ import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.preservationaction.PreservationActionRegistryDefinition;
+import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
-import eu.scape_project.pw.planning.utils.FacesMessages;
 
 /**
  * Class used as backing-bean for the view definealternatives.xhtml

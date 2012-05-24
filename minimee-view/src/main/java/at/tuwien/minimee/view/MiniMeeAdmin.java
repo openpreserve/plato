@@ -7,7 +7,7 @@
 //import javax.inject.Named;
 //
 //import at.tuwien.minimee.controller.MiniMeeAdminAction;
-//import eu.scape_project.pw.planning.utils.FacesMessages;
+//import eu.scape_project.planning.utils.FacesMessages;
 //
 //public class MiniMeeAdmin implements Serializable{
 //	private static final long serialVersionUID = 1L;

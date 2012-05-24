@@ -9,12 +9,12 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.xml.TreeLoader;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.PolicyTree;
+import eu.scape_project.planning.xml.TreeLoader;
 
 /**
  * Business logic for workflow step Define Basis

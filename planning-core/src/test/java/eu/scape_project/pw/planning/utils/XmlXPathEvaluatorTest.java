@@ -11,6 +11,8 @@ import javax.xml.xpath.XPathExpressionException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import eu.scape_project.planning.utils.XmlXPathEvaluator;
+
 public class XmlXPathEvaluatorTest {
 
 	private XmlXPathEvaluator xPathEvaluator;

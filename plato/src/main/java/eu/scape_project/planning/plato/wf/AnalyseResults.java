@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
@@ -23,7 +24,6 @@ import eu.scape_project.planning.model.sensitivity.OrderChangeCountTest;
 import eu.scape_project.planning.model.sensitivity.SimpleIterativeWeightModifier;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
-import eu.scape_project.pw.planning.manager.StorageException;
 
 /**
  * Class containing business logic for workflow-step AnalyseResults.

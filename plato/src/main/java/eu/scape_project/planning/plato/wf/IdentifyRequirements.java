@@ -11,8 +11,9 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.xml.TreeLoader;
 import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
@@ -22,9 +23,8 @@ import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.planning.model.tree.TreeNode;
-import eu.scape_project.pw.planning.manager.ByteStreamManager;
-import eu.scape_project.pw.planning.manager.StorageException;
-import eu.scape_project.pw.planning.xml.ProjectExporter;
+import eu.scape_project.planning.xml.ProjectExporter;
+import eu.scape_project.planning.xml.TreeLoader;
 
 /**
  * Business logic for workflow step Identify Requirements

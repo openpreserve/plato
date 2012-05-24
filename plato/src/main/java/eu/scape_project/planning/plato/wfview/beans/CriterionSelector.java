@@ -11,11 +11,11 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.model.measurement.Criterion;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
-import eu.scape_project.pw.planning.manager.CriteriaManager;
 
 /**
  * Class responsible as supporting class for AJAX Criterion selection.

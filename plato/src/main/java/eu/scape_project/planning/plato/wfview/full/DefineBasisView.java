@@ -20,7 +20,7 @@ import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineBasis;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FacesMessages;
 
 /**
  * Bean for the viewWorkflow step 'Define Basis'.

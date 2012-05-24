@@ -9,7 +9,7 @@ import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.pw.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FacesMessages;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

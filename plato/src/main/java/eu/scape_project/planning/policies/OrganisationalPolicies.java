@@ -11,11 +11,11 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.xml.TreeLoader;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Organisation;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.PolicyTree;
+import eu.scape_project.planning.xml.TreeLoader;
 
 @Stateful
 @SessionScoped

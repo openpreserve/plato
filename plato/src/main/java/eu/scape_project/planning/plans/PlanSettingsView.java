@@ -18,16 +18,16 @@ import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.LoadedPlan;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
-import eu.scape_project.pw.planning.manager.StorageException;
-import eu.scape_project.pw.planning.utils.Downloader;
-import eu.scape_project.pw.planning.utils.FacesMessages;
-import eu.scape_project.pw.planning.utils.FileUtils;
-import eu.scape_project.pw.planning.utils.OS;
-import eu.scape_project.pw.planning.xml.ProjectExportAction;
+import eu.scape_project.planning.utils.Downloader;
+import eu.scape_project.planning.utils.FacesMessages;
+import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.utils.OS;
+import eu.scape_project.planning.xml.ProjectExportAction;
 
 /**
  * Class used as backing-bean for the view plansettings.xhtml

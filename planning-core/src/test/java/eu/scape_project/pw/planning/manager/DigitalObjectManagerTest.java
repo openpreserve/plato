@@ -10,6 +10,9 @@ import javax.persistence.Temporal;
 
 import org.junit.Test;
 
+import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
 
