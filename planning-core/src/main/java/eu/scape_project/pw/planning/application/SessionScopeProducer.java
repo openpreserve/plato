@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
@@ -14,6 +15,10 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.jacc.PolicyContext;
+import javax.security.jacc.PolicyContextException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -104,19 +109,40 @@ public class SessionScopeProducer implements Serializable {
                     user.setEmail(email);
                 }
             }
-
-            // Roles are stored with key null
-            List<Object> roleNames = (List<Object>) attributes.get(null);
-            if (roleNames != null) {
-                ArrayList<Role> roles = new ArrayList<Role>(roleNames.size());
-                for (Object rolename : roleNames) {
-                    Role role = new Role();
-                    role.setName((String) rolename);
-                    roles.add(role);
-                }
-                user.setRoles(roles);
-            }
         }
+
+        ArrayList<Role> roles = new ArrayList<Role>();
+        if (request.isUserInRole("authenticated")) {
+            Role role = new Role();
+            role.setName("authenticated");
+            roles.add(role);
+
+        }
+        if (request.isUserInRole("admin")) {
+            Role role = new Role();
+            role.setName("admin");
+            roles.add(role);
+
+        }
+        user.setRoles(roles);
+
+        // try {
+        // Subject caller = (Subject) PolicyContext
+        // .getContext("javax.security.auth.Subject.container");
+        //
+        // Set<Principal> principals = caller.getPrincipals();
+        // for (Principal p : principals) {
+        // String result = p.getName();
+        // }
+        //
+        // CallbackHandler cbh = (CallbackHandler) PolicyContext
+        // .getContext("org.jboss.security.auth.spi.CallbackHandler");
+        //
+        // } catch (PolicyContextException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+
         return user;
     }
 
