@@ -5,7 +5,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import eu.planets_project.pp.plato.model.Plan;
+import eu.scape_project.planning.model.Plan;
 import eu.scape_project.pw.planning.plato.wfview.ViewWorkflowManager;
 import java.io.Serializable;
 

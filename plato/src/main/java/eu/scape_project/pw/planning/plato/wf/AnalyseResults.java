@@ -12,16 +12,16 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.aggregators.WeightedMultiplication;
-import eu.planets_project.pp.plato.model.aggregators.WeightedSum;
-import eu.planets_project.pp.plato.model.beans.ResultNode;
-import eu.planets_project.pp.plato.model.sensitivity.OrderChangeCountTest;
-import eu.planets_project.pp.plato.model.sensitivity.SimpleIterativeWeightModifier;
-import eu.planets_project.pp.plato.model.tree.Leaf;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
+import eu.scape_project.planning.model.aggregators.WeightedSum;
+import eu.scape_project.planning.model.beans.ResultNode;
+import eu.scape_project.planning.model.sensitivity.OrderChangeCountTest;
+import eu.scape_project.planning.model.sensitivity.SimpleIterativeWeightModifier;
+import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.pw.planning.manager.StorageException;
 import eu.scape_project.pw.planning.plato.wfview.beans.ReportLeaf;
 

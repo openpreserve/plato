@@ -34,10 +34,10 @@ import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 
 import sun.misc.BASE64Encoder;
-import eu.planets_project.pp.plato.model.ByteStream;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanProperties;
+import eu.scape_project.planning.model.ByteStream;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.pw.planning.utils.FileUtils;
 import eu.scape_project.pw.planning.utils.OS;
 

@@ -22,9 +22,9 @@ import javax.security.jacc.PolicyContextException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import eu.planets_project.pp.plato.model.Organisation;
-import eu.planets_project.pp.plato.model.Role;
-import eu.planets_project.pp.plato.model.User;
+import eu.scape_project.planning.model.Organisation;
+import eu.scape_project.planning.model.Role;
+import eu.scape_project.planning.model.User;
 
 /**
  * Factory class responsible for producing/injecting session-scoped objects.

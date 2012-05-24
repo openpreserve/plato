@@ -19,10 +19,10 @@ import org.slf4j.LoggerFactory;
 
 import at.tuwien.minimee.migration.parser.Jip_Parser;
 import at.tuwien.minimee.model.ToolConfig;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.values.PositiveFloatValue;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.values.PositiveFloatValue;
 
 /**
  * This engine uses the Java Interactive Profiler (JIP) to monitor

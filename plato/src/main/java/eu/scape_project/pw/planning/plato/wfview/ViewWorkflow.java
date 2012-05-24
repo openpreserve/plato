@@ -10,9 +10,9 @@ import javax.inject.Named;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
 
 /**
  * Class representing a viewWorkflow which consist of several steps. This class

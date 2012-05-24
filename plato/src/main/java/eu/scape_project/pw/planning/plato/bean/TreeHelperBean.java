@@ -14,8 +14,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import eu.planets_project.pp.plato.model.tree.ITreeNode;
-import eu.planets_project.pp.plato.model.tree.ITreeWalker;
+import eu.scape_project.planning.model.tree.ITreeNode;
+import eu.scape_project.planning.model.tree.ITreeWalker;
 
 /**
  * Class used to programmatically expand and collapse nodes in a rich:tree.

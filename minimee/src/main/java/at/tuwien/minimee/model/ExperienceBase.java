@@ -12,9 +12,9 @@ package at.tuwien.minimee.model;
 
 import java.util.HashMap;
 
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.measurement.ToolExperience;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.measurement.ToolExperience;
 
 /**
  * This class provides a very simple experience database for measured properties

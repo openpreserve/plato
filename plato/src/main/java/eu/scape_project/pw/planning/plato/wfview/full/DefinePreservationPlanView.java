@@ -4,7 +4,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import eu.planets_project.pp.plato.model.PlanState;
+import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.pw.planning.plato.wf.DefinePreservationPlan;
 import eu.scape_project.pw.planning.plato.wfview.AbstractView;

@@ -36,7 +36,7 @@ public class EvaluatorBase implements IEvaluator {
     protected String descriptorStr;
     
     /**
-     * @see eu.planets_project.pp.plato.evaluation.IEvaluator#getPossibleMeasurements()
+     * @see eu.scape_project.planning.evaluation.IEvaluator#getPossibleMeasurements()
      */
     public String getPossibleMeasurements() {
         return descriptorStr;

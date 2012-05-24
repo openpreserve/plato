@@ -33,13 +33,13 @@ import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.xml.EngineFactory;
 import at.tuwien.minimee.registry.xml.EvaluatorFactory;
 import at.tuwien.minimee.util.StrictErrorHandler;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.measurement.ToolExperience;
-import eu.planets_project.pp.plato.model.scales.FreeStringScale;
-import eu.planets_project.pp.plato.model.scales.PositiveFloatScale;
-import eu.planets_project.pp.plato.model.values.INumericValue;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.measurement.ToolExperience;
+import eu.scape_project.planning.model.scales.FreeStringScale;
+import eu.scape_project.planning.model.scales.PositiveFloatScale;
+import eu.scape_project.planning.model.values.INumericValue;
 
 /**
  * This is the internal side of MiniMEE - it contains all tools and configurations

@@ -13,8 +13,8 @@ package eu.planets_project.pp.plato.validation;
 
 import java.util.List;
 
-import eu.planets_project.pp.plato.model.tree.TreeNode;
-import eu.planets_project.pp.plato.validation.ValidationError;
+import eu.scape_project.planning.model.tree.TreeNode;
+import eu.scape_project.planning.validation.ValidationError;
 
 
 /**

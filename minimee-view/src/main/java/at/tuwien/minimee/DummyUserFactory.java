@@ -7,7 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
-import eu.planets_project.pp.plato.model.User;
+import eu.scape_project.planning.model.User;
 
 /**
  * creates one(!) user for the session

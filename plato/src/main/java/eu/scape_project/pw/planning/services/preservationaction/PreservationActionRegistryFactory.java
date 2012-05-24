@@ -19,8 +19,8 @@ import org.apache.commons.digester3.Digester;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.interfaces.actions.IPreservationActionRegistry;
 import eu.planets_project.pp.plato.services.PlanningServiceException;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 import eu.scape_project.pw.planning.xml.StrictErrorHandler;
 /**
  * Provides a list of defined preservation service registries.

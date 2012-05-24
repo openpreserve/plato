@@ -10,17 +10,17 @@ import javax.inject.Named;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.tree.Node;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
-import eu.planets_project.pp.plato.validation.ValidationError;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.Node;
+import eu.scape_project.planning.model.tree.TreeNode;
+import eu.scape_project.planning.validation.ValidationError;
 import eu.scape_project.pw.planning.manager.StorageException;
 import eu.scape_project.pw.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;

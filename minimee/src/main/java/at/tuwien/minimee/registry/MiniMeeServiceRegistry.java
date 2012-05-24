@@ -17,10 +17,10 @@ import java.util.List;
 import javax.xml.rpc.ServiceException;
 
 import at.tuwien.minimee.MiniMeeException;
-import eu.planets_project.pp.plato.model.FormatInfo;
-import eu.planets_project.pp.plato.model.PlatoException;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 
 public class MiniMeeServiceRegistry implements IPreservationActionRegistry {
     private MiniMeeRegistry registry = new MiniMeeRegistry(); 

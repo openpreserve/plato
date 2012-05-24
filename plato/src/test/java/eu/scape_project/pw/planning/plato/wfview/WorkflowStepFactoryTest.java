@@ -12,8 +12,8 @@ import javax.enterprise.inject.Instance;
 
 import org.junit.Test;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Plan;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Plan;
 import eu.scape_project.pw.planning.plato.wfview.fte.FTAnalyseResultsView;
 import eu.scape_project.pw.planning.plato.wfview.fte.FTDefineRequirementsView;
 import eu.scape_project.pw.planning.plato.wfview.fte.FTEvaluateAlternativesView;

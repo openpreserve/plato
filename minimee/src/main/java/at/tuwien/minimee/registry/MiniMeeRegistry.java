@@ -22,7 +22,7 @@ import at.tuwien.minimee.MiniMeeException;
 import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.xml.PreservationActionServiceFactory;
 import at.tuwien.minimee.util.StrictErrorHandler;
-import eu.planets_project.pp.plato.model.FormatInfo;
+import eu.scape_project.planning.model.FormatInfo;
 
 /**
  * This class is the external entry point for MiniMEE - it contains all {@link PreservationActionService services}

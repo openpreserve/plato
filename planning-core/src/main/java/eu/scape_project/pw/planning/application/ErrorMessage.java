@@ -18,7 +18,7 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import eu.planets_project.pp.plato.model.Plan;
+import eu.scape_project.planning.model.Plan;
 
 /**
  * 

@@ -6,19 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.planets_project.pp.plato.model.TargetValueObject;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaLeaf;
-import eu.planets_project.pp.plato.model.kbrowser.VPlanLeaf;
-import eu.planets_project.pp.plato.model.measurement.Criterion;
-import eu.planets_project.pp.plato.model.measurement.CriterionCategory;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.transform.NumericTransformer;
-import eu.planets_project.pp.plato.model.transform.OrdinalTransformer;
-import eu.planets_project.pp.plato.model.transform.TransformationMode;
-import eu.planets_project.pp.plato.model.transform.Transformer;
-import eu.planets_project.pp.plato.model.values.INumericValue;
-import eu.planets_project.pp.plato.model.values.IOrdinalValue;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.model.TargetValueObject;
+import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
+import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
+import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.transform.NumericTransformer;
+import eu.scape_project.planning.model.transform.OrdinalTransformer;
+import eu.scape_project.planning.model.transform.TransformationMode;
+import eu.scape_project.planning.model.transform.Transformer;
+import eu.scape_project.planning.model.values.INumericValue;
+import eu.scape_project.planning.model.values.IOrdinalValue;
+import eu.scape_project.planning.model.values.Value;
 
 /**
  * Class responsible for calculating statistics for KBrowser. This class is

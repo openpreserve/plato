@@ -10,7 +10,9 @@ import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.AlternativesDefinition;
 
 public class AlternativesDefinitionTest {
 	private AlternativesDefinition alternativesDefinition;

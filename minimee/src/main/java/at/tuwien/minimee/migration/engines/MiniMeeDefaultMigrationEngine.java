@@ -30,13 +30,13 @@ import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.ToolRegistry;
 import at.tuwien.minimee.util.FileUtils;
 import at.tuwien.minimee.util.OS;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.FormatInfo;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.values.FreeStringValue;
-import eu.planets_project.pp.plato.model.values.PositiveFloatValue;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.values.FreeStringValue;
+import eu.scape_project.planning.model.values.PositiveFloatValue;
 public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
     
     private Logger log = LoggerFactory.getLogger(this.getClass());

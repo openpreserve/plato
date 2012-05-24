@@ -17,7 +17,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.User;
+import eu.scape_project.planning.model.User;
 
 @RequestScoped
 public class Feedback implements Serializable {

@@ -8,10 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaLeaf;
-import eu.planets_project.pp.plato.model.kbrowser.VPlanLeaf;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Metric;
+import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
+import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Metric;
 
 public class ImportanceAnalysis implements Serializable {
     private static final long serialVersionUID = -814054847584527659L;

@@ -11,9 +11,9 @@ import javax.inject.Named;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.PolicyNode;
-import eu.planets_project.pp.plato.model.User;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.PolicyNode;
+import eu.scape_project.planning.model.User;
 import eu.scape_project.pw.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.pw.planning.utils.FacesMessages;
 

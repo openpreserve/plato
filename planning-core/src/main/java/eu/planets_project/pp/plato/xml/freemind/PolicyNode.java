@@ -12,12 +12,12 @@ package eu.planets_project.pp.plato.xml.freemind;
 
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.scales.BooleanScale;
-import eu.planets_project.pp.plato.model.scales.IntRangeScale;
-import eu.planets_project.pp.plato.model.scales.OrdinalScale;
-import eu.planets_project.pp.plato.model.scales.PositiveFloatScale;
-import eu.planets_project.pp.plato.model.scales.RestrictedScale;
-import eu.planets_project.pp.plato.model.scales.Scale;
+import eu.scape_project.planning.model.scales.BooleanScale;
+import eu.scape_project.planning.model.scales.IntRangeScale;
+import eu.scape_project.planning.model.scales.OrdinalScale;
+import eu.scape_project.planning.model.scales.PositiveFloatScale;
+import eu.scape_project.planning.model.scales.RestrictedScale;
+import eu.scape_project.planning.model.scales.Scale;
 
 
 public class PolicyNode extends Node {

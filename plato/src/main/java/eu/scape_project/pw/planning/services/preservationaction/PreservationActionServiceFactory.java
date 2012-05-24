@@ -17,8 +17,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.interfaces.actions.IPreservationAction;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 /**
  * 
  *  
@@ -49,17 +49,17 @@ public class PreservationActionServiceFactory {
         // this map is populated once, then only read - it needs not to be a synchronised map 
         preservationActionServices = new HashMap<String, String>();
         preservationActionServices
-                .put("CRiB", "eu.planets_project.pp.plato.services.action.crib_integration.CRiBActionServiceLocator");
+                .put("CRiB", "eu.scape_project.planning.services.action.crib_integration.CRiBActionServiceLocator");
         preservationActionServices
-                .put("CRiB-local", "eu.planets_project.pp.plato.services.action.crib_integration.TUCRiBActionServiceLocator");
+                .put("CRiB-local", "eu.scape_project.planning.services.action.crib_integration.TUCRiBActionServiceLocator");
         preservationActionServices
-                .put("Planets-local", "eu.planets_project.pp.plato.services.action.planets.PlanetsMigrationService");
+                .put("Planets-local", "eu.scape_project.planning.services.action.planets.PlanetsMigrationService");
         preservationActionServices
-                .put("Planets-Viewer-local", "eu.planets_project.pp.plato.services.action.planets.PlanetsEmulationService");
+                .put("Planets-Viewer-local", "eu.scape_project.planning.services.action.planets.PlanetsEmulationService");
         preservationActionServices
                 .put("MiniMEE-migration", "at.tuwien.minimee.migration.MiniMeeMigrationService");
         preservationActionServices
-                .put("MiniMEE-emulation", "eu.planets_project.pp.plato.services.action.minimee.MiniMeeEmulationService");
+                .put("MiniMEE-emulation", "eu.scape_project.planning.services.action.minimee.MiniMeeEmulationService");
 
     }
 

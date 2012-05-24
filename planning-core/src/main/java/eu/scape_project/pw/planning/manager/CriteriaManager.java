@@ -23,9 +23,9 @@ import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.measurement.Criterion;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Metric;
+import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Metric;
 import eu.scape_project.pw.planning.xml.MeasurementsDescriptorParser;
 
 /**
@@ -153,7 +153,7 @@ public class CriteriaManager implements Serializable {
     /**
      * Reads the XML file from {@link #DESCRIPTOR_FILE} and adds the contained criteria to the database.
      * For criteria that already exist in the database (as designated by URI), the information is updated. 
-     * @see eu.planets_project.pp.plato.application.ICriteriaManager#reload()
+     * @see eu.scape_project.planning.application.ICriteriaManager#reload()
      * ATTENTION:
      * From all available CRUD operation only CReate and Update are covered. Delete operations are not executed.
      * Thus, if you have deleted Properties in your XML they are not deleted in database as well.

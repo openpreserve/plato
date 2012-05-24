@@ -10,12 +10,12 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Experiment;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Experiment;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.pw.planning.manager.StorageException;
 import eu.scape_project.pw.planning.plato.ExperimentRunner;
 import eu.scape_project.pw.planning.plato.bean.ExperimentStatus;

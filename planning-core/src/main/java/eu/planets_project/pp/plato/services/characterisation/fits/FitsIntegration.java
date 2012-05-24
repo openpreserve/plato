@@ -20,8 +20,8 @@ import org.dom4j.io.OutputFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
 import eu.planets_project.pp.plato.util.CommandExecutor;
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.pw.planning.utils.FileUtils;
 import eu.scape_project.pw.planning.utils.OS;
 

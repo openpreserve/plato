@@ -15,8 +15,8 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.PlanProperties;
-import eu.planets_project.pp.plato.model.PlatoException;
+import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.pw.planning.manager.PlanManager;
 import eu.scape_project.pw.planning.manager.PlanManager.WhichProjects;
 import eu.scape_project.pw.planning.utils.FacesMessages;

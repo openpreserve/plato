@@ -30,8 +30,8 @@ import at.tuwien.minimee.model.Tool;
 import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.ToolRegistry;
 import at.tuwien.minimee.util.FileUtils;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.ToolExperience;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.ToolExperience;
 import eu.scape_project.pw.planning.utils.FacesMessages;
 
 /**

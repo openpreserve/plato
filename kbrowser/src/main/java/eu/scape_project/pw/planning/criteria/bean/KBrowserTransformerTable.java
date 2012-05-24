@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import eu.planets_project.pp.plato.model.transform.TransformationMode;
+import eu.scape_project.planning.model.transform.TransformationMode;
 
 /**
  * Class used in KBrowserView to represent the Transformer-table and the

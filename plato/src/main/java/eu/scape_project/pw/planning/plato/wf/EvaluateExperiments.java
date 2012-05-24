@@ -17,15 +17,15 @@ import eu.planets_project.pp.plato.evaluation.IActionEvaluator;
 import eu.planets_project.pp.plato.evaluation.IObjectEvaluator;
 import eu.planets_project.pp.plato.evaluation.IStatusListener;
 import eu.planets_project.pp.plato.evaluation.MiniRED;
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.Values;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.util.CriterionUri;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.util.CriterionUri;
+import eu.scape_project.planning.model.values.Value;
 
 /**
  * Business logic for workflow step Evaluate Experiments.

@@ -17,22 +17,22 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.Policy;
-import eu.planets_project.pp.plato.model.PolicyNode;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaLeaf;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaNode;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaTreeNode;
-import eu.planets_project.pp.plato.model.measurement.Criterion;
-import eu.planets_project.pp.plato.model.scales.BooleanScale;
-import eu.planets_project.pp.plato.model.scales.FreeStringScale;
-import eu.planets_project.pp.plato.model.scales.IntRangeScale;
-import eu.planets_project.pp.plato.model.scales.OrdinalScale;
-import eu.planets_project.pp.plato.model.scales.PositiveFloatScale;
-import eu.planets_project.pp.plato.model.scales.RestrictedScale;
-import eu.planets_project.pp.plato.model.scales.Scale;
-import eu.planets_project.pp.plato.model.scales.YanScale;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
+import eu.scape_project.planning.model.Policy;
+import eu.scape_project.planning.model.PolicyNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
+import eu.scape_project.planning.model.kbrowser.CriteriaNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
+import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.scales.BooleanScale;
+import eu.scape_project.planning.model.scales.FreeStringScale;
+import eu.scape_project.planning.model.scales.IntRangeScale;
+import eu.scape_project.planning.model.scales.OrdinalScale;
+import eu.scape_project.planning.model.scales.PositiveFloatScale;
+import eu.scape_project.planning.model.scales.RestrictedScale;
+import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.scales.YanScale;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.pw.planning.manager.CriteriaManager;
 
 /**
@@ -41,7 +41,7 @@ import eu.scape_project.pw.planning.manager.CriteriaManager;
  * All the getter,setter and adder are for the Digester import,
  * createNode does the real work.
  * @author Christoph Becker
- * @see eu.planets_project.pp.plato.xml.TreeLoader#loadFreeMindPolicyMap(java.io.InputStream)
+ * @see eu.scape_project.planning.xml.TreeLoader#loadFreeMindPolicyMap(java.io.InputStream)
  */
 public class Node {
     private static Logger log = LoggerFactory.getLogger(Node.class);
@@ -89,7 +89,7 @@ public class Node {
 
     /**
      * creates an appropriate scale out of myself,
-     * one of the subtypes in the package eu.planets_project.pp.plato.model.scales
+     * one of the subtypes in the package eu.scape_project.planning.model.scales
      * @return {@link Scale}
      */
     public Scale createScale() {
@@ -146,7 +146,7 @@ public class Node {
     }
 
     /**
-     * Creates a complete {@link eu.planets_project.pp.plato.model.tree.TreeNode} out of myself
+     * Creates a complete {@link eu.scape_project.planning.model.tree.TreeNode} out of myself
      * and my children. Works recursively!
      * So calling this on the root actually constructs the whole Plato-conforming
      * ObjectiveTree out of a FreeMind MindMap.
@@ -170,7 +170,7 @@ public class Node {
             return leaf;
         } else {
             // We start with assuming that I'm a Node
-            TreeNode node =  new eu.planets_project.pp.plato.model.tree.Node();
+            TreeNode node =  new eu.scape_project.planning.model.tree.Node();
 
             setNameAndWeight(node);
             setDescription(node);
@@ -183,7 +183,7 @@ public class Node {
                         n.setNameAndWeight(leaf);
                         n.setDescription(leaf);
                         n.setMIU(leaf);
-                        ((eu.planets_project.pp.plato.model.tree.Node)node).addChild(leaf);
+                        ((eu.scape_project.planning.model.tree.Node)node).addChild(leaf);
                     } else {
                         // Case 2: we have units, so n is the SCALE of myself
                         // - but this means that I AM a LEAF
@@ -198,7 +198,7 @@ public class Node {
                         return leaf; // == node
                     }
                 } else {
-                    ((eu.planets_project.pp.plato.model.tree.Node)node).addChild(n.createNode(hasUnits,hasLeaves));
+                    ((eu.scape_project.planning.model.tree.Node)node).addChild(n.createNode(hasUnits,hasLeaves));
                 }
 
             }

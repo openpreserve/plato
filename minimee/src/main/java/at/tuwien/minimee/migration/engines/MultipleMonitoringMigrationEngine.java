@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import at.tuwien.minimee.registry.ToolRegistry;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measurement;
 
 /**
  * This engine combines the output of several other engines, i.e.

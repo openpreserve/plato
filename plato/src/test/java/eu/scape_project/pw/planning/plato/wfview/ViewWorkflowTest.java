@@ -13,11 +13,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.internal.runners.statements.Fail;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanProperties;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.validation.ValidationError;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.validation.ValidationError;
 
 public class ViewWorkflowTest {
 

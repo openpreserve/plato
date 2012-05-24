@@ -17,14 +17,14 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanProperties;
-import eu.planets_project.pp.plato.model.PlatoException;
-import eu.planets_project.pp.plato.model.User;
-import eu.planets_project.pp.plato.model.Values;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.pw.planning.manager.PlanManager;
 import eu.scape_project.pw.planning.utils.MemoryTest;
 import eu.scape_project.pw.planning.utils.OS;

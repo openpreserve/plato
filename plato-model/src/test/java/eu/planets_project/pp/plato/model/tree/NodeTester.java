@@ -16,7 +16,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import eu.planets_project.pp.plato.validation.ValidationError;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.Node;
+import eu.scape_project.planning.validation.ValidationError;
 
 
 public class NodeTester {

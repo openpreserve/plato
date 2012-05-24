@@ -27,10 +27,10 @@ import eu.planets_project.pp.plato.evaluation.EvaluatorBase;
 import eu.planets_project.pp.plato.evaluation.EvaluatorException;
 import eu.planets_project.pp.plato.evaluation.IActionEvaluator;
 import eu.planets_project.pp.plato.evaluation.IStatusListener;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.scales.Scale;
-import eu.planets_project.pp.plato.model.util.CriterionUri;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.util.CriterionUri;
+import eu.scape_project.planning.model.values.Value;
 
 /**
  * This class extracts values from PCDL descriptors

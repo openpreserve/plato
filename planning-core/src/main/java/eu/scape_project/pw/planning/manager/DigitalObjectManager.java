@@ -5,8 +5,8 @@ import java.security.InvalidParameterException;
 
 import javax.inject.Inject;
 
-import eu.planets_project.pp.plato.model.ByteStream;
-import eu.planets_project.pp.plato.model.DigitalObject;
+import eu.scape_project.planning.model.ByteStream;
+import eu.scape_project.planning.model.DigitalObject;
 
 /**
  * Class offering services for moving DigitalObject data to the file system and vice versa.

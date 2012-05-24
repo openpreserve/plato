@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * A result set returned by {@link MiniREEF}
  * {@link MiniREEF#resolve(String)}
- * {@link MiniREEFEvaluator#evaluate(eu.planets_project.pp.plato.model.Alternative, List, eu.planets_project.pp.plato.evaluation.IStatusListener)}
+ * {@link MiniREEFEvaluator#evaluate(eu.scape_project.planning.model.Alternative, List, eu.scape_project.planning.evaluation.IStatusListener)}
  * @author cbu
  *
  */

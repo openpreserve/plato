@@ -7,13 +7,16 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import eu.planets_project.pp.plato.model.kbrowser.VPlanLeaf;
-import eu.planets_project.pp.plato.model.scales.OrdinalScale;
-import eu.planets_project.pp.plato.model.scales.PositiveFloatScale;
-import eu.planets_project.pp.plato.model.transform.NumericTransformer;
-import eu.planets_project.pp.plato.model.transform.OrdinalTransformer;
-import eu.planets_project.pp.plato.model.values.FloatValue;
-import eu.planets_project.pp.plato.model.values.OrdinalValue;
+import eu.scape_project.planning.model.SampleAggregationMode;
+import eu.scape_project.planning.model.TargetValueObject;
+import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
+import eu.scape_project.planning.model.scales.OrdinalScale;
+import eu.scape_project.planning.model.scales.PositiveFloatScale;
+import eu.scape_project.planning.model.transform.NumericTransformer;
+import eu.scape_project.planning.model.transform.OrdinalTransformer;
+import eu.scape_project.planning.model.values.FloatValue;
+import eu.scape_project.planning.model.values.OrdinalValue;
 
 public class VPlanLeafTest {
     @Test

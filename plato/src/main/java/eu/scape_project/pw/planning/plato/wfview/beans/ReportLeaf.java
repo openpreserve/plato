@@ -16,9 +16,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.values.TargetValues;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.values.TargetValues;
 
 
 public class ReportLeaf implements Serializable {

@@ -16,9 +16,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanProperties;
-import eu.planets_project.pp.plato.model.kbrowser.VPlanLeaf;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 
 /**
  * Class responsible for selecting and setting the plans to analyse. 

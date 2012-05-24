@@ -14,10 +14,10 @@ package eu.planets_project.pp.plato.xml.freemind;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.PolicyNode;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaHierarchy;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaNode;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
+import eu.scape_project.planning.model.PolicyNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
+import eu.scape_project.planning.model.kbrowser.CriteriaNode;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.pw.planning.manager.CriteriaManager;
 
 public class MindMap {
@@ -37,7 +37,7 @@ public class MindMap {
      * This gets the complete ObjectiveTree out of the mindmap structure
      * @param hasUnits
      * @param hasLeaves deontes if the original mindmap contained leaves, or just nodes
-     * @return {@link eu.planets_project.pp.plato.model.tree.ObjectiveTree}
+     * @return {@link eu.scape_project.planning.model.tree.ObjectiveTree}
      */
     public TreeNode getObjectiveTreeRoot(boolean hasUnits, boolean hasLeaves) {
         return root.createNode(hasUnits, hasLeaves);

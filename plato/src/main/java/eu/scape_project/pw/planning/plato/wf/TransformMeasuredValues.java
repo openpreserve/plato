@@ -8,8 +8,8 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.tree.Leaf;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.tree.Leaf;
 
 /**
  * Class containing business logic for workflow-step transform measured values.

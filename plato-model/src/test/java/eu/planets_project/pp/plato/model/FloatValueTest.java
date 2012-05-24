@@ -13,7 +13,7 @@ package eu.planets_project.pp.plato.model;
 
 import org.junit.Test;
 
-import eu.planets_project.pp.plato.model.values.FloatValue;
+import eu.scape_project.planning.model.values.FloatValue;
 
 
 public class FloatValueTest {

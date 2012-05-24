@@ -30,8 +30,8 @@ import at.tuwien.minimee.migration.evaluators.IMinimeeEvaluator;
 import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.ToolRegistry;
 import at.tuwien.minimee.util.OS;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.Measurement;
 /**
  * Currently not exposed as a web service since miniMEE has been integrated
  * with Plato.

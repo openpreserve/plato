@@ -20,11 +20,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.measurement.Criterion;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Metric;
-import eu.planets_project.pp.plato.model.scales.Scale;
-import eu.planets_project.pp.plato.model.util.CriterionUri;
+import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Metric;
+import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.util.CriterionUri;
 
 /**
  * Contains descriptors for measurable properties, their applicable metrics and corresponding scales.

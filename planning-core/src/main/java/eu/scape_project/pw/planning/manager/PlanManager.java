@@ -14,19 +14,19 @@ import javax.persistence.Query;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.AlternativesDefinition;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanProperties;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.User;
-import eu.planets_project.pp.plato.model.Values;
-import eu.planets_project.pp.plato.model.transform.OrdinalTransformer;
-import eu.planets_project.pp.plato.model.transform.Transformer;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.tree.Node;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.AlternativesDefinition;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.transform.OrdinalTransformer;
+import eu.scape_project.planning.model.transform.Transformer;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.Node;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.pw.planning.utils.FacesMessages;
 
 /**

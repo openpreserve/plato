@@ -6,12 +6,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.Decision;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Decision;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.tree.TreeNode;
+import eu.scape_project.planning.validation.ValidationError;
 
 /**
  * Validates a plan against a plan state.

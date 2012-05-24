@@ -18,8 +18,8 @@ import javax.swing.tree.TreeModel;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.tree.TreeNode;
-import eu.planets_project.pp.plato.validation.ValidationError;
+import eu.scape_project.planning.model.tree.TreeNode;
+import eu.scape_project.planning.validation.ValidationError;
 
 /**
  * Performs validation for the tree.
@@ -33,9 +33,9 @@ public class TreeValidator implements ITreeValidator {
     /**
      * Traverses through the CoreTreeTable and validates each TreeNode in the CoreTreeTable.
      *
-     * Implements {@link eu.planets_project.pp.plato.validation.ITreeValidator#validate(TreeNode, INodeValidator, INodeValidator, List)}
+     * Implements {@link eu.scape_project.planning.validation.ITreeValidator#validate(TreeNode, INodeValidator, INodeValidator, List)}
      *
-     * @see eu.planets_project.pp.plato.validation.ITreeValidator#validate(TreeModel, CoreTreeTable, INodeValidator, List)
+     * @see eu.scape_project.planning.validation.ITreeValidator#validate(TreeModel, CoreTreeTable, INodeValidator, List)
      */
     public boolean validate(TreeNode node, INodeValidator validator, List<ValidationError> errors) {
         return validateRow(node, validator, errors);

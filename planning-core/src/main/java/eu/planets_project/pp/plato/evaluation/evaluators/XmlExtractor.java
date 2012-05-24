@@ -32,8 +32,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import eu.planets_project.pp.plato.model.scales.Scale;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.values.Value;
 
 /**
  * This is a generic helper class that takes an XPath expression and uses

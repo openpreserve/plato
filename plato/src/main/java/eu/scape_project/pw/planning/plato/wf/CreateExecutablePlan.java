@@ -6,8 +6,8 @@ package eu.scape_project.pw.planning.plato.wf;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
 
 /**
  * @author Michael Kraxner

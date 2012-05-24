@@ -17,8 +17,10 @@ import java.util.List;
 import org.junit.Test;
 
 
-import eu.planets_project.pp.plato.model.values.PositiveFloatValue;
-import eu.planets_project.pp.plato.model.values.PositiveIntegerValue;
+import eu.scape_project.planning.model.transform.NumericTransformer;
+import eu.scape_project.planning.model.transform.TransformationMode;
+import eu.scape_project.planning.model.values.PositiveFloatValue;
+import eu.scape_project.planning.model.values.PositiveIntegerValue;
 
 
 

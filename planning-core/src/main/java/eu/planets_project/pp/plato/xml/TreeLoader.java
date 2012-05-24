@@ -24,10 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaHierarchy;
-import eu.planets_project.pp.plato.model.tree.ObjectiveTree;
-import eu.planets_project.pp.plato.model.tree.PolicyTree;
 import eu.planets_project.pp.plato.xml.freemind.MindMap;
+import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
+import eu.scape_project.planning.model.tree.ObjectiveTree;
+import eu.scape_project.planning.model.tree.PolicyTree;
 import eu.scape_project.pw.planning.manager.CriteriaManager;
 import eu.scape_project.pw.planning.xml.SchemaResolver;
 import eu.scape_project.pw.planning.xml.StrictErrorHandler;
@@ -64,7 +64,7 @@ public class TreeLoader implements Serializable {
 
             digester.push(map);
 
-            digester.addObjectCreate("*/node", "eu.planets_project.pp.plato.xml.freemind.Node");
+            digester.addObjectCreate("*/node", "eu.scape_project.planning.xml.freemind.Node");
             digester.addSetProperties("*/node");
             digester.addCallMethod("*/node/hook/text", "setDESCRIPTION", 0);
             digester.addSetNext("*/node", "addChild");

@@ -11,12 +11,12 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.pw.planning.manager.StorageException;
 import eu.scape_project.pw.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.pw.planning.plato.fte.FTDefineRequirements;
@@ -97,7 +97,7 @@ public class FTDefineRequirementsView extends AbstractView {
 
     /**
      * Starts a download for the given digital object. Uses
-     * {@link eu.planets_project.pp.plato.util.Downloader} to perform the
+     * {@link eu.scape_project.planning.util.Downloader} to perform the
      * download.
      */
     public void download(DigitalObject object) {

@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 
 import at.tuwien.minimee.util.CommandExecutor;
 import at.tuwien.minimee.util.OS;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.scales.Scale;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.scales.Scale;
 
 /**
  * This evaluator uses the ImageMagick COMPARE script to measure the difference

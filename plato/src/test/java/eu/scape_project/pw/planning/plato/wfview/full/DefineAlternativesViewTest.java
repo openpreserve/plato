@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.Plan;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Plan;
 import eu.scape_project.pw.planning.utils.FacesMessages;
 
 public class DefineAlternativesViewTest {

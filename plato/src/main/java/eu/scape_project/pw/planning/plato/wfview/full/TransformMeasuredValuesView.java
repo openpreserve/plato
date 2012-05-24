@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.transform.NumericTransformer;
-import eu.planets_project.pp.plato.model.transform.Transformer;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.tree.Node;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
-import eu.planets_project.pp.plato.validation.ValidationError;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.transform.NumericTransformer;
+import eu.scape_project.planning.model.transform.Transformer;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.Node;
+import eu.scape_project.planning.model.tree.TreeNode;
+import eu.scape_project.planning.validation.ValidationError;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.pw.planning.plato.wf.TransformMeasuredValues;
 import eu.scape_project.pw.planning.plato.wfview.AbstractView;

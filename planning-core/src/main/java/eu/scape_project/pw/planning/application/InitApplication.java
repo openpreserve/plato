@@ -8,9 +8,9 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import eu.planets_project.pp.plato.model.Organisation;
-import eu.planets_project.pp.plato.model.Role;
-import eu.planets_project.pp.plato.model.User;
+import eu.scape_project.planning.model.Organisation;
+import eu.scape_project.planning.model.Role;
+import eu.scape_project.planning.model.User;
 
 /**
  * Class responsible for initializing the application and setting up required data  

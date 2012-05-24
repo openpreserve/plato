@@ -14,14 +14,14 @@ import org.slf4j.Logger;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.SampleRecordsDefinition;
-import eu.planets_project.pp.plato.model.User;
-import eu.planets_project.pp.plato.model.tree.ObjectiveTree;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.SampleRecordsDefinition;
+import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.pw.planning.manager.ByteStreamManager;
 import eu.scape_project.pw.planning.manager.PlanManager;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;
@@ -189,7 +189,7 @@ public class DefineSampleRecordsView extends AbstractView {
     
     /**
      * Starts a download for the given digital object. 
-     * Uses {@link eu.planets_project.pp.plato.util.Downloader} to perform the download.
+     * Uses {@link eu.scape_project.planning.util.Downloader} to perform the download.
      */
     public void download(DigitalObject object) {
     	File file = bytestreamManager.getTempFile(object.getPid());

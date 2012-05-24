@@ -23,10 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import at.tuwien.minireef.MiniREEFResolver;
 import at.tuwien.minireef.ResultSet;
-import eu.planets_project.pp.plato.model.FormatInfo;
-import eu.planets_project.pp.plato.model.PlatoException;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 
 /**
  * demonstration registry to query miniREEF (using the P2 knowledge base) for available tools

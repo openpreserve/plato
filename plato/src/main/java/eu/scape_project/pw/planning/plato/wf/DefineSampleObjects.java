@@ -26,17 +26,17 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import eu.planets_project.pp.plato.evaluation.evaluators.XmlExtractor;
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.ByteStream;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.Values;
-import eu.planets_project.pp.plato.model.tree.Leaf;
 import eu.planets_project.pp.plato.services.characterisation.fits.FitsIntegration;
 import eu.planets_project.pp.plato.services.characterisation.fits.FitsNamespaceContext;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.ByteStream;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.pw.planning.manager.StorageException;
 
 /**

@@ -13,7 +13,7 @@ package at.tuwien.minimee.registry;
 import java.io.Serializable;
 import java.util.List;
 
-import eu.planets_project.pp.plato.model.FormatInfo;
+import eu.scape_project.planning.model.FormatInfo;
 
 /**
  * Models a MiniMEE preservation action service.

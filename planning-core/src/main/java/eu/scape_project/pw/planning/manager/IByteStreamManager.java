@@ -2,7 +2,7 @@ package eu.scape_project.pw.planning.manager;
 
 import java.io.File;
 
-import eu.planets_project.pp.plato.model.DigitalObject;
+import eu.scape_project.planning.model.DigitalObject;
 
 /**
  * Interface for bytestream managers.

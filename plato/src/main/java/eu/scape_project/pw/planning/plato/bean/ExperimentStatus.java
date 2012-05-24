@@ -14,8 +14,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.SampleObject;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.SampleObject;
 
 public class ExperimentStatus implements Serializable {
 

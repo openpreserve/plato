@@ -13,9 +13,9 @@ package eu.planets_project.pp.plato.evaluation;
 import java.util.HashMap;
 import java.util.List;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.util.CriterionUri;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.util.CriterionUri;
+import eu.scape_project.planning.model.values.Value;
 
 /**
  * This is the interface for all evaluation plugins that are providing

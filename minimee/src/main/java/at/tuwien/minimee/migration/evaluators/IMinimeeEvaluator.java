@@ -12,7 +12,7 @@ package at.tuwien.minimee.migration.evaluators;
 
 import java.util.List;
 
-import eu.planets_project.pp.plato.model.measurement.Measurement;
+import eu.scape_project.planning.model.measurement.Measurement;
 
 public interface IMinimeeEvaluator {
     public List<Measurement> evaluate(String tempDir, String inFile,String outFile);

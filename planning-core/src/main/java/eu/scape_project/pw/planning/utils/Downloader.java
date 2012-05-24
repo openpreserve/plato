@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.DigitalObject;
+import eu.scape_project.planning.model.DigitalObject;
 
 /**
  * Starts download of a file.

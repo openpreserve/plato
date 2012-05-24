@@ -7,10 +7,10 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import eu.planets_project.pp.plato.bean.PrepareChangesForPersist;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.User;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.User;
 import eu.scape_project.pw.planning.LoadedPlan;
 import eu.scape_project.pw.planning.manager.ByteStreamManager;
 import eu.scape_project.pw.planning.manager.DigitalObjectManager;

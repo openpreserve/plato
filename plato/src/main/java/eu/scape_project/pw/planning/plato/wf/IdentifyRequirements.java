@@ -11,17 +11,17 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.User;
-import eu.planets_project.pp.plato.model.measurement.Criterion;
-import eu.planets_project.pp.plato.model.measurement.EvaluationScope;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.tree.Node;
-import eu.planets_project.pp.plato.model.tree.ObjectiveTree;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
 import eu.planets_project.pp.plato.xml.TreeLoader;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.EvaluationScope;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.Node;
+import eu.scape_project.planning.model.tree.ObjectiveTree;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.pw.planning.manager.ByteStreamManager;
 import eu.scape_project.pw.planning.manager.StorageException;
 import eu.scape_project.pw.planning.xml.ProjectExporter;
@@ -277,7 +277,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     /**
      * Resets the transformer of all leaves to the default transformer.
      * 
-     * @see eu.planets_project.pp.plato.IdentifyRequirements.workflow.IdentifyRequirementsAction#resetTransformers()
+     * @see eu.scape_project.planning.IdentifyRequirements.workflow.IdentifyRequirementsAction#resetTransformers()
      */
     private void resetTransformers() {
         TreeNode root = plan.getTree().getRoot();

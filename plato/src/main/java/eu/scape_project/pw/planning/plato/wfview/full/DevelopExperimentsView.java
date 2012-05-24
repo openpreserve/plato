@@ -8,9 +8,9 @@ import javax.inject.Named;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.pw.planning.plato.wf.DevelopExperiments;
 import eu.scape_project.pw.planning.plato.wfview.AbstractView;

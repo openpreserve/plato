@@ -30,18 +30,18 @@ import eu.planets_project.pp.plato.evaluation.EvaluatorBase;
 import eu.planets_project.pp.plato.evaluation.EvaluatorException;
 import eu.planets_project.pp.plato.evaluation.IObjectEvaluator;
 import eu.planets_project.pp.plato.evaluation.IStatusListener;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DetailedExperimentInfo;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.scales.Scale;
-import eu.planets_project.pp.plato.model.util.CriterionUri;
-import eu.planets_project.pp.plato.model.values.FreeStringValue;
-import eu.planets_project.pp.plato.model.values.OrdinalValue;
-import eu.planets_project.pp.plato.model.values.PositiveFloatValue;
-import eu.planets_project.pp.plato.model.values.PositiveIntegerValue;
-import eu.planets_project.pp.plato.model.values.Value;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DetailedExperimentInfo;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.util.CriterionUri;
+import eu.scape_project.planning.model.values.FreeStringValue;
+import eu.scape_project.planning.model.values.OrdinalValue;
+import eu.scape_project.planning.model.values.PositiveFloatValue;
+import eu.scape_project.planning.model.values.PositiveIntegerValue;
+import eu.scape_project.planning.model.values.Value;
 
 /**
  * This class analyses the metadata collected during experiment execution

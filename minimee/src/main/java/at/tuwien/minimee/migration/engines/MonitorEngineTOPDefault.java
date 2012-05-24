@@ -25,10 +25,10 @@ import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.util.ExecutionFootprintList;
 import at.tuwien.minimee.util.LinuxCommandExecutor;
 import at.tuwien.minimee.util.TopParser;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
-import eu.planets_project.pp.plato.model.values.PositiveFloatValue;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measurement;
+import eu.scape_project.planning.model.values.PositiveFloatValue;
 
 /**
  * This migration engine uses the Unix tool <em>top</em> to monitor

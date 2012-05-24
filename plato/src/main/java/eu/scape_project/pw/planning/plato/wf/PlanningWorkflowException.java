@@ -1,6 +1,6 @@
 package eu.scape_project.pw.planning.plato.wf;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
+import eu.scape_project.planning.exception.PlanningException;
 
 public class PlanningWorkflowException extends PlanningException {
 

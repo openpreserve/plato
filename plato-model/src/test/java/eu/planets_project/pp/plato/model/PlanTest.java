@@ -9,7 +9,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.AlternativesDefinition;
+import eu.scape_project.planning.model.DetailedExperimentInfo;
+import eu.scape_project.planning.model.Experiment;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.SampleRecordsDefinition;
 
 public class PlanTest {
 	@Test

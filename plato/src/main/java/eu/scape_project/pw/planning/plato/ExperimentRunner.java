@@ -9,16 +9,16 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DetailedExperimentInfo;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Experiment;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.interfaces.actions.IMigrationAction;
-import eu.planets_project.pp.plato.model.interfaces.actions.IPreservationAction;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DetailedExperimentInfo;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Experiment;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 import eu.scape_project.pw.planning.manager.DigitalObjectManager;
 import eu.scape_project.pw.planning.manager.StorageException;
 import eu.scape_project.pw.planning.plato.bean.ExperimentStatus;

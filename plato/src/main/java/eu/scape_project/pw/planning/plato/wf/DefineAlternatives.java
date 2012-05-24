@@ -11,14 +11,14 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.FormatInfo;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.PlatoException;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.interfaces.actions.IPreservationActionRegistry;
 import eu.planets_project.pp.plato.services.PlanningServiceException;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 import eu.scape_project.pw.planning.services.preservationaction.PreservationActionRegistryDefinition;
 import eu.scape_project.pw.planning.services.preservationaction.PreservationActionRegistryFactory;
 

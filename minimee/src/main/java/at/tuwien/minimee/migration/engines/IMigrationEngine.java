@@ -13,8 +13,8 @@ package at.tuwien.minimee.migration.engines;
 import java.util.List;
 
 import at.tuwien.minimee.model.ToolConfig;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
 
 /**
  * generic interface for a migration engine, to be implemented by any engine.

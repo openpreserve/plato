@@ -11,10 +11,10 @@
 package eu.planets_project.pp.plato.services.action.minimee;
 
 import at.tuwien.minimee.emulation.EmulationService;
-import eu.planets_project.pp.plato.model.PlatoException;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.interfaces.actions.IEmulationAction;
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.interfaces.actions.IEmulationAction;
 
 public class MiniMeeEmulationService implements IEmulationAction {
 

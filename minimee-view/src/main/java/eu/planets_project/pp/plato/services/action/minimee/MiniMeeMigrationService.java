@@ -11,13 +11,13 @@
 package eu.planets_project.pp.plato.services.action.minimee;
 
 import at.tuwien.minimee.migration.MigrationService;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.PlatoException;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
-import eu.planets_project.pp.plato.model.interfaces.actions.IMigrationAction;
-import eu.planets_project.pp.plato.model.measurement.Measurement;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
+import eu.scape_project.planning.model.measurement.Measurement;
 
 public class MiniMeeMigrationService implements IMigrationAction {
 

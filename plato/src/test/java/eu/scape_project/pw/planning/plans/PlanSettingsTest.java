@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.AlternativesDefinition;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.AlternativesDefinition;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.pw.planning.utils.FacesMessages;
 
 import static org.junit.Assert.assertEquals;

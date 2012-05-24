@@ -18,18 +18,18 @@ import java.util.Map;
 import org.apache.commons.digester3.Digester;
 import org.slf4j.LoggerFactory;
 
-import eu.planets_project.pp.plato.model.measurement.MeasurableProperty;
-import eu.planets_project.pp.plato.model.measurement.Metric;
-import eu.planets_project.pp.plato.model.scales.BooleanScale;
-import eu.planets_project.pp.plato.model.scales.FloatRangeScale;
-import eu.planets_project.pp.plato.model.scales.FloatScale;
-import eu.planets_project.pp.plato.model.scales.FreeStringScale;
-import eu.planets_project.pp.plato.model.scales.IntRangeScale;
-import eu.planets_project.pp.plato.model.scales.IntegerScale;
-import eu.planets_project.pp.plato.model.scales.OrdinalScale;
-import eu.planets_project.pp.plato.model.scales.PositiveFloatScale;
-import eu.planets_project.pp.plato.model.scales.PositiveIntegerScale;
-import eu.planets_project.pp.plato.model.scales.YanScale;
+import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Metric;
+import eu.scape_project.planning.model.scales.BooleanScale;
+import eu.scape_project.planning.model.scales.FloatRangeScale;
+import eu.scape_project.planning.model.scales.FloatScale;
+import eu.scape_project.planning.model.scales.FreeStringScale;
+import eu.scape_project.planning.model.scales.IntRangeScale;
+import eu.scape_project.planning.model.scales.IntegerScale;
+import eu.scape_project.planning.model.scales.OrdinalScale;
+import eu.scape_project.planning.model.scales.PositiveFloatScale;
+import eu.scape_project.planning.model.scales.PositiveIntegerScale;
+import eu.scape_project.planning.model.scales.YanScale;
 
 public class MeasurementsDescriptorParser {
     

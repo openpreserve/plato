@@ -36,16 +36,16 @@ public class MiniRED implements Serializable {
 //        descriptor.clearCriteria();
 
         // These are deactivated for now since they are experimental. The plan is to reintroduce them in Plato 3.1
-//        register("metadata",    "eu.planets_project.pp.plato.evaluation.evaluators.ImageMetadataEvaluator");
-//        register("imagecompjava", "eu.planets_project.pp.plato.evaluation.evaluators.imagecomparison.java.ImageComparisonEvaluator");
+//        register("metadata",    "eu.scape_project.planning.evaluation.evaluators.ImageMetadataEvaluator");
+//        register("imagecompjava", "eu.scape_project.planning.evaluation.evaluators.imagecomparison.java.ImageComparisonEvaluator");
         
-        register("pcdl",    "eu.planets_project.pp.plato.evaluation.evaluators.PCDLEvaluator");
-        register("experiment", "eu.planets_project.pp.plato.evaluation.evaluators.ExperimentEvaluator");
-        register("object", "eu.planets_project.pp.plato.evaluation.evaluators.ObjectEvaluator");
-        register("minireef", "eu.planets_project.pp.plato.evaluation.evaluators.MiniREEFEvaluator");
-        register("imagecomp", "eu.planets_project.pp.plato.evaluation.evaluators.ImageComparisonEvaluator");
+        register("pcdl",    "eu.scape_project.planning.evaluation.evaluators.PCDLEvaluator");
+        register("experiment", "eu.scape_project.planning.evaluation.evaluators.ExperimentEvaluator");
+        register("object", "eu.scape_project.planning.evaluation.evaluators.ObjectEvaluator");
+        register("minireef", "eu.scape_project.planning.evaluation.evaluators.MiniREEFEvaluator");
+        register("imagecomp", "eu.scape_project.planning.evaluation.evaluators.ImageComparisonEvaluator");
         
-        //register("consolidated", "eu.planets_project.pp.plato.evaluation.evaluators.ConsolidatedEvaluator");
+        //register("consolidated", "eu.scape_project.planning.evaluation.evaluators.ConsolidatedEvaluator");
     }
     
     public IEvaluator createEvaluator(String schema) {

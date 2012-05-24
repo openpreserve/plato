@@ -4,10 +4,10 @@ import junit.framework.TestSuite;
 
 import org.custommonkey.xmlunit.XMLTestCase;
 
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaHierarchy;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaLeaf;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaNode;
-import eu.planets_project.pp.plato.model.measurement.Criterion;
+import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
+import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
+import eu.scape_project.planning.model.kbrowser.CriteriaNode;
+import eu.scape_project.planning.model.measurement.Criterion;
 
 public class CriteriaHierarchyExporterTest extends XMLTestCase {	
 	public CriteriaHierarchyExporterTest(String name) {

@@ -12,10 +12,10 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.PolicyNode;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.pw.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.pw.planning.plato.wf.DefineBasis;

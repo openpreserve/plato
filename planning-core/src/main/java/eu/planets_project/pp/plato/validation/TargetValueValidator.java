@@ -9,7 +9,7 @@ package eu.planets_project.pp.plato.validation;
 // * this distribution, and is available at
 // * http://www.apache.org/licenses/LICENSE-2.0 
 // *******************************************************************************/
-//package eu.planets_project.pp.plato.validation;
+//package eu.scape_project.planning.validation;
 //
 //import javax.faces.application.FacesMessage;
 //import javax.faces.component.UIComponent;

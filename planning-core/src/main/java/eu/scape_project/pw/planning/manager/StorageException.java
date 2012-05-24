@@ -1,6 +1,6 @@
 package eu.scape_project.pw.planning.manager;
 
-import eu.planets_project.pp.plato.exception.PlanningException;
+import eu.scape_project.planning.exception.PlanningException;
 
 public class StorageException extends PlanningException {
 

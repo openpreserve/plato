@@ -9,11 +9,11 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.Plan;
-import eu.planets_project.pp.plato.model.PlanState;
-import eu.planets_project.pp.plato.model.tree.Leaf;
-import eu.planets_project.pp.plato.model.tree.TreeNode;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.pw.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.pw.planning.plato.wf.SetImportanceFactors;
 import eu.scape_project.pw.planning.plato.wfview.AbstractView;

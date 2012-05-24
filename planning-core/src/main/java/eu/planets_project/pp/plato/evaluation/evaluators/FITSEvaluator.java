@@ -27,16 +27,16 @@ import eu.planets_project.pp.plato.evaluation.EvaluatorBase;
 import eu.planets_project.pp.plato.evaluation.EvaluatorException;
 import eu.planets_project.pp.plato.evaluation.IObjectEvaluator;
 import eu.planets_project.pp.plato.evaluation.IStatusListener;
-import eu.planets_project.pp.plato.model.Alternative;
-import eu.planets_project.pp.plato.model.DigitalObject;
-import eu.planets_project.pp.plato.model.FormatInfo;
-import eu.planets_project.pp.plato.model.SampleObject;
-import eu.planets_project.pp.plato.model.scales.Scale;
-import eu.planets_project.pp.plato.model.util.CriterionUri;
-import eu.planets_project.pp.plato.model.util.FloatFormatter;
-import eu.planets_project.pp.plato.model.values.BooleanValue;
-import eu.planets_project.pp.plato.model.values.Value;
 import eu.planets_project.pp.plato.services.characterisation.fits.FitsNamespaceContext;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.util.CriterionUri;
+import eu.scape_project.planning.model.util.FloatFormatter;
+import eu.scape_project.planning.model.values.BooleanValue;
+import eu.scape_project.planning.model.values.Value;
 
 public class FITSEvaluator extends EvaluatorBase implements IObjectEvaluator {
     private static final String FITS_COMPRESSIONSCHEME_UNCOMPRESSED = "Uncompressed";

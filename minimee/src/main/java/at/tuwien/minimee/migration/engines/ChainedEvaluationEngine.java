@@ -10,7 +10,7 @@
  *******************************************************************************/
 package at.tuwien.minimee.migration.engines;
 
-import eu.planets_project.pp.plato.model.beans.MigrationResult;
+import eu.scape_project.planning.model.beans.MigrationResult;
 import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.ToolRegistry;
 

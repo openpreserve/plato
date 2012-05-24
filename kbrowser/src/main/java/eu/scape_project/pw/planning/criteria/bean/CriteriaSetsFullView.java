@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.richfaces.component.SortOrder;
 import org.slf4j.Logger;
 
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaHierarchy;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaNode;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaTreeNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
+import eu.scape_project.planning.model.kbrowser.CriteriaNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
 import eu.scape_project.pw.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.pw.planning.criteria.bean.data.PotentialToRangeData;
 

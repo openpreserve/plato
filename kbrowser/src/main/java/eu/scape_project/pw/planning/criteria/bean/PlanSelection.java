@@ -9,7 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import eu.planets_project.pp.plato.model.kbrowser.VPlanLeaf;
+import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 
 /**
  * Class responsible for encapsulating and manage the plans (and its corresnponding VPlanLeaves) to analyse.

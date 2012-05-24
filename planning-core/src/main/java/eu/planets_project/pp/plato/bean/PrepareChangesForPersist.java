@@ -13,9 +13,9 @@ package eu.planets_project.pp.plato.bean;
 
 import java.io.Serializable;
 
-import eu.planets_project.pp.plato.model.ChangeLog;
-import eu.planets_project.pp.plato.model.IChangesHandler;
-import eu.planets_project.pp.plato.model.ITouchable;
+import eu.scape_project.planning.model.ChangeLog;
+import eu.scape_project.planning.model.IChangesHandler;
+import eu.scape_project.planning.model.ITouchable;
 
 /**
  * This class provides a mechanism to update the user name of changed entities.

@@ -7,10 +7,10 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaHierarchy;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaLeaf;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaNode;
-import eu.planets_project.pp.plato.model.kbrowser.CriteriaTreeNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
+import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
+import eu.scape_project.planning.model.kbrowser.CriteriaNode;
+import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
 
 /**
  * Method responsible for exporting CriteriaHierarchies.
