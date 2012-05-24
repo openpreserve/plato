@@ -9,6 +9,8 @@ import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 
+import eu.scape_project.planning.plato.wf.DefineAlternatives;
+
 //@RunWith(Arquillian.class)
 public class DefineAlternativesActionTest {
 	

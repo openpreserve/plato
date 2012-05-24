@@ -17,6 +17,7 @@ import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.plato.wfview.ViewWorkflow;
 import eu.scape_project.planning.validation.ValidationError;
 
 public class ViewWorkflowTest {

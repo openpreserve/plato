@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.plato.wfview.full.DefineAlternativesView;
 import eu.scape_project.pw.planning.utils.FacesMessages;
 
 public class DefineAlternativesViewTest {

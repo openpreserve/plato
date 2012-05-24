@@ -8,6 +8,8 @@ import javax.faces.convert.ConverterException;
 
 import org.junit.Test;
 
+import eu.scape_project.planning.converters.NumberConverter;
+
 public class NumberConverterTest {
 
 	private NumberConverter numberConverter;

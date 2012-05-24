@@ -14,23 +14,25 @@ import org.junit.Test;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
-import eu.scape_project.pw.planning.plato.wfview.fte.FTAnalyseResultsView;
-import eu.scape_project.pw.planning.plato.wfview.fte.FTDefineRequirementsView;
-import eu.scape_project.pw.planning.plato.wfview.fte.FTEvaluateAlternativesView;
-import eu.scape_project.pw.planning.plato.wfview.full.AnalyseResultsView;
-import eu.scape_project.pw.planning.plato.wfview.full.CreateExecutablePlanView;
-import eu.scape_project.pw.planning.plato.wfview.full.DefineAlternativesView;
-import eu.scape_project.pw.planning.plato.wfview.full.DefineBasisView;
-import eu.scape_project.pw.planning.plato.wfview.full.DefinePreservationPlanView;
-import eu.scape_project.pw.planning.plato.wfview.full.DefineSampleRecordsView;
-import eu.scape_project.pw.planning.plato.wfview.full.DevelopExperimentsView;
-import eu.scape_project.pw.planning.plato.wfview.full.EvaluateExperimentsView;
-import eu.scape_project.pw.planning.plato.wfview.full.IdentifyRequirementsView;
-import eu.scape_project.pw.planning.plato.wfview.full.RunExperimentsView;
-import eu.scape_project.pw.planning.plato.wfview.full.SetImportanceFactorsView;
-import eu.scape_project.pw.planning.plato.wfview.full.TakeGoDecisionView;
-import eu.scape_project.pw.planning.plato.wfview.full.TransformMeasuredValuesView;
-import eu.scape_project.pw.planning.plato.wfview.full.ValidatePlanView;
+import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.plato.wfview.ViewWorkflowFactory;
+import eu.scape_project.planning.plato.wfview.fte.FTAnalyseResultsView;
+import eu.scape_project.planning.plato.wfview.fte.FTDefineRequirementsView;
+import eu.scape_project.planning.plato.wfview.fte.FTEvaluateAlternativesView;
+import eu.scape_project.planning.plato.wfview.full.AnalyseResultsView;
+import eu.scape_project.planning.plato.wfview.full.CreateExecutablePlanView;
+import eu.scape_project.planning.plato.wfview.full.DefineAlternativesView;
+import eu.scape_project.planning.plato.wfview.full.DefineBasisView;
+import eu.scape_project.planning.plato.wfview.full.DefinePreservationPlanView;
+import eu.scape_project.planning.plato.wfview.full.DefineSampleRecordsView;
+import eu.scape_project.planning.plato.wfview.full.DevelopExperimentsView;
+import eu.scape_project.planning.plato.wfview.full.EvaluateExperimentsView;
+import eu.scape_project.planning.plato.wfview.full.IdentifyRequirementsView;
+import eu.scape_project.planning.plato.wfview.full.RunExperimentsView;
+import eu.scape_project.planning.plato.wfview.full.SetImportanceFactorsView;
+import eu.scape_project.planning.plato.wfview.full.TakeGoDecisionView;
+import eu.scape_project.planning.plato.wfview.full.TransformMeasuredValuesView;
+import eu.scape_project.planning.plato.wfview.full.ValidatePlanView;
 
 public class WorkflowStepFactoryTest {
 	
