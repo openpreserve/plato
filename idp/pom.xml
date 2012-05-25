@@ -42,6 +42,16 @@
 								org.picketlink</Dependencies>
 						</manifestEntries>
 					</archive>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
+							<filtering>true</filtering>
+							<targetPath>WEB-INF</targetPath>
+							<includes>
+								<include>**/picketlink*.xml</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -90,20 +100,20 @@
 			<version>${hibernate.validator.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
-	    <dependency>
-	      <groupId>org.hibernate</groupId>
-	      <artifactId>hibernate-entitymanager</artifactId>
-	      <version>3.5.6-Final</version>
-	      <scope>test</scope>
-	    </dependency>
-	    
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.5.6-Final</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.19</version>
 			<scope>test</scope>
-		</dependency>            
+		</dependency>
 
 		<!-- <dependency> <groupId>eu.scape-project.pw</groupId> <artifactId>plato-model</artifactId> 
 			<version>3.2.0</version> </dependency> <dependency> <groupId>eu.scape-project.pw</groupId> 

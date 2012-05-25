@@ -14,8 +14,9 @@
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
 		<arquillian.version>1.0.0.CR5</arquillian.version>
 		<richfaces.version>4.1.0.Final</richfaces.version>
+		<plato.url>http://${sp.domain}:8080/plato/</plato.url>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -44,9 +45,21 @@
 					<archive>
 						<manifestEntries>
 							<Built-By>Plato Development Team</Built-By>
-							<Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api, org.joda.time, org.hibernate, org.hibernate.validator, org.dom4j, org.picketlink</Dependencies>
+							<Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api,
+								org.joda.time, org.hibernate, org.hibernate.validator,
+								org.dom4j, org.picketlink</Dependencies>
 						</manifestEntries>
 					</archive>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
+							<filtering>true</filtering>
+							<targetPath>WEB-INF</targetPath>
+							<includes>
+								<include>**/picketlink*.xml</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
@@ -55,13 +68,13 @@
 		</plugins>
 	</build>
 	<dependencies>
-        <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-6.0</artifactId>
-            <version>1.0.0.Final</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-6.0</artifactId>
+			<version>1.0.0.Final</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-components-ui</artifactId>
@@ -116,11 +129,11 @@
 			<scope>provided</scope>
 			<type>ejb</type>
 		</dependency>
-	    <dependency>
-	        <groupId>eu.scape-project.pw</groupId>
-	        <artifactId>minimee</artifactId>
-	        <version>0.0.1-SNAPSHOT</version>
-	    </dependency>		
+		<dependency>
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>minimee</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -135,39 +148,32 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-           <groupId>org.mockito</groupId>
-           <artifactId>mockito-core</artifactId>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
 		</dependency>
-        <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-	    </dependency>
 		<dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>log4j</groupId>
-          <artifactId>log4j</artifactId>
-        </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
 			<id>jbossas-remote-7</id>
 			<dependencies>
-			<!-- 
-				<dependency>
-					<groupId>org.jboss.spec</groupId>
-					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>1.0.0.Final</version>
-					<type>pom</type>
-					<scope>provided</scope>
-				</dependency>
-            -->				
+				<!-- <dependency> <groupId>org.jboss.spec</groupId> <artifactId>jboss-javaee-6.0</artifactId> 
+					<version>1.0.0.Final</version> <type>pom</type> <scope>provided</scope> </dependency> -->
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-arquillian-container-remote</artifactId>
