@@ -54,7 +54,7 @@ public class Feedback implements Serializable {
 	public boolean sendFeedback(String userEmail, String userComments, String host) {
 		// EMail settings
 		// FIXME
-		final String toEmail = "hamm@ifs.tuwien.ac.at";
+		final String toEmail = "plato@ifs.tuwien.ac.at";
 		final String fromEmail = "plato@ifs.tuwien.ac.at";
 		final String smtpServer = "mr.tuwien.ac.at";
 		

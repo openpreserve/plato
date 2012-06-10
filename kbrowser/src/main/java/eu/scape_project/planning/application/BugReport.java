@@ -78,7 +78,7 @@ public class BugReport implements Serializable {
 	public boolean sendBugReport(Throwable exception, String userDescription, String userEmail, String host) {
 		// EMail settings
 		// FIXME
-		final String toEmail = "hamm@ifs.tuwien.ac.at";
+		final String toEmail = "plato@ifs.tuwien.ac.at";
 		final String fromEmail = "plato@ifs.tuwien.ac.at";
 		final String smtpServer = "mr.tuwien.ac.at";
 		
