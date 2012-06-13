@@ -17,10 +17,9 @@
         <h1> Administration Utilities </h1>
         
 		<h:form id="adminform">
-
+            <rich:messages globalOnly="true" ajaxRendered="true"/>       
             <hr />
             Admin commands need passcode:
-            <rich:messages for="passwordField"/>       
             <h:inputSecret value="#{admin.password}" id="passwordField" />
             <hr />
 		    
@@ -42,8 +41,8 @@
 		        <legend> cleanup </legend>
 		        
 		        <rich:messages for="deleteAllPlans"/>
-		        <a4j:commandButton id="deleteAllPlans" action="#{admin.deleteAllPlans()}" value="Delete all plans from database"
-		                           onclick="if (!confirm('Are you sure you want to delete all the plans?')) return false" />
+		        <a4j:commandButton id="deleteAllPlans" action="#{admin.deleteAllPlans()}" value="Delete all plans from database" 
+		                           onclick="if (!confirm('Are you sure you want to delete all the plans?')) return false;" render="" />
 		        <br />	        
 		        
 		        <rich:messages for="cleanUpLoosePlanValues" />

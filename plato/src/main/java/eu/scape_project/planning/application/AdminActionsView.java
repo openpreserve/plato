@@ -25,6 +25,7 @@ import javax.inject.Named;
 import javax.naming.directory.InvalidAttributesException;
 
 import org.richfaces.event.FileUploadEvent;
+import org.slf4j.Logger;
 
 import eu.scape_project.planning.application.Messages;
 import eu.scape_project.planning.application.NewsMessage;
@@ -39,6 +40,8 @@ import eu.scape_project.planning.utils.FacesMessages;
 @SessionScoped
 public class AdminActionsView implements Serializable {
 	private static final long serialVersionUID = 7135700751688165420L;
+	
+	@Inject	private Logger log;
 
 	private String password;
 	
@@ -132,6 +135,7 @@ public class AdminActionsView implements Serializable {
 		}
 		
 		adminActions.deleteAllPlans();
+		log.info("Admin: deleted all plans.");
 		facesMessages.addInfo("deleteAllPlans", "All plans deleted!");
 	}
 	
@@ -141,7 +145,8 @@ public class AdminActionsView implements Serializable {
 			return;
 		}
 
-		int nrOfValuesRemoved = adminActions.cleanUpLoosePlanValues();		
+		int nrOfValuesRemoved = adminActions.cleanUpLoosePlanValues();
+		log.info("Admin: Cleaned up " + nrOfValuesRemoved + " loose plan values");		
 		facesMessages.addInfo("cleanUpLoosePlanValues", "Cleaned up " + nrOfValuesRemoved + " loose plan values");
 	}
 	
@@ -396,12 +401,12 @@ public class AdminActionsView implements Serializable {
 	 * @return True if the password is correct, false otherwise.
 	 */
 	private boolean isAdminPasswordCorrect() {
-		if (!adminActions.isAdminPasswordCorrect(password)) {
-			facesMessages.addError("passwordField", "Sorry, wrong password");
-			return false;
-		}
-		
-		return true;
+	    if (!adminActions.isAdminPasswordCorrect(password)) {
+	        facesMessages.addError("Invalid password provided, no admin actions available.");
+	        log.error("Invalid password provided, no admin actions available.");
+	        return false;
+	    }
+	    return true;
 	}
 	
 	// --------------- getter/setter ---------------
@@ -417,6 +422,7 @@ public class AdminActionsView implements Serializable {
 	public Integer getExportPlanRangeToId() {
 		return exportPlanRangeToId;
 	}
+        
 
 	public void setExportPlanRangeToId(Integer exportPlanRangeToId) {
 		this.exportPlanRangeToId = exportPlanRangeToId;
