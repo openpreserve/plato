@@ -4,8 +4,8 @@
 	xsi:schemaLocation="
         http://java.sun.com/xml/ns/persistence
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="platoDatabase">
-		<jta-data-source>java:jboss/datasources/platoDatasource</jta-data-source>
+	<persistence-unit name="idpDatabase">
+		<jta-data-source>java:jboss/datasources/idpDatasource</jta-data-source>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
