@@ -276,7 +276,7 @@
 	                                                        </td>
 		                                                </tr>
 		                                                <tr class="tableStyle-row rf-dt-r rf-dt-fst-r">
-		                                                    <td class="rf-dt-c" style="width: 100px;">Criticality</td>
+		                                                    <td class="rf-dt-c" style="width: 100px;">Selectivity</td>
 		                                                    <td class="rf-dt-c">
 	                                                            <h:outputText value="#{kBrowser.cplIf18}">           
 	                                                                <f:convertNumber type="number" maxFractionDigits="2" />
@@ -320,7 +320,7 @@
 											</h:panelGroup>
 											<h:panelGroup layout="block" styleClass="panel">
 												<div style="width: 100px; float: left;" class="very-huge-font">
-													Coverage: <br /> Range: <br /> Criticality: <br />
+													Coverage: <br /> Range: <br /> Selectivity: <br />
 												</div>
 												<div style="margin-left: 110px;" class="very-huge-font">
 													<h:outputText value="#{kBrowser.cplIf2}">
@@ -350,7 +350,7 @@
 												<h:outputText value="#{kBrowser.cplIf6}">
 													<f:convertNumber type="number" maxFractionDigits="4" />
 												</h:outputText>
-												<br /> Criticality:
+												<br /> Selectivity:
 												<h:outputText value="#{kBrowser.cplIf18}">
 													<f:convertNumber type="number" maxFractionDigits="2" />
 												</h:outputText>
@@ -1243,7 +1243,7 @@
 										<f:facet name="header">
 											<a4j:commandLink render="impact_factors_table" action="#{kBrowser.sortCifByColumnCompact(4)}">
 												<!-- Rejection Percentage -->
-										     Criticality
+										     Selectivity
                                                 <h:graphicImage library="gfx" name="icons/sort-descending.png"
 													rendered="#{kBrowser.cifIfSortOrderCompact[4] == 'descending'}" />
 												<h:graphicImage library="gfx" name="icons/sort-ascending.png"
@@ -1280,7 +1280,7 @@
 											<td class="rf-dt-c">Average actual output range of this criterion</td>
 										</tr>
 										<tr>
-											<td class="rf-dt-c">Criticality</td>
+											<td class="rf-dt-c">Selectivity</td>
 											<td class="rf-dt-c">Percentage of rejected alternatives</td>
 										</tr>
 									</tbody>

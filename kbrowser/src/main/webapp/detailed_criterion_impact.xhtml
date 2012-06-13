@@ -107,7 +107,7 @@
 	                            </tr>
 	                        </tbody>
 	                    </table>
-	                    
+	                    <h:commandButton value="Download data as CSV" action="#{kBrowser.exportImpactFactorsToCSV}" rendered="#{user.admin}"/>
 	                    <rich:dataTable value="#{kBrowser.importanceAnalysis.tableRows}" var="row" styleClass="tableStyle"
 	                        headerClass="tableStyle-header" rowClass="tableStyle-row">
 	                        <rich:column sortBy="#{row.category}" sortOrder="#{kBrowser.cifIfSortOrder[0]}">

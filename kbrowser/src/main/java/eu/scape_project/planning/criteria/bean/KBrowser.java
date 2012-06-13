@@ -16,7 +16,10 @@
  ******************************************************************************/
 package eu.scape_project.planning.criteria.bean;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
@@ -27,9 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
 
 import org.richfaces.component.SortOrder;
 import org.slf4j.Logger;
@@ -1307,6 +1312,53 @@ public class KBrowser implements Serializable {
 
     public void setCifIfSortOrderCompact(SortOrder[] cifIfSortOrderCompact) {
         this.cifIfSortOrderCompact = cifIfSortOrderCompact;
+    }
+    
+    public void exportImpactFactorsToCSV() {
+        StringBuilder csvBuf = new StringBuilder();
+        csvBuf.append("Category; Criterion; IF1; IF2; IF3;IF4; IF5; IF6; IF7; IF8; IF9; IF10; IF11;IF12; IF13; IF14; IF15; IF16; IF17; IF18");
+        for (ImportanceAnalysisProperty p : importanceAnalysis.getTableRows()) {
+            csvBuf.append(p.getCategory()).append(";");
+            csvBuf.append(p.getProperty() + " " + p.getMetric()).append(";");
+            csvBuf.append(p.getIf1()).append(";");
+            csvBuf.append(p.getIf2()).append(";");
+            csvBuf.append(p.getIf3()).append(";");
+            csvBuf.append(p.getIf4()).append(";");
+            csvBuf.append(p.getIf5()).append(";");
+            csvBuf.append(p.getIf6()).append(";");
+            csvBuf.append(p.getIf7()).append(";");
+            csvBuf.append(p.getIf8()).append(";");
+            csvBuf.append(p.getIf9()).append(";");
+            csvBuf.append(p.getIf10()).append(";");
+            csvBuf.append(p.getIf11()).append(";");
+            csvBuf.append(p.getIf12()).append(";");
+            csvBuf.append(p.getIf13()).append(";");
+            csvBuf.append(p.getIf14()).append(";");
+            csvBuf.append(p.getIf15()).append(";");
+            csvBuf.append(p.getIf16()).append(";");
+            csvBuf.append(p.getIf17()).append(";");
+            csvBuf.append(p.getIf18()).append(";");
+            csvBuf.append("\n");
+        }
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+            .getResponse();
+        response.setHeader("Content-disposition", "attachment; filename= ImpactFactors.csv");
+        response.setContentLength(csvBuf.length());
+        response.setContentType("application/vnd.ms-excel");
+
+        try {
+            Writer writer = new OutputStreamWriter(response.getOutputStream());
+            writer.append(csvBuf);
+            writer.flush();
+            writer.close();
+            context.responseComplete();
+            log.debug("Exported impact factors successfully to CSV-File.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
