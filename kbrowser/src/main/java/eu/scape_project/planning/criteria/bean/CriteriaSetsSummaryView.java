@@ -42,7 +42,6 @@ import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
 /**
  * View Bean responsible for CriteriaSetsSummaryView
  */
-@Stateful
 @Named("criteriaSetsSummary")
 @SessionScoped
 public class CriteriaSetsSummaryView implements Serializable {
@@ -303,16 +302,16 @@ public class CriteriaSetsSummaryView implements Serializable {
 	 * @param column
 	 *            Column index starting from 0.
 	 */
-	public void sortSummaryTableByColumn(int column) {
-		log.debug("Sorting Criterion Impact Factors by IF"
-				+ Integer.toString(column));
-		SortOrder currentColumn = summaryTableSortOrder[column];
-		clearSummaryTableSortOrders();
-		if (currentColumn.equals(SortOrder.descending)) {
-			summaryTableSortOrder[column] = SortOrder.ascending;
-		} else {
-			summaryTableSortOrder[column] = SortOrder.descending;
-		}
+	public void sortSummaryTableByColumn(long lcolumn) {
+            int column = (int)lcolumn;
+            log.debug("Sorting Criterion Impact Factors by IF" + column);
+            SortOrder currentColumn = summaryTableSortOrder[column];
+            clearSummaryTableSortOrders();
+            if (currentColumn.equals(SortOrder.descending)) {
+                summaryTableSortOrder[column] = SortOrder.ascending;
+            } else {
+                summaryTableSortOrder[column] = SortOrder.descending;
+            }
 	}
 
 	/**

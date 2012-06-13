@@ -63,8 +63,6 @@ import eu.scape_project.planning.model.scales.Scale;
  */
 @SessionScoped
 @Named("kBrowser")
-// @Stateful
-// @Model
 public class KBrowser implements Serializable {
     private static final long serialVersionUID = 4713056518876377374L;
     private static final Logger log = LoggerFactory.getLogger(KBrowser.class);
@@ -1282,8 +1280,9 @@ public class KBrowser implements Serializable {
      * @param column
      *            Column index starting from 0.
      */
-    public void sortCifByColumn(int column) {
-        log.debug("Sorting Criterion Impact Factors by IF" + Integer.toString(column));
+    public void sortCifByColumn(long lcolumn) {
+        int column = (int)lcolumn;
+        log.debug("Sorting Criterion Impact Factors by IF" + column);
         SortOrder currentColumn = cifIfSortOrder[column];
         clearCifSortOrders();
         if (currentColumn.equals(SortOrder.descending)) {
@@ -1316,7 +1315,9 @@ public class KBrowser implements Serializable {
      * @param column
      *            Column index starting from 0.
      */
-    public void sortCifByColumnCompact(int column) {
+    public void sortCifByColumnCompact(long lcolumn) {
+        int column = (int)lcolumn;
+
         log.debug("Sorting compact Criterion Impact Factors by IF" + Integer.toString(column));
         SortOrder currentColumn = cifIfSortOrderCompact[column];
         clearCifSortOrdersCompact();
