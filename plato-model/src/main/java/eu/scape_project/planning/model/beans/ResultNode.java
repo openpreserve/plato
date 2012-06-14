@@ -40,6 +40,9 @@ public class ResultNode implements ITreeNode, Serializable{
     private static final long serialVersionUID = -8118525873048146001L;
     private List<ResultNode> children = new ArrayList<ResultNode>();
     private String name;
+    /**
+     * Aggregated results per alternative
+     */
     private HashMap<String, String> resultStrings = new HashMap<String, String>();
     private HashMap<String, Double> results = new HashMap<String, Double>();
     private static DecimalFormat format = new DecimalFormat("#0.00");
@@ -106,6 +109,14 @@ public class ResultNode implements ITreeNode, Serializable{
         this.leaf = leaf;
     }
 
+    /**
+     * Creates a result node for the given TreeNode, applying the given aggregator a.
+     * - applied to the root node of an objective tree this calculates the overall result for each alternative.
+     *   
+     * @param n
+     * @param a
+     * @param alternatives
+     */
     public ResultNode(TreeNode n, IAggregator a, List<Alternative> alternatives) {
         this.treeNode = n;
         setName(n.getName());

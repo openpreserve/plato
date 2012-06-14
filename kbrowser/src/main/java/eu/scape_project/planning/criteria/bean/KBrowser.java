@@ -33,7 +33,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
 
 import org.richfaces.component.SortOrder;
@@ -86,6 +85,7 @@ public class KBrowser implements Serializable {
     private PlanSelection planSelection;
 
     // ---- variables for selection ----
+    private List<PlanInfo> selectedPlans = new ArrayList<PlanInfo>();
     private Collection<CriterionCategory> categories;
     private HashMap<String, CriterionCategory> categoriesMap;
     private CriterionCategory selectedCategory;
@@ -230,6 +230,7 @@ public class KBrowser implements Serializable {
 
         // reset "display only used properties" checkbox
         showOnlyUsedProperties = true;
+        
 
         // reset data
         // at this point in time not plan data is set yet (this is done in
@@ -271,14 +272,14 @@ public class KBrowser implements Serializable {
         nrRelevantPlans = (long) planSelection.getSelectedPlans().size();
         List<VPlanLeaf> planLeaves = planSelection.getSelectionPlanLeaves();
 
-
+        selectedPlans.clear();
         // we also need the scores of the alternatives - for each selected plan
         for (int pId : planSelection.getSelectedPlans()) {
             Plan plan = planManager.loadPlan(pId);
             ResultNode result = 
                 new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
-        }
-        
+            selectedPlans.add(new PlanInfo(pId, result));
+        }        
         // init calculation classes
         this.calculator = new KBrowserCalculator(planLeaves, nrRelevantPlans);
         importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, nrRelevantPlans);

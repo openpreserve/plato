@@ -72,21 +72,11 @@ public class PlanSelection implements Serializable {
 		}
 	}
 	
-	// --------------- getter/setter ---------------
-	
 	public List<Integer> getSelectedPlans() {
 		return selectedPlans;
-	}
-
-	public void setSelectedPlans(List<Integer> selectedPlans) {
-		this.selectedPlans = selectedPlans;
 	}
 
 	public List<VPlanLeaf> getSelectionPlanLeaves() {
 		return selectionPlanLeaves;
 	}
-
-	public void setSelectionPlanLeaves(List<VPlanLeaf> selectionPlanLeaves) {
-		this.selectionPlanLeaves = selectionPlanLeaves;
-	}	
 }
