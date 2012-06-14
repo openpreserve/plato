@@ -16,7 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.planning.criteria.bean.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

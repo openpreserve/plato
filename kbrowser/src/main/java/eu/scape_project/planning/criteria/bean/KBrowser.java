@@ -43,6 +43,10 @@ import org.slf4j.LoggerFactory;
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
 import eu.scape_project.planning.manager.CriteriaManager;
+import eu.scape_project.planning.manager.PlanManager;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.aggregators.WeightedSum;
+import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
@@ -73,7 +77,7 @@ public class KBrowser implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(KBrowser.class);
 
     @Inject
-    private EntityManager em;
+    private PlanManager planManager;
 
     @Inject
     private CriteriaManager criteriaManager;
@@ -267,6 +271,14 @@ public class KBrowser implements Serializable {
         nrRelevantPlans = (long) planSelection.getSelectedPlans().size();
         List<VPlanLeaf> planLeaves = planSelection.getSelectionPlanLeaves();
 
+
+        // we also need the scores of the alternatives - for each selected plan
+        for (int pId : planSelection.getSelectedPlans()) {
+            Plan plan = planManager.loadPlan(pId);
+            ResultNode result = 
+                new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+        }
+        
         // init calculation classes
         this.calculator = new KBrowserCalculator(planLeaves, nrRelevantPlans);
         importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, nrRelevantPlans);
@@ -638,6 +650,9 @@ public class KBrowser implements Serializable {
             isPropertySelected = false;
         }
 
+        // FIXME: a criterion is ALWAYS measurable (else it wouldn't be a criterion, right?)
+        // but: a selected measurable property itself might not be related to a criterion
+        // so the following comment does not maḱe sense:
         // check if selected criterion is measurable - if so calculate values.
         // if the property has a metric assigned it is always measurable.
         // if the property has no metric assigned it is measurable if the

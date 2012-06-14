@@ -66,9 +66,15 @@ public class VPlanLeaf {
     
     private int planId;
     
+    /**
+     * The weight of this leaf. 
+     */
     @Column(name="absoluteWeight")
     private double weight;
     
+    /**
+     * The aggregated weight up to the root, that means the impact of this leaf on the overall result
+     */
     @Column(name="relativeWeight")
     private double totalWeight;
     
@@ -84,7 +90,7 @@ public class VPlanLeaf {
     @Enumerated
     private SampleAggregationMode aggregationMode;
 
-   @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
 //    @IndexColumn(name="key_name")

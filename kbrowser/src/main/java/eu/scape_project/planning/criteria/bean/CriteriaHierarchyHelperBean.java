@@ -911,6 +911,7 @@ public class CriteriaHierarchyHelperBean implements Serializable {
     }
 
     public List<CriteriaHierarchy> getAllCriteriaHierarchies() {
+        // FIXME: That looks really strange : query for the hierarchies each time, but still cache it in the property
         allCriteriaHierarchies = (List<CriteriaHierarchy>) em.createQuery("SELECT h from CriteriaHierarchy h").getResultList();
         return allCriteriaHierarchies;
     }

@@ -189,10 +189,25 @@ public class PlanManager implements Serializable {
 
         Plan reloadedPlan = em.find(Plan.class, plan.getId());
 
-        this.initializeProject(reloadedPlan);
+        this.initializePlan(reloadedPlan);
         log.info("Plan " + reloadedPlan.getPlanProperties().getName() + " reloaded!");
         return reloadedPlan;
 
+    }
+    
+    /**
+     * Loads the plan with the given plan-Id from the database.
+     * - without locking the plan!
+     * 
+     * @param planId
+     * @return
+     */
+    public Plan loadPlan(int planId) {
+        Plan plan = em.find(Plan.class, planId);
+
+        this.initializePlan(plan);
+        log.info("Plan " + plan.getPlanProperties().getName() + " loaded!");
+        return plan;
     }
 
     /**
@@ -215,17 +230,11 @@ public class PlanManager implements Serializable {
         }
         Object result = em.createQuery("select p.id from Plan p where p.planProperties.id = " + propertyId)
             .getSingleResult();
-
         if (result != null) {
-            Plan plan = em.find(Plan.class, result);
-
-            this.initializeProject(plan);
-            log.info("Plan " + plan.getPlanProperties().getName() + " loaded!");
-            return plan;
+            return loadPlan((Integer)result);
         } else {
             throw new PlanningException("An unexpected error has occured while loading the plan.");
         }
-
     }
 
     public void store(Plan plan) throws PlanningException {
@@ -235,7 +244,7 @@ public class PlanManager implements Serializable {
     /**
      * Hibernate initializes project and its parts.
      */
-    private void initializeProject(Plan p) {
+    private void initializePlan(Plan p) {
         Hibernate.initialize(p);
         Hibernate.initialize(p.getAlternativesDefinition());
         Hibernate.initialize(p.getSampleRecordsDefinition());
