@@ -57,7 +57,7 @@ public class CriteriaNode extends CriteriaTreeNode {
     // -------- universal functions --------
     
     @Override
-    public Boolean getLeaf() {
+    public boolean isLeaf() {
         return false;
     }
     

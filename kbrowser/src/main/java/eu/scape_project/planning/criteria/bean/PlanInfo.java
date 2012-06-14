@@ -15,6 +15,8 @@ public class PlanInfo implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private int id;
+    private String winningAlternative;
+    private double winningResult;
     /**
      * Holds the evaluation results for all alternatives
      * 
@@ -27,8 +29,28 @@ public class PlanInfo implements Serializable{
     public PlanInfo(final int id, final ResultNode results){
         this.id = id;
         this.overallResults = results;
+        
+        // determine the winning alternative
+        double maxResult = Double.MIN_VALUE;
+        for (String a : results.getResults().keySet()) {
+            double result = results.getResults().get(a);
+            if (result > maxResult) {
+                maxResult = result;
+                winningResult = maxResult;
+                winningAlternative = a;
+            }
+        }
+        
     }
     
+    public String getWinningAlternative() {
+        return winningAlternative;
+    }
+    
+    public double getWinningResult() {
+        return winningResult;
+    }
+
     public int getId() {
         return id;
     }

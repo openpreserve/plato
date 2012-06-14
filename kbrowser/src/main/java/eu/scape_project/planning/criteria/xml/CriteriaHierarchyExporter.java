@@ -79,7 +79,7 @@ public class CriteriaHierarchyExporter implements Serializable {
         Element element = xmlElement.addElement("node");
 
         // LEAF
-        if (criteriaTreeNode.getLeaf()) {
+        if (criteriaTreeNode.isLeaf()) {
         	CriteriaLeaf leaf = (CriteriaLeaf) criteriaTreeNode;
         	String leafText = "";
         	

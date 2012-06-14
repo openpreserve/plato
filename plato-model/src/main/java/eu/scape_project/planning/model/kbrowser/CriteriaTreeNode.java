@@ -72,5 +72,5 @@ public abstract class CriteriaTreeNode implements Serializable {
         return parent;
     }
 
-    public abstract Boolean getLeaf();
+    public abstract boolean isLeaf();
 }

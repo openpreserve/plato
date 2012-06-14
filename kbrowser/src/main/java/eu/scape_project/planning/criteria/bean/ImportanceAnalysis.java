@@ -19,7 +19,10 @@ package eu.scape_project.planning.criteria.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,12 +122,81 @@ public class ImportanceAnalysis implements Serializable {
             importanceAnalysisProperty.setIf16(criteriaLeaf.getImportanceFactorIF16());
             importanceAnalysisProperty.setIf17(criteriaLeaf.getImportanceFactorIF17());
             importanceAnalysisProperty.setIf18(criteriaLeaf.getImportanceFactorIF18());
-            importanceAnalysisProperty.setIf19(criteriaLeaf.getImportanceFactorIF19());
+
+            importanceAnalysisProperty.setIf19(calculateImportanceFactorIF19(selectedPlans, criteriaLeaf));
             
             tableRows.add(importanceAnalysisProperty);
         }
     }
     
+    /**
+     * calculates importance factor "robustness"
+     * - the extend to which the measured value of a criterion can change, without impact on the winning alternative
+     * - CriteriaLeaf is an entity bean and part of plato-model for the calculations we need PlanInfo 
+     *   and I don't want to pollute plato-model (further) with kbrowser related classes.
+     *   for this reason the calculation is done here. 
+     *   
+     * @param selectedPlans
+     * @param criteriaLeaf
+     * @return
+     */
+    private double calculateImportanceFactorIF19(List<PlanInfo> selectedPlans, CriteriaLeaf criteriaLeaf) {
+        Map<VPlanLeaf, Double> importanceFactors = new HashMap<VPlanLeaf, Double>();
+        
+        for (VPlanLeaf pLeaf : criteriaLeaf.getPlanLeaves()) {
+            PlanInfo planInfo = null;
+            // retrieve the PlanInfo for this plan
+            for (PlanInfo p : selectedPlans) {
+                if (p.getId() == pLeaf.getPlanId()) {
+                    planInfo = p;
+                    break;
+                }
+            }
+            Set<String> competitors =  planInfo.getOverallResults().getResults().keySet();
+            competitors.remove(planInfo.getWinningAlternative());
+            if (competitors.isEmpty()) {
+                importanceFactors.put(pLeaf, 0.0);
+                continue;
+            }
+            
+            double winnerOverallResult = planInfo.getWinningResult();
+            
+            // determine result of the nearest non-winning alternative
+            String sndAlternative;
+            double sndOverallResult = Double.MIN_VALUE;
+            for (String a : competitors) {
+                double result = planInfo.getOverallResults().getResults().get(a);
+                if (result > sndOverallResult) {
+                    sndOverallResult = result;
+                    sndAlternative = a;
+                }
+            }
+            double overallDiffToNext = winnerOverallResult - sndOverallResult;
+            // get the transformed, but not weighted, result of the winning alternative for this criterion 
+            double winnerResult = pLeaf.getAlternativeResultsAsMap().get(planInfo.getWinningAlternative());
+            // calculate the impact of this criterion on the final result
+            double overallImpact = winnerResult * pLeaf.getTotalWeight();
+            // now we have to calculate the overall impact of the minimum possible value
+            
+            
+            if (overallImpact > overallDiffToNext) {
+                // this criterion could be a game changer - determine how much it can change, without impact on selecting the winner
+                // and map it back to target value scale 
+                double targetDiff = (overallImpact - overallDiffToNext) / pLeaf.getTotalWeight();
+                double minWinnerTargetResult = winnerResult - targetDiff; 
+                // this target result needs to be mapped back to an evaluation value 
+                
+            } else {
+                // this criterion cannot change the winner
+                importanceFactors.put(pLeaf, 0.0);
+            }
+            
+            
+        }
+        
+        return 0.0;
+    }
+
     /**
      * Method responsible for filtering all leaves which match the given criterion (Property [+ Metric]).
      * Validity check of the input parameters (e.g. property + metric must be measurable) is done in calling code!!

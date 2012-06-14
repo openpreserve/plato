@@ -1332,7 +1332,7 @@ public class KBrowser implements Serializable {
     
     public void exportImpactFactorsToCSV() {
         StringBuilder csvBuf = new StringBuilder();
-        csvBuf.append("Category; Criterion; IF1; IF2; IF3;IF4; IF5; IF6; IF7; IF8; IF9; IF10; IF11;IF12; IF13; IF14; IF15; IF16; IF17; IF18");
+        csvBuf.append("Category; Criterion; IF1; IF2; IF3;IF4; IF5; IF6; IF7; IF8; IF9; IF10; IF11;IF12; IF13; IF14; IF15; IF16; IF17; IF18; IF19\n");
         for (ImportanceAnalysisProperty p : importanceAnalysis.getTableRows()) {
             csvBuf.append(p.getCategory()).append(";");
             csvBuf.append(p.getProperty() + " " + p.getMetric()).append(";");
@@ -1354,6 +1354,7 @@ public class KBrowser implements Serializable {
             csvBuf.append(p.getIf16()).append(";");
             csvBuf.append(p.getIf17()).append(";");
             csvBuf.append(p.getIf18()).append(";");
+            csvBuf.append(p.getIf19());
             csvBuf.append("\n");
         }
 
