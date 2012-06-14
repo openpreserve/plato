@@ -33,20 +33,22 @@ public class ImportanceAnalysis implements Serializable {
     private static final long serialVersionUID = -814054847584527659L;
     private static final Logger log = LoggerFactory.getLogger(ImportanceAnalysis.class);
     
-    List<VPlanLeaf> planLeaves = new ArrayList<VPlanLeaf>();
-    List<VPlanLeaf> mappedPlanLeaves = new ArrayList<VPlanLeaf>();
+    private List<VPlanLeaf> planLeaves = new ArrayList<VPlanLeaf>();
+    private List<VPlanLeaf> mappedPlanLeaves = new ArrayList<VPlanLeaf>();
     
-    private Long nrRelevantPlans;
+    private List<PlanInfo> selectedPlans;
+    private long nrRelevantPlans;
     
     private List<ImportanceAnalysisProperty> tableRows;
     private int tableRowsCount = 0;
         
     
-    public ImportanceAnalysis(Collection<MeasurableProperty> allMeasurableProperties, List<VPlanLeaf> planLeaves, Long nrRelevantPlans) {
+    public ImportanceAnalysis(final Collection<MeasurableProperty> allMeasurableProperties, final List<VPlanLeaf> planLeaves, final List<PlanInfo> selectedPlans) {
         this.planLeaves = planLeaves;
         filterMappedLeaves();
         
-        this.nrRelevantPlans = nrRelevantPlans;
+        this.nrRelevantPlans = selectedPlans.size();
+        this.selectedPlans = selectedPlans;
         
         buildTable(allMeasurableProperties);
     }
@@ -117,6 +119,7 @@ public class ImportanceAnalysis implements Serializable {
             importanceAnalysisProperty.setIf16(criteriaLeaf.getImportanceFactorIF16());
             importanceAnalysisProperty.setIf17(criteriaLeaf.getImportanceFactorIF17());
             importanceAnalysisProperty.setIf18(criteriaLeaf.getImportanceFactorIF18());
+            importanceAnalysisProperty.setIf19(criteriaLeaf.getImportanceFactorIF19());
             
             tableRows.add(importanceAnalysisProperty);
         }

@@ -514,6 +514,17 @@ public class CriteriaLeaf extends CriteriaTreeNode {
         return koSum / alternativeSum;
     }
     
+    /**
+     * Calculates the importance factor: "robustness"
+     * - this is: to which extend can the measured value change, without impact on the winning alternative.   
+     * 
+     * @return
+     */
+    public double getImportanceFactorIF19() {
+        // TODO calculate robustness
+        // we need the overall results for each alternatives
+        return 0;
+    }    
     // -------- view formatting --------
     
     /**
@@ -747,4 +758,6 @@ public class CriteriaLeaf extends CriteriaTreeNode {
     public long getNrOfRelevantPlans() {
         return nrOfRelevantPlans;
     }
+
+    
 }

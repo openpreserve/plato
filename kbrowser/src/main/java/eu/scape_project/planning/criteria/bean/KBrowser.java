@@ -282,7 +282,7 @@ public class KBrowser implements Serializable {
         }        
         // init calculation classes
         this.calculator = new KBrowserCalculator(planLeaves, nrRelevantPlans);
-        importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, nrRelevantPlans);
+        importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, selectedPlans);
 
         // update data
         usedMeasurableProperties = identifyUsedMeasurableProperties(planLeaves);
