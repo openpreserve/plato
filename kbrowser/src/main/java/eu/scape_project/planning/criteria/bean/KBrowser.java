@@ -230,7 +230,6 @@ public class KBrowser implements Serializable {
 
         // reset "display only used properties" checkbox
         showOnlyUsedProperties = true;
-        
 
         // reset data
         // at this point in time not plan data is set yet (this is done in
@@ -276,12 +275,13 @@ public class KBrowser implements Serializable {
         // we also need the scores of the alternatives - for each selected plan
         for (int pId : planSelection.getSelectedPlans()) {
             Plan plan = planManager.loadPlan(pId);
-            ResultNode result = 
-                new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+            ResultNode result = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan
+                .getAlternativesDefinition().getConsideredAlternatives());
             selectedPlans.add(new PlanInfo(pId, result));
-        }        
+        }
         // init calculation classes
         this.calculator = new KBrowserCalculator(planLeaves, nrRelevantPlans);
+
         importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, selectedPlans);
 
         // update data
@@ -1333,6 +1333,7 @@ public class KBrowser implements Serializable {
     public void exportImpactFactorsToCSV() {
         StringBuilder csvBuf = new StringBuilder();
         csvBuf.append("Category; Criterion; IF1; IF2; IF3;IF4; IF5; IF6; IF7; IF8; IF9; IF10; IF11;IF12; IF13; IF14; IF15; IF16; IF17; IF18; IF19\n");
+
         for (ImportanceAnalysisProperty p : importanceAnalysis.getTableRows()) {
             csvBuf.append(p.getCategory()).append(";");
             csvBuf.append(p.getProperty() + " " + p.getMetric()).append(";");
@@ -1385,7 +1386,7 @@ public class KBrowser implements Serializable {
      *            Column index starting from 0.
      */
     public void sortCifByColumnCompact(long lcolumn) {
-        int column = (int)lcolumn;
+        int column = (int) lcolumn;
 
         log.debug("Sorting compact Criterion Impact Factors by IF" + Integer.toString(column));
         SortOrder currentColumn = cifIfSortOrderCompact[column];
