@@ -27,10 +27,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
+import eu.scape_project.planning.model.scales.OrdinalScale;
+import eu.scape_project.planning.model.transform.NumericTransformer;
+import eu.scape_project.planning.model.transform.OrdinalTransformer;
+import eu.scape_project.planning.model.values.INumericValue;
+import eu.scape_project.planning.model.values.TargetValue;
 
 public class ImportanceAnalysis implements Serializable {
     private static final long serialVersionUID = -814054847584527659L;
@@ -142,8 +148,9 @@ public class ImportanceAnalysis implements Serializable {
      */
     private double calculateImportanceFactorIF19(List<PlanInfo> selectedPlans, CriteriaLeaf criteriaLeaf) {
         Map<VPlanLeaf, Double> importanceFactors = new HashMap<VPlanLeaf, Double>();
-        
+        double sum = 0.0;
         for (VPlanLeaf pLeaf : criteriaLeaf.getPlanLeaves()) {
+            double leafFactor = 0.0;
             PlanInfo planInfo = null;
             // retrieve the PlanInfo for this plan
             for (PlanInfo p : selectedPlans) {
@@ -155,7 +162,7 @@ public class ImportanceAnalysis implements Serializable {
             Set<String> competitors =  planInfo.getOverallResults().getResults().keySet();
             competitors.remove(planInfo.getWinningAlternative());
             if (competitors.isEmpty()) {
-                importanceFactors.put(pLeaf, 0.0);
+                //sum  += leafFactor;
                 continue;
             }
             
@@ -172,29 +179,53 @@ public class ImportanceAnalysis implements Serializable {
                 }
             }
             double overallDiffToNext = winnerOverallResult - sndOverallResult;
+            // map this difference back as target result for this criterion
+            double overallDiffToNextAsTargetValue = overallDiffToNext / pLeaf.getTotalWeight();
+            
             // get the transformed, but not weighted, result of the winning alternative for this criterion 
-            double winnerResult = pLeaf.getAlternativeResultsAsMap().get(planInfo.getWinningAlternative());
-            // calculate the impact of this criterion on the final result
-            double overallImpact = winnerResult * pLeaf.getTotalWeight();
-            // now we have to calculate the overall impact of the minimum possible value
+            double winnerTargetValue = pLeaf.getAlternativeResultsAsMap().get(planInfo.getWinningAlternative());
             
+            double minTargetValue = winnerTargetValue-overallDiffToNextAsTargetValue;
             
-            if (overallImpact > overallDiffToNext) {
-                // this criterion could be a game changer - determine how much it can change, without impact on selecting the winner
-                // and map it back to target value scale 
-                double targetDiff = (overallImpact - overallDiffToNext) / pLeaf.getTotalWeight();
-                double minWinnerTargetResult = winnerResult - targetDiff; 
-                // this target result needs to be mapped back to an evaluation value 
+            if (minTargetValue > pLeaf.getPotentialMinimum()) {
+                // this criterion could be a game changer - map it back to the measurement scale
+                if (pLeaf.getTransformer() instanceof NumericTransformer) {
+                    // For numeric values: The percentage that we can change the value on the (overally!) winning candidate 
+                    // without the output range changing so much as to make the winning candidate lose its winning rank
+                    
+                    // TODO: CHECK: Do we have a problem here? the values of an alternative are first transformed, then aggregated
+                    //       therefore we have to transform this winning value also back ...
+                    double winnerMeasuredValue = ((NumericTransformer)pLeaf.getTransformer()).transformBack(winnerTargetValue);
+                    double minMeasuredValue = ((NumericTransformer)pLeaf.getTransformer()).transformBack(minTargetValue);
+                    
+                    // TODO: what if the measured value was 0.0?
+                    if (winnerMeasuredValue != 0.0) {
+                        leafFactor =  (winnerMeasuredValue-minMeasuredValue)/winnerMeasuredValue;
+                    }
+                    
+                } else {
+                    // it's an ordinal transformer
+                    int numPossible = 0;
+                    Collection<TargetValueObject> targetValueObjects = ((OrdinalTransformer)pLeaf.getTransformer()).getMapping().values();
+                    for (TargetValueObject value : targetValueObjects  ) {
+                        if (value.getValue() >= minTargetValue) {
+                            numPossible++;
+                        }
+                    }
+                    // For ordinals: Percentage of possible alternative values for the (overally!) winning candidate 
+                    // that would make the winning candidate lose its winning rank. 
+                    // E.g: “good, bad, ugly” > value is good; bad doesn’t change rank; ugly changes rank: robustness = 1/2 = 0.5
+                    leafFactor = (double)numPossible / (double)(targetValueObjects.size()-1);
+                }
                 
             } else {
-                // this criterion cannot change the winner
-                importanceFactors.put(pLeaf, 0.0);
+                // it's not possible to reduce the value of the winner to this amount
+                //leafFactor = 0.0
             }
-            
-            
+            sum += leafFactor;
         }
-        
-        return 0.0;
+        // TODO: CHECK: How to aggregate - just average values?
+        return sum/(double)criteriaLeaf.getPlanLeaves().size();
     }
 
     /**

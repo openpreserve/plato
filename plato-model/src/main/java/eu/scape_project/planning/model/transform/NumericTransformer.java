@@ -149,8 +149,73 @@ public class NumericTransformer extends Transformer {
         }
         return v;
     }
-
-
+    
+    /**
+     * Calculates a measured value which would result in the given TargetValue
+     * FIXME: this should do some interpolation!
+     * @param t
+     * @return
+     */
+    public double transformBack(double targetValue) {
+        if (threshold1 < threshold5) { // increasing thresholdscale
+            if (targetValue < 0.0) {
+                // FIXME: this should not happen!
+                return Double.NaN;
+            } 
+            if (targetValue >= 0.0) {
+                return threshold1;
+            } else if (targetValue >= 1.0) {
+                return (threshold2);
+            } else if (targetValue >= 2.0) {
+                return threshold3;
+            } else if (targetValue >= 3.0) {
+                return threshold4;
+            } else if (targetValue >= 4.0) {
+                return threshold5;
+            }
+        } else {
+            if (targetValue < 0.0) {
+                // FIXME: this should not happen!
+                return Double.NaN;
+            } 
+            if (targetValue <= 1.0) {
+                return threshold1;
+            } else if (targetValue <= 2.0) {
+                return threshold2;
+            } else if (targetValue <= 3.0) {
+                return threshold3;
+            } else if (targetValue <= 4.0) {
+                return threshold4;
+            } else if (targetValue <= 5.0) {
+                return threshold5;
+            }
+        }
+        return Double.NaN;
+            
+//
+//
+//        } else // decreasing thresholdscale
+//        {
+//            if (value > threshold1) {
+//                return 0;
+//            } else if (value > threshold2) {
+//                return ((value - threshold1)
+//                        / (threshold2 - threshold1)) + 1;
+//            } else if (value > threshold3) {
+//                return ((value - threshold2)
+//                        / (threshold3 - threshold2)) + 2;
+//            } else if (value > threshold4) {
+//                return ((value - threshold3)
+//                        / (threshold4 - threshold3)) + 3;
+//            } else if (value <= threshold5) {
+//                return 5;
+//            } else {
+//                return ((value - threshold4)
+//                        / (threshold5 - threshold4)) + 4;
+//            }
+//        }
+    }
+    
     public TargetValue transform(INumericValue v) {
         return doTransform(v.value());
     }
