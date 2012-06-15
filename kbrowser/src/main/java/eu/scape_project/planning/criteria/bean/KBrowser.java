@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -283,6 +285,10 @@ public class KBrowser implements Serializable {
         this.calculator = new KBrowserCalculator(planLeaves, nrRelevantPlans);
 
         importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, selectedPlans);
+
+        // TODO: This is just a test to call the calculator
+        DominatedSetCalculator dominatedSetCalculator = new DominatedSetCalculator(selectedPlans, planLeaves);
+        dominatedSetCalculator.calculateDominatedPowerSet();
 
         // update data
         usedMeasurableProperties = identifyUsedMeasurableProperties(planLeaves);
@@ -651,8 +657,10 @@ public class KBrowser implements Serializable {
             isPropertySelected = false;
         }
 
-        // FIXME: a criterion is ALWAYS measurable (else it wouldn't be a criterion, right?)
-        // but: a selected measurable property itself might not be related to a criterion
+        // FIXME: a criterion is ALWAYS measurable (else it wouldn't be a
+        // criterion, right?)
+        // but: a selected measurable property itself might not be related to a
+        // criterion
         // so the following comment does not maḱe sense:
         // check if selected criterion is measurable - if so calculate values.
         // if the property has a metric assigned it is always measurable.
@@ -1302,7 +1310,7 @@ public class KBrowser implements Serializable {
      *            Column index starting from 0.
      */
     public void sortCifByColumn(long lcolumn) {
-        int column = (int)lcolumn;
+        int column = (int) lcolumn;
         log.debug("Sorting Criterion Impact Factors by IF" + column);
         SortOrder currentColumn = cifIfSortOrder[column];
         clearCifSortOrders();
@@ -1329,10 +1337,11 @@ public class KBrowser implements Serializable {
     public void setCifIfSortOrderCompact(SortOrder[] cifIfSortOrderCompact) {
         this.cifIfSortOrderCompact = cifIfSortOrderCompact;
     }
-    
+
     public void exportImpactFactorsToCSV() {
         StringBuilder csvBuf = new StringBuilder();
-        csvBuf.append("Category; Criterion; IF1; IF2; IF3;IF4; IF5; IF6; IF7; IF8; IF9; IF10; IF11;IF12; IF13; IF14; IF15; IF16; IF17; IF18; IF19\n");
+        csvBuf
+            .append("Category; Criterion; IF1; IF2; IF3;IF4; IF5; IF6; IF7; IF8; IF9; IF10; IF11;IF12; IF13; IF14; IF15; IF16; IF17; IF18; IF19\n");
 
         for (ImportanceAnalysisProperty p : importanceAnalysis.getTableRows()) {
             csvBuf.append(p.getCategory()).append(";");
@@ -1466,4 +1475,13 @@ public class KBrowser implements Serializable {
 
         potentialToRangeScale = new BigDecimal(scaleValue, new MathContext(2)).doubleValue();
     }
+
+    public List<PlanInfo> getSelectedPlans() {
+        return selectedPlans;
+    }
+
+    public void setSelectedPlans(List<PlanInfo> selectedPlans) {
+        this.selectedPlans = selectedPlans;
+    }
+
 }
