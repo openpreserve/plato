@@ -19,9 +19,7 @@ package eu.scape_project.planning.criteria.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -32,11 +30,8 @@ import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
-import eu.scape_project.planning.model.scales.OrdinalScale;
 import eu.scape_project.planning.model.transform.NumericTransformer;
 import eu.scape_project.planning.model.transform.OrdinalTransformer;
-import eu.scape_project.planning.model.values.INumericValue;
-import eu.scape_project.planning.model.values.TargetValue;
 
 public class ImportanceAnalysis implements Serializable {
     private static final long serialVersionUID = -814054847584527659L;
@@ -147,9 +142,9 @@ public class ImportanceAnalysis implements Serializable {
      * @return
      */
     private double calculateImportanceFactorIF19(List<PlanInfo> selectedPlans, CriteriaLeaf criteriaLeaf) {
-        Map<VPlanLeaf, Double> importanceFactors = new HashMap<VPlanLeaf, Double>();
         double sum = 0.0;
         for (VPlanLeaf pLeaf : criteriaLeaf.getPlanLeaves()) {
+            String prefix = "IF19 - " + pLeaf.getCriterion().getUri() + ": ";
             double leafFactor = 0.0;
             PlanInfo planInfo = null;
             // retrieve the PlanInfo for this plan
@@ -163,13 +158,14 @@ public class ImportanceAnalysis implements Serializable {
             competitors.remove(planInfo.getWinningAlternative());
             if (competitors.isEmpty()) {
                 //sum  += leafFactor;
+            	log.info(prefix + "No competitors left beside " + planInfo.getWinningAlternative() + " in plan: " + planInfo.getId());
                 continue;
             }
             
             double winnerOverallResult = planInfo.getWinningResult();
             
             // determine result of the nearest non-winning alternative
-            String sndAlternative;
+            String sndAlternative = "";
             double sndOverallResult = Double.MIN_VALUE;
             for (String a : competitors) {
                 double result = planInfo.getOverallResults().getResults().get(a);
@@ -185,26 +181,38 @@ public class ImportanceAnalysis implements Serializable {
             // get the transformed, but not weighted, result of the winning alternative for this criterion 
             double winnerTargetValue = pLeaf.getAlternativeResultsAsMap().get(planInfo.getWinningAlternative());
             
+            // calculate the minimal target value, which would cause a change of the winning alternative 
             double minTargetValue = winnerTargetValue-overallDiffToNextAsTargetValue;
             
+            // this will be negative, if the difference between 1st and 2nd is too big, 
+            // and depending on the transformer setting, the minimal possible value could be > 0
+            String intermediaryResults = "; overallDiffToNext = " + overallDiffToNext + " = as target value = " + overallDiffToNextAsTargetValue + "; minTargetValue = " + minTargetValue + "; pLeaf.getPotentialMinimum() = " +  pLeaf.getPotentialMinimum();
             if (minTargetValue > pLeaf.getPotentialMinimum()) {
-                // this criterion could be a game changer - map it back to the measurement scale
+                log.info(prefix + "1st " + planInfo.getWinningAlternative() + ", 2nd : " + sndAlternative + " in plan: " + planInfo.getId());            
+            	// this criterion could be a game changer - map it back to the measurement scale
                 if (pLeaf.getTransformer() instanceof NumericTransformer) {
+                	NumericTransformer numTransformer = (NumericTransformer)pLeaf.getTransformer();
                     // For numeric values: The percentage that we can change the value on the (overally!) winning candidate 
                     // without the output range changing so much as to make the winning candidate lose its winning rank
                     
                     // TODO: CHECK: Do we have a problem here? the values of an alternative are first transformed, then aggregated
                     //       therefore we have to transform this winning value also back ...
-                    double winnerMeasuredValue = ((NumericTransformer)pLeaf.getTransformer()).transformBack(winnerTargetValue);
-                    double minMeasuredValue = ((NumericTransformer)pLeaf.getTransformer()).transformBack(minTargetValue);
+                    double winnerMeasuredValue = numTransformer.transformBack(winnerTargetValue);
+                    double minMeasuredValue = numTransformer.transformBack(minTargetValue);
                     
                     // TODO: what if the measured value was 0.0?
                     if (winnerMeasuredValue != 0.0) {
                         leafFactor =  (winnerMeasuredValue-minMeasuredValue)/winnerMeasuredValue;
+                        if (!numTransformer.hasIncreasingOrder()) {
+                        	leafFactor *= -1.0;
+                        }
                     }
-                    
+                    log.info(prefix + " - numeric = " +  leafFactor + intermediaryResults +  ";  winnerMeasuredValue = " + winnerMeasuredValue +"; minMeasuredValue = " + minMeasuredValue +"; plan id " + planInfo.getId());
                 } else {
                     // it's an ordinal transformer
+                    // For ordinals: Percentage of possible alternative values for the (overally!) winning candidate 
+                    // that would make the winning candidate lose its winning rank. 
+                    // E.g: “good, bad, ugly” > value is good; bad doesn’t change rank; ugly changes rank: robustness = 1/2 = 0.5
                     int numPossible = 0;
                     Collection<TargetValueObject> targetValueObjects = ((OrdinalTransformer)pLeaf.getTransformer()).getMapping().values();
                     for (TargetValueObject value : targetValueObjects  ) {
@@ -212,14 +220,13 @@ public class ImportanceAnalysis implements Serializable {
                             numPossible++;
                         }
                     }
-                    // For ordinals: Percentage of possible alternative values for the (overally!) winning candidate 
-                    // that would make the winning candidate lose its winning rank. 
-                    // E.g: “good, bad, ugly” > value is good; bad doesn’t change rank; ugly changes rank: robustness = 1/2 = 0.5
-                    leafFactor = (double)numPossible / (double)(targetValueObjects.size()-1);
+                    leafFactor = (double)numPossible / (double)(targetValueObjects.size());
+                    log.info(prefix + " - ordinal = " +  leafFactor + intermediaryResults + ";  numPossible = " + numPossible +"; numTotal = " + targetValueObjects.size() +"; plan id " + planInfo.getId());                    
                 }
                 
             } else {
                 // it's not possible to reduce the value of the winner to this amount
+                log.info(prefix + "1st " + planInfo.getWinningAlternative() + ", 2nd : " + sndAlternative + intermediaryResults + " in plan: " + planInfo.getId());            
                 //leafFactor = 0.0
             }
             sum += leafFactor;
