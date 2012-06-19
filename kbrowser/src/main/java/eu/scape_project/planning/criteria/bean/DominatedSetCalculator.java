@@ -40,84 +40,94 @@ public class DominatedSetCalculator {
     private List<VPlanLeaf> selectedVPlanLeaves = new ArrayList<VPlanLeaf>();
     private HashMap<Criterion, Set<VPlanLeaf>> criterionVPlanLeaves = new HashMap<Criterion, Set<VPlanLeaf>>();
 
-    List<List<Criterion>> result = new ArrayList<List<Criterion>>();
-
     public DominatedSetCalculator(List<PlanInfo> selectedPlans, List<VPlanLeaf> selectedVPlanLeaves) {
         this.selectedPlans = selectedPlans;
         this.selectedVPlanLeaves = selectedVPlanLeaves;
-        fillUsedVPlanLeaves();
-        List<Criterion> criterionList = new ArrayList<Criterion>(criterionVPlanLeaves.keySet());
-        // powerSet(criterionList, 0, 3);
+        fillCriterionVPlanLeaves();
     }
 
     /**
-     * Fills the map of used VPlanLeaves.
+     * Fills the map of used VPlanLeaves per criterion.
      */
-    private void fillUsedVPlanLeaves() {
+    private void fillCriterionVPlanLeaves() {
         for (VPlanLeaf vPlanLeaf : selectedVPlanLeaves) {
-            Set<VPlanLeaf> vPlanLeaves = criterionVPlanLeaves.get(vPlanLeaf.getCriterion());
-            if (vPlanLeaves == null) {
-                vPlanLeaves = new HashSet<VPlanLeaf>();
-                criterionVPlanLeaves.put(vPlanLeaf.getCriterion(), vPlanLeaves);
+            // Check if criteria mapped
+            if (vPlanLeaf.getCriterion() != null) {
+                Set<VPlanLeaf> vPlanLeaves = criterionVPlanLeaves.get(vPlanLeaf.getCriterion());
+
+                if (vPlanLeaves == null) {
+                    vPlanLeaves = new HashSet<VPlanLeaf>();
+                    criterionVPlanLeaves.put(vPlanLeaf.getCriterion(), vPlanLeaves);
+                }
+                vPlanLeaves.add(vPlanLeaf);
             }
-            vPlanLeaves.add(vPlanLeaf);
         }
     }
 
     public void calculateDominatedPowerSet() {
-        checkDominated(new ArrayList<Criterion>(criterionVPlanLeaves.keySet()), new ArrayList<Criterion>(), 0);
-
+        isSubsetDominated(new ArrayList<Criterion>(criterionVPlanLeaves.keySet()), new ArrayList<Criterion>(), 0);
     }
 
-    public void checkDominated(List<Criterion> allCriterion, List<Criterion> criterionList, int index) {
+    public boolean isSubsetDominated(List<Criterion> allCriteria, List<Criterion> criteriaList, int index) {
 
-        for (int i = index; i < allCriterion.size(); i++) {
-            List<Criterion> tmp = new ArrayList<Criterion>(criterionList);
-            tmp.add(allCriterion.get(i));
+        boolean isSubsetDominated = false;
+
+        for (int i = index; i < allCriteria.size(); i++) {
+            List<Criterion> tmp = new ArrayList<Criterion>(criteriaList);
+            tmp.add(allCriteria.get(i));
             if (isCriterionSetDominated(tmp)) {
-//                for (int j = index + 1; j < allCriterion.size(); j++) {
-                    List<Criterion> tmp2 = new ArrayList<Criterion>(tmp);
-//                    tmp2.add(allCriterion.get(i));
-                    checkDominated(allCriterion, tmp2, i + 1);
-//                }
+                isSubsetDominated = true;
+                List<Criterion> tmp2 = new ArrayList<Criterion>(tmp);
+                if (!isSubsetDominated(allCriteria, tmp2, i + 1)) {
+                    logDominated(tmp);
+                }
             }
-
         }
 
+        return isSubsetDominated;
     }
 
-    public void powerSet(List<Criterion> list, int count, int max) {
-
-        result.add(list);
-
-        for (int i = count; i < list.size(); i++) {
-            List<Criterion> temp = new ArrayList<Criterion>(list);
-            temp.remove(i);
-
-            powerSet(temp, i, max);
+    private void logDominated(List<Criterion> criteriaList) {
+        String logString = "Set [";
+        for (Criterion criterion : criteriaList) {
+            logString += criterion.getUri() + ", ";
         }
+        log.info(logString + "]: dominated");
     }
 
-    public boolean isCriterionSetDominated(List<Criterion> criterions) {
+    public boolean isCriterionSetDominated(List<Criterion> criteria) {
         Set<VPlanLeaf> allVPlanLeaves = new HashSet<VPlanLeaf>();
 
+        int maximumVPleanLeaves = Integer.MIN_VALUE;
+
         String logString = "Set [";
-        for (Criterion criterion : criterions) {
+        for (Criterion criterion : criteria) {
             logString += criterion.getUri() + ", ";
             Set<VPlanLeaf> vPlanLeaves = criterionVPlanLeaves.get(criterion);
             if (vPlanLeaves != null) {
+
+                if (maximumVPleanLeaves < vPlanLeaves.size()) {
+                    maximumVPleanLeaves = vPlanLeaves.size();
+                }
+
                 allVPlanLeaves.addAll(vPlanLeaves);
             }
         }
 
+        if (maximumVPleanLeaves < criteria.size()) {
+            return false;
+        }
+
         boolean isCriterionSetDominated = isVPlanSetDominated(allVPlanLeaves);
 
-        log.info(logString + "]: " + isCriterionSetDominated);
+        if (isCriterionSetDominated) {
+            // log.info(logString + "]: dominated");
+        }
 
         return isCriterionSetDominated;
     }
 
-    public boolean isVPlanSetDominated(List<VPlanLeaf> vPlanLeaves) {
+    private boolean isVPlanSetDominated(List<VPlanLeaf> vPlanLeaves) {
         return isVPlanSetDominated(new HashSet<VPlanLeaf>(vPlanLeaves));
     }
 
@@ -129,7 +139,7 @@ public class DominatedSetCalculator {
      * @param criteriaLeaves
      * @return
      */
-    public boolean isVPlanSetDominated(Set<VPlanLeaf> vPlanLeaves) {
+    private boolean isVPlanSetDominated(Set<VPlanLeaf> vPlanLeaves) {
 
         Map<PlanInfo, Set<VPlanLeaf>> planLeaves = new HashMap<PlanInfo, Set<VPlanLeaf>>();
 
@@ -139,6 +149,10 @@ public class DominatedSetCalculator {
 
         // Loop over criteria vPlanLeaves
         for (VPlanLeaf vPlanLeaf : vPlanLeaves) {
+
+            if (vPlanLeaf.hasKOPotential()) {
+                return false;
+            }
 
             // Add vPlanLeaf to plan map
             PlanInfo planInfo = getSelectedPlanInfo(vPlanLeaf.getPlanId());
@@ -155,16 +169,15 @@ public class DominatedSetCalculator {
         }
 
         // Check if leaves set is dominated for every plan that uses all leaves
-        boolean isSetDominated = true;
         for (Map.Entry<PlanInfo, Set<VPlanLeaf>> entry : planLeaves.entrySet()) {
-            if (entry.getValue().size() == maximumLeafCount) {
-                if (!isLeafSetDominated(entry.getKey(), entry.getValue())) {
-                    isSetDominated = false;
-                }
+            // if (entry.getValue().size() == maximumLeafCount) {
+            if (!isLeafSetDominated(entry.getKey(), entry.getValue())) {
+                return false;
             }
+            // }
         }
 
-        return isSetDominated;
+        return true;
     }
 
     /**
@@ -179,8 +192,6 @@ public class DominatedSetCalculator {
     private boolean isLeafSetDominated(PlanInfo planInfo, Set<VPlanLeaf> vPlanLeafs) {
         // Overall result of each alternative
         Map<String, Double> alternativePlanResults = planInfo.getOverallResults().getResults();
-        // Map.Entry<String, Double> winningAlternative =
-        // findWinningAlternative(alternativePlanResults);
 
         // Maximum change
         double maximumChange = calculateMaximumChange(planInfo, vPlanLeafs);
@@ -203,7 +214,11 @@ public class DominatedSetCalculator {
         for (VPlanLeaf vPlanLeaf : vPlanLeafs) {
             logString += vPlanLeaf.getCriterion().getUri() + ", ";
         }
-        log.info(logString + "]: " + (maximumChange < minimumDifference));
+
+        boolean isLeafSetDominated = maximumChange < minimumDifference;
+        if (isLeafSetDominated) {
+            // log.info(logString + "]: dominated");
+        }
 
         // Is it dominated?
         return maximumChange < minimumDifference;
@@ -237,13 +252,12 @@ public class DominatedSetCalculator {
      */
     private double calculateMaximumChange(PlanInfo planInfo, VPlanLeaf vPlanLeaf) {
 
+        if (vPlanLeaf.hasKOPotential()) {
+            return Double.POSITIVE_INFINITY;
+        }
+
         // Criterion result of each alternative
         Map<String, Double> alternativeCriterionResults = vPlanLeaf.getAlternativeResultsAsMap();
-        // Overall result of each alternative
-        // Map<String, Double> alternativePlanResults =
-        // planInfo.getOverallResults().getResults();
-        // Map.Entry<String, Double> winningAlternative =
-        // findWinningAlternative(alternativePlanResults);
 
         double maximumDecrease = 0.0d;
         double maximumIncrease = 0.0d;
@@ -264,34 +278,6 @@ public class DominatedSetCalculator {
     }
 
     /**
-     * Finds the winning alternative
-     * 
-     * @param alternatives
-     *            the alternatives with their values
-     * @return the winning alternative
-     */
-    private Map.Entry<String, Double> findWinningAlternative(Map<String, Double> alternatives) {
-        Map.Entry<String, Double> winningAlternative = null;
-        Double minValue = Double.MIN_VALUE;
-        for (Map.Entry<String, Double> entry : alternatives.entrySet()) {
-            if (entry.getValue() > minValue) {
-                minValue = entry.getValue();
-                winningAlternative = entry;
-            }
-        }
-
-        return winningAlternative;
-    }
-
-    public List<PlanInfo> getSelectedPlans() {
-        return selectedPlans;
-    }
-
-    public void setSelectedPlans(List<PlanInfo> selectedPlans) {
-        this.selectedPlans = selectedPlans;
-    }
-
-    /**
      * Returns the plan with the given ID.
      * 
      * @param id
@@ -305,5 +291,13 @@ public class DominatedSetCalculator {
         }
 
         return null;
+    }
+
+    public List<PlanInfo> getSelectedPlans() {
+        return selectedPlans;
+    }
+
+    public void setSelectedPlans(List<PlanInfo> selectedPlans) {
+        this.selectedPlans = selectedPlans;
     }
 }
