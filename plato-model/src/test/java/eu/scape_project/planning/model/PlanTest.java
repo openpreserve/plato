@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.planets_project.pp.plato.model;
+package eu.scape_project.planning.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -22,6 +22,8 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -136,4 +138,7 @@ public class PlanTest {
 			}
 		}
 	}
+	
+	
+	
 }

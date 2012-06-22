@@ -162,7 +162,7 @@ public class SampleRecordsDefinition implements Serializable, ITouchable{
     }
 
     public void removeRecord(SampleObject record) {
-        records.remove(record);
+        records.remove(record);    
     }
     public CollectionProfile getCollectionProfile() {
         return collectionProfile;

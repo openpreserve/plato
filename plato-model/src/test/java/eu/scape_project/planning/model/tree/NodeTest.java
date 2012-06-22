@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.planets_project.pp.plato.model.tree;
+package eu.scape_project.planning.model.tree;
 /*******************************************************************************
  * Copyright (c) 2006-2010 Vienna University of Technology, 
  * Department of Software Technology and Interactive Systems
@@ -37,7 +37,7 @@ import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.validation.ValidationError;
 
 
-public class NodeTester {
+public class NodeTest {
     
     @Test
     public void isCompletelySpecified(){
@@ -51,12 +51,12 @@ public class NodeTester {
         node.addChild(leaf2);
         node.addChild(leaf2);
         List<ValidationError> errors = new ArrayList<ValidationError>();
-        System.out.println(node.getChildren().size());
+        //System.out.println(node.getChildren().size());
         node.isCompletelySpecified(errors);
-        System.out.println(errors.size());
-        for (ValidationError error : errors) {
-            System.out.println(error.getMessage());
-        }
+        //System.out.println(errors.size());
+        //for (ValidationError error : errors) {
+        //    System.out.println(error.getMessage());
+        //}
         
         assert(errors.size() == 2);
     }

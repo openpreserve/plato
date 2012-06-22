@@ -14,21 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.planets_project.pp.plato.model;
+package eu.scape_project.planning.model;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.model.Alternative;
-import eu.scape_project.planning.model.AlternativesDefinition;
 
 public class AlternativesDefinitionTest {
 	private AlternativesDefinition alternativesDefinition;
@@ -149,4 +146,52 @@ public class AlternativesDefinitionTest {
 		
 		assertEquals("newName", alt2.getName());
 	}	
+	
+	@SuppressWarnings("deprecation")
+	@Test 
+	public void test_Adding_Alternatives_With_the_Same_Name_At_Once() {
+		AlternativesDefinition aDef = new AlternativesDefinition();
+		Alternative alt1 = new Alternative();
+		alt1.setName("alt1");
+		Alternative alt2 = new Alternative();
+		alt2.setName("alt2");
+		Alternative alt3 = new Alternative();
+		alt3.setName("alt2");
+		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
+		existingAlternatives.add(alt1);
+		existingAlternatives.add(alt2);
+		existingAlternatives.add(alt3);
+		aDef.setAlternatives(existingAlternatives);
+		int count = 0;
+		for (Alternative a : aDef.getAlternatives()) {
+			if (a.getName().equals("alt2")) {
+				count++;
+			}
+		}
+		Assert.assertTrue(count==1);
+	}
+	
+	@Test 
+	public void test_Alternatives_With_The_Same_Name_Exist() {
+		AlternativesDefinition aDef = new AlternativesDefinition();
+		Alternative alt1 = new Alternative();
+		alt1.setName("alt1");
+		Alternative alt2 = new Alternative();
+		alt2.setName("alt2");
+		Alternative alt3 = new Alternative();
+		alt3.setName("alt3");
+		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
+		existingAlternatives.add(alt1);
+		existingAlternatives.add(alt2);
+		existingAlternatives.add(alt3);
+		aDef.setAlternatives(existingAlternatives);
+		alt3.setName("alt2");
+		int count = 0;
+		for (Alternative a : aDef.getAlternatives()) {
+			if (a.getName().equals("alt2")) {
+				count++;
+			}
+		}
+		Assert.assertTrue(count==1);
+	}
 }
