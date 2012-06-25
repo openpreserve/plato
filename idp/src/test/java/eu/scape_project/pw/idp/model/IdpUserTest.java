@@ -21,11 +21,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import junit.framework.Assert;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -188,6 +192,77 @@ public class IdpUserTest {
 
         assertNotNull(fetchedAdminRole);
         assertNotNull(fetchedManagerRole);
+    }
+    
+    @Test
+    public void shouldTestEqualsAndHashCode() throws Exception {
+      // ----- set-up -----
+      deleteUserIfExistent("testUser");
+      deleteRoleIfExistent("admin");
+      deleteRoleIfExistent("manager");
+
+      // add test-user and relating objects
+      IdpRole adminRole = new IdpRole();
+      adminRole.setRoleName("admin");
+
+      IdpUser user = new IdpUser();
+      user.setUsername("testUser");
+      user.setPlainPassword("mypass");
+      user.setFirstName("Max");
+      user.setLastName("Mustermann");
+      user.setEmail("max@mustermann.at");
+      user.getRoles().add(adminRole);
+      user.setStatus(IdpUserState.CREATED);
+      user.setActionToken("uid-123-uid-456");
+      
+      IdpUser user2 = new IdpUser();
+      user.setUsername("testUser2");
+      user.setPlainPassword("mypass2");
+      user.setFirstName("John");
+      user.setLastName("Doe");
+      user.setEmail("john@doe.at");
+      user.getRoles().add(adminRole);
+      user.setStatus(IdpUserState.CREATED);
+      user.setActionToken("uid-123-uid-456");
+      
+      em.getTransaction().begin();
+      em.persist(user);
+      em.persist(user2);
+      em.getTransaction().commit();
+      
+      IdpUser retrievedUser1 = em.find(IdpUser.class, user.getId());
+      IdpUser retrievedUser2 = em.find(IdpUser.class, user2.getId());
+      IdpUser retrievedUser2again = em.find(IdpUser.class, user2.getId());
+      Assert.assertNotNull(retrievedUser1);
+      Assert.assertNotNull(retrievedUser2);
+      Assert.assertNotNull(retrievedUser2again);
+      Assert.assertEquals(retrievedUser2, retrievedUser2again);
+      Assert.assertEquals(user.getEmail(), retrievedUser1.getEmail());
+      Assert.assertEquals(user2.getEmail(), retrievedUser2.getEmail());
+
+      Set<IdpUser> users = new HashSet<IdpUser>();
+      users.add(retrievedUser1);
+      users.add(retrievedUser2);
+      users.add(retrievedUser2again);
+      
+      // set should contain 2 users.
+      Assert.assertEquals(2, users.size());
+      
+      //now close the entity manager
+      em.close();
+      em = emFactory.createEntityManager();
+     
+      IdpUser newUser = em.find(IdpUser.class, retrievedUser2.getId());
+
+      //adding 2 users (3 user objects) to set
+      users = new HashSet<IdpUser>();
+      users.add(retrievedUser1);
+      users.add(retrievedUser2);
+      users.add(newUser);
+
+      // set should contain 2 users.
+      Assert.assertEquals(2, users.size());
+      
     }
 
     private void deleteUserIfExistent(String username) {
