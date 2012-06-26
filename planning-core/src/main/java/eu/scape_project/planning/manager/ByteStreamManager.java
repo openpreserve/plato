@@ -18,6 +18,7 @@ package eu.scape_project.planning.manager;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,6 +33,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.OS;
 
 /**
@@ -74,7 +76,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
             pid = null;
         }
         pid = storage.store(pid, bytestream);
-        // we have also to update the chache!
+        // we have also to update the cache!
         try {
             cacheObject(pid, bytestream);
         } catch (IOException e) {
@@ -84,11 +86,17 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     }
 
     public byte[] load(String pid) throws StorageException {
-        byte[] data = storage.load(pid);
-        try {
-            cacheObject(pid, data);
-        } catch (IOException e) {
-            throw new StorageException("failed to cache object", e);
+        //try to load it from the cache
+    	byte[] data = loadFromCache(pid);
+        
+    	// if it is not in the cache load it from the storage and cache it 
+    	if (data == null) { 
+        	data = storage.load(pid);
+        	try {
+        		cacheObject(pid, data);
+        	} catch (IOException e) {
+        		throw new StorageException("failed to cache object", e);
+        	}
         }
         return data;
     }
@@ -153,6 +161,24 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
         tempDigitalObjects.put(pid, tempFile);
     }
 
+    /**
+     * Loads the bytestream from the cache. 
+     * 
+     * @param pid
+     * @return
+     * @throws StorageException 
+     */
+    private byte[] loadFromCache(String pid) throws StorageException {
+    	File tmp = tempDigitalObjects.get(pid);
+    	if (tmp==null) {
+    		return null;
+    	}
+    	try {
+			return FileUtils.inputStreamToBytes(new FileInputStream(tmp));
+		} catch (IOException e) {
+			throw new StorageException("failed to load data for persistent identifier: " + pid);
+		}
+    }
     /**
      * Creates a new temp directory for this ByteStreamManager
      */
