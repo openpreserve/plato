@@ -29,6 +29,7 @@ import eu.scape_project.planning.model.DigitalObject;
  * 
  * @author Markus Hamm
  */
+// TODO This class uses a byteStreamManager, does not know about the actual type of storage (filesystem, ...) correct names and comments
 public class DigitalObjectManager implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -66,7 +67,6 @@ public class DigitalObjectManager implements Serializable {
 	 * @return A copy of the DigitalObject filled with data.
 	 * @throws StorageException If any error occurs at retrieving the data from file system. 
 	 */
-	// FIXME rename
 	public DigitalObject getCopyOfDataFilledDigitalObject(DigitalObject object) throws StorageException {
 		// parameter check
 		if ((object.getPid() == null) || (object.getPid().equals(""))) {
