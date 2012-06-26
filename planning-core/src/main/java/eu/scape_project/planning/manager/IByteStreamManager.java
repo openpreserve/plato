@@ -33,17 +33,6 @@ import eu.scape_project.planning.model.DigitalObject;
 //FIXME: remove methods with DigitalObject
 public interface IByteStreamManager{
 	
-    /**
-     * Stores the bytestream of the given digital object, with the pid 
-     * - If the pid is not set, a new pid is generated and set to the digital object.
-     * - else the pid is used to update the bytestream in the storage
-     *    
-     * @param o
-     * @return pid of the stored bytestream
-     * @throws StorageException
-     */
-    public String store(DigitalObject o) throws StorageException;	
-	
 	/**
 	 * Stores the bytestream with the given pid.
 	 * - If no pid is provided, a new one is created
@@ -54,18 +43,6 @@ public interface IByteStreamManager{
 	 * @throws StorageException
 	 */
 	public String store(String pid, byte[] bytestream) throws StorageException;
-	
-
-	/**
-	 * Loads the bytestream of the given digital object.
-	 * 
-	 * Note: sets the bytestream in the digital object, and returns it too
-	 * 
-	 * @param o
-	 * @return the loaded bytestream
-	 * @throws StorageException
-	 */
-	public byte[] load(DigitalObject o) throws StorageException; 
 	
 	/**
 	 * Loads the bit stream for the given pid

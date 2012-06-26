@@ -64,31 +64,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
 
     public ByteStreamManager() {
     }
-
-    /**
-     * @see IByteStreamManager#store(DigitalObject)
-     */
-    @Override
-    public String store(DigitalObject o) throws StorageException {
-        if (o == null) {
-            throw new StorageException("Tried to store digital object which is not defined (null)");
-        }
-        return store(o.getPid(), o.getData().getData());
-    }
-
-    /**
-     * @see IByteStreamManager#load(DigitalObject)
-     */
-    @Override
-    public byte[] load(DigitalObject o) throws StorageException {
-        if (o == null) {
-            throw new StorageException("Tried to load digital object which is not defined (null)");
-        }
-        byte[] result = load(o.getPid());
-        o.getData().setData(result);
-        return result;
-    }
-
+  
     /**
      * 
      * @see IByteStreamManager#store(String, byte[])
