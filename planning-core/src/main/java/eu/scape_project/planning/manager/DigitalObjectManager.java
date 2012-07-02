@@ -25,11 +25,12 @@ import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
 
 /**
- * Class offering services for moving DigitalObject data to the file system and vice versa.
+ * Class offering services for moving DigitalObject data to the IByteStreamStorage and vice versa. 
+ * ByteStreamManager is used to handle the ByteStream. 
  * 
  * @author Markus Hamm
  */
-// TODO This class uses a byteStreamManager, does not know about the actual type of storage (filesystem, ...) correct names and comments
+
 public class DigitalObjectManager implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -38,14 +39,14 @@ public class DigitalObjectManager implements Serializable {
 	private ByteStreamManager byteStreamManager;
 	
 	/**
-	 * Method responsible for moving DigitalObject data to file system.
+	 * Method responsible for moving DigitalObject data to IByteStreamStorage.
 	 * The INPUT object will be MODIFIED the following way: 
 	 * - No data is set any more
-	 * - Instead the field pid is filled which represents the identifier to fetch data from file system again.
+	 * - Instead the field pid is filled which represents the identifier to fetch data from a storage again.
 	 * - sizeInMB is set corresponding to the stored data size.
 	 * 
-	 * @param object DigitalObject with data set, which will be moved to file system.
-	 * @throws StorageException If any error occurs at storing the data to file system.  
+	 * @param object DigitalObject with data set, which will be moved.
+	 * @throws StorageException If any error occurs at storing the data.  
 	 */
 	public void moveDataToStorage(DigitalObject object) throws StorageException {
 		String pid = byteStreamManager.store(null, object.getData().getData());
@@ -58,19 +59,19 @@ public class DigitalObjectManager implements Serializable {
 	}
 	
 	/**
-	 * Method responsible for retrieving a copy of the DigitalObject filled with data (fetched from file system).
+	 * Method responsible for retrieving a copy of the DigitalObject filled with data (fetched from a storage).
 	 * (A copy of the DigitalObject is filled with the data instead of the original one because usually the passed DigitalObject is part
-	 * of an objective tree which is stored over a long time period in file system. To avoid high memory usage it is better to
+	 * of an objective tree which is stored over a long time period. To avoid high memory usage it is better to
 	 * charge an independent object with this usually big amount of data.)
 	 * 
 	 * @param object DigitalObject with pid set, where data if of interest.
 	 * @return A copy of the DigitalObject filled with data.
-	 * @throws StorageException If any error occurs at retrieving the data from file system. 
+	 * @throws StorageException If any error occurs at retrieving the data from a storage. 
 	 */
 	public DigitalObject getCopyOfDataFilledDigitalObject(DigitalObject object) throws StorageException {
 		// parameter check
 		if ((object.getPid() == null) || (object.getPid().equals(""))) {
-			throw new InvalidParameterException("DigitalObject must have a pid set to be retrievable from storage");
+			throw new InvalidParameterException("DigitalObject must have a pid set to be retrievable from a storage");
 		}
 		
 		byte[] digitalObjectBytes = byteStreamManager.load(object.getPid());
