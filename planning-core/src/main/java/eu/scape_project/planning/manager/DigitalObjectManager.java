@@ -25,7 +25,7 @@ import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
 
 /**
- * Class offering services for moving DigitalObject data to the IByteStreamStorage and vice versa. 
+ * Class offering services for moving DigitalObject data to the {@link IByteStreamStorage} and vice versa. 
  * ByteStreamManager is used to handle the ByteStream. 
  * 
  * @author Markus Hamm
