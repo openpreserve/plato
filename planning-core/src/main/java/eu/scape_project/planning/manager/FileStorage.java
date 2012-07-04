@@ -121,6 +121,7 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 		repositoryName = "plato";
 	}
 
+	
 	@Override
 	public String store(String pid, byte[] bytestream) throws StorageException {
 		String objectId;
@@ -130,7 +131,7 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 			pid = repositoryName + ":" + objectId;
 		} else {
 			// we ignore the object's namespace
-			objectId = pid.substring(pid.indexOf(':'));
+			objectId = pid.substring(pid.indexOf(':')+1);
 		}
 		// we try to rename the file, if it already exists
 		File file = new File(storagePathFile, objectId);
