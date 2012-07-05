@@ -13,6 +13,18 @@
   <packaging>ejb</packaging>
   <name>Planning Core</name>
   
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.arquillian</groupId>
+            <artifactId>arquillian-bom</artifactId>
+            <version>1.0.1.Final</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <build>
 	  <plugins>
 	    <plugin>
@@ -28,16 +40,50 @@
 	        </archive>
 	      </configuration>
 	    </plugin>
+	    <plugin>
+    		<artifactId>maven-surefire-plugin</artifactId>
+    		<version>2.12</version>
+		</plugin>
 	  </plugins>
   </build>
       
   <dependencies>
+  
+  	<dependency>
+      <groupId>org.jboss.arquillian.junit</groupId>
+      <artifactId>arquillian-junit-container</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
     <dependency>
+      <groupId>org.jboss.arquillian.container</groupId>
+      <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
+      <version>1.0.0.CR3</version>
+      <scope>test</scope>
+	</dependency>
+
+	<dependency>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-core</artifactId>
+      <version>1.1.5.Final</version>
+      <scope>test</scope>
+	</dependency>
+	
+   <!--  <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
       <version>6.0</version>
       <scope>provided</scope>     
-    </dependency>
+    </dependency> -->
+    
+    <dependency>
+      <groupId>org.jboss.spec</groupId>
+      <artifactId>jboss-javaee-6.0</artifactId>
+      <version>1.0.0.Final</version>
+      <type>pom</type>
+      <scope>provided</scope>
+	</dependency>
+    
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
@@ -104,5 +150,6 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
+		
   </dependencies>
 </project>

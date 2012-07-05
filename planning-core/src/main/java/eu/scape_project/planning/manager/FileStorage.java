@@ -19,7 +19,6 @@ package eu.scape_project.planning.manager;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +28,7 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -49,8 +49,9 @@ import eu.scape_project.planning.utils.FileUtils;
  * @author Michael Kraxner
  * 
  */
-@Stateful
+//@Stateful
 // @ConversationScoped
+@Default
 public class FileStorage implements Serializable, IByteStreamStorage {
 	private static final long serialVersionUID = -2406172386311143101L;
 
