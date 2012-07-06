@@ -166,10 +166,9 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
      * Loads the bytestream from the cache. 
      * 
      * @param pid
-     * @return
-     * @throws StorageException 
+     * @return 
      */
-    private byte[] loadFromCache(String pid) throws StorageException {
+    private byte[] loadFromCache(String pid) {
     	File tmp = tempDigitalObjects.get(pid);
     	if (tmp==null) {
     		return null;
@@ -177,7 +176,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     	try {
 			return FileUtils.inputStreamToBytes(new FileInputStream(tmp));
 		} catch (IOException e) {
-			throw new StorageException("failed to load data for persistent identifier: " + pid);
+			return null;
 		}
     }
     /**
@@ -197,6 +196,6 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     public void destroy() {
         OS.deleteDirectory(tempDir);
         tempDigitalObjects.clear();
-    }
+    }    
 
 }
