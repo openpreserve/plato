@@ -8,7 +8,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,10 +22,14 @@ public class ByteStreamManagerTest {
 
 	
 	@Deployment
-	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class).
-				addClasses(ByteStreamManager.class, FileStorage.class, LoggerFactory.class).
+	public static WebArchive createDeployment() {
+		System.out.println("hello");
+		WebArchive wa = ShrinkWrap.create(WebArchive.class).
+				addClasses(FileStorage.class, ByteStreamManager.class, LoggerFactory.class).
+				addAsManifestResource("jboss-deployment-structure.xml","jboss-deployment-structure.xml").
 				addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+		System.out.println(wa.toString(true));
+		return wa;
 		
 	    }
 

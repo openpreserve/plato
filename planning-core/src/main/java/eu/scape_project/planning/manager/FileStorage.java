@@ -49,9 +49,9 @@ import eu.scape_project.planning.utils.FileUtils;
  * @author Michael Kraxner
  * 
  */
-//@Stateful
 // @ConversationScoped
-@Default
+// @Default
+@Stateful
 public class FileStorage implements Serializable, IByteStreamStorage {
 	private static final long serialVersionUID = -2406172386311143101L;
 

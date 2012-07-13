@@ -28,7 +28,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -57,9 +56,8 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     @Inject
     private Logger log;
 
-    @Inject 
+    @Inject
     private IByteStreamStorage storage;
-    //private FileStorage storage;
     
     private Map<String, File> tempDigitalObjects = new HashMap<String, File>();
 
