@@ -41,6 +41,8 @@
     <xsl:apply-templates select="*|text()" />
   </xsl:copy>
 </xsl:template>
+
+<!-- changes default namespace to ifs.tuwien.ac.at/dp/plato/ -->
 <!-- [namespace-uri() = 'http://www.planets-project.eu/plato'] -->
  <xsl:template match="oldplato:*">
      <xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
@@ -56,6 +58,7 @@
     <xsl:attribute name="version">4.0.0</xsl:attribute>
 </xsl:template>
 
+<!-- criterion has now an ID, other content is only there for documentation -->
 <xsl:template match="oldplato:criterion">
 	<xsl:if test="oldplato:property/oldplato:category/text()">
 	<xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
@@ -80,8 +83,9 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- util: adds prefix and suffix, only if content is not empty  -->
 <xsl:template name="append_non_empty" >
-	<xsl:param name="content" select="''"/>
+	<xsl:param name="content" select="''"/>subject
 	<xsl:param name="prefix" select="''"/>
 	<xsl:param name="suffix" select="''"/>
 	<xsl:if test="$content != ''">
@@ -89,6 +93,7 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- rename subject to evaluationScope -->
 <xsl:template match="oldplato:subject">
 	<xsl:if test="text() and text() != 'null'">
 		<xsl:element name="evaluationScope" namespace="http://ifs.tuwien.ac.at/dp/plato">
@@ -96,7 +101,8 @@
 		</xsl:element>
 	</xsl:if>
 </xsl:template>
- 
+
+<!-- remove empty value elements of *Result --> 
 <xsl:template match="*[substring(name(), string-length(name())-5 ) = 'Result']/oldplato:value" >
 	<xsl:if test="text()">
 		<xsl:element name="value" namespace="http://ifs.tuwien.ac.at/dp/plato">

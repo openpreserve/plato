@@ -27,7 +27,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
@@ -41,7 +40,6 @@ import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
-import eu.scape_project.planning.model.ExecutablePlanDefinition;
 import eu.scape_project.planning.model.Experiment;
 import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.Plan;
@@ -90,9 +88,9 @@ public class ProjectExporter implements Serializable {
     public static Namespace platoNS;
     
     static {
-        excutablePlanNS = new Namespace("wdt", "http://www.planets-project.eu/wdt");
+        //excutablePlanNS = new Namespace("wdt", "http://www.planets-project.eu/wdt");
         xsi = new Namespace("xsi",  "http://www.w3.org/2001/XMLSchema-instance");
-        platoNS = new Namespace("", "http://www.planets-project.eu/plato");
+        platoNS = new Namespace("", PreservationPlanXML.PLATO_NS);
     }
     
     public ProjectExporter() { }
@@ -127,14 +125,12 @@ public class ProjectExporter implements Serializable {
         
         root.add(xsi);
         root.add(platoNS);
-        root.addAttribute(xsi.getPrefix()+":schemaLocation", "http://www.planets-project.eu/plato plato-3.0.xsd");
-
-        root.add(excutablePlanNS);
+        root.addAttribute(xsi.getPrefix()+":schemaLocation", PreservationPlanXML.PLATO_NS + " " + PreservationPlanXML.PLATO_SCHEMA);
         root.add(new Namespace("fits", "http://hul.harvard.edu/ois/xml/ns/fits/fits_output"));
 
         // set version of corresponding schema
         root
-           .addAttribute("version", "3.0.1");
+           .addAttribute("version", "4.0.0");
         
         return doc;
     }
@@ -380,7 +376,10 @@ public class ProjectExporter implements Serializable {
                          * A special element is created, depending on the type of the scale
                          */
                         Element valElement = alt.addElement(typename+"Result");
-                        addStringElement(valElement, "value", v.toString());
+                        String valueStr = v.toString();
+                        if (!"".equals(valueStr)) { 
+                            addStringElement(valElement, "value", v.toString());
+                        }
                         addStringElement(valElement, "comment", v.getComment());
                         addChangeLog(v.getChangeLog(), valElement);
                         
@@ -424,6 +423,7 @@ public class ProjectExporter implements Serializable {
             
         }
         addMetric(criterion.getMetric(), infoEl);
+        infoEl.addAttribute("ID", criterion.getUri());
 
         addChangeLog(criterion.getChangeLog(), infoEl);
     }
@@ -816,43 +816,43 @@ public class ProjectExporter implements Serializable {
            addSubTree(p.getTree().getRoot(), tree);
         }
         
-        Element executablePlan = projectNode.addElement("executablePlan");
-
-        try {
-            if (p.getExecutablePlanDefinition().getExecutablePlan() != null) {
-                Document execPlan = DocumentHelper.parseText(p.getExecutablePlanDefinition().getExecutablePlan());
-                Element execPlanRoot = execPlan.getRootElement();
-                if (execPlanRoot.hasContent()){
-                    Element planWorkflow = executablePlan.addElement("planWorkflow");
-                    planWorkflow.add(execPlanRoot);                    
-                }
-            }
-            
-            if (p.getExecutablePlanDefinition().getEprintsExecutablePlan() != null) {
-                Document execPlan = DocumentHelper.parseText(p.getExecutablePlanDefinition().getEprintsExecutablePlan());
-                Element execPlanRoot = execPlan.getRootElement();
-                if (execPlanRoot.hasContent()) {
-                    //Element planWorkflow = executablePlan.addElement("eprintsPlan");
-                    executablePlan.add(execPlanRoot);                    
-                }
-            }
-            
-        } catch (DocumentException e) {
-            // if the stored exec. plan is invalid for some reason, we leave the plan out.
-            // TODO: HK this should no happen as we write the xml ourselves, but still, 
-            // we need a mechanism here to prevent the export if the xml is invalid.
-            logger.error(e.getMessage(),e);
-        }
-        
-        
-        // TODO HK how does this here relate to the upper try-catch block and the exception??
-        // Smells like a hack!
-        ExecutablePlanDefinition plan = p.getExecutablePlanDefinition(); 
-        addStringElement(executablePlan, "objectPath", plan.getObjectPath());
-        addStringElement(executablePlan, "toolParameters", plan.getToolParameters());
-        addStringElement(executablePlan, "triggersConditions", plan.getTriggersConditions());
-        addStringElement(executablePlan, "validateQA", plan.getValidateQA());
-        addChangeLog(plan.getChangeLog(), executablePlan);
+//        Element executablePlan = projectNode.addElement("executablePlan");
+//
+//        try {
+//            if (p.getExecutablePlanDefinition().getExecutablePlan() != null) {
+//                Document execPlan = DocumentHelper.parseText(p.getExecutablePlanDefinition().getExecutablePlan());
+//                Element execPlanRoot = execPlan.getRootElement();
+//                if (execPlanRoot.hasContent()){
+//                    Element planWorkflow = executablePlan.addElement("planWorkflow");
+//                    planWorkflow.add(execPlanRoot);                    
+//                }
+//            }
+//            
+//            if (p.getExecutablePlanDefinition().getEprintsExecutablePlan() != null) {
+//                Document execPlan = DocumentHelper.parseText(p.getExecutablePlanDefinition().getEprintsExecutablePlan());
+//                Element execPlanRoot = execPlan.getRootElement();
+//                if (execPlanRoot.hasContent()) {
+//                    //Element planWorkflow = executablePlan.addElement("eprintsPlan");
+//                    executablePlan.add(execPlanRoot);                    
+//                }
+//            }
+//            
+//        } catch (DocumentException e) {
+//            // if the stored exec. plan is invalid for some reason, we leave the plan out.
+//            // TODO: HK this should no happen as we write the xml ourselves, but still, 
+//            // we need a mechanism here to prevent the export if the xml is invalid.
+//            logger.error(e.getMessage(),e);
+//        }
+//        
+//        
+//        // TODO HK how does this here relate to the upper try-catch block and the exception??
+//        // Smells like a hack!
+//        ExecutablePlanDefinition plan = p.getExecutablePlanDefinition(); 
+//        addStringElement(executablePlan, "objectPath", plan.getObjectPath());
+//        addStringElement(executablePlan, "toolParameters", plan.getToolParameters());
+//        addStringElement(executablePlan, "triggersConditions", plan.getTriggersConditions());
+//        addStringElement(executablePlan, "validateQA", plan.getValidateQA());
+//        addChangeLog(plan.getChangeLog(), executablePlan);
         
         Element planDef = projectNode.addElement("planDefinition");
         PlanDefinition pdef = p.getPlanDefinition();

@@ -17,9 +17,10 @@
 package eu.scape_project.planning.xml;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -31,8 +32,9 @@ import org.xml.sax.SAXException;
  *
  */
 public class SchemaResolver implements EntityResolver {
+        private Logger log = LoggerFactory.getLogger(SchemaResolver.class);
 
-	private Map<String, String> entityLocations = new HashMap<String, String>();
+        private Properties schemaMappings = new Properties();
 
 	/**
 	 * Creates a schema resolver, use {@link #addSchemaLocation(String, String)} to configure it.  
@@ -53,22 +55,27 @@ public class SchemaResolver implements EntityResolver {
 		if ((systemId == null) || (schemaLocation == null) ) {
 			throw new IllegalArgumentException("systemId and schemaLocation must not be null");
 		}
-		entityLocations.put(systemId, schemaLocation);
+		schemaMappings.put(systemId, schemaLocation);
 		return this;
 	}
 
 	/**
 	 * Resolves the entity with publicId and systemId to a InputSource.
-	 * For this it uses previously registered schema-locations.
+	 * For this it uses previously added schema-locations.
 	 */
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId)
 			throws SAXException, IOException {
-		String location = entityLocations.get(systemId);
+		String location = schemaMappings.getProperty(systemId);
 		if (location != null) {
-			System.out.println("resolved entity: " + systemId + " -> " + location);
-			return new InputSource(getClass().getClassLoader().getResourceAsStream(location));
-		}
+		        if (log.isDebugEnabled()) {
+		            log.debug("resolved schema: " + systemId + " -> " + location);
+		        }
+			InputSource source = new InputSource(getClass().getClassLoader().getResourceAsStream(location));
+			// important: set the sytemId to the created InputSource, the parser will use it to complete relative URI's in the schema
+			source.setSystemId(systemId);
+			return source;
+		} 
 		return null;
 	}
 

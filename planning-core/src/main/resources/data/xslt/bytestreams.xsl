@@ -19,7 +19,7 @@
 --> 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:plato="http://www.planets-project.eu/plato" xmlns:wdt="http://www.planets-project.eu/wdt">
-  <xsl:output method="xml" indent="yes" encoding="ISO-8859-1" />
+  <xsl:output method="xml" indent="yes" encoding="UTF-8" />
   <xsl:preserve-space elements="*"/>
   
   <xsl:param name="tempDir" select="''"/>

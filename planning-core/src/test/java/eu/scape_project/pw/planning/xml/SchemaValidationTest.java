@@ -29,6 +29,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import eu.scape_project.planning.xml.PreservationPlanXML;
 import eu.scape_project.planning.xml.SchemaResolver;
 import eu.scape_project.planning.xml.StrictDefaultHandler;
 import eu.scape_project.planning.xml.ValidatingParserFactory;
@@ -62,7 +63,7 @@ public class SchemaValidationTest {
 		InputStream inPlan = getClass().getClassLoader().getResourceAsStream("simple/simpleInvalidOrder.xml");
 		
 		SAXParser parser = validatingParserFactory.getValidatingParser();
-		//parser.setProperty(JAXP_SCHEMA_SOURCE, "file:///home/kraxner/workspace/planningsuite/planning-core/src/test/resources/simple/simple.xsd");
+                parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/simple/V1.0.0/simple.xsd");
 		
 		parser.parse(inPlan, new StrictDefaultHandler(new SchemaResolver().addSchemaLocation("http://simple.org/simple/V1.0.0/simple.xsd", "simple/simple.xsd")));
 	}
@@ -74,6 +75,27 @@ public class SchemaValidationTest {
 		SAXParser parser = validatingParserFactory.getValidatingParser();
 		parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/simple/V1.0.0/simple.xsd");
 		parser.parse(inPlan, new StrictDefaultHandler(new SchemaResolver().addSchemaLocation("http://simple.org/simple/V1.0.0/simple.xsd", "simple/simple.xsd")));
+	}
+
+	/**
+	 * Parses and validates an xml which includes elements of other schemas.
+	 *  
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+        @Test
+	public void parseComposedXml() throws ParserConfigurationException, SAXException, IOException {
+            InputStream inPlan = getClass().getClassLoader().getResourceAsStream("plans/plan_with_pap.xml");
+            
+            SAXParser parser = validatingParserFactory.getValidatingParser();
+            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PreservationPlanXML.PLATO_SCHEMA_URI);
+            SchemaResolver schemaResolver = new SchemaResolver()
+                .addSchemaLocation(PreservationPlanXML.PLATO_SCHEMA_URI, "plans/plato-V4.0.0.xsd")
+                .addSchemaLocation(PreservationPlanXML.PAP_SCHEMA_URI, "plans/preservationActionPlan-V1.xsd")
+                .addSchemaLocation(PreservationPlanXML.TAVERNA_SCHEMA_URI, "plans/t2flow.xsd");
+            
+            parser.parse(inPlan, new StrictDefaultHandler(schemaResolver));
 	}
 	
 

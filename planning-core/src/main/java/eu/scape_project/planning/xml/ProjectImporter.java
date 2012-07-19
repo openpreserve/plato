@@ -135,14 +135,9 @@ import eu.scape_project.planning.xml.plan.TriggerFactory;
 @Stateful
 @SessionScoped
 @Named
-public class ProjectImporter implements Serializable {
+public class ProjectImporter extends PreservationPlanXML implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    static final String PLATO_SCHEMA = "plato-V4.0.0.xsd";
-    static final String PLATO_SCHEMA_URI = "http://ifs.tuwien.ac.at/dp/plato/" + ProjectImporter.PLATO_SCHEMA;
-
-    static final String[] PLAN_SCHEMAS = {ProjectImporter.PLATO_SCHEMA_URI};
 
     @Inject
     private Logger log;
@@ -587,8 +582,11 @@ public class ProjectImporter implements Serializable {
             Digester digester = new Digester(parser);
 
             SchemaResolver schemaResolver = new SchemaResolver();
-            schemaResolver.addSchemaLocation(ProjectImporter.PLATO_SCHEMA_URI, "data/schemas/"
-                + ProjectImporter.PLATO_SCHEMA);
+            schemaResolver
+                .addSchemaLocation(  PLATO_SCHEMA_URI, SCHEMA_LOCATION + PLATO_SCHEMA)
+                .addSchemaLocation(  PAP_SCHEMA_URI, SCHEMA_LOCATION + PAP_SCHEMA)
+                .addSchemaLocation(  TAVERNA_SCHEMA_URI, SCHEMA_LOCATION + TAVERNA_SCHEMA);
+            
             digester.setEntityResolver(schemaResolver);
 
             digester.setErrorHandler(new StrictErrorHandler());

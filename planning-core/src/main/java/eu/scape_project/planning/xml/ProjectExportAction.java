@@ -26,14 +26,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -243,16 +244,17 @@ public class ProjectExportAction implements Serializable {
      *  Performs XSLT transformation to get the DATA into the PLANS
      */
     private void addBinaryData(Document doc, OutputStream out, String aTempDir) throws TransformerException {
-        URL xslPath = Thread.currentThread().getContextClassLoader().getResource("data/xslt/bytestreams.xsl");
         InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream("data/xslt/bytestreams.xsl");
         
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
         Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
         transformer.setParameter("tempDir", aTempDir);
 
         Source xmlSource = new DocumentSource(doc);
     
         Result outputTarget = new StreamResult(out); //new FileWriter(outFile));
+
         
         log.debug("starting bytestream transformation ...");
         transformer.transform(xmlSource, outputTarget);
