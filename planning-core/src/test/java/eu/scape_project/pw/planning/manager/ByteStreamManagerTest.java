@@ -12,10 +12,15 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.manager.FileStorage;
+import eu.scape_project.planning.manager.IByteStreamManager;
+import eu.scape_project.planning.manager.IByteStreamStorage;
 import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.LoggerFactory;
+import eu.scape_project.planning.utils.OS;
 
 @RunWith(Arquillian.class)
 public class ByteStreamManagerTest {
@@ -23,11 +28,12 @@ public class ByteStreamManagerTest {
 	
 	@Deployment
 	public static WebArchive createDeployment() {
-		System.out.println("hello");
 		WebArchive wa = ShrinkWrap.create(WebArchive.class).
-				addClasses(FileStorage.class, ByteStreamManager.class, LoggerFactory.class).
-				addAsManifestResource("jboss-deployment-structure.xml","jboss-deployment-structure.xml").
-				addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+				addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").
+				addClasses(PlanningException.class, StorageException.class, 
+						FileUtils.class, OS.class, IByteStreamManager.class, 
+						IByteStreamStorage.class, FileStorage.class, 
+						ByteStreamManager.class, LoggerFactory.class);
 		System.out.println(wa.toString(true));
 		return wa;
 		
