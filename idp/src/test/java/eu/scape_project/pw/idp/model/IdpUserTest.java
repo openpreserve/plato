@@ -248,7 +248,7 @@ public class IdpUserTest {
       // set should contain 2 users.
       Assert.assertEquals(2, users.size());
       
-      //now close the entity manager
+      //now close the entity manager, to simulate a crash
       em.close();
       em = emFactory.createEntityManager();
      
