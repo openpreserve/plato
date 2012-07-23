@@ -1,0 +1,89 @@
+<workflow xmlns="http://taverna.sf.net/2008/xml/t2flow" version="1" producedBy="taverna-2.4.0">
+    <dataflow id="e0089782-e811-48c7-b72d-2b84ddfdeb11" role="top">
+        <name>Workflow_Title</name>
+        <inputPorts>
+            <port>
+                <name>in</name>
+                <depth>0</depth>
+                <granularDepth>0</granularDepth>
+                <annotations />
+            </port>
+        </inputPorts>
+        <outputPorts>
+            <port>
+                <name>out</name>
+                <annotations />
+            </port>
+        </outputPorts>
+        <processors />
+        <conditions />
+        <datalinks>
+            <datalink>
+                <sink type="dataflow">
+                    <port>out</port>
+                </sink>
+                <source type="dataflow">
+                    <port>in</port>
+                </source>
+            </datalink>
+        </datalinks>
+        <annotations>
+            <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                    <annotationAssertions>
+                        <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                            <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.DescriptiveTitle">
+                                <text>Workflow Title</text>
+                            </annotationBean>
+                            <date>2012-07-23 15:47:42.899 UTC</date>
+                            <creators />
+                            <curationEventList />
+                        </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                    </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+            </annotation_chain>
+            <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                    <annotationAssertions>
+                        <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                            <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.Author">
+                                <text>Workflow Author</text>
+                            </annotationBean>
+                            <date>2012-07-23 15:47:39.635 UTC</date>
+                            <creators />
+                            <curationEventList />
+                        </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                    </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+            </annotation_chain>
+            <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                    <annotationAssertions>
+                        <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                            <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription">
+                                <text>Workflow Description</text>
+                            </annotationBean>
+                            <date>2012-07-23 15:47:47.547 UTC</date>
+                            <creators />
+                            <curationEventList />
+                        </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                    </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+            </annotation_chain>
+            <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                    <annotationAssertions>
+                        <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                            <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                                <identification>e0089782-e811-48c7-b72d-2b84ddfdeb11</identification>
+                            </annotationBean>
+                            <date>2012-07-23 15:47:50.877 UTC</date>
+                            <creators />
+                            <curationEventList />
+                        </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                    </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+            </annotation_chain_2_2>
+        </annotations>
+    </dataflow>
+</workflow>
