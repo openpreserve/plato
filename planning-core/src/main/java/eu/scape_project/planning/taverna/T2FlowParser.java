@@ -5,10 +5,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -476,11 +474,13 @@ public class T2FlowParser {
         // Get depth
         NodeList depthNodes = portElement.getElementsByTagNameNS(nsc.getNamespaceURI("t2f"), "depth");
 
-        if (depthNodes.getLength() != 1) {
-            throw new TavernaParserException("Not a valid port element");
+        // if (depthNodes.getLength() != 1) {
+        // throw new TavernaParserException("Not a valid port element");
+        // }
+        if (depthNodes.getLength() == 1) {
+            Integer depth = Integer.parseInt(((Element) depthNodes.item(0)).getTextContent());
+            port.setDepth(depth);
         }
-        Integer depth = Integer.parseInt(((Element) depthNodes.item(0)).getTextContent());
-        port.setDepth(depth);
 
         // Get URIs
         XPathFactory factory = XPathFactory.newInstance();

@@ -274,7 +274,7 @@ public class T2FlowParserTest {
                 Set<URI> uris = outputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals("http://scape-project.eu/Property/Object/Image/ImageHeight"));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/Property/Object/Image/ImageAspectRatio"));
                 }
             } else {
                 assertTrue(false);
