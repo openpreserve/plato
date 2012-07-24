@@ -111,7 +111,27 @@
 			        <p:inputTextArea 	labelText="Relations to other plans:" id="planRelations"
 			                  			input="#{defineBasis.plan.projectBasis.planRelations}"
 			                  			touchable="#{defineBasis.plan.projectBasis}" />
-			
+					<script type="text/javascript">
+						// removes underscores from the
+						// passed text 
+						function prettify(text) {
+						    text = text.replace(/_/g, " ");
+						    return text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+						};
+
+						//executed when the document is fully loaded
+						$(document).ready(function(){
+							//select td tags with class trigger
+							$('tr td.trigger').each(function(i, val) {
+								// on each row get the second element
+								// and swap the text
+								if (i % 3 == 1) { 
+									var trigger = $(val).text();
+									$(val).text(prettify(trigger));
+								}
+							});
+						});
+					</script>
 			        <table class="tableStyle" border="0">
 		        		<tr>
 	                		<th width="5%" class="tableStyle-header">Active&nbsp;&nbsp;</th>
