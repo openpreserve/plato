@@ -85,7 +85,7 @@
 						</f:facet>
 						<h:commandLink value="Load" action="#{viewWorkflowManager.startWorkflow(p.id)}" rendered="#{p.open}" disabled="#{p.readOnly}" />
 
-						<h:outputText value="locked" rendered="#{not p.open}" />
+						<h:outputText value="locked" rendered="#{not p.open and not p.allowReload}" />
 
                         <a4j:commandButton action="#{planLister.unlock(p.id)}" value="Unlock" rendered="#{not p.open and p.allowReload}" render="planListPanel"/>
 						<br />
