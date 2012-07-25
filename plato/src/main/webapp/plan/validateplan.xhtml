@@ -948,7 +948,7 @@
 				<fieldset id="approval" class="size-full">
 				    <a4j:outputPanel layout="block" id="approveSection" style="text-align: center;">
 						<a4j:commandButton id="approveButton" rendered="#{not validatePlan.plan.approved}"
-						                   value="          Approve this plan" styleClass="approve-button"
+						                   value="Approve this plan" styleClass="approve-button"
 						                   action="#{validatePlan.approvePlan()}" render="approveSection" />
 							
 		                <a4j:outputPanel layout="block" rendered="#{validatePlan.plan.approved}">
@@ -959,8 +959,8 @@
 							    <br />
 								This implies that it cannot be changed anymore unless it is formally revised again. Only the approving person can revise the plan.
 							</p>
-							<a4j:commandButton id="reviseButton" value="         Revise this plan" styleClass="discard-button"
-							                   action="#{validatePlan.revisePlan()}" render="approveSection" />
+							<a4j:commandButton id="reviseButton" value="Revise this plan" styleClass="discard-button"
+							                   action="#{validatePlan.revisePlan()}" render="approveSection" style="float:none"/>
 						</a4j:outputPanel>
 					</a4j:outputPanel>
 				</fieldset>

@@ -111,23 +111,6 @@
 	                           maxlength="255"
 	                           required="true" touchable="#{row}"/>
 	                     </div>
-	                     <h:outputLabel for="datayes" class="small">
-	                        Has data:
-	                     </h:outputLabel>
-	                     <!-- we would like to show a tooltip text for this element but unfortunately it is not  -->
-	                     <!-- maybe the data-object is there but empty -->
-	                     <div id="data" class="nonwrapped ">
-	                        <h:selectBooleanCheckbox id="datayes"
-	                           disabled="true"
-	                           value="#{row.dataExistent}" />
-	                        <h:outputText
-	                           rendered="#{row.dataExistent}"
-	                           disabled="true"
-	                           value=" #{row.sizeInMB} MB"/>
-	                        <h:commandButton value="download"
-	                           action="#{defineSampleRecords.download(row)}"
-	                           rendered="#{row.dataExistent}" />
-	                     </div>
 	                     <div class="float-off">
 	                        <p:inputTextArea
 	                           labelText="Original technical environment:"
@@ -142,7 +125,42 @@
 	                           input="#{row.description}"
 	                           maxlength="5000" touchable="#{row}"/>
 	                     </div>
-	                     <div class="margin-top-big margin-bottom-big">
+	                     <div class="label">
+		                     <h:outputLabel for="datayes" class="label-text">
+		                        Has data:
+		                     </h:outputLabel>
+		                 </div>
+		                     <!-- we would like to show a tooltip text for this element but unfortunately it is not  -->
+		                     <!-- maybe the data-object is there but empty -->
+		                     <div id="data" class="nonwrapped ">
+		                        <h:selectBooleanCheckbox id="datayes"
+		                           disabled="true"
+		                           value="#{row.dataExistent}" />
+		                        <h:outputText
+		                           rendered="#{row.dataExistent}"
+		                           disabled="true"
+		                           value=" #{row.sizeInMB} MB"/>
+		                        <h:commandButton value="Download"
+		                           action="#{defineSampleRecords.download(row)}"
+		                           rendered="#{row.dataExistent}" />
+		                     </div>
+	                  </h:column>
+	                  <h:column>
+	                     <f:facet name="header">
+	                        <h:outputText value="Object Format" />
+	                     </f:facet>
+	                     
+	                     <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
+	                     <div>
+		                     <a4j:commandButton value="View FITS Characteristics" action="#{defineSampleRecords.selectSampleObject(row)}"
+		                                        oncomplete="#{rich:component('fitsXmlPanel')}.show()" render="fitsXmlPanel"
+		                                        style="vertical-align: middle;" />
+		                     <!-- <a href="http://code.google.com/p/fits/" target="_blank">
+		                          <h:graphicImage id="fits" value="/resources/gfx/logos/fits.png" style="vertical-align: middle; margin-left: 30px; width: 15%" />
+                             </a>
+                              -->
+                         </div>
+                          <div class="margin-top-big margin-bottom-big">
 	                        <a4j:commandButton id="cbutton#{row.id}"
 	                           rendered="#{defineSampleRecords.allowRemove != row.id}"
 	                           value="Remove sample"
@@ -161,39 +179,31 @@
 	                           render="sampleRecordsList"/>
 	                     </div>
 	                  </h:column>
-	                  <h:column>
-	                     <f:facet name="header">
-	                        <h:outputText value="Object Format" />
-	                     </f:facet>
-	                     
-	                     <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
-	                     <div style="text-align: center;">
-		                     <a4j:commandButton value="View FITS Characteristics" action="#{defineSampleRecords.selectSampleObject(row)}"
-		                                        oncomplete="#{rich:component('fitsXmlPanel')}.show()" render="fitsXmlPanel"
-		                                        style="vertical-align: middle;" />
-		                     <a href="http://code.google.com/p/fits/" target="_blank">
-		                          <h:graphicImage id="fits" value="/resources/gfx/logos/fits.png" style="vertical-align: middle; margin-left: 30px;" />
-                             </a>
-                         </div>
-	                  </h:column>
 	               </h:dataTable>
                </a4j:outputPanel>
                   
                <div class="margin-bottom-huge margin-top-big" />
             </fieldset>
             
-            <p:savediscardproceed bean="#{viewWorkflow}" />
-            <h3>Add new sample without file</h3>
-            <div>
+            <div id="addsamples">
+               <h3>Add More Sample Objects</h3>
                <a4j:commandButton value="Add sample" id="addRecord"
                   action="#{defineSampleRecords.newSample}"
                   onclick="changed()"
                   render="sampleRecordsList" />
+	           <input onclick="renderUploadForm()" type="button" value="Upload sample"/>
             </div>
-	         <h3>Upload new samples</h3>
-             <rich:fileUpload id="upload" fileUploadListener="#{defineSampleRecords.listener}" allowFlash="false">
-                <a4j:ajax event="uploadcomplete" execute="@none" render="sampleRecordsList"  />             
-             </rich:fileUpload>
+	        <script type="text/javascript">
+				function renderUploadForm() {
+					//toggles the upload form
+					$('.rf-fu').toggle();
+				}
+	        </script>
+	        <rich:fileUpload id="upload" fileUploadListener="#{defineSampleRecords.listener}" allowFlash="false">
+	             <a4j:ajax event="uploadcomplete" execute="@none" render="sampleRecordsList"  />             
+	        </rich:fileUpload>
+            <p:savediscardproceed bean="#{viewWorkflow}" />
+            
         </h:form>
         
         

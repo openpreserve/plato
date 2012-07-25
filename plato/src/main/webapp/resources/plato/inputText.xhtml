@@ -24,7 +24,12 @@
 	<div class="component">
 	<c:if test="#{cc.attrs.labelText != null}">
 		<div class="label">
-			<h:outputText value="#{cc.attrs.labelText}" class="label-text"/>
+			<div class="marks">
+				<c:if test="#{cc.attrs.required}">*</c:if>
+			</div>
+			<a href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" target="_blank">
+				<h:outputText value="#{cc.attrs.labelText}" class="label-text"/>
+			</a>
 		</div>
 		<div class="input">
 			<h:inputText id="#{cc.attrs.id}_input"  value="#{cc.attrs.input}" class="p-input-text" required="#{cc.attrs.required}" label="#{cc.attrs.labelText}">
@@ -40,7 +45,7 @@
 		</div>
 	</c:if>
 		
-    <div class="marks">
+    <!-- <div class="marks">
       <c:if test="#{cc.attrs.helpLink}">
         <a href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" target="_blank">
            <img src="../resources/gfx/help-browser.png" alt="Help Link" />
@@ -48,7 +53,7 @@
       </c:if>
       <c:if test="#{cc.attrs.required}">*</c:if>		
     </div>
-    
+     -->
     <div class="errorMessage">
     <rich:message showSummary="true" showDetail="false"
                 id="#{cc.attrs.id}_error"
