@@ -161,13 +161,36 @@ ul.anchors {
 }
 
 li.anchors {
+	margin-top: 5px;
 }
 
 a.anchors {
 	text-decoration: none;
 }
 
+#anchors {
+    margin-left: 10px;
+    float:left;
+    width:250px;
+    overflow:hidden;
+}
+
+.wfdescription {
+	padding-top: 10px;
+	margin-right: 50px;
+	vertical-align: center;
+	font-size: 13px;
+	font-family:Helvetica;
+	font-style: italic;
+	color: #888;
+}
+
+.wfstepinfo {
+	margin-bottom: 25px;
+}
+
 fieldset.size-full {
+	clear:both;
 	background: #F2F2F2;
 	text-align: left;
 	/*width:95%;*/

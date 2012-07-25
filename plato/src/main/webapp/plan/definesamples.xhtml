@@ -14,15 +14,22 @@
    <ui:define name="content">
    <h:outputStylesheet name="css/workflow.css"/>
          <h1>Define Sample Objects</h1>
-         <div id="anchors">
-            <ul class="anchors">
-               <li class="anchors">
-                  <a href="#collectionprofile" class="anchors">Collection Profile</a>
-               </li>
-               <li class="anchors">
-                  <a href="#samplesamples" class="anchors">Sample Objects</a>
-               </li>
-            </ul>
+         <div class="wfstepinfo">
+	         <div id="anchors">
+	            <ul class="anchors">
+	               <li class="anchors">
+	                  <a href="#collectionprofile" class="anchors">Collection Profile</a>
+	               </li>
+	               <li class="anchors">
+	                  <a href="#samplesamples" class="anchors">Sample Objects</a>
+	               </li>
+	            </ul>
+	         </div>
+	         <div class="wfdescription">
+	         		In this step, You should define the collection profile of the objects you want to preserve. You can either
+	         		upload a content profile created by c3po, or fill the information manually. Defining the collection profile and
+	         		some sample objects is important for the experiments and their evaluation.
+	         </div>
          </div>
          <h:form id="mainform">
             <h:inputText id="changedflag" value="#{defineSampleRecords.changed}"
