@@ -64,12 +64,14 @@
 	    	</a>
 		</div>
 		<div id="scape">
-		    <h:link value="feedback" outcome="/feedback.jsf"/>
 			<a href="http://www.scape-project.eu/" target="_blank"><img src="#{request.contextPath}/resources/gfx/scape-logo.png" alt="" height="60px" /></a>
 		</div>
 	</div>
 	
 	<div id="menu-toolbar">
+	<div id="feedback">
+		<h:link value="feedback" outcome="/feedback.jsf"/>
+	</div>	
 	<ui:fragment rendered="#{viewWorkflowManager.active}">
 	   <ui:include src="/plato/shared/menu.xhtml" >
 	      <ui:param name="viewWorkflow" value="#{viewWorkflow}" />
@@ -79,7 +81,7 @@
 	   <ui:include src="/plato/shared/menu.xhtml" >
 	      <ui:param name="viewWorkflow" value="null" />
 	   </ui:include>
-	</ui:fragment>		
+	</ui:fragment>
 	</div>
 	
 
