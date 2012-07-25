@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* fmt_10_tiff.xsd
+	* This module is part of the XCL software system
+	*
+	* Written by  Volker Heydegger, Elona Chudobkaite, Johanna Neumann,  Sebastian Beyl, Jan Schnasse, Manfred Thaller 2006 - 2008
+	*
+	* Copyright (C)  2006 - 2008 Volker Heydegger, Elona Chudobkaite, Johanna Neumann,  Sebastian Beyl, Jan Schnasse, Manfred Thaller
+	*
+	* This program is free software; you can redistribute it and/or modify
+	* it under the terms of the GNU General Public License as published by
+	* the Free Software Foundation; either version 2 of the License, or
+	* (at your option) any later version.
+	*
+	* This program is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	* GNU General Public License for more details.
+	*
+-->
+
+
+<!-- extensible characterisation language: properties' name definitions library for XCDL and XCEL documents -->
+<!-- created by PLANETS, PC2, University of Cologne (HKI )-->
+
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+    xmlns:tns="http://www.planets-project.eu/xcl/schemas/xcl"
+    targetNamespace="http://www.planets-project.eu/xcl/schemas/xcl"
+    elementFormDefault="qualified">
+    
+		<xs:simpleType name="fmt_10_tiff" id="properties">
+			<xs:restriction base="xs:string">
+				<xs:enumeration value='byteOrder' id='id6'>
+					<xs:annotation>
+						<xs:documentation>
+							Ordering of bytes for multi-byte data values within a file
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='signature' id='id4'>
+					<xs:annotation>
+						<xs:documentation>
+							A sequence of bytes that uniquely identifies a certain fileformat
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='byteOffsetRef' id='id117'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='dataType' id='id118'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='countValues' id='id119'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='newSubfileType' id='id142'>
+					<xs:annotation>
+						<xs:documentation>
+							A general indication of the kind of data contained in this subfile [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='subfileType' id='id146'>
+					<xs:annotation>
+						<xs:documentation>
+							A general indication of the kind of data contained in this subfile [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='imageWidth' id='id30'>
+					<xs:annotation>
+						<xs:documentation>
+							Width of an image. Corresponds to the x-axis. [Compatibility: PNG 1.1; TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='imageHeight' id='id2'>
+					<xs:annotation>
+						<xs:documentation>
+							Height of an image. Corresponds to the y-axis of a Cartesian coordinate system.. [Compatibility: PNG 1.1; TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='bitsPerSample' id='id151'>
+					<xs:annotation>
+						<xs:documentation>
+							Number of bits per sample component [Compatibility: PNG 1.1; TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='bitsPerSampleRed' id='id12'>
+					<xs:annotation>
+						<xs:documentation>
+							Number of bits per red colour channel [Compatibility: PNG 1.1; TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='bitsPerSampleGreen' id='id14'>
+					<xs:annotation>
+						<xs:documentation>
+							Number of bits per green colour channel [Compatibility: PNG 1.1; TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='bitsPerSampleBlue' id='id15'>
+					<xs:annotation>
+						<xs:documentation>
+							Number of bits per blue colour channel [Compatibility: PNG 1.1; TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='extraSamples' id='id37'>
+					<xs:annotation>
+						<xs:documentation>
+							Description of extra components [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='compression' id='id18'>
+					<xs:annotation>
+						<xs:documentation>
+							algorithm applied to image data for the purpose of minimizing storage size
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='imageType' id='id20'>
+					<xs:annotation>
+						<xs:documentation>
+							Interpretation of image pixels representing the colour type of an image
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='thresholding' id='id61'>
+					<xs:annotation>
+						<xs:documentation>
+							For black and white TIFF files that represent shades of gray, the technique used to
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='cellWidth' id='id134'>
+					<xs:annotation>
+						<xs:documentation>
+							The width of the dithering or halftoning matrix used to create a dithered or halftoned bilevel file (x-axis) [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='cellHeight' id='id133'>
+					<xs:annotation>
+						<xs:documentation>
+							The height of the dithering or halftoning matrix used to create a dithered or halftoned bilevel file (y-axis) [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fillOrder' id='id21'>
+					<xs:annotation>
+						<xs:documentation>
+							The logical order of bits within a byte.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='scanDocName' id='id144'>
+					<xs:annotation>
+						<xs:documentation>
+							The name of the document from which this image was scanned [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='imageDescription' id='id44'>
+					<xs:annotation>
+						<xs:documentation>
+							A string that describes the subject of the image [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='scannerName' id='id51'>
+					<xs:annotation>
+						<xs:documentation>
+							the scanner manufacturer [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='scannerModel' id='id50'>
+					<xs:annotation>
+						<xs:documentation>
+							the scanner model name or number. [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='orientation' id='id48'>
+					<xs:annotation>
+						<xs:documentation>
+							The orientation of the image with respect to the rows and columns  [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='samplesPerPixel' id='id26'>
+					<xs:annotation>
+						<xs:documentation>
+							number of intersections (components) of a pixel in an image
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='rowsPerStrip' id='id116'>
+					<xs:annotation>
+						<xs:documentation>
+							number of rows in each strip except possibly the last strip [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='stripByteCount' id='id145'>
+					<xs:annotation>
+						<xs:documentation>
+							For each strip, the number of bytes in the strip after compression [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='minSampleValue' id='id46'>
+					<xs:annotation>
+						<xs:documentation>
+							The minimum component value used [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='maxSampleValue' id='id47'>
+					<xs:annotation>
+						<xs:documentation>
+							The maximum component value used [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='resolutionX' id='id23'>
+					<xs:annotation>
+						<xs:documentation>
+							number of pixels per resolution unit in horizontal direction
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='resolutionY' id='id24'>
+					<xs:annotation>
+						<xs:documentation>
+							number of pixels per resolution unit in vertical direction
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='planarConfiguration' id='id49'>
+					<xs:annotation>
+						<xs:documentation>
+							How the components of each pixel are stored [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='freeOffsets' id='id137'>
+					<xs:annotation>
+						<xs:documentation>
+							For each string of contiguous unused bytes in a TIFF file, the byte offset of the string [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='freeByteCounts' id='id136'>
+					<xs:annotation>
+						<xs:documentation>
+							For each string of contiguous unused bytes in a TIFF file, the number of bytes in the string [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='greyResponseUnit' id='id139'>
+					<xs:annotation>
+						<xs:documentation>
+							The precision of the information contained in the GrayResponseCurve [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='greyResponseCurve' id='id138'>
+					<xs:annotation>
+						<xs:documentation>
+							For greyscale data, the optical density of each possible pixel value [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='resolutionUnit' id='id22'>
+					<xs:annotation>
+						<xs:documentation>
+							measure unit for measuring resolution
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='creationSoftware' id='id3'>
+					<xs:annotation>
+						<xs:documentation>
+							Word 2002 and Word 2003 allow the RTF emitter application to stamp the document with its name,
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='creationDate' id='id36'>
+					<xs:annotation>
+						<xs:documentation>
+							Date and time of image creation [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='artist' id='id31'>
+					<xs:annotation>
+						<xs:documentation>
+							Person who created the image [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='hostCompOS' id='id140'>
+					<xs:annotation>
+						<xs:documentation>
+							The computer and/or operating system in use at the time of image creation [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='rgbPalette' id='id25'>
+					<xs:annotation>
+						<xs:documentation>
+							palette for index-coloured image type. Each pixel is a composition of red, green and blue colour values which shall appear in exactly this order
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='tileWidth' id='id147'>
+					<xs:annotation>
+						<xs:documentation>
+							The tile width in pixels. This is the number of columns in each tile (322)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='tileLength' id='id148'>
+					<xs:annotation>
+						<xs:documentation>
+							The tile length (height) in pixels. This is the number of rows in each tile. (323)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='tileByteCounts' id='id150'>
+					<xs:annotation>
+						<xs:documentation>
+							For each tile, the number of (compressed) bytes in that tile. (325)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='extraSampleX' id='id38'>
+					<xs:annotation>
+						<xs:documentation>
+							Description of extra components [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='XMLText' id='id125'>
+					<xs:annotation>
+						<xs:documentation>
+							used in bmp
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='copyright' id='id35'>
+					<xs:annotation>
+						<xs:documentation>
+							Copyright notice of the person or organization that claims the copyright to the image [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='IPTC' id='id65'>
+					<xs:annotation>
+						<xs:documentation>
+							IPTC (International Press Telecommunications Council) metadata (33723)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='photoshop' id='id64'>
+					<xs:annotation>
+						<xs:documentation>
+							Used by the GDAL library, holds an XML list of name=value 'metadata' values about the image as a whole, and about specific samples (42112)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='GDALMetadata' id='id63'>
+					<xs:annotation>
+						<xs:documentation>
+							Used by the GDAL library, holds an XML list of name=value 'metadata' values about the image as a whole, and about specific samples (42112)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='normData' id='id7'>
+					<xs:annotation>
+						<xs:documentation>
+							XCL specific data,
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='normDataOffset' id='id143'>
+					<xs:annotation>
+						<xs:documentation>
+							A general indication of the kind of data contained in this subfile [cit. TIFF 6.0] [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='tileOffset' id='id149'>
+					<xs:annotation>
+						<xs:documentation>
+							For each tile, the byte offset of that tile, as compressed and stored on disk (324)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+			</xs:restriction>
+		</xs:simpleType>
+							
+</xs:schema>

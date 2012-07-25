@@ -1,0 +1,4 @@
+execute not from the jip-1.1.1 directory
+
+java -javaagent:../jip-1.1.1/profile/profile.jar -Dprofile.properties=../jip-1.1.1/profile/profile.properties -jar Test.jar
+

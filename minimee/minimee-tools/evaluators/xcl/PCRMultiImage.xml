@@ -1,0 +1,38 @@
+<pcRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.planets-project.eu/xcl/schemas/xcl ../../../../../comparator/res/schemas/pcr/pcr.xsd"
+ xmlns="http://www.planets-project.eu/xcl/schemas/xcl">
+    <compSet>
+        <source name="xcdl1.xcdl"/>
+        <target name="xcdl2.xcdl"/>   
+        <property id="45" name="rgbPalette">
+            <metric id="11" name="hammingDistance"/>                 
+        </property>
+        <property id="7" name="bitsPerSample">
+        	  <metric id="1" name="equal"/>
+              <metric id="2" name="intDiff" />
+        </property>
+        <property id="39" name="filter">
+            <metric id="1" name="equal"/>
+        </property>       
+        <property id="45" name="interlace">
+            <metric id="1" name="equal"/>
+        </property>
+        <property id="2" name="imageHeight" unit="pixel">
+            <metric id="1" name="equal"/>                
+        </property>
+        <property id="30" name="imageWidth" unit="pixel">
+            <metric id="1" name="equal"/>  
+        </property>    
+        <property id="11" name="transparency">
+            <metric id="1" name="equal" />
+        </property>
+        <property id="10" name="backgroundColour">
+            <metric id="1" name="equal" />
+        </property>
+        <property id="8" name="gamma">
+            <metric id="1" name="equal" />
+            <metric id="2" name="intDiff" />
+            <metric id="10" name="percDev" />
+        </property>
+    </compSet>
+</pcRequest>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    pcr.xsd -    For description see Planets PP5-D1, p.17-18, 
+                        available via http://lehre.hki.uni-koeln.de/planets/documents/deliverables/PP5-D1-final.pdf
+                        
+    * This module is part of the XCL software system
+    *
+    * Written by  Sebastian Beyl, Elona Chudobkaite, Volker Heydegger, Jan Schnasse, Manfred Thaller 2006 - 2008
+    *
+    * Copyright (C)  2006 - 2008   Sebastian Beyl, Elona Chudobkaite, Volker Heydegger, Jan Schnasse, Manfred Thaller 
+    *
+    * This program is free software; you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation; either version 2 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    * GNU General Public License for more details.
+    *
+-->
+<xs:schema 	xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xcdl="http://www.planets-project.eu/xcl/schemas/xcl"   
+    targetNamespace="http://www.planets-project.eu/xcl/schemas/xcl"
+    elementFormDefault="qualified"
+    version="1.0" 
+    xml:lang="en" >
+    
+    <xs:include schemaLocation="../xcdl/XCDLBasicTypes.xsd"/>
+    
+    <!--********************************** pcRequest section  (root element)********************************************* -->
+    <xs:element name="pcRequest">
+        <xs:annotation>
+            <xs:documentation>
+               Root element for Plato-to-Comparator request.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="pcRequestType"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <!-- ............complex type:  pcRequestType ................. -->
+    <xs:complexType name="pcRequestType">
+        <xs:annotation>
+            <xs:documentation>
+                see PP5-D1, p. 17 for description.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="compSet" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>                      
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>       
+    </xs:complexType>
+    <!-- *****************************  compSet section (child of: 'pcRequest')  *********************************************** -->
+    <xs:element name="compSet">
+        <xs:annotation>
+            <xs:documentation>              
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="source" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="target" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="property" minOccurs="1" maxOccurs="unbounded"/>                
+            </xs:sequence>           
+        </xs:complexType>
+    </xs:element>
+    <!-- ***************************  source section (child of: 'compSet')  **************************************** -->
+    <xs:element name="source">
+        <xs:annotation>
+            <xs:documentation>                 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>  
+    <!-- ***************************  target section (child of: 'compSet')  **************************************** -->
+    <xs:element name="target">
+        <xs:annotation>
+            <xs:documentation>                 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>  
+    <!-- ************************  Property section (child of: 'compSet')  ******************************* -->
+    <xs:element name="property">
+        <xs:annotation>
+            <xs:documentation>               
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="metric" minOccurs="1" maxOccurs="unbounded"/>                
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:int" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="unit" type="xcdl:measureType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- ****************** metric section (child of: 'property') **************************  -->
+    <xs:element name="metric">
+        <xs:annotation>
+            <xs:documentation>             
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="id" type="xs:int" use="required"/>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="param" type="xcdl:unionType02Type" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>    
+    
+    
+    
+    
+    
+    
+    
+    
+    

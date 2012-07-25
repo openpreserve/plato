@@ -1,0 +1,1 @@
+"C:/Program Files/OpenOffice.org 3/program/soffice.exe" -invisible macro:///Standard.Module1.ConvertWordToPDF(%1)

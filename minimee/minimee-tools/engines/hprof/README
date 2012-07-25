@@ -1,0 +1,2 @@
+java -Xrunhprof:format=a,file=snapshot1.hprof -jar Test.jar 
+

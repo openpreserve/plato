@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* fmt_9999_docx.xsd
+	* This module is part of the XCL software system
+	*
+	* Written by  Volker Heydegger, Elona Chudobkaite, Johanna Neumann,  Sebastian Beyl, Jan Schnasse, Manfred Thaller 2006 - 2008
+	*
+	* Copyright (C)  2006 - 2008 Volker Heydegger, Elona Chudobkaite, Johanna Neumann,  Sebastian Beyl, Jan Schnasse, Manfred Thaller
+	*
+	* This program is free software; you can redistribute it and/or modify
+	* it under the terms of the GNU General Public License as published by
+	* the Free Software Foundation; either version 2 of the License, or
+	* (at your option) any later version.
+	*
+	* This program is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	* GNU General Public License for more details.
+	*
+-->
+
+
+<!-- extensible characterisation language: properties' name definitions library for XCDL and XCEL documents -->
+<!-- created by PLANETS, PC2, University of Cologne (HKI )-->
+
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+    xmlns:tns="http://www.planets-project.eu/xcl/schemas/xcl"
+    targetNamespace="http://www.planets-project.eu/xcl/schemas/xcl"
+    elementFormDefault="qualified">
+    
+		<xs:simpleType name="fmt_9999_docx" id="properties">
+			<xs:restriction base="xs:string">
+				<xs:enumeration value='fontChange' id='idNULL2'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='filelength' id='id5'>
+					<xs:annotation>
+						<xs:documentation>
+							The length in bytes of the complete file
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='byteOrder' id='id6'>
+					<xs:annotation>
+						<xs:documentation>
+							Ordering of bytes for multi-byte data values within a file
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='compression' id='id18'>
+					<xs:annotation>
+						<xs:documentation>
+							algorithm applied to image data for the purpose of minimizing storage size
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='artist' id='id31'>
+					<xs:annotation>
+						<xs:documentation>
+							Person who created the image [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='copyright' id='id35'>
+					<xs:annotation>
+						<xs:documentation>
+							Copyright notice of the person or organization that claims the copyright to the image [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='creationDate' id='id36'>
+					<xs:annotation>
+						<xs:documentation>
+							Date and time of image creation [cit. TIFF 6.0]  [Compatibility: TIFF 6.0]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='pageLayout' id='id77'>
+					<xs:annotation>
+						<xs:documentation>
+							page layout to be used when the document is opened.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentTitle' id='id78'>
+					<xs:annotation>
+						<xs:documentation>
+							the title of the document
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentAuthor' id='id79'>
+					<xs:annotation>
+						<xs:documentation>
+							the author of the document
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentCreator' id='id80'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentProducer' id='id81'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentModificationDate' id='id82'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentCreationDate' id='id83'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='numberOfPages' id='id84'>
+					<xs:annotation>
+						<xs:documentation>
+							
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontTrueType' id='id95'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fileSize' id='id120'>
+					<xs:annotation>
+						<xs:documentation>
+							used in bmp
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='font' id='id159'>
+					<xs:annotation>
+						<xs:documentation>
+							font name in text-based formats (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontSize' id='id158'>
+					<xs:annotation>
+						<xs:documentation>
+							font name in text-based formats (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontColor' id='id160'>
+					<xs:annotation>
+						<xs:documentation>
+							font color in text formats (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='bold' id='id161'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property bold (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='italic' id='id162'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property italic (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='underline' id='id163'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property underline (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='strike' id='id164'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property strike (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='doubleStrike' id='id165'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property doubleStrike (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='shadow' id='id166'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property shadow (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='smallCaps' id='id167'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property smallCaps (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='caps' id='id168'>
+					<xs:annotation>
+						<xs:documentation>
+							text-property caps (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='hidden' id='id169'>
+					<xs:annotation>
+						<xs:documentation>
+							text is hidden (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='footnote' id='id170'>
+					<xs:annotation>
+						<xs:documentation>
+							footnote (used in OOXML)
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+			</xs:restriction>
+		</xs:simpleType>
+							
+</xs:schema>

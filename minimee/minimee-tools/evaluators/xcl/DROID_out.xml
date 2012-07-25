@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileCollection xmlns="http://www.nationalarchives.gov.uk/pronom/FileCollection">
+  <DROIDVersion>3.0</DROIDVersion>
+  <SignatureFileVersion>13</SignatureFileVersion>
+  <DateCreated>2009-03-12T22:27:19</DateCreated>
+  <IdentificationFile IdentQuality="Positive" >
+    <FilePath>/tmp/out1236893236208018000.tiff</FilePath>
+    <FileFormatHit>
+      <Status>Positive (Generic Format)</Status>
+      <Name>Tagged Image File Format</Name>
+      <Version>3</Version>
+      <PUID>fmt/7</PUID>
+      <MimeType>image/tiff</MimeType>
+    </FileFormatHit>
+    <FileFormatHit>
+      <Status>Positive (Generic Format)</Status>
+      <Name>Tagged Image File Format</Name>
+      <Version>4</Version>
+      <PUID>fmt/8</PUID>
+      <MimeType>image/tiff</MimeType>
+    </FileFormatHit>
+    <FileFormatHit>
+      <Status>Positive (Generic Format)</Status>
+      <Name>Tagged Image File Format</Name>
+      <Version>5</Version>
+      <PUID>fmt/9</PUID>
+      <MimeType>image/tiff</MimeType>
+    </FileFormatHit>
+    <FileFormatHit>
+      <Status>Positive (Generic Format)</Status>
+      <Name>Tagged Image File Format</Name>
+      <Version>6</Version>
+      <PUID>fmt/10</PUID>
+      <MimeType>image/tiff</MimeType>
+    </FileFormatHit>
+  </IdentificationFile>
+</FileCollection>

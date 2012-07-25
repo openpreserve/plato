@@ -1,0 +1,1610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    xcel_pdf.xml
+    * This module is part of the XCL software system
+    *
+    * Written by  Sebastian Beyl, Elona Chudobkaite, Volker Heydegger, Jan Schnasse, Manfred Thaller 2006 - 2008
+    *
+    * Copyright (C)  2006 - 2008   Sebastian Beyl, Elona Chudobkaite, Volker Heydegger, Jan Schnasse, Manfred Thaller 
+    *
+    * This program is free software; you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation; either version 2 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    * GNU General Public License for more details.
+    *
+-->
+<XCELDocument xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.planets-project.eu/xcl/schemas/xcl
+    schemas/XCELTextPDFExtension.xsd">
+    
+    
+    <preProcessing>
+       <item xsi:type="structuringItem">
+            <processing type="configureParser">
+                <processingMethod name="setSymbolDoesNotMatchHandle">
+                    <param value="skipWhiteSpace"/>
+                </processingMethod>
+            </processing>
+        </item>
+    </preProcessing>
+
+    <formatDescription>
+        
+        
+        <item xsi:type="structuringItem" identifier="addr_exmp" order="sequence" objectType="text">
+
+
+            <!-- read lines -->
+            <processing type="configureParser">
+                <processingMethod name="setAddressingScheme">
+                    <param value="separator"/>
+                    <param value="10"/>
+                </processingMethod>
+            </processing>
+
+
+            <!-- read the last but one line to get the offset of the table-->
+            <processing type="configureParser">
+                <processingMethod name="goToLastAddress"/>
+            </processing>
+
+            <processing type="configureParser">
+                <processingMethod name="goToPreviousAddress"/>
+            </processing>
+
+            <!-- offset -->
+            <symbol identifier="xrefTableOffset" interpretation="ASCII" multiple="false" length="1"/>
+
+            <processing type="pushXCEL" xcelRef="crossReferenceTable">
+                <processingMethod name="setStartPosition">
+                    <param valueRef="xrefTableOffset"/>
+                </processingMethod>
+            </processing>
+
+            <processing type="configureParser">
+                <processingMethod name="setAddressingScheme">
+                    <param value="byte"/>
+                </processingMethod>
+            </processing>
+
+            <item identifier="crossReferenceTable" xsi:type="structuringItem" order="sequence">
+
+                <symbol interpretation="ASCII" value="xref"/>
+
+                <symbol interpretation="ASCII" multiple="true">
+                    <validValues>
+                        <startRange>0</startRange>
+                        <endRange>9</endRange>
+                    </validValues>
+                </symbol>
+
+                <symbol value="32"/>
+
+                <symbol interpretation="ASCII" multiple="true">
+                    <validValues>
+                        <startRange>0</startRange>
+                        <endRange>9</endRange>
+                    </validValues>
+                </symbol>
+
+                <!--xrefEntry-->
+                <item identifier="xref_entry" xsi:type="structuringItem" order="sequence"
+                    multiple="true">
+
+                    <item identifier="PDFObjectByteOffset" xsi:type="definitionItem"
+                        name="PDFObjectByteOffset">
+                        <symbol identifier="xref_entry_byteOffset" interpretation="ASCII"
+                            multiple="true">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+                    </item>
+
+
+                    <symbol value="32"/>
+
+                    <item identifier="PDFObjectGenerationNumber" xsi:type="definitionItem">
+
+                        <symbol identifier="xref_entry_generationNumber" interpretation="ASCII"
+                            multiple="true">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+
+                    </item>
+
+                    <symbol value="32"/>
+
+                    <symbol identifier="xref_entry_inUseIndicator" interpretation="ASCII">
+                        <validValues>
+                            <value>f</value>
+                            <value>n</value>
+                        </validValues>
+                    </symbol>
+
+                </item>
+                <!-- End of  xref  entry  -->
+                <symbol value="trailer" interpretation="ASCII"/>
+
+                <symbol value="60 60"/>
+
+
+                <!--trailer-->
+                <item identifier="trailer" xsi:type="structuringItem" order="all">
+
+                    <item xsi:type="structuringItem" optional="true">
+                        <symbol interpretation="ASCII" value="/Size"/>
+                        <symbol interpretation="ASCII" multiple="true">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+                    </item>
+
+                    <item xsi:type="structuringItem" optional="true">
+                        <symbol interpretation="ASCII" value="/Root"/>
+                        <item xsi:type="definitionItem" identifier="rootObjectNumber">
+                            <symbol interpretation="ASCII" multiple="true">
+                                <validValues>
+                                    <startRange>0</startRange>
+                                    <endRange>9</endRange>
+                                </validValues>
+                            </symbol>
+                        </item>
+
+                    </item>
+
+                    <item xsi:type="structuringItem" optional="true">
+                        <symbol interpretation="ASCII" value="/Info"/>
+                        <item xsi:type="definitionItem" identifier="infoObjectNumber">
+                            <symbol interpretation="ASCII" multiple="true">
+                                <validValues>
+                                    <startRange>0</startRange>
+                                    <endRange>9</endRange>
+                                </validValues>
+                            </symbol>
+                        </item>
+                    </item>
+
+                    <item xsi:type="structuringItem" optional="true">
+                        <symbol interpretation="ASCII" value="/ID"/>
+                        <symbol multiple="true">
+                            <nonValidValues>
+                                <value>93</value>
+                            </nonValidValues>
+                        </symbol>
+                    </item>
+
+                    <item xsi:type="structuringItem" name="dummy" multiple="true" optional="true">
+                        <symbol multiple="true">
+                            <nonValidValues>
+                                <value>47</value>
+                            </nonValidValues>
+                        </symbol>
+                    </item>
+
+                </item>
+                <!--end of trailer-->
+
+            </item>
+            <!--end of crossReferenceTable-->
+
+
+            <item xsi:type="structuringItem" identifier="InfoObject" optional="true">
+
+                <symbol identifier="InfoObjectOffset" length="0" optional="true"/>
+
+                <processing type="pushXCEL" xcelRef="InfoObjectOffset">
+                    <processingMethod name="getItemNumber">
+                        <param value="PDFObjectByteOffset"/>
+                        <param valueRef="infoObjectNumber"/>
+                    </processingMethod>
+                </processing>
+
+                <processing type="pushXCEL" xcelRef="infoInstance">
+                    <processingMethod name="setStartPosition">
+                        <param valueRef="InfoObjectOffset"/>
+                    </processingMethod>
+                </processing>
+
+                <item xsi:type="structuringItem" identifier="infoInstance">
+
+                    <processing type="pullXCEL" xcelRef="objectBegin"/>
+
+                    <item identifier="infoEntries" xsi:type="structuringItem" order="all">
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Creator"/>
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Producer"/>
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/CreationDate"/>
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+
+                        <item xsi:type="structuringItem" name="dummy" multiple="true"
+                            optional="true" >
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>47</value>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+
+                    </item>
+                </item>
+
+            </item>
+            <!--end InfoObject-->
+
+            <!--begin root object-->
+            <item xsi:type="structuringItem" identifier="rootObject" optional="true">
+
+                <symbol identifier="rootObjectOffset" length="0" optional="true"/>
+
+                <processing type="pushXCEL" xcelRef="rootObjectOffset">
+                    <processingMethod name="getItemNumber">
+                        <param value="PDFObjectByteOffset"/>
+                        <param valueRef="rootObjectNumber"/>
+                    </processingMethod>
+                </processing>
+
+                <processing type="pushXCEL" xcelRef="rootInstance">
+                    <processingMethod name="setStartPosition">
+                        <param valueRef="rootObjectOffset"/>
+                    </processingMethod>
+                </processing>
+
+                <item xsi:type="structuringItem" identifier="rootInstance">
+
+                    <processing type="pullXCEL" xcelRef="objectBegin"/>
+
+                    <item identifier="rootEntries" xsi:type="structuringItem" order="all">
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Type"/>
+                            <symbol interpretation="ASCII" value="/Catalog"/>
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+
+                            <symbol interpretation="ASCII" value="/Pages"/>
+
+                            <item xsi:type="definitionItem" identifier="pagesObjectNumber">
+
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+
+                            </item>
+
+                        </item>
+
+
+
+                        <item xsi:type="structuringItem" name="dummy" multiple="true"
+                            optional="true">
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>47</value>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+
+                    </item>
+
+                </item>
+
+            </item>
+            <!-- end root Object-->
+
+
+            <symbol identifier="pagesObjectOffset" length="0" optional="true"/>
+
+            <processing type="pushXCEL" xcelRef="pagesObjectOffset">
+                <processingMethod name="getItemNumber">
+                    <param value="PDFObjectByteOffset"/>
+                    <param valueRef="pagesObjectNumber"/>
+                </processingMethod>
+            </processing>
+
+            <processing type="pushXCEL" xcelRef="pagesDictionary">
+                <processingMethod name="setStartPosition">
+                    <param valueRef="pagesObjectOffset"/>
+                </processingMethod>
+            </processing>
+
+
+            <!--begin pages object-->
+            <item xsi:type="structuringItem" identifier="pagesDictionary" order="choice">
+
+
+                <item xsi:type="structuringItem" identifier="pagesObject" optional="true">
+
+                    <processing type="pullXCEL" xcelRef="objectBegin"/>
+
+                    <item identifier="pagesEntries" xsi:type="structuringItem" order="all">
+
+                        <item xsi:type="structuringItem">
+                            <symbol interpretation="ASCII" value="/Type"/>
+                            <symbol interpretation="ASCII" value="/Pages"/>
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Resources"/>
+
+                            <item identifier="resourcesObjectNumber" xsi:type="definitionItem">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/MediaBox"/>
+                            <symbol value="91"/>
+                            <symbol multiple="true" interpretation="ASCII">
+                                <nonValidValues>
+                                    <value>]</value>
+                                </nonValidValues>
+                            </symbol>
+                            <symbol value="93"/>
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Kids"/>
+                            <symbol value="91"/>
+
+                            <item xsi:type="structuringItem" multiple="true">
+
+                                <item identifier="nextPageObjectNumber" xsi:type="definitionItem">
+                                    <symbol multiple="true" interpretation="ASCII">
+                                        <validValues>
+                                            <startRange>0</startRange>
+                                            <endRange>9</endRange>
+                                        </validValues>
+                                    </symbol>
+                                </item>
+
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+
+                                <symbol value="R" interpretation="ASCII"/>
+
+                                <symbol identifier="treeItemOffset" length="0" optional="true"/>
+
+                                <processing type="pushXCEL" xcelRef="treeItemOffset">
+                                    <processingMethod name="getItemNumber">
+                                        <param value="PDFObjectByteOffset"/>
+                                        <param valueRef="nextPageObjectNumber"/>
+                                    </processingMethod>
+                                </processing>
+
+                                <processing xcelRef="pagesDictionary" type="pullXCEL">
+                                    <processingMethod name="setStartPosition">
+                                        <param valueRef="treeItemOffset"/>
+                                    </processingMethod>
+                                </processing>
+
+                            </item>
+                            <symbol value="93"/>
+
+
+
+                        </item>
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Count"/>
+                            <item xsi:type="definitionItem" name="numberOfPages">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+
+                        </item>
+
+                        <item xsi:type="structuringItem" name="dummy" multiple="true"
+                            optional="true">
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>47</value>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+
+                    </item>
+
+
+
+                </item>
+                <!--end pages-->
+
+                <item xsi:type="structuringItem">
+                    
+                    <processing type="pullXCEL" xcelRef="objectBegin"/>
+
+                    <item xsi:type="structuringItem">
+                        <symbol interpretation="ASCII" value="/Type"/>
+                        <symbol interpretation="ASCII" value="/Page"/>
+                    </item>
+
+                    <item identifier="pageInstance" xsi:type="structuringItem" order="all">
+
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Parent"/>
+
+                            <item identifier="parentObjectNumber" xsi:type="definitionItem">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+                            <item identifier="parentGenerationNumber" xsi:type="definitionItem">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+                            <symbol interpretation="ASCII" value="R"/>
+                        </item>
+
+                        <!--resources-->
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Resources"/>
+                            <item xsi:type="structuringItem" order="choice" optional="true">
+                                
+                              <item xsi:type="structuringItem" identifier="indirectResourceObject"> 
+                                <item identifier="resourcesPageObjectNumber" xsi:type="definitionItem">
+                                    <symbol multiple="true" interpretation="ASCII">
+                                        <validValues>
+                                            <startRange>0</startRange>
+                                            <endRange>9</endRange>
+                                        </validValues>
+                                    </symbol>
+                                </item>
+    
+                                <symbol identifier="resourcesObjectOffset" length="0" optional="true"/>
+    
+                                <processing type="pushXCEL" xcelRef="resourcesObjectOffset">
+                                    <processingMethod name="getItemNumber">
+                                        <param value="PDFObjectByteOffset"/>
+                                        <param valueRef="resourcesPageObjectNumber"/>
+                                    </processingMethod>
+                                </processing>
+    
+                                <processing type="pullXCEL" xcelRef="resourcesObject">
+                                    <processingMethod name="setStartPosition">
+                                        <param valueRef="resourcesObjectOffset"/>
+                                    </processingMethod>
+                                </processing>
+                              </item>
+                                <item  xsi:type="structuringItem" identifier="directResourceObject"> 
+                                    <symbol value="60 60"/>
+                                    <processing type="pullXCEL" xcelRef="resourcesDefinitons"/>
+                                    <symbol value="62 62"/>
+                                </item>
+                                
+                            </item>
+                            
+                        </item>
+                        <!--end resources-->
+                        
+                        <!--mediaBox-->
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/MediaBox"/>
+                            <symbol value="91"/>
+                            <symbol multiple="true" interpretation="ASCII">
+                                <nonValidValues>
+                                    <value>]</value>
+                                </nonValidValues>
+                            </symbol>
+                            <symbol value="93"/>
+                        </item>
+                        <!--end mediaBox-->
+                        
+                        <!--Group-->
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Group"/>
+                            <symbol value="60 60"/>
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                            <symbol value="62 62"/>
+                        </item>
+                        <!--end Group-->
+                        
+                        <!--Contents-->
+                        <item xsi:type="structuringItem" optional="true">
+                            <symbol interpretation="ASCII" value="/Contents"/>
+
+                            <item identifier="contentsObjectNumber" xsi:type="definitionItem">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+
+                            <symbol identifier="contentsObjectOffset" length="0" optional="true"/>
+
+                            <processing type="pushXCEL" xcelRef="contentsObjectOffset">
+                                <processingMethod name="getItemNumber">
+                                    <param value="PDFObjectByteOffset"/>
+                                    <param valueRef="contentsObjectNumber"/>
+                                </processingMethod>
+                            </processing>
+
+                            <processing type="pullXCEL" xcelRef="contentsObject">
+                                <processingMethod name="setStartPosition">
+                                    <param valueRef="contentsObjectOffset"/>
+                                </processingMethod>
+                            </processing>
+
+
+
+                        </item>
+                        <!--end Contents-->
+                        
+                        <item xsi:type="structuringItem" name="dummy" multiple="true"
+                            optional="true">
+                            <symbol multiple="true">
+                                <nonValidValues>
+                                    <value>47</value>
+                                    <value>62</value>
+                                </nonValidValues>
+                            </symbol>
+                        </item>
+                    </item>
+
+                </item>
+                <!--end page-->
+
+
+            </item>
+            <!--endpagesDictionary-->
+
+
+        </item><!-- end of pdf-->
+    </formatDescription>
+   
+    <templates>
+
+        <item identifier="objectBegin" xsi:type="structuringItem">
+
+            <symbol multiple="true" interpretation="ASCII">
+                <validValues>
+                    <startRange>0</startRange>
+                    <endRange>9</endRange>
+                </validValues>
+            </symbol>
+
+            <symbol value="32"/>
+
+            <symbol multiple="true" interpretation="ASCII">
+                <validValues>
+                    <startRange>0</startRange>
+                    <endRange>9</endRange>
+                </validValues>
+            </symbol>
+
+            <symbol value="obj" interpretation="ASCII"/>
+
+            <symbol value="60 60"/>
+
+        </item>
+        <!-- end obnjectBegin-->
+        
+        <!--contents-->
+        <item xsi:type="structuringItem" identifier="contentsObject">
+
+            <processing type="pullXCEL" xcelRef="objectBegin"/>
+            
+            <item xsi:type="structuringItem" order="all">
+                <item xsi:type="structuringItem">
+                    <symbol value="/Length" interpretation="ASCII"/>
+                    <symbol multiple="true">
+                        <nonValidValues>
+                            <value>47</value>
+                            <value>62</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+    
+                <item xsi:type="structuringItem">
+                    <symbol value="/Filter" interpretation="ASCII"/>
+                    <symbol value="/" interpretation="ASCII"/>
+    
+                    <item identifier="filter" xsi:type="definitionItem" order="sequence">
+                        <symbol identifier="FilterChar" interpretation="ASCII" multiple="true">
+                            <nonValidValues>
+                                <value>NUL</value>
+                                <value>TAB</value>
+                                <value>GT</value>
+                                <value>LT</value>
+                                <value>LF</value>
+                                <value>FF</value>
+                                <value>CR</value>
+                                <value>/</value>
+                            </nonValidValues>
+                        </symbol>
+                    </item>
+    
+                </item>
+            </item>
+            <symbol value="62 62"/>
+            <symbol value="stream" interpretation="ASCII"/>
+
+            <symbol identifier="headingLineFeed" multiple="true" length="1" optional="true">
+                <validValues>
+                    <value>10</value>
+                    <value>13</value>
+                </validValues>
+            </symbol>
+
+            <processing type="configureParser">
+                <processingMethod name="setAddressingScheme">
+                    <param value="separator"/>
+                    <param value="101 110 100 115 116 114 101 97 109"/>
+                </processingMethod>
+            </processing>
+
+            <processing type="pushXCEL" xcelRef="streamContent">
+                <processingMethod name="addFilter">
+                    <param value="compression"/>
+                    <param valueRef="filter"/>
+                </processingMethod>
+            </processing>
+
+            <symbol identifier="streamContent" name="normsData" multiple="false"
+                interpretation="ASCII" length="1" />
+
+            <processing type="configureParser">
+                <processingMethod name="setAddressingScheme">
+                    <param value="byte"/>
+                </processingMethod>
+            </processing>
+
+            <symbol value="endstream" interpretation="ASCII"/>
+
+
+            <item xsi:type="structuringItem" internalSource="streamContent" order="all"
+                optional="true" multiple="false">
+
+                <item identifier="BracedString" xsi:type="structuringItem" multiple="true"
+                    optional="true">
+                    <symbol identifier="braceOpen" interpretation="ASCII" value="("/>
+
+                    <item identifier="stringWithEscapes" xsi:type="structuringItem" order="choice"
+                        multiple="true">
+                        <symbol identifier="normData" name="normData" interpretation="ASCII"
+                            multiple="true">
+                            <nonValidValues>
+                                <value>)</value>
+                                <value>/</value>
+                                <value>\</value>
+                            </nonValidValues>
+                        </symbol>
+                        <item identifier="backSlash" xsi:type="structuringItem" optional="true">
+                            <symbol identifier="backSlash1" interpretation="ASCII" value="\"
+                                length="1"/>
+                            <symbol identifier="somthing" interpretation="ASCII" length="1"
+                                name="normData"/>
+                        </item>
+                    </item>
+                    <symbol identifier="braceClose" interpretation="ASCII" value=")"/>
+                </item>
+
+                <item xsi:type="structuringItem" multiple="true" optional="true">
+
+                    <symbol identifier="aHexString" value="LT" interpretation="ASCII"/>
+
+
+                    <item identifier="hextupels" multiple="true" xsi:type="definitionItem"
+                        name="normData" length="2" >
+                        <symbol interpretation="ASCII" length="1" multiple="true">
+                            <validValues>
+                                <value>0</value>
+                                <value>1</value>
+                                <value>2</value>
+                                <value>3</value>
+                                <value>4</value>
+                                <value>5</value>
+                                <value>6</value>
+                                <value>7</value>
+                                <value>8</value>
+                                <value>9</value>
+                                <value>A</value>
+                                <value>B</value>
+                                <value>C</value>
+                                <value>D</value>
+                                <value>E</value>
+                                <value>F</value>
+                                <value>a</value>
+                                <value>b</value>
+                                <value>c</value>
+                                <value>d</value>
+                                <value>e</value>
+                                <value>f</value>
+                            </validValues>
+                        </symbol>
+                    </item>
+                    <symbol identifier="aHexStringEnd" value="62"/>
+
+
+                </item>
+
+                <item identifier="streamProcessingSlash" xsi:type="structuringItem" multiple="true"
+                    optional="true">
+
+                    <symbol identifier="aSlash" value="/" length="1" interpretation="ASCII"/>
+
+                   <item identifier="slashOptions" xsi:type="structuringItem" order="choice"
+                        optional="true">
+
+                       <item identifier="fontDefinitionSet" xsi:type="definitionItem">
+                           
+                            <item identifier="fontIdentifier" xsi:type="definitionItem" name="hm">
+
+                                <symbol identifier="fontF" value="F" length="1"
+                                    interpretation="ASCII"/>
+
+                                <symbol identifier="fontNumber" length="1" interpretation="ASCII"
+                                    multiple="true">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+
+                            </item>
+
+                            <item identifier="fontSize" name="fontSize" xsi:type="definitionItem"  >
+                                <symbol identifier="fontSizeNumber" length="1"
+                                    interpretation="ASCII" multiple="true">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+                           
+                           
+                           <processing type="pushXCEL" xcelRef="fontMarker">
+                               <processingMethod name="addRelation">
+                                   <param value="fontDefinitions"/>
+                                   <param valueRef="fontIdentifier"/>
+                               </processingMethod>
+                           </processing>
+                           
+                           <symbol identifier="fontMarker" length="0" normDataRelation="true"
+                               name="fontChange" interpretation="ASCII"/>
+                           
+                           <!--
+                           <processing type="pushXCEL" xcelRef="fontMarker">
+                                <processingMethod name="setValue">
+                                    <param valueRef="fontIdentifier"/>
+                                </processingMethod>
+                            </processing>-->
+                            
+                            
+              
+                          
+                           
+                    
+                           
+                            
+                        </item>
+
+                   </item>
+
+
+
+                </item>
+
+              
+        
+                <symbol identifier="everythingElse" 
+                    multiple="true" interpretation="ASCII">
+                    <nonValidValues>
+                        <value>LT</value>
+                        <value>/</value>
+                        <value>(</value>
+                    </nonValidValues>
+                </symbol>
+                
+                <item identifier="isOptional" xsi:type="structuringItem" optional="true">
+                    
+                    <processing type="pushXCEL" xcelRef="hextupels">
+                        <processingMethod name="interpretAsNumber">
+                            <param value="16"/>
+                        </processingMethod>
+                    </processing>
+                    
+                </item>
+            </item>
+            
+            
+       
+      
+        </item>
+        <!--end contents-->
+        
+        <!--resources-->
+        <item xsi:type="structuringItem" identifier="resourcesObject" optional="true">
+            <processing type="pullXCEL" xcelRef="objectBegin"/>
+
+            <item identifier="resourcesDefinitons" xsi:type="definitionItem" order="all" optional="true">
+                
+                <item xsi:type="structuringItem" optional="true">
+                    
+                   
+                    <symbol value="/Font" interpretation="ASCII"/>
+                    <item xsi:type="structuringItem" order="choice" optional="true">
+                        
+                        
+                        <item xsi:type="structuringItem" identifier="indirectFontObject">
+                            <item identifier="fontObjectNumber" xsi:type="definitionItem">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+        
+                            <symbol identifier="fontObjectOffset" length="0" optional="true"/>
+        
+                            <processing type="pushXCEL" xcelRef="fontObjectOffset">
+                                <processingMethod name="getItemNumber">
+                                    <param value="PDFObjectByteOffset"/>
+                                    <param valueRef="fontObjectNumber"/>
+                                </processingMethod>
+                            </processing>
+        
+                            <processing xcelRef="fontObject" type="pullXCEL">
+                                <processingMethod name="setStartPosition">
+                                    <param valueRef="fontObjectOffset"/>
+                                </processingMethod>
+                            </processing>
+                        </item>
+                       
+                        
+                        <item xsi:type="structuringItem" identifier="directFontObject">
+                            <symbol value="60 60"/>
+                            <processing xcelRef="fontObjectDefinition" type="pullXCEL"/>
+                            <symbol value="62 62"/>
+                        </item>
+                        
+                        
+                    </item>
+                    
+                </item>
+                
+                
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/ProcSet" interpretation="ASCII"/>
+                    <symbol value="91"/>
+                    <symbol multiple="true" interpretation="ASCII">
+                        <nonValidValues>
+                            <value>]</value>
+                        </nonValidValues>
+                    </symbol>
+                    <symbol value="93"/>
+                </item>
+                <item xsi:type="structuringItem" name="dummy" multiple="true" optional="true">
+                    <symbol multiple="true">
+                        <nonValidValues>
+                            <value>47</value>
+                            <value>62</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+
+            </item>
+
+        </item>
+        <!--end resources-->
+        
+        <!--font object-->
+        <item xsi:type="structuringItem" identifier="fontObject" optional="true">
+
+            <processing type="pullXCEL" xcelRef="objectBegin"/>
+
+            <item xsi:type="structuringItem" order="all" optional="true" identifier="fontObjectDefinition">
+                
+                <item xsi:type="definitionItem" identifier="fontDefinitions" multiple="true" optional="true">
+
+                    <symbol value="/" interpretation="ASCII"/>
+                    
+                    <item xsi:type="definitionItem" identifier="fontIdentifierSubst" >
+                        <symbol value="F" interpretation="ASCII" length="1"/>
+                        <symbol identifier="SingleFontKeyDigit" interpretation="ASCII"
+                            multiple="true" length="1">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+                    </item>
+                  
+                        
+               
+                    
+                    <item identifier="fontDefinitionObjectNumber" xsi:type="definitionItem">
+                        <symbol multiple="true" interpretation="ASCII">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+                    </item>
+                    
+                   <processing type="configureParser" >
+                        <processingMethod name="valueIsNotInIndex">
+                            <param value="fontIdentifierSubst"/>
+                            <param valueRef="fontIdentifierSubst"/>
+                        </processingMethod>
+                    </processing>
+                    
+                    <symbol length="1" interpretation="ASCII" multiple="true">
+                        <validValues>
+                            <startRange>0</startRange>
+                            <endRange>9</endRange>
+                        </validValues>
+                    </symbol>
+                    
+                    <symbol value="R" interpretation="ASCII"/>
+                    
+                    <symbol identifier="fontDefinitionObjectOffset" length="0" optional="true"/>
+
+                    <processing type="pushXCEL" xcelRef="fontDefinitionObjectOffset">
+                        <processingMethod name="getItemNumber">
+                            <param value="PDFObjectByteOffset"/>
+                            <param valueRef="fontDefinitionObjectNumber"/>
+                        </processingMethod>
+                    </processing>
+
+                   <processing xcelRef="fontDefinitionObject" type="pullXCEL">
+                        <processingMethod name="setStartPosition">
+                            <param valueRef="fontDefinitionObjectOffset"/>
+                        </processingMethod>
+                   </processing>
+                    </item>
+                    
+                </item>
+
+                <item xsi:type="structuringItem" name="dummy" multiple="true" optional="true">
+                    <symbol multiple="true">
+                        <nonValidValues>
+                            <value>47</value>
+                            <value>62</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+            
+
+
+        </item>
+        <!--end font object-->
+        
+        <!-- font defintion object-->
+        <item xsi:type="structuringItem" identifier="fontDefinitionObject">
+
+            <processing type="pullXCEL" xcelRef="objectBegin"/>
+            <!-- KEYWORD: Type:   -->
+            <item identifier="fontType1DictEntry_Type" xsi:type="structuringItem" order="sequence"
+                optional="true" multiple="false">
+                <symbol value="/Type" interpretation="ASCII"/>
+                <symbol value="/Font" interpretation="ASCII"/>
+            </item>
+
+            <item xsi:type="structuringItem" order="all">
+
+                <!-- KEYWORD: Subtype:   -->
+                <item xsi:type="structuringItem" optional="true">
+
+                    <symbol value="/Subtype" interpretation="ASCII"/>
+
+
+
+                    <item identifier="fontTypes_VAL_choice" xsi:type="structuringItem"
+                        order="choice" optional="true">
+                        <symbol value="/Type1" interpretation="ASCII"/>
+                        <symbol value="/TrueType" interpretation="ASCII"/>
+                    </item>
+                </item>
+
+                <!-- KEYWORD: Name:   -->
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/Name" interpretation="ASCII"/>
+
+
+                    <symbol value="/" interpretation="ASCII"/>
+
+                    <processing type="pullXCEL" xcelRef="PDFValue">
+                        <processingMethod name="setName">
+                            <param value="pdfFontName"/>
+                        </processingMethod>
+                    </processing>
+
+                </item>
+
+                <!-- KEYWORD: BaseFont:   -->
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/BaseFont" interpretation="ASCII"/>
+                    <symbol value="/" interpretation="ASCII"/>
+
+                    <item identifier="pdfBaseFont" xsi:type="definitionItem" order="sequence"
+                        name="pdfBaseFont">
+                        <symbol identifier="pdfBaseFontChar" interpretation="ASCII" multiple="true">
+                            <nonValidValues>
+                                <value>NUL</value>
+                                <value>TAB</value>
+                                <value>GT</value>
+                                <value>LT</value>
+                                <value>LF</value>
+                                <value>FF</value>
+                                <value>CR</value>
+                                <value>/</value>
+                            </nonValidValues>
+                        </symbol>
+                    </item>
+
+
+                </item>
+
+                <!-- KEYWORD: Encoding:   -->
+                <item identifier="fontType1DictEntry_Encoding" xsi:type="structuringItem"
+                    order="sequence" optional="true">
+                    <symbol value="/Encoding" interpretation="ASCII"/>
+                    <symbol value="/" interpretation="ASCII"/>
+
+                    <processing type="pullXCEL" xcelRef="PDFValue">
+                        <processingMethod name="setName">
+                            <param value="fontEncodingType"/>
+                        </processingMethod>
+                    </processing>
+                </item>
+
+                <!-- KEYWORD: ToUnicode:   -->
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/ToUnicode" interpretation="ASCII"/>
+
+
+                </item>
+                <!-- KEYWORD: FirstChar:  -->
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/FirstChar" interpretation="ASCII"/>
+                    <item xsi:type="definitionItem" order="sequence" name="fontFirstCharCode">
+                  
+                            <symbol identifier="firstCharCode" interpretation="ASCII" multiple="true">
+                                <validValues>
+                                    <startRange>0</startRange>
+                                    <endRange>9</endRange>
+                                </validValues>
+                            </symbol>
+                       
+                    </item>
+                </item>
+
+                <!-- KEYWORD: LastChar:  -->
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/LastChar" interpretation="ASCII"/>
+                    <item xsi:type="definitionItem" order="sequence" name="fontLastCharCode">
+                       
+                            <symbol identifier="lastCharCode" interpretation="ASCII" multiple="true">
+                                <validValues>
+                                    <startRange>0</startRange>
+                                    <endRange>9</endRange>
+                                </validValues>
+                            </symbol>
+                   
+                    </item>
+                </item>
+
+                <!-- KEYWORD: Widths:  -->
+                <item xsi:type="structuringItem" optional="true">
+                    <symbol value="/Widths" interpretation="ASCII"/>
+
+                    <item xsi:type="structuringItem" order="choice">
+                        <item xsi:type="structuringItem" identifier="directWidthsObject">
+                            <symbol value="[" interpretation="ASCII"/>
+        
+                            <item xsi:type="definitionItem" order="sequence" name="fontWidthsArray">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <nonValidValues>
+                                        <value>]</value>
+                                    </nonValidValues>
+                                </symbol>
+                            </item>
+                            
+        
+                            <symbol value="]" interpretation="ASCII"/>
+                        </item>
+                        <item xsi:type="structuringItem" identifier="indirectWidthsObject">
+                           <symbol interpretation="ASCII" multiple="true">
+                               <validValues>
+                                      <startRange>0</startRange>
+                                      <endRange>9</endRange>
+                               </validValues>
+                           </symbol>
+                            <symbol interpretation="ASCII" multiple="true">
+                                <validValues>
+                                    <startRange>0</startRange>
+                                    <endRange>9</endRange>
+                                </validValues>
+                            </symbol>
+                            <symbol interpretation="ASCII" value="R"/>
+                        </item>
+                    </item>
+                    
+                </item>
+
+                <!-- KEYWORD: FontDescriptor:  -->
+                <item xsi:type="structuringItem" optional="true">
+                    
+                    <symbol value="/FontDescriptor" interpretation="ASCII"/>
+                    
+                   <item xsi:type="structuringItem" order="choice" optional="true">
+                        
+                        
+                        <item xsi:type="structuringItem" identifier="indirectFontDescriptorObject">
+                            
+                            <item identifier="fontDescriptorObjectNumber" xsi:type="definitionItem">
+                                <symbol multiple="true" interpretation="ASCII">
+                                    <validValues>
+                                        <startRange>0</startRange>
+                                        <endRange>9</endRange>
+                                    </validValues>
+                                </symbol>
+                            </item>
+                            
+                            <symbol identifier="fontDescriptorObjectOffset" length="0" optional="true"/>
+                            
+                            <processing type="pushXCEL" xcelRef="fontDescriptorObjectOffset">
+                                <processingMethod name="getItemNumber">
+                                    <param value="PDFObjectByteOffset"/>
+                                    <param valueRef="fontDescriptorObjectNumber"/>
+                                </processingMethod>
+                            </processing>
+                            
+                            <processing xcelRef="fontDescriptorObject" type="pullXCEL">
+                                <processingMethod name="setStartPosition">
+                                    <param valueRef="fontDescriptorObjectOffset"/>
+                                </processingMethod>
+                            </processing>
+                        </item>
+                        
+                        
+                        <item xsi:type="structuringItem" identifier="directFontDescriptorObject">
+                            <symbol value="60 60"/>
+                            <processing xcelRef="fontObjectDescriptorDefinition" type="pullXCEL"/>
+                            <symbol value="62 62"/>
+                        </item>
+                        
+                        
+                    </item>
+                
+                </item>
+                <item xsi:type="structuringItem" name="dummy" multiple="true" optional="true">
+                    <symbol multiple="true">
+                        <nonValidValues>
+                            <value>47</value>
+                            <value>62</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+
+            </item>
+
+
+
+        </item>
+        <!-- end font defintion object-->
+        <!-- Font Descriptor -->
+        <item xsi:type="structuringItem" identifier="fontDescriptorObject" optional="true">
+
+            <processing type="pullXCEL" xcelRef="objectBegin"/>
+            
+            <item xsi:type="structuringItem" order="all" optional="true"
+                identifier="fontObjectDescriptorDefinition">
+                
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/Type" interpretation="ASCII"/>
+                    <symbol value="/FontDescriptor" interpretation="ASCII"/>
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/FontName" interpretation="ASCII"/>
+                   <symbol value="47"/>
+                    <processing type="pullXCEL" xcelRef="PDFValue"/>
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/Flags" interpretation="ASCII"/>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/FontBBox" interpretation="ASCII"/>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/ItalicAngle" interpretation="ASCII"/>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/Ascent" interpretation="ASCII"/>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/Descent" interpretation="ASCII"/>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/CapHeight" interpretation="ASCII"/>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/StemV" interpretation="ASCII"/>
+                    
+                </item>
+                
+            
+                <item xsi:type="structuringItem" order="sequence">
+                    <symbol value="/FontFile" interpretation="ASCII"/>
+                    
+                    <item xsi:type="structuringItem" identifier="indirectFontFileObject">
+                        <item identifier="FontFileObjectNumber" xsi:type="definitionItem">
+                            <symbol multiple="true" interpretation="ASCII">
+                                <validValues>
+                                    <startRange>0</startRange>
+                                    <endRange>9</endRange>
+                                </validValues>
+                            </symbol>
+                        </item>
+                        
+                        <symbol identifier="FontFileObjectOffset" length="0" optional="true"/>
+                        
+                        <processing type="pushXCEL" xcelRef="FontFileObjectOffset">
+                            <processingMethod name="getItemNumber">
+                                <param value="PDFObjectByteOffset"/>
+                                <param valueRef="FontFileObjectNumber"/>
+                            </processingMethod>
+                        </processing>
+                        
+                            <processing xcelRef="FontFileObject" type="pullXCEL">
+                            <processingMethod name="setStartPosition">
+                            <param valueRef="FontFileObjectOffset"/>
+                            </processingMethod>
+                            </processing>
+                       
+                    </item>
+                  
+                </item>
+                
+                
+     
+                <item xsi:type="structuringItem" name="dummy" multiple="true" optional="true">
+                    <symbol multiple="true">
+                        <nonValidValues>
+                            <value>47</value>
+                            <value>62</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+            </item>
+           
+        </item>
+                <!-- Font Descriptor End-->
+                
+               
+        <item xsi:type="structuringItem" identifier="FontFileObject" optional="true">
+            
+            <processing type="pullXCEL" xcelRef="objectBegin"/>
+            
+            
+            <item xsi:type="structuringItem" order="all">
+                <item xsi:type="structuringItem">
+                    <symbol value="/Length" interpretation="ASCII"/>
+                    <symbol multiple="true">
+                        <nonValidValues>
+                            <value>47</value>
+                            <value>62</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+                
+                <item xsi:type="structuringItem">
+                    <symbol value="/Length1" interpretation="ASCII"/>
+                    <item xsi:type="definitionItem" identifier="Length1">
+                        <symbol multiple="true" interpretation="ASCII">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+                    </item>
+                </item>
+                
+                <item xsi:type="structuringItem">
+                    <symbol value="/Length2" interpretation="ASCII"/>
+                    <item xsi:type="definitionItem" identifier="Length2">
+                    <symbol multiple="true" interpretation="ASCII">
+                        <validValues>
+                            <startRange>0</startRange>
+                            <endRange>9</endRange>
+                        </validValues>
+                    </symbol>
+                    </item>
+                    
+                </item>
+                
+                <item xsi:type="structuringItem">
+                    <symbol value="/Length3" interpretation="ASCII"/>
+                    <item xsi:type="definitionItem" identifier="Length3">
+                        <symbol multiple="true" interpretation="ASCII">
+                            <validValues>
+                                <startRange>0</startRange>
+                                <endRange>9</endRange>
+                            </validValues>
+                        </symbol>
+                    </item>
+                </item>
+                
+                <item xsi:type="structuringItem">
+                    <symbol value="/Filter" interpretation="ASCII"/>
+                    <symbol value="/" interpretation="ASCII"/>
+                    
+                    <item identifier="fontFileContentFilter" xsi:type="definitionItem" order="sequence">
+                        <symbol  interpretation="ASCII" multiple="true">
+                            <nonValidValues>
+                                <value>NUL</value>
+                                <value>TAB</value>
+                                <value>GT</value>
+                                <value>LT</value>
+                                <value>LF</value>
+                                <value>FF</value>
+                                <value>CR</value>
+                                <value>/</value>
+                            </nonValidValues>
+                        </symbol>
+                    </item>
+                    
+                </item>
+     
+                
+                
+            </item>
+            <symbol value="62 62"/>
+            <symbol value="stream" interpretation="ASCII"/>
+            
+            <symbol multiple="true" length="1" optional="true">
+                <validValues>
+                    <value>10</value>
+                    <value>13</value>
+                </validValues>
+            </symbol>
+            
+            <processing type="configureParser">
+                <processingMethod name="setAddressingScheme">
+                    <param value="separator"/>
+                    <param value="101 110 100 115 116 114 101 97 109"/>
+                </processingMethod>
+            </processing>
+            
+            <processing type="pushXCEL" xcelRef="fontFileContent">
+                <processingMethod name="addFilter">
+                    <param value="compression"/>
+                    <param valueRef="fontFileContentFilter"/>
+                </processingMethod>
+            </processing>
+            
+            <symbol identifier="fontFileContent" name="fontFilesq" multiple="false"
+                interpretation="ASCII" length="1" />
+            
+            <processing type="configureParser">
+                <processingMethod name="setAddressingScheme">
+                    <param value="byte"/>
+                </processingMethod>
+            </processing>
+            
+            <symbol value="endstream" interpretation="ASCII"/>
+            
+            <item xsi:type="structuringItem" internalSource="fontFileContent" 
+                optional="true" multiple="false">
+                <processing type="pushXCEL" xcelRef="fontFile">
+                    <processingMethod name="setLength">
+                        <param valueRef="Length1"/>
+                    </processingMethod>
+                </processing>
+                    <symbol name="fontFile" identifier="fontFile" interpretation="ASCII" />
+            </item>
+            
+            
+            
+            
+        </item>
+                
+
+        
+        <!-- dummy-->
+        <item xsi:type="structuringItem" identifier="PDFValue" name="dummy" multiple="true"
+            optional="true">
+            <symbol multiple="true">
+                <nonValidValues>
+                    <value>47</value>
+                    <value>62</value>
+                </nonValidValues>
+            </symbol>
+        </item>
+        <!-- dummy-->
+    </templates>
+       
+    
+    <postProcessing/>
+</XCELDocument>
+
+
+
+<!-- 
+
+
+    
+    <item xsi:type="structuringItem" identifier="FontFileObject" optional="true">
+        
+        <processing type="pullXCEL" xcelRef="objectBegin"/>
+        
+        
+        <item xsi:type="structuringItem" order="all">
+            <item xsi:type="structuringItem">
+                <symbol value="/Length" interpretation="ASCII"/>
+                <symbol multiple="true">
+                    <nonValidValues>
+                        <value>47</value>
+                        <value>62</value>
+                    </nonValidValues>
+                </symbol>
+            </item>
+            
+            <item xsi:type="structuringItem">
+                <symbol value="/Filter" interpretation="ASCII"/>
+                <symbol value="/" interpretation="ASCII"/>
+                
+                <item identifier="fontFileContentFilter" xsi:type="definitionItem" order="sequence">
+                    <symbol  interpretation="ASCII" multiple="true">
+                        <nonValidValues>
+                            <value>NUL</value>
+                            <value>TAB</value>
+                            <value>GT</value>
+                            <value>LT</value>
+                            <value>LF</value>
+                            <value>FF</value>
+                            <value>CR</value>
+                            <value>/</value>
+                        </nonValidValues>
+                    </symbol>
+                </item>
+                
+            </item>
+            
+            <item xsi:type="structuringItem">
+                <symbol value="/Length" interpretation="ASCII"/>
+                <symbol multiple="true">
+                    <nonValidValues>
+                        <value>47</value>
+                        <value>62</value>
+                    </nonValidValues>
+                </symbol>
+                <symbol multiple="true">
+                    <nonValidValues>
+                        <value>47</value>
+                        <value>62</value>
+                    </nonValidValues>
+                </symbol>
+            </item>
+            
+            
+        </item>
+        <symbol value="62 62"/>
+        <symbol value="stream" interpretation="ASCII"/>
+        
+        <symbol multiple="true" length="1" optional="true">
+            <validValues>
+                <value>10</value>
+                <value>13</value>
+            </validValues>
+        </symbol>
+        
+        <processing type="configureParser">
+            <processingMethod name="setAddressingScheme">
+                <param value="separator"/>
+                <param value="101 110 100 115 116 114 101 97 109"/>
+            </processingMethod>
+        </processing>
+        
+        <processing type="pushXCEL" xcelRef="fontFileContent">
+            <processingMethod name="addFilter">
+                <param value="compression"/>
+                <param valueRef="fontFileContentFilter"/>
+            </processingMethod>
+        </processing>
+        
+        <symbol identifier="fontFileContent" name="fontFile" multiple="false"
+            interpretation="ASCII" length="1" />
+        
+        <processing type="configureParser">
+            <processingMethod name="setAddressingScheme">
+                <param value="byte"/>
+            </processingMethod>
+        </processing>
+        
+        <symbol value="endstream" interpretation="ASCII"/>
+        
+        
+        
+        
+        
+    </item>
+    
+    -->
+    <!-- Font File End-->

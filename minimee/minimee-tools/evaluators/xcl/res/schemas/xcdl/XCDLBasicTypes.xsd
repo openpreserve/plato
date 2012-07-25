@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<xs:schema 
+	xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:nm="http://www.planets-project.eu/xcl/schemas/xcl"
+	xmlns:xcdl="http://www.planets-project.eu/xcl/schemas/xcl"	
+	targetNamespace="http://www.planets-project.eu/xcl/schemas/xcl"
+	elementFormDefault="qualified"
+	version="1.0" 
+	xml:lang="en">
+		<xs:include schemaLocation="image/XCDLImageProperties.xsd"/> 	 	
+		<!--<xs:include schemaLocation="text/XCDLTextProperties.xsd"/>  -->
+	<!-- ***  union types  *** -->
+	<xs:simpleType name="unionType01Type">
+		<xs:union memberTypes="xs:string xs:hexBinary"/>
+	</xs:simpleType>
+	<xs:simpleType name="unionType02Type">
+		<xs:union memberTypes="xs:string xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="unionType10Type">
+		<xs:union memberTypes="xs:string xs:decimal xcdl:fixLabelsType"/>
+	</xs:simpleType>
+	<!-- ***  information types  *** -->
+	<xs:simpleType name="informType">
+		<xs:annotation>
+			<xs:documentation>
+				type of information represented by data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="text"/>
+			<xs:enumeration value="image"/>
+			<xs:enumeration value="audio"/>
+			<xs:enumeration value="object"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<!-- ***  measure types  *** -->
+	<xs:simpleType name="measureType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bit"/>
+			<xs:enumeration value="twip"/>
+			<xs:enumeration value="pixel"/>
+			<xs:enumeration value="inch"/>
+			<xs:enumeration value="meter"/>
+			<xs:enumeration value="palette"/>
+			<xs:enumeration value="point"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- *** simple type for xcl defined namings for properties: *** -->
+	<xs:simpleType name="nameType">
+	<xs:annotation>
+			<xs:documentation> union of xcl defined namings for xcdl properties</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes=" xcdl:fixLabelsType"/>
+	</xs:simpleType>
+	<!-- *** simple type for xcl defined data types for xcdl labelled value types: *** -->
+	<xs:simpleType name="labValType">
+	<xs:annotation>
+			<xs:documentation>derived from xcl defined data types</xs:documentation>
+	</xs:annotation>
+		<xs:restriction base="xs:string">			
+			<xs:enumeration value="int"/>			
+			<xs:enumeration value="XCLLabel"/>
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="rational"/>
+			<xs:enumeration value="time"/>
+		</xs:restriction>
+		<!--***<xs:union memberTypes="xs:string"/>***-->
+	</xs:simpleType>
+<!-- *** simple type for xcl defined namings for xcdl properties' labelled values: *** -->
+	<xs:simpleType name="fixLabelsType">
+		<xs:annotation>
+			<xs:documentation> union of xcl defined namings for xcdl fixed labellings</xs:documentation>
+		</xs:annotation>
+		<xs:union  memberTypes="XCDLTextProperties XCDLImageProperties" />
+	</xs:simpleType>	
+	<xs:simpleType name="spaceTypes">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="preserved"/>
+			<xs:enumeration value="default"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

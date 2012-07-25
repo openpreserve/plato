@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* fmt_18_pdf.xsd
+	* This module is part of the XCL software system
+	*
+	* Written by  Volker Heydegger, Elona Chudobkaite, Johanna Neumann,  Sebastian Beyl, Jan Schnasse, Manfred Thaller 2006 - 2008
+	*
+	* Copyright (C)  2006 - 2008 Volker Heydegger, Elona Chudobkaite, Johanna Neumann,  Sebastian Beyl, Jan Schnasse, Manfred Thaller
+	*
+	* This program is free software; you can redistribute it and/or modify
+	* it under the terms of the GNU General Public License as published by
+	* the Free Software Foundation; either version 2 of the License, or
+	* (at your option) any later version.
+	*
+	* This program is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	* GNU General Public License for more details.
+	*
+-->
+
+
+<!-- extensible characterisation language: properties' name definitions library for XCDL and XCEL documents -->
+<!-- created by PLANETS, PC2, University of Cologne (HKI )-->
+
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+    xmlns:tns="http://www.planets-project.eu/xcl/schemas/xcl"
+    targetNamespace="http://www.planets-project.eu/xcl/schemas/xcl"
+    elementFormDefault="qualified">
+    
+		<xs:simpleType name="fmt_18_pdf" id="properties">
+			<xs:restriction base="xs:string">
+				<xs:enumeration value='fontTrueType' id='id95'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontStemV' id='id93'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontLastCharCode' id='id154'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontItalicAngle' id='id92'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				
+				<xs:enumeration value='fontFlags' id='id99'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontFirstCharCode' id='id102'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontEncodingType' id='id97'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontDescent' id='id101'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontCapHeight' id='id91'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontBBox' id='id90'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontAscent' id='id100'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='embeddedImage' id='id156'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='documentKeywords' id='id88'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='baseFont_fontAlias' id='id96'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontType1' id='id94'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontWidthsArray' id='id103'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='mediabox' id='id89'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='outlinesEntryTitle' id='id155'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='Font' id='id86'>
+					<xs:annotation>
+						<xs:documentation>
+							pdfBaseFont [Compatibility: PDF1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='PDFFileIDPart' id='id111'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='pdfFontName' id='id85'>
+					<xs:annotation>
+						<xs:documentation>
+							'  [Compatibility: PDF1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='PDFIndirectObjectKey' id='id98'>
+					<xs:annotation>
+						<xs:documentation>
+							the key of  a PDF indirect object, e.g.: '1 0 obj'  [Compatibility: PDF, all versions] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='pdfObjectType' id='id87'>
+					<xs:annotation>
+						<xs:documentation>
+							'  [Compatibility: PDF1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='PDFVersion' id='id110'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='procSetImageB' id='id106'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='procSetImageC' id='id107'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='procSetImageI' id='id108'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='procSetPDF' id='id104'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='procSetText' id='id105'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='resPDFFontAlias' id='id109'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontSize' id='idNULL1'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4] 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontChange' id='idNULL2'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='numberOfPages' id='idNULL3'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value='fontFile' id='idNULL4'>
+					<xs:annotation>
+						<xs:documentation>
+							[Compatibility: PDF 1.4]
+						</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+			</xs:restriction>
+		</xs:simpleType>
+							
+</xs:schema>

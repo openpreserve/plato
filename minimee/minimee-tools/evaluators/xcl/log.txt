@@ -1,0 +1,912 @@
+Process time: 12 03 2009 20:25:46 
+No errors occured.
+
+Process time: 12 03 2009 20:25:51 
+No errors occured.
+
+Process time: 12 03 2009 20:25:57 
+No errors occured.
+
+Process time: 12 03 2009 20:26:02 
+No errors occured.
+
+Process time: 12 03 2009 20:26:07 
+No errors occured.
+
+Process time: 12 03 2009 20:26:13 
+No errors occured.
+
+Process time: 12 03 2009 20:26:18 
+No errors occured.
+
+Process time: 12 03 2009 20:26:28 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:26:33 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:26:38 
+No errors occured.
+
+Process time: 12 03 2009 20:26:43 
+No errors occured.
+
+Process time: 12 03 2009 20:26:48 
+No errors occured.
+
+Process time: 12 03 2009 20:26:53 
+No errors occured.
+
+Process time: 12 03 2009 20:26:59 
+No errors occured.
+
+Process time: 12 03 2009 20:27:04 
+No errors occured.
+
+Process time: 12 03 2009 20:27:09 
+No errors occured.
+
+Process time: 12 03 2009 20:27:14 
+No errors occured.
+
+Process time: 12 03 2009 20:27:20 
+No errors occured.
+
+Process time: 12 03 2009 20:27:25 
+No errors occured.
+
+Process time: 12 03 2009 20:27:30 
+No errors occured.
+
+Process time: 12 03 2009 20:27:35 
+No errors occured.
+
+Process time: 12 03 2009 20:27:46 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:27:51 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:27:57 
+No errors occured.
+
+Process time: 12 03 2009 20:28:02 
+No errors occured.
+
+Process time: 12 03 2009 20:28:08 
+No errors occured.
+
+Process time: 12 03 2009 20:28:13 
+No errors occured.
+
+Process time: 12 03 2009 20:28:20 
+No errors occured.
+
+Process time: 12 03 2009 20:28:27 
+No errors occured.
+
+Process time: 12 03 2009 20:28:32 
+No errors occured.
+
+Process time: 12 03 2009 20:28:37 
+No errors occured.
+
+Process time: 12 03 2009 20:28:42 
+No errors occured.
+
+Process time: 12 03 2009 20:28:48 
+No errors occured.
+
+Process time: 12 03 2009 20:28:53 
+No errors occured.
+
+Process time: 12 03 2009 20:28:58 
+No errors occured.
+
+Process time: 12 03 2009 20:29:03 
+No errors occured.
+
+Process time: 12 03 2009 20:29:09 
+No errors occured.
+
+Process time: 12 03 2009 20:29:14 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:29:19 
+No errors occured.
+
+Process time: 12 03 2009 20:29:24 
+No errors occured.
+
+Process time: 12 03 2009 20:29:30 
+No errors occured.
+
+Process time: 12 03 2009 20:29:35 
+No errors occured.
+
+Process time: 12 03 2009 20:29:40 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:29:45 
+No errors occured.
+
+Process time: 12 03 2009 20:29:50 
+No errors occured.
+
+Process time: 12 03 2009 20:29:55 
+No errors occured.
+
+Process time: 12 03 2009 20:30:00 
+No errors occured.
+
+Process time: 12 03 2009 20:30:05 
+No errors occured.
+
+Process time: 12 03 2009 20:30:11 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:30:16 
+No errors occured.
+
+Process time: 12 03 2009 20:30:21 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:30:27 
+No errors occured.
+
+Process time: 12 03 2009 20:30:32 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:30:37 
+No errors occured.
+
+Process time: 12 03 2009 20:30:42 
+No errors occured.
+
+Process time: 12 03 2009 20:30:48 
+No errors occured.
+
+Process time: 12 03 2009 20:30:53 
+No errors occured.
+
+Process time: 12 03 2009 20:30:59 
+No errors occured.
+
+Process time: 12 03 2009 20:31:04 
+No errors occured.
+
+Process time: 12 03 2009 20:31:09 
+No errors occured.
+
+Process time: 12 03 2009 20:31:14 
+No errors occured.
+
+Process time: 12 03 2009 20:31:20 
+No errors occured.
+
+Process time: 12 03 2009 20:31:25 
+No errors occured.
+
+Process time: 12 03 2009 20:31:30 
+No errors occured.
+
+Process time: 12 03 2009 20:31:35 
+No errors occured.
+
+Process time: 12 03 2009 20:31:41 
+No errors occured.
+
+Process time: 12 03 2009 20:31:46 
+No errors occured.
+
+Process time: 12 03 2009 20:31:51 
+No errors occured.
+
+Process time: 12 03 2009 20:31:57 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:32:02 
+No errors occured.
+
+Process time: 12 03 2009 20:32:08 
+No errors occured.
+
+Process time: 12 03 2009 20:32:13 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:32:19 
+No errors occured.
+
+Process time: 12 03 2009 20:32:24 
+No errors occured.
+
+Process time: 12 03 2009 20:32:29 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:32:35 
+No errors occured.
+
+Process time: 12 03 2009 20:32:40 
+No errors occured.
+
+Process time: 12 03 2009 20:32:46 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:32:51 
+No errors occured.
+
+Process time: 12 03 2009 20:32:56 
+No errors occured.
+
+Process time: 12 03 2009 20:33:02 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:33:07 
+No errors occured.
+
+Process time: 12 03 2009 20:33:13 
+No errors occured.
+
+Process time: 12 03 2009 20:33:19 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:33:27 
+No errors occured.
+
+Process time: 12 03 2009 20:33:32 
+No errors occured.
+
+Process time: 12 03 2009 20:33:38 
+No errors occured.
+
+Process time: 12 03 2009 20:33:43 
+No errors occured.
+
+Process time: 12 03 2009 20:33:49 
+No errors occured.
+
+Process time: 12 03 2009 20:33:54 
+No errors occured.
+
+Process time: 12 03 2009 20:34:00 
+No errors occured.
+
+Process time: 12 03 2009 20:34:05 
+No errors occured.
+
+Process time: 12 03 2009 20:34:12 
+No errors occured.
+
+Process time: 12 03 2009 20:34:17 
+No errors occured.
+
+Process time: 12 03 2009 20:34:23 
+No errors occured.
+
+Process time: 12 03 2009 20:34:29 
+No errors occured.
+
+Process time: 12 03 2009 20:34:35 
+No errors occured.
+
+Process time: 12 03 2009 20:34:41 
+No errors occured.
+
+Process time: 12 03 2009 20:34:47 
+No errors occured.
+
+Process time: 12 03 2009 20:35:33 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:35:39 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:35:44 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:35:49 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:35:55 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:00 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:05 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:11 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:16 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:21 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:26 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:32 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:37 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:42 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:47 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:52 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:36:58 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:03 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:08 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:13 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:18 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:24 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:29 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:34 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:39 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:45 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:50 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:37:55 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:38:00 
+No errors occured.
+
+Process time: 12 03 2009 20:38:06 
+No errors occured.
+
+Process time: 12 03 2009 20:38:11 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:38:17 
+No errors occured.
+
+Process time: 12 03 2009 20:38:24 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:38:29 
+No errors occured.
+
+Process time: 12 03 2009 20:38:35 
+No errors occured.
+
+Process time: 12 03 2009 20:38:40 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:38:45 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:38:51 
+No errors occured.
+
+Process time: 12 03 2009 20:38:56 
+No errors occured.
+
+Process time: 12 03 2009 20:39:01 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:39:06 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 20:39:16 
+No errors occured.
+
+Process time: 12 03 2009 20:39:21 
+No errors occured.
+
+Process time: 12 03 2009 20:39:26 
+No errors occured.
+
+Process time: 12 03 2009 20:39:31 
+No errors occured.
+
+Process time: 12 03 2009 21:01:46 
+No errors occured.
+
+Process time: 12 03 2009 21:39:05 
+No errors occured.
+
+Process time: 12 03 2009 21:55:00 
+No errors occured.
+
+Process time: 12 03 2009 22:06:02 
+No errors occured.
+
+Process time: 12 03 2009 22:11:38 
+No errors occured.
+
+Process time: 12 03 2009 22:11:44 
+No errors occured.
+
+Process time: 12 03 2009 22:14:39 
+No errors occured.
+
+Process time: 12 03 2009 22:14:44 
+No errors occured.
+
+Process time: 12 03 2009 22:14:48 
+No errors occured.
+
+Process time: 12 03 2009 22:14:54 
+No errors occured.
+
+Process time: 12 03 2009 22:14:59 
+No errors occured.
+
+Process time: 12 03 2009 22:15:04 
+No errors occured.
+
+Process time: 12 03 2009 22:15:08 
+No errors occured.
+
+Process time: 12 03 2009 22:15:13 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:15:18 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:15:23 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:15:28 
+No errors occured.
+
+Process time: 12 03 2009 22:15:33 
+No errors occured.
+
+Process time: 12 03 2009 22:15:38 
+No errors occured.
+
+Process time: 12 03 2009 22:15:43 
+No errors occured.
+
+Process time: 12 03 2009 22:15:48 
+No errors occured.
+
+Process time: 12 03 2009 22:15:52 
+No errors occured.
+
+Process time: 12 03 2009 22:15:57 
+No errors occured.
+
+Process time: 12 03 2009 22:16:02 
+No errors occured.
+
+Process time: 12 03 2009 22:16:07 
+No errors occured.
+
+Process time: 12 03 2009 22:16:12 
+No errors occured.
+
+Process time: 12 03 2009 22:16:17 
+No errors occured.
+
+Process time: 12 03 2009 22:16:21 
+No errors occured.
+
+Process time: 12 03 2009 22:16:26 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:16:31 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:16:36 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:16:40 
+No errors occured.
+
+Process time: 12 03 2009 22:16:45 
+No errors occured.
+
+Process time: 12 03 2009 22:16:50 
+No errors occured.
+
+Process time: 12 03 2009 22:16:55 
+No errors occured.
+
+Process time: 12 03 2009 22:16:59 
+No errors occured.
+
+Process time: 12 03 2009 22:17:04 
+No errors occured.
+
+Process time: 12 03 2009 22:17:09 
+No errors occured.
+
+Process time: 12 03 2009 22:17:14 
+No errors occured.
+
+Process time: 12 03 2009 22:17:18 
+No errors occured.
+
+Process time: 12 03 2009 22:17:23 
+No errors occured.
+
+Process time: 12 03 2009 22:17:28 
+No errors occured.
+
+Process time: 12 03 2009 22:17:32 
+No errors occured.
+
+Process time: 12 03 2009 22:17:37 
+No errors occured.
+
+Process time: 12 03 2009 22:17:42 
+No errors occured.
+
+Process time: 12 03 2009 22:17:47 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:17:52 
+No errors occured.
+
+Process time: 12 03 2009 22:17:57 
+No errors occured.
+
+Process time: 12 03 2009 22:18:01 
+No errors occured.
+
+Process time: 12 03 2009 22:18:06 
+No errors occured.
+
+Process time: 12 03 2009 22:18:11 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:18:16 
+No errors occured.
+
+Process time: 12 03 2009 22:18:22 
+No errors occured.
+
+Process time: 12 03 2009 22:18:28 
+No errors occured.
+
+Process time: 12 03 2009 22:18:32 
+No errors occured.
+
+Process time: 12 03 2009 22:18:37 
+No errors occured.
+
+Process time: 12 03 2009 22:18:42 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:18:47 
+No errors occured.
+
+Process time: 12 03 2009 22:18:51 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:18:56 
+No errors occured.
+
+Process time: 12 03 2009 22:19:01 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:19:05 
+No errors occured.
+
+Process time: 12 03 2009 22:19:10 
+No errors occured.
+
+Process time: 12 03 2009 22:19:15 
+No errors occured.
+
+Process time: 12 03 2009 22:19:20 
+No errors occured.
+
+Process time: 12 03 2009 22:19:24 
+No errors occured.
+
+Process time: 12 03 2009 22:19:29 
+No errors occured.
+
+Process time: 12 03 2009 22:19:34 
+No errors occured.
+
+Process time: 12 03 2009 22:19:38 
+No errors occured.
+
+Process time: 12 03 2009 22:19:43 
+No errors occured.
+
+Process time: 12 03 2009 22:19:48 
+No errors occured.
+
+Process time: 12 03 2009 22:19:52 
+No errors occured.
+
+Process time: 12 03 2009 22:19:57 
+No errors occured.
+
+Process time: 12 03 2009 22:20:02 
+No errors occured.
+
+Process time: 12 03 2009 22:20:06 
+No errors occured.
+
+Process time: 12 03 2009 22:20:11 
+No errors occured.
+
+Process time: 12 03 2009 22:20:16 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:20:21 
+No errors occured.
+
+Process time: 12 03 2009 22:20:26 
+No errors occured.
+
+Process time: 12 03 2009 22:20:31 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:20:36 
+No errors occured.
+
+Process time: 12 03 2009 22:20:40 
+No errors occured.
+
+Process time: 12 03 2009 22:20:45 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:20:50 
+No errors occured.
+
+Process time: 12 03 2009 22:20:55 
+No errors occured.
+
+Process time: 12 03 2009 22:21:00 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:21:05 
+No errors occured.
+
+Process time: 12 03 2009 22:21:10 
+No errors occured.
+
+Process time: 12 03 2009 22:21:14 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:21:19 
+No errors occured.
+
+Process time: 12 03 2009 22:21:24 
+No errors occured.
+
+Process time: 12 03 2009 22:21:29 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:21:34 
+No errors occured.
+
+Process time: 12 03 2009 22:21:39 
+No errors occured.
+
+Process time: 12 03 2009 22:21:44 
+No errors occured.
+
+Process time: 12 03 2009 22:21:49 
+No errors occured.
+
+Process time: 12 03 2009 22:21:54 
+No errors occured.
+
+Process time: 12 03 2009 22:21:59 
+No errors occured.
+
+Process time: 12 03 2009 22:22:04 
+No errors occured.
+
+Process time: 12 03 2009 22:22:09 
+No errors occured.
+
+Process time: 12 03 2009 22:22:15 
+No errors occured.
+
+Process time: 12 03 2009 22:22:20 
+No errors occured.
+
+Process time: 12 03 2009 22:22:25 
+No errors occured.
+
+Process time: 12 03 2009 22:22:30 
+No errors occured.
+
+Process time: 12 03 2009 22:22:36 
+No errors occured.
+
+Process time: 12 03 2009 22:22:41 
+No errors occured.
+
+Process time: 12 03 2009 22:22:47 
+No errors occured.
+
+Process time: 12 03 2009 22:22:52 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:22:57 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:02 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:07 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:12 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:18 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:25 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:30 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:35 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:40 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:45 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:49 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:23:55 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:00 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:05 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:10 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:14 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:19 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:24 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:29 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:34 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:39 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:44 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:50 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:24:55 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:00 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:05 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:10 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:15 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:20 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:25 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:30 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:36 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:41 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:45 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:50 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:25:55 
+No errors occured.
+
+Process time: 12 03 2009 22:26:00 
+No errors occured.
+
+Process time: 12 03 2009 22:26:05 
+No errors occured.
+
+Process time: 12 03 2009 22:26:10 
+No errors occured.
+
+Process time: 12 03 2009 22:26:16 
+No errors occured.
+
+Process time: 12 03 2009 22:26:21 
+No errors occured.
+
+Process time: 12 03 2009 22:26:26 
+No errors occured.
+
+Process time: 12 03 2009 22:26:31 
+No errors occured.
+
+Process time: 12 03 2009 22:26:36 
+No errors occured.
+
+Process time: 12 03 2009 22:26:41 
+No errors occured.
+
+Process time: 12 03 2009 22:26:46 
+No errors occured.
+
+Process time: 12 03 2009 22:26:51 
+Error: doHammingDistance(): Not possible. Sets have different sizes but must be equal for this metric.
+
+Process time: 12 03 2009 22:26:56 
+No errors occured.
+
+Process time: 12 03 2009 22:27:05 
+No errors occured.
+
+Process time: 12 03 2009 22:27:10 
+No errors occured.
+
+Process time: 12 03 2009 22:27:15 
+No errors occured.
+
+Process time: 12 03 2009 22:27:20 
+No errors occured.
+

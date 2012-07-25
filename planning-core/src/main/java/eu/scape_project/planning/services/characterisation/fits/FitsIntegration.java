@@ -46,23 +46,6 @@ public class FitsIntegration implements Serializable {
     public FitsIntegration() throws PlanningException{
         FITS_HOME = System.getenv("FITS_HOME");
         if (FITS_HOME == null) {
-        	try {
-				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("config/fits.properties");
-				if (in != null) {
-					Properties fitsProp = new Properties();
-					fitsProp.load(in);
-					FITS_HOME = fitsProp.getProperty("fits.home");
-				}
-			} catch (IOException e) {
-				log.error("FITS_HOME is not defined, and fits.properties not found", e);
-			}
-            if (FITS_HOME != null) {
-            	log.info("FITS_HOME is not defined, using fits.home from fits.properties : " + FITS_HOME);
-            } else if ( ! new File(FITS_HOME).exists()) {
-                FITS_HOME = null;
-            }
-        }
-        if (FITS_HOME == null) {
             throw new PlanningException("FITS is not propertly configured - FITS_HOME is not defined.");
         }
     }

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+java -jar /opt/t2-server-java-cli/target/t2-server-java-cli-0.0.3-jar-with-dependencies.jar $@ http://hephaistos.ifs.tuwien.ac.at:8080/taverna-server
+

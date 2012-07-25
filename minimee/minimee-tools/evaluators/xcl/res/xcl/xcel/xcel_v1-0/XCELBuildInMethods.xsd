@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    * XCELBuiltInMethods.xsd
+    * This module is part of the XCL software system
+    *
+    * Written by  Sebastian Beyl, Elona Chudobkaite, Volker Heydegger, Jan Schnasse, Manfred Thaller 2006 - 2008
+    *
+    * Copyright (C)  2006 - 2008   Sebastian Beyl, Elona Chudobkaite, Volker Heydegger, Jan Schnasse, Manfred Thaller 
+    *
+    * This program is free software; you can redistribute it and/or modify
+    * it under the terms of the GNU General Public License as published by
+    * the Free Software Foundation; either version 2 of the License, or
+    * (at your option) any later version.
+    *
+    * This program is distributed in the hope that it will be useful,
+    * but WITHOUT ANY WARRANTY; without even the implied warranty of
+    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    * GNU General Public License for more details.
+    *
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://www.planets-project.eu/xcl/schemas/xcl"
+    xmlns:tns="http://www.planets-project.eu/xcl/schemas/xcl"
+    targetNamespace="http://www.planets-project.eu/xcl/schemas/xcl"
+    elementFormDefault="qualified">
+    
+    <xs:simpleType name="basicMethodType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="setByteOrder">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setName">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setStartPosition">
+                <xs:annotation>
+                    <xs:documentation></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setLength">
+                <xs:annotation>
+                    <xs:documentation></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setInterpretation">
+                <xs:annotation>
+                    <xs:documentation></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setOptional">
+                <xs:annotation>
+                    <xs:documentation>  Accepts one parameter with a "name" value set to either true or false. 
+                                                    Used to set an elements' "optional" attribute. </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setMultiple">
+                <xs:annotation>
+                    <xs:documentation>  Accepts one parameter with a "name" value set to either true or false. 
+                        Used to set an elements' "multiple" attribute. </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="addFilter">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="isEqual">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setSymbolDoesNotMatchHandle">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setAddressingScheme">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="goToLastAddress">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="goToNextAddress">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="goToPreviousAddress">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="getItemNumber">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setValue">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="interpretAsNumber">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="interpretHexValues">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setExternalSource">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="setInternalSource">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="extract">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="unzip">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="addRelation">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="valueIsNotInIndex">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
