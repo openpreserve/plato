@@ -6,8 +6,6 @@
 	</hardware>
 
 	<evaluators>
-		<evaluator name="ImageCompare"
-			class="at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator" />
 	</evaluators>
 	
 	<engines>
@@ -16,24 +14,6 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="machine:name">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:cpus">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:cputype">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:cpuclock">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:memory">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:os">
-					<freeStringScale unit="" restriction="" />
-				</property>
 				<property name="performance:time:elapsed">
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
@@ -58,24 +38,6 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="machine:name">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:cpus">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:cputype">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:cpuclock">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:memory">
-					<freeStringScale unit="" restriction="" />
-				</property>
-				<property name="machine:os">
-					<freeStringScale unit="" restriction="" />
-				</property>
 				<property name="performance:time:elapsed">
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
@@ -367,8 +329,8 @@
 		-->
 
 		<tool name="ImageIO"
-			executablePath="/home/kraxner/minimee-config/migration-tools/ImageConverter.jar"
-			initialisationDir="/home/kraxner/minimee-config/score/data/jpg">
+			executablePath="c:/minimee-config/migration-tools/ImageConverter.jar"
+			initialisationDir="c:/minimee-config">
 
 			<config url="gifToPNG-JavaImageIO">
 				<name>GIF to PNG</name>
@@ -379,7 +341,6 @@
 				<evaluators>
 					<evaluator>ImageCompare</evaluator>
 				</evaluators>
-
 			</config>
 
          <config url="gifToJPG-JavaImageIO">
@@ -463,161 +424,7 @@
 		</tool>
 
 
-		<tool identifier="http://dbpedia.org/data/GraphicsMagick" name="GraphicsMagick"
-			executablePath="gm convert -verbose"
-			initialisationDir="/home/kraxner/minimee-config/score/data/jpg">
 
-			<config url="gif2png-GraphicsMagick" benchmark="true">
-				<name>GIF to PNG</name>
-				<params>-verbose</params>
-				<inEnding>GIF</inEnding>
-				<outEnding>PNG</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-			<config url="gif2tif-GraphicsMagick" benchmark="true">
-				<name>GIF to TIF</name>
-				<params></params>
-				<inEnding>GIF</inEnding>
-				<outEnding>TIF</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-			<config url="gif2jpg-GraphicsMagick" benchmark="true">
-				<name>GIF to JPG</name>
-				<params></params>
-				<inEnding>GIF</inEnding>
-				<outEnding>JPG</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-
-			<config url="jpg2png-GraphicsMagick" benchmark="true">
-				<name>JPG to PNG</name>
-				<params></params>
-				<inEnding>JPG</inEnding>
-				<outEnding>PNG</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-			<config url="jpg2tif-GraphicsMagick" benchmark="true">
-				<name>JPG to TIF</name>
-				<params></params>
-				<inEnding>JPG</inEnding>
-				<outEnding>TIF</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-
-			<config url="png2tif-GraphicsMagick" benchmark="true">
-				<name>PNG to TIF</name>
-				<params></params>tool
-				<inEnding>PNG</inEnding>
-				<outEnding>TIF</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-
-			<config url="tif2jp2000-GraphicsMagick" benchmark="true">
-				<name>TIF to JPEG 2000</name>
-				<params></params>
-				<inEnding>TIF</inEnding>
-				<outEnding>JP2</outEnding>
-				<engineName>default</engineName>
-				<evaluators>
-					<evaluator>ImageCompare</evaluator>
-				</evaluators>
-			</config>
-
-		</tool>
-
-
-
-	<tool name="Ghostscript PS2PDF" executablePath="ps2pdf">
-		<config url="ps2pdf">
-		  <name>Ghostscript ps2pdf</name>
-		  <params></params>
- 		  <inEnding>ps</inEnding>
-		  <outEnding>pdf</outEnding>
-		  <engineName>default</engineName>
-		</config>
-	</tool>
-	
-	<tool name="rawverna" executablePath="tavernaH.sh">
-	   <config url="raw2tiff">
-	       <name>RAW Image to Tiff with dcraw</name>
-	       <params>-i targetExtension:tiff</params>
-	       <inEnding>cr2</inEnding>
-	       <outEnding>tiff</outEnding>
-	       <engineName>default</engineName>
-	   </config>
-	</tool>
-	
-	<tool name="openoffice" executablePath="openOfficeConvert.sh">
-		<config url="ooOdt2PDF">
-			<name>ODT to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>odt</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>
-		<config url="ooSxw2PDF">
-			<name>SXW to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>sxw</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>	
-		<config url="ooDoc2PDF">
-			<name>Doc to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>doc</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>
-		
-		<config url="ooXls2PDF">
-			<name>Xls to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>xls</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>
-		<config url="ooOds2PDF">
-			<name>Ods to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>ods</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>		
-		
-		<config url="ooPpt2PDF">
-			<name>PPT to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>ppt</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>		
-		<config url="ooOdp2PDF">
-			<name>ODP to PDF with OpenOffice</name>
-			<params>8100</params>
-			<inEnding>odp</inEnding>
-			<outEnding>pdf</outEnding>
-			<engineName>TOPOpenOffice</engineName>
-		</config>		
-	</tool>
 
 </tools>
 </minimee>

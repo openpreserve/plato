@@ -252,6 +252,7 @@
                        onbegin=""
                        action="#{ftEvaluateAlternatives.startExperiments}" 
                        title="Start experiments"
+                       id="startExperiments"
                        render="poll"
                        value="Start">
                        <a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
@@ -268,6 +269,7 @@
                    <a4j:commandButton
                        rendered="#{not (ftEvaluateAlternatives.experimentStatus.finished or ftEvaluateAlternatives.experimentStatus.canceled)}"  
                        action="#{ftEvaluateAlternatives.experimentStatus.cancel()}" 
+                       id="cancelExperiments"
                        value="Cancel experiments"/>
         
                    <h:outputText rendered="#{ftEvaluateAlternatives.experimentStatus.canceled and (not ftEvaluateAlternatives.experimentStatus.finished)}" value="Canceling experiments. Please wait until the currently active migration has finished."/>
@@ -280,6 +282,7 @@
                            action="#{ftEvaluateAlternatives.experimentStatus.clear()}" 
                            title="Ok"  
                            value="Close"
+                           id="closeExperiments"
                            oncomplete="#{rich:component('execPanel')}.hide()"
                            render="mainForm,executeExperimentsForm"/>
                     </a4j:outputPanel>
