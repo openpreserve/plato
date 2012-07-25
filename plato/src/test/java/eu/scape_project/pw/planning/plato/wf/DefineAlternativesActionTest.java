@@ -19,15 +19,17 @@ package eu.scape_project.pw.planning.plato.wf;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 
-//@RunWith(Arquillian.class)
+@RunWith(Arquillian.class)
 public class DefineAlternativesActionTest {
 	
 	@Inject
@@ -40,6 +42,11 @@ public class DefineAlternativesActionTest {
 	      .addAsManifestResource(
 	            new ByteArrayAsset("<beans/>".getBytes()), 
 	            ArchivePaths.create("beans.xml"));
+	}
+	
+	@Test 
+	public void test() {
+		
 	}
 	
 }
