@@ -21,7 +21,10 @@
 	                  <a href="#collectionprofile" class="anchors">Collection Profile</a>
 	               </li>
 	               <li class="anchors">
-	                  <a href="#samplesamples" class="anchors">Sample Objects</a>
+	                  <a href="#samples" class="anchors">Sample Objects</a>
+	               </li>
+	               <li class="anchors">
+	                  <a href="#more" class="anchors">More</a>
 	               </li>
 	            </ul>
 	         </div>
@@ -35,6 +38,7 @@
             <h:inputText id="changedflag" value="#{defineSampleRecords.changed}"
                 style="display:none" />
 
+			<a4j:outputPanel layout="block" id="profile">
              <fieldset id="collectionprofile" class="size-full">
                <legend class="fieldset-full-size-legend">
                	  <ui:include src="/plato/shared/legend_nav.xhtml" /> 
@@ -65,10 +69,11 @@
                   input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.retentionPeriod}"
                   touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
             </fieldset>
+            </a4j:outputPanel>
             <!-- 
             <p:help url="/plato/help/samples.html" text="What are sample objects and why do I need them?"/>
              -->
-            <fieldset id="samplesamples" class="size-full">
+            <fieldset id="samples" class="size-full">
                <legend class="fieldset-full-size-legend">
                   <ui:include src="/plato/shared/legend_nav.xhtml" /> 
                   <h:outputText value="Sample Objects"/>
@@ -152,7 +157,7 @@
 	                     
 	                     <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
 	                     <div>
-		                     <a4j:commandButton value="View FITS Characteristics" action="#{defineSampleRecords.selectSampleObject(row)}"
+		                     <a4j:commandButton value="View FITS" action="#{defineSampleRecords.selectSampleObject(row)}"
 		                                        oncomplete="#{rich:component('fitsXmlPanel')}.show()" render="fitsXmlPanel"
 		                                        style="vertical-align: middle;" />
 		                     <!-- <a href="http://code.google.com/p/fits/" target="_blank">
@@ -185,23 +190,51 @@
                <div class="margin-bottom-huge margin-top-big" />
             </fieldset>
             
-            <div id="addsamples">
-               <h3>Add More Sample Objects</h3>
-               <a4j:commandButton value="Add sample" id="addRecord"
-                  action="#{defineSampleRecords.newSample}"
-                  onclick="changed()"
-                  render="sampleRecordsList" />
-	           <input onclick="renderUploadForm()" type="button" value="Upload sample"/>
-            </div>
-	        <script type="text/javascript">
-				function renderUploadForm() {
-					//toggles the upload form
-					$('.rf-fu').toggle();
-				}
-	        </script>
-	        <rich:fileUpload id="upload" fileUploadListener="#{defineSampleRecords.listener}" allowFlash="false">
-	             <a4j:ajax event="uploadcomplete" execute="@none" render="sampleRecordsList"  />             
-	        </rich:fileUpload>
+            <fieldset id="more" class="size-full">
+               <legend class="fieldset-full-size-legend">
+                  <ui:include src="/plato/shared/legend_nav.xhtml" /> 
+                  <h:outputText value="More Actions"/>
+               </legend>
+               <div id="description">
+               		<p>
+               			You have three options here: upload your own samples objects, manually fill in the sample information or upload a c3po xml profile.
+               		</p>
+               </div>
+	            <div id="sampleactions">
+	               <a4j:commandButton value="Add sample" id="addRecord"
+	                  action="#{defineSampleRecords.newSample}"
+	                  onclick="changed()"
+	                  render="sampleRecordsList" />
+		           <input onclick="renderUploadForm('sample')" type="button" value="Upload sample"/>
+	               <input onclick="renderUploadForm('profile')" type="button" value="Upload profile"/>
+	            </div>
+		        <script type="text/javascript">
+					function renderUploadForm(id) {
+						//toggles the upload forms
+						var form;
+						if (id == 'sample') {
+							form = $('#uploadSample');
+							
+						} else if (id == 'profile'){
+							form = $('#uploadProfile');
+						}
+						
+						$(form).toggle('normal');
+					}
+		        </script>
+		        <div id="sampleforms">
+		        	<div id="uploadSample" class="sampleform">
+				        <rich:fileUpload fileUploadListener="#{defineSampleRecords.listener}" allowFlash="false">
+				             <a4j:ajax event="uploadcomplete" execute="@none" render="sampleRecordsList"  />             
+				        </rich:fileUpload>
+			        </div>
+			        <div id="uploadProfile" class="sampleform">
+				        <rich:fileUpload id="uploadProfile" fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}" acceptedTypes="xml" allowFlash="false">
+				             <a4j:ajax event="uploadcomplete" execute="@none" render="profile"  />             
+				        </rich:fileUpload>
+			        </div>
+		        </div>
+		     </fieldset>
             <p:savediscardproceed bean="#{viewWorkflow}" />
             
         </h:form>

@@ -658,11 +658,14 @@ ul#messages {
 	margin-left: 15px;
 }
 
-.rf-fu {
+.sampleform {
 	display: none;
 	margin-top: 10px;
+	margin-right: 10px;
+	position: relative;
+	float:left;
 }
 
-#addsamples {
-	margin: 10px 35px;
+#sampleactions input[type="submit"], input[type="button"] {
+	margin-right: 10px;
 }

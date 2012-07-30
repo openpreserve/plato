@@ -33,6 +33,7 @@ import org.richfaces.model.UploadedFile;
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
@@ -46,6 +47,7 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.utils.Downloader;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.xml.C3POProfileParser;
 
 /**
  * @author kraxner
@@ -136,6 +138,40 @@ public class DefineSampleRecordsView extends AbstractView {
 		}
         System.gc();
      }
+	
+	public void uploadCollectionProfile(FileUploadEvent event) throws Exception {
+		UploadedFile item = event.getUploadedFile();
+		String fileName = item.getName();
+		log.debug("Collection Profile file [{}] uploaded", fileName);
+		
+		if (!fileName.endsWith(".xml")) {
+			log.warn("The uploaded file [{}] is not an xml file", fileName);
+			facesMessages.addError("The uploaded file is not an xml");
+			return;
+		} 
+		
+		//TODO move this to backing bean
+		C3POProfileParser parser = new C3POProfileParser();
+		parser.read(item.getInputStream(), false);
+		String id = parser.getCollectionId();
+		String key = parser.getPartitionFilterKey();
+		String count = parser.getObjectsCountInPartition();
+		String typeOfObjects = parser.getTypeOfObjects();
+		
+		log.info("collection id {}", id);
+		log.info("collection count {}", count);
+		log.info("collection desc: {}", typeOfObjects);
+		
+		CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
+		profile.setCollectionID(id + "?" + key);
+		profile.setNumberOfObjects(count);
+		profile.setTypeOfObjects(typeOfObjects);
+		this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
+		this.plan.getSampleRecordsDefinition().touch();
+		this.plan.touch();
+		
+		//TODO parse also the sample objects and all their data.
+	}
 
     /**
      * Adds a new sample to the list of sample samples in the project. This is a sample sample
