@@ -15,12 +15,18 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.weld.context.bound.Bound;
 import org.jboss.weld.context.bound.BoundConversationContext;
 import org.jboss.weld.context.bound.MutableBoundRequest;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.plato.wfview.fte.FTCreatePlanView;
+import eu.scape_project.planning.plato.wfview.fte.FTDefineRequirementsView;
 
 @RunWith(Arquillian.class)
 public class FTEIntegrationTest {
@@ -118,7 +124,22 @@ public class FTEIntegrationTest {
 
 	@Inject
 	FTCreatePlanView fcv;
+	
+	@Inject
+	FTDefineRequirementsView fteDefine;
 
+	@Before
+	public void initTests() {
+		conversationContext.associate(new MutableBoundRequest(
+				new HashMap<String, Object>(), new HashMap<String, Object>()));
+		conversationContext.activate();
+	}
+	
+	@After
+	public void tearDown() {
+		conversationContext.deactivate();
+	}
+	
 	@Test
 	public void test() {
 
@@ -128,10 +149,6 @@ public class FTEIntegrationTest {
 		// BeanManagerImpl bml = (BeanManagerImpl)bm;
 		// bml.addContext(cc);
 		System.out.println("Entering test");
-
-		conversationContext.associate(new MutableBoundRequest(
-				new HashMap<String, Object>(), new HashMap<String, Object>()));
-		conversationContext.activate();
 
 		// Container.instance().services().get(ContextLifecycle.class).getConversationContext();
 		// conversationContext.setBeanStore(new HashMapBeanStore());
@@ -146,6 +163,58 @@ public class FTEIntegrationTest {
 		Plan plan = fcv.getPlan();
 		Assert.assertTrue(plan != null);
 		Assert.assertTrue(plan.getPlanProperties().getAuthor().equals("Testing Plato"));
+		Assert.assertTrue(true);
+	}
+
+	/**
+	 * first integration test for FTE
+	 * @author cb
+	 */
+	@Test
+	public void testFTE1() {
+
+		System.out.println("Entering test FTE");
+
+		Assert.assertTrue(fcv != null);
+		fcv.createPlan();
+		Plan plan = fcv.getPlan();
+		Assert.assertTrue(plan != null);
+		
+		fteDefine.init(plan);
+
+		// is there at least one ft template?
+		Assert.assertTrue(fteDefine.getFtTemplates().size()>0);
+		
+		// TODO this currently fails
+
+		try	{
+			//name is not set, this should fail:
+			fteDefine.proceed();
+			Assert.assertTrue(false);
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+		// need to set plan name here - otherwise *required* name is missing
+		plan.getPlanProperties().setName("fte test name");
+		
+		// need to select a fast track template
+		fteDefine.setSelectedFTTemplate(fteDefine.getFtTemplates().get(0));
+
+		// need to add one sample file TODO
+		SampleObject digitalObject = new SampleObject();
+        digitalObject.setFullname("test.jpg");
+//        TODO digitalObject.getData().setData();
+        digitalObject.setContentType("image/jpg");
+        fteDefine.getSamples().add(digitalObject);
+        
+		try	{
+			fteDefine.proceed(); // <<< this should work
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false); // if there is an exception here, the test failed 
+		}
+		
+		// voila!
 		Assert.assertTrue(true);
 	}
 }

@@ -147,7 +147,9 @@ public abstract class AbstractView implements Serializable{
     		return "success";
     	} else {
         	for (ValidationError e : errors) {
+        		log.error("HAA! found an error: "+e.getMessage());
         		facesMessages.addError(e.getMessage());
+        		log.error("YEAH! made it through facesMessages");
         	}
     		return null;
     	}

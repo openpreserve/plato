@@ -27,7 +27,6 @@ import java.util.Properties;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 

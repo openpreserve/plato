@@ -17,6 +17,7 @@
 package eu.scape_project.planning.manager;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 
 /**
