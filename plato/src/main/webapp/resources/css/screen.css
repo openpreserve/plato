@@ -641,13 +641,13 @@ ul#messages {
 #messages .warning {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/warning.png.jsf?ln=org.richfaces);
-	margin-left: 20px;
+	margin-left: 30px;
 }
 
 #messages .info {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/info.png.jsf?ln=org.richfaces);
-	margin-left: 20px;
+	margin-left: 30px;
 }
 
 #data {
