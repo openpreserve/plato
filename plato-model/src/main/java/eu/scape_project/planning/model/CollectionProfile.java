@@ -18,10 +18,12 @@ package eu.scape_project.planning.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 
 /**
  * Gives information on the collection in question for the preservation plan.
@@ -88,6 +90,9 @@ public class CollectionProfile implements Serializable {
     @Lob
     private String retentionPeriod;
     
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private DigitalObject profileDigitalObject;
+    
     public String getRetentionPeriod() {
         return retentionPeriod;
     }
@@ -142,5 +147,19 @@ public class CollectionProfile implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+	/**
+     * @return the profile
+     */
+    public DigitalObject getProfile() {
+	    return profileDigitalObject;
+    }
+
+	/**
+     * @param profile the profile to set
+     */
+    public void setProfile(DigitalObject profile) {
+	    this.profileDigitalObject = profile;
     }
 }

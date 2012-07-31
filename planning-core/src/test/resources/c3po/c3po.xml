@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<profile xmlns="http://ifs.tuwien.ac.at/dp/c3po" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" collection="roda" date="Tue Jul 24 11:55:13 CEST 2012" count="264">
+<profile collection="roda" date="Tue Jul 24 11:55:13 CEST 2012" count="264">
   <partition count="264">
     <filter id="d1833ac6-f0e9-4009-a801-4163d1fa796a">
       <parameters>

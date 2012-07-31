@@ -2,10 +2,10 @@ package eu.scape_project.planning.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
@@ -19,56 +19,85 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.utils.ParserException;
+
+/**
+ * A simple parser for the c3po profile.
+ * 
+ * @author Petar Petrov - <me@petarpetrov.org>
+ * 
+ */
 public class C3POProfileParser {
 
+	/**
+	 * A template for the description of the partition.
+	 */
 	private static final String TYPE_OF_OBJECTS_BEGIN = "The collection consists of {1}% '{2}' files. ";
 
+	/**
+	 * A template for the second most prominent type of objects in the
+	 * partition.
+	 */
 	private static final String TYPE_OF_OBJECTS_SECOND = "It also contains {1}% '{2}' files. ";
 
+	/**
+	 * A template for the conflicting objects in the partition.
+	 */
 	private static final String TYPE_OF_OBJECTS_CONFLICTS = "{1}% files have conflicts. ";
 
+	/**
+	 * A template for the unknown objects in the partition.
+	 */
 	private static final String TYPE_OF_OBJECTS_UNKNOWN = "{1}% files have an unknown format. ";
 
+	/**
+	 * A constant if the format distribution is missing.
+	 */
 	private static final String MISSING = "No format distribution provided";
+
+	/**
+	 * A template for the 'description of objects' field.
+	 */
+	private static final String DESCRIPTION_OF_SAMPLES_TEMPLATE = "The sample objects were chosen by c3po using the {1} algorithm.";
 
 	private static final Logger log = LoggerFactory.getLogger(C3POProfileParser.class);
 
 	private Document profile;
 
-	public void read(final InputStream stream, boolean validate) {
+	public void read(final InputStream stream, boolean validate) throws ParserException {
 		ValidatingParserFactory vpf = new ValidatingParserFactory();
 		SAXParser parser = null;
 		try {
 			parser = vpf.getValidatingParser();
 		} catch (ParserConfigurationException e) {
-			log.error("An error occurred while parsing the c3po profile: {}",
-					e.getMessage());
+			log.error("An error occurred while parsing the c3po profile: {}", e.getMessage());
 		} catch (SAXException e) {
-			log.error("An error occurred while parsing the c3po profile: {}",
-					e.getMessage());
+			log.error("An error occurred while parsing the c3po profile: {}", e.getMessage());
 		}
 
 		if (validate && !this.isValid(parser, stream)) {
-			return; // if validation enabled and not valid
+			throw new ParserException("Validation was turned on, but the xml file is not valid against the schema.");
 		}
 
 		try {
 			final SAXReader reader = new SAXReader();
 			this.profile = reader.read(stream);
 		} catch (final DocumentException e) {
-			log.error("An error occurred while reading the profile: {}",
-					e.getMessage());
+			log.error("An error occurred while reading the profile: {}", e.getMessage());
 			this.profile = null;
 		}
 
 		try {
 			stream.close();
 		} catch (final IOException e) {
-			log.error("An error occurred while closing the input stream: {}",
-					e.getMessage());
+			log.error("An error occurred while closing the input stream: {}", e.getMessage());
 		}
 	}
 
+	// TODO read in the schema and if it is not of c3po - validate agains
+	// the current schema of c3po.
 	private boolean isValid(SAXParser parser, InputStream stream) {
 		log.debug("validating collection profile");
 		try {
@@ -94,34 +123,53 @@ public class C3POProfileParser {
 		return false;
 	}
 
+	/**
+	 * Gets the collection identifier.
+	 * 
+	 * @return the id.
+	 */
 	public String getCollectionId() {
 		return this.profile.getRootElement().attributeValue("collection");
 	}
-	
+
+	/**
+	 * Gets the partition filter key (used by c3po). Note that only the first
+	 * partition is used.
+	 * 
+	 * @return the partition filter key.
+	 */
 	public String getPartitionFilterKey() {
 		return this.profile.getRootElement().element("partition").element("filter").attributeValue("key");
 	}
 
+	/**
+	 * Gets the objects count in the partition.
+	 * 
+	 * @return the count of objects.
+	 */
 	public String getObjectsCountInPartition() {
-		return this.profile.getRootElement().element("partition")
-				.attributeValue("count");
+		return this.profile.getRootElement().element("partition").attributeValue("count");
+	}
+	
+	public String getDescriptionOfObjects() {
+		Element samples = (Element) this.profile.getRootElement().selectSingleNode("//partition/samples");
+		String type = samples.attributeValue("type");
+		
+		return DESCRIPTION_OF_SAMPLES_TEMPLATE.replace("{1}", type);
 	}
 
+	/**
+	 * Gets a human readable text description of the most prominent formats in
+	 * the profile. Traverses the properties of the profile until it finds the
+	 * format distribution. Then it takes the first two most occurring formats
+	 * (if existing). It also appends the percentage of conflicted and unknown
+	 * formats if any.
+	 * 
+	 * @return the human readable description.
+	 */
 	public String getTypeOfObjects() {
 		int count = Integer.parseInt(this.getObjectsCountInPartition());
-		List<?> properties = this.profile.getRootElement().element("partition")
-				.element("properties").elements("property");
-		List<?> items = new ArrayList();
-
-		// because xpath expression
-		// //property[@id="format"] is not working
-		for (Object o : properties) {
-			Element prop = (Element) o;
-			if (prop.attributeValue("id").equals("format")) {
-				items = prop.elements();
-				break;
-			}
-		}
+		List<Element> items = this.profile.getRootElement().selectNodes("//properties/property[@id='format']/*");
 
 		if (items.isEmpty()) {
 			return MISSING;
@@ -132,21 +180,19 @@ public class C3POProfileParser {
 		double tmp;
 		double percent;
 		if (items.size() >= 1) {
-			Element item = (Element) items.remove(0);
+			Element item = items.remove(0);
 			type = item.attributeValue("id");
 			tmp = Double.parseDouble(item.attributeValue("value"));
 			percent = Math.floor((tmp / count) * 100);
-			response.append(TYPE_OF_OBJECTS_BEGIN.replace("{1}", percent + "")
-					.replace("{2}", type));
+			response.append(TYPE_OF_OBJECTS_BEGIN.replace("{1}", percent + "").replace("{2}", type));
 		}
 
-		if (items.size() >= 1) {//already removed first
-			Element item = (Element) items.remove(0);
+		if (items.size() >= 1) {// already removed first
+			Element item = items.remove(0);
 			type = item.attributeValue("id");
 			tmp = Double.parseDouble(item.attributeValue("value"));
 			percent = Math.floor((tmp / count) * 100);
-			response.append(TYPE_OF_OBJECTS_SECOND.replace("{1}", percent + "")
-					.replace("{2}", type));
+			response.append(TYPE_OF_OBJECTS_SECOND.replace("{1}", percent + "").replace("{2}", type));
 		}
 
 		for (Object o : items) {
@@ -154,19 +200,98 @@ public class C3POProfileParser {
 			if (e.attributeValue("id").equals("Conflicted")) {
 				tmp = Double.parseDouble(e.attributeValue("value"));
 				percent = Math.floor((tmp / count) * 100);
-				response.append(TYPE_OF_OBJECTS_CONFLICTS.replace("{1}",
-						percent + ""));
+				response.append(TYPE_OF_OBJECTS_CONFLICTS.replace("{1}", percent + ""));
 			} else if (e.attributeValue("id").equals("Unknown")) {
 				tmp = Double.parseDouble(e.attributeValue("value"));
 				percent = Math.floor((tmp / count) * 100);
-				response.append(TYPE_OF_OBJECTS_UNKNOWN.replace("{1}", percent
-						+ ""));
+				response.append(TYPE_OF_OBJECTS_UNKNOWN.replace("{1}", percent + ""));
 			}
 		}
 
 		return response.toString();
 	}
 
+	public List<SampleObject> getSampleObjects() {
+		List<SampleObject> objects = new ArrayList<SampleObject>();
+		Element samples = this.profile.getRootElement().element("partition").element("samples");
+		for (Object s : samples.elements()) {
+			Element sample = (Element) s;
+			objects.add(this.parserSample(sample));
+		}
+
+		return objects;
+	}
+
+	private SampleObject parserSample(Element sample) {
+		SampleObject object = new SampleObject();
+
+		String uid = sample.attributeValue("uid");
+		String shortName = uid.substring(uid.lastIndexOf('/') + 1);
+
+		object.setFullname(uid);
+		object.setShortName(shortName);
+
+		List nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='mimetype']");
+		if (nodes.size() > 1) {
+			object.setContentType("Conflict");
+		} else if (nodes.size() == 1) {
+			Element mimetype = (Element) nodes.get(0);
+			object.setContentType(mimetype.attributeValue("value"));
+		}
+
+		nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='size']");
+		if (nodes.size() == 1) {
+			Element size = (Element) nodes.get(0);
+			DecimalFormat format = new DecimalFormat("#.##");
+			double sizeInMB = Double.parseDouble(format.format((Double.parseDouble(size.attributeValue("value")) / 1024 / 1024)));
+			object.setSizeInMB(sizeInMB);
+		}
+
+		FormatInfo info = this.getFormatInfo(sample, object.getContentType());
+		object.setFormatInfo(info);
+
+		return object;
+	}
+
+	private FormatInfo getFormatInfo(Element sample, String mime) {
+		FormatInfo info = new FormatInfo();
+		info.setMimeType(mime);
+
+		String uid = sample.attributeValue("uid");
+
+		List nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='format']");
+		if (nodes.size() > 1) {
+			info.setName("Conflict");
+		} else if (nodes.size() == 1) {
+			Element format = (Element) nodes.get(0);
+			info.setName(format.attributeValue("value"));
+		}
+
+		nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='format_version']");
+		if (nodes.size() > 1) {
+			info.setVersion("Conflict");
+		} else if (nodes.size() == 1) {
+			Element version = (Element) nodes.get(0);
+			info.setVersion(version.attributeValue("value"));
+		}
+
+		nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='puid']");
+		if (nodes.size() > 1) {
+			info.setPuid("Conflict");
+		} else if (nodes.size() == 1) {
+			Element puid = (Element) nodes.get(0);
+			info.setPuid(puid.attributeValue("value"));
+		}
+
+		return info;
+	}
+
+	/**
+	 * A simple error handler to catch if the xml document has some errors.
+	 * 
+	 * @author Petar Petrov - <me@petarpetrov.org>
+	 * 
+	 */
 	private class SimpleErrorHandler implements ErrorHandler {
 		private boolean valid;
 

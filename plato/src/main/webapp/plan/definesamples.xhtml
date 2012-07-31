@@ -78,16 +78,16 @@
                   <ui:include src="/plato/shared/legend_nav.xhtml" /> 
                   <h:outputText value="Sample Objects"/>
                </legend>
-               <div>
-                  <p:inputTextArea
-                     labelText="Description of sample objects:"
-                     id="samplesDescription"
-                     input="#{defineSampleRecords.sampleRecordsDefintion.samplesDescription}"
-                     touchable="#{defineSampleRecords.sampleRecordsDefintion}"
-                     required="true"/>
-               </div>
                
                <a4j:outputPanel layout="block" id="sampleRecordsList">
+	               <div>
+	                  <p:inputTextArea
+	                     labelText="Description of sample objects:"
+	                     id="samplesDescription"
+	                     input="#{defineSampleRecords.sampleRecordsDefintion.samplesDescription}"
+	                     touchable="#{defineSampleRecords.sampleRecordsDefintion}"
+	                     required="true"/>
+	               </div>
                    <!-- div class="margin-bottom-big">< in case the project doesn't have any samples so far, we display a message -->
                    <h:outputText value="No samples added so far" rendered="#{defineSampleRecords.samples == null}" />
                
@@ -142,7 +142,6 @@
 		                           disabled="true"
 		                           value="#{row.dataExistent}" />
 		                        <h:outputText
-		                           rendered="#{row.dataExistent}"
 		                           disabled="true"
 		                           value=" #{row.sizeInMB} MB"/>
 		                        <h:commandButton value="Download"
@@ -230,7 +229,7 @@
 			        </div>
 			        <div id="uploadProfile" class="sampleform">
 				        <rich:fileUpload id="uploadProfile" fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}" acceptedTypes="xml" allowFlash="false">
-				             <a4j:ajax event="uploadcomplete" execute="@none" render="profile"  />             
+				             <a4j:ajax event="uploadcomplete" execute="@none" render="profile samplesDescription sampleRecordsList"  />             
 				        </rich:fileUpload>
 			        </div>
 		        </div>
