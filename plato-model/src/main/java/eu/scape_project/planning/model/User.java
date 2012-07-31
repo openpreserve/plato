@@ -20,15 +20,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -46,17 +41,21 @@ public class User implements Serializable {
     @Column(unique = true)
     private String username;
 
-    @Transient
+    /**
+     * Token required to be allowed to accept an invitation to a group (After a
+     * token is used one time it should be deleted)
+     */
+    @Column(unique = true)
+    private String invitationActionToken;
+
     private String firstName;
 
-    @Transient
     private String lastName;
 
-    @Transient
     private String email;
 
-    @Transient
-    private String fullName;
+    @ManyToOne
+    private Organisation invitedGroup;
 
     // @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     // @ManyToMany(mappedBy = "users")
@@ -70,6 +69,8 @@ public class User implements Serializable {
 
     @ManyToOne
     private Organisation organisation;
+
+    // ---------- getter/setter ----------
 
     public String getFullName() {
         return (firstName + " " + lastName);
@@ -147,6 +148,22 @@ public class User implements Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getInvitationActionToken() {
+        return invitationActionToken;
+    }
+
+    public void setInvitationActionToken(String invitationActionToken) {
+        this.invitationActionToken = invitationActionToken;
+    }
+
+    public Organisation getInvitedGroup() {
+        return invitedGroup;
+    }
+
+    public void setInvitedGroup(Organisation invitedGroup) {
+        this.invitedGroup = invitedGroup;
     }
 
     /*

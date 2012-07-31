@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -40,9 +41,9 @@ public class Organisation implements Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy="organisation")
-    private List<User> user = new ArrayList<User>();
-    
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<User> users = new ArrayList<User>();
+
     @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private PolicyTree policyTree = new PolicyTree();
@@ -71,11 +72,11 @@ public class Organisation implements Serializable {
         this.policyTree = policyTree;
     }
 
-	public List<User> getUser() {
-		return user;
-	}
+    public List<User> getUsers() {
+        return users;
+    }
 
-	public void setUser(List<User> user) {
-		this.user = user;
-	}
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

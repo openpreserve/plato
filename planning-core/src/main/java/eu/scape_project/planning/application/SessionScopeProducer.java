@@ -21,22 +21,20 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.security.auth.Subject;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.jacc.PolicyContext;
-import javax.security.jacc.PolicyContextException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.Organisation;
 import eu.scape_project.planning.model.Role;
@@ -51,6 +49,9 @@ import eu.scape_project.planning.model.User;
 @Stateful
 public class SessionScopeProducer implements Serializable {
     private static final long serialVersionUID = -830549797293803656L;
+
+    @Inject
+    private Logger log;
 
     private User user;
 
@@ -100,29 +101,30 @@ public class SessionScopeProducer implements Serializable {
         Map<String, List<Object>> attributes = (Map<String, List<Object>>) session
             .getAttribute("SESSION_ATTRIBUTE_MAP");
 
+        String email = null;
+        String firstName = null;
+        String lastName = null;
+
         if (attributes != null) {
             // Set transient data from attributes
             List<Object> firstNameList = (List<Object>) attributes.get("firstName");
             if (firstNameList != null) {
                 if (firstNameList.size() > 0) {
-                    String firstName = (String) firstNameList.get(0);
-                    user.setFirstName(firstName);
+                    firstName = (String) firstNameList.get(0);
                 }
             }
 
             List<Object> lastNameList = (List<Object>) attributes.get("lastName");
             if (lastNameList != null) {
                 if (lastNameList.size() > 0) {
-                    String lastName = (String) lastNameList.get(0);
-                    user.setLastName(lastName);
+                    lastName = (String) lastNameList.get(0);
                 }
             }
 
             List<Object> emailList = (List<Object>) attributes.get("email");
             if (emailList != null) {
                 if (emailList.size() > 0) {
-                    String email = (String) emailList.get(0);
-                    user.setEmail(email);
+                    email = (String) emailList.get(0);
                 }
             }
         }
@@ -141,6 +143,25 @@ public class SessionScopeProducer implements Serializable {
 
         }
         user.setRoles(roles);
+
+        boolean update = false;
+        if (email != null && !email.equals("") && !email.equals(user.getEmail())) {
+            user.setEmail(email);
+            update = true;
+        }
+        if (firstName != null && !firstName.equals("") && !firstName.equals(user.getEmail())) {
+            user.setFirstName(firstName);
+            update = true;
+        }
+        if (lastName != null && !lastName.equals("") && !lastName.equals(user.getEmail())) {
+            user.setLastName(lastName);
+            update = true;
+        }
+
+        if (update) {
+            em.merge(user);
+            log.debug("Updating email address of user " + user.getUsername());
+        }
 
         // try {
         // Subject caller = (Subject) PolicyContext

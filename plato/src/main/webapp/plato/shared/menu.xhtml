@@ -64,6 +64,28 @@
 		           </rich:dropDownMenu>
 				</c:forEach>
 			</rich:toolbarGroup> 
+
+				<rich:toolbarGroup location="right">
+					<rich:dropDownMenu mode="ajax">
+						<f:facet name="label">
+							<h:panelGroup>
+								<h:outputText value="#{user.getUsername()}" />
+							</h:panelGroup>
+						</f:facet>
+						<rich:menuItem>
+							<h:outputLink value="user/groups.jsf">
+								<h:outputText value="Group" />
+							</h:outputLink>
+						</rich:menuItem>
+						<rich:menuItem>
+							<h:outputLink>
+								<h:outputText value="Logout" />
+								<f:param name="GLO" value="true" />
+							</h:outputLink>
+						</rich:menuItem>
+					</rich:dropDownMenu>
+				</rich:toolbarGroup>
+
 		</rich:toolbar>
 		</c:if>
 		
@@ -96,6 +118,28 @@
 	           </rich:toolbarGroup>
 	           -->
 	           </ui:remove>
+
+				<rich:toolbarGroup location="right">
+					<rich:dropDownMenu mode="ajax">
+						<f:facet name="label">
+							<h:panelGroup>
+								<h:outputText value="#{user.getUsername()}" />
+							</h:panelGroup>
+						</f:facet>
+						<rich:menuItem>
+							<h:outputLink value="user/groups.jsf">
+								<h:outputText value="Group" />
+							</h:outputLink>
+						</rich:menuItem>
+						<rich:menuItem>
+							<h:outputLink>
+								<h:outputText value="Logout" />
+								<f:param name="GLO" value="true" />
+							</h:outputLink>
+						</rich:menuItem>
+					</rich:dropDownMenu>
+				</rich:toolbarGroup>
+
            </rich:toolbar>
 		</c:if>
 		
