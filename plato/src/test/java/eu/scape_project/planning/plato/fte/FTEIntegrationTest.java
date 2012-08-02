@@ -18,11 +18,9 @@ import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.plato.wfview.fte.FTCreatePlanView;
@@ -112,15 +110,9 @@ public class FTEIntegrationTest {
 		return archive;
 	}
 
-	// @Inject
-	// private Conversation conversation;
-
 	@Inject
 	@Bound
 	BoundConversationContext conversationContext;
-
-	// @Inject
-	// BeanManager bm;
 
 	@Inject
 	FTCreatePlanView fcv;
@@ -154,16 +146,11 @@ public class FTEIntegrationTest {
 		// conversationContext.setBeanStore(new HashMapBeanStore());
 		// conversationContext.setActive(true);
 
-		if (fcv == null)
-			System.out.println("NULL FCV");
-		else
-			System.out.println("NOT NULL FCV" + fcv);
-		Assert.assertTrue(fcv != null);
+		Assert.assertNotNull(fcv);
 		fcv.createPlan();
 		Plan plan = fcv.getPlan();
-		Assert.assertTrue(plan != null);
-		Assert.assertTrue(plan.getPlanProperties().getAuthor().equals("Testing Plato"));
-		Assert.assertTrue(true);
+		Assert.assertNotNull(plan);
+		Assert.assertEquals("Testing Plato", plan.getPlanProperties().getAuthor());
 	}
 
 	/**
@@ -175,10 +162,10 @@ public class FTEIntegrationTest {
 
 		System.out.println("Entering test FTE");
 
-		Assert.assertTrue(fcv != null);
+		Assert.assertNotNull(fcv);
 		fcv.createPlan();
 		Plan plan = fcv.getPlan();
-		Assert.assertTrue(plan != null);
+		Assert.assertNotNull(plan);
 		
 		fteDefine.init(plan);
 
@@ -190,9 +177,8 @@ public class FTEIntegrationTest {
 		try	{
 			//name is not set, this should fail:
 			fteDefine.proceed();
-			Assert.assertTrue(false);
+			Assert.fail("the plan is missing information like name, proceed should not be possible");
 		} catch (Exception e) {
-//			e.printStackTrace();
 		}
 		// need to set plan name here - otherwise *required* name is missing
 		plan.getPlanProperties().setName("fte test name");
@@ -200,7 +186,9 @@ public class FTEIntegrationTest {
 		// need to select a fast track template
 		fteDefine.setSelectedFTTemplate(fteDefine.getFtTemplates().get(0));
 
-		// need to add one sample file TODO
+		// FIXME: Samples should be defined with view/bean of step define samples, or at least via plan.getSampleRecordsDefinition().addRecord(record)
+
+		// TODO need to add one sample file
 		SampleObject digitalObject = new SampleObject();
         digitalObject.setFullname("test.jpg");
 //        TODO digitalObject.getData().setData();
@@ -208,10 +196,10 @@ public class FTEIntegrationTest {
         fteDefine.getSamples().add(digitalObject);
         
 		try	{
-			fteDefine.proceed(); // <<< this should work
+			Assert.assertEquals("success", fteDefine.proceed()); // <<< this should work
 		} catch (Exception e) {
 			e.printStackTrace();
-			Assert.assertTrue(false); // if there is an exception here, the test failed 
+			Assert.fail("proceed should be possible now"); // if there is an exception here, the test failed 
 		}
 		
 		// voila!
