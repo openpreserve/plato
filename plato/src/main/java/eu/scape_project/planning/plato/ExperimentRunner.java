@@ -38,7 +38,7 @@ import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 import eu.scape_project.planning.plato.bean.ExperimentStatus;
-import eu.scape_project.planning.services.preservationaction.PreservationActionServiceFactory;
+import eu.scape_project.planning.services.pa.PreservationActionServiceFactory;
 
 @Stateful
 public class ExperimentRunner implements Serializable {

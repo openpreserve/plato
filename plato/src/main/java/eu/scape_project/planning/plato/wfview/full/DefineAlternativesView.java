@@ -41,7 +41,7 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.services.PlanningServiceException;
-import eu.scape_project.planning.services.preservationaction.PreservationActionRegistryDefinition;
+import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
 

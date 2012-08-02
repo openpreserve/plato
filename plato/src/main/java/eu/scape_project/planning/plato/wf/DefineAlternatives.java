@@ -35,8 +35,8 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 import eu.scape_project.planning.services.PlanningServiceException;
-import eu.scape_project.planning.services.preservationaction.PreservationActionRegistryDefinition;
-import eu.scape_project.planning.services.preservationaction.PreservationActionRegistryFactory;
+import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
+import eu.scape_project.planning.services.pa.PreservationActionRegistryFactory;
 
 /**
  * Classed containing the business logic for defining alternatives.

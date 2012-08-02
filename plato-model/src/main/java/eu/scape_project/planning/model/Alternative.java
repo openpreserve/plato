@@ -51,13 +51,6 @@ public class Alternative implements Serializable, ITouchable {
     @JoinColumn(name="parent_id", insertable=false, updatable=false, nullable=false)
     private AlternativesDefinition alternativesDefinition;
 
-    private boolean discarded = false;
-
-    public boolean isExecutable() {
-        return action != null && action.isExecutable();
-    }
-    
-
     @NotNull
     @Length(min = 1, max = 30)
     private String name;
@@ -85,6 +78,13 @@ public class Alternative implements Serializable, ITouchable {
     @OneToOne(cascade = CascadeType.ALL)
     private PreservationActionDefinition action;
 
+    
+    private boolean discarded = false;
+
+    public boolean isExecutable() {
+        return action != null && action.isExecutable();
+    }
+    
     public int getId() {
         return id;
     }

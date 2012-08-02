@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.planning.services.preservationaction;
+package eu.scape_project.planning.services.pa;
 
 import java.util.HashMap;
 import java.util.Map;

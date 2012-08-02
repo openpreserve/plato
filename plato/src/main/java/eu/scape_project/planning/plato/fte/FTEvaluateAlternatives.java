@@ -41,7 +41,7 @@ import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wf.EvaluateExperiments;
 import eu.scape_project.planning.plato.wf.RunExperiments;
 import eu.scape_project.planning.services.PlanningServiceException;
-import eu.scape_project.planning.services.preservationaction.PreservationActionRegistryDefinition;
+import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.validation.ValidationError;
 
 @Stateful
