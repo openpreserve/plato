@@ -55,7 +55,6 @@
 	</script>
 </h:head>
 <h:body>
-
 <div id="main-div">
 	<div id="header">
 		<div id="bear">
@@ -71,7 +70,29 @@
 	<div id="menu-toolbar">
 	<div id="feedback">
 		<h:link value="feedback" outcome="/feedback.jsf"/>
-	</div>	
+	</div>
+	<script type="text/javascript">
+		$(document).ready(
+			function() {
+				//add feedback animation 
+            	$('#feedback').hover(
+                	function() {
+                		$(this).animate({right: '+=10'}, 200, function() {});
+                	}, 
+                	function() {
+                    	$(this).animate({right: '-=10'}, 200, function() {});
+            		}
+             	);
+
+				//reset position on click 
+    	        $('#feedback').click(
+    	    		function() {
+						$(this).css('right', '-70px');
+            		}
+                );
+			}
+		);
+	</script>	
 	<ui:fragment rendered="#{viewWorkflowManager.active}">
 	   <ui:include src="/plato/shared/menu.xhtml" >
 	      <ui:param name="viewWorkflow" value="#{viewWorkflow}" />
