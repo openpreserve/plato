@@ -19,13 +19,12 @@
 		<a4j:outputPanel layout="block">
 			<a4j:outputPanel layout="inline"
 				rendered="#{groups.invitationAccepted}">
-				Your user account is now activated. <br />
-				You can login at the <h:outputLink value="login.jsf">login page</h:outputLink>.
+				You have accepted the invitation.
 			</a4j:outputPanel>
 
 			<a4j:outputPanel layout="inline"
 				rendered="#{!groups.invitationAccepted}">
-				Activation of your user account failed. <br />
+				Accepting the invitation failed. <br />
 				If you have any questions, please write us an email on plato@ifs.tuwien.ac.at.
 			</a4j:outputPanel>
 		</a4j:outputPanel>

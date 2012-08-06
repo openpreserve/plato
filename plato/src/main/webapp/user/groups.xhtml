@@ -12,6 +12,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 	<ui:define name="title">SCAPE Planning Suite - Group</ui:define>
+
 	<ui:define name="content">
 
 		<h1>Group</h1>
@@ -22,22 +23,36 @@
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					<h:outputText value="Current Group" />
 				</legend>
-				<p:inputTextArea labelText="Name" id="name"
+				<p:inputText labelText="Name" id="name"
 					input="#{user.organisation.name}" />
 
-				<a4j:repeat value="#{user.organisation.users}" var="groupMember"
-					rows="20" id="repeat">
-					<h:outputText value="#{groupMember.username}" />
-				</a4j:repeat>
+				<p:inputDiv labelText="Group members" id="groupMembers"
+					input="#{user.organisation.name}">
 
-				<p:inputTextArea labelText="Invite Users" id="inviteMailsString"
-					input="#{groups.inviteMailsString}" />
+					<a4j:repeat value="#{user.organisation.users}" var="groupMember"
+						rows="20" id="groupMembers">
+						<p:user user="#{groupMember}">
 
-				<h:commandButton value="Invite" action="#{groups.inviteUsers()}" />
+							<h:commandButton value="Remove"
+								action="#{groups.removeUser(groupMember)}" rendered="#{groupMember.username != user.username}" />
+
+						</p:user>
+						<br />
+					</a4j:repeat>
+
+				</p:inputDiv>
+
+				<p:inputDiv labelText="" id="inviteUsers"
+					input="#{user.organisation.name}">
+					<p:inputTextArea id="inviteMailsString"
+						input="#{groups.inviteMailsString}" />
+
+					<h:commandButton value="Send invitation"
+						action="#{groups.inviteUsers()}" />
+				</p:inputDiv>
 			</fieldset>
 
-			<h:commandButton value="Save" action="#{groups.save()}" />
-			<h:commandButton value="Discard" action="#{groups.discard()}" />
+			<p:savediscard bean="#{groups}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

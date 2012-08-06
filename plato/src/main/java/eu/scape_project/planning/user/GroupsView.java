@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.planning.policies;
+package eu.scape_project.planning.user;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -111,6 +111,10 @@ public class GroupsView implements Serializable {
         } else {
             invitationAccepted = false;
         }
+    }
+
+    public void removeUser(User user) {
+        groups.newGroup(user);
     }
 
     // --------------- getter/setter ---------------

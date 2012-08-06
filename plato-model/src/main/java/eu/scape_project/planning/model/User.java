@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,7 +68,7 @@ public class User implements Serializable {
     @Transient
     private List<Role> roles = new ArrayList<Role>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Organisation organisation;
 
     // ---------- getter/setter ----------

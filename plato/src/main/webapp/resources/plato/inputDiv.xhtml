@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+
+<cc:interface>
+	<cc:attribute name="id" required="false"></cc:attribute>
+	<cc:attribute name="labelText"></cc:attribute>
+	<cc:attribute name="input" />
+	<cc:attribute name="required" />
+	<cc:attribute name="readonly" required="false" default="false" />
+	<cc:attribute name="helpid" />
+	<cc:attribute name="touchable" />
+	<cc:attribute name="rerender" />
+	<cc:attribute name="helpLink" required="false" default="true" />
+</cc:interface>
+
+<cc:implementation>
+	<div class="component">
+		<c:if test="#{cc.attrs.labelText != null}">
+			<div class="label">
+				<div class="marks">
+					<c:if test="#{cc.attrs.required}">*</c:if>
+				</div>
+				<a
+					href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }"
+					title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }"
+					target="_blank"> <h:outputText value="#{cc.attrs.labelText}"
+						class="label-text" />
+				</a>
+			</div>
+			<div class="input">
+				<cc:insertChildren />
+			</div>
+
+		</c:if>
+
+		<c:if test="#{cc.attrs.labelText == null}">
+			<div class="input-no-label">
+				<cc:insertChildren />
+			</div>
+		</c:if>
+
+		<!--
+    <div class="marks">
+      <c:if test="#{cc.attrs.helpLink}">
+        <a href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" target="_blank">
+           <img src="../resources/gfx/help-browser.png" alt="Help Link" />
+        </a>
+      </c:if>
+      <c:if test="#{cc.attrs.required}">*</c:if>		
+    </div>
+     -->
+		<div class="errorMessage">
+			<rich:message showSummary="true" showDetail="false"
+				id="#{cc.attrs.id}_error" for="#{cc.attrs.id}_input" />
+		</div>
+	</div>
+</cc:implementation>
+
+</html>

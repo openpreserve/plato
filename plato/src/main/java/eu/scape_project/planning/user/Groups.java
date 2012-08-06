@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.planning.policies;
+package eu.scape_project.planning.user;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,6 +58,8 @@ public class Groups implements Serializable {
 
     private Properties mailProperties;
 
+    private Set<User> changedUsers = new HashSet<User>();
+
     @PostConstruct
     public void init() {
         try {
@@ -92,33 +94,29 @@ public class Groups implements Serializable {
                 User user = em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
                     .setParameter("email", invitedMail).getSingleResult();
 
-                inviteUsers.add(user);
+                inviteUser(user, serverString);
             } catch (NoResultException e) {
                 // TODO: Ignore/Return error?
             }
         }
-
-        inviteUsers(inviteUsers, serverString);
     }
 
     /**
-     * Invites users to join the group of the current user.
+     * Invites a user to join the group of the current user.
      * 
      * @param inviteUsers
      *            the users to invite
      * @param serverString
      *            the server string
      */
-    public void inviteUsers(Set<User> inviteUsers, String serverString) {
+    public void inviteUser(User inviteUser, String serverString) {
 
-        for (User inviteUser : inviteUsers) {
-            inviteUser.setInvitationActionToken(UUID.randomUUID().toString());
-            inviteUser.setInvitedGroup(user.getOrganisation());
-            em.persist(inviteUser);
-            log.debug("Set invitationActionToken for user " + inviteUser.getUsername());
+        inviteUser.setInvitationActionToken(UUID.randomUUID().toString());
+        inviteUser.setInvitedGroup(user.getOrganisation());
+        em.persist(inviteUser);
+        log.debug("Set invitationActionToken for user " + inviteUser.getUsername());
 
-            sendInvitationMail(inviteUser, serverString);
-        }
+        sendInvitationMail(inviteUser, serverString);
     }
 
     /**
@@ -170,17 +168,36 @@ public class Groups implements Serializable {
      * Saves the current user.
      */
     public void save() {
+        for (User changedUser : changedUsers) {
+            em.persist(em.merge(changedUser));
+        }
+
         em.persist(em.merge(user));
+
         log.debug("Saved user " + user.getUsername());
     }
 
     public void newGroup() {
+        newGroup(user);
+    }
+
+    public void newGroup(User user) {
+        addChangedUser(user);
+
         user.getOrganisation().getUsers().remove(user);
 
         Organisation org = new Organisation();
         org.setName(user.getUsername());
 
         user.setOrganisation(org);
+
+        log.debug("Created a new group for user " + user.getUsername());
+    }
+
+    private void addChangedUser(User user) {
+        if (!user.equals(this.user) && !changedUsers.contains(user)) {
+            changedUsers.add(user);
+        }
     }
 
     /**
@@ -189,6 +206,8 @@ public class Groups implements Serializable {
     public void discard() {
         Organisation oldOrganisation = em.find(Organisation.class, user.getOrganisation().getId());
         user.setOrganisation(oldOrganisation);
+
+        changedUsers.clear();
 
         log.debug("Groups changes discarted for user " + user.getUsername());
     }
@@ -203,9 +222,14 @@ public class Groups implements Serializable {
     public boolean acceptInvitation(String invitationActionToken) {
 
         try {
+
             User invitedUser = em
                 .createQuery("SELECT u From User u WHERE u.invitationActionToken = :invitationActionToken", User.class)
                 .setParameter("invitationActionToken", invitationActionToken).getSingleResult();
+
+            if (invitedUser.getUsername().equals(user.getUsername())) {
+                invitedUser = user;
+            }
 
             if (!invitedUser.getInvitationActionToken().equals(invitationActionToken)) {
                 log.error("InvitationActionToken for user " + invitedUser.getUsername() + " did not match.");
@@ -214,6 +238,7 @@ public class Groups implements Serializable {
 
             invitedUser.setInvitationActionToken("");
             invitedUser.setOrganisation(invitedUser.getInvitedGroup());
+            invitedUser.getOrganisation().getUsers().add(invitedUser);
             invitedUser.setInvitedGroup(null);
             em.merge(invitedUser);
 
@@ -227,5 +252,4 @@ public class Groups implements Serializable {
         }
 
     }
-
 }
