@@ -31,25 +31,37 @@
 
 					<a4j:repeat value="#{user.organisation.users}" var="groupMember"
 						rows="20" id="groupMembers">
-						<p:user user="#{groupMember}">
-
+						<p:user user="#{groupMember}" size="40">
 							<h:commandButton value="Remove"
-								action="#{groups.removeUser(groupMember)}" rendered="#{groupMember.username != user.username}" />
-
+								action="#{groups.removeUser(groupMember)}"
+								rendered="#{groupMember.username != user.username}" />
 						</p:user>
-						<br />
 					</a4j:repeat>
+					<h:commandButton value="Invite users">
+						<rich:componentControl target="inviteUsersPopup" operation="show" />
+					</h:commandButton>
 
 				</p:inputDiv>
 
-				<p:inputDiv labelText="" id="inviteUsers"
-					input="#{user.organisation.name}">
-					<p:inputTextArea id="inviteMailsString"
+
+
+				<rich:popupPanel id="inviteUsersPopup" width="600" height="160">
+					<f:facet name="header">
+						<h:outputText value="Invite users" />
+					</f:facet>
+					<f:facet name="controls">
+						<h:outputLink value="#"
+							onclick="#{rich:component('inviteUsersPopup')}.hide(); return false;">X</h:outputLink>
+					</f:facet>
+					<p:inputTextArea labelText="Email addresses" id="inviteMailsString"
 						input="#{groups.inviteMailsString}" />
-
 					<h:commandButton value="Send invitation"
-						action="#{groups.inviteUsers()}" />
-				</p:inputDiv>
+						action="#{groups.inviteUsers()}"
+						onclick="#{rich:component('inviteUsersPopup')}.hide();" />
+				</rich:popupPanel>
+
+				<h:commandButton value="Leave group" action="#{groups.leaveGroup()}"
+					rendered="#{user.organisation.users.size() > 1}" />
 			</fieldset>
 
 			<p:savediscard bean="#{groups}" />

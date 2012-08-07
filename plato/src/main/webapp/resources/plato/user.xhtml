@@ -16,14 +16,16 @@
 </cc:interface>
 
 <cc:implementation>
-	<div class="user">
+	<div class="user" style="height: #{cc.attrs.size}px">
 		<h:graphicImage styleClass="user"
 			value="#{gravatarHelper.getGravatarURL(cc.attrs.size)}"
+			style="width: #{cc.attrs.size}px; height: #{cc.attrs.size}px"
 			rendered="#{cc.attrs.user == null}" />
 		<h:outputText value="#{user.username}"
 			rendered="#{cc.attrs.user == null}" />
 		<h:graphicImage styleClass="user"
 			value="#{gravatarHelper.getGravatarURL(cc.attrs.user.email, cc.attrs.size)}"
+			style="width: #{cc.attrs.size}px; height: #{cc.attrs.size}px"
 			rendered="#{cc.attrs.user != null}" />
 		<h:outputText value="#{cc.attrs.user.username}"
 			rendered="#{cc.attrs.user != null}" />

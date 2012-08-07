@@ -19,6 +19,7 @@ package eu.scape_project.planning.user;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -37,6 +38,7 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.jboss.com.sun.net.httpserver.Authenticator.Success;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.Organisation;
@@ -59,6 +61,8 @@ public class Groups implements Serializable {
     private Properties mailProperties;
 
     private Set<User> changedUsers = new HashSet<User>();
+
+    private Set<Organisation> changedGroups = new HashSet<Organisation>();
 
     @PostConstruct
     public void init() {
@@ -84,9 +88,9 @@ public class Groups implements Serializable {
      * @param serverString
      *            the server string
      */
-    public void inviteUsers(List<String> inviteMails, String serverString) {
+    public List<String> inviteUsers(List<String> inviteMails, String serverString) {
 
-        Set<User> inviteUsers = new HashSet<User>(inviteMails.size());
+        List<String> successfullyInvitedMails = new ArrayList<String>(inviteMails.size());
 
         for (String invitedMail : inviteMails) {
             invitedMail = invitedMail.trim();
@@ -94,11 +98,15 @@ public class Groups implements Serializable {
                 User user = em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
                     .setParameter("email", invitedMail).getSingleResult();
 
-                inviteUser(user, serverString);
+                if (inviteUser(user, serverString)) {
+                    successfullyInvitedMails.add(invitedMail);
+                }
+
             } catch (NoResultException e) {
                 // TODO: Ignore/Return error?
             }
         }
+        return successfullyInvitedMails;
     }
 
     /**
@@ -109,14 +117,14 @@ public class Groups implements Serializable {
      * @param serverString
      *            the server string
      */
-    public void inviteUser(User inviteUser, String serverString) {
+    public boolean inviteUser(User inviteUser, String serverString) {
 
         inviteUser.setInvitationActionToken(UUID.randomUUID().toString());
         inviteUser.setInvitedGroup(user.getOrganisation());
-        em.persist(inviteUser);
+        em.merge(inviteUser);
         log.debug("Set invitationActionToken for user " + inviteUser.getUsername());
 
-        sendInvitationMail(inviteUser, serverString);
+        return sendInvitationMail(inviteUser, serverString);
     }
 
     /**
@@ -165,35 +173,58 @@ public class Groups implements Serializable {
     }
 
     /**
-     * Saves the current user.
+     * Saves changes.
      */
     public void save() {
+        em.merge(user);
+
         for (User changedUser : changedUsers) {
-            em.persist(em.merge(changedUser));
+            em.merge(changedUser);
         }
 
-        em.persist(em.merge(user));
+        for (Organisation changedGroup : changedGroups) {
+            if (changedGroup.getUsers().size() == 0) {
+                em.remove(em.merge(changedGroup));
+            } else {
+                em.merge(changedGroup);
+            }
+        }
 
         log.debug("Saved user " + user.getUsername());
     }
 
-    public void newGroup() {
-        newGroup(user);
+    public void switchGroup() {
+        switchGroup(user);
     }
 
-    public void newGroup(User user) {
+    public void leaveGroup(Organisation group) {
+        switchGroup(user, group);
+    }
+
+    public void switchGroup(User user) {
+        Organisation group = new Organisation();
+        group.setName(user.getUsername());
+
+        switchGroup(user, group);
+    }
+
+    public void switchGroup(User user, Organisation group) {
         addChangedUser(user);
 
         user.getOrganisation().getUsers().remove(user);
+        changedGroups.add(user.getOrganisation());
 
-        Organisation org = new Organisation();
-        org.setName(user.getUsername());
+        group.getUsers().add(user);
+        user.setOrganisation(group);
 
-        user.setOrganisation(org);
-
-        log.debug("Created a new group for user " + user.getUsername());
+        log.debug("Switched user " + user.getUsername() + " to group " + group.getName());
     }
 
+    /**
+     * Marks a user as changed
+     * 
+     * @param user
+     */
     private void addChangedUser(User user) {
         if (!user.equals(this.user) && !changedUsers.contains(user)) {
             changedUsers.add(user);
@@ -204,10 +235,12 @@ public class Groups implements Serializable {
      * Discards changes.
      */
     public void discard() {
-        Organisation oldOrganisation = em.find(Organisation.class, user.getOrganisation().getId());
-        user.setOrganisation(oldOrganisation);
+
+        User origUser = em.find(User.class, user.getId());
+        user.setOrganisation(origUser.getOrganisation());
 
         changedUsers.clear();
+        changedGroups.clear();
 
         log.debug("Groups changes discarted for user " + user.getUsername());
     }
@@ -227,27 +260,24 @@ public class Groups implements Serializable {
                 .createQuery("SELECT u From User u WHERE u.invitationActionToken = :invitationActionToken", User.class)
                 .setParameter("invitationActionToken", invitationActionToken).getSingleResult();
 
-            if (invitedUser.getUsername().equals(user.getUsername())) {
-                invitedUser = user;
-            }
-
-            if (!invitedUser.getInvitationActionToken().equals(invitationActionToken)) {
-                log.error("InvitationActionToken for user " + invitedUser.getUsername() + " did not match.");
+            if (!invitedUser.getUsername().equals(user.getUsername())) {
+                log.info("InvitationActionToken for user " + user.getUsername() + " did not match.");
                 return false;
             }
 
-            invitedUser.setInvitationActionToken("");
-            invitedUser.setOrganisation(invitedUser.getInvitedGroup());
-            invitedUser.getOrganisation().getUsers().add(invitedUser);
-            invitedUser.setInvitedGroup(null);
-            em.merge(invitedUser);
+            switchGroup(user, invitedUser.getInvitedGroup());
+            user.setInvitationActionToken("");
+            user.setInvitedGroup(null);
 
-            log.info("Invitation to group " + invitedUser.getOrganisation().getName() + " accepted by user "
-                + invitedUser.getUsername());
+            save();
+
+            log.info("Invitation to group " + user.getOrganisation().getName() + " accepted by user "
+                + user.getUsername());
 
             return true;
 
         } catch (NoResultException e) {
+            log.info("InvitationActionToken for user " + user.getUsername() + " not found.");
             return false;
         }
 

@@ -35,7 +35,7 @@ public class GravatarHelper implements Serializable {
     }
 
     public String getGravatarURL(String email, int size) {
-        return new Gravatar().setSize(30).setHttps(true).setRating(Rating.GENERAL_AUDIENCE)
+        return new Gravatar().setSize(size).setHttps(true).setRating(Rating.GENERAL_AUDIENCE)
             .setStandardDefaultImage(DefaultImage.MYSTERY_MAN).getUrl(email);
     }
 }

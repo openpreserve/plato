@@ -17,7 +17,10 @@
 package eu.scape_project.planning.user;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -91,12 +94,46 @@ public class GroupsView implements Serializable {
             .getRequest();
         String serverString = request.getServerName() + ":" + request.getServerPort();
 
+        ArrayList<String> inviteMails = new ArrayList<String>(Arrays.asList(inviteMailsString.split("\\s*[,;\\s]\\s*")));
+
         // Invite users
-        groups.inviteUsers(Arrays.asList(inviteMailsString.split("[,;]")), serverString);
+        List<String> invitedMails = groups.inviteUsers(inviteMails, serverString);
 
-        facesMessages.addInfo("Users invited");
+        // Get invited Mails
+        StringBuffer invitedMailsBuffer = new StringBuffer();
+        Iterator<String> invitedMailsIter = invitedMails.iterator();
+        while (invitedMailsIter.hasNext()) {
+            String invitedMail = invitedMailsIter.next();
+            invitedMailsBuffer.append(invitedMail);
 
-        // return "users/groups.jsf";
+            if (invitedMailsIter.hasNext()) {
+                invitedMailsBuffer.append(", ");
+            }
+        }
+
+        inviteMails.removeAll(invitedMails);
+
+        // Get missing mails
+        StringBuffer inviteMailsBuffer = new StringBuffer();
+        Iterator<String> inviteMailsIter = inviteMails.iterator();
+        while (inviteMailsIter.hasNext()) {
+            String inviteMail = inviteMailsIter.next();
+            inviteMailsBuffer.append(inviteMail);
+
+            if (inviteMailsIter.hasNext()) {
+                inviteMailsBuffer.append(", ");
+            }
+        }
+        inviteMailsString = inviteMailsBuffer.toString();
+
+        if (inviteMails.size() == 0) {
+            facesMessages.addInfo("User(s) " + invitedMailsBuffer.toString() + " invited.");
+        } else if (invitedMails.size() > 0) {
+            facesMessages.addWarning("User(s) " + invitedMailsBuffer.toString() + " invited but not all users could be invited.");
+        } else {
+            facesMessages.addError("Error inviting user(s).");
+        }
+
     }
 
     public void acceptInvitation() {
@@ -114,7 +151,11 @@ public class GroupsView implements Serializable {
     }
 
     public void removeUser(User user) {
-        groups.newGroup(user);
+        groups.switchGroup(user);
+    }
+
+    public void leaveGroup() {
+        groups.switchGroup();
     }
 
     // --------------- getter/setter ---------------

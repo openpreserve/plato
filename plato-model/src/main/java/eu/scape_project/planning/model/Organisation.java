@@ -41,7 +41,7 @@ public class Organisation implements Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users = new ArrayList<User>();
 
     @Valid
