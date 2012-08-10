@@ -40,6 +40,7 @@ import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.model.GroupInvitation;
 import eu.scape_project.planning.model.Organisation;
 import eu.scape_project.planning.model.User;
 
@@ -80,126 +81,86 @@ public class Groups implements Serializable {
     }
 
     /**
-     * Invites users to join the group of the current user.
-     * 
-     * @param invitedUsers
-     *            the users to invite
-     * @param serverString
-     *            the server string
-     */
-    public List<String> inviteUsers(List<String> inviteMails, String serverString) {
-
-        List<String> successfullyInvitedMails = new ArrayList<String>(inviteMails.size());
-
-        for (String invitedMail : inviteMails) {
-            invitedMail = invitedMail.trim();
-            try {
-                User user = em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
-                    .setParameter("email", invitedMail).getSingleResult();
-
-                if (inviteUser(user, serverString)) {
-                    successfullyInvitedMails.add(invitedMail);
-                }
-
-            } catch (NoResultException e) {
-                // TODO: Ignore/Return error?
-            }
-        }
-        return successfullyInvitedMails;
-    }
-
-    /**
-     * Invites a user to join the group of the current user.
-     * 
-     * @param inviteUsers
-     *            the users to invite
-     * @param serverString
-     *            the server string
-     */
-    public boolean inviteUser(User inviteUser, String serverString) {
-
-        inviteUser.setInvitationActionToken(UUID.randomUUID().toString());
-        inviteUser.setInvitedGroup(user.getOrganisation());
-        em.merge(inviteUser);
-        log.debug("Set invitationActionToken for user " + inviteUser.getUsername());
-
-        return sendInvitationMail(inviteUser, serverString);
-    }
-
-    /**
-     * Sends an invitation mail to the user.
-     * 
-     * @param toUser
-     *            the recipient of the mail
-     * @param serverString
-     *            the server string
-     * @return true if the mail was sent successfully, false otherwise
-     */
-    private boolean sendInvitationMail(User toUser, String serverString) {
-        try {
-            Properties props = System.getProperties();
-
-            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
-            Session session = Session.getDefaultInstance(props, null);
-
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
-            message.setRecipient(RecipientType.TO, new InternetAddress(toUser.getEmail()));
-            message.setSubject(user.getFullName() + " invited you to join the Plato group "
-                + user.getOrganisation().getName());
-
-            StringBuilder builder = new StringBuilder();
-            builder.append("Dear " + toUser.getFullName() + ", \n\n");
-            builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
-                + user.getOrganisation().getName() + ".\n");
-            builder.append("Please use the following link to accept the invitation: \n");
-            builder.append("http://" + serverString + "/plato/user/acceptGroupInvitation.jsf?uid="
-                + toUser.getInvitationActionToken());
-            builder.append("\n\n--\n");
-            builder.append("Your Planningsuite team");
-
-            message.setText(builder.toString());
-            message.saveChanges();
-
-            Transport.send(message);
-            log.debug("Group invitation mail sent successfully to " + toUser.getEmail());
-
-            return true;
-        } catch (Exception e) {
-            log.error("Error sending group invitation mail to " + toUser.getEmail(), e);
-            return false;
-        }
-    }
-
-    /**
      * Saves changes.
      */
     public void save() {
         em.merge(user);
 
+        // Save changed users
         for (User changedUser : changedUsers) {
             em.merge(changedUser);
         }
 
+        // Save/delete changed groups
         for (Organisation changedGroup : changedGroups) {
             if (changedGroup.getUsers().size() == 0) {
-                em.remove(em.merge(changedGroup));
+                deleteGroup(changedGroup);
             } else {
                 em.merge(changedGroup);
             }
         }
 
-        log.debug("Saved user " + user.getUsername());
+        log.debug("Saved groupinfo of user " + user.getUsername());
     }
 
+    /**
+     * Discards changes.
+     */
+    public void discard() {
+
+        User origUser = em.find(User.class, user.getId());
+        user.setOrganisation(origUser.getOrganisation());
+
+        changedUsers.clear();
+        changedGroups.clear();
+
+        log.debug("Groups changes discarted for user " + user.getUsername());
+    }
+
+    /**
+     * Sets all invitations of the group to null and deletes the group.
+     * 
+     * @param group
+     *            the group to delete
+     */
+    private void deleteGroup(Organisation group) {
+
+        List<GroupInvitation> invitations = em
+            .createQuery("SELECT i FROM GroupInvitation i WHERE i.invitedGroup = :invitedGroup", GroupInvitation.class)
+            .setParameter("invitedGroup", group).getResultList();
+
+        for (GroupInvitation invitation : invitations) {
+            invitation.setInvitedGroup(null);
+            em.merge(invitation);
+        }
+
+        em.remove(em.merge(group));
+
+    }
+
+    /**
+     * Switches the group of the current user to a newly created group.
+     */
     public void switchGroup() {
         switchGroup(user);
     }
 
-    public void leaveGroup(Organisation group) {
+    /**
+     * Switches the group of the current user to a new group.
+     * 
+     * @param group
+     *            the group to switch to
+     */
+    public void switchGroup(Organisation group) {
         switchGroup(user, group);
     }
 
+    /**
+     * Switches the group of the privided user to a newly created group.
+     * 
+     * @param user
+     *            the user to change
+     */
     public void switchGroup(User user) {
         Organisation group = new Organisation();
         group.setName(user.getUsername());
@@ -207,7 +168,16 @@ public class Groups implements Serializable {
         switchGroup(user, group);
     }
 
+    /**
+     * Switches the group of the provided user to the provided group.
+     * 
+     * @param user
+     *            the user to change
+     * @param group
+     *            the group to switch to
+     */
     public void switchGroup(User user, Organisation group) {
+
         addChangedUser(user);
 
         user.getOrganisation().getUsers().remove(user);
@@ -231,17 +201,189 @@ public class Groups implements Serializable {
     }
 
     /**
-     * Discards changes.
+     * Invites users to join the group of the current user.
+     * 
+     * @param invitedUsers
+     *            the users to invite
+     * @param serverString
+     *            the server string
      */
-    public void discard() {
+    public List<String> inviteUsers(List<String> inviteMails, String serverString) {
 
-        User origUser = em.find(User.class, user.getId());
-        user.setOrganisation(origUser.getOrganisation());
+        List<String> successfullyInvitedMails = new ArrayList<String>(inviteMails.size());
 
-        changedUsers.clear();
-        changedGroups.clear();
+        for (String inviteMail : inviteMails) {
+            inviteMail = inviteMail.trim();
 
-        log.debug("Groups changes discarted for user " + user.getUsername());
+            List<User> users = em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
+                .setParameter("email", inviteMail).getResultList();
+
+            if (users.size() > 0) {
+                // Users found
+                for (User user : users) {
+                    if (inviteUser(user, serverString)) {
+                        successfullyInvitedMails.add(inviteMail);
+                    }
+                }
+            } else {
+                // No user found
+                if (inviteUser(inviteMail, serverString)) {
+                    successfullyInvitedMails.add(inviteMail);
+                }
+            }
+        }
+        return successfullyInvitedMails;
+    }
+
+    /**
+     * Invites a user to join the group of the current user.
+     * 
+     * @param inviteUser
+     *            the user to invite
+     * @param serverString
+     *            the server string
+     * @return true if the invitation mail was sent, false otherwise
+     */
+    public boolean inviteUser(User inviteUser, String serverString) {
+        GroupInvitation invitation = createInvitation(inviteUser.getEmail());
+        return sendInvitationMail(inviteUser, invitation, serverString);
+    }
+
+    /**
+     * Invites a user to join the group of the current user.
+     * 
+     * @param inviteMail
+     *            the email address of the user to invite
+     * @param serverString
+     *            the server string
+     * @return true if the invitation mail was sent, false otherwise
+     */
+    public boolean inviteUser(String inviteMail, String serverString) {
+        GroupInvitation invitation = createInvitation(inviteMail);
+        return sendInvitationMail(invitation, serverString);
+    }
+
+    /**
+     * Creates a new invitation for the provided email address.
+     * 
+     * @param inviteMail
+     *            the email address of the user to invite
+     * @return an invitation
+     */
+    private GroupInvitation createInvitation(String inviteMail) {
+
+        List<GroupInvitation> existingInvitations = em
+            .createQuery("SELECT i FROM GroupInvitation i WHERE i.email = :email AND i.invitedGroup = :invitedGroup",
+                GroupInvitation.class).setParameter("email", inviteMail)
+            .setParameter("invitedGroup", user.getOrganisation()).getResultList();
+
+        for (GroupInvitation existingInvitation : existingInvitations) {
+            em.remove(existingInvitation);
+        }
+
+        GroupInvitation invitation = new GroupInvitation();
+        invitation.setEmail(inviteMail);
+        invitation.setInvitationActionToken(UUID.randomUUID().toString());
+        invitation.setInvitedGroup(user.getOrganisation());
+
+        em.merge(invitation);
+        log.debug("Created GroupInvitation for mail " + inviteMail);
+
+        return invitation;
+    }
+
+    /**
+     * Sends an invitation mail to the user.
+     * 
+     * @param toUser
+     *            the recipient of the mail
+     * @param serverString
+     *            the server string
+     * @return true if the mail was sent successfully, false otherwise
+     */
+    private boolean sendInvitationMail(GroupInvitation invitation, String serverString) {
+        try {
+            Properties props = System.getProperties();
+
+            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            Session session = Session.getDefaultInstance(props, null);
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setRecipient(RecipientType.TO, new InternetAddress(invitation.getEmail()));
+            message.setSubject(user.getFullName() + " invited you to join the Plato group "
+                + user.getOrganisation().getName());
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("Hello, \n\n");
+            builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
+                + user.getOrganisation().getName() + ".\n\n");
+            builder
+                .append("We could not find your email address in our database. If you would like to accept the invitation, please first create an account at http://"
+                    + serverString + "/idp/addUser.jsf.\n");
+            builder
+                .append("If you have an account, please log in and use the following link to accept the invitation: \n");
+            builder.append("http://" + serverString + "/plato/user/acceptGroupInvitation.jsf?uid="
+                + invitation.getInvitationActionToken());
+            builder.append("\n\n--\n");
+            builder.append("Your Planningsuite team");
+
+            message.setText(builder.toString());
+            message.saveChanges();
+
+            Transport.send(message);
+            log.debug("Group invitation mail sent successfully to " + invitation.getEmail());
+
+            return true;
+        } catch (Exception e) {
+            log.error("Error sending group invitation mail to " + invitation.getEmail(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Sends an invitation mail to the user.
+     * 
+     * @param toUser
+     *            the recipient of the mail
+     * @param serverString
+     *            the server string
+     * @return true if the mail was sent successfully, false otherwise
+     */
+    private boolean sendInvitationMail(User toUser, GroupInvitation invitation, String serverString) {
+        try {
+            Properties props = System.getProperties();
+
+            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            Session session = Session.getDefaultInstance(props, null);
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setRecipient(RecipientType.TO, new InternetAddress(invitation.getEmail()));
+            message.setSubject(user.getFullName() + " invited you to join the Plato group "
+                + user.getOrganisation().getName());
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("Dear " + toUser.getFullName() + ", \n\n");
+            builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
+                + user.getOrganisation().getName() + ".\n");
+            builder.append("Please log in and use the following link to accept the invitation: \n");
+            builder.append("http://" + serverString + "/plato/user/acceptGroupInvitation.jsf?uid="
+                + invitation.getInvitationActionToken());
+            builder.append("\n\n--\n");
+            builder.append("Your Planningsuite team");
+
+            message.setText(builder.toString());
+            message.saveChanges();
+
+            Transport.send(message);
+            log.debug("Group invitation mail sent successfully to " + invitation.getEmail());
+
+            return true;
+        } catch (Exception e) {
+            log.error("Error sending group invitation mail to " + invitation.getEmail(), e);
+            return false;
+        }
     }
 
     /**
@@ -250,35 +392,83 @@ public class Groups implements Serializable {
      * @param invitationActionToken
      *            the invitation action token
      * @return true if the group was changed, false otherwise
+     * @throws GroupNotFoundException
+     *             if the group could not be found
+     * @throws TokenNotFoundException
+     *             if the token could not be found
      */
-    public boolean acceptInvitation(String invitationActionToken) {
+    public void acceptInvitation(String invitationActionToken) throws GroupNotFoundException, TokenNotFoundException {
 
         try {
 
-            User invitedUser = em
-                .createQuery("SELECT u From User u WHERE u.invitationActionToken = :invitationActionToken", User.class)
-                .setParameter("invitationActionToken", invitationActionToken).getSingleResult();
+            GroupInvitation invitation = em
+                .createQuery("SELECT i FROM GroupInvitation i WHERE i.invitationActionToken = :invitationActionToken",
+                    GroupInvitation.class).setParameter("invitationActionToken", invitationActionToken)
+                .getSingleResult();
 
-            if (!invitedUser.getUsername().equals(user.getUsername())) {
-                log.info("InvitationActionToken for user " + user.getUsername() + " did not match.");
-                return false;
+            em.remove(invitation);
+
+            if (invitation.getInvitedGroup() == null) {
+                throw new GroupNotFoundException();
             }
 
-            switchGroup(user, invitedUser.getInvitedGroup());
-            user.setInvitationActionToken("");
-            user.setInvitedGroup(null);
-
+            switchGroup(user, invitation.getInvitedGroup());
             save();
 
             log.info("Invitation to group " + user.getOrganisation().getName() + " accepted by user "
                 + user.getUsername());
 
-            return true;
+        } catch (NoResultException e) {
+            log.info("InvitationActionToken for user " + user.getUsername() + " not found.");
+            throw new TokenNotFoundException(e);
+        }
+
+    }
+
+    /**
+     * Declines the group invitation.
+     * 
+     * @param invitationActionToken
+     *            the invitation action token
+     * @throws TokenNotFoundException
+     *             if the token could not be found
+     */
+    public void declineInvitation(String invitationActionToken) throws TokenNotFoundException {
+        try {
+
+            GroupInvitation invitation = em
+                .createQuery("SELECT i FROM GroupInvitation i WHERE i.invitationActionToken = :invitationActionToken",
+                    GroupInvitation.class).setParameter("invitationActionToken", invitationActionToken)
+                .getSingleResult();
+
+            em.remove(invitation);
+
+            log.info("Invitation to group " + user.getOrganisation().getName() + " declined by user "
+                + user.getUsername());
 
         } catch (NoResultException e) {
             log.info("InvitationActionToken for user " + user.getUsername() + " not found.");
-            return false;
+            throw new TokenNotFoundException(e);
         }
+    }
 
+    public String getInvitationGroupName(String invitationActionToken) throws TokenNotFoundException,
+        GroupNotFoundException {
+
+        try {
+            GroupInvitation invitation = em
+                .createQuery("SELECT i FROM GroupInvitation i WHERE i.invitationActionToken = :invitationActionToken",
+                    GroupInvitation.class).setParameter("invitationActionToken", invitationActionToken)
+                .getSingleResult();
+
+            if (invitation.getInvitedGroup() == null) {
+                throw new GroupNotFoundException();
+            }
+
+            return invitation.getInvitedGroup().getName();
+        } catch (NoResultException e) {
+            log.info("InvitationActionToken for user " + user.getUsername() + " not found.");
+            throw new TokenNotFoundException(e);
+        }
     }
 }

@@ -16,11 +16,10 @@
 		<h:commandButton id="discardButton" value="Discard changes"
 			action="#{cc.attrs.bean.discard}" immediate="true"
 			styleClass="discard-button" style="min-width: 150px;" />
+		<div class="save-placeholder" style="min-width: 150px"></div>
 		<h:commandButton id="saveButton" value="Save"
-			action="#{cc.attrs.bean.save}" styleClass="save-button"
+			action="#{cc.attrs.bean.save}" styleClass="proceed-button"
 			style="min-width: 150px;" />
-		<div class="proceed-placeholder"
-			style="min-width: 150px; display: inline-block;" />
 	</div>
 </cc:implementation>
 

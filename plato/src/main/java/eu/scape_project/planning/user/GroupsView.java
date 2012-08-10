@@ -22,7 +22,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,7 +33,7 @@ import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("groups")
-@SessionScoped
+@ConversationScoped
 public class GroupsView implements Serializable {
 
     private static final long serialVersionUID = -2162378700125807065L;
@@ -47,8 +48,6 @@ public class GroupsView implements Serializable {
     private User user;
     private String inviteMailsString = "";
 
-    private boolean invitationAccepted = false;
-
     public GroupsView() {
     }
 
@@ -58,7 +57,11 @@ public class GroupsView implements Serializable {
      * 
      * @return OutcomeString which navigates to this page.
      */
+    @PostConstruct
     public String init() {
+        
+        isInvitationValid();
+        
         return "user/groups.jsf";
     }
 
@@ -127,11 +130,12 @@ public class GroupsView implements Serializable {
         inviteMailsString = inviteMailsBuffer.toString();
 
         if (inviteMails.size() == 0) {
-            facesMessages.addInfo("User(s) " + invitedMailsBuffer.toString() + " invited.");
+            facesMessages.addInfo("User(s) " + invitedMailsBuffer.toString() + " invited");
         } else if (invitedMails.size() > 0) {
-            facesMessages.addWarning("User(s) " + invitedMailsBuffer.toString() + " invited but not all users could be invited.");
+            facesMessages.addWarning("User(s) " + invitedMailsBuffer.toString()
+                + " invited but not all users could be invited");
         } else {
-            facesMessages.addError("Error inviting user(s).");
+            facesMessages.addError("Error inviting user(s)");
         }
 
     }
@@ -144,10 +148,98 @@ public class GroupsView implements Serializable {
         String actionToken = request.getParameter("uid");
 
         if (actionToken != null) {
-            invitationAccepted = groups.acceptInvitation(actionToken);
+            try {
+                groups.acceptInvitation(actionToken);
+                facesMessages.addInfo("You have successfully accepted the invitation");
+            } catch (GroupNotFoundException e) {
+                facesMessages.addError("Group could not be found");
+            } catch (TokenNotFoundException e) {
+                facesMessages.addError("The provided action token is not valid");
+            }
         } else {
-            invitationAccepted = false;
+            facesMessages.addError("No action token provided");
         }
+    }
+
+    public void acceptInvitation(String actionToken) {
+
+        if (actionToken != null) {
+            try {
+                groups.acceptInvitation(actionToken);
+                facesMessages.addInfo("You have successfully accepted the invitation");
+            } catch (GroupNotFoundException e) {
+                facesMessages.addError("Group could not be found");
+            } catch (TokenNotFoundException e) {
+                facesMessages.addError("The provided action token is not valid");
+            }
+        } else {
+            facesMessages.addError("No action token provided");
+        }
+
+    }
+
+    public void declineInvitation() {
+
+        // Fetch the token from URL request
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+            .getRequest();
+        String actionToken = request.getParameter("uid");
+
+        if (actionToken != null) {
+            try {
+                groups.declineInvitation(actionToken);
+                facesMessages.addInfo("You have successfully accepted the invitation");
+            } catch (TokenNotFoundException e) {
+                facesMessages.addError("The provided action token is not valid");
+            }
+        } else {
+            facesMessages.addError("No action token provided");
+        }
+    }
+
+    public String getInvitationGroupName() {
+
+        // Fetch the token from URL request
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+            .getRequest();
+        String actionToken = request.getParameter("uid");
+
+        if (actionToken != null) {
+            try {
+                return groups.getInvitationGroupName(actionToken);
+            } catch (GroupNotFoundException e) {
+                facesMessages.addError("Group could not be found");
+            } catch (TokenNotFoundException e) {
+                facesMessages.addError("The provided action token is not valid");
+            }
+        } else {
+            facesMessages.addError("No action token provided");
+        }
+
+        return "";
+    }
+
+    public boolean isInvitationValid() {
+
+        // Fetch the token from URL request
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+            .getRequest();
+        String actionToken = request.getParameter("uid");
+
+        if (actionToken != null) {
+            try {
+                groups.getInvitationGroupName(actionToken);
+                return true;
+            } catch (GroupNotFoundException e) {
+                return false;
+            } catch (TokenNotFoundException e) {
+                facesMessages.addError("The provided action token is not valid");
+            }
+        } else {
+            facesMessages.addError("No action token provided");
+        }
+
+        return false;
     }
 
     public void removeUser(User user) {
@@ -173,10 +265,6 @@ public class GroupsView implements Serializable {
 
     public void setInviteMailsString(String inviteMailsString) {
         this.inviteMailsString = inviteMailsString;
-    }
-
-    public boolean isInvitationAccepted() {
-        return invitationAccepted;
     }
 
 }

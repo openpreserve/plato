@@ -578,10 +578,10 @@ input.proceed-button {
 	-moz-box-shadow: inset 0px 1px 0px 0px #caefab;
 }
 
-div.proceed-placeholder {
-	float: right;
-	margin-right: 50px;
+div.save-placeholder {
+	display: inline-block;
 	padding: 10px;
+	height: 12px;
 }
 
 input.proceed-button:hover {

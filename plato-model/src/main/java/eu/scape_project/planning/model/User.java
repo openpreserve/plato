@@ -42,12 +42,12 @@ public class User implements Serializable {
     @Column(unique = true)
     private String username;
 
-    /**
-     * Token required to be allowed to accept an invitation to a group (After a
-     * token is used one time it should be deleted)
-     */
-    @Column(unique = true)
-    private String invitationActionToken;
+//    /**
+//     * Token required to be allowed to accept an invitation to a group (After a
+//     * token is used one time it should be deleted)
+//     */
+//    @Column(unique = true)
+//    private String invitationActionToken;
 
     private String firstName;
 
@@ -55,8 +55,8 @@ public class User implements Serializable {
 
     private String email;
 
-    @ManyToOne
-    private Organisation invitedGroup;
+//    @ManyToOne
+//    private Organisation invitedGroup;
 
     // @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     // @ManyToMany(mappedBy = "users")
@@ -151,21 +151,21 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public String getInvitationActionToken() {
-        return invitationActionToken;
-    }
-
-    public void setInvitationActionToken(String invitationActionToken) {
-        this.invitationActionToken = invitationActionToken;
-    }
-
-    public Organisation getInvitedGroup() {
-        return invitedGroup;
-    }
-
-    public void setInvitedGroup(Organisation invitedGroup) {
-        this.invitedGroup = invitedGroup;
-    }
+//    public String getInvitationActionToken() {
+//        return invitationActionToken;
+//    }
+//
+//    public void setInvitationActionToken(String invitationActionToken) {
+//        this.invitationActionToken = invitationActionToken;
+//    }
+//
+//    public Organisation getInvitedGroup() {
+//        return invitedGroup;
+//    }
+//
+//    public void setInvitedGroup(Organisation invitedGroup) {
+//        this.invitedGroup = invitedGroup;
+//    }
 
     /*
      * public User clone() { User u = new User(); u.setEmail(email);

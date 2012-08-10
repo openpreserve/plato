@@ -8,27 +8,34 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">Idendity Provider</ui:define>
+	<ui:define name="title">SCAPE Planning Suite - Invitation</ui:define>
 
 	<ui:define name="content">
 
-		<h1>Activate User</h1>
+		<h1>Invitation</h1>
+		<h:form>
+			<a4j:outputPanel layout="block" rendered="#{groups.invitationValid}">
 
-		#{groups.acceptInvitation()}
+				<a4j:outputPanel>You have been invited to join the group <h:outputText
+						value="#{groups.invitationGroupName}" />.</a4j:outputPanel>
 
-		<a4j:outputPanel layout="block">
-			<a4j:outputPanel layout="inline"
-				rendered="#{groups.invitationAccepted}">
-				You have accepted the invitation.
+				<input type="hidden" name="uid" value="#{param.uid}" />
+
+				<div class="save-discard-proceed-buttons">
+					<h:commandButton id="declineButton" value="Decline invitation"
+						action="#{groups.declineInvitation()}" immediate="true"
+						styleClass="discard-button" style="min-width: 150px;" />
+
+					<div class="save-placeholder" style="min-width: 150px"></div>
+
+					<h:commandButton id="acceptButton" value="Accept invitation"
+						action="#{groups.acceptInvitation(param.uid)}"
+						styleClass="proceed-button" style="min-width: 150px;" />
+				</div>
 			</a4j:outputPanel>
-
-			<a4j:outputPanel layout="inline"
-				rendered="#{!groups.invitationAccepted}">
-				Accepting the invitation failed. <br />
-				If you have any questions, please write us an email on plato@ifs.tuwien.ac.at.
-			</a4j:outputPanel>
-		</a4j:outputPanel>
-
-
+		</h:form>
+		
+<h:messages id="messages2" globalOnly="true" showDetail="true" errorClass="error" warnClass="warning" infoClass="info"/>
+		
 	</ui:define>
 </ui:composition>
