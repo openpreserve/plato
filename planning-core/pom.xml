@@ -132,13 +132,8 @@
 		<groupId>jaxen</groupId>
 		<artifactId>jaxen</artifactId>
 		<version>1.1.1</version>
-<<<<<<< HEAD
 		<scope>provided</scope>
 </dependency>
-=======
-		<scope>test</scope>
-	</dependency>
->>>>>>> component lookup integrated in plato #55
    <!--  
     <dependency>
       <groupId>org.slf4j</groupId>

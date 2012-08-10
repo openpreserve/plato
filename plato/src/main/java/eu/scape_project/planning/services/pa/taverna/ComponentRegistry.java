@@ -29,7 +29,7 @@ public class ComponentRegistry implements IPreservationActionRegistry {
 	private static Logger log = Logger.getLogger(ComponentRegistry.class);
 
 	private static final String ME_SPARQL_ENDPOINT = "http://rdf.myexperiment.org/sparql";
-	private static final String ENCODING_UTF8 = "URF-8";
+	private static final String ENCODING_UTF8 = "UTF-8";
 	
 	private List<PreservationActionDefinition>  preservationActions;
 
@@ -83,13 +83,17 @@ ORDER BY ?w ?wt
 			 .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/2681> .").append("\n")
 			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
 			 .append("}").append("\n")
-			 .append("ORList<PreservationActionDefinition>DER BY ?w ?wt").append("\n");
+			 .append("ORDER BY ?w ?wt").append("\n");
 		try {
 			String url = ME_SPARQL_ENDPOINT + "?query=" + URLEncoder.encode(query.toString(), ENCODING_UTF8) + "&formatting=XML&reasoning=1";
 			String response = JGet.wget(url);
 			log.debug(response);
 			
 			new SparqlResultComponentsParser().addComponentsFromSparqlResult(preservationActions, new StringReader(response));
+			
+			for (PreservationActionDefinition def : preservationActions) {
+				def.setActionIdentifier("myExperiment");
+			}
 
 			return preservationActions;
 			

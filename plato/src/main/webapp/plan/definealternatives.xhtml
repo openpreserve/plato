@@ -39,7 +39,8 @@
 	                </h:column>
 	                <h:column>
 	                   <f:facet name="header">Description</f:facet>
-	                   #{alternative.description}
+	                   <h:outputText value="#{alternative.description}"></h:outputText>
+	                    
 	                </h:column>
 	                <h:column>
 	                   <f:facet name="header">Experience</f:facet>
@@ -110,13 +111,12 @@
                                the following format: #{defineAlternatives.sampleWithFormat.formatInfo.longName}. " />
                            <br />
                            <h:outputText
-                               value="You can look up preservation services that are able to handle this object type in the following registries:" />
+                               value="You can look up preservation actions that are able to handle this object type in the following registries:" />
                        </strong>
                    <div>
-                       <div style="float: left;">
-                           <rich:dataTable
-                               value="#{defineAlternatives.availableRegistries}" var="registry">
-                               <rich:column >
+					   <div >	                   	
+                   	   		<ui:repeat value="#{defineAlternatives.availableRegistries}" var="registry">
+                   	   		<div style="float:left; min-width:150px; margin: 15px; align:center;">
                                    <strong>
                                        <h:outputText value="#{registry.shortname}" />
                                    </strong>
@@ -126,15 +126,9 @@
                                    <h:commandButton
                                        id="showServices" value="Show Services"
                                        action="#{defineAlternatives.showPreservationServices(registry)}" />
-                               </rich:column>
-                               <rich:column >
-                                   <h:graphicImage id="active"
-                                       alt="active" url="/resources/gfx/icons/small/go-next.png"
-                                       height="25" width="25"
-                                       rendered="#{defineAlternatives.registrySelection[registry]}" />
-                               </rich:column>
-                           </rich:dataTable>
-                       </div>
+                   	   		</div>
+                   	   		</ui:repeat>
+                   	   </div>
                        <div style="float: right;">
                            <h:commandButton
                                id="createAlternatives_2"
@@ -143,7 +137,11 @@
                                rendered="#{defineAlternatives.numOfAvailableActions > 20}" />
                            <h:dataTable
                                value="#{defineAlternatives.availableActions}" var="action" id="table"
-                               rendered="#{not empty defineAlternatives.availableActions}">
+                               rendered="#{not empty defineAlternatives.availableActions}"
+								styleClass="tableStyle" 
+		                     	headerClass="tableStyle-header"
+		                     	rowClasses="tableStyle-row"
+                               >
                                <h:column>
                                    <f:facet name="header">
                                    </f:facet>
@@ -165,14 +163,22 @@
                                    <f:facet name="header">
                                        <h:outputText value="Info" />
                                    </f:facet>
-                                   <h:outputText value="#{action.info}" />
+                                   <h:outputText value="#{action.info}"/>
+                               </h:column>
+                               <h:column>
+                                   <f:facet name="header">
+                                       <h:outputText value="Link" />
+                                   </f:facet>
+                                   <x:div renderthis="#{not empty (action.descriptor)}">
+                                       <a target="_blank" href="#{action.descriptor}">#{action.descriptor}</a>
+                                   </x:div>
                                </h:column>
                                <h:column>
                                    <f:facet name="header">
                                        <h:outputText value="Experience" />
                                    </f:facet>
                                    <h:link ></h:link>
-                                   <x:div renderthis="#{action.experienceBase != ''}">
+                                   <x:div renderthis="#{not empty (action.experienceBase)}">
                                        <a target="_blank" href="#{action.experienceBase}">Experience base</a>
                                    </x:div>
                                </h:column>

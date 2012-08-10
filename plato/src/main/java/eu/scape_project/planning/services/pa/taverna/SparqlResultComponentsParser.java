@@ -44,9 +44,10 @@ public class SparqlResultComponentsParser {
 				Element component = (Element)componentsNodes.get(i);
 				PreservationActionDefinition def = new PreservationActionDefinition();
 
+				def.setShortname(selectTitleXpath.selectSingleNode(component).getText());
 				def.setUrl(selectUrlXpath.selectSingleNode(component).getText());
-				def.setInfo(selectTitleXpath.selectSingleNode(component).getText());
-				def.setDescriptor(selectDescriptionXpath.selectSingleNode(component).getText());
+				def.setInfo(selectDescriptionXpath.selectSingleNode(component).getText());
+				def.setDescriptor(selectUrlXpath.selectSingleNode(component).getText());
 				
 				components.add(def);
 			}
