@@ -156,8 +156,8 @@
 	                     
 	                     <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
 	                     <div>
-		                     <a4j:commandButton value="View FITS" action="#{defineSampleRecords.selectSampleObject(row)}"
-		                                        oncomplete="#{rich:component('fitsXmlPanel')}.show()" render="fitsXmlPanel"
+		                     <a4j:commandButton value="Characterization Data" action="#{defineSampleRecords.selectSampleObject(row)}"
+		                                        oncomplete="#{rich:component('characterizationPanel')}.show()" render="characterizationPanel"
 		                                        style="vertical-align: middle;" />
 		                     <!-- <a href="http://code.google.com/p/fits/" target="_blank">
 		                          <h:graphicImage id="fits" value="/resources/gfx/logos/fits.png" style="vertical-align: middle; margin-left: 30px; width: 15%" />
@@ -247,19 +247,19 @@
         -->
         <h:form>
         <!-- FITS xml panel -->
-            <rich:popupPanel id="fitsXmlPanel" width="800" height="600" domElementAttachment="form">
+            <rich:popupPanel id="characterizationPanel" width="800" height="600" domElementAttachment="form">
                 <f:facet name="header">
-                    <h:outputText value="FITS XML data" />
+                    <h:outputText value="Characterization Data" />
                 </f:facet>
                 <f:facet name="controls">
                     <h:graphicImage id="closeMapping" 
                         value="/resources/gfx/icons/cancel.png"
                         title="Close" width="16" height="16"
-                        onclick="#{rich:component('fitsXmlPanel')}.hide()" />
+                        onclick="#{rich:component('characterizationPanel')}.hide()" />
                 </f:facet>            
                 <h:messages />
-              
-                <h:inputTextarea value="#{defineSampleRecords.selectedSampleObject.fitsXMLString}" cols="145" rows="35" />
+                <h:outputLabel value="Fits Data" rendered="#{defineSampleRecords.selectedSampleObject.fitsXMLString != null}" />
+                <h:outputText value="#{defineSampleRecords.selectedSampleObject.fitsXMLString}"  rendered="#{defineSampleRecords.selectedSampleObject.fitsXMLString != null}"/>
             </rich:popupPanel>
         <!-- / FITS xml panel -->
         </h:form>        

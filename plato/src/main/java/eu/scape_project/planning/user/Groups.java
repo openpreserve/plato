@@ -38,7 +38,6 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.com.sun.net.httpserver.Authenticator.Success;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.Organisation;

@@ -28,7 +28,6 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
-import org.jboss.osgi.framework.util.IOUtils;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;

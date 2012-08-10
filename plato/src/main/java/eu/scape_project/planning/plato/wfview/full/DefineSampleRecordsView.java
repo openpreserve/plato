@@ -158,6 +158,7 @@ public class DefineSampleRecordsView extends AbstractView {
 
 		try {
 			this.defineSamples.readProfile(item.getInputStream());
+			
 		} catch (ParserException e) {
 			log.warn("An error occurred during parsing: {}", e.getMessage());
 			this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
