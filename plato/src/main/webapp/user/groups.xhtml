@@ -29,20 +29,22 @@
 				<p:inputDiv labelText="Group members" id="groupMembers"
 					input="#{user.organisation.name}">
 
-					<a4j:repeat value="#{user.organisation.users}" var="groupMember"
-						rows="20" id="groupMembers">
-						<p:user user="#{groupMember}" size="40">
+					<h:dataTable value="#{user.organisation.users}" var="groupMember"
+						id="groupMembersTable">
+						<h:column>
+							<p:user user="#{groupMember}" size="40" />
+						</h:column>
+						<h:column>
 							<h:commandButton value="Remove"
 								action="#{groups.removeUser(groupMember)}"
 								rendered="#{groupMember.username != user.username}" />
-						</p:user>
-					</a4j:repeat>
+						</h:column>
+					</h:dataTable>
+
 					<h:commandButton value="Invite users">
 						<rich:componentControl target="inviteUsersPopup" operation="show" />
 					</h:commandButton>
-
 				</p:inputDiv>
-
 
 
 				<rich:popupPanel id="inviteUsersPopup" width="600" height="160">

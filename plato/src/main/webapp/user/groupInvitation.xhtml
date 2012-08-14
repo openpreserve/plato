@@ -12,30 +12,39 @@
 
 	<ui:define name="content">
 
-		<h1>Invitation</h1>
+		<f:event type="preRenderView" listener="#{groupInvitation.init()}" />
+
+		<h1>Group Invitation</h1>
 		<h:form>
-			<a4j:outputPanel layout="block" rendered="#{groups.invitationValid}">
 
-				<a4j:outputPanel>You have been invited to join the group <h:outputText
-						value="#{groups.invitationGroupName}" />.</a4j:outputPanel>
+			<input type="hidden" name="uid" value="#{param.uid}" />
 
-				<input type="hidden" name="uid" value="#{param.uid}" />
+			<a4j:outputPanel rendered="#{groupInvitation.invitationValid}">
+
+				<fieldset>
+					<h:outputText
+						value="You have been invited to join the group #{groupInvitation.invitationGroupName}." />
+				</fieldset>
 
 				<div class="save-discard-proceed-buttons">
 					<h:commandButton id="declineButton" value="Decline invitation"
-						action="#{groups.declineInvitation()}" immediate="true"
+						action="#{groupInvitation.declineInvitation()}" immediate="true"
 						styleClass="discard-button" style="min-width: 150px;" />
 
 					<div class="save-placeholder" style="min-width: 150px"></div>
 
 					<h:commandButton id="acceptButton" value="Accept invitation"
-						action="#{groups.acceptInvitation(param.uid)}"
+						action="#{groupInvitation.acceptInvitation()}" immediate="true"
 						styleClass="proceed-button" style="min-width: 150px;" />
 				</div>
 			</a4j:outputPanel>
 		</h:form>
-		
-<h:messages id="messages2" globalOnly="true" showDetail="true" errorClass="error" warnClass="warning" infoClass="info"/>
-		
+
+		<a4j:outputPanel rendered="#{!groupInvitation.invitationValid}">
+			<fieldset id="text">
+				<h:outputText value="You have been invited to join a group." />
+			</fieldset>
+		</a4j:outputPanel>
+
 	</ui:define>
 </ui:composition>

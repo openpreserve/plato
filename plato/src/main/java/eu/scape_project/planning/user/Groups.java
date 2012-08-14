@@ -19,7 +19,6 @@ package eu.scape_project.planning.user;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -200,40 +199,43 @@ public class Groups implements Serializable {
         }
     }
 
-    /**
-     * Invites users to join the group of the current user.
-     * 
-     * @param invitedUsers
-     *            the users to invite
-     * @param serverString
-     *            the server string
-     */
-    public List<String> inviteUsers(List<String> inviteMails, String serverString) {
-
-        List<String> successfullyInvitedMails = new ArrayList<String>(inviteMails.size());
-
-        for (String inviteMail : inviteMails) {
-            inviteMail = inviteMail.trim();
-
-            List<User> users = em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
-                .setParameter("email", inviteMail).getResultList();
-
-            if (users.size() > 0) {
-                // Users found
-                for (User user : users) {
-                    if (inviteUser(user, serverString)) {
-                        successfullyInvitedMails.add(inviteMail);
-                    }
-                }
-            } else {
-                // No user found
-                if (inviteUser(inviteMail, serverString)) {
-                    successfullyInvitedMails.add(inviteMail);
-                }
-            }
-        }
-        return successfullyInvitedMails;
-    }
+    // /**
+    // * Invites users to join the group of the current user.
+    // *
+    // * @param invitedUsers
+    // * the users to invite
+    // * @param serverString
+    // * the server string
+    // */
+    // public List<String> inviteUsers(List<String> inviteMails, String
+    // serverString) {
+    //
+    // List<String> successfullyInvitedMails = new
+    // ArrayList<String>(inviteMails.size());
+    //
+    // for (String inviteMail : inviteMails) {
+    // inviteMail = inviteMail.trim();
+    //
+    // List<User> users =
+    // em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
+    // .setParameter("email", inviteMail).getResultList();
+    //
+    // if (users.size() > 0) {
+    // // Users found
+    // for (User user : users) {
+    // if (inviteUser(user, serverString)) {
+    // successfullyInvitedMails.add(inviteMail);
+    // }
+    // }
+    // } else {
+    // // No user found
+    // if (inviteUser(inviteMail, serverString)) {
+    // successfullyInvitedMails.add(inviteMail);
+    // }
+    // }
+    // }
+    // return successfullyInvitedMails;
+    // }
 
     /**
      * Invites a user to join the group of the current user.
@@ -242,25 +244,54 @@ public class Groups implements Serializable {
      *            the user to invite
      * @param serverString
      *            the server string
-     * @return true if the invitation mail was sent, false otherwise
+     * @throws InvitationMailException
+     *             if the invitation mail could not be send
+     * @throws AlreadyGroupMemberException
+     *             if the user is already a member of the group
      */
-    public boolean inviteUser(User inviteUser, String serverString) {
+    public void inviteUser(User inviteUser, String serverString) throws InvitationMailException,
+        AlreadyGroupMemberException {
+
+        if (inviteUser.getOrganisation().getId() == user.getOrganisation().getId()) {
+            throw new AlreadyGroupMemberException();
+        }
+
         GroupInvitation invitation = createInvitation(inviteUser.getEmail());
-        return sendInvitationMail(inviteUser, invitation, serverString);
+        sendInvitationMail(inviteUser, invitation, serverString);
     }
 
     /**
-     * Invites a user to join the group of the current user.
+     * Invites users with the provided email address to the group of the current
+     * user.
      * 
      * @param inviteMail
      *            the email address of the user to invite
      * @param serverString
      *            the server string
-     * @return true if the invitation mail was sent, false otherwise
+     * @return true if the users were invited, false otherwise
+     * @throws InvitationMailException
+     *             if the invitation mail could not be send
+     * @throws AlreadyGroupMemberException
+     *             if the user is already a member of the group
      */
-    public boolean inviteUser(String inviteMail, String serverString) {
-        GroupInvitation invitation = createInvitation(inviteMail);
-        return sendInvitationMail(invitation, serverString);
+    public void inviteUser(String inviteMail, String serverString) throws InvitationMailException,
+        AlreadyGroupMemberException {
+
+        String trimmedInviteMail = inviteMail.trim();
+
+        List<User> users = em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
+            .setParameter("email", trimmedInviteMail).getResultList();
+
+        if (users.size() > 0) {
+            // Users found
+            for (User user : users) {
+                inviteUser(user, serverString);
+            }
+        } else {
+            // No user found
+            GroupInvitation invitation = createInvitation(trimmedInviteMail);
+            sendInvitationMail(invitation, serverString);
+        }
     }
 
     /**
@@ -300,8 +331,10 @@ public class Groups implements Serializable {
      * @param serverString
      *            the server string
      * @return true if the mail was sent successfully, false otherwise
+     * @throws InvitationMailException
+     *             if the invitation mail could not be send
      */
-    private boolean sendInvitationMail(GroupInvitation invitation, String serverString) {
+    private void sendInvitationMail(GroupInvitation invitation, String serverString) throws InvitationMailException {
         try {
             Properties props = System.getProperties();
 
@@ -319,11 +352,11 @@ public class Groups implements Serializable {
             builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
                 + user.getOrganisation().getName() + ".\n\n");
             builder
-                .append("We could not find your email address in our database. If you would like to accept the invitation, please first create an account at http://"
+                .append("You do not seem to be a Plato user. If you would like to accept the invitation, please first create an account at http://"
                     + serverString + "/idp/addUser.jsf.\n");
             builder
                 .append("If you have an account, please log in and use the following link to accept the invitation: \n");
-            builder.append("http://" + serverString + "/plato/user/acceptGroupInvitation.jsf?uid="
+            builder.append("http://" + serverString + "/plato/user/groupInvitation.jsf?uid="
                 + invitation.getInvitationActionToken());
             builder.append("\n\n--\n");
             builder.append("Your Planningsuite team");
@@ -334,10 +367,9 @@ public class Groups implements Serializable {
             Transport.send(message);
             log.debug("Group invitation mail sent successfully to " + invitation.getEmail());
 
-            return true;
         } catch (Exception e) {
             log.error("Error sending group invitation mail to " + invitation.getEmail(), e);
-            return false;
+            throw new InvitationMailException(e);
         }
     }
 
@@ -349,8 +381,11 @@ public class Groups implements Serializable {
      * @param serverString
      *            the server string
      * @return true if the mail was sent successfully, false otherwise
+     * @throws InvitationMailException
+     *             if the invitation mail could not be send
      */
-    private boolean sendInvitationMail(User toUser, GroupInvitation invitation, String serverString) {
+    private void sendInvitationMail(User toUser, GroupInvitation invitation, String serverString)
+        throws InvitationMailException {
         try {
             Properties props = System.getProperties();
 
@@ -368,7 +403,7 @@ public class Groups implements Serializable {
             builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
                 + user.getOrganisation().getName() + ".\n");
             builder.append("Please log in and use the following link to accept the invitation: \n");
-            builder.append("http://" + serverString + "/plato/user/acceptGroupInvitation.jsf?uid="
+            builder.append("http://" + serverString + "/plato/user/groupInvitation.jsf?uid="
                 + invitation.getInvitationActionToken());
             builder.append("\n\n--\n");
             builder.append("Your Planningsuite team");
@@ -379,10 +414,9 @@ public class Groups implements Serializable {
             Transport.send(message);
             log.debug("Group invitation mail sent successfully to " + invitation.getEmail());
 
-            return true;
         } catch (Exception e) {
             log.error("Error sending group invitation mail to " + invitation.getEmail(), e);
-            return false;
+            throw new InvitationMailException(e);
         }
     }
 
@@ -396,8 +430,11 @@ public class Groups implements Serializable {
      *             if the group could not be found
      * @throws TokenNotFoundException
      *             if the token could not be found
+     * @throws AlreadyGroupMemberException
+     *             if the user is already a member of the group
      */
-    public void acceptInvitation(String invitationActionToken) throws GroupNotFoundException, TokenNotFoundException {
+    public void acceptInvitation(String invitationActionToken) throws GroupNotFoundException, TokenNotFoundException,
+        AlreadyGroupMemberException {
 
         try {
 
@@ -410,6 +447,10 @@ public class Groups implements Serializable {
 
             if (invitation.getInvitedGroup() == null) {
                 throw new GroupNotFoundException();
+            }
+
+            if (invitation.getInvitedGroup().getId() == user.getOrganisation().getId()) {
+                throw new AlreadyGroupMemberException();
             }
 
             switchGroup(user, invitation.getInvitedGroup());
