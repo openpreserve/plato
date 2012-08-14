@@ -49,15 +49,25 @@
        <xsl:apply-templates select="@* | node()"/>
      </xsl:element>
  </xsl:template>
- 
+
+<xsl:template match="oldplato:plans">
+	<xsl:element name="{local-name()}" xmlns="http://ifs.tuwien.ac.at/dp/plato" namespace="http://ifs.tuwien.ac.at/dp/plato" >
+		<xsl:attribute name="xsi:schemaLocation">http://ifs.tuwien.ac.at/dp/plato plato-4.0.0.xsd</xsl:attribute>
+		<xsl:attribute name="version">4.0.0</xsl:attribute>
+    	<xsl:apply-templates/>
+    	
+    </xsl:element>
+</xsl:template>
+<!--  
  <xsl:template match="@xsi:schemaLocation">
  	<xsl:attribute name="xsi:schemaLocation">http://ifs.tuwien.ac.at/dp/plato plato-4.0.0.xsd</xsl:attribute>
  </xsl:template>
- 
+ -->
+ <!-- 
 <xsl:template match="oldplato:plans/@version">
     <xsl:attribute name="version">4.0.0</xsl:attribute>
 </xsl:template>
-
+-->
 <!-- criterion has now an ID, other content is only there for documentation -->
 <xsl:template match="oldplato:criterion">
 	<xsl:if test="oldplato:property/oldplato:category/text()">
