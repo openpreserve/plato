@@ -24,7 +24,7 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import eu.scape_project.planning.model.Organisation;
+import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.Role;
 import eu.scape_project.planning.model.User;
 
@@ -60,9 +60,9 @@ public class InitApplication implements Serializable {
 		}
 		
 		if (existingUser == null) {
-			Organisation organisation = new Organisation();
-			organisation.setName("UT Vienna");
-			em.persist(organisation);
+			UserGroup userGroup = new UserGroup();
+			userGroup.setName("UT Vienna");
+			em.persist(userGroup);
 			
 			User user = new User();
 			user.setUsername("admin");
@@ -73,7 +73,7 @@ public class InitApplication implements Serializable {
 			Role adminRole = new Role();
 			adminRole.setName("admin");
 			user.getRoles().add(adminRole);
-			user.setOrganisation(organisation);
+			user.setUserGroup(userGroup);
 			
 			em.persist(user);
 		}

@@ -40,7 +40,7 @@ import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.GroupInvitation;
-import eu.scape_project.planning.model.Organisation;
+import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.User;
 
 @Stateful
@@ -61,7 +61,7 @@ public class Groups implements Serializable {
 
     private Set<User> changedUsers = new HashSet<User>();
 
-    private Set<Organisation> changedGroups = new HashSet<Organisation>();
+    private Set<UserGroup> changedGroups = new HashSet<UserGroup>();
 
     @PostConstruct
     public void init() {
@@ -91,7 +91,7 @@ public class Groups implements Serializable {
         }
 
         // Save/delete changed groups
-        for (Organisation changedGroup : changedGroups) {
+        for (UserGroup changedGroup : changedGroups) {
             if (changedGroup.getUsers().size() == 0) {
                 deleteGroup(changedGroup);
             } else {
@@ -108,7 +108,7 @@ public class Groups implements Serializable {
     public void discard() {
 
         User origUser = em.find(User.class, user.getId());
-        user.setOrganisation(origUser.getOrganisation());
+        user.setUserGroup(origUser.getUserGroup());
 
         changedUsers.clear();
         changedGroups.clear();
@@ -122,7 +122,7 @@ public class Groups implements Serializable {
      * @param group
      *            the group to delete
      */
-    private void deleteGroup(Organisation group) {
+    private void deleteGroup(UserGroup group) {
 
         List<GroupInvitation> invitations = em
             .createQuery("SELECT i FROM GroupInvitation i WHERE i.invitedGroup = :invitedGroup", GroupInvitation.class)
@@ -150,7 +150,7 @@ public class Groups implements Serializable {
      * @param group
      *            the group to switch to
      */
-    public void switchGroup(Organisation group) {
+    public void switchGroup(UserGroup group) {
         switchGroup(user, group);
     }
 
@@ -161,7 +161,7 @@ public class Groups implements Serializable {
      *            the user to change
      */
     public void switchGroup(User user) {
-        Organisation group = new Organisation();
+        UserGroup group = new UserGroup();
         group.setName(user.getUsername());
 
         switchGroup(user, group);
@@ -175,15 +175,15 @@ public class Groups implements Serializable {
      * @param group
      *            the group to switch to
      */
-    public void switchGroup(User user, Organisation group) {
+    public void switchGroup(User user, UserGroup group) {
 
         addChangedUser(user);
 
-        user.getOrganisation().getUsers().remove(user);
-        changedGroups.add(user.getOrganisation());
+        user.getUserGroup().getUsers().remove(user);
+        changedGroups.add(user.getUserGroup());
 
         group.getUsers().add(user);
-        user.setOrganisation(group);
+        user.setUserGroup(group);
 
         log.debug("Switched user " + user.getUsername() + " to group " + group.getName());
     }
@@ -252,7 +252,7 @@ public class Groups implements Serializable {
     public void inviteUser(User inviteUser, String serverString) throws InvitationMailException,
         AlreadyGroupMemberException {
 
-        if (inviteUser.getOrganisation().getId() == user.getOrganisation().getId()) {
+        if (inviteUser.getUserGroup().getId() == user.getUserGroup().getId()) {
             throw new AlreadyGroupMemberException();
         }
 
@@ -306,7 +306,7 @@ public class Groups implements Serializable {
         List<GroupInvitation> existingInvitations = em
             .createQuery("SELECT i FROM GroupInvitation i WHERE i.email = :email AND i.invitedGroup = :invitedGroup",
                 GroupInvitation.class).setParameter("email", inviteMail)
-            .setParameter("invitedGroup", user.getOrganisation()).getResultList();
+            .setParameter("invitedGroup", user.getUserGroup()).getResultList();
 
         for (GroupInvitation existingInvitation : existingInvitations) {
             em.remove(existingInvitation);
@@ -315,7 +315,7 @@ public class Groups implements Serializable {
         GroupInvitation invitation = new GroupInvitation();
         invitation.setEmail(inviteMail);
         invitation.setInvitationActionToken(UUID.randomUUID().toString());
-        invitation.setInvitedGroup(user.getOrganisation());
+        invitation.setInvitedGroup(user.getUserGroup());
 
         em.merge(invitation);
         log.debug("Created GroupInvitation for mail " + inviteMail);
@@ -345,12 +345,12 @@ public class Groups implements Serializable {
             message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(invitation.getEmail()));
             message.setSubject(user.getFullName() + " invited you to join the Plato group "
-                + user.getOrganisation().getName());
+                + user.getUserGroup().getName());
 
             StringBuilder builder = new StringBuilder();
             builder.append("Hello, \n\n");
             builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
-                + user.getOrganisation().getName() + ".\n\n");
+                + user.getUserGroup().getName() + ".\n\n");
             builder
                 .append("You do not seem to be a Plato user. If you would like to accept the invitation, please first create an account at http://"
                     + serverString + "/idp/addUser.jsf.\n");
@@ -396,12 +396,12 @@ public class Groups implements Serializable {
             message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(invitation.getEmail()));
             message.setSubject(user.getFullName() + " invited you to join the Plato group "
-                + user.getOrganisation().getName());
+                + user.getUserGroup().getName());
 
             StringBuilder builder = new StringBuilder();
             builder.append("Dear " + toUser.getFullName() + ", \n\n");
             builder.append("The Plato user " + user.getFullName() + " has invited you to join the group "
-                + user.getOrganisation().getName() + ".\n");
+                + user.getUserGroup().getName() + ".\n");
             builder.append("Please log in and use the following link to accept the invitation: \n");
             builder.append("http://" + serverString + "/plato/user/groupInvitation.jsf?uid="
                 + invitation.getInvitationActionToken());
@@ -449,14 +449,14 @@ public class Groups implements Serializable {
                 throw new GroupNotFoundException();
             }
 
-            if (invitation.getInvitedGroup().getId() == user.getOrganisation().getId()) {
+            if (invitation.getInvitedGroup().getId() == user.getUserGroup().getId()) {
                 throw new AlreadyGroupMemberException();
             }
 
             switchGroup(user, invitation.getInvitedGroup());
             save();
 
-            log.info("Invitation to group " + user.getOrganisation().getName() + " accepted by user "
+            log.info("Invitation to group " + user.getUserGroup().getName() + " accepted by user "
                 + user.getUsername());
 
         } catch (NoResultException e) {
@@ -484,7 +484,7 @@ public class Groups implements Serializable {
 
             em.remove(invitation);
 
-            log.info("Invitation to group " + user.getOrganisation().getName() + " declined by user "
+            log.info("Invitation to group " + user.getUserGroup().getName() + " declined by user "
                 + user.getUsername());
 
         } catch (NoResultException e) {

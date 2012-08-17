@@ -45,7 +45,7 @@ public class GroupInvitation implements Serializable {
     private String email;
 
     @ManyToOne
-    private Organisation invitedGroup;
+    private UserGroup invitedGroup;
 
     private Date dateCreated;
 
@@ -84,11 +84,11 @@ public class GroupInvitation implements Serializable {
         this.invitationActionToken = invitationActionToken;
     }
 
-    public Organisation getInvitedGroup() {
+    public UserGroup getInvitedGroup() {
         return invitedGroup;
     }
 
-    public void setInvitedGroup(Organisation invitedGroup) {
+    public void setInvitedGroup(UserGroup invitedGroup) {
         this.invitedGroup = invitedGroup;
     }
 

@@ -33,145 +33,119 @@ import javax.persistence.Transient;
 // @Name("user")
 // @Scope(ScopeType.SESSION)
 public class User implements Serializable {
-    private static final long serialVersionUID = 3842938596189922641L;
+	private static final long serialVersionUID = 3842938596189922641L;
 
-    @Id
-    @GeneratedValue
-    private long id;
+	@Id
+	@GeneratedValue
+	private long id;
 
-    @Column(unique = true)
-    private String username;
+	@Column(unique = true)
+	private String username;
 
-//    /**
-//     * Token required to be allowed to accept an invitation to a group (After a
-//     * token is used one time it should be deleted)
-//     */
-//    @Column(unique = true)
-//    private String invitationActionToken;
+	private String firstName;
 
-    private String firstName;
+	private String lastName;
 
-    private String lastName;
+	private String email;
 
-    private String email;
+	// @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	// @ManyToMany(mappedBy = "users")
+	// @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+	// CascadeType.REFRESH}, targetEntity = Role.class, fetch = FetchType.EAGER)
+	// @JoinTable(name = "user_role", joinColumns = @JoinColumn(name =
+	// "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 
-//    @ManyToOne
-//    private Organisation invitedGroup;
+	@Transient
+	private List<Role> roles = new ArrayList<Role>();
 
-    // @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    // @ManyToMany(mappedBy = "users")
-    // @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-    // CascadeType.REFRESH}, targetEntity = Role.class, fetch = FetchType.EAGER)
-    // @JoinTable(name = "user_role", joinColumns = @JoinColumn(name =
-    // "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@ManyToOne(cascade = CascadeType.ALL)
+	private UserGroup userGroup;
 
-    @Transient
-    private List<Role> roles = new ArrayList<Role>();
+	// ---------- getter/setter ----------
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Organisation organisation;
+	public String getFullName() {
+		return (firstName + " " + lastName);
+	}
 
-    // ---------- getter/setter ----------
+	public boolean hasRole(String role) {
+		for (Role r : roles) {
+			if (r.getName().equals(role)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public String getFullName() {
-        return (firstName + " " + lastName);
-    }
+	public boolean isAdmin() {
+		for (Role r : roles) {
+			if ("admin".equals(r.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public boolean hasRole(String role) {
-        for (Role r : roles) {
-            if (r.getName().equals(role)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public boolean isAdmin() {
-        for (Role r : roles) {
-            if ("admin".equals(r.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public UserGroup getUserGroup() {
+		return userGroup;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
+	}
 
-    public Organisation getOrganisation() {
-        return organisation;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setOrganisation(Organisation organisation) {
-        this.organisation = organisation;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public long getId() {
-        return id;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public List<Role> getRoles() {
+		return roles;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-//    public String getInvitationActionToken() {
-//        return invitationActionToken;
-//    }
-//
-//    public void setInvitationActionToken(String invitationActionToken) {
-//        this.invitationActionToken = invitationActionToken;
-//    }
-//
-//    public Organisation getInvitedGroup() {
-//        return invitedGroup;
-//    }
-//
-//    public void setInvitedGroup(Organisation invitedGroup) {
-//        this.invitedGroup = invitedGroup;
-//    }
-
-    /*
-     * public User clone() { User u = new User(); u.setEmail(email);
-     * u.setFirstName(firstName); u.setLastName(lastName);
-     * u.setOrganisation(organisation); u.setPassword(password); List<Role>
-     * userroles = new ArrayList<Role>(); userroles.addAll(roles);
-     * u.setRoles(userroles); u.setUsername(username); return u; }
-     */
+	/*
+	 * public User clone() { User u = new User(); u.setEmail(email);
+	 * u.setFirstName(firstName); u.setLastName(lastName);
+	 * u.setOrganisation(organisation); u.setPassword(password); List<Role>
+	 * userroles = new ArrayList<Role>(); userroles.addAll(roles);
+	 * u.setRoles(userroles); u.setUsername(username); return u; }
+	 */
 }

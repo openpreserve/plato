@@ -34,17 +34,17 @@
             </fieldset>
 
             <a4j:outputPanel layout="block" id="policyTree">                        
-	            <a4j:outputPanel layout="inline" rendered="#{organisationalPolicies.user != null and organisationalPolicies.user.organisation.policyTree != null}">
+	            <a4j:outputPanel layout="inline" rendered="#{organisationalPolicies.user != null and organisationalPolicies.user.userGroup.policyTree != null}">
 					<ui:include src="/plato/shared/policytree.xhtml">
 					    <ui:param name="treeHelper" value="#{organisationalPolicies.treeHelper}" />
-					    <ui:param name="policyTree" value="#{organisationalPolicies.user.organisation.policyTree}" />
+					    <ui:param name="policyTree" value="#{organisationalPolicies.user.userGroup.policyTree}" />
 					    <ui:param name="policyRoot" value="#{organisationalPolicies.policyTreeRoots}" />
 					</ui:include>
 	            </a4j:outputPanel>
 	        </a4j:outputPanel>                    
            
             <a4j:commandButton value="Remove policy tree" action="#{organisationalPolicies.removePolicTree()}"
-                               rendered="#{organisationalPolicies.user != null and organisationalPolicies.user.organisation.policyTree != null}"
+                               rendered="#{organisationalPolicies.user != null and organisationalPolicies.user.userGroup.policyTree != null}"
                                render="policyTree"/>
             <br/><br/>
             

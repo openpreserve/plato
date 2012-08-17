@@ -24,12 +24,12 @@
 					<h:outputText value="Current Group" />
 				</legend>
 				<p:inputText labelText="Name" id="name"
-					input="#{user.organisation.name}" />
+					input="#{user.userGroup.name}" />
 
 				<p:inputDiv labelText="Group members" id="groupMembers"
-					input="#{user.organisation.name}">
+					input="#{user.userGroup.name}">
 
-					<h:dataTable value="#{user.organisation.users}" var="groupMember"
+					<h:dataTable value="#{user.userGroup.users}" var="groupMember"
 						id="groupMembersTable">
 						<h:column>
 							<p:user user="#{groupMember}" size="40" />
@@ -63,7 +63,7 @@
 				</rich:popupPanel>
 
 				<h:commandButton value="Leave group" action="#{groups.leaveGroup()}"
-					rendered="#{user.organisation.users.size() > 1}" />
+					rendered="#{user.userGroup.users.size() > 1}" />
 			</fieldset>
 
 			<p:savediscard bean="#{groups}" />

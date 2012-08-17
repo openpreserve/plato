@@ -32,7 +32,7 @@ import javax.validation.Valid;
 import eu.scape_project.planning.model.tree.PolicyTree;
 
 @Entity
-public class Organisation implements Serializable {
+public class UserGroup implements Serializable {
     private static final long serialVersionUID = -3659021986541051911L;
 
     @Id
@@ -41,7 +41,7 @@ public class Organisation implements Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users = new ArrayList<User>();
 
     @Valid

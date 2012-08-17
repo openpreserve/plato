@@ -28,7 +28,7 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.DigitalObject;
-import eu.scape_project.planning.model.Organisation;
+import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.PolicyTree;
 import eu.scape_project.planning.xml.TreeLoader;
@@ -68,7 +68,7 @@ public class OrganisationalPolicies implements Serializable {
         	return false;
         }
 
-        Organisation org = user.getOrganisation();
+        UserGroup org = user.getUserGroup();
         
         // TODO: Check if really necessary
         /*
@@ -88,7 +88,7 @@ public class OrganisationalPolicies implements Serializable {
 	 * Method responsible for removing the current set policy tree.
 	 */
 	public void removePolicyTree() {
-        Organisation org = user.getOrganisation();
+        UserGroup org = user.getUserGroup();
         
         if (org != null) {
             org.setPolicyTree(null);
@@ -101,7 +101,7 @@ public class OrganisationalPolicies implements Serializable {
 	 * Method responsible for saving the made changes.
 	 */
 	public void save() {
-        Organisation org = user.getOrganisation();
+        UserGroup org = user.getUserGroup();
         
         // TODO: check if really necessary
         // nothing to save
@@ -124,8 +124,8 @@ public class OrganisationalPolicies implements Serializable {
 	 * Method responsible for discarding the made changes.
 	 */
     public void discard() {
-    	Organisation oldOrganisation = em.find(Organisation.class, user.getOrganisation().getId());
-    	user.setOrganisation(oldOrganisation);
+    	UserGroup oldUserGroup = em.find(UserGroup.class, user.getUserGroup().getId());
+    	user.setUserGroup(oldUserGroup);
     	
     	//user = em.find(User.class, user.getId());
         

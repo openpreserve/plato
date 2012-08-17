@@ -70,10 +70,10 @@ public class OrganisationalPoliciesView implements Serializable {
 	public String init() {
 		policyTreeRoots = new ArrayList<PolicyNode>();
 		
-		if ((user.getOrganisation() != null) && (user.getOrganisation().getPolicyTree() != null) && (user.getOrganisation().getPolicyTree().isPolicyTreeDefined())) {
-			policyTreeRoots.add(user.getOrganisation().getPolicyTree().getRoot());
+		if ((user.getUserGroup() != null) && (user.getUserGroup().getPolicyTree() != null) && (user.getUserGroup().getPolicyTree().isPolicyTreeDefined())) {
+			policyTreeRoots.add(user.getUserGroup().getPolicyTree().getRoot());
 	        // expand all nodes of the displayed policy-tree (if existent)
-	        treeHelper.expandAll(user.getOrganisation().getPolicyTree().getRoot());
+	        treeHelper.expandAll(user.getUserGroup().getPolicyTree().getRoot());
 		}
 		
 		return "/user/organisationalpolicies.jsf";

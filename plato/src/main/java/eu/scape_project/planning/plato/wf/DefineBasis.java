@@ -70,10 +70,10 @@ public class DefineBasis extends AbstractWorkflowStep {
         if (plan.getPlanProperties().getState()  == PlanState.INITIALISED
                 && plan.getProjectBasis().getPolicyTree().getRoot() == null) {
             
-            if (user.getOrganisation() != null 
-                    && user.getOrganisation().getPolicyTree() != null) {
+            if (user.getUserGroup() != null 
+                    && user.getUserGroup().getPolicyTree() != null) {
                 
-            	PolicyNode organisationPolicyRoot = user.getOrganisation().getPolicyTree().getRoot();
+            	PolicyNode organisationPolicyRoot = user.getUserGroup().getPolicyTree().getRoot();
             	
             	if (organisationPolicyRoot != null) {
             		plan.getProjectBasis().getPolicyTree().setRoot(organisationPolicyRoot.clone());

@@ -36,7 +36,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.model.Organisation;
+import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.Role;
 import eu.scape_project.planning.model.User;
 
@@ -237,10 +237,10 @@ public class SessionScopeProducer implements Serializable {
     private User createUser(String username) {
         User user = new User();
         user.setUsername(username);
-        Organisation organisation = new Organisation();
-        organisation.setName(username);
-        user.setOrganisation(organisation);
-        em.persist(organisation);
+        UserGroup userGroup = new UserGroup();
+        userGroup.setName(username);
+        user.setUserGroup(userGroup);
+        em.persist(userGroup);
         em.persist(user);
         return user;
     }
