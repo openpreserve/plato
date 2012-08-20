@@ -1,84 +1,70 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
-                    xmlns:h="http://java.sun.com/jsf/html"
-                    xmlns:f="http://java.sun.com/jsf/core"
-                    xmlns:ui="http://java.sun.com/jsf/facelets"
-                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
-                    xmlns:c="http://java.sun.com/jsp/jstl/core"
-                    xmlns:p="http://java.sun.com/jsf/composite/plato"
-                    template="/WEB-INF/templates/default.xhtml"
-                    xmlns:a4j="http://richfaces.org/a4j"
-                    xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
-    <ui:define name="title">SCAPE Planning Suite - Organisational Policies</ui:define>
-    <ui:define name="content">
+	<ui:define name="title">SCAPE Planning Suite - Group Policies</ui:define>
+	<ui:define name="content">
 
-        <h1>Organisational Policies</h1>
-        
-        <h:form id="policyForm">
-            <fieldset class="size-full">
-	            <legend><ui:include src="/plato/shared/legend_nav.xhtml" /> Policies upload </legend>
+		<h1>Group Policies</h1>
+
+		<h:form id="policyForm">
+
+			<a4j:outputPanel layout="block" id="policyPanel"
+				rendered="#{organisationalPolicies.policies.size() > 0}">
+				<rich:accordion id="policyAccordion">
+					<c:forEach items="#{organisationalPolicies.policies}" var="policy">
+						<rich:accordionItem
+							header="#{organisationalPolicies.getPolicyHeaderText(policy)}">
+							<div class="input-no-label">
+								<h:inputTextarea value="#{policy.policy}" readonly="true"
+									class="p-input-textarea" style="height: 500px;" />
+							</div>
+
+							<a4j:outputPanel layout="block">
+								<h:commandButton value="Download"
+									action="#{organisationalPolicies.downloadPolicy(policy)}"
+									immediate="true">
+								</h:commandButton>
+							</a4j:outputPanel>
+						</rich:accordionItem>
+
+					</c:forEach>
+				</rich:accordion>
+			</a4j:outputPanel>
+			<a4j:outputPanel layout="block"
+				rendered="#{organisationalPolicies.policies.size() == 0}">
+				<fieldset>You have no policies defined.</fieldset>
+			</a4j:outputPanel>
+
+			<fieldset class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					<h:outputText value="Import Policy" />
+				</legend>
 
 				<a4j:outputPanel layout="block" id="importPanel">
-				    <a target="_blank" href="/plato/help/policy.html">How can I define a policy tree?</a>
-				    <br/><br/>
-				    				    
-				    <rich:messages for="importPanel" id="importErrors"/>
-				    <a4j:commandButton value="Select File" oncomplete="#{rich:component('selectImportPanel')}.show()" />
-				    <a4j:outputPanel layout="inline" rendered="#{organisationalPolicies.importFile != null}">
-				       #{organisationalPolicies.importFile.fullname}
-				       <a4j:commandButton value="Upload policies" action="#{organisationalPolicies.importPolicyTree}" render="importPanel, policyTree" />
-				    </a4j:outputPanel>
+					<h:commandLink value="How can I define a policy tree?"
+						action="/plato/help/policy.html" target="_blank" />
+
+					<rich:fileUpload
+						fileUploadListener="#{organisationalPolicies.importPolicy}"
+						addLabel="Select" uploadLabel="Import policy" maxFilesQuantity="1"
+						render="policyPanel"
+						onuploadcomplete="#{rich:component('policyAccordion')}.switchToItem('@first')" />
 				</a4j:outputPanel>
-            </fieldset>
-
-            <a4j:outputPanel layout="block" id="policyTree">                        
-	            <a4j:outputPanel layout="inline" rendered="#{organisationalPolicies.user != null and organisationalPolicies.user.userGroup.policyTree != null}">
-					<ui:include src="/plato/shared/policytree.xhtml">
-					    <ui:param name="treeHelper" value="#{organisationalPolicies.treeHelper}" />
-					    <ui:param name="policyTree" value="#{organisationalPolicies.user.userGroup.policyTree}" />
-					    <ui:param name="policyRoot" value="#{organisationalPolicies.policyTreeRoots}" />
-					</ui:include>
-	            </a4j:outputPanel>
-	        </a4j:outputPanel>                    
-           
-            <a4j:commandButton value="Remove policy tree" action="#{organisationalPolicies.removePolicTree()}"
-                               rendered="#{organisationalPolicies.user != null and organisationalPolicies.user.userGroup.policyTree != null}"
-                               render="policyTree"/>
-            <br/><br/>
-            
-            <h:commandButton value="Save" action="#{organisationalPolicies.save()}"/>
-            <h:commandButton value="Discard" action="#{organisationalPolicies.discard()}"/>
-        </h:form>
-
-
-        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
-                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
-                        This workaround is described here: http://community.jboss.org/thread/171909
-                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
-                        the second click (on buttons, etc.).
-        -->
-        <h:form>
-        <!-- select import panel -->
-            <rich:popupPanel id="selectImportPanel" width="500" height="450" domElementAttachment="form">
-                <f:facet name="header">
-                    <h:outputText value="Select file" />
-                </f:facet>
-                <f:facet name="controls">
-                    <h:graphicImage id="closeMapping" 
-                        value="/resources/gfx/icons/cancel.png"
-                        title="Close" width="16" height="16"
-                        onclick="#{rich:component('selectImportPanel')}.hide()" />
-                </f:facet>            
-                <h:messages />
-              
-                <rich:fileUpload id="selectImportFile" fileUploadListener="#{organisationalPolicies.selectImportFile}" addLabel="Select" uploadLabel="Done"
-                                 render="importPanel" onuploadcomplete="#{rich:component('selectImportPanel')}.hide()" />
-            </rich:popupPanel>
-        <!-- / select import panel -->
-        </h:form>
-        
-        
-    </ui:define>
+			</fieldset>
+		</h:form>
+		<h:form>
+			<p:savediscard bean="#{organisationalPolicies}" />
+		</h:form>
+	</ui:define>
 </ui:composition>

@@ -18,7 +18,10 @@ package eu.scape_project.planning.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -33,50 +36,88 @@ import eu.scape_project.planning.model.tree.PolicyTree;
 
 @Entity
 public class UserGroup implements Serializable {
-    private static final long serialVersionUID = -3659021986541051911L;
+	private static final long serialVersionUID = -3659021986541051911L;
 
-    @Id
-    @GeneratedValue
-    private int id;
+	@Id
+	@GeneratedValue
+	private int id;
 
-    private String name;
+	private String name;
 
-    @OneToMany(mappedBy = "userGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<User> users = new ArrayList<User>();
+	@OneToMany(mappedBy = "userGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<User> users = new ArrayList<User>();
 
-    @Valid
-    @OneToOne(cascade = CascadeType.ALL)
-    private PolicyTree policyTree = new PolicyTree();
+	// TODO: Remove
+	@Valid
+	@OneToOne(cascade = CascadeType.ALL)
+	private PolicyTree policyTree = new PolicyTree();
 
-    public int getId() {
-        return id;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<RDFPolicy> policies = new HashSet<RDFPolicy>();
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public RDFPolicy getLatestPolicy() {
 
-    public String getName() {
-        return name;
-    }
+		if (policies.size() == 0) {
+			return null;
+		}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+		RDFPolicy latestPolicy = null;
+		Date latestDate = null;
 
-    public PolicyTree getPolicyTree() {
-        return policyTree;
-    }
+		for (RDFPolicy policy : policies) {
+			if (latestDate == null) {
+				latestPolicy = policy;
+				latestDate = policy.getDateCreated();
+			}
+			if (policy.getDateCreated().after(latestDate)) {
+				latestPolicy = policy;
+				latestDate = policy.getDateCreated();
+			}
+		}
 
-    public void setPolicyTree(PolicyTree policyTree) {
-        this.policyTree = policyTree;
-    }
+		return latestPolicy;
+	}
 
-    public List<User> getUsers() {
-        return users;
-    }
+	// ---------- getter/setter ----------
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public PolicyTree getPolicyTree() {
+		return policyTree;
+	}
+
+	public void setPolicyTree(PolicyTree policyTree) {
+		this.policyTree = policyTree;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public Set<RDFPolicy> getPolicies() {
+		return policies;
+	}
+
+	public void setPolicies(Set<RDFPolicy> policies) {
+		this.policies = policies;
+	}
+
 }

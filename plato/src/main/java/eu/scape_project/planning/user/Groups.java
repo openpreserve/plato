@@ -99,7 +99,7 @@ public class Groups implements Serializable {
             }
         }
 
-        log.debug("Saved groupinfo of user " + user.getUsername());
+        log.debug("Saved group of user " + user.getUsername());
     }
 
     /**
@@ -113,7 +113,7 @@ public class Groups implements Serializable {
         changedUsers.clear();
         changedGroups.clear();
 
-        log.debug("Groups changes discarted for user " + user.getUsername());
+        log.debug("Group changes discarted for user " + user.getUsername());
     }
 
     /**

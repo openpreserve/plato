@@ -16,7 +16,7 @@
  ******************************************************************************/
 package eu.scape_project.planning.policies;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 
@@ -25,110 +25,72 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.model.DigitalObject;
-import eu.scape_project.planning.model.UserGroup;
+import eu.scape_project.planning.model.RDFPolicy;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.model.tree.PolicyTree;
-import eu.scape_project.planning.xml.TreeLoader;
+import eu.scape_project.planning.model.UserGroup;
 
 @Stateful
 @SessionScoped
 public class OrganisationalPolicies implements Serializable {
 	private static final long serialVersionUID = 1811189638942547758L;
 
-	@Inject private Logger log;
-	
-	@Inject private TreeLoader treeLoader;
-	
-	@Inject private EntityManager em;
-	
-	@Inject	private User user;
-	
-	/**
-	 * Method responsible for importing a policy tree from a a given FreeMind file.
-	 * 
-	 * @param file FreeMind file to import the policy tree from.
-	 * @return True if the import was successful. False otherwise.
-	 */
-	public boolean importPolicyTreeFromFreemind(DigitalObject file) {
-        PolicyTree newtree = null;
-        
-        try {
-            InputStream istream = new ByteArrayInputStream(file.getData().getData());
-            newtree = treeLoader.loadFreeMindPolicyTree(istream);
-        } catch (Exception e) {
-        	log.info("Policy import from file " + file.getFullname() + " FAILED");
-            log.error(e.getMessage(),e);
-            return false;
-        }
-        
-        if (newtree == null) {
-        	return false;
-        }
+	@Inject
+	private Logger log;
 
-        UserGroup org = user.getUserGroup();
-        
-        // TODO: Check if really necessary
-        /*
-        if (org == null) {
-            org = new Organisation();
-            user.setOrganisation(org);
-        }
-        */
-        
-        org.setPolicyTree(newtree);
-        log.info("Policy import from file " + file.getFullname() + " successful");
-		
-		return true;
-	}
-	
+	@Inject
+	private EntityManager em;
+
+	@Inject
+	private User user;
+
 	/**
-	 * Method responsible for removing the current set policy tree.
+	 * Imports a new policy to the users group.
+	 * 
+	 * @param input
+	 *            the policy
+	 * @throws IOException
+	 *             if the polify could not be read
 	 */
-	public void removePolicyTree() {
-        UserGroup org = user.getUserGroup();
-        
-        if (org != null) {
-            org.setPolicyTree(null);
-        }
-        
-        log.info("Removed policy tree");
+	public void importPolicy(InputStream input) throws IOException {
+		String content = IOUtils.toString(input, "UTF-8");
+
+		RDFPolicy policy = new RDFPolicy();
+		policy.setPolicy(content);
+
+		user.getUserGroup().getPolicies().add(policy);
+
+		log.info("Imported new policy for user " + user.getUsername());
 	}
-	
+
+	/**
+	 * Clears the polify of the users group.
+	 */
+	public void clearPolicies() {
+		user.getUserGroup().getPolicies().clear();
+		log.info("Cleared policies of user " + user.getUsername());
+	}
+
 	/**
 	 * Method responsible for saving the made changes.
 	 */
 	public void save() {
-        UserGroup org = user.getUserGroup();
-        
-        // TODO: check if really necessary
-        // nothing to save
-        /*
-        if (org == null) {
-            return;
-        }
-        
-        if (org.getId() == 0) {
-            em.persist(org);
-        }
-        */
-        
-        em.persist(em.merge(org));
-        
-        log.info("Policies saved");
+		UserGroup group = user.getUserGroup();
+		user.setUserGroup(em.merge(group));
+
+		log.info("Policies saved for user " + user.getUsername());
 	}
-	
+
 	/**
 	 * Method responsible for discarding the made changes.
 	 */
-    public void discard() {
-    	UserGroup oldUserGroup = em.find(UserGroup.class, user.getUserGroup().getId());
-    	user.setUserGroup(oldUserGroup);
-    	
-    	//user = em.find(User.class, user.getId());
-        
-    	log.info("Policies discarded");
-    }
+	public void discard() {
+		UserGroup oldUserGroup = em.find(UserGroup.class, user.getUserGroup()
+				.getId());
+		user.setUserGroup(oldUserGroup);
+
+		log.info("Policies discarded for user " + user.getUsername());
+	}
 }

@@ -65,7 +65,8 @@
 				<h:commandButton value="Leave group" action="#{groups.leaveGroup()}"
 					rendered="#{user.userGroup.users.size() > 1}" />
 			</fieldset>
-
+		</h:form>
+		<h:form>
 			<p:savediscard bean="#{groups}" />
 		</h:form>
 	</ui:define>

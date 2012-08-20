@@ -16,141 +16,200 @@
  ******************************************************************************/
 package eu.scape_project.planning.policies;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
-import eu.scape_project.planning.model.DigitalObject;
-import eu.scape_project.planning.model.PolicyNode;
+import eu.scape_project.planning.model.RDFPolicy;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("organisationalPolicies")
 @SessionScoped
 public class OrganisationalPoliciesView implements Serializable {
 	private static final long serialVersionUID = 1949891454912441259L;
-	
+
 	@Inject
 	private FacesMessages facesMessages;
-	
+
 	@Inject
 	private OrganisationalPolicies organisationalPolicies;
-	
+
 	@Inject
 	private User user;
-	
-	@Inject 
-	private TreeHelperBean treeHelper;
-	
-	private DigitalObject importFile;
-	
+
+	private UploadedFile importFile = null;
+
+	private ArrayList<RDFPolicy> policies = new ArrayList<RDFPolicy>(0);
+
 	/**
-	 * Variable encapsulating the PoliyTree-Root in a list.
-	 * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
-	 */
-	private List<PolicyNode> policyTreeRoots;
-	
-	public OrganisationalPoliciesView() {
-		importFile = null;
-		policyTreeRoots = new ArrayList<PolicyNode>();
-	}
-	
-	/**
-	 * Method responsible for initializing all properties with proper values - so the page can be displayed correctly.
-	 * @return OutcomeString which navigates to this page.
+	 * Method responsible for initializing all properties with proper values -
+	 * so the page can be displayed correctly.
+	 * 
+	 * @return OutcomeString which navigates to this page
 	 */
 	public String init() {
-		policyTreeRoots = new ArrayList<PolicyNode>();
-		
-		if ((user.getUserGroup() != null) && (user.getUserGroup().getPolicyTree() != null) && (user.getUserGroup().getPolicyTree().isPolicyTreeDefined())) {
-			policyTreeRoots.add(user.getUserGroup().getPolicyTree().getRoot());
-	        // expand all nodes of the displayed policy-tree (if existent)
-	        treeHelper.expandAll(user.getUserGroup().getPolicyTree().getRoot());
-		}
-		
+		updatePolicies();
 		return "/user/organisationalpolicies.jsf";
 	}
 
 	/**
-	 * Method responsible for importing the selected FreeMind-file as policy tree.
+	 * Imports a policy
+	 * 
+	 * @param event
+	 *            Richfaces FileUploadEvent data
 	 */
-	public void importPolicyTree() {
-		boolean importSuccessful = organisationalPolicies.importPolicyTreeFromFreemind(importFile);
-		
-		if (importSuccessful) {
-			facesMessages.addInfo("importPanel", "Policy tree imported successfully");
+	public void importPolicy(FileUploadEvent event) {
+		importFile = event.getUploadedFile();
+
+		try {
+			organisationalPolicies.importPolicy(importFile.getInputStream());
+			facesMessages
+					.addInfo("importPanel", "Policy imported successfully");
+
 			importFile = null;
-			init();
-		}
-		else {
-			facesMessages.addError("importPanel", "The uploaded file is not a valid Freemind mindmap. Maybe it is corrupted?");
+			updatePolicies();
+		} catch (IOException e) {
+			facesMessages.addError("The uploaded policy file is not valid");
 		}
 	}
-	
-    /**
-     * Method responsible for selecting/setting a file for a later import.
-     * 
-     * @param event Richfaces FileUploadEvent data.
-     */
-    public void selectImportFile(FileUploadEvent event) {
-    	UploadedFile file = event.getUploadedFile();
-    	
-    	// Do some input checks
-    	if (!file.getName().endsWith("mm")) {
-    		facesMessages.addError("importPanel", "Please select a FreeMind file.");
-    		importFile = null;
-    		return;
-    	}
-    	
-		// Put file-data into a digital object
-		importFile = new DigitalObject();
-		importFile.setFullname(file.getName());
-		importFile.getData().setData(file.getData());
-		importFile.setContentType(file.getContentType());
-    }
-    
-    /**
-     * Method responsible for removing the current set policy tree.
-     */
-    public void removePolicTree() {
-    	organisationalPolicies.removePolicyTree();
-    	init();
-    }
-    
-    /**
-     * Method responsible for saving the made changes
-     * @return Outcome String redirecting to start page.
-     */
-    public String save() {
-    	organisationalPolicies.save();
-    	return "/index.jsp";
-    }
-    
-    /**
-     * Method responsible for discarding the made changes
-     * @return Outcome String redirecting to start page.
-     */
-    public String discard() {
-    	organisationalPolicies.discard();
-    	init();
-    	return "/index.jsp";
-    }
-    
+
+	/**
+	 * Deletes all policies from the current user
+	 */
+	public void clearPolicies() {
+		organisationalPolicies.clearPolicies();
+		updatePolicies();
+	}
+
+	/**
+	 * Method responsible for saving the made changes
+	 * 
+	 * @return Outcome String redirecting to start page.
+	 */
+	public String save() {
+		organisationalPolicies.save();
+		init();
+		return "/index.jsp";
+	}
+
+	/**
+	 * Method responsible for discarding the made changes
+	 * 
+	 * @return Outcome String redirecting to start page.
+	 */
+	public String discard() {
+		organisationalPolicies.discard();
+		init();
+		return "/index.jsp";
+	}
+
+	/**
+	 * Updates the policies list from the current user's policies.
+	 */
+	private void updatePolicies() {
+
+		policies = new ArrayList<RDFPolicy>(user.getUserGroup().getPolicies());
+
+		Collections.sort(policies,
+				Collections.reverseOrder(new Comparator<RDFPolicy>() {
+					@Override
+					public int compare(RDFPolicy o1, RDFPolicy o2) {
+						if (o1 == null || o2 == null) {
+							throw new NullPointerException();
+						}
+
+						if (o1.getDateCreated() == null) {
+							return 1;
+						}
+						if (o2.getDateCreated() == null) {
+							return -1;
+						}
+
+						return o1.getDateCreated().compareTo(
+								o2.getDateCreated());
+					}
+				}));
+	}
+
+	/**
+	 * Returns the policies of the current user
+	 * 
+	 * @return the policies
+	 */
+	public List<RDFPolicy> getPolicies() {
+		return policies;
+	}
+
+	/**
+	 * Initiates a download for the provided policy
+	 * 
+	 * @param policy
+	 *            the policy to download
+	 */
+	public void downloadPolicy(RDFPolicy policy) {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_kkmmss");
+
+		HttpServletResponse response = (HttpServletResponse) FacesContext
+				.getCurrentInstance().getExternalContext().getResponse();
+		response.setContentType("application/x-download");
+		response.setHeader(
+				"Content-Disposition",
+				"attachement; filename=\"Policy_"
+						+ formatter.format(policy.getDateCreated()) + ".rdf\"");
+		response.setContentLength(policy.getPolicy().length());
+		try {
+			PrintWriter writer = new PrintWriter(response.getOutputStream());
+			writer.write(policy.getPolicy());
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			facesMessages
+					.addError("An error occured while generating the policy file");
+		}
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
+	/**
+	 * Creates a header string for the provided policy.
+	 * 
+	 * @param policy
+	 *            the policy to use
+	 * @return the header string
+	 */
+	public String getPolicyHeaderText(RDFPolicy policy) {
+		if (policy.getDateCreated() == null) {
+			return "New";
+		} else {
+			SimpleDateFormat formatter = new SimpleDateFormat(
+					"yyyy-MM-dd kk-mm-ss");
+			return formatter.format(policy.getDateCreated());
+		}
+	}
+
 	// --------------- getter/setter ---------------
-	
-	public DigitalObject getImportFile() {
+
+	public UploadedFile getImportFile() {
 		return importFile;
 	}
 
-	public void setImportFile(DigitalObject importFile) {
+	public void setImportFile(UploadedFile importFile) {
 		this.importFile = importFile;
 	}
 
@@ -158,7 +217,8 @@ public class OrganisationalPoliciesView implements Serializable {
 		return organisationalPolicies;
 	}
 
-	public void setOrganisationalPolicies(OrganisationalPolicies organisationalPolicies) {
+	public void setOrganisationalPolicies(
+			OrganisationalPolicies organisationalPolicies) {
 		this.organisationalPolicies = organisationalPolicies;
 	}
 
@@ -168,17 +228,5 @@ public class OrganisationalPoliciesView implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public List<PolicyNode> getPolicyTreeRoots() {
-		return policyTreeRoots;
-	}
-
-	public void setPolicyTreeRoots(List<PolicyNode> policyTreeRoots) {
-		this.policyTreeRoots = policyTreeRoots;
-	}
-
-	public TreeHelperBean getTreeHelper() {
-		return treeHelper;
 	}
 }
