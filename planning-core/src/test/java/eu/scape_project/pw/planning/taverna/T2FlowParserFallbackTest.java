@@ -8,19 +8,11 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import eu.scape_project.planning.taverna.T2FlowParser;
 import eu.scape_project.planning.taverna.T2FlowParser.ComponentProfile;
+import eu.scape_project.planning.taverna.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.TavernaPort;
 
-public class T2FlowParserTest {
-
-    private static final String FROM_OBJECT_PATH_URI = "http://scape-project.eu/components/FromObject";
-    private static final String FROM_OBJECT_PATH_NAME = "path_from";
-
-    private static final String TO_OBJECT_PATH_URI = "http://scape-project.eu/components/ToObject";
-    private static final String TO_OBJECT_PATH_NAME = "path_to";
-
-    private static final String MEASURES_URI_PREFIX = "http://scape-project.eu/pw/vocab/measures/";
+public class T2FlowParserFallbackTest {
 
     @Test
     public void getIdTest() throws Exception {
@@ -29,7 +21,7 @@ public class T2FlowParserTest {
         InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
         // TODO: Fix XPath to use correct annotation class after annotation
         // is implemented in Taverna
@@ -43,7 +35,7 @@ public class T2FlowParserTest {
         InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
         // TODO: Fix XPath to use correct annotation class after annotation
         // is implemented in Taverna
@@ -54,37 +46,40 @@ public class T2FlowParserTest {
     public void getProfileTest() throws Exception {
 
         // Migration Action
-        InputStream migrationActionT2flow = getClass().getResourceAsStream("/taverna/ProfileMigrationAction.t2flow");
+        InputStream migrationActionT2flow = getClass().getResourceAsStream(
+            "/taverna/ProfileMigrationActionFallback.t2flow");
         assertTrue(migrationActionT2flow != null);
 
-        T2FlowParser MigrationActionT2flowParser = T2FlowParser.createParser(migrationActionT2flow);
+        T2FlowParserFallback MigrationActionT2flowParser = T2FlowParserFallback.createParser(migrationActionT2flow);
 
         ComponentProfile migrationProfile = MigrationActionT2flowParser.getProfile();
         assertTrue(migrationProfile == ComponentProfile.MigrationAction);
 
         // Characterisation
-        InputStream characterisationT2flow = getClass().getResourceAsStream("/taverna/ProfileCharacterisation.t2flow");
+        InputStream characterisationT2flow = getClass().getResourceAsStream(
+            "/taverna/ProfileCharacterisationFallback.t2flow");
         assertTrue(characterisationT2flow != null);
 
-        T2FlowParser CharacterisationT2flowParser = T2FlowParser.createParser(characterisationT2flow);
+        T2FlowParserFallback CharacterisationT2flowParser = T2FlowParserFallback.createParser(characterisationT2flow);
 
         ComponentProfile characterisationProfile = CharacterisationT2flowParser.getProfile();
         assertTrue(characterisationProfile == ComponentProfile.Characterisation);
 
         // QA
-        InputStream qaT2flow = getClass().getResourceAsStream("/taverna/ProfileQA.t2flow");
+        InputStream qaT2flow = getClass().getResourceAsStream("/taverna/ProfileQAFallback.t2flow");
         assertTrue(qaT2flow != null);
 
-        T2FlowParser qaT2flowParser = T2FlowParser.createParser(qaT2flow);
+        T2FlowParserFallback qaT2flowParser = T2FlowParserFallback.createParser(qaT2flow);
 
         ComponentProfile qaProfile = qaT2flowParser.getProfile();
         assertTrue(qaProfile == ComponentProfile.QA);
 
         // Executable Plang
-        InputStream execuatblePlanT2flow = getClass().getResourceAsStream("/taverna/ProfileExecutablePlan.t2flow");
+        InputStream execuatblePlanT2flow = getClass().getResourceAsStream(
+            "/taverna/ProfileExecutablePlanFallback.t2flow");
         assertTrue(execuatblePlanT2flow != null);
 
-        T2FlowParser executablePlanT2flowParser = T2FlowParser.createParser(execuatblePlanT2flow);
+        T2FlowParserFallback executablePlanT2flowParser = T2FlowParserFallback.createParser(execuatblePlanT2flow);
 
         ComponentProfile executablePlanProfile = executablePlanT2flowParser.getProfile();
         assertTrue(executablePlanProfile == ComponentProfile.ExecutablePlan);
@@ -97,7 +92,7 @@ public class T2FlowParserTest {
         InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
         assertTrue(t2flowParser.getName().equals("Workflow Title"));
     }
@@ -109,7 +104,7 @@ public class T2FlowParserTest {
         InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
         assertTrue(t2flowParser.getDescription().equals("Workflow Description"));
     }
@@ -118,10 +113,10 @@ public class T2FlowParserTest {
     public void getAuthorTest() throws Exception {
 
         // Migration Action
-        InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
+        InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotationsFallback.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
         assertTrue(t2flowParser.getAuthor().equals("Workflow Author"));
     }
@@ -130,25 +125,22 @@ public class T2FlowParserTest {
     public void getOwnerTest() throws Exception {
 
         // Migration Action
-        InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
+        InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotationsFallback.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
-        // TODO: Fix expected value after annotation is implemented in Taverna
-        assertTrue(t2flowParser.getOwner().equals(""));
+        assertTrue(t2flowParser.getOwner().equals("Workflow Author"));
     }
 
     @Test
     public void getLicenseTest() throws Exception {
-
         // Migration Action
-        InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotations.t2flow");
+        InputStream t2flow = getClass().getResourceAsStream("/taverna/WorkflowAnnotationsFallback.t2flow");
         assertTrue(t2flow != null);
 
-        T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
+        T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
-        // TODO: Fix expected value after annotation is implemented in Taverna
         assertTrue(t2flowParser.getLicense().equals(""));
     }
 
@@ -156,41 +148,36 @@ public class T2FlowParserTest {
     public void getInputPortsTest() throws Exception {
 
         // Migration Action
-        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPorts.t2flow");
+        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPortsFallback.t2flow");
         assertTrue(inOutT2flow != null);
 
-        T2FlowParser inOutT2flowParser = T2FlowParser.createParser(inOutT2flow);
+        T2FlowParserFallback inOutT2flowParser = T2FlowParserFallback.createParser(inOutT2flow);
         Set<TavernaPort> inputPorts = inOutT2flowParser.getInputPorts();
 
-        assertTrue(inputPorts.size() == 4);
+        assertTrue(inputPorts.size() == 3);
 
         for (TavernaPort inputPort : inputPorts) {
-            if (inputPort.getName().equals(FROM_OBJECT_PATH_NAME)) {
+            if (inputPort.getName().equals("path_from")) {
                 assertTrue(inputPort.getDepth() == 1);
                 Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(FROM_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/FromObject"));
                 }
-            } else if (inputPort.getName().equals(TO_OBJECT_PATH_NAME)) {
+            } else if (inputPort.getName().equals("path_to")) {
                 assertTrue(inputPort.getDepth() == 0);
                 Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(TO_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/ToObject"));
                 }
             } else if (inputPort.getName().equals("111")) {
                 assertTrue(inputPort.getDepth() == 0);
                 Set<URI> uris = inputPort.getUris();
-                assertTrue(uris.size() == 2);
+                assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(TO_OBJECT_PATH_URI)
-                        || uri.toString().equals(MEASURES_URI_PREFIX + "111"));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/pw/vocab/measures/111"));
                 }
-            } else if (inputPort.getName().equals("other_in")) {
-                assertTrue(inputPort.getDepth() == 0);
-                Set<URI> uris = inputPort.getUris();
-                assertTrue(uris.size() == 0);
             } else {
                 assertTrue(false);
             }
@@ -201,23 +188,24 @@ public class T2FlowParserTest {
     public void getInputPortsByURITest() throws Exception {
 
         // Migration Action
-        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPorts.t2flow");
+        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPortsFallback.t2flow");
         assertTrue(inOutT2flow != null);
 
-        T2FlowParser inOutT2flowParser = T2FlowParser.createParser(inOutT2flow);
+        T2FlowParserFallback inOutT2flowParser = T2FlowParserFallback.createParser(inOutT2flow);
 
         // FromObject
-        Set<TavernaPort> FromInputPorts = inOutT2flowParser.getInputPorts(new URI(FROM_OBJECT_PATH_URI));
+        Set<TavernaPort> FromInputPorts = inOutT2flowParser.getInputPorts(new URI(
+            "http://scape-project.eu/components/FromObject"));
 
         assertTrue(FromInputPorts.size() == 1);
 
         for (TavernaPort inputPort : FromInputPorts) {
-            if (inputPort.getName().equals(FROM_OBJECT_PATH_NAME)) {
+            if (inputPort.getName().equals("path_from")) {
                 assertTrue(inputPort.getDepth() == 1);
                 Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(FROM_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/FromObject"));
                 }
             } else {
                 assertTrue(false);
@@ -225,25 +213,37 @@ public class T2FlowParserTest {
         }
 
         // ToObject
-        Set<TavernaPort> toInputPorts = inOutT2flowParser.getInputPorts(new URI(TO_OBJECT_PATH_URI));
+        Set<TavernaPort> toInputPorts = inOutT2flowParser.getInputPorts(new URI(
+            "http://scape-project.eu/components/ToObject"));
 
-        assertTrue(toInputPorts.size() == 2);
+        assertTrue(toInputPorts.size() == 1);
 
         for (TavernaPort inputPort : toInputPorts) {
-            if (inputPort.getName().equals(TO_OBJECT_PATH_NAME)) {
+            if (inputPort.getName().equals("path_to")) {
                 assertTrue(inputPort.getDepth() == 0);
                 Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(TO_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/ToObject"));
                 }
-            } else if (inputPort.getName().equals("111")) {
+            } else {
+                assertTrue(false);
+            }
+        }
+
+        // Measure
+        Set<TavernaPort> measureInputPort = inOutT2flowParser.getInputPorts(new URI(
+            "http://scape-project.eu/pw/vocab/measures/111"));
+
+        assertTrue(toInputPorts.size() == 1);
+
+        for (TavernaPort inputPort : measureInputPort) {
+            if (inputPort.getName().equals("111")) {
                 assertTrue(inputPort.getDepth() == 0);
                 Set<URI> uris = inputPort.getUris();
-                assertTrue(uris.size() == 2);
+                assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(TO_OBJECT_PATH_URI)
-                        || uri.toString().equals(MEASURES_URI_PREFIX + "111"));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/pw/vocab/measures/111"));
                 }
             } else {
                 assertTrue(false);
@@ -255,32 +255,32 @@ public class T2FlowParserTest {
     public void getOutputPortsTest() throws Exception {
 
         // Migration Action
-        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPorts.t2flow");
+        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPortsFallback.t2flow");
         assertTrue(inOutT2flow != null);
 
-        T2FlowParser inOutT2flowParser = T2FlowParser.createParser(inOutT2flow);
+        T2FlowParserFallback inOutT2flowParser = T2FlowParserFallback.createParser(inOutT2flow);
         Set<TavernaPort> outputPorts = inOutT2flowParser.getOutputPorts();
 
         assertTrue(outputPorts.size() == 3);
 
         for (TavernaPort outputPort : outputPorts) {
-            if (outputPort.getName().equals(FROM_OBJECT_PATH_NAME)) {
+            if (outputPort.getName().equals("path_from")) {
                 Set<URI> uris = outputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(FROM_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/FromObject"));
                 }
-            } else if (outputPort.getName().equals(TO_OBJECT_PATH_NAME)) {
+            } else if (outputPort.getName().equals("path_to")) {
                 Set<URI> uris = outputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(TO_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/ToObject"));
                 }
-            } else if (outputPort.getName().equals("112")) {
+            } else if (outputPort.getName().equals("111")) {
                 Set<URI> uris = outputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(MEASURES_URI_PREFIX + "112"));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/pw/vocab/measures/111"));
                 }
             } else {
                 assertTrue(false);
@@ -292,22 +292,23 @@ public class T2FlowParserTest {
     public void getOutputPortsByURITest() throws Exception {
 
         // Migration Action
-        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPorts.t2flow");
+        InputStream inOutT2flow = getClass().getResourceAsStream("/taverna/InOutPortsFallback.t2flow");
         assertTrue(inOutT2flow != null);
 
-        T2FlowParser inOutT2flowParser = T2FlowParser.createParser(inOutT2flow);
+        T2FlowParserFallback inOutT2flowParser = T2FlowParserFallback.createParser(inOutT2flow);
 
         // FromObject
-        Set<TavernaPort> FromOutputPorts = inOutT2flowParser.getOutputPorts(new URI(FROM_OBJECT_PATH_URI));
+        Set<TavernaPort> FromInputPorts = inOutT2flowParser.getOutputPorts(new URI(
+            "http://scape-project.eu/components/FromObject"));
 
-        assertTrue(FromOutputPorts.size() == 1);
+        assertTrue(FromInputPorts.size() == 1);
 
-        for (TavernaPort outputPort : FromOutputPorts) {
-            if (outputPort.getName().equals(FROM_OBJECT_PATH_NAME)) {
-                Set<URI> uris = outputPort.getUris();
+        for (TavernaPort inputPort : FromInputPorts) {
+            if (inputPort.getName().equals("path_from")) {
+                Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(FROM_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/FromObject"));
                 }
             } else {
                 assertTrue(false);
@@ -315,16 +316,17 @@ public class T2FlowParserTest {
         }
 
         // ToObject
-        Set<TavernaPort> toOutputPorts = inOutT2flowParser.getOutputPorts(new URI(TO_OBJECT_PATH_URI));
+        Set<TavernaPort> toInputPorts = inOutT2flowParser.getOutputPorts(new URI(
+            "http://scape-project.eu/components/ToObject"));
 
-        assertTrue(toOutputPorts.size() == 1);
+        assertTrue(toInputPorts.size() == 1);
 
-        for (TavernaPort outputPort : toOutputPorts) {
-            if (outputPort.getName().equals(TO_OBJECT_PATH_NAME)) {
-                Set<URI> uris = outputPort.getUris();
+        for (TavernaPort inputPort : toInputPorts) {
+            if (inputPort.getName().equals("path_to")) {
+                Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(TO_OBJECT_PATH_URI));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/components/ToObject"));
                 }
             } else {
                 assertTrue(false);
@@ -332,21 +334,21 @@ public class T2FlowParserTest {
         }
 
         // Measure
-        Set<TavernaPort> measureOutputPorts = inOutT2flowParser.getOutputPorts(new URI(MEASURES_URI_PREFIX + "112"));
+        Set<TavernaPort> measureInputPort = inOutT2flowParser.getOutputPorts(new URI(
+            "http://scape-project.eu/pw/vocab/measures/111"));
 
-        assertTrue(measureOutputPorts.size() == 1);
+        assertTrue(toInputPorts.size() == 1);
 
-        for (TavernaPort outputPort : measureOutputPorts) {
-            if (outputPort.getName().equals("112")) {
-                Set<URI> uris = outputPort.getUris();
+        for (TavernaPort inputPort : measureInputPort) {
+            if (inputPort.getName().equals("111")) {
+                Set<URI> uris = inputPort.getUris();
                 assertTrue(uris.size() == 1);
                 for (URI uri : uris) {
-                    assertTrue(uri.toString().equals(MEASURES_URI_PREFIX + "112"));
+                    assertTrue(uri.toString().equals("http://scape-project.eu/pw/vocab/measures/111"));
                 }
             } else {
                 assertTrue(false);
             }
         }
     }
-
 }

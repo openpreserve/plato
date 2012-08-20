@@ -141,6 +141,30 @@ public class T2FlowParser {
     }
 
     /**
+     * Reads the profile version annotation of the t2flow.
+     * 
+     * @return the profile version the workflow adheres to
+     * @throws TavernaParserException
+     */
+    public String getProfileVersion() throws TavernaParserException {
+
+        log.debug("Extracting profile version");
+
+        XPathFactory factory = XPathFactory.newInstance();
+        XPath xPath = factory.newXPath();
+        xPath.setNamespaceContext(nsc);
+
+        try {
+            XPathExpression expr = xPath
+                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.ProfileVersion']/value");
+
+            return (String) expr.evaluate(doc, XPathConstants.STRING);
+        } catch (XPathExpressionException e) {
+            throw new TavernaParserException(e);
+        }
+    }
+
+    /**
      * Reads the ID annotation of the t2flow.
      * 
      * @return the id the workflow adheres to
@@ -184,30 +208,6 @@ public class T2FlowParser {
             // is implemented in Taverna
             XPathExpression expr = xPath
                 .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Version']/value");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
-        }
-    }
-
-    /**
-     * Reads the profile version annotation of the t2flow.
-     * 
-     * @return the profile version the workflow adheres to
-     * @throws TavernaParserException
-     */
-    public String getProfileVersion() throws TavernaParserException {
-
-        log.debug("Extracting profile version");
-
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
-
-        try {
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.ProfileVersion']/value");
 
             return (String) expr.evaluate(doc, XPathConstants.STRING);
         } catch (XPathExpressionException e) {
