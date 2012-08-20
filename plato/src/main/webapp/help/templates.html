@@ -1,189 +1,165 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de">
-   <head>
-      <title>PLANETS Preservation Planning Tool</title>
-      <meta name="description"
-         content="PLANETS Preservation Planning Tool"></meta>
-         <link rel="shortcut icon" type="image/png"
-            href="img/plato_icon.png"></link>
-            <link rel="stylesheet" href="../css/content.css"
-               type="text/css"></link>
-               <link rel="stylesheet" media="screen"
-                  href="../css/plato.css" type="text/css"
-                  title="Plato"></link>
-   </head>
-   <body id="body">
-      <a name="top"></a>
-      <div id="header">
-         <div>
-            <a name="top"></a>
-         </div>
-         <h1 class="title1">How to use the template library</h1>
-         <!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
-         <div class="hnav">
-            <div>
-               <!-- div on the top right -->
-            </div>
-         </div>
-      </div>
-      <div class="strich">
-         <div></div>
-      </div>
-      <div id="menu">&nbsp;</div>
-      <div id="spacing-top">
-         <div></div>
-      </div>
-      <div id="content">
-         <p>
-            This page explains the functionality provided by the
-            template- and fragment-trees in Plato.
-         </p>
-         <div id="menu">
-            <h2 class="title2">Templates and fragments: The knowledge base</h2>
-         </div>
-         <p>
-            To allow you the full or partial reuse of an objective tree which
-            you have already defined within a former project, or simply
-            to assist you in creating a nicely structured objective tree
-            from scratch, Plato includes a knowledge base that holds useful templates and fragments of requirements.<br/>
-            You can save your trees (or parts of your trees, so-called <em>fragments</em>) in the library, and load templates or fragments from it.
-         </p>
-           <ul>
-            <li>
-               <b>Templates</b>
-               should be used to store complete objective trees, be it
-               from former case studies or just rough tree-layouts which
-               you might want to re-use for other projects. When
-               selecting a template, your project's current objective
-               tree will be replaced by the template, which you can then
-               customize to your needs.
-            </li>
-            <li>
-               <b>Fragments</b>
-               on the other hand can be used to store and organize
-               snapshots of parts of an objective tree for partial
-               reuse. They can be to added to any inner node in your project's
-               objective tree.
-            </li>
-         </ul>
-           
-         <hr />
-         <div id="menu">
-            <a name="usetemplate"></a>
-            <h2 class="title2">Using a template</h2>
-         </div>
-         <p>
-            If you want to start building your objective tree by using one of
-            the templates provided in the template library, simply click the corresponding button:
-         </p>
-         <img src="templates-buttons.png"
-            alt="Load a tree"
-            title="Load a tree" />
-         <p>
-         	The knowledge base interface will open (it might take a second).
-         	</p>
-          <img src="templates-use.png"
-            alt="Loading a tree"
-            title="Loading a tree" />
-		<p> You select the template you want to use by clicking on its name. Please allow a few moments for this operation. 
-		The popup will disappear and your current objective tree will be replaced by a copy of the selected template. 
-		Now you can start customizing it to your needs.
-         </p>
+<head>
+<title>PLANETS Preservation Planning Tool</title>
+<meta name="description" content="PLANETS Preservation Planning Tool"></meta>
+<link rel="shortcut icon" type="image/png" href="img/plato_icon.png"></link>
+<link rel="stylesheet" href="../css/content.css" type="text/css"></link>
+<link rel="stylesheet" media="screen" href="../css/plato.css"
+	type="text/css" title="Plato"></link>
+</head>
+<body id="body">
+	<a name="top"></a>
+	<div id="header">
+		<div>
+			<a name="top"></a>
+		</div>
+		<h1 class="title1">How to use the template library</h1>
+		<!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
+		<div class="hnav">
+			<div>
+				<!-- div on the top right -->
+			</div>
+		</div>
+	</div>
+	<div class="strich">
+		<div></div>
+	</div>
+	<div id="menu">&nbsp;</div>
+	<div id="spacing-top">
+		<div></div>
+	</div>
+	<div id="content">
+		<p>This page explains the functionality provided by the template-
+			and fragment-trees in Plato.</p>
+		<div id="menu">
+			<h2 class="title2">Templates and fragments: The knowledge base</h2>
+		</div>
+		<p>
+			To allow you the full or partial reuse of an objective tree which you
+			have already defined within a former project, or simply to assist you
+			in creating a nicely structured objective tree from scratch, Plato
+			includes a knowledge base that holds useful templates and fragments
+			of requirements.<br /> You can save your trees (or parts of your
+			trees, so-called <em>fragments</em>) in the library, and load
+			templates or fragments from it.
+		</p>
+		<ul>
+			<li><b>Templates</b> should be used to store complete objective
+				trees, be it from former case studies or just rough tree-layouts
+				which you might want to re-use for other projects. When selecting a
+				template, your project's current objective tree will be replaced by
+				the template, which you can then customize to your needs.</li>
+			<li><b>Fragments</b> on the other hand can be used to store and
+				organize snapshots of parts of an objective tree for partial reuse.
+				They can be to added to any inner node in your project's objective
+				tree.</li>
+		</ul>
 
-         <hr />
-         <div id="menu">
-            <a name="savetemplate"></a>
-            <h2 class="title2">Saving a template</h2>
-         </div>
-         <p>
-            To save an objective tree into the knowledge base, open the edit menu next to the root node and select "Save this tree". 
-            A copy of the tree will then be stored into the library. 
-         </p> 
-         <img src="templates-save.png"
-            alt="Saving a tree"
-            title="Saving a tree" />
-			<p>You can change its name and description of the tree <b>before</b> saving, as shown below:</p>
-			 <img src="templates-editdescription.png"
-            alt="Custom description for a new template"
-            title="Custom description for a new template" />
-			<p>To complete the operation and store the tree, select the target node in the library to which you want to add the tree. 
-			The popup window will close, and a copy of your tree is stored in the public library and accessible to all users.</p>
-         <hr />
-         <div id="menu">
-            <a name="store"></a>
-            <h2 class="title2">Saving a fragment</h2>
-         </div>
-         <p>
-            To save a node and its children to the template library, open the edit menu next to it and select "Save this branch":
-         </p>
-         <img src="templates-savebranch.png"
-            alt="Saving a branch"
-            title="Saving a branch" />
-            <p>
-            As with the templates, you can edit its name and description:
-            </p>
-             <img src="templates-savebranch-edit.png"
-            alt="Custom description for a new branch"
-            title="Custom description for a new branch" />
-            <p>
-            To complete the operation and store the branch, select the target node in the library to which you want to add the fragment.
-            A copy of the node, including its child-nodes and leaves as well as their scales and
-            restrictions, is now stored in the library.
-         </p>
-         <hr />
-         <div id="menu">
-            <a name="insert"></a>
-            <h2 class="title2">
-               Inserting fragments from the fragments library into your
-               objective tree
-            </h2>
-         </div>
-         <p>
-            If you want to insert a fragment from the template library
-            into your objective tree, open the edit menu next to the node where you
-            want to insert the fragment, and select "Insert fragment at this node".
-            (Insertion operations are only possible at inner nodes, not at leaves.)
-         </p>
-         <img src="templates-insert.png"
-            alt="Selecting a target node for the insertion"
-            title="Selecting a target node for the insertion" />
-         <p>
-           The library popup will appear, asking you to select a fragment for insertion:
-         </p>
-         <img src="templates-insertfragment.png"
-            alt="Selecting a fragment to insert"
-            title="Selecting a fragment to insert" />
-         <p>
-           Again, to complete the operation and store the branch, select the fragment to insert and allow a few moments for the operation.
-           The popup will close and the fragment will be inserted at the chosen location.
-         </p>  
-           
-         <div id="spacing-bottom">
-            <div></div>
-         </div>
-         <div id="footer-left">
-            <div class="strich">
-               <div></div>
-            </div>
-            <div class="contact">
-               Plato help page. Institute of Software Technology and
-               Interactive Systems: &#171;
-               <a
-                  href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">
-                  off-ice bears
-               </a>
-               &#187;
-            </div>
-         </div>
-         <div id="footer-right">
-            <span>
-               <div>
-                  <a class="toplink" href="#top" title="top"
-                     alt="top">
-                     <img src="img/go-top.png" border="0"></a>
-               </div>
-               <!-- Span on the bottom right -->
-            </span>
-         </div>
-   </body>
+		<hr />
+		<div id="menu">
+			<a name="usetemplate"></a>
+			<h2 class="title2">Using a template</h2>
+		</div>
+		<p>If you want to start building your objective tree by using one
+			of the templates provided in the template library, simply click the
+			corresponding button:</p>
+		<img src="templates-buttons.png" alt="Load a tree" title="Load a tree" />
+		<p>The knowledge base interface will open (it might take a
+			second).</p>
+		<img src="templates-use.png" alt="Loading a tree"
+			title="Loading a tree" />
+		<p>You select the template you want to use by clicking on its
+			name. Please allow a few moments for this operation. The popup will
+			disappear and your current objective tree will be replaced by a copy
+			of the selected template. Now you can start customizing it to your
+			needs.</p>
+
+		<hr />
+		<div id="menu">
+			<a name="savetemplate"></a>
+			<h2 class="title2">Saving a template</h2>
+		</div>
+		<p>To save an objective tree into the knowledge base, open the
+			edit menu next to the root node and select "Save this tree". A copy
+			of the tree will then be stored into the library.</p>
+		<img src="templates-save.png" alt="Saving a tree"
+			title="Saving a tree" />
+		<p>
+			You can change its name and description of the tree <b>before</b>
+			saving, as shown below:
+		</p>
+		<img src="templates-editdescription.png"
+			alt="Custom description for a new template"
+			title="Custom description for a new template" />
+		<p>To complete the operation and store the tree, select the target
+			node in the library to which you want to add the tree. The popup
+			window will close, and a copy of your tree is stored in the public
+			library and accessible to all users.</p>
+		<hr />
+		<div id="menu">
+			<a name="store"></a>
+			<h2 class="title2">Saving a fragment</h2>
+		</div>
+		<p>To save a node and its children to the template library, open
+			the edit menu next to it and select "Save this branch":</p>
+		<img src="templates-savebranch.png" alt="Saving a branch"
+			title="Saving a branch" />
+		<p>As with the templates, you can edit its name and description:</p>
+		<img src="templates-savebranch-edit.png"
+			alt="Custom description for a new branch"
+			title="Custom description for a new branch" />
+		<p>To complete the operation and store the branch, select the
+			target node in the library to which you want to add the fragment. A
+			copy of the node, including its child-nodes and leaves as well as
+			their scales and restrictions, is now stored in the library.</p>
+		<hr />
+		<div id="menu">
+			<a name="insert"></a>
+			<h2 class="title2">Inserting fragments from the fragments
+				library into your objective tree</h2>
+		</div>
+		<p>If you want to insert a fragment from the template library into
+			your objective tree, open the edit menu next to the node where you
+			want to insert the fragment, and select "Insert fragment at this
+			node". (Insertion operations are only possible at inner nodes, not at
+			leaves.)</p>
+		<img src="templates-insert.png"
+			alt="Selecting a target node for the insertion"
+			title="Selecting a target node for the insertion" />
+		<p>The library popup will appear, asking you to select a fragment
+			for insertion:</p>
+		<img src="templates-insertfragment.png"
+			alt="Selecting a fragment to insert"
+			title="Selecting a fragment to insert" />
+		<p>Again, to complete the operation and store the branch, select
+			the fragment to insert and allow a few moments for the operation. The
+			popup will close and the fragment will be inserted at the chosen
+			location.</p>
+
+	</div>
+
+	<div id="spacing-bottom">
+		<div></div>
+	</div>
+	<div id="footer-left">
+		<div class="strich">
+			<div></div>
+		</div>
+		<div class="contact">
+			Plato help page. Institute of Software Technology and Interactive
+			Systems: &#171; <a
+				href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">
+				off-ice bears </a> &#187;
+		</div>
+	</div>
+	<div id="footer-right">
+		<span>
+			<div>
+				<a class="toplink" href="#top" title="top" alt="top"> <img
+					src="img/go-top.png" border="0" /></a>
+			</div> <!-- Span on the bottom right -->
+		</span>
+	</div>
+</body>
 </html>
