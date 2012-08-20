@@ -1,117 +1,113 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition 	xmlns="http://www.w3.org/1999/xhtml"
-    				xmlns:h="http://java.sun.com/jsf/html"
-    				xmlns:f="http://java.sun.com/jsf/core"
-    				xmlns:ui="http://java.sun.com/jsf/facelets"
-    				xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
-    				xmlns:p="http://java.sun.com/jsf/composite/plato"    
-   					template="/WEB-INF/templates/default.xhtml"
-   					xmlns:a4j="http://richfaces.org/a4j"
-   					xmlns:rich="http://richfaces.org/rich">
- 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
 	<ui:define name="title">
 		SCAPE Planning Suite - Define Basis
 	</ui:define>
 	<ui:define name="content">
-	<h:outputStylesheet name="css/workflow.css"/>
-	<h1>Define Basis</h1>
+		<h:outputStylesheet name="css/workflow.css" />
+		<h1>Define Basis</h1>
 		<div id="anchors">
-            <ul class="anchors">
-               <li class="anchors">
-                  <a href="#identification_fieldset" class="anchors">Identification</a>
-               </li>
-               <li class="anchors">
-                  <a href="#status_fieldset" class="anchors">Status</a>
-               </li>
-               <li class="anchors">
-                  <a href="#description_fieldset" class="anchors">Description</a>
-               </li>
-               <li class="anchors">
-                  <a href="#policies_fieldset" class="anchors">Policies</a>
-               </li>
-            </ul>
-         </div>
-		
-         <h:form id="mainform">
-         	<h:inputText id="changedflag" value="#{defineBasis.changed}"
-               style="display:none" />
-           	<h:inputText value="#{defineBasis.plan.planProperties.name}" onchange="changed()" style="display:none"/>
-           	<h:commandLink action="#{defineBasis.discard}" value="Test Changed" onclick="return mayExit_noClick();" style="display:none"/>
-           	<p>
-		 		<fieldset id="identification_fieldset" class="size-full">
-		 			<legend class="fieldset-full-size-legend">
-		 				<ui:include src="/plato/shared/legend_nav.xhtml" />
-		 				<h:outputText value="Identification" />
-		 			</legend>
-		         	<p:inputText 		labelText="Identification Code:" id="identificationCode" 
-		         						input="#{defineBasis.plan.projectBasis.identificationCode}"
-		         						touchable="#{defineBasis.plan.projectBasis}">
-		         						</p:inputText>
-		         	<p:inputTextArea 	labelText="Document types:"
-		        	          			id="documentTypes"
-		            	      			input="#{defineBasis.plan.projectBasis.documentTypes}"
-		                	  			touchable="#{defineBasis.plan.projectBasis}" required="true" />
-		         	<p:inputText 		labelText="Plan name:" id="planName"
-			        	          		input="#{defineBasis.plan.planProperties.name}"
-			            	      		touchable="#{defineBasis.plan.planProperties}"
-			                	  		required="true" />
-			     	<p:inputTextArea 	labelText="Plan description:" id="planDescription"
-			        	          		input="#{defineBasis.plan.planProperties.description}"
-			            	      		touchable="#{defineBasis.plan.planProperties}"
-			                	  		required="true"/>
-			     	<p:inputText 		labelText="Responsible planners:" id="responsiblePlanner"
-			        	          		input="#{defineBasis.plan.planProperties.author}"
-			            	      		touchable="#{defineBasis.plan.planProperties}"
-			                	  		required="true"/>
-			     	<p:inputText 		labelText="Organisation:" id="organisation"
-			        	          		input="#{defineBasis.plan.planProperties.organization}"
-			            	      		touchable="#{defineBasis.plan.planProperties}"
-			                	  		required="true"/>
-		 		</fieldset></p><p>
-		 		<fieldset id="status_fieldset" class="size-full">
-	     			<legend class="fieldset-full-size-legend">
-	     				<ui:include src="/plato/shared/legend_nav.xhtml" />
-	           			<h:outputText value=" Status"/>
-	        		</legend>
-			        <p:inputTextArea	labelText="Mandate (e.g. Mission statement):"
-			                  			id="mandate"
-			                  			input="#{defineBasis.plan.projectBasis.mandate}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-			        <p:inputTextArea 	labelText="Planning purpose:"
-			                  			id="planningPurpose"
-			                  			input="#{defineBasis.plan.projectBasis.planningPurpose}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-			       	<p:inputTextArea 	labelText="Designated community:"
-			                  			id="designatedCommunity"
-			                  			input="#{defineBasis.plan.projectBasis.designatedCommunity}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-			        <p:inputTextArea 	labelText="Applying policies:"
-			                  			id="applyingPolicies"
-			                  			input="#{defineBasis.plan.projectBasis.applyingPolicies}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-			       	<p:inputTextArea	labelText="Relevant organisational procedures and workflows:"
-			                  			id="organisationalProcedures"
-			                  			input="#{defineBasis.plan.projectBasis.organisationalProcedures}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-		            <p:inputTextArea	labelText="Contracts and agreements specifying preservation rights:"
-			                  			id="preservationRights"
-			                  			input="#{defineBasis.plan.projectBasis.preservationRights}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-			       	<p:inputTextArea	labelText="Reference to agreements of maintenance and access:"
-			                  			id="referenceToAgreements"
-			                  			input="#{defineBasis.plan.projectBasis.referenceToAgreements}"
-			                  			touchable="#{defineBasis.plan.projectBasis}"/>
-       	 		</fieldset></p><p>
-       	 		<fieldset id="description_fieldset" class="size-full">
-         			<legend class="fieldset-full-size-legend">
-         				<ui:include src="/plato/shared/legend_nav.xhtml" />
-	           			<h:outputText value=" Description" />
-	        		</legend>        
-			        <p:inputTextArea 	labelText="Relations to other plans:" id="planRelations"
-			                  			input="#{defineBasis.plan.projectBasis.planRelations}"
-			                  			touchable="#{defineBasis.plan.projectBasis}" />
-					<script type="text/javascript">
+			<ul class="anchors">
+				<li class="anchors"><a href="#identification_fieldset"
+					class="anchors">Identification</a></li>
+				<li class="anchors"><a href="#status_fieldset" class="anchors">Status</a>
+				</li>
+				<li class="anchors"><a href="#description_fieldset"
+					class="anchors">Description</a></li>
+				<li class="anchors"><a href="#policies_fieldset"
+					class="anchors">Policies</a></li>
+			</ul>
+		</div>
+
+		<h:form id="mainform">
+			<h:inputText id="changedflag" value="#{defineBasis.changed}"
+				style="display:none" />
+			<h:inputText value="#{defineBasis.plan.planProperties.name}"
+				onchange="changed()" style="display:none" />
+			<h:commandLink action="#{defineBasis.discard}" value="Test Changed"
+				onclick="return mayExit_noClick();" style="display:none" />
+			<fieldset id="identification_fieldset" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					<h:outputText value="Identification" />
+				</legend>
+				<p:inputText labelText="Identification Code:"
+					id="identificationCode"
+					input="#{defineBasis.plan.projectBasis.identificationCode}"
+					touchable="#{defineBasis.plan.projectBasis}">
+				</p:inputText>
+				<p:inputTextArea labelText="Document types:" id="documentTypes"
+					input="#{defineBasis.plan.projectBasis.documentTypes}"
+					touchable="#{defineBasis.plan.projectBasis}" required="true" />
+				<p:inputText labelText="Plan name:" id="planName"
+					input="#{defineBasis.plan.planProperties.name}"
+					touchable="#{defineBasis.plan.planProperties}" required="true" />
+				<p:inputTextArea labelText="Plan description:" id="planDescription"
+					input="#{defineBasis.plan.planProperties.description}"
+					touchable="#{defineBasis.plan.planProperties}" required="true" />
+				<p:inputText labelText="Responsible planners:"
+					id="responsiblePlanner"
+					input="#{defineBasis.plan.planProperties.author}"
+					touchable="#{defineBasis.plan.planProperties}" required="true" />
+				<p:inputText labelText="Organisation:" id="organisation"
+					input="#{defineBasis.plan.planProperties.organization}"
+					touchable="#{defineBasis.plan.planProperties}" required="true" />
+			</fieldset>
+			<fieldset id="status_fieldset" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					<h:outputText value=" Status" />
+				</legend>
+				<p:inputTextArea labelText="Mandate (e.g. Mission statement):"
+					id="mandate" input="#{defineBasis.plan.projectBasis.mandate}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<p:inputTextArea labelText="Planning purpose:" id="planningPurpose"
+					input="#{defineBasis.plan.projectBasis.planningPurpose}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<p:inputTextArea labelText="Designated community:"
+					id="designatedCommunity"
+					input="#{defineBasis.plan.projectBasis.designatedCommunity}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<p:inputTextArea labelText="Applying policies:"
+					id="applyingPolicies"
+					input="#{defineBasis.plan.projectBasis.applyingPolicies}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<p:inputTextArea
+					labelText="Relevant organisational procedures and workflows:"
+					id="organisationalProcedures"
+					input="#{defineBasis.plan.projectBasis.organisationalProcedures}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<p:inputTextArea
+					labelText="Contracts and agreements specifying preservation rights:"
+					id="preservationRights"
+					input="#{defineBasis.plan.projectBasis.preservationRights}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<p:inputTextArea
+					labelText="Reference to agreements of maintenance and access:"
+					id="referenceToAgreements"
+					input="#{defineBasis.plan.projectBasis.referenceToAgreements}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+			</fieldset>
+			<fieldset id="description_fieldset" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					<h:outputText value=" Description" />
+				</legend>
+				<p:inputTextArea labelText="Relations to other plans:"
+					id="planRelations"
+					input="#{defineBasis.plan.projectBasis.planRelations}"
+					touchable="#{defineBasis.plan.projectBasis}" />
+				<script type="text/javascript">
 						// removes underscores from the
 						// passed text 
 						function prettify(text) {
@@ -132,99 +128,53 @@
 							});
 						});
 					</script>
-			        <table class="tableStyle" border="0">
-		        		<tr>
-	                		<th width="5%" class="tableStyle-header">Active&nbsp;&nbsp;</th>
-	                    	<th width="10%" class="tableStyle-header">Trigger</th>
-	                    	<th width="80%" class="tableStyle-header">Description</th>
-	                	</tr>
-		                <p:inputTrigger	id="newCollection"
-		                           		trigger="#{defineBasis.plan.projectBasis.triggers.newCollection}"
-			                            touchable="#{defineBasis.plan.projectBasis}"
-			                            helpid="triggerComment" />
-			           <p:inputTrigger 	id="periodicReview"
-			                            trigger="#{defineBasis.plan.projectBasis.triggers.periodicReview}"
-			                            touchable="#{defineBasis.plan.projectBasis}"
-			                           	helpid="triggerComment" />
-			           <p:inputTrigger 	id="changedEnvironment"
-		                                trigger="#{defineBasis.plan.projectBasis.triggers.changedEnvironment}"
-			                           	touchable="#{defineBasis.plan.projectBasis}"
-			                            helpid="triggerComment" />
-		               <p:inputTrigger 	id="changedObjective"
-		                                trigger="#{defineBasis.plan.projectBasis.triggers.changedObjective}"
-		                                touchable="#{defineBasis.plan.projectBasis}"
-		                                helpid="triggerComment" />
-		               <p:inputTrigger  id="changedCollectionProfile"
-		                                trigger="#{defineBasis.plan.projectBasis.triggers.changedCollectionProfile}"
-		                                touchable="#{defineBasis.plan.projectBasis}"
-		                                helpid="triggerComment" />
-	            	</table>
-	     		</fieldset></p>
-	     		<div align="right"> 
-	     			<a  target="_blank" href="/plato/help/policy.html">How can I define a policy tree?</a>
-	     		</div>
-	     		
-	     		<a4j:outputPanel id="policies" layout="block">
-	     		    <a4j:outputPanel layout="block" rendered="#{defineBasis.plan.projectBasis.policyTree.policyTreeDefined}">
-		                <ui:include src="/plato/shared/policytree.xhtml">
-		                    <ui:param name="treeHelper" value="#{defineBasis.treeHelper}" />
-		                    <ui:param name="policyTree" value="#{defineBasis.plan.projectBasis.policyTree}" />
-		                    <ui:param name="policyRoot" value="#{defineBasis.policyRoot}" />
-		                </ui:include>
-		                <a4j:commandButton value="Remove Policy Tree" action="#{defineBasis.removePolicyTree}" render="policies" oncomplete="changed()"/>
-                    </a4j:outputPanel>
-                    <a4j:outputPanel layout="block" rendered="#{!defineBasis.plan.projectBasis.policyTree.policyTreeDefined}">
-		                <fieldset id="policies_fieldset" class="size-full">
-		                    <legend class="fieldset-full-size-legend">
-		                        <ui:include src="/plato/shared/legend_nav.xhtml" />
-		                        <h:outputText value=" Policies"/>
-		                    </legend>
-                            <p>No policies defined yet</p>
-                            <rich:messages for="importPoliciesButton" />
-                            <p> <a4j:commandButton value="Upload policies" id="importPoliciesButton" oncomplete="#{rich:component('importPanel')}.show()"/> as freemind XML </p>
-					        <p>
-					            You can base your policy tree on the template which you can download
-					            <a href="/plato/resources/docs/PP2-Policy-template.mm" >&gt;here&lt;</a>.
-					        </p>
-					        <ui:remove>
-					        <!--
-					        <p>
-					           Further information on how you can specify a tree using Freemind can be found 
-					           <a href="/plato/help/upload.html" target="_blank">&gt;here&lt;</a>.
-					        </p>
-					        -->
-					        </ui:remove>
-                        </fieldset>
-                    </a4j:outputPanel>
-	     		</a4j:outputPanel>
-	     		
-	     		<p:savediscardproceed bean="#{viewWorkflow}"/>
-	     </h:form>
+				<table class="tableStyle" border="0">
+					<tr>
+						<th class="tableStyle-header" style="width: 5%;">Active&nbsp;&nbsp;</th>
+						<th class="tableStyle-header" style="width: 10%;">Trigger</th>
+						<th class="tableStyle-header" style="width: 80%;">Description</th>
+					</tr>
+					<p:inputTrigger id="newCollection"
+						trigger="#{defineBasis.plan.projectBasis.triggers.newCollection}"
+						touchable="#{defineBasis.plan.projectBasis}"
+						helpid="triggerComment" />
+					<p:inputTrigger id="periodicReview"
+						trigger="#{defineBasis.plan.projectBasis.triggers.periodicReview}"
+						touchable="#{defineBasis.plan.projectBasis}"
+						helpid="triggerComment" />
+					<p:inputTrigger id="changedEnvironment"
+						trigger="#{defineBasis.plan.projectBasis.triggers.changedEnvironment}"
+						touchable="#{defineBasis.plan.projectBasis}"
+						helpid="triggerComment" />
+					<p:inputTrigger id="changedObjective"
+						trigger="#{defineBasis.plan.projectBasis.triggers.changedObjective}"
+						touchable="#{defineBasis.plan.projectBasis}"
+						helpid="triggerComment" />
+					<p:inputTrigger id="changedCollectionProfile"
+						trigger="#{defineBasis.plan.projectBasis.triggers.changedCollectionProfile}"
+						touchable="#{defineBasis.plan.projectBasis}"
+						helpid="triggerComment" />
+				</table>
+			</fieldset>
 
+			<a4j:outputPanel id="policies" layout="block"
+				rendered="#{defineBasis.plan.projectBasis.policyTree.policyTreeDefined}">
+				<ui:include src="/plato/shared/policytree.xhtml">
+					<ui:param name="treeHelper" value="#{defineBasis.treeHelper}" />
+					<ui:param name="policyTree"
+						value="#{defineBasis.plan.projectBasis.policyTree}" />
+					<ui:param name="policyRoot" value="#{defineBasis.policyRoot}" />
+				</ui:include>
+				<ui:remove>
+					<!-- 
+					<a4j:commandButton value="Remove Policy Tree"
+						action="#{defineBasis.removePolicyTree}" render="policies"
+						oncomplete="changed()" />
+					-->
+				</ui:remove>
+			</a4j:outputPanel>
 
-        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
-                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
-                        This workaround is described here: http://community.jboss.org/thread/171909
-                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
-                        the second click (on buttons, etc.).
-        -->
-        <h:form>
-        <!-- select import panel -->
-            <rich:popupPanel id="importPanel" width="500" height="450" domElementAttachment="form">
-                <f:facet name="header">
-                    <h:outputText value="Select file" />
-                </f:facet>
-                <f:facet name="controls">
-                    <h:graphicImage id="closeMapping" 
-                        value="/resources/gfx/icons/cancel.png"
-                        title="Close" width="16" height="16"
-                        onclick="#{rich:component('importPanel')}.hide()" />
-                </f:facet>            
-                <rich:fileUpload id="importFile" fileUploadListener="#{defineBasis.importPolicyTree}" addLabel="Select" uploadLabel="Import"
-                                 render="policies" onuploadcomplete="changed(); #{rich:component('importPanel')}.hide();" />
-            </rich:popupPanel>
-        <!-- / select import panel -->
-        </h:form>        
-
+			<p:savediscardproceed bean="#{viewWorkflow}" />
+		</h:form>
 	</ui:define>
 </ui:composition>

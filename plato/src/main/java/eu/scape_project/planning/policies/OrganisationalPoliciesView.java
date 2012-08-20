@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -41,192 +42,193 @@ import eu.scape_project.planning.utils.FacesMessages;
 @Named("organisationalPolicies")
 @SessionScoped
 public class OrganisationalPoliciesView implements Serializable {
-	private static final long serialVersionUID = 1949891454912441259L;
+    private static final long serialVersionUID = 1949891454912441259L;
 
-	@Inject
-	private FacesMessages facesMessages;
+    @Inject
+    private FacesMessages facesMessages;
 
-	@Inject
-	private OrganisationalPolicies organisationalPolicies;
+    @Inject
+    private OrganisationalPolicies organisationalPolicies;
 
-	@Inject
-	private User user;
+    @Inject
+    private User user;
 
-	private UploadedFile importFile = null;
+    private UploadedFile importFile = null;
 
-	private ArrayList<RDFPolicy> policies = new ArrayList<RDFPolicy>(0);
+    private ArrayList<RDFPolicy> policies = new ArrayList<RDFPolicy>(0);
 
-	/**
-	 * Method responsible for initializing all properties with proper values -
-	 * so the page can be displayed correctly.
-	 * 
-	 * @return OutcomeString which navigates to this page
-	 */
-	public String init() {
-		updatePolicies();
-		return "/user/organisationalpolicies.jsf";
-	}
+    /**
+     * Method responsible for initializing all properties with proper values -
+     * so the page can be displayed correctly.
+     * 
+     * @return OutcomeString which navigates to this page
+     */
+    public String init() {
+        updatePolicies();
+        return "/user/organisationalpolicies.jsf";
+    }
 
-	/**
-	 * Imports a policy
-	 * 
-	 * @param event
-	 *            Richfaces FileUploadEvent data
-	 */
-	public void importPolicy(FileUploadEvent event) {
-		importFile = event.getUploadedFile();
+    /**
+     * Imports a policy
+     * 
+     * @param event
+     *            Richfaces FileUploadEvent data
+     */
+    public void importPolicy(FileUploadEvent event) {
+        importFile = event.getUploadedFile();
 
-		try {
-			organisationalPolicies.importPolicy(importFile.getInputStream());
-			facesMessages
-					.addInfo("importPanel", "Policy imported successfully");
+        try {
+            organisationalPolicies.importPolicy(importFile.getInputStream());
+            facesMessages.addInfo("Policy imported successfully");
 
-			importFile = null;
-			updatePolicies();
-		} catch (IOException e) {
-			facesMessages.addError("The uploaded policy file is not valid");
-		}
-	}
+            importFile = null;
+            updatePolicies();
+        } catch (IOException e) {
+            facesMessages.addError("The uploaded policy file is not valid");
+        }
+    }
 
-	/**
-	 * Deletes all policies from the current user
-	 */
-	public void clearPolicies() {
-		organisationalPolicies.clearPolicies();
-		updatePolicies();
-	}
+    /**
+     * Deletes all policies from the current user
+     */
+    public void clearPolicies() {
+        organisationalPolicies.clearPolicies();
+        updatePolicies();
+    }
 
-	/**
-	 * Method responsible for saving the made changes
-	 * 
-	 * @return Outcome String redirecting to start page.
-	 */
-	public String save() {
-		organisationalPolicies.save();
-		init();
-		return "/index.jsp";
-	}
+    /**
+     * Method responsible for saving the made changes
+     * 
+     * @return Outcome String redirecting to start page.
+     */
+    public String save() {
+        organisationalPolicies.save();
+        init();
+        return "/index.jsp";
+    }
 
-	/**
-	 * Method responsible for discarding the made changes
-	 * 
-	 * @return Outcome String redirecting to start page.
-	 */
-	public String discard() {
-		organisationalPolicies.discard();
-		init();
-		return "/index.jsp";
-	}
+    /**
+     * Method responsible for discarding the made changes
+     * 
+     * @return Outcome String redirecting to start page.
+     */
+    public String discard() {
+        organisationalPolicies.discard();
+        init();
+        return "/index.jsp";
+    }
 
-	/**
-	 * Updates the policies list from the current user's policies.
-	 */
-	private void updatePolicies() {
+    /**
+     * Updates the policies list from the current user's policies.
+     */
+    private void updatePolicies() {
 
-		policies = new ArrayList<RDFPolicy>(user.getUserGroup().getPolicies());
+        Set<RDFPolicy> policySet = user.getUserGroup().getPolicies();
 
-		Collections.sort(policies,
-				Collections.reverseOrder(new Comparator<RDFPolicy>() {
-					@Override
-					public int compare(RDFPolicy o1, RDFPolicy o2) {
-						if (o1 == null || o2 == null) {
-							throw new NullPointerException();
-						}
+        if (policySet == null) {
+            policies = new ArrayList<RDFPolicy>(0);
+        } else {
+            policies = new ArrayList<RDFPolicy>(policySet);
 
-						if (o1.getDateCreated() == null) {
-							return 1;
-						}
-						if (o2.getDateCreated() == null) {
-							return -1;
-						}
+            Collections.sort(policies, Collections.reverseOrder(new Comparator<RDFPolicy>() {
+                @Override
+                public int compare(RDFPolicy o1, RDFPolicy o2) {
+                    if (o1 == null || o2 == null) {
+                        throw new NullPointerException();
+                    }
 
-						return o1.getDateCreated().compareTo(
-								o2.getDateCreated());
-					}
-				}));
-	}
+                    // Policies with no date are ranked below others
+                    if (o1.getDateCreated() == null && o2.getDateCreated() == null) {
+                        return 0;
+                    }
+                    if (o1.getDateCreated() == null) {
+                        return 1;
+                    }
+                    if (o2.getDateCreated() == null) {
+                        return -1;
+                    }
 
-	/**
-	 * Returns the policies of the current user
-	 * 
-	 * @return the policies
-	 */
-	public List<RDFPolicy> getPolicies() {
-		return policies;
-	}
+                    return o1.getDateCreated().compareTo(o2.getDateCreated());
+                }
+            }));
+        }
+    }
 
-	/**
-	 * Initiates a download for the provided policy
-	 * 
-	 * @param policy
-	 *            the policy to download
-	 */
-	public void downloadPolicy(RDFPolicy policy) {
+    /**
+     * Returns the policies of the current user
+     * 
+     * @return the policies
+     */
+    public List<RDFPolicy> getPolicies() {
+        return policies;
+    }
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_kkmmss");
+    /**
+     * Initiates a download for the provided policy
+     * 
+     * @param policy
+     *            the policy to download
+     */
+    public void downloadPolicy(RDFPolicy policy) {
 
-		HttpServletResponse response = (HttpServletResponse) FacesContext
-				.getCurrentInstance().getExternalContext().getResponse();
-		response.setContentType("application/x-download");
-		response.setHeader(
-				"Content-Disposition",
-				"attachement; filename=\"Policy_"
-						+ formatter.format(policy.getDateCreated()) + ".rdf\"");
-		response.setContentLength(policy.getPolicy().length());
-		try {
-			PrintWriter writer = new PrintWriter(response.getOutputStream());
-			writer.write(policy.getPolicy());
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			facesMessages
-					.addError("An error occured while generating the policy file");
-		}
-		FacesContext.getCurrentInstance().responseComplete();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_kkmmss");
 
-	}
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+            .getResponse();
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition",
+            "attachement; filename=\"Policy_" + formatter.format(policy.getDateCreated()) + ".rdf\"");
+        response.setContentLength(policy.getPolicy().length());
+        try {
+            PrintWriter writer = new PrintWriter(response.getOutputStream());
+            writer.write(policy.getPolicy());
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            facesMessages.addError("An error occured while generating the policy file");
+        }
+        FacesContext.getCurrentInstance().responseComplete();
+    }
 
-	/**
-	 * Creates a header string for the provided policy.
-	 * 
-	 * @param policy
-	 *            the policy to use
-	 * @return the header string
-	 */
-	public String getPolicyHeaderText(RDFPolicy policy) {
-		if (policy.getDateCreated() == null) {
-			return "New";
-		} else {
-			SimpleDateFormat formatter = new SimpleDateFormat(
-					"yyyy-MM-dd kk-mm-ss");
-			return formatter.format(policy.getDateCreated());
-		}
-	}
+    /**
+     * Creates a header string for the provided policy.
+     * 
+     * @param policy
+     *            the policy to use
+     * @return the header string
+     */
+    public String getPolicyHeaderText(RDFPolicy policy) {
+        if (policy.getDateCreated() == null) {
+            return "New";
+        } else {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk-mm-ss");
+            return "Valid from " + formatter.format(policy.getDateCreated());
+        }
+    }
 
-	// --------------- getter/setter ---------------
+    // --------------- getter/setter ---------------
 
-	public UploadedFile getImportFile() {
-		return importFile;
-	}
+    public UploadedFile getImportFile() {
+        return importFile;
+    }
 
-	public void setImportFile(UploadedFile importFile) {
-		this.importFile = importFile;
-	}
+    public void setImportFile(UploadedFile importFile) {
+        this.importFile = importFile;
+    }
 
-	public OrganisationalPolicies getOrganisationalPolicies() {
-		return organisationalPolicies;
-	}
+    public OrganisationalPolicies getOrganisationalPolicies() {
+        return organisationalPolicies;
+    }
 
-	public void setOrganisationalPolicies(
-			OrganisationalPolicies organisationalPolicies) {
-		this.organisationalPolicies = organisationalPolicies;
-	}
+    public void setOrganisationalPolicies(OrganisationalPolicies organisationalPolicies) {
+        this.organisationalPolicies = organisationalPolicies;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

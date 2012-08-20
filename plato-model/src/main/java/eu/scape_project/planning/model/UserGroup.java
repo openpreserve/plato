@@ -29,95 +29,83 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.Valid;
-
-import eu.scape_project.planning.model.tree.PolicyTree;
 
 @Entity
 public class UserGroup implements Serializable {
-	private static final long serialVersionUID = -3659021986541051911L;
+    private static final long serialVersionUID = -3659021986541051911L;
 
-	@Id
-	@GeneratedValue
-	private int id;
+    @Id
+    @GeneratedValue
+    private int id;
 
-	private String name;
+    private String name;
 
-	@OneToMany(mappedBy = "userGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<User> users = new ArrayList<User>();
+    @OneToMany(mappedBy = "userGroup", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<User> users = new ArrayList<User>();
 
-	// TODO: Remove
-	@Valid
-	@OneToOne(cascade = CascadeType.ALL)
-	private PolicyTree policyTree = new PolicyTree();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<RDFPolicy> policies = new HashSet<RDFPolicy>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<RDFPolicy> policies = new HashSet<RDFPolicy>();
+    /**
+     * Returns the policy with the latest import date.
+     * 
+     * @return the latest policy
+     */
+    public RDFPolicy getLatestPolicy() {
 
-	public RDFPolicy getLatestPolicy() {
+        if (policies.size() == 0) {
+            return null;
+        }
 
-		if (policies.size() == 0) {
-			return null;
-		}
+        RDFPolicy latestPolicy = null;
+        Date latestDate = null;
 
-		RDFPolicy latestPolicy = null;
-		Date latestDate = null;
+        for (RDFPolicy policy : policies) {
+            if (latestDate == null) {
+                latestPolicy = policy;
+                latestDate = policy.getDateCreated();
+            }
+            if (policy.getDateCreated().after(latestDate)) {
+                latestPolicy = policy;
+                latestDate = policy.getDateCreated();
+            }
+        }
 
-		for (RDFPolicy policy : policies) {
-			if (latestDate == null) {
-				latestPolicy = policy;
-				latestDate = policy.getDateCreated();
-			}
-			if (policy.getDateCreated().after(latestDate)) {
-				latestPolicy = policy;
-				latestDate = policy.getDateCreated();
-			}
-		}
+        return latestPolicy;
+    }
 
-		return latestPolicy;
-	}
+    // ---------- getter/setter ----------
 
-	// ---------- getter/setter ----------
+    public int getId() {
+        return id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public List<User> getUsers() {
+        return users;
+    }
 
-	public PolicyTree getPolicyTree() {
-		return policyTree;
-	}
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
-	public void setPolicyTree(PolicyTree policyTree) {
-		this.policyTree = policyTree;
-	}
+    public Set<RDFPolicy> getPolicies() {
+        return policies;
+    }
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
-	public Set<RDFPolicy> getPolicies() {
-		return policies;
-	}
-
-	public void setPolicies(Set<RDFPolicy> policies) {
-		this.policies = policies;
-	}
+    public void setPolicies(Set<RDFPolicy> policies) {
+        this.policies = policies;
+    }
 
 }
