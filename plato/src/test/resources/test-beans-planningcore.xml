@@ -7,8 +7,6 @@
         http://java.sun.com/xml/ns/javaee 
         http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
         <alternatives>
-        	<class>eu.scape_project.planning.plato.fte.MockConversation</class>
         	<class>eu.scape_project.planning.plato.fte.MockSessionScopeProducer</class>
-        	<class>eu.scape_project.planning.plato.fte.MockFastTrackTemplates</class>
         </alternatives>
 </beans>

@@ -14,20 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.planning.plato.wf.beans;
+package eu.scape_project.planning.plato.fte;
 
 import java.io.File;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Alternative;
 import javax.inject.Named;
 
+import eu.scape_project.planning.plato.wf.beans.FastTrackTemplate;
+
+@Alternative
 @SessionScoped
 @Named("fastTrackTemplates")
-public class FastTrackTemplates implements Serializable {
+public class MockFastTrackTemplates extends eu.scape_project.planning.plato.wf.beans.FastTrackTemplates implements Serializable {
 	private static final long serialVersionUID = 8582365566558811935L;
 
 	private List<FastTrackTemplate> templateList = new ArrayList<FastTrackTemplate>();
@@ -36,18 +39,14 @@ public class FastTrackTemplates implements Serializable {
     
     private String directory;
     
-    public FastTrackTemplates() {
+    public MockFastTrackTemplates() {
     }
     
     public void init() {
-       
-    	directory = "/templates/fasttrack";
-        
-        URL url = Thread.currentThread().getContextClassLoader().getResource(directory);
-       
-        File dir = new File(url.getFile());
-       
-    	
+    	File direc = new File(".");
+    	System.out.println(direc.getAbsolutePath());
+    	directory = "./src/main/resources/templates/fasttrack";
+    	File dir = new File(directory);
         templateList = iterateFiles(dir.listFiles());
     }
     
