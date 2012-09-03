@@ -1,4 +1,4 @@
-package eu.scape_project.planning.taverna;
+package eu.scape_project.planning.taverna.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +24,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.evaluation.evaluators.TavernaResultsEvaluator;
+import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParser {
     private static Logger log = LoggerFactory.getLogger(TavernaResultsEvaluator.class);

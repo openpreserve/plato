@@ -1,4 +1,4 @@
-package eu.scape_project.planning.taverna;
+package eu.scape_project.planning.taverna.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+
+import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParserFallback extends T2FlowParser {
 

@@ -8,8 +8,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import eu.scape_project.planning.taverna.T2FlowParser.ComponentProfile;
-import eu.scape_project.planning.taverna.T2FlowParserFallback;
+import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
+import eu.scape_project.planning.taverna.parser.T2FlowParser.ComponentProfile;
 import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParserFallbackTest {

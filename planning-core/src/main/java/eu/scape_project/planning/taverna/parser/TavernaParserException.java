@@ -1,4 +1,4 @@
-package eu.scape_project.planning.taverna;
+package eu.scape_project.planning.taverna.parser;
 
 public class TavernaParserException extends Exception {
 

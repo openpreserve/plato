@@ -1,4 +1,4 @@
-package eu.scape_project.planning.taverna;
+package eu.scape_project.planning.taverna.parser;
 
 import java.util.Iterator;
 
