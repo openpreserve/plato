@@ -14,11 +14,11 @@ import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParserFallback extends T2FlowParser {
 
-    private static final String FROM_OBJECT_PATH_URI = "http://scape-project.eu/components/FromObject";
-    private static final String FROM_OBJECT_PATH_NAME = "path_from";
+    public static final String FROM_OBJECT_PATH_URI = "http://scape-project.eu/components/FromObject";
+    public static final String FROM_OBJECT_PATH_NAME = "path_from";
 
-    private static final String TO_OBJECT_PATH_URI = "http://scape-project.eu/components/ToObject";
-    private static final String TO_OBJECT_PATH_NAME = "path_to";
+    public static final String TO_OBJECT_PATH_URI = "http://scape-project.eu/components/ToObject";
+    public static final String TO_OBJECT_PATH_NAME = "path_to";
 
     private static final String MEASURES_URI_PREFIX = "http://scape-project.eu/pw/vocab/measures/";
 

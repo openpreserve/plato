@@ -58,14 +58,14 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
 
     @Inject
     private IByteStreamStorage storage;
-    
+
     private Map<String, File> tempDigitalObjects = new HashMap<String, File>();
 
     private File tempDir = null;
 
     public ByteStreamManager() {
     }
-  
+
     /**
      * 
      * @see IByteStreamManager#store(String, byte[])
@@ -85,17 +85,17 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     }
 
     public byte[] load(String pid) throws StorageException {
-        //try to load it from the cache
-    	byte[] data = loadFromCache(pid);
-        
-    	// if it is not in the cache load it from the storage and cache it 
-    	if (data == null) { 
-        	data = storage.load(pid);
-        	try {
-        		cacheObject(pid, data);
-        	} catch (IOException e) {
-        		throw new StorageException("failed to cache object", e);
-        	}
+        // try to load it from the cache
+        byte[] data = loadFromCache(pid);
+
+        // if it is not in the cache load it from the storage and cache it
+        if (data == null) {
+            data = storage.load(pid);
+            try {
+                cacheObject(pid, data);
+            } catch (IOException e) {
+                throw new StorageException("failed to cache object", e);
+            }
         }
         return data;
     }
@@ -161,22 +161,23 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     }
 
     /**
-     * Loads the bytestream from the cache. 
+     * Loads the bytestream from the cache.
      * 
      * @param pid
-     * @return 
+     * @return
      */
     private byte[] loadFromCache(String pid) {
-    	File tmp = tempDigitalObjects.get(pid);
-    	if (tmp==null) {
-    		return null;
-    	}
-    	try {
-			return FileUtils.inputStreamToBytes(new FileInputStream(tmp));
-		} catch (IOException e) {
-			return null;
-		}
+        File tmp = tempDigitalObjects.get(pid);
+        if (tmp == null) {
+            return null;
+        }
+        try {
+            return FileUtils.inputStreamToBytes(new FileInputStream(tmp));
+        } catch (IOException e) {
+            return null;
+        }
     }
+
     /**
      * Creates a new temp directory for this ByteStreamManager
      */
@@ -194,6 +195,6 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     public void destroy() {
         OS.deleteDirectory(tempDir);
         tempDigitalObjects.clear();
-    }    
+    }
 
 }

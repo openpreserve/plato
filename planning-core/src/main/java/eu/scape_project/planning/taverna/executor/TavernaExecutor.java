@@ -21,13 +21,13 @@ public interface TavernaExecutor {
 	 * 
 	 * @return
 	 */
-	public abstract Map<TavernaPort, Object> getOutputData();
+	public abstract Map<TavernaPort, ?> getOutputData();
 
 	/**
 	 * Returns the ouput files of the previous workflow run.
 	 * 
 	 * @return
 	 */
-	public abstract HashMap<TavernaPort, Object> getOutputFiles();
+	public abstract HashMap<TavernaPort, ?> getOutputFiles();
 
 }
