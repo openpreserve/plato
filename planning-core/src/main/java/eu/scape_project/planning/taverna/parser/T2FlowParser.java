@@ -23,11 +23,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import eu.scape_project.planning.evaluation.evaluators.TavernaResultsEvaluator;
 import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParser {
-    private static Logger log = LoggerFactory.getLogger(TavernaResultsEvaluator.class);
+    private static Logger log = LoggerFactory.getLogger(T2FlowParser.class);
 
     public enum ComponentProfile {
 
@@ -68,11 +67,6 @@ public class T2FlowParser {
     }
 
     /**
-     * The t2flow inputstream.
-     */
-    private InputStream t2flow = null;
-
-    /**
      * The parsed document.
      */
     private Document doc = null;
@@ -89,10 +83,14 @@ public class T2FlowParser {
      * @throws SAXException
      * @throws IOException
      */
-    public static T2FlowParser createParser(InputStream t2flow) throws ParserConfigurationException, SAXException,
-        IOException {
+    public static T2FlowParser createParser(InputStream t2flow) throws TavernaParserException {
         T2FlowParser parser = new T2FlowParser();
-        parser.initialise(t2flow);
+        try {
+            parser.initialise(t2flow);
+        } catch (Exception e) {
+            log.error("Error initialising T2FlowParser");
+            throw new TavernaParserException("Error initialising T2FlowParser", e);
+        }
         return parser;
     }
 
@@ -104,8 +102,7 @@ public class T2FlowParser {
      * @throws SAXException
      * @throws IOException
      */
-    public void initialise(InputStream t2flow) throws ParserConfigurationException, SAXException, IOException {
-        this.t2flow = t2flow;
+    protected void initialise(InputStream t2flow) throws ParserConfigurationException, SAXException, IOException {
         log.debug("Parsing inputstream");
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);

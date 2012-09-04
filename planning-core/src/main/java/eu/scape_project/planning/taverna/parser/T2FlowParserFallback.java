@@ -8,11 +8,15 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParserFallback extends T2FlowParser {
+
+    private static Logger log = LoggerFactory.getLogger(T2FlowParser.class);
 
     public static final String FROM_OBJECT_PATH_URI = "http://scape-project.eu/components/FromObject";
     public static final String FROM_OBJECT_PATH_NAME = "path_from";
@@ -32,10 +36,14 @@ public class T2FlowParserFallback extends T2FlowParser {
      * @throws SAXException
      * @throws IOException
      */
-    public static T2FlowParserFallback createParser(InputStream t2flow) throws ParserConfigurationException,
-        SAXException, IOException {
+    public static T2FlowParserFallback createParser(InputStream t2flow) throws TavernaParserException {
         T2FlowParserFallback parser = new T2FlowParserFallback();
-        parser.initialise(t2flow);
+        try {
+            parser.initialise(t2flow);
+        } catch (Exception e) {
+            log.error("Error initialising T2FlowParser");
+            throw new TavernaParserException("Error initialising T2FlowParser", e);
+        }
         return parser;
     }
 

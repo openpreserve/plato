@@ -11,11 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
@@ -57,6 +54,12 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
 
         String targetExtension = action.getParamByName("settings");
 
+        if (targetExtension == null || targetExtension.equals("")) {
+            result.setSuccessful(false);
+            result.setReport("Target extension not specified in settings.");
+            return result;
+        }
+
         try {
             URL url = new URL(action.getUrl());
             InputStream is = url.openStream();
@@ -65,33 +68,40 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
 
                 T2FlowParser t2flowParser = T2FlowParserFallback.createParser(is);
                 if (!t2flowParser.getProfile().equals(T2FlowParser.ComponentProfile.MigrationAction)) {
-                    throw new PlatoException("The workflow " + action.getUrl() + " is no MigrationAction");
+                    result.setSuccessful(false);
+                    result.setReport("The workflow " + action.getUrl() + " is no MigrationAction.");
+                    return result;
                 }
 
                 // Input from path
-                Set<TavernaPort> fromPorts = t2flowParser.getInputPorts(new URI(
+                Set<TavernaPort> inputFromPorts = t2flowParser.getInputPorts(new URI(
                     T2FlowParserFallback.FROM_OBJECT_PATH_URI));
-                if (fromPorts.size() != 1) {
-                    log.error("Number of from ports is " + fromPorts.size());
-                    throw new PlatoException("Number of from ports is " + fromPorts.size());
+                if (inputFromPorts.size() != 1) {
+                    result.setSuccessful(false);
+                    result.setReport("The number of from ports of workflow " + action.getUrl() + " is "
+                        + inputFromPorts.size() + ".");
+                    return result;
                 }
 
-                for (TavernaPort fromPort : fromPorts) {
-                    inputData.put(fromPort, tavernaExecutor.new ByteArraySourceFile(digitalObject.getFullname(),
+                for (TavernaPort inputFromPort : inputFromPorts) {
+                    inputData.put(inputFromPort, tavernaExecutor.new ByteArraySourceFile(digitalObject.getFullname(),
                         digitalObject.getData().getData()));
                 }
 
                 // Input to path
-                Set<TavernaPort> toPorts = t2flowParser.getInputPorts(new URI(T2FlowParserFallback.TO_OBJECT_PATH_URI));
-                if (toPorts.size() != 1) {
-                    log.error("Number of to ports is " + toPorts.size());
-                    throw new PlatoException("Number of to ports is " + toPorts.size());
+                Set<TavernaPort> inputToPorts = t2flowParser.getInputPorts(new URI(
+                    T2FlowParserFallback.TO_OBJECT_PATH_URI));
+                if (inputToPorts.size() != 1) {
+                    result.setSuccessful(false);
+                    result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
+                        + inputToPorts.size() + ".");
+                    return result;
                 }
 
                 SSHInMemoryTempFile tempFile = new SSHInMemoryTempFile();
                 tempFile.setName("result." + digitalObject.getFullname() + "." + targetExtension);
-                for (TavernaPort toPort : toPorts) {
-                    inputData.put(toPort, tempFile);
+                for (TavernaPort inputToPort : inputToPorts) {
+                    inputData.put(inputToPort, tempFile);
                 }
 
                 tavernaExecutor.setInputData(inputData);
@@ -105,8 +115,10 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 Set<TavernaPort> outputToPorts = t2flowParser.getOutputPorts(new URI(
                     T2FlowParserFallback.TO_OBJECT_PATH_URI));
                 if (outputToPorts.size() != 1) {
-                    log.error("Number of to ports is " + fromPorts.size());
-                    throw new PlatoException("Number of to ports is " + outputToPorts.size());
+                    result.setSuccessful(false);
+                    result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
+                        + outputToPorts.size() + ".");
+                    return result;
                 }
 
                 HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles = new HashMap<TavernaPort, SSHInMemoryTempFile>(
@@ -117,7 +129,19 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 tavernaExecutor.setOutputFiles(requestedFiles);
 
                 // Execute
-                tavernaExecutor.execute();
+                try {
+                    tavernaExecutor.execute();
+                } catch (IOException e) {
+                    result.setSuccessful(false);
+                    result.setReport("Error connecting to execution server");
+                    log.error("Error connecting to execution server", e);
+                    return result;
+                } catch (TavernaExecutorException e) {
+                    result.setSuccessful(false);
+                    result.setReport("Error executing taverna workflow");
+                    log.error("Error executing taverna workflow", e);
+                    return result;
+                }
 
                 result.setSuccessful(true);
                 result.setReport(tavernaExecutor.getOutputDoc());
@@ -135,29 +159,20 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 result.setTargetFormat(tFormat);
                 result.setMigratedObject(u);
 
-            } catch (ParserConfigurationException e) {
-                log.error("Error initializing T2Flow parser");
-                throw new PlatoException("Error initializing T2Flow parser", e);
-            } catch (SAXException e) {
-                log.error("Error initializing T2Flow parser");
-                throw new PlatoException("Error initializing T2Flow parser", e);
             } catch (TavernaParserException e) {
-                log.error("Error parsing workflow");
+                log.error("Error parsing workflow", e);
                 throw new PlatoException("Error parsing workflow", e);
             } catch (URISyntaxException e) {
-                log.error("Invalid URI");
+                log.error("Invalid URI", e);
                 throw new PlatoException("Invalid URI", e);
-            } catch (TavernaExecutorException e) {
-                log.error("Error executing taverna workflow");
-                throw new PlatoException("Error executing taverna workflow", e);
             } finally {
                 is.close();
             }
         } catch (MalformedURLException e) {
-            log.error("Malformed action URL " + action.getUrl());
+            log.error("Malformed action URL " + action.getUrl(), e);
             throw new PlatoException("Malformed action URL " + action.getUrl(), e);
         } catch (IOException e) {
-            log.error("Error downloading workflow " + action.getUrl());
+            log.error("Error downloading workflow " + action.getUrl(), e);
             throw new PlatoException("Error downloading workflow " + action.getUrl(), e);
         }
 

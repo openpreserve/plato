@@ -73,10 +73,11 @@ ORDER BY ?w ?wt
 			 .append("     dcterms:description ?wdesc ;").append("\n")
 			 .append("     meannot:has-tagging ?tscape ;").append("\n")
 			 .append("     meannot:has-tagging ?tmigration ;").append("\n")
+			 .append("     meannot:has-tagging ?tcomponent ;").append("\n")
 			 .append("     mebase:has-current-version ?wcurrentversion .").append("\n")
 			 .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/2681> .").append("\n")
 			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
-//			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3214> .").append("\n")
+			 .append("  ?tcomponent meannot:uses-tag <http://www.myexperiment.org/tags/3214> .").append("\n")
 			 .append("  ?wcurrentversion mebase:content-url ?wurl .").append("\n")
 			 .append("}").append("\n")
 			 .append("ORDER BY ?w ?wt").append("\n");
