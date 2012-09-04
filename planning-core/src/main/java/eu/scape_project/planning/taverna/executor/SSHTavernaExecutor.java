@@ -100,7 +100,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * Taverna call stuff
      */
     private SSHClient ssh;
-    private String tempDir;
+    private String workingDir;
 
     /*
      * Taverna command line arguments
@@ -139,14 +139,12 @@ public class SSHTavernaExecutor implements TavernaExecutor {
             ssh.connect(sshProperties.getProperty("host"));
             ssh.authPublickey(sshProperties.getProperty("user"), kp);
 
-            tempDir = createWorkingDir();
+            workingDir = createWorkingDir();
             prepareServer();
             executeWorkflow();
             getResults();
-
-            for (Entry<TavernaPort, ?> entry : outputFiles.entrySet()) {
-                getResultFiles(entry.getKey(), entry.getValue());
-            }
+            // TODO: Should we delete this
+            // cleanupServer();
 
         } finally {
             ssh.disconnect();
@@ -160,7 +158,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private void clear() {
         createdDirsCache.clear();
         tempFilePaths.clear();
-        tempDir = null;
+        workingDir = null;
         ssh = null;
         inputDocPath = null;
         outputDocPath = null;
@@ -215,7 +213,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * @throws TavernaExecutorException
      */
     private void prepareServer() throws IOException, TavernaExecutorException {
-        outputDocPath = tempDir + File.separator + OUTPUT_DOC_FILENAME;
+        outputDocPath = workingDir + File.separator + OUTPUT_DOC_FILENAME;
         inputDocPath = prepareInputs();
         workflowPath = prepareWorkflow();
     }
@@ -250,7 +248,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             xo.output(document, out);
-            return uploadFile(new ByteArraySourceFile(INPUT_DOC_FILENAME, out.toByteArray()), tempDir);
+            return uploadFile(new ByteArraySourceFile(INPUT_DOC_FILENAME, out.toByteArray()), "");
         } finally {
             out.close();
         }
@@ -287,33 +285,6 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     /**
-     * Creates the working directory on the server.
-     * 
-     * @return the directory
-     * @throws IOException
-     * @throws TavernaExecutorException
-     */
-    private String createWorkingDir() throws IOException, TavernaExecutorException {
-        final Session session = ssh.startSession();
-        try {
-            final Command cmd = session.exec("mktemp -d plato.XXXXXXXXXXXXXXXXXXXX");
-            String tempDir = IOUtils.readFully(cmd.getInputStream()).toString();
-            cmd.join(5, TimeUnit.SECONDS);
-            if (cmd.getExitStatus().equals(0)) {
-                tempDir = tempDir.trim();
-                log.debug("Created temporary directory " + tempDir);
-                return tempDir;
-            } else {
-                String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
-                log.error("Error creating temporary directory " + stderr);
-                throw new TavernaExecutorException("Error creating temporary directory " + stderr);
-            }
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
      * Uploads a file to the provided target directory.
      * 
      * @param file
@@ -328,9 +299,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
         String targetPath;
         if (targetDir.equals("")) {
-            targetPath = tempDir + File.separator + file.getName();
+            targetPath = workingDir + File.separator + file.getName();
         } else {
-            targetPath = tempDir + File.separator + targetDir + File.separator + file.getName();
+            targetPath = workingDir + File.separator + targetDir + File.separator + file.getName();
             createDir(targetDir);
         }
 
@@ -358,10 +329,10 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private String uploadFile(InMemorySourceFile file, String targetDir) throws IOException, TavernaExecutorException {
         String targetPath;
         if (targetDir.equals("")) {
-            targetPath = tempDir + File.separator + file.getName();
+            targetPath = workingDir + File.separator + file.getName();
         } else {
-            targetPath = tempDir + File.separator + targetDir + File.separator + file.getName();
-            createDir(targetDir);
+            targetPath = workingDir + File.separator + targetDir + File.separator + file.getName();
+            createDir(workingDir + File.separator + targetDir);
         }
 
         ssh.newSCPFileTransfer().upload(file, targetPath);
@@ -384,16 +355,43 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private String registerTempPath(SSHTempFile file, String targetDir) throws IOException, TavernaExecutorException {
         String targetPath;
         if (targetDir.equals("")) {
-            targetPath = tempDir + File.separator + file.getName();
+            targetPath = workingDir + File.separator + file.getName();
         } else {
-            targetPath = tempDir + File.separator + targetDir + File.separator + file.getName();
-            createDir(targetDir);
+            targetPath = workingDir + File.separator + targetDir + File.separator + file.getName();
+            createDir(workingDir + File.separator + targetDir);
         }
 
         tempFilePaths.put(file, targetPath);
 
         log.debug("Added temporary file " + file.getName() + " to " + targetPath);
         return targetPath;
+    }
+
+    /**
+     * Creates the working directory on the server.
+     * 
+     * @return the directory
+     * @throws IOException
+     * @throws TavernaExecutorException
+     */
+    private String createWorkingDir() throws IOException, TavernaExecutorException {
+        final Session session = ssh.startSession();
+        try {
+            final Command cmd = session.exec("mktemp -d -t plato.XXXXXXXXXXXXXXXXXXXX");
+            String tempDir = IOUtils.readFully(cmd.getInputStream()).toString();
+            cmd.join(5, TimeUnit.SECONDS);
+            if (cmd.getExitStatus().equals(0)) {
+                tempDir = tempDir.trim();
+                log.debug("Created working directory " + tempDir);
+                return tempDir;
+            } else {
+                String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
+                log.error("Error creating working directory " + stderr);
+                throw new TavernaExecutorException("Error creating working directory " + stderr);
+            }
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -440,9 +438,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
             final Command cmd = session.exec(command);
             cmd.join(commandTimeout, TimeUnit.SECONDS);
 
-            if (cmd.getExitStatus().equals(0)) {
-                log.info("Executed workflow");
-            } else {
+            if (!cmd.getExitStatus().equals(0)) {
                 String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
                 log.error("Error executing workflow: " + stderr);
                 throw new TavernaExecutorException("Error executing workflow: " + stderr);
@@ -479,6 +475,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      */
     private void getResults() throws IOException, TavernaExecutorException {
 
+        // Download data
         File outputDocFile = File.createTempFile("ssh-taverna-executor-", ".xml");
         try {
             downloadFile(OUTPUT_DOC_FILENAME, outputDocFile);
@@ -511,6 +508,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
             }
         } finally {
             outputDocFile.delete();
+        }
+
+        // Download files
+        for (Entry<TavernaPort, ?> entry : outputFiles.entrySet()) {
+            getResultFiles(entry.getKey(), entry.getValue());
         }
     }
 
@@ -554,7 +556,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * @throws IOException
      */
     private void downloadFile(String path, File localFile) throws IOException {
-        String sourcePath = tempDir + File.separator + path;
+        String sourcePath = workingDir + File.separator + path;
 
         ssh.newSCPFileTransfer().download(sourcePath, new FileSystemFile(localFile));
         log.debug("Downloaded file " + path + " to " + localFile.getPath());
@@ -582,6 +584,30 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         ssh.newSCPFileTransfer().download(tempFilePath, destFile);
         tempFile.setData(destFile.getData());
         log.debug("Downloaded file " + tempFilePath + " to " + tempFile.getName());
+    }
+
+    /**
+     * Cleans up created resources on the server.
+     * 
+     * @throws IOException
+     * @throws TavernaExecutorException
+     */
+    private void cleanupServer() throws IOException, TavernaExecutorException {
+        final Session session = ssh.startSession();
+        try {
+            final Command cmd = session.exec("rm -rf " + workingDir);
+            cmd.join(5, TimeUnit.SECONDS);
+
+            if (!cmd.getExitStatus().equals(0)) {
+                String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
+                log.error("Error deleting working directory " + stderr);
+                throw new TavernaExecutorException("Error deleting working directory " + stderr);
+            }
+
+            log.debug("Deleted working directory " + workingDir);
+        } finally {
+            session.close();
+        }
     }
 
     // --------------- getter/setter ---------------

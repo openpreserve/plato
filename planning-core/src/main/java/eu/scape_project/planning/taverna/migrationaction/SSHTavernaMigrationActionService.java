@@ -32,12 +32,15 @@ import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
 
-public class TavernaMigrationActionService implements IMigrationAction {
-    private static Logger log = LoggerFactory.getLogger(TavernaMigrationActionService.class);
+public class SSHTavernaMigrationActionService implements IMigrationAction {
+    private static Logger log = LoggerFactory.getLogger(SSHTavernaMigrationActionService.class);
+
+    MigrationResult lastResult;
 
     @Override
     public boolean perform(PreservationActionDefinition action, SampleObject sampleObject) throws PlatoException {
-        // TODO: Got from at.tuwien.minimee.migration.MiniMeeMigrationService.
+        // TODO: Copied from
+        // at.tuwien.minimee.migration.MiniMeeMigrationService.
         // Always return true?
         migrate(action, sampleObject);
         return true;
@@ -81,8 +84,8 @@ public class TavernaMigrationActionService implements IMigrationAction {
                 // Input to path
                 Set<TavernaPort> toPorts = t2flowParser.getInputPorts(new URI(T2FlowParserFallback.TO_OBJECT_PATH_URI));
                 if (toPorts.size() != 1) {
-                    log.error("Number of to ports is " + fromPorts.size());
-                    throw new PlatoException("Number of to ports is " + fromPorts.size());
+                    log.error("Number of to ports is " + toPorts.size());
+                    throw new PlatoException("Number of to ports is " + toPorts.size());
                 }
 
                 SSHInMemoryTempFile tempFile = new SSHInMemoryTempFile();
@@ -91,6 +94,7 @@ public class TavernaMigrationActionService implements IMigrationAction {
                     inputData.put(toPort, tempFile);
                 }
 
+                tavernaExecutor.setInputData(inputData);
                 // Workflow
                 tavernaExecutor.setWorkflowUrl(action.getUrl());
                 // Output ports to recieve
@@ -100,9 +104,9 @@ public class TavernaMigrationActionService implements IMigrationAction {
                 // Output files
                 Set<TavernaPort> outputToPorts = t2flowParser.getOutputPorts(new URI(
                     T2FlowParserFallback.TO_OBJECT_PATH_URI));
-                if (toPorts.size() != 1) {
+                if (outputToPorts.size() != 1) {
                     log.error("Number of to ports is " + fromPorts.size());
-                    throw new PlatoException("Number of to ports is " + fromPorts.size());
+                    throw new PlatoException("Number of to ports is " + outputToPorts.size());
                 }
 
                 HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles = new HashMap<TavernaPort, SSHInMemoryTempFile>(
@@ -118,7 +122,8 @@ public class TavernaMigrationActionService implements IMigrationAction {
                 result.setSuccessful(true);
                 result.setReport(tavernaExecutor.getOutputDoc());
 
-                Map<TavernaPort, ?> outputData = tavernaExecutor.getOutputData();
+                // Map<TavernaPort, ?> outputData =
+                // tavernaExecutor.getOutputData();
                 Map<TavernaPort, ?> outputFiles = tavernaExecutor.getOutputFiles();
 
                 DigitalObject u = new DigitalObject();
@@ -156,18 +161,13 @@ public class TavernaMigrationActionService implements IMigrationAction {
             throw new PlatoException("Error downloading workflow " + action.getUrl(), e);
         }
 
-        TavernaPort pathFromPort = new TavernaPort();
-        pathFromPort.setName("path_from");
-        pathFromPort.setDepth(1);
-
+        lastResult = result;
         return result;
-
     }
 
     @Override
     public MigrationResult getLastResult() {
-        // TODO Auto-generated method stub
-        return null;
+        return lastResult;
     }
 
 }
