@@ -1,6 +1,5 @@
 package eu.scape_project.planning.services.pa.taverna;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
@@ -10,14 +9,7 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.digester3.RegexRules;
-import org.apache.commons.digester3.SimpleRegexMatcher;
 import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
@@ -73,16 +65,19 @@ ORDER BY ?w ?wt
 			 .append("PREFIX dcterms: <http://purl.org/dc/terms/>").append("\n")
 			 .append("PREFIX meannot: <http://rdf.myexperiment.org/ontologies/annotations/>").append("\n")
 			 .append("PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/>").append("\n")
-			 .append("SELECT ?w ?wt ?wdesc").append("\n")
+			 .append("PREFIX mebase: <http://rdf.myexperiment.org/ontologies/base/>").append("\n")
+			 .append("SELECT ?w ?wt ?wdesc ?wurl").append("\n")
 			 .append("WHERE {").append("\n")
 			 .append("  ?w a mecontrib:Workflow ;").append("\n")
 			 .append("     dcterms:title ?wt ;").append("\n")
 			 .append("     dcterms:description ?wdesc ;").append("\n")
 			 .append("     meannot:has-tagging ?tscape ;").append("\n")
-			 .append("     meannot:has-tagging ?tmigration .").append("\n")
+			 .append("     meannot:has-tagging ?tmigration ;").append("\n")
+			 .append("     mebase:has-current-version ?wcurrentversion .").append("\n")
 			 .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/2681> .").append("\n")
 			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
 //			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3214> .").append("\n")
+			 .append("  ?wcurrentversion mebase:content-url ?wurl .").append("\n")
 			 .append("}").append("\n")
 			 .append("ORDER BY ?w ?wt").append("\n");
 		try {

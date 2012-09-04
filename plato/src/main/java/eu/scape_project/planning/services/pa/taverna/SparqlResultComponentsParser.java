@@ -28,14 +28,16 @@ public class SparqlResultComponentsParser {
 			map.put( "sparql", "http://www.w3.org/2005/sparql-results#");
 			  
 			XPath xpath = DocumentHelper.createXPath("sparql:results/*");
-			XPath selectUrlXpath = DocumentHelper.createXPath("sparql:binding[@name='w']/sparql:uri");
+			XPath selectDescriptorXpath = DocumentHelper.createXPath("sparql:binding[@name='w']/sparql:uri");
 			XPath selectTitleXpath = DocumentHelper.createXPath("sparql:binding[@name='wt']/sparql:literal");
 			XPath selectDescriptionXpath = DocumentHelper.createXPath("sparql:binding[@name='wdesc']/sparql:literal");
+			XPath selectUrlXpath = DocumentHelper.createXPath("sparql:binding[@name='wurl']/sparql:uri");
 
 			xpath.setNamespaceURIs(map);
-			selectUrlXpath.setNamespaceURIs(map);
+			selectDescriptorXpath.setNamespaceURIs(map);
 			selectTitleXpath.setNamespaceURIs(map);
 			selectDescriptionXpath.setNamespaceURIs(map);
+			selectUrlXpath.setNamespaceURIs(map);
 			
 			@SuppressWarnings("rawtypes")
 			List componentsNodes = xpath.selectNodes(sparqlDoc.getRootElement());
@@ -47,7 +49,7 @@ public class SparqlResultComponentsParser {
 				def.setShortname(selectTitleXpath.selectSingleNode(component).getText());
 				def.setUrl(selectUrlXpath.selectSingleNode(component).getText());
 				def.setInfo(selectDescriptionXpath.selectSingleNode(component).getText());
-				def.setDescriptor(selectUrlXpath.selectSingleNode(component).getText());
+				def.setDescriptor(selectDescriptorXpath.selectSingleNode(component).getText());
 				
 				components.add(def);
 			}

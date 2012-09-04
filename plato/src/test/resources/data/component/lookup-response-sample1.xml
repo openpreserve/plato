@@ -4,6 +4,7 @@
     <variable name="w"/>
     <variable name="wt"/>
     <variable name="wdesc"/>
+    <variable name="wurl"/>
   </head>
   <results>
     <result>
@@ -11,6 +12,7 @@
       <binding name="wt"><literal datatype="http://www.w3.org/2001/XMLSchema#string">Mock-Up mp3 To Wav Migrate And QA</literal></binding>
       <binding name="wdesc"><literal datatype="http://www.w3.org/2001/XMLSchema#string">&lt;p&gt;This is a Mock-Up Workflow illustrating &lt;span&gt;&lt;span&gt;SCAPE solution '&lt;/span&gt;&lt;/span&gt;SO4 mp3 To Wav Migrate And QA Mock Up'&lt;span&gt;&lt;span&gt;, see &lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;span&gt;&lt;a rel="nofollow" href="http://wiki.opf-labs.org/display/SP/SO4+Audio+mp3+to+wav+Migration+and+QA+Workflow"&gt;wiki.opf-labs.org/display/SP/SO4+Audio+mp3+to+wav+Migration+and+QA+Workflow&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;	
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2639/download/_untitled__549972.t2flow?version=4</uri></binding>
     </result>
     <result>
       <binding name="w"><uri>http://www.myexperiment.org/workflows/2687</uri></binding>
@@ -24,6 +26,7 @@
 &lt;/ul&gt;	
 &lt;p&gt;The SCAPE web services are available from &lt;a href="http://fue.onb.ac.at/lscapeservices/scape-mpg321059-service/" rel="nofollow"&gt;http://fue.onb.ac.at:80/lscapeservices/&lt;/a&gt; for the SCAPE community (password protected).&lt;/p&gt;	
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2687/download/mp3_to_wav_migrate_validate_compare_638790.t2flow?version=4</uri></binding>
     </result>
     <result>
       <binding name="w"><uri>http://www.myexperiment.org/workflows/2713</uri></binding>
@@ -33,6 +36,7 @@
 &lt;div class="contribution_description"&gt;	
 &lt;p&gt;&lt;span&gt;&lt;span&gt;The SCAPE web service is available from &lt;a rel="nofollow" href="http://fue.onb.ac.at/lscapeservices/scape-mpg321059-service/"&gt;http://fue.onb.ac.at:80/lscapeservices/scape-ffmpeg25305-service/&lt;/a&gt; for the SCAPE community (password protected).&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;	
 &lt;/div&gt;</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2713/download/ffmpeg_mp3_to_wav_migration_scape_web_service_workflow_817971.t2flow?version=3</uri></binding>
     </result>
     <result>
       <binding name="w"><uri>http://www.myexperiment.org/workflows/2716</uri></binding>
@@ -44,6 +48,7 @@
     &lt;li&gt;Compare Audio File Properties Workflow      &lt;a href="http://www.myexperiment.org/workflows/2715"&gt;www.myexperiment.org/workflows/2715&lt;/a&gt;&lt;/li&gt;	
 &lt;/ul&gt;	
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2716/download/mp3_to_wav_migrate__extract_properties_and_compare_workflow_347391.t2flow?version=2</uri></binding>
     </result>
     <result>
       <binding name="w"><uri>http://www.myexperiment.org/workflows/2818</uri></binding>
@@ -64,6 +69,7 @@
     &lt;li&gt;migrationQA SCAPE Web Service including MPG321 decoding Workflow http://www.myexperiment.org/workflows/2806&lt;/li&gt;	
 &lt;/ul&gt;	
 &lt;p&gt;The workflow uses SCAPE web services available from &lt;a rel="nofollow" href="http://fue.onb.ac.at/lscapeservices/scape-mpg321059-service/"&gt;http://fue.onb.ac.at:80/lscapeservices/&lt;/a&gt; for the SCAPE community (password protected).&lt;/p&gt;</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2818/download/mp3_to_wav_migration__qa_186666.t2flow?version=1</uri></binding>
     </result>
     <result>
       <binding name="w"><uri>http://www.myexperiment.org/workflows/2914</uri></binding>
@@ -72,11 +78,19 @@
 &lt;p&gt;This workflow migrates a list of mp3 files to wav files using the &lt;i&gt;MP3 to WAV Migrate Validate Compare&lt;/i&gt; workflow. &lt;a href="http://www.myexperiment.org/workflows/2687.html"&gt;See description here.&lt;/a&gt; The workflow uses SCAPE web services, which are set up locally. The webservices are set up using the &lt;a href="https://github.com/openplanets/scape"&gt;github.com/openplanets/scape&lt;/a&gt; project tool descriptors. The used SCAPE web services are the ffmpeg, jhove2 and ffprobe  web services. This workflow matches (most of) solution SO4 on the  SCAPE opf wiki, see &lt;a href="http://wiki.opf-labs.org/display/SP/SO4+Audio+mp3+to+wav+Migration+and+QA+Workflow" rel="nofollow"&gt;http://wiki.opf-labs.org/display/SP/SO4+Audio+mp3+to+wav+Migration+and+QA+Workflow&lt;/a&gt;.&lt;/p&gt;	
 &lt;/div&gt;	
 &lt;p&gt;The workflow input value is a fileURL containing a list of input MP3 URLs. The output is a list of Wav fileURLs, a list of validation outputs (valid / not valid ) and a list of comparison outputs (properties alike / not alike).&lt;/p&gt;</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2914/download/_untitled__1988.t2flow?version=1</uri></binding>
     </result>
     <result>
       <binding name="w"><uri>http://www.myexperiment.org/workflows/2981</uri></binding>
       <binding name="wt"><literal datatype="http://www.w3.org/2001/XMLSchema#string">Simple executable plan example</literal></binding>
       <binding name="wdesc"><literal datatype="http://www.w3.org/2001/XMLSchema#string">A simple executable plan containing a migration action component and a QA component. The migration action uses imagemagick convert. The QA component consists of two characterisation components (fits) and another QA components (imagemagick compare).</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/2981/download/simple_executable_plan_example_538267.t2flow?version=1</uri></binding>
+    </result>
+    <result>
+      <binding name="w"><uri>http://www.myexperiment.org/workflows/3137</uri></binding>
+      <binding name="wt"><literal datatype="http://www.w3.org/2001/XMLSchema#string">Imagemagick convert</literal></binding>
+      <binding name="wdesc"><literal datatype="http://www.w3.org/2001/XMLSchema#string">Converts an image using imagemagick convert</literal></binding>
+      <binding name="wurl"><uri>http://www.myexperiment.org/workflows/3137/download/imagemagick_convert_664853.t2flow?version=1</uri></binding>
     </result>
   </results>
 </sparql>
