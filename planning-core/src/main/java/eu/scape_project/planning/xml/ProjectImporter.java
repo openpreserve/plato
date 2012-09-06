@@ -86,8 +86,8 @@ import eu.scape_project.planning.model.Transformation;
 import eu.scape_project.planning.model.TriggerDefinition;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.XcdlDescription;
-import eu.scape_project.planning.model.measurement.Criterion;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.measurement.Metric;
 import eu.scape_project.planning.model.scales.BooleanScale;
@@ -820,7 +820,7 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
             digester.addSetNext("*/detailedInfo/measurements/measurement", "put");
             // values are defined with wild-cards, and therefore set
             // automatically
-            digester.addObjectCreate("*/measurement/property", MeasurableProperty.class);
+            digester.addObjectCreate("*/measurement/property", Attribute.class);
             digester.addSetProperties("*/measurement/property");
             digester.addSetNext("*/measurement/property", "setProperty");
             // scales are defined with wild-cards, and therefore set
@@ -1137,17 +1137,17 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
 
     private void replaceCriteriaReferences(final List<Leaf> leaves) {
         for (Leaf l : leaves) {
-            Criterion parsedCriterion = l.getCriterion();
+            Measure parsedCriterion = l.getCriterion();
             if (parsedCriterion != null) {
                 // FIXME: unknown criteria should not be removed / error message
-                Criterion criterion = criteriaManager.getCriterion(parsedCriterion.getUri());
-                if (criterion == null) {
+                Measure measure = criteriaManager.getCriterion(parsedCriterion.getUri());
+                if (measure == null) {
                     // this is an unknown criterion, we do not want to add them
                     // to the list of well known criteria
                     // but we have to inform the user about this problem
 
                 }
-                l.setCriterion(criterion);
+                l.setCriterion(measure);
             }
         }
     }
@@ -1221,7 +1221,7 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
 
         digester.addCallMethod("*/leaf/description", "setDescription", 0);
 
-        digester.addObjectCreate("*/criterion", Criterion.class);
+        digester.addObjectCreate("*/criterion", Measure.class);
         digester.addSetProperties("*/criterion", "ID", "uri");
         digester.addSetNext("*/criterion", "setCriterion");
         ProjectImporter.addPropertyRules(digester, "*/criterion/property");
@@ -1322,7 +1322,7 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
     }
 
     private static void addPropertyRules(final Digester digester, final String pattern) {
-        digester.addObjectCreate(pattern, MeasurableProperty.class);
+        digester.addObjectCreate(pattern, Attribute.class);
         digester.addSetNext(pattern, "setProperty");
         digester.addSetProperties(pattern);
         // there is no property categoryAsString, but a setter ...

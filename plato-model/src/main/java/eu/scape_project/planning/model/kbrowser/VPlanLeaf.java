@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 import eu.scape_project.planning.model.SampleAggregationMode;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Values;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FloatScale;
 import eu.scape_project.planning.model.scales.IntRangeScale;
@@ -85,7 +85,7 @@ public class VPlanLeaf {
     private Transformer transformer;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Criterion criterion;
+    private Measure measure;
 
     @Enumerated
     private SampleAggregationMode aggregationMode;
@@ -817,12 +817,12 @@ public class VPlanLeaf {
         return transformer;
     }
 
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
+    public void setCriterion(Measure measure) {
+        this.measure = measure;
     }
 
-    public Criterion getCriterion() {
-        return criterion;
+    public Measure getCriterion() {
+        return measure;
     }
 
     public void setPlanId(int planId) {

@@ -25,7 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 
 @Entity
 @DiscriminatorValue("L")
@@ -33,7 +33,7 @@ public class CriteriaLeaf extends CriteriaTreeNode {
     private static final long serialVersionUID = 7451573756065378955L;
 
     @ManyToOne
-    private Criterion criterion;
+    private Measure measure;
 
     private Boolean mapped;
 
@@ -47,14 +47,14 @@ public class CriteriaLeaf extends CriteriaTreeNode {
     private int plansUsingCriterion = 0;
 
     public CriteriaLeaf() {
-        criterion = null;
+        measure = null;
         name = "SELECT A CRITERION -->";
         mapped = false;
         planLeaves = new ArrayList<VPlanLeaf>();
     }
 
     public CriteriaLeaf(long nrOfRelevantPlans) {
-        criterion = null;
+        measure = null;
         name = "SELECT A CRITERION -->";
         mapped = false;
         planLeaves = new ArrayList<VPlanLeaf>();
@@ -544,12 +544,12 @@ public class CriteriaLeaf extends CriteriaTreeNode {
         return 0;
     }
 
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
+    public void setCriterion(Measure measure) {
+        this.measure = measure;
     }
 
-    public Criterion getCriterion() {
-        return criterion;
+    public Measure getCriterion() {
+        return measure;
     }
 
     public void setMapped(Boolean mapped) {

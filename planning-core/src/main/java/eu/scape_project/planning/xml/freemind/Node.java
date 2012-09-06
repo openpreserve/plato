@@ -28,7 +28,7 @@ import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.CriteriaNode;
 import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FreeStringScale;
 import eu.scape_project.planning.model.scales.IntRangeScale;
@@ -267,7 +267,7 @@ public class Node {
     			String criterionUri = TEXT.substring(mappingSeparatorIndex + 1);
     			leaf.setName(name);
     			// set criterion only if we can identify it
-    			Criterion crit = criteriaManager.getCriterion(criterionUri);
+    			Measure crit = criteriaManager.getCriterion(criterionUri);
     			if (crit != null) {
     				leaf.setMapped(true);
     				leaf.setCriterion(crit);

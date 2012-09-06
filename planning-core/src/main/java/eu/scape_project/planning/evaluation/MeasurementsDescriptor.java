@@ -26,7 +26,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.scape_project.planning.model.measurement.Criterion;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
 import eu.scape_project.planning.model.scales.Scale;
@@ -79,59 +78,7 @@ public class MeasurementsDescriptor {
         
        parser.load(descriptor, digestedProperties, digestedMetrics);
        
-       // merge digested properties with already existing
-       for (MeasurableProperty p : digestedProperties.values()) {
-           Criterion helperInfo = new Criterion(); 
-           helperInfo.setMetric(null);
-           helperInfo.setProperty(p);
-           String uri = helperInfo.buildUri();
-           String propertyId = p.getPropertyId();
-           if (uri == null){
-               log.error("found invalid property definition: "+propertyId);
-           } else {
-               // We check if we have that property already. If not, we put
-               // the property into the map.
-               MeasurableProperty existingP = properties.get(propertyId);
-               if (existingP == null) {
-                   // this property could not be measured so far - add it to the map
-                   properties.put(propertyId, p);
-                   // and add the scale of this property too
-                   if (p.getScale() != null) {
-                	   measurementScales.put(uri, p.getScale());
-                   }
-               } 
-               // We look at all metrics and look
-               // a. is the property+metric already mapped to a scale?
-               // b. is the metric already listed in the property?
-               for(Metric m : p.getPossibleMetrics()) {
-                   helperInfo.setMetric(m);
-                   uri = helperInfo.buildUri();
-                   // a. if property+metric isnt yet mapped, we put down the scale.
-                   if (!measurementScales.containsKey(uri)) {
-                       measurementScales.put(uri, m.getScale());
-                   }
-                   // If we have an existing property, we have to check if it contains this metric.
-                   // If it does not, we add the metric to ist list.
-                   if (existingP != null && (!containsMetric(m.getMetricId(), existingP.getPossibleMetrics()))) {
-                       existingP.getPossibleMetrics().add(m);
-                   }
-                   
-               }
-           }
-       }
     }
-    private boolean containsMetric(String id, List<Metric> metrics) {
-        if ((id == null) || ("".equals(id))) {
-            return false;
-        }
-        for (Metric m : metrics) {
-            if (id.equals(m.getId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * returns the scale of this measurement, or null if the measurement uri is unknown 

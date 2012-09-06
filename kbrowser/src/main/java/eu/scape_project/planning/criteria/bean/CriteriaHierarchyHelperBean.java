@@ -54,7 +54,7 @@ import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.CriteriaNode;
 import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
@@ -269,13 +269,13 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      * @param metric metric criterion
      * @return a list of all plan leaves matching the given criterion.
      */
-    private List<VPlanLeaf> getPlanLeavesMatchingCriterion(Criterion criterion) {
+    private List<VPlanLeaf> getPlanLeavesMatchingCriterion(Measure measure) {
         List<VPlanLeaf> matchingLeaves = new ArrayList<VPlanLeaf>();
         
         // test which leaves match
         for (VPlanLeaf leaf : planSelection.getSelectionPlanLeaves()) {
             if (leaf.getCriterion() != null) {
-                if (leaf.getCriterion().getUri().equals(criterion.getUri())) {
+                if (leaf.getCriterion().getUri().equals(measure.getUri())) {
                     matchingLeaves.add(leaf);
                 }
             }
@@ -503,8 +503,8 @@ public class CriteriaHierarchyHelperBean implements Serializable {
         Element baseNode = root.addElement("node");
         baseNode.addAttribute("TEXT", "allCriteria");
 
-        Collection<Criterion> allCriteria = criteriaManager.getKnownCriteria();
-        ArrayList<Criterion> allCriteriaSortable = new ArrayList<Criterion>(allCriteria);
+        Collection<Measure> allCriteria = criteriaManager.getKnownCriteria();
+        ArrayList<Measure> allCriteriaSortable = new ArrayList<Measure>(allCriteria);
         Collections.sort(allCriteriaSortable);
         allCriteria = allCriteriaSortable;
         
@@ -515,13 +515,13 @@ public class CriteriaHierarchyHelperBean implements Serializable {
 //		allMeasurableProperties = allMeasurablePropertiesSortable;
         
         // each criterion should be added as simple node
-        for (Criterion criterion : allCriteria) {
+        for (Measure measure : allCriteria) {
         	// construct node text
-        	String nodeText = criterion.getProperty().getName();
-        	if (criterion.getMetric() != null) {
-        		nodeText = nodeText + "#" + criterion.getMetric().getName();
+        	String nodeText = measure.getProperty().getName();
+        	if (measure.getMetric() != null) {
+        		nodeText = nodeText + "#" + measure.getMetric().getName();
         	}
-        	nodeText = nodeText + "|" + criterion.getUri();
+        	nodeText = nodeText + "|" + measure.getUri();
         	
         	// add node
         	Element node = baseNode.addElement("node");

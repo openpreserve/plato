@@ -114,7 +114,7 @@ public class MiniRED implements Serializable {
 //     * 
 //     * @return uri of measurement, see  {@link CriterionUri}
 //     */
-//    public Collection<MeasurableProperty> getPossibleMeasurements() {
+//    public Collection<Attribute> getPossibleMeasurements() {
 //        
 //        return descriptor.getPossibleMeasurements();
 //    }

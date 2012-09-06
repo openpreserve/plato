@@ -19,7 +19,6 @@
  */
 package eu.scape_project.planning.evaluation;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.StringReader;
 

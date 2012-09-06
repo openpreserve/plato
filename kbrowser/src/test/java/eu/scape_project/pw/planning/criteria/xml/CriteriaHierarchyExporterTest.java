@@ -24,7 +24,7 @@ import eu.scape_project.planning.criteria.xml.CriteriaHierarchyExporter;
 import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.CriteriaNode;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 
 public class CriteriaHierarchyExporterTest extends XMLTestCase {	
 	public CriteriaHierarchyExporterTest(String name) {
@@ -82,7 +82,7 @@ public class CriteriaHierarchyExporterTest extends XMLTestCase {
 		// create criteria-hierarchy tree
 		CriteriaLeaf leaf1 = new CriteriaLeaf();
 		leaf1.setName("leaf1");
-		Criterion imageWidthEqualsCrit = new Criterion();
+		Measure imageWidthEqualsCrit = new Measure();
 		imageWidthEqualsCrit.setUri("outcome://object/image/width#equal");
 		leaf1.setCriterion(imageWidthEqualsCrit);
 		leaf1.setMapped(true);
@@ -90,7 +90,7 @@ public class CriteriaHierarchyExporterTest extends XMLTestCase {
 		leaf2.setName("leaf2");
 		CriteriaLeaf leaf3 = new CriteriaLeaf();
 		leaf3.setName("leaf3");
-		Criterion textQualityCrit = new Criterion();
+		Measure textQualityCrit = new Measure();
 		textQualityCrit.setUri("outcome://object/image/textQuality");
 		leaf3.setCriterion(textQualityCrit);
 		leaf3.setMapped(true);

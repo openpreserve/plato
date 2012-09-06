@@ -28,9 +28,9 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.manager.CriteriaManager;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.Metric;
 
 /**
@@ -50,14 +50,14 @@ public class CriterionSelector implements Serializable {
     private HashMap<String, CriterionCategory> categoriesMap;
     private CriterionCategory selectedCategory;
     
-    private Collection<MeasurableProperty> allMeasurableProperties;
+    private Collection<Attribute> allMeasurableProperties;
     private int allMeasurablePropertiesCount;
     
-    private Collection<MeasurableProperty> filteredMeasurableProperties;
+    private Collection<Attribute> filteredMeasurableProperties;
     private int filteredMeasurablePropertiesCount;
-    private HashMap<String, MeasurableProperty> measurablePropertiesMap;
-    private MeasurableProperty selectedMeasurableProperty;
-    private String selectedMeasurablePropertyString;
+    private HashMap<String, Attribute> measurablePropertiesMap;
+    private Attribute selectedAttribute;
+    private String selectedAttributeString;
     
     private List<Metric> metrics;
     private HashMap<String, Metric> metricsMap;
@@ -81,16 +81,16 @@ public class CriterionSelector implements Serializable {
     
     public void init() {
         allMeasurableProperties = criteriaManager.getKnownProperties();
-        ArrayList<MeasurableProperty> allMeasurablePropertiesSortable = new ArrayList<MeasurableProperty>(allMeasurableProperties);
+        ArrayList<Attribute> allMeasurablePropertiesSortable = new ArrayList<Attribute>(allMeasurableProperties);
         Collections.sort(allMeasurablePropertiesSortable);
         allMeasurableProperties = allMeasurablePropertiesSortable;
         allMeasurablePropertiesCount = allMeasurableProperties.size();
-        filteredMeasurableProperties = new ArrayList<MeasurableProperty>(allMeasurableProperties);
+        filteredMeasurableProperties = new ArrayList<Attribute>(allMeasurableProperties);
         filteredMeasurablePropertiesCount = filteredMeasurableProperties.size();
 
         constructMeasurablePropertiesMap();
-        selectedMeasurableProperty = null;
-        selectedMeasurablePropertyString = null;
+        selectedAttribute = null;
+        selectedAttributeString = null;
     }
     
     /* ----------------- Category Setup ----------------- */
@@ -120,8 +120,8 @@ public class CriterionSelector implements Serializable {
     /* ----------------- Property Setup ----------------- */
     
     private void constructMeasurablePropertiesMap() {
-        measurablePropertiesMap = new HashMap<String, MeasurableProperty>();
-        for (MeasurableProperty mp : allMeasurableProperties)
+        measurablePropertiesMap = new HashMap<String, Attribute>();
+        for (Attribute mp : allMeasurableProperties)
         {
             measurablePropertiesMap.put(mp.getName(), mp);
         }
@@ -129,14 +129,14 @@ public class CriterionSelector implements Serializable {
     
     /* ----------------- Category UI-Helper ----------------- */
     
-    public void setSelectedMeasurableProperty(MeasurableProperty selectedMeasurableProperty) {
-//        log.debug("setSelectedMeasurableProperty()");
-        this.selectedMeasurableProperty = selectedMeasurableProperty;
+    public void setSelectedAttribute(Attribute selectedAttribute) {
+//        log.debug("setSelectedAttribute()");
+        this.selectedAttribute = selectedAttribute;
     }
 
-    public MeasurableProperty getSelectedMeasurableProperty() {
-//        log.debug("getSelectedMeasurableProperty()=" + selectedMeasurableProperty);
-        return selectedMeasurableProperty;
+    public Attribute getSelectedAttribute() {
+//        log.debug("getSelectedAttribute()=" + selectedAttribute);
+        return selectedAttribute;
     }
     
     public Collection<CriterionCategory> getCategories() {
@@ -149,32 +149,32 @@ public class CriterionSelector implements Serializable {
     
     /* ----------------- Property UI-Helper ----------------- */
 
-    public void setFilteredMeasurableProperties(Collection<MeasurableProperty> filteredMeasurableProperties) {
+    public void setFilteredMeasurableProperties(Collection<Attribute> filteredMeasurableProperties) {
         this.filteredMeasurableProperties = filteredMeasurableProperties;
     }
 
-    public Collection<MeasurableProperty> getFilteredMeasurableProperties() {
+    public Collection<Attribute> getFilteredMeasurableProperties() {
         return filteredMeasurableProperties;
     }          
     
-    public void setSelectedMeasurablePropertyString(String selectedMeasurablePropertyString) {
-        log.debug("setSelectedMeasurablePropertyString(" + selectedMeasurablePropertyString + ")");
+    public void setSelectedAttributeString(String selectedAttributeString) {
+        log.debug("setSelectedAttributeString(" + selectedAttributeString + ")");
         
-        this.selectedMeasurablePropertyString = selectedMeasurablePropertyString;
+        this.selectedAttributeString = selectedAttributeString;
         
-        if (selectedMeasurablePropertyString == null)
+        if (selectedAttributeString == null)
         {
-            selectedMeasurableProperty = null;
+            selectedAttribute = null;
         }
         else
         {
-            selectedMeasurableProperty = measurablePropertiesMap.get(selectedMeasurablePropertyString);
+            selectedAttribute = measurablePropertiesMap.get(selectedAttributeString);
         }
     }
     
-    public String getSelectedMeasurablePropertyString() {
-//        log.debug("getSelectedMeasurablePropertyString()=" + selectedMeasurablePropertyString);
-        return selectedMeasurablePropertyString;
+    public String getSelectedAttributeString() {
+//        log.debug("getSelectedAttributeString()=" + selectedAttributeString);
+        return selectedAttributeString;
     }
     
     public void setAllMeasurablePropertiesCount(int allMeasurablePropertiesCount) {
@@ -254,13 +254,13 @@ public class CriterionSelector implements Serializable {
         log.debug("CALL selectProperty()");
         
         // debug output
-        if (selectedMeasurableProperty == null)
+        if (selectedAttribute == null)
         {
             log.info("Property: Nothing selected");
         }
         else
         {
-            log.info("Property selected: " + selectedMeasurableProperty.getName());
+            log.info("Property selected: " + selectedAttribute.getName());
         }
         
         updateMetrics();
@@ -270,9 +270,9 @@ public class CriterionSelector implements Serializable {
         // ATTENTION: Because of a Seam-Bug, this new creation of the filtered-measurableproperties-list is mandatory!
         // If you just clear the list and then refill it, the view (s:selectItems) does not mention a change and therefore does not update the associated selectBox.
         // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
-        Collection<MeasurableProperty> newFilteredMP = new ArrayList<MeasurableProperty>();
+        Collection<Attribute> newFilteredMP = new ArrayList<Attribute>();
         
-    	for (MeasurableProperty p : allMeasurableProperties) {
+    	for (Attribute p : allMeasurableProperties) {
             if (selectedCategory == null || p.getCategory() == selectedCategory) {
                 newFilteredMP.add(p);
             }
@@ -282,11 +282,11 @@ public class CriterionSelector implements Serializable {
         filteredMeasurableProperties.addAll(newFilteredMP);
         setFilteredMeasurablePropertiesCount(newFilteredMP.size());
                 
-        // check if selected MeasurableProperty is still available in the new filtered list.
+        // check if selected Attribute is still available in the new filtered list.
         Boolean mpStillInFilteredList = false;
-        if (selectedMeasurableProperty != null) {
-            for (MeasurableProperty mp : filteredMeasurableProperties) {
-                if (mp.getPropertyId().equals(selectedMeasurableProperty.getPropertyId())) {
+        if (selectedAttribute != null) {
+            for (Attribute mp : filteredMeasurableProperties) {
+                if (mp.getPropertyId().equals(selectedAttribute.getPropertyId())) {
                     mpStillInFilteredList = true;
                     log.debug("Selected Property still available in new filtered list");
                 }
@@ -295,7 +295,7 @@ public class CriterionSelector implements Serializable {
             // if the previous selected MeasuableProperty is not available any more in the new filtered list
             // set the selection to null (which also affects the metrics select)
             if (!mpStillInFilteredList) {
-                setSelectedMeasurablePropertyString(null);
+                setSelectedAttributeString(null);
                 log.debug("Reset Selected Property to null");
                 updateMetrics();
             }
@@ -325,7 +325,7 @@ public class CriterionSelector implements Serializable {
     public void updateMetrics() {
         setSelectedMetricString(null);
         
-        if (selectedMeasurableProperty == null)
+        if (selectedAttribute == null)
         {
             // ATTENTION: Because of a Seam-Bug, this new creation of the metrics-list is mandatory!
             // If you just clear the list, the view (s:selectItems) does not mention a change and therefore does not update the associated selectBox.
@@ -335,23 +335,23 @@ public class CriterionSelector implements Serializable {
         }
         else
         {
-            constructMetricsWithMap(selectedMeasurableProperty.getPossibleMetrics());
+            constructMetricsWithMap(selectedAttribute.getPossibleMetrics());
         }
         
         log.debug("Reset Metric to null");
     }
     
     public boolean isMeasurableCriterionSelected() {
-        if ((selectedMeasurableProperty != null && selectedMetric != null) || 
-            (selectedMeasurableProperty != null && selectedMeasurableProperty.getScale() != null)) {
+        if ((selectedAttribute != null && selectedMetric != null) || 
+            (selectedAttribute != null && selectedAttribute.getScale() != null)) {
                 return true;
         }
         
         return false;
     }
     
-    public Criterion getSelectedCriterion() {
-    	return criteriaManager.getCriterion(selectedMeasurableProperty, selectedMetric);
+    public Measure getSelectedCriterion() {
+    	return criteriaManager.getCriterion(selectedAttribute, selectedMetric);
     }
 
     // --------------- general getter/setter ---------------

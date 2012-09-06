@@ -19,7 +19,7 @@ package eu.scape_project.planning.model.tree;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 
 @Entity
@@ -53,7 +53,7 @@ public class LibraryRequirement extends Node {
     
     public Leaf addCriterion() {
         Leaf l = new Leaf();
-        Criterion mInfo = l.getCriterion();
+        Measure mInfo = l.getCriterion();
 //        if ((mInfo.getScheme() == null) ||("".equals(mInfo.getScheme()))) {
 //            if ((category == CriterionCategory.AJ)||
 //                (category == CriterionCategory.AR)||

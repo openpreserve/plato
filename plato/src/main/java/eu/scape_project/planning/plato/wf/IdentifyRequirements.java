@@ -33,7 +33,7 @@ import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
@@ -238,15 +238,15 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
      * Method responsible for assigning a criterion to a defined
      * leaf/requirement.
      * 
-     * @param criterion
+     * @param measure
      *            Criterion to assign.
      * @param leaf
      *            Wanted leaf.
      */
-    public void assignCriterionToLeaf(Criterion criterion, Leaf leaf) {
-        leaf.setCriterion(criterion);
-        leaf.setScale(criterion.getScale());
-        leaf.setSingle(criterion.getProperty().getEvaluationScope() == EvaluationScope.ALTERNATIVE);
+    public void assignCriterionToLeaf(Measure measure, Leaf leaf) {
+        leaf.setCriterion(measure);
+        leaf.setScale(measure.getScale());
+        leaf.setSingle(measure.getProperty().getEvaluationScope() == EvaluationScope.ALTERNATIVE);
         leaf.touchIncludingScale();
     }
 

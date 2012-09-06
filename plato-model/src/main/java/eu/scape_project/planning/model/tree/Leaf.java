@@ -49,7 +49,7 @@ import eu.scape_project.planning.model.ITouchable;
 import eu.scape_project.planning.model.SampleAggregationMode;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Values;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FreeStringScale;
 import eu.scape_project.planning.model.scales.IntRangeScale;
@@ -162,7 +162,7 @@ public class Leaf extends TreeNode {
     private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
 
     @ManyToOne(cascade=CascadeType.MERGE)
-    private Criterion criterion; // we should be able to cope with null values here:  = new Criterion();
+    private Measure measure; // we should be able to cope with null values here:  = new Criterion();
     
     public Map<String, Values> getValueMap() {
         return valueMap;
@@ -769,8 +769,8 @@ public class Leaf extends TreeNode {
         }
         clone.setTransformer(newTransformer);
         clone.setAggregationMode(this.getAggregationMode());
-        if (criterion != null) {
-            clone.setCriterion(criterion);
+        if (measure != null) {
+            clone.setCriterion(measure);
         }
         return clone;
     }
@@ -788,15 +788,15 @@ public class Leaf extends TreeNode {
         if (transformer != null) {
             transformer.handleChanges(h);
         }
-        if (criterion != null) {
-            criterion.handleChanges(h);
+        if (measure != null) {
+            measure.handleChanges(h);
         }
 
     }
 
     @Transient
     public boolean isMapped() {
-        return ((criterion != null) &&(criterion.getUri() != null)); // FIXME can we remove the second part?
+        return ((measure != null) &&(measure.getUri() != null)); // FIXME can we remove the second part?
     }
 
     /**
@@ -864,12 +864,12 @@ public class Leaf extends TreeNode {
         // and therefore there is nothing to do
     }
 
-    public Criterion getCriterion() {
-        return criterion;
+    public Measure getCriterion() {
+        return measure;
     }
 
-    public void setCriterion(Criterion criterion) {
-        this.criterion = criterion;
+    public void setCriterion(Measure measure) {
+        this.measure = measure;
     }
     
     /**

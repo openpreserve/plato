@@ -49,8 +49,8 @@ import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Trigger;
-import eu.scape_project.planning.model.measurement.Criterion;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.measurement.Metric;
 import eu.scape_project.planning.model.scales.FreeStringScale;
@@ -405,10 +405,10 @@ public class ProjectExporter implements Serializable {
      * @param info
      * @param parent
      */
-    private void addCriterionInfo(Criterion criterion, Element parent) {
+    private void addCriterionInfo(Measure measure, Element parent) {
         Element infoEl = parent.addElement("criterion");
 
-        MeasurableProperty prop = (MeasurableProperty) criterion.getProperty();
+        Attribute prop = (Attribute) measure.getProperty();
         if (prop != null) {
             Element propertyEl = infoEl.addElement("property");
             addStringElement(propertyEl, "category", prop.getCategory().toString());
@@ -422,10 +422,10 @@ public class ProjectExporter implements Serializable {
             addChangeLog(prop.getChangeLog(), propertyEl);
             
         }
-        addMetric(criterion.getMetric(), infoEl);
-        infoEl.addAttribute("ID", criterion.getUri());
+        addMetric(measure.getMetric(), infoEl);
+        infoEl.addAttribute("ID", measure.getUri());
 
-        addChangeLog(criterion.getChangeLog(), infoEl);
+        addChangeLog(measure.getChangeLog(), infoEl);
     }
     
     /**
