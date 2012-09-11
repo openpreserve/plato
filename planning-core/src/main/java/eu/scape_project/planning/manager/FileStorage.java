@@ -28,7 +28,7 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
-import javax.enterprise.inject.Default;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -49,9 +49,9 @@ import eu.scape_project.planning.utils.FileUtils;
  * @author Michael Kraxner
  * 
  */
-// @ConversationScoped
- @Default
-//@Stateful
+// @Default
+@Stateful
+@ConversationScoped
 public class FileStorage implements Serializable, IByteStreamStorage {
 	private static final long serialVersionUID = -2406172386311143101L;
 
@@ -89,40 +89,61 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 				Properties props = new Properties();
 				props.load(in);
 				storagePath = props.getProperty("storage.path");
-				if (storagePath != null && ! storagePath.equals("")) {
+				/*if (storagePath != null && !storagePath.equals("")) {
 					storagePath = storagePath + "/ps-filestore/";
-				}
+				}*/
 			}
 		} catch (IOException e) {
 			log.error("error while loading filestorage.properties", e);
-		}
-
-		// if storagePath is still null create it in JBOSS_HOME
-		if (storagePath == null) {
-			storagePath = System.getenv("JBOSS_HOME");
-			if (storagePath != null) {
-				storagePath = storagePath + "/standalone/data/ps-filestore/";
-			}
+			storagePath=null;
 		}
 		
-		if (storagePath != null) {
-			storagePathFile = new File(storagePath);
-			if (!storagePathFile.exists()) {
-				if (!storagePathFile.mkdirs()) {
-					log.error("failed to create storage directory !!! "
-							+ storagePath);
-					storagePathFile = null;
+		boolean jb = false;
+		while(!jb){
+			
+			if (storagePath == null) {
+				storagePath = System.getenv("JBOSS_HOME");
+				jb = true;
+				if (storagePath != null) {
+					storagePath = storagePath
+							+ "/standalone/data";
+				}
+			}
+
+			if (storagePath != null) {
+				storagePathFile = new File(storagePath);
+				if (storagePathFile.exists()) {
+					storagePath = storagePath + "/ps-filestore/";
+					storagePathFile = new File(storagePath);
+					if (storagePathFile.exists()){
+						log.info("found storage directory " + storagePath );
+						break;
+					}else {
+						if (storagePathFile.mkdirs()) {
+							log.info("storage directory " + storagePath + " is created");
+							break;
+						}else {
+							log.error("failed to create storage directory "
+								+ storagePath);
+							storagePathFile = null;
+							storagePath = null;
+						}
+					}
+				}else {
+					log.warn("Storage path " + storagePath + " does not exist.");
 					storagePath = null;
 				}
 			}
-		} else {
-			log.error("Failed to init file storage.");
+		}
+		if (storagePathFile !=null) {
+			log.info("storage directory set to " +storagePath);
+		}else {
+			log.error("failed to init storage directory");			
 		}
 		// for now we only consider one repository
 		repositoryName = "plato";
 	}
 
-	
 	@Override
 	public String store(String pid, byte[] bytestream) throws StorageException {
 		String objectId;
@@ -132,7 +153,7 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 			pid = repositoryName + ":" + objectId;
 		} else {
 			// we ignore the object's namespace
-			objectId = pid.substring(pid.indexOf(':')+1);
+			objectId = pid.substring(pid.indexOf(':') + 1);
 		}
 		// we try to rename the file, if it already exists
 		File file = new File(storagePathFile, objectId);
@@ -187,8 +208,7 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 	public String getStoragePath() {
 		return storagePath;
 	}
-	
-	
+
 	@Override
 	public void delete(String pid) throws StorageException {
 		File file = getFile(pid);
@@ -196,7 +216,6 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 			log.error("failed to delete object: " + pid);
 		}
 	}
-
 
 	private File getFile(String pid) throws StorageException {
 		if ((pid == null) || (pid.isEmpty())) {
@@ -212,7 +231,5 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 					"no object found for persistent identifier: " + pid);
 		}
 	}
-
-
 
 }

@@ -41,19 +41,6 @@ public class ByteStreamManagerTest {
 		return wa;
 	}
 
-	// @Deployment
-	// public static EnterpriseArchive createDeployment1() {
-	//
-	// File archiveFile = new File(
-	// "../planningsuite-ear/target/planningsuite-ear.ear");
-	// EnterpriseArchive archive = ShrinkWrap.createFromZipFile(
-	// EnterpriseArchive.class, archiveFile);
-	//
-	// System.out.println(archive.toString(true));
-	// return archive;
-	//
-	// }
-
 	@Inject
 	ByteStreamManager bm;
 
