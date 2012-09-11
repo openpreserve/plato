@@ -19,6 +19,12 @@
  */
 package eu.scape_project.planning.plato.wf;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,10 +37,16 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import pt.gov.dgarq.roda.core.PlanClient;
+
+import com.google.common.io.Files;
+
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.validation.ValidationError;
+import eu.scape_project.planning.xml.ProjectExportAction;
+import eu.scape_project.planning.xml.ProjectExporter;
 
 /**
  * @author Michael Kraxner
@@ -43,73 +55,106 @@ import eu.scape_project.planning.validation.ValidationError;
 @Stateful
 @ConversationScoped
 public class ValidatePlan extends AbstractWorkflowStep {
-	private static final long serialVersionUID = 7862746302624511130L;
+    private static final long serialVersionUID = 7862746302624511130L;
 
-	@Inject
-	private Logger log;
+    @Inject
+    private Logger log;
 
-	public ValidatePlan() {
-		requiredPlanState = PlanState.PLAN_DEFINED;
-		correspondingPlanState = PlanState.PLAN_VALIDATED;
-	}
+    @Inject
+    private ProjectExportAction projectExport;
 
-	public void init(Plan p) {
-		super.init(p);
-		for (Leaf l : plan.getTree().getRoot().getAllLeaves()) {
-			l.initTransformer();
-		}
-	}
+    public ValidatePlan() {
+        requiredPlanState = PlanState.PLAN_DEFINED;
+        correspondingPlanState = PlanState.PLAN_VALIDATED;
+    }
 
-	/**
-	 * Method responsible for approving the current plan.
-	 */
-	public void approvePlan() {
-		List<ValidationError> validationErrors = new ArrayList<ValidationError>();
-		// proceed planstate to PLAN_VALIDATED
-		boolean success = proceed(validationErrors);
+    public void init(Plan p) {
+        super.init(p);
+        for (Leaf l : plan.getTree().getRoot().getAllLeaves()) {
+            l.initTransformer();
+        }
+    }
 
-		if (success) {
-			log.info("Approved plan with id " + plan.getId());
-		} else {
-			log.warn("Approvement of plan with id " + plan.getId() + " failed");
-		}
-	}
+    /**
+     * Method responsible for approving the current plan.
+     */
+    public void approvePlan() {
+        List<ValidationError> validationErrors = new ArrayList<ValidationError>();
+        // proceed planstate to PLAN_VALIDATED
+        boolean success = proceed(validationErrors);
 
-	/**
-	 * Method responsible for revising the current approved plan.
-	 */
-	public void revisePlan() {
-		// save does the reset of planstate to PLAN_DEFINED for us
-		save();
-		log.info("Revised plan with id " + plan.getId());
-	}
+        if (success) {
+            log.info("Approved plan with id " + plan.getId());
+        } else {
+            log.warn("Approvement of plan with id " + plan.getId() + " failed");
+        }
+    }
 
-	@Override
-	protected void saveStepSpecific() {
-		// no custom save operation is needed here
-		uploadPlanToRODA();
-	}
+    /**
+     * Method responsible for revising the current approved plan.
+     */
+    public void revisePlan() {
+        // save does the reset of planstate to PLAN_DEFINED for us
+        save();
+        log.info("Revised plan with id " + plan.getId());
+    }
 
-	private void uploadPlanToRODA() {
+    @Override
+    protected void saveStepSpecific() {
+        // no custom save operation is needed here
+    }
 
-		String rodaCoreUrl = "http://roda.scape.keep.pt/roda-core/";
-		String rodaCoreUsername = "admin";
-		String rodaCorePassword = "roda";
+    public void uploadPlanToRODA() throws PlanningException {
 
-		try {
+        String rodaCoreUrl = "http://roda.scape.keep.pt/roda-core/";
+        String rodaCoreUsername = "admin";
+        String rodaCorePassword = "roda";
 
-			PlanClient planClient = new PlanClient(new URL(rodaCoreUrl),
-					rodaCoreUsername, rodaCorePassword);
+        PlanClient planClient;
+        try {
+            planClient = new PlanClient(new URL(rodaCoreUrl), rodaCoreUsername, rodaCorePassword);
+        } catch (MalformedURLException e) {
+            log.error("Error creating PlanClient URL '" + rodaCoreUrl, e);
+            throw new PlanningException("Error creating PlanClient URL " + rodaCoreUrl, e);
+        }
 
-			// TODO save plan to a temporary File
-			// File planFile = savePlanToFile(plan);
+        // File tempDir = Files.createTempDir();
+        // File planFile;
+        // try {
+        // planFile = File.createTempFile("roda-deploy-plan-", ".xml", tempDir);
+        // } catch (IOException e) {
+        // log.error("Error creating temporary file for plan in directory " +
+        // tempDir.getAbsolutePath());
+        // throw new
+        // PlanningException("Error creating temporary file for plan in directory "
+        // + tempDir.getAbsolutePath(), e);
+        // }
+        //
+        // OutputStream out;
+        // try {
+        // out = new BufferedOutputStream(new FileOutputStream(planFile));
+        // } catch (FileNotFoundException e) {
+        // log.error("Temporary file for plan not found at " +
+        // planFile.getAbsolutePath());
+        // throw new PlanningException("Temporary file for plan not found at " +
+        // planFile.getAbsolutePath(), e);
+        // }
+        //
+        // if (!projectExport.exportComplete(plan.getPlanProperties().getId(),
+        // out, tempDir.getAbsolutePath())) {
+        // log.error("Error exporting plan");
+        // throw new PlanningException("Error exporting plan");
+        // }
 
-			// planClient.uploadPlan(planFile);
+        ProjectExporter projectExporter = new ProjectExporter();
+        File planFile;
+        try {
+            planFile = projectExporter.exportToFile(plan);
+        } catch (IOException e) {
+            log.error("Error exporting plan");
+            throw new PlanningException("Error exporting plan", e);
+        }
 
-		} catch (MalformedURLException e) {
-			log.error("Error creating PlanClient URL '" + rodaCoreUrl + "' - "
-					+ e.getMessage(), e);
-		}
-
-	}
+        planClient.uploadPlan(planFile);
+    }
 }

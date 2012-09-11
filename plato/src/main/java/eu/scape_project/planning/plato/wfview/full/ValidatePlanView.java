@@ -34,8 +34,8 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
@@ -56,35 +56,39 @@ import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 @Named("validatePlan")
 @ConversationScoped
 public class ValidatePlanView extends AbstractView {
-	@Inject private Logger log;
+    @Inject
+    private Logger log;
 
-	private boolean displayChangeLogs = false;
-	private boolean displayEvalTransform = false;
-	private boolean showAllAlternatives = false;
-	
-	private static final long serialVersionUID = 1L;
-	
-	@Inject private ValidatePlan validatePlan;
-	@Inject private TreeHelperBean policytreeHelper;
-	@Inject private TreeHelperBean treeHelper;
-	
-	public ValidatePlanView() {
-    	currentPlanState = PlanState.PLAN_DEFINED;
-    	name = "Validate Plan";
-    	viewUrl = "/plan/validateplan.jsf";
-    	group="menu.buildPreservationPlan";
-	}	
+    private boolean displayChangeLogs = false;
+    private boolean displayEvalTransform = false;
+    private boolean showAllAlternatives = false;
 
-	public void init(Plan plan) {
-    	super.init(plan);
-    	
+    private static final long serialVersionUID = 1L;
+
+    @Inject
+    private ValidatePlan validatePlan;
+    @Inject
+    private TreeHelperBean policytreeHelper;
+    @Inject
+    private TreeHelperBean treeHelper;
+
+    public ValidatePlanView() {
+        currentPlanState = PlanState.PLAN_DEFINED;
+        name = "Validate Plan";
+        viewUrl = "/plan/validateplan.jsf";
+        group = "menu.buildPreservationPlan";
+    }
+
+    public void init(Plan plan) {
+        super.init(plan);
+
         log.debug("initialising validatePlan");
-        
+
         planetsExecutablePlanPrettyFormat = "";
         eprintsExecutablePlanPrettyFormat = "";
-            
+
         this.acceptableAlternatives.clear();
-        
+
         policytreeHelper.expandAll(plan.getTree().getRoot());
         treeHelper.expandAll(plan.getTree().getRoot());
 
@@ -102,44 +106,43 @@ public class ValidatePlanView extends AbstractView {
          * Set roots and fill result-beans of the Multiplication- and Sum-Trees.
          */
         if (this.plan.getPlanProperties().getState().getValue() >= PlanState.TRANSFORMATION_DEFINED.getValue()) {
-            multNode = new ResultNode(plan.getTree().getRoot(),
-                    new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives());
+            multNode = new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan
+                .getAlternativesDefinition().getConsideredAlternatives());
 
             acceptableAlternatives = plan.getAcceptableAlternatives();
 
-            sumNode = new ResultNode(plan.getTree().getRoot(),
-                    sumAggregator,
-                    acceptableAlternatives);
+            sumNode = new ResultNode(plan.getTree().getRoot(), sumAggregator, acceptableAlternatives);
         }
-                
+
         planetsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition().getExecutablePlan());
-        eprintsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition().getEprintsExecutablePlan());
+        eprintsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition()
+            .getEprintsExecutablePlan());
     }
 
-	public String getCurrentDate() {
-	    return SimpleDateFormat.getDateTimeInstance().format(new Date());
-	}
+    public String getCurrentDate() {
+        return SimpleDateFormat.getDateTimeInstance().format(new Date());
+    }
 
-	public boolean isDisplayChangeLogs() {
-		return displayChangeLogs;
-	}
-	
-	public void switchDisplayChangeLogs() {
-		displayChangeLogs = !displayChangeLogs;
-	}
+    public boolean isDisplayChangeLogs() {
+        return displayChangeLogs;
+    }
 
-	public void switchShowAllAlternatives() {
-		showAllAlternatives = !showAllAlternatives;
-	}
+    public void switchDisplayChangeLogs() {
+        displayChangeLogs = !displayChangeLogs;
+    }
 
-	public void switchDisplayEvalTransform() {
-		displayEvalTransform = !displayEvalTransform;
-	}
-	
-	public boolean isDisplayEvalTransform() {
-		return displayEvalTransform;
-	}
-	
+    public void switchShowAllAlternatives() {
+        showAllAlternatives = !showAllAlternatives;
+    }
+
+    public void switchDisplayEvalTransform() {
+        displayEvalTransform = !displayEvalTransform;
+    }
+
+    public boolean isDisplayEvalTransform() {
+        return displayEvalTransform;
+    }
+
     /**
      * reads the executable preservation plan and formats it.
      * 
@@ -149,26 +152,26 @@ public class ValidatePlanView extends AbstractView {
         if (executablePlan == null || "".equals(executablePlan)) {
             return "";
         }
-        
+
         try {
             Document doc = DocumentHelper.parseText(executablePlan);
-            
+
             StringWriter sw = new StringWriter();
-            
+
             OutputFormat format = OutputFormat.createPrettyPrint();
             format.setNewlines(true);
             format.setTrimText(true);
             format.setIndent("  ");
             format.setExpandEmptyElements(false);
             format.setNewLineAfterNTags(20);
-            
+
             XMLWriter writer = new XMLWriter(sw, format);
-            
+
             writer.write(doc);
             writer.close();
-            
+
             return sw.toString();
-            
+
         } catch (DocumentException e) {
             return "";
         } catch (IOException e) {
@@ -178,104 +181,113 @@ public class ValidatePlanView extends AbstractView {
 
     private List<Alternative> acceptableAlternatives = new ArrayList<Alternative>();
 
-	/**
-	 * for display on the page.
-	 */
-	private String planetsExecutablePlanPrettyFormat = "";
+    /**
+     * for display on the page.
+     */
+    private String planetsExecutablePlanPrettyFormat = "";
 
-	/**
-	 * for display on the page.
-	 */
-	private String eprintsExecutablePlanPrettyFormat = "";
+    /**
+     * for display on the page.
+     */
+    private String eprintsExecutablePlanPrettyFormat = "";
 
-	private IAggregator sumAggregator = new WeightedSum();
+    private IAggregator sumAggregator = new WeightedSum();
 
-	private Map<Trigger,String> selectedTriggers;
+    private Map<Trigger, String> selectedTriggers;
 
-	private Map<Trigger,String> reevalSelectedTriggers;
+    private Map<Trigger, String> reevalSelectedTriggers;
 
-	private List<ReportLeaf> leafBeans = new ArrayList<ReportLeaf>();
+    private List<ReportLeaf> leafBeans = new ArrayList<ReportLeaf>();
 
-	private ResultNode sumNode;
+    private ResultNode sumNode;
 
-	private ResultNode multNode;
+    private ResultNode multNode;
 
-	public boolean isShowAllAlternatives() {
-		return showAllAlternatives;
-	}
+    public boolean isShowAllAlternatives() {
+        return showAllAlternatives;
+    }
 
-	public List<ReportLeaf> getLeafBeans() {
-		return leafBeans;
-	}
+    public List<ReportLeaf> getLeafBeans() {
+        return leafBeans;
+    }
 
-	public List<Alternative> getAcceptableAlternatives() {
-		return acceptableAlternatives;
-	}
+    public List<Alternative> getAcceptableAlternatives() {
+        return acceptableAlternatives;
+    }
 
-	public String getPlanetsExecutablePlanPrettyFormat() {
-		return planetsExecutablePlanPrettyFormat;
-	}
+    public String getPlanetsExecutablePlanPrettyFormat() {
+        return planetsExecutablePlanPrettyFormat;
+    }
 
-	public String getEprintsExecutablePlanPrettyFormat() {
-		return eprintsExecutablePlanPrettyFormat;
-	}
+    public String getEprintsExecutablePlanPrettyFormat() {
+        return eprintsExecutablePlanPrettyFormat;
+    }
 
-	public IAggregator getSumAggregator() {
-		return sumAggregator;
-	}
+    public IAggregator getSumAggregator() {
+        return sumAggregator;
+    }
 
-	public Map<Trigger, String> getSelectedTriggers() {
-		return selectedTriggers;
-	}
+    public Map<Trigger, String> getSelectedTriggers() {
+        return selectedTriggers;
+    }
 
-	public Map<Trigger, String> getReevalSelectedTriggers() {
-		return reevalSelectedTriggers;
-	}
-	
-	public List<TreeNode> getRootNode() {
-		List<TreeNode> l = new ArrayList<TreeNode>();
-		l.add(plan.getTree().getRoot());
-		return l;
-	}
-	
-	public List<PolicyNode> getPolicyRoot() {
-		List<PolicyNode> l = new ArrayList<PolicyNode>();
-		if (plan.getProjectBasis().getPolicyTree() != null) {
-			l.add(plan.getProjectBasis().getPolicyTree().getRoot());
-		}
-		return l;
-	}
+    public Map<Trigger, String> getReevalSelectedTriggers() {
+        return reevalSelectedTriggers;
+    }
 
-	public List<ResultNode> getSumNode() {
-		List<ResultNode> l = new ArrayList<ResultNode>();
-		l.add(sumNode);
-		return l;
-	}
+    public List<TreeNode> getRootNode() {
+        List<TreeNode> l = new ArrayList<TreeNode>();
+        l.add(plan.getTree().getRoot());
+        return l;
+    }
 
-	public List<ResultNode> getMultNode() {
-		List<ResultNode> l = new ArrayList<ResultNode>();
-		l.add(multNode);
-		return l;
-	}
-	
-	public void approvePlan() {
-		validatePlan.approvePlan();
-	}
-	
-	public void revisePlan() {
-		validatePlan.revisePlan();
-	}
+    public List<PolicyNode> getPolicyRoot() {
+        List<PolicyNode> l = new ArrayList<PolicyNode>();
+        if (plan.getProjectBasis().getPolicyTree() != null) {
+            l.add(plan.getProjectBasis().getPolicyTree().getRoot());
+        }
+        return l;
+    }
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return validatePlan;
-	}
+    public List<ResultNode> getSumNode() {
+        List<ResultNode> l = new ArrayList<ResultNode>();
+        l.add(sumNode);
+        return l;
+    }
 
-	public TreeHelperBean getPolicytreeHelper() {
-		return policytreeHelper;
-	}
+    public List<ResultNode> getMultNode() {
+        List<ResultNode> l = new ArrayList<ResultNode>();
+        l.add(multNode);
+        return l;
+    }
 
-	public TreeHelperBean getTreeHelper() {
-		return treeHelper;
-	}
+    public void approvePlan() {
+        validatePlan.approvePlan();
+    }
+
+    public void revisePlan() {
+        validatePlan.revisePlan();
+    }
+
+    public void deployPlan() {
+        try {
+            validatePlan.uploadPlanToRODA();
+            facesMessages.addInfo("Plan sucessfully deployed.");
+        } catch (PlanningException e) {
+            facesMessages.addError("There was an error deploying the plan.");
+        }
+    }
+
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return validatePlan;
+    }
+
+    public TreeHelperBean getPolicytreeHelper() {
+        return policytreeHelper;
+    }
+
+    public TreeHelperBean getTreeHelper() {
+        return treeHelper;
+    }
 }
