@@ -33,7 +33,7 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.TreeNode;
@@ -81,7 +81,7 @@ public class EvaluateExperimentsView extends AbstractView {
 	 * We want to display the measurableProperties of the plan
 	 * as these are aggregated from the requirementstree, we have to cache them
 	 */
-	private List<MeasurableProperty> measurableProperties;
+	private List<Measure> measures;
 	
 	/**
 	 * TODO what is the use of this?
@@ -99,7 +99,7 @@ public class EvaluateExperimentsView extends AbstractView {
 		group = "menu.evaluateAlternatives";
 		
         leaves = new ArrayList<Leaf>();
-        measurableProperties = new ArrayList<MeasurableProperty>();
+        measures = new ArrayList<Measure>();
 	}
 	
 	public void init(Plan plan){
@@ -111,7 +111,7 @@ public class EvaluateExperimentsView extends AbstractView {
         // we need to show the user if there are automatically measurable criteria
         autoEvaluationAvailable = evaluateExperiments.isAutoEvaluationAvailable();
 
-        refreshMeasurableProperties();
+        refreshMeasures();
         
 		treeRoot = new ArrayList<TreeNode>();
 		treeRoot.add(plan.getTree().getRoot());
@@ -157,7 +157,7 @@ public class EvaluateExperimentsView extends AbstractView {
 		}
     }
     
-    /**
+    /**MeasurableProperty
      * Select a node or leaf from the tree.
      * - if a node is selected, all its children are selected too. 
      */
@@ -191,11 +191,13 @@ public class EvaluateExperimentsView extends AbstractView {
         leaves.clear();
     }
 
-    private void refreshMeasurableProperties() {
-        measurableProperties.clear(); 
-        measurableProperties.addAll(plan.getMeasurableProperties());
-        for (MeasurableProperty p: measurableProperties) {
-            log.debug("prop:: "+p.getName());
+    private void refreshMeasures() {
+        measures.clear();
+        // FIXME see Plan.getMeasuredMeasures   
+ 
+        // measures.addAll(plan.getMeasuredMeasures());
+        for (Measure m: measures) {
+            log.debug("prop:: " + m.getName());
         }
     }	    
 	public List<Leaf> getLeaves(){
@@ -206,8 +208,8 @@ public class EvaluateExperimentsView extends AbstractView {
 		return treeRoot;
 	}
 
-	public List<MeasurableProperty> getMeasurableProperties() {
-		return measurableProperties;
+	public List<Measure> getMeasurableProperties() {
+		return measures;
 	}
 
 	@Override

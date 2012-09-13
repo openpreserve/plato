@@ -359,7 +359,7 @@ public class ProjectExporter implements Serializable {
                 }
                 
                 if (l.isMapped()) {
-                    addCriterionInfo(l.getCriterion(), leaf);
+                    addCriterionInfo(l.getMeasure(), leaf);
                 }
                 
                 Element eval = leaf.addElement("evaluation");
@@ -977,7 +977,7 @@ public class ProjectExporter implements Serializable {
         if (node.isLeaf()) {
         	Leaf leaf = (Leaf) node;
         	if (leaf.isMapped()) {
-        		mInfoUri = leaf.getCriterion().getUri();
+        		mInfoUri = leaf.getMeasure().getUri();
         	}       	
 //        	((Leaf)node).getCriterion().getUri()
 //            mInfoUri = ((Leaf)node).getMeasurementInfo().getUri();

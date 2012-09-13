@@ -32,8 +32,6 @@ import eu.scape_project.planning.evaluation.IStatusListener;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.planning.model.util.CriterionUri;
-import eu.scape_project.planning.model.values.BooleanValue;
 import eu.scape_project.planning.model.values.Value;
 
 public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator {
@@ -55,12 +53,12 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
         addStatements();
     }
     
-    public HashMap<CriterionUri, Value> evaluate(
+    public HashMap<String, Value> evaluate(
             Alternative alternative,
-            List<CriterionUri> criterionUris,
+            List<String> measureUris,
             IStatusListener listener) throws EvaluatorException{
         
-        HashMap<CriterionUri, Value> results = new HashMap<CriterionUri, Value>();
+        HashMap<String, Value> results = new HashMap<String, Value>();
 
         if (alternative.getAction() == null) {
             return results;
@@ -78,17 +76,16 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
         params.put("PUID", puid);
         
         
-        for (CriterionUri info: criterionUris) {
-            Scale scale = descriptor.getMeasurementScale(info);
+        for (String measureId: measureUris) {
+            Scale scale = descriptor.getMeasurementScale(measureId);
             if (scale == null)  {
                 // This means that I am not entitled to evaluate this criterion and therefore supposed to skip it:
                 continue;
             }
             
             Value value = scale.createValue();
-            String propertyURI = info.getAsURI();
             
-            if (ACTION_BATCH_SUPPORT.equals(propertyURI)) {
+            if (ACTION_BATCH_SUPPORT.equals(measureId)) {
                 if (!alternative.getAction().isEmulated() && alternative.getAction().isExecutable()) {
                     // this alternative is wrapped as service and therefore provides batch support 
                     value.parse("Yes");
@@ -97,7 +94,7 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
             }
             
 
-            String statement = statements.get(propertyURI);
+            String statement = statements.get(measureId);
             if (statement == null) {
                 // this leaf cannot be evaluated by MiniREEF - skip it
                 continue;
@@ -108,7 +105,7 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
             // add additional params if necessary
             // ...
             ResultSet resultSet = MiniREEFResolver.getInstance().resolve(statement, params);
-            listener.updateStatus("MiniREEF is attempting to evaluate "+propertyURI);
+            listener.updateStatus("MiniREEF is attempting to evaluate "+measureId);
 
             if (resultSet == null) {
                 // this should not happen, if MiniREEF is properly configured
@@ -118,15 +115,15 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
             }
             
             // evaluation was successful! 
-            if (propertyURI.startsWith(FORMAT_NUMBEROFTOOLS)){
+            if (measureId.startsWith(FORMAT_NUMBEROFTOOLS)){
                 // _measure_ is the number of tools found 
                 result = "" + resultSet.size();
                 value.parse(result);
                 // add names of tools as comment
                 value.setComment(toCommaSeparated(resultSet.getColResults("swname")) + 
                        "; - according to miniREEF/P2 knowledge base");
-                listener.updateStatus("MiniREEF evaluated "+propertyURI);
-            } else if (FORMAT_SUSTAINABILITY_RIGHTS.equals(propertyURI)){
+                listener.updateStatus("MiniREEF evaluated "+measureId);
+            } else if (FORMAT_SUSTAINABILITY_RIGHTS.equals(measureId)){
                 if (resultSet.size() > 0) {
                     // e.g. open = false, comment: "Format is encumbered by IPR"
                     String comment = "";
@@ -152,15 +149,15 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
                     value = scale.createValue();
                     value.parse(valueStr);
                     value.setComment(comment + ": according to MiniREEF/P2 knowledge base");
-                    listener.updateStatus("MiniREEF evaluated "+propertyURI);
+                    listener.updateStatus("MiniREEF evaluated "+measureId);
                 }
-                listener.updateStatus("P2 does not contain enough information to evaluate "+propertyURI+" for this format.");
-            } else if ((FORMAT_COMPLEXITY.equals(propertyURI)) || 
-                       (FORMAT_DISCLOSURE.equals(propertyURI)) || 
-                       (FORMAT_UBIQUITY.equals(propertyURI))   ||
-                       (FORMAT_DOCUMENTATION_QUALITY.equals(propertyURI))||
-                       (FORMAT_STABILITY.equals(propertyURI))||
-                       (FORMAT_LICENSE.equals(propertyURI)))  {
+                listener.updateStatus("P2 does not contain enough information to evaluate "+measureId+" for this format.");
+            } else if ((FORMAT_COMPLEXITY.equals(measureId)) || 
+                       (FORMAT_DISCLOSURE.equals(measureId)) || 
+                       (FORMAT_UBIQUITY.equals(measureId))   ||
+                       (FORMAT_DOCUMENTATION_QUALITY.equals(measureId))||
+                       (FORMAT_STABILITY.equals(measureId))||
+                       (FORMAT_LICENSE.equals(measureId)))  {
                 if (resultSet.size()>0) {
                     String text = resultSet.getRow(0).get(0);
                     if (text.trim().length() > 0) {
@@ -168,14 +165,14 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
                         value.parse(text);
                         value.setComment("according to miniREEF/P2 knowledge base");
                     }
-                    listener.updateStatus("MiniREEF evaluated "+propertyURI);
+                    listener.updateStatus("MiniREEF evaluated "+measureId);
                 } else {
-                    listener.updateStatus("P2 does not contain enough information to evaluate "+propertyURI+" for this format.");
+                    listener.updateStatus("P2 does not contain enough information to evaluate "+measureId+" for this format.");
                 }
                 
             } 
             // put measure to result map
-            results.put(info, value);
+            results.put(measureId, value);
         }
         
         return results;

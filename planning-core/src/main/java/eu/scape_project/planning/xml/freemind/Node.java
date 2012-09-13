@@ -267,7 +267,7 @@ public class Node {
     			String criterionUri = TEXT.substring(mappingSeparatorIndex + 1);
     			leaf.setName(name);
     			// set criterion only if we can identify it
-    			Measure crit = criteriaManager.getCriterion(criterionUri);
+    			Measure crit = criteriaManager.getMeasure(criterionUri);
     			if (crit != null) {
     				leaf.setMapped(true);
     				leaf.setCriterion(crit);

@@ -21,7 +21,7 @@ import java.util.List;
 
 import at.tuwien.minimee.registry.ToolRegistry;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 
 /**
@@ -63,12 +63,12 @@ public class MultipleMonitoringMigrationEngine extends MiniMeeDefaultMigrationEn
             report.append(r.getReport()).append("\n------------------- ------------\n");
 
             // get all performance data and put them together in the order the engines are defined
-            for (MeasurableProperty p : engine.getMeasurableProperties()) {
-                result.getMeasurements().put(p.getName(),r.getMeasurements().get(p.getName()));
+            for (Measure measure : engine.getMeasures()) {
+                result.getMeasurements().put(measure.getUri(),r.getMeasurements().get(measure.getUri()));
             }
             for (Measurement m : r.getMeasurements().values()) {
-                if (m.getProperty().getName().contains(":normalised")) {
-                    result.getMeasurements().put(m.getProperty().getName(),m);
+                if (m.getMeasureId().contains(":normalised")) {
+                    result.getMeasurements().put(m.getMeasureId(),m);
                 }
             }// TODO define proper models and IDs for these measurements
             
@@ -86,10 +86,10 @@ public class MultipleMonitoringMigrationEngine extends MiniMeeDefaultMigrationEn
         return result;
     }
     
-    public List<MeasurableProperty> getMeasurableProperties() {
-        List<MeasurableProperty> props = new ArrayList<MeasurableProperty>();
+    public List<Measure> getMeasures() {
+        List<Measure> props = new ArrayList<Measure>();
         for (IMigrationEngine e: engines) {
-            props.addAll(e.getMeasurableProperties());
+            props.addAll(e.getMeasures());
         }
         return props;
         // TODO avoid duplicates!

@@ -39,7 +39,7 @@ import at.tuwien.minimee.util.OS;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.FreeStringValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
@@ -72,11 +72,11 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
         this.machine = machine;
     }
 
-    public void addProperty(MeasurableProperty p) {
-        measurableProperties.add(p);
+    public void addProperty(Measure p) {
+        measures.add(p);
     }
     
-    private List<MeasurableProperty> measurableProperties = new ArrayList<MeasurableProperty>();
+    private List<Measure> measures = new ArrayList<Measure>();
     protected String name;
     
     /**
@@ -108,13 +108,12 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
         return name;
     }
     
-    public List<MeasurableProperty> getMeasurableProperties() {
-        return measurableProperties;
+    public List<Measure> getMeasures() {
+        return measures;
     }
 
-    public void setMeasurableProperties(
-            List<MeasurableProperty> measurableProperties) {
-        this.measurableProperties = measurableProperties;
+    public void setMeasures(List<Measure> measures) {
+        this.measures = measures;
     }
 
     /**
@@ -218,27 +217,27 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
             Measurement me = new Measurement(MigrationResult.MIGRES_ELAPSED_TIME,elapsed);
             result.getMeasurements().put(MigrationResult.MIGRES_ELAPSED_TIME, me);
 
-            for (MeasurableProperty property: getMeasurableProperties()) {
-                if (!property.getName().startsWith("machine:")) {
+            for (Measure measure: getMeasures()) {
+                if (!measure.getName().startsWith("machine:")) {
                     Measurement m = new Measurement();
-                    m.setProperty(property);
-                    PositiveFloatValue v = (PositiveFloatValue) property.getScale().createValue();
-                    if (property.getName().equals(MigrationResult.MIGRES_ELAPSED_TIME)) {
+                    m.setMeasureId(measure.getUri());
+                    PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
+                    if (measure.getName().equals(MigrationResult.MIGRES_ELAPSED_TIME)) {
                         v.setValue(elapsed);
                         m.setValue(v);
-                        result.getMeasurements().put(property.getName(), m);
-                    } else if (property.getName().equals(MigrationResult.MIGRES_ELAPSED_TIME_PER_MB)) {
+                        result.getMeasurements().put(measure.getName(), m);
+                    } else if (measure.getName().equals(MigrationResult.MIGRES_ELAPSED_TIME_PER_MB)) {
                         v.setValue(elapsedPerMB);
                         m.setValue(v);
-                        result.getMeasurements().put(property.getName(), m);
-                    } else if (property.getName().equals(MigrationResult.MIGRES_RELATIVE_FILESIZE)) {
+                        result.getMeasurements().put(measure.getName(), m);
+                    } else if (measure.getName().equals(MigrationResult.MIGRES_RELATIVE_FILESIZE)) {
                         v.setValue(((double)length)/data.length * 100);
                         m.setValue(v);
-                        result.getMeasurements().put(property.getName(), m);
-                    } else if (property.getName().equals(MigrationResult.MIGRES_RESULT_FILESIZE)) {
+                        result.getMeasurements().put(measure.getName(), m);
+                    } else if (measure.getName().equals(MigrationResult.MIGRES_RESULT_FILESIZE)) {
                         v.setValue((double)length);
                         m.setValue(v);
-                        result.getMeasurements().put(property.getName(), m);
+                        result.getMeasurements().put(measure.getName(), m);
                     }
                 }                
             }
@@ -287,26 +286,26 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
         // add it to the measurements of MigrationResult
         Machine m = ToolRegistry.getInstance().getMachine(machine);
 
-        for (MeasurableProperty property: getMeasurableProperties()) {
-            if (property.getName().startsWith("machine:")) {
+        for (Measure measure: getMeasures()) {
+            if (measure.getName().startsWith("machine:")) {
                 Measurement measurement = new Measurement();
-                measurement.setProperty(property);
-                FreeStringValue v =(FreeStringValue) property.getScale().createValue();
-                if (property.getName().equals(Machine.MACHINE_NAME)) {
+                measurement.setMeasureId(measure.getUri());
+                FreeStringValue v =(FreeStringValue) measure.getScale().createValue();
+                if (measure.getName().equals(Machine.MACHINE_NAME)) {
                     v.setValue(m.getId());
-                } else if (property.getName().equals(Machine.MACHINE_OS)) {
+                } else if (measure.getName().equals(Machine.MACHINE_OS)) {
                     v.setValue(m.getOperatingSystem());
-                } else if (property.getName().equals(Machine.MACHINE_CPUS)) {
+                } else if (measure.getName().equals(Machine.MACHINE_CPUS)) {
                     v.setValue(m.getCpus());
-                } else if (property.getName().equals(Machine.MACHINE_CPUCLOCK)) {
+                } else if (measure.getName().equals(Machine.MACHINE_CPUCLOCK)) {
                     v.setValue(m.getCpuClock());
-                } else if (property.getName().equals(Machine.MACHINE_CPUTYPE)) {
+                } else if (measure.getName().equals(Machine.MACHINE_CPUTYPE)) {
                     v.setValue(m.getCpuType());
-                } else if (property.getName().equals(Machine.MACHINE_MEMORY)) {
+                } else if (measure.getName().equals(Machine.MACHINE_MEMORY)) {
                     v.setValue(m.getMemory());
                 } 
                 measurement.setValue(v);
-                result.getMeasurements().put(property.getName(), measurement);
+                result.getMeasurements().put(measure.getName(), measurement);
             }
         }        
         

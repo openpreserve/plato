@@ -1137,10 +1137,10 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
 
     private void replaceCriteriaReferences(final List<Leaf> leaves) {
         for (Leaf l : leaves) {
-            Measure parsedCriterion = l.getCriterion();
+            Measure parsedCriterion = l.getMeasure();
             if (parsedCriterion != null) {
                 // FIXME: unknown criteria should not be removed / error message
-                Measure measure = criteriaManager.getCriterion(parsedCriterion.getUri());
+                Measure measure = criteriaManager.getMeasure(parsedCriterion.getUri());
                 if (measure == null) {
                     // this is an unknown criterion, we do not want to add them
                     // to the list of well known criteria

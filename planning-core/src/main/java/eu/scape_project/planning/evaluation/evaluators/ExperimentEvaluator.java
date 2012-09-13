@@ -42,8 +42,6 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.planning.model.util.CriterionUri;
-import eu.scape_project.planning.model.values.FreeStringValue;
 import eu.scape_project.planning.model.values.OrdinalValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 import eu.scape_project.planning.model.values.PositiveIntegerValue;
@@ -85,12 +83,12 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
      * 
      * @see IObjectEvaluator#evaluate(Alternative, SampleObject, DigitalObject, List, IStatusListener)
      */
-    public HashMap<CriterionUri, Value> evaluate(Alternative alternative,
-            SampleObject sample, DigitalObject result, List<CriterionUri> criterionUris,
+    public HashMap<String, Value> evaluate(Alternative alternative,
+            SampleObject sample, DigitalObject result, List<String> measureUris,
             IStatusListener listener) throws EvaluatorException {
         
-        HashMap<CriterionUri, Value> results = new HashMap<CriterionUri, Value>();
-        for(CriterionUri m : criterionUris) {
+        HashMap<String, Value> results = new HashMap<String, Value>();
+        for(String m : measureUris) {
             Value v = evaluate(alternative, sample, result, m);
             if (v != null) {
                 results.put(m, v);
@@ -99,13 +97,12 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
         return results;
     }
     
-    public Value evaluate(Alternative alternative, SampleObject sample, DigitalObject result, CriterionUri criterionUri) {
-        String propertyURI = criterionUri.getAsURI();
-        Scale scale = descriptor.getMeasurementScale(criterionUri) ;
+    public Value evaluate(Alternative alternative, SampleObject sample, DigitalObject result, String measureUri) {
+        Scale scale = descriptor.getMeasurementScale(measureUri) ;
 
         double sampleSize = sample.getData().getSize()*(1024*1024);
         
-        if (OBJECT_ACTION_ACTIVITYLOGGING_AMOUNT.equals(propertyURI)) {
+        if (OBJECT_ACTION_ACTIVITYLOGGING_AMOUNT.equals(measureUri)) {
             Map<SampleObject, DetailedExperimentInfo> detailedInfo = alternative.getExperiment().getDetailedInfo();
             DetailedExperimentInfo detailedExperimentInfo = detailedInfo.get(sample);
             if ((detailedExperimentInfo != null) && (detailedExperimentInfo.getProgramOutput() != null)) {
@@ -115,7 +112,7 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
                 return v;
             }
             return null;
-        } else if (OBJECT_ACTION_ACTIVITYLOGGING_FORMAT.equals(propertyURI)) {
+        } else if (OBJECT_ACTION_ACTIVITYLOGGING_FORMAT.equals(measureUri)) {
             Map<SampleObject, DetailedExperimentInfo> detailedInfo = alternative.getExperiment().getDetailedInfo();
             DetailedExperimentInfo detailedExperimentInfo = detailedInfo.get(sample);
             if ((detailedExperimentInfo != null) && (detailedExperimentInfo.getProgramOutput() != null)) {
@@ -125,7 +122,7 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
                 return v;
             }
             return null;
-        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(propertyURI)) {
+        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample, OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
             if (extracted instanceof PositiveFloatValue){
                 PositiveFloatValue value = new PositiveFloatValue();
@@ -139,7 +136,7 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
                 value.setComment("extracted from experiment details");
                 return value;
             }
-        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB.equals(propertyURI)) {
+        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample, OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
             if (extracted instanceof PositiveFloatValue){
                 PositiveFloatValue value = new PositiveFloatValue();
@@ -152,7 +149,7 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
                 value.setComment("extracted from experiment details");
                 return value;
             }
-        } else if(OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERMB.equals(propertyURI)) {
+        } else if(OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERMB.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample, OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
@@ -163,7 +160,7 @@ public class ExperimentEvaluator extends EvaluatorBase implements IObjectEvaluat
                 return value;
             }
         }
-        Value extracted = extractMeasuredValue(alternative, sample, propertyURI);
+        Value extracted = extractMeasuredValue(alternative, sample, measureUri);
         if (extracted != null) {
             extracted.setComment("extracted from experiment details");
         }

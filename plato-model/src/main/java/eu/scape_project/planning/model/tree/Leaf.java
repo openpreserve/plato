@@ -864,7 +864,7 @@ public class Leaf extends TreeNode {
         // and therefore there is nothing to do
     }
 
-    public Measure getCriterion() {
+    public Measure getMeasure() {
         return measure;
     }
 

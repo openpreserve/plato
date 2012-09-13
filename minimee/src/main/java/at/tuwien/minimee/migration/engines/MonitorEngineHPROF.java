@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import at.tuwien.minimee.migration.parser.HPROF_Parser;
 import at.tuwien.minimee.model.ToolConfig;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 
@@ -57,10 +57,10 @@ public class MonitorEngineHPROF extends MiniMeeDefaultMigrationEngine {
         HPROF_Parser p = new HPROF_Parser();
         p.parse(makeOutputFilename(config, time)+".hprof");
         
-        for (MeasurableProperty property: getMeasurableProperties()) {
+        for (Measure measure: getMeasures()) {
             Measurement m = new Measurement();
-            m.setProperty(property);
-            PositiveFloatValue v = (PositiveFloatValue) property.getScale().createValue();
+            m.setMeasureId(measure.getUri());
+            PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
             
 //            if (property.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
 //                v.setValue(p.getTotal_allocated());
@@ -69,7 +69,7 @@ public class MonitorEngineHPROF extends MiniMeeDefaultMigrationEngine {
 //                v.setValue(p.getTotal_virtual());
 //            } 
 
-            if (property.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
+            if (measure.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
                 v.setValue(p.getTotal_allocated());
             } 
 
@@ -78,14 +78,14 @@ public class MonitorEngineHPROF extends MiniMeeDefaultMigrationEngine {
              * it's the virtual memory still allocated when HProf collects information
              * - if garbage collector was called, this value is lower than the actual v-memory consumption 
              */
-            if (property.getName().equals("performance:totalVirtualMemory")) {
+            if (measure.getName().equals("performance:totalVirtualMemory")) {
                 v.setValue(p.getTotal_virtual());
             } 
-            if (property.getName().equals("performance:totalAllocatedMemory")) {
+            if (measure.getName().equals("performance:totalAllocatedMemory")) {
                 v.setValue(p.getTotal_allocated());
             }
             m.setValue(v);
-            result.getMeasurements().put(property.getName(), m);
+            result.getMeasurements().put(measure.getName(), m);
         }
     }
 }

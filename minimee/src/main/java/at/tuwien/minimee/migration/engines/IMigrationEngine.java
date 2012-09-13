@@ -20,7 +20,7 @@ import java.util.List;
 
 import at.tuwien.minimee.model.ToolConfig;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 
 /**
  * generic interface for a migration engine, to be implemented by any engine.
@@ -53,7 +53,7 @@ public interface IMigrationEngine {
      * self description: which properties am I able to measure?
      * @return
      */
-    public List<MeasurableProperty> getMeasurableProperties();
+    public List<Measure> getMeasures();
     
     public String getName();
     

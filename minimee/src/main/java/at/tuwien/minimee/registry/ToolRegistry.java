@@ -40,7 +40,7 @@ import at.tuwien.minimee.registry.xml.EngineFactory;
 import at.tuwien.minimee.registry.xml.EvaluatorFactory;
 import at.tuwien.minimee.util.StrictErrorHandler;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.measurement.ToolExperience;
 import eu.scape_project.planning.model.scales.FreeStringScale;
@@ -159,7 +159,7 @@ public class ToolRegistry {
                 ((MultipleMonitoringMigrationEngine) e).initEngines();
             } 
         }
-        List<MeasurableProperty> props = me.getMeasurableProperties();
+        List<Measure> props = me.getMeasures();
         log.info("MINIMEE: loaded tools, configs, engines, machines, measurableProperties: " +
                 tools.size()+ " tools, " + 
                 allToolConfigs.size() + " configs, " +
@@ -168,7 +168,7 @@ public class ToolRegistry {
                 allMachines.size() + " machines, " +
                 props.size() + " properties.");
         log.debug("Listing measurable properties...");
-        for  (MeasurableProperty p : props) {
+        for  (Measure p : props) {
             log.info(p.getName()+  " - "+p.getScale().getDisplayName());
         }
 
@@ -255,13 +255,13 @@ public class ToolRegistry {
 //        engineDigester.push(this);
         digester.addFactoryCreate("*/engine", EngineFactory.class);
         digester.addSetProperties("*/engine");
-        digester.addObjectCreate("*/measurableProperties/property", MeasurableProperty.class);
-        digester.addSetProperties("*/measurableProperties/property");
+        digester.addObjectCreate("*/measure", Measure.class);
+        digester.addSetProperties("*/measure");
         
         addCreateScale(digester, PositiveFloatScale.class);
         addCreateScale(digester, FreeStringScale.class);
 
-        digester.addSetNext("*/measurableProperties/property","addProperty");
+        digester.addSetNext("*/measure","addMeasure");
         digester.addCallMethod("*/includedEngine", "addEngineName", 0);
         digester.addCallMethod("*/nextEngine","setNextEngineName",0);
         
@@ -343,10 +343,10 @@ public class ToolRegistry {
         return allEvaluators.get(name);
     }
     
-    public List<MeasurableProperty> getMeasurableProperties() {
-        List<MeasurableProperty> l =  new ArrayList<MeasurableProperty>();
+    public List<Measure> getMeasures() {
+        List<Measure> l =  new ArrayList<Measure>();
         for (IMigrationEngine e: allEngines.values()) {
-            for (MeasurableProperty p : e.getMeasurableProperties()) {
+            for (Measure p : e.getMeasures()) {
                 if (!l.contains(p)) {
                     l.add(p);
                 }

@@ -53,7 +53,7 @@ public class LibraryRequirement extends Node {
     
     public Leaf addCriterion() {
         Leaf l = new Leaf();
-        Measure mInfo = l.getCriterion();
+        Measure mInfo = l.getMeasure();
 //        if ((mInfo.getScheme() == null) ||("".equals(mInfo.getScheme()))) {
 //            if ((category == CriterionCategory.AJ)||
 //                (category == CriterionCategory.AR)||

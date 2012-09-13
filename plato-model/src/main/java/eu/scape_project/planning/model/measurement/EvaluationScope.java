@@ -25,6 +25,6 @@ import java.io.Serializable;
  *
  */
 public enum EvaluationScope implements Serializable {
-	ALTERNATIVE,
-	OUTCOME;
+	ALTERNATIVE_ACTION,
+	OBJECT;
 }

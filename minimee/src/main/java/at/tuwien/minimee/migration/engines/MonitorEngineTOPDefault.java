@@ -32,7 +32,7 @@ import at.tuwien.minimee.util.ExecutionFootprintList;
 import at.tuwien.minimee.util.LinuxCommandExecutor;
 import at.tuwien.minimee.util.TopParser;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 
@@ -186,40 +186,40 @@ public class MonitorEngineTOPDefault extends MiniMeeDefaultMigrationEngine {
         ExecutionFootprintList performance = p.getList();
         //log.debug(performance.toString());
         
-        for (MeasurableProperty property: getMeasurableProperties()) {
-            if (!property.getName().startsWith("machine:")) {
+        for (Measure measure: getMeasures()) {
+            if (!measure.getName().startsWith("machine:")) {
                 Measurement m = new Measurement();
-                m.setProperty(property);
-                PositiveFloatValue v = (PositiveFloatValue) property.getScale().createValue();
+                m.setMeasureId(measure.getUri());
+                PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
 
-                if (property.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
+                if (measure.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
                     v.setValue(performance.getTotalCpuTimeUsed());
                 }
-                if (property.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
+                if (measure.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
                     v.setValue(performance.getMaxVirtualMemory());
                 }
-                if (property.getName().equals(MigrationResult.MIGRES_MEMORY_NET)) {
+                if (measure.getName().equals(MigrationResult.MIGRES_MEMORY_NET)) {
                     v.setValue(performance.getMaxResidentSize());
                 }
 
 
-                if (property.getName().equals("performance:averageResidentSize")) {
+                if (measure.getName().equals("performance:averageResidentSize")) {
                     v.setValue(performance.getAverageResidentSize());
-                } else if (property.getName().equals("performance:averageSharedMemory")) {
+                } else if (measure.getName().equals("performance:averageSharedMemory")) {
                     v.setValue(performance.getAverageSharedMemory());
-                } else if (property.getName().equals("performance:averageVirtualMemory")) {
+                } else if (measure.getName().equals("performance:averageVirtualMemory")) {
                     v.setValue(performance.getAverageVirtualMemory());
-                } else if (property.getName().equals("performance:maxResidentSize")) {
+                } else if (measure.getName().equals("performance:maxResidentSize")) {
                     v.setValue(performance.getMaxResidentSize());
-                } else if (property.getName().equals("performance:maxSharedMemory")) {
+                } else if (measure.getName().equals("performance:maxSharedMemory")) {
                     v.setValue(performance.getMaxSharedMemory());
-                } else if (property.getName().equals("performance:maxVirtualMemory")) {
+                } else if (measure.getName().equals("performance:maxVirtualMemory")) {
                     v.setValue(performance.getMaxVirtualMemory());
-                } else if (property.getName().equals("performance:totalCpuTimeUsed")) {
+                } else if (measure.getName().equals("performance:totalCpuTimeUsed")) {
                     v.setValue(performance.getTotalCpuTimeUsed());
                 }
                 m.setValue(v);
-                result.getMeasurements().put(property.getName(), m);
+                result.getMeasurements().put(measure.getName(), m);
             }
         }
         

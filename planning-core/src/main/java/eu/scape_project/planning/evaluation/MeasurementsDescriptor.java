@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Metric;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.planning.model.util.CriterionUri;
+import eu.scape_project.planning.model.util.String;
 
 /**
  * Contains descriptors for measurable properties, their applicable metrics and corresponding scales.
@@ -85,16 +85,16 @@ public class MeasurementsDescriptor {
      * @param m
      * @return
      */
-    public Scale getMeasurementScale(CriterionUri m) {
+    public Scale getMeasurementScale(String m) {
         return measurementScales.get(m.getAsURI());
     }
 
     /**
      * returns the scale for each measurement, as a list of classnames 
      */
-    public List<Scale> getMeasurementScales(List<CriterionUri> measurements) {
+    public List<Scale> getMeasurementScales(List<String> measurements) {
         List<Scale> scales = new ArrayList<Scale>();
-        for (CriterionUri m: measurements) {
+        for (String m: measurements) {
             scales.add(getMeasurementScale(m));
         }        
         return scales;

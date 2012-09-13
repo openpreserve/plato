@@ -22,6 +22,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import eu.scape_project.planning.model.ChangeLog;
@@ -38,6 +39,14 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
     private long id;
 
     private String uri;
+    
+    private String name;
+    
+    @Lob
+    private String description;
+    
+    @OneToOne
+    private Attribute attribute;
 
     @OneToOne
     private Scale scale;
@@ -46,6 +55,34 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
     private ChangeLog changeLog = new ChangeLog();
 
 
+    /**
+     * @see ITouchable#handleChanges(IChangesHandler)
+     */
+    @Override
+    public void handleChanges(final IChangesHandler h) {
+        h.visit(this);
+        // TODO call handleChanges of all properties
+        scale.handleChanges(h);
+    }
+
+    @Override
+    public boolean isChanged() {
+        return this.changeLog.isAltered();
+    }
+
+    @Override
+    public void touch() {
+        this.changeLog.touch();
+
+    }
+
+    @Override
+    public int compareTo(final Measure c) {
+    	// TODO check where used
+        return this.uri.toLowerCase().compareTo(c.getUri().toLowerCase());
+    }
+
+    
     public Scale getScale() {
     	return scale;
     }
@@ -64,27 +101,6 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
         return this.changeLog;
     }
 
-    /**
-     * @see ITouchable#handleChanges(IChangesHandler)
-     */
-    @Override
-    public void handleChanges(final IChangesHandler h) {
-        h.visit(this);
-        // call handleChanges of all properties
-        scale.handleChanges(h);
-    }
-
-    @Override
-    public boolean isChanged() {
-        return this.changeLog.isAltered();
-    }
-
-    @Override
-    public void touch() {
-        this.changeLog.touch();
-
-    }
-
     public void setChangeLog(final ChangeLog changeLog) {
         this.changeLog = changeLog;
     }
@@ -101,14 +117,32 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
         return this.id;
     }
 
-    @Override
-    public int compareTo(final Measure c) {
-        return this.uri.toLowerCase().compareTo(c.getUri().toLowerCase());
-        // return
-        // property.getName().toLowerCase().compareTo(c.getProperty().getName().toLowerCase());
-    }
 
 	public void setScale(Scale scale) {
 		this.scale = scale;
+	}
+
+	public Attribute getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(Attribute attribute) {
+		this.attribute = attribute;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

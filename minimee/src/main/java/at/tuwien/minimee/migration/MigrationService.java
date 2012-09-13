@@ -166,7 +166,7 @@ public class MigrationService extends ActionService {
                                 inputFile,
                                 outputFile);
                         for (Measurement m: list) {
-                            result.getMeasurements().put(m.getProperty().getName(), m);
+                            result.getMeasurements().put(m.getMeasureId(), m);
                         }
                     }
                 }

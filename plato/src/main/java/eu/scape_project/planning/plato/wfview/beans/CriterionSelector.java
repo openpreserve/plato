@@ -18,9 +18,10 @@ package eu.scape_project.planning.plato.wfview.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,10 +29,9 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.manager.CriteriaManager;
-import eu.scape_project.planning.model.measurement.Measure;
-import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Attribute;
-import eu.scape_project.planning.model.measurement.Metric;
+import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.Measure;
 
 /**
  * Class responsible as supporting class for AJAX Criterion selection.
@@ -47,245 +47,138 @@ public class CriterionSelector implements Serializable {
 	private CriteriaManager criteriaManager;
 	
 	private Collection<CriterionCategory> categories;
-    private HashMap<String, CriterionCategory> categoriesMap;
+	
+    private List<Attribute> allAttributes;
+    private Collection<Attribute> filteredAttributes;
+    
+    private List<Measure> allMeasures;
+    private Collection<Measure> filteredMeasures;
+    
     private CriterionCategory selectedCategory;
-    
-    private Collection<Attribute> allMeasurableProperties;
-    private int allMeasurablePropertiesCount;
-    
-    private Collection<Attribute> filteredMeasurableProperties;
-    private int filteredMeasurablePropertiesCount;
-    private HashMap<String, Attribute> measurablePropertiesMap;
     private Attribute selectedAttribute;
-    private String selectedAttributeString;
+    private Measure selectedMeasure;
     
-    private List<Metric> metrics;
-    private HashMap<String, Metric> metricsMap;
-    private Metric selectedMetric;
-    private String selectedMetricString;
-    
-
+	/**
+	 * Compares two Attribute instances regarding their name
+	 * 
+	 * @author kraxner
+	 *
+	 */
+	class AttributeNameComparator implements Comparator<Attribute> {
+		@Override
+		public int compare(Attribute o1, Attribute o2) {
+			if (null == o1) {
+				return -1;
+			} else if (null == o2) {
+				return 1;
+			}
+			return o1.getName().compareTo(o2.getName());
+		}
+	}
+	class MeasureNameComparator implements Comparator<Measure> {
+		@Override
+		public int compare(Measure o1, Measure o2) {
+			if (null == o1) {
+				return -1;
+			} else if (null == o2) {
+				return 1;
+			}
+			return o1.getName().compareTo(o2.getName());
+		}
+	}
+	
     public CriterionSelector() {
-    	categories = new ArrayList<CriterionCategory>();
-    	for (CriterionCategory c: CriterionCategory.values()) {  
-    		categories.add(c);
-    	}
-        constructCategoriesMap();
-        selectedCategory = null;
-        
-        metrics = new ArrayList<Metric>();
-        metricsMap = new HashMap<String, Metric>();
-        selectedMetric = null;
-        selectedMetricString = null;
+    	categories = new ArrayList<CriterionCategory>(Arrays.asList(CriterionCategory.values()));
+    	
+    	clearSelection();
     }
     
     public void init() {
-        allMeasurableProperties = criteriaManager.getKnownProperties();
-        ArrayList<Attribute> allMeasurablePropertiesSortable = new ArrayList<Attribute>(allMeasurableProperties);
-        Collections.sort(allMeasurablePropertiesSortable);
-        allMeasurableProperties = allMeasurablePropertiesSortable;
-        allMeasurablePropertiesCount = allMeasurableProperties.size();
-        filteredMeasurableProperties = new ArrayList<Attribute>(allMeasurableProperties);
-        filteredMeasurablePropertiesCount = filteredMeasurableProperties.size();
+    	allAttributes = new ArrayList<Attribute>(criteriaManager.getAllAttributes());
+    	Collections.sort(allAttributes, new AttributeNameComparator());
 
-        constructMeasurablePropertiesMap();
+    	allMeasures = new ArrayList<Measure>(criteriaManager.getAllMeasures()); 
+        Collections.sort(allMeasures, new MeasureNameComparator());
+        
+        
+        clearSelection();
+    }
+    
+    private void clearSelection(){
+        filteredAttributes = new ArrayList<Attribute>();
+        filteredMeasures = new ArrayList<Measure>();
+
+    	selectedCategory = null;
         selectedAttribute = null;
-        selectedAttributeString = null;
+        selectedMeasure = null;
     }
     
-    /* ----------------- Category Setup ----------------- */
     
     
-    private void constructCategoriesMap() {
-        categoriesMap = new HashMap<String, CriterionCategory>();
-        for (CriterionCategory cat : CriterionCategory.values())
-        {
-            categoriesMap.put(cat.toString(), cat);
-        }
+    public void setSelectedAttributeName(String name) {
+        selectedAttribute = findAttributeByName(name);
     }
     
-    private void constructMetricsWithMap(List<Metric> metrics) {
-        // ATTENTION: Because of a Seam-Bug, this new creation of the metrics-list is mandatory!
-        // If you just clear the list and fill it with new values, the view (s:selectItems) does not mention a change and therefore does not update the associated selectBox.
-        // Related bug: https://issues.jboss.org/browse/JBSEAM-4382            
-        setMetrics(metrics);
-        
-        metricsMap = new HashMap<String, Metric>();
-        for (Metric m : this.metrics)
-        {
-            metricsMap.put(m.getMetricId(), m);
-        }
+    private Attribute findAttributeByName(String name) {
+    	if (name == null) {
+    		return null;
+    	}
+    	for (Attribute a : allAttributes) {
+    		if (name.equals(a.getName())) {
+    			return a;
+    		}
+    	}
+    }
+    private Measure findMeasureByName(String name) {
+    	if (name == null) {
+    		return null;
+    	}
+    	for (Measure a : allMeasures) {
+    		if (name.equals(a.getName())) {
+    			return a;
+    		}
+    	}
     }
     
-    /* ----------------- Property Setup ----------------- */
-    
-    private void constructMeasurablePropertiesMap() {
-        measurablePropertiesMap = new HashMap<String, Attribute>();
-        for (Attribute mp : allMeasurableProperties)
-        {
-            measurablePropertiesMap.put(mp.getName(), mp);
-        }
+    public String getSelectedAttributeName() {
+    	if (selectedAttribute == null) {
+    		return null;
+    	} else {
+    		return selectedAttribute.getName();
+    	}
     }
     
-    /* ----------------- Category UI-Helper ----------------- */
-    
-    public void setSelectedAttribute(Attribute selectedAttribute) {
-//        log.debug("setSelectedAttribute()");
-        this.selectedAttribute = selectedAttribute;
+    public void setSelectedMeasureName(String name) {
+    	selectedMeasure = findMeasureByName(name);
     }
-
-    public Attribute getSelectedAttribute() {
-//        log.debug("getSelectedAttribute()=" + selectedAttribute);
-        return selectedAttribute;
-    }
-    
-    public Collection<CriterionCategory> getCategories() {
-        return categories;
+    public String getSelectedMeasureName() {
+    	if (selectedMeasure == null) {
+    		return null;
+    	} else {
+    		return selectedMeasure.getName();
+    	}
     }
     
-    public void setCategories(Collection<CriterionCategory> categories) {
-        this.categories = categories;
-    }
-    
-    /* ----------------- Property UI-Helper ----------------- */
-
-    public void setFilteredMeasurableProperties(Collection<Attribute> filteredMeasurableProperties) {
-        this.filteredMeasurableProperties = filteredMeasurableProperties;
-    }
-
-    public Collection<Attribute> getFilteredMeasurableProperties() {
-        return filteredMeasurableProperties;
-    }          
-    
-    public void setSelectedAttributeString(String selectedAttributeString) {
-        log.debug("setSelectedAttributeString(" + selectedAttributeString + ")");
-        
-        this.selectedAttributeString = selectedAttributeString;
-        
-        if (selectedAttributeString == null)
-        {
-            selectedAttribute = null;
-        }
-        else
-        {
-            selectedAttribute = measurablePropertiesMap.get(selectedAttributeString);
-        }
-    }
-    
-    public String getSelectedAttributeString() {
-//        log.debug("getSelectedAttributeString()=" + selectedAttributeString);
-        return selectedAttributeString;
-    }
-    
-    public void setAllMeasurablePropertiesCount(int allMeasurablePropertiesCount) {
-        this.allMeasurablePropertiesCount = allMeasurablePropertiesCount;
-    }
-
-    public int getAllMeasurablePropertiesCount() {
-        return allMeasurablePropertiesCount;
-    }
-    
-    public void setFilteredMeasurablePropertiesCount(
-            int filteredMeasurablePropertiesCount) {
-        this.filteredMeasurablePropertiesCount = filteredMeasurablePropertiesCount;
-    }
-
-    public int getFilteredMeasurablePropertiesCount() {
-        return filteredMeasurablePropertiesCount;
-    }
-
-    /* ----------------- Metric UI-Helper ----------------- */
-
-    public void setMetrics(List<Metric> metrics) {
-        this.metrics = metrics;
-    }
-
-    public List<Metric> getMetrics() {
-        return metrics;
-    }          
-    
-    public void setSelectedMetricString(String selectedMetricString) {
-        log.debug("setSelectedMetricString(): " + selectedMetricString);
-        
-        this.selectedMetricString = selectedMetricString;
-        
-        if (selectedMetricString == null)
-        {
-            selectedMetric = null;
-        }
-        else
-        {
-            selectedMetric = metricsMap.get(selectedMetricString);
-        }
-    }
-       
-    public String getSelectedMetricString() {
-//        log.debug("getSelectedMetricString(): " + selectedMetricString);
-        return selectedMetricString;
-    }
-    
-    /* ----------------- Category ValueChangeListener ----------------- */
-    
-    /**
-     * Method responsible for handling the onchange-Events from Category-Selectbox in GUI.
-     * All model-values are updated appropriate (including dependent Selectboxes). 
-     */
-    public void selectCategory() {
-        // debug output
-        if (selectedCategory == null)
-        {
-            log.info("Category: Nothing selected");
-        }
-        else
-        {
-            log.info("Category selected: " + selectedCategory.toString());
-        }        
-        
-        filterMeasurableProperties();
-    }
-           
-    /* ----------------- Property ValueChangeListener ----------------- */
-    
-    /**
-     * Method responsible for handling the onchange-Events from Property-Selectbox in GUI.
-     * All model-values are updated appropriate (including dependent Selectboxes). 
-     */
-    public void selectProperty() {
-        log.debug("CALL selectProperty()");
-        
-        // debug output
-        if (selectedAttribute == null)
-        {
-            log.info("Property: Nothing selected");
-        }
-        else
-        {
-            log.info("Property selected: " + selectedAttribute.getName());
-        }
-        
-        updateMetrics();
-    }
-
-    public void filterMeasurableProperties() {
+    public void applyFilter() {
         // ATTENTION: Because of a Seam-Bug, this new creation of the filtered-measurableproperties-list is mandatory!
         // If you just clear the list and then refill it, the view (s:selectItems) does not mention a change and therefore does not update the associated selectBox.
         // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
         Collection<Attribute> newFilteredMP = new ArrayList<Attribute>();
         
-    	for (Attribute p : allMeasurableProperties) {
+    	for (Attribute p : allAttributes) {
             if (selectedCategory == null || p.getCategory() == selectedCategory) {
                 newFilteredMP.add(p);
             }
         }
         
-        filteredMeasurableProperties.clear();
-        filteredMeasurableProperties.addAll(newFilteredMP);
+        filteredAttributes.clear();
+        filteredAttributes.addAll(newFilteredMP);
         setFilteredMeasurablePropertiesCount(newFilteredMP.size());
                 
         // check if selected Attribute is still available in the new filtered list.
         Boolean mpStillInFilteredList = false;
         if (selectedAttribute != null) {
-            for (Attribute mp : filteredMeasurableProperties) {
+            for (Attribute mp : filteredAttributes) {
                 if (mp.getPropertyId().equals(selectedAttribute.getPropertyId())) {
                     mpStillInFilteredList = true;
                     log.debug("Selected Property still available in new filtered list");
@@ -302,68 +195,12 @@ public class CriterionSelector implements Serializable {
         }
     }
     
-    /* ----------------- Metric ValueChangeListener ----------------- */
-    
-    /**
-     * Method responsible for handling the onchange-Events from Metric-Selectbox in GUI.
-     * All model-values are updated appropriate. 
-     */
-    public void selectMetric() {
-        log.debug("CALL selectMetric()");
-        
-        // debug output
-        if (selectedMetric == null)
-        {
-            log.debug("Metric: Nothing selected");
-        }
-        else
-        {
-            log.debug("Metric selected: " + selectedMetric.getMetricId());
-        }        
-    }
-    
-    public void updateMetrics() {
-        setSelectedMetricString(null);
-        
-        if (selectedAttribute == null)
-        {
-            // ATTENTION: Because of a Seam-Bug, this new creation of the metrics-list is mandatory!
-            // If you just clear the list, the view (s:selectItems) does not mention a change and therefore does not update the associated selectBox.
-            // Related bug: https://issues.jboss.org/browse/JBSEAM-4382            
-            setMetrics(new ArrayList<Metric>());
-            metricsMap.clear();
-        }
-        else
-        {
-            constructMetricsWithMap(selectedAttribute.getPossibleMetrics());
-        }
-        
-        log.debug("Reset Metric to null");
-    }
-    
-    public boolean isMeasurableCriterionSelected() {
-        if ((selectedAttribute != null && selectedMetric != null) || 
-            (selectedAttribute != null && selectedAttribute.getScale() != null)) {
-                return true;
-        }
-        
-        return false;
-    }
-    
     public Measure getSelectedCriterion() {
-    	return criteriaManager.getCriterion(selectedAttribute, selectedMetric);
+    	return selectedMeasure;
     }
 
     // --------------- general getter/setter ---------------
     
-	public Metric getSelectedMetric() {
-		return selectedMetric;
-	}
-
-	public void setSelectedMetric(Metric selectedMetric) {
-		this.selectedMetric = selectedMetric;
-	}
-
 	public CriterionCategory getSelectedCategory() {
 		return selectedCategory;
 	}

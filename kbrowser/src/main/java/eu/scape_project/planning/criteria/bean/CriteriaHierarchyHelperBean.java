@@ -151,7 +151,7 @@ public class CriteriaHierarchyHelperBean implements Serializable {
     
     @PostConstruct 
     public void initBean(){
-        allMeasurableProperties = criteriaManager.getKnownProperties();
+        allMeasurableProperties = criteriaManager.getAllAttributes();
         ArrayList<MeasurableProperty> allMeasurablePropertiesSortable = new ArrayList<MeasurableProperty>(allMeasurableProperties);
         Collections.sort(allMeasurablePropertiesSortable);
         allMeasurableProperties = allMeasurablePropertiesSortable;
@@ -503,7 +503,7 @@ public class CriteriaHierarchyHelperBean implements Serializable {
         Element baseNode = root.addElement("node");
         baseNode.addAttribute("TEXT", "allCriteria");
 
-        Collection<Measure> allCriteria = criteriaManager.getKnownCriteria();
+        Collection<Measure> allCriteria = criteriaManager.getAllMeasures();
         ArrayList<Measure> allCriteriaSortable = new ArrayList<Measure>(allCriteria);
         Collections.sort(allCriteriaSortable);
         allCriteria = allCriteriaSortable;

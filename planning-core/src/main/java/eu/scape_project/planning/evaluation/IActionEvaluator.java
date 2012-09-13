@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import eu.scape_project.planning.model.Alternative;
-import eu.scape_project.planning.model.util.CriterionUri;
 import eu.scape_project.planning.model.values.Value;
 
 /**
@@ -157,13 +156,13 @@ import eu.scape_project.planning.model.values.Value;
      *  - what is type of the evaluated value (Scale)
      *  
      * @param alternative
-     * @param criterionUris
+     * @param measureUris
      * @param listener
      * @return
      * @throws EvaluatorException
      */
-    public HashMap<CriterionUri, Value> evaluate(
+    public HashMap<String, Value> evaluate(
             Alternative alternative,
-            List<CriterionUri> criterionUris, IStatusListener listener) throws EvaluatorException;
+            List<String> measureUris, IStatusListener listener) throws EvaluatorException;
     
 }

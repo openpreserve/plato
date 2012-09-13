@@ -30,7 +30,6 @@ import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.planning.model.util.CriterionUri;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 import eu.scape_project.planning.model.values.Value;
 
@@ -51,34 +50,33 @@ public class ObjectEvaluator extends EvaluatorBase implements IObjectEvaluator {
     }
 
     
-    public HashMap<CriterionUri, Value> evaluate(Alternative alternative,
-            SampleObject sample, DigitalObject result, List<CriterionUri> criterionUris,
+    public HashMap<String, Value> evaluate(Alternative alternative,
+            SampleObject sample, DigitalObject result, List<String> measureUris,
             IStatusListener listener) throws EvaluatorException {
 
         listener.updateStatus("Objectevaluator: Start evaluation"); //" for alternative: %s, samle: %s", NAME, alternative.getName(), sample.getFullname()));
         
-        HashMap<CriterionUri, Value> results = new HashMap<CriterionUri, Value>();
+        HashMap<String, Value> results = new HashMap<String, Value>();
         
-        for(CriterionUri criterionUri: criterionUris) {
-            String propertyURI = criterionUri.getAsURI();
+        for(String measureUri: measureUris) {
             // uri = scape://criterion#123
-            if (OBJECT_FORMAT_RELATIVEFILESIZE.equals(propertyURI)) {
+            if (OBJECT_FORMAT_RELATIVEFILESIZE.equals(measureUri)) {
             	if (result != null) {
-	            	Scale scale = descriptor.getMeasurementScale(criterionUri);
+	            	Scale scale = descriptor.getMeasurementScale(measureUri);
 	                // evaluate here
 	                PositiveFloatValue v = (PositiveFloatValue) scale.createValue();
 	                double d = ((double)result.getData().getSize())/sample.getData().getSize()*100;
 	                long l = Math.round(d);
 	                d = ((double)l)/100;
 	                v.setValue(d);
-	                results.put(criterionUri, v);
-	                listener.updateStatus(String.format("Objectevaluator: evaluated measurement: %s = %s", criterionUri.getAsURI(), v.toString()));
+	                results.put(measureUri, v);
+	                listener.updateStatus(String.format("Objectevaluator: evaluated measurement: %s = %s", measureUri, v.toString()));
             	}
             }
         }
-        criterionUris.removeAll(results.keySet());
+        measureUris.removeAll(results.keySet());
         FITSEvaluator fitsEval = new FITSEvaluator();
-        HashMap<CriterionUri, Value> fitsResults = fitsEval.evaluate(alternative, sample, result, criterionUris, listener);
+        HashMap<String, Value> fitsResults = fitsEval.evaluate(alternative, sample, result, measureUris, listener);
         fitsResults.putAll(results);
         
         return fitsResults;

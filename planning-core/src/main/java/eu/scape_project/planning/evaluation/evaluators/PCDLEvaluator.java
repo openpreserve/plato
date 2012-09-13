@@ -35,7 +35,6 @@ import eu.scape_project.planning.evaluation.IActionEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.planning.model.util.CriterionUri;
 import eu.scape_project.planning.model.values.Value;
 
 /**
@@ -58,11 +57,11 @@ public class PCDLEvaluator extends EvaluatorBase implements IActionEvaluator {
         addExtractionPaths();        
     }
     
-    public HashMap<CriterionUri, Value> evaluate(Alternative alternative,
-            List<CriterionUri> criterionUris, IStatusListener listener)
+    public HashMap<String, Value> evaluate(Alternative alternative,
+            List<String> measureUris, IStatusListener listener)
             throws EvaluatorException {
         
-        HashMap<CriterionUri, Value> results = new HashMap<CriterionUri, Value>();
+        HashMap<String, Value> results = new HashMap<String, Value>();
         if ((alternative.getAction() == null) || (alternative.getAction().getDescriptor() == null)) {
             return results;
         }
@@ -82,27 +81,26 @@ public class PCDLEvaluator extends EvaluatorBase implements IActionEvaluator {
                 XmlExtractor xmlExtractor = new XmlExtractor();
                 Document doc = xmlExtractor.getDocument(new InputSource(pcdlStream));
                 
-                for(CriterionUri criterionUri: criterionUris) {
-                    String propertyURI = criterionUri.getAsURI();
-                    Scale scale = descriptor.getMeasurementScale(criterionUri);
+                for(String measureUri: measureUris) {
+                    Scale scale = descriptor.getMeasurementScale(measureUri);
                     if (scale == null)  {
                         // This means that I am not entitled to evaluate this criterion and therefore supposed to skip it:
                         continue;
                     }
-                    if (ACTION_RETAIN_FILENAME.equals(propertyURI)) {
+                    if (ACTION_RETAIN_FILENAME.equals(measureUri)) {
                         // for all wrapped minimee migrators the output filename can be determined by -o <filename> or something similar  
                         Value v = scale.createValue();
                         v.setComment("obtained from PCDL descriptor");
                         v.parse("Yes");
-                        results.put(criterionUri, v);
+                        results.put(measureUri, v);
                     }
                     
-                    String extractionPath = extractionPaths.get(propertyURI);
+                    String extractionPath = extractionPaths.get(measureUri);
                     if (extractionPath != null) {
                     	Value v = new XmlExtractor().extractValue(doc, scale, extractionPath, null);
                         if (v != null) {
                             v.setComment("obtained from PCDL descriptor");
-                            results.put(criterionUri, v);                        
+                            results.put(measureUri, v);                        
                         } else {
                             // No: only successfully evaluated values are returned  
                             // v = leaf.getScale().createValue();

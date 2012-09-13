@@ -34,7 +34,6 @@ import javax.validation.Valid;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
 import eu.scape_project.planning.model.beans.ResultNode;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.transform.NumericTransformer;
@@ -351,9 +350,16 @@ public class Plan implements Serializable, ITouchable {
     	// also update the alternative names in the tree    		
     	tree.updateAlternativeName(oldName, newName);
     }
-            
-	public List<MeasurableProperty> getMeasurableProperties() {
-		List<MeasurableProperty> props = new ArrayList<MeasurableProperty>();
+    
+    /**
+     * FIXME: are we really interested in the measures of detailedexperiment info?
+     * why not either aggregate:
+     * - the measurements instead
+     * - the measures mapped to decision criteria?
+     * @return
+     */
+    public List<String> getMeasuredMeasures() {
+		List<String> measures = new ArrayList<String>();
 		for (Alternative alternative : alternativesDefinition
 				.getConsideredAlternatives()) {
 			Experiment exp = alternative.getExperiment();
@@ -362,14 +368,14 @@ public class Plan implements Serializable, ITouchable {
 				DetailedExperimentInfo info = exp.getDetailedInfo().get(record);
 				if (info != null) {
 					for (Measurement m : info.getMeasurements().values()) {
-						if (!props.contains(m.getProperty()))
-							props.add(m.getProperty());
+						if (!measures.contains(m.getMeasureId()))
+							measures.add(m.getMeasureId());
 					}
 				}
 			}
 		}
-		Collections.sort(props);
-		return props;
+		Collections.sort(measures);
+		return measures;
 	}
 
 	public boolean isFastTrackEvaluationPlan() {

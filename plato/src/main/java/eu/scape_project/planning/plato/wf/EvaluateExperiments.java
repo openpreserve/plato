@@ -40,7 +40,6 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.tree.Leaf;
-import eu.scape_project.planning.model.util.CriterionUri;
 import eu.scape_project.planning.model.values.Value;
 
 /**
@@ -102,16 +101,16 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
 		};
 
         // we evaluate measurements and have to assign each result to the corresponding leaf: build a map
-        HashMap<CriterionUri, Leaf> measurementOfLeaf = new HashMap<CriterionUri, Leaf>();
+        HashMap<String, Leaf> measurementOfLeaf = new HashMap<String, Leaf>();
 
         // list of measurements which shall be evaluated
-        List<CriterionUri> allMeasurementsToEval = new LinkedList<CriterionUri>();
+        List<String> allMeasurementsToEval = new LinkedList<String>();
 
         for(Leaf l : leaves) {
             if (l.isMapped()) {
                 // measure this criterion automatically
-                CriterionUri uri = l.getCriterion().toCriterionUri();
-                if ((uri != null) && (uri.getAsURI() != null)) {
+                String uri = l.getMeasure().getUri();
+                if ((uri != null) && (!uri.isEmpty())) {
                    measurementOfLeaf.put(uri , l);
                    allMeasurementsToEval.add(uri);
                 }
@@ -120,7 +119,7 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
 
         try {
             // start evaluation:
-            List<CriterionUri> measurementsToEval = new ArrayList<CriterionUri>(); 
+            List<String> measurementsToEval = new ArrayList<String>(); 
             // first action evaluators  
             List<IActionEvaluator> actionEvaluators = miniRED.getActionEvaluationSequence();
             for (Alternative alternative : plan.getAlternativesDefinition().getConsideredAlternatives()) {
@@ -128,9 +127,9 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
                 measurementsToEval.clear();
                 measurementsToEval.addAll(allMeasurementsToEval);
                 for (IActionEvaluator evaluator : actionEvaluators) {
-                    Map<CriterionUri, Value> results = evaluator.evaluate(alternative, measurementsToEval, statusListener);
+                    Map<String, Value> results = evaluator.evaluate(alternative, measurementsToEval, statusListener);
                     // apply all results
-                    for (CriterionUri m : results.keySet()) {
+                    for (String m : results.keySet()) {
                         Value value = results.get(m);
                         if (value != null) {
                             Leaf l = measurementOfLeaf.get(m);
@@ -168,14 +167,14 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
 	                    for (IObjectEvaluator evaluator : objEvaluators) {
 	                        //DigitalObject r2 = (r == null ? null : em.merge(r));
 	                        try {
-	                            Map<CriterionUri, Value> results = evaluator.evaluate(
+	                            Map<String, Value> results = evaluator.evaluate(
 	                                    alternative, 
 	                                    sample, 
 	                                    r, 
 	                                    measurementsToEval,
 	                                    statusListener);
 	                            // apply all results
-	                            for (CriterionUri m : results.keySet()) {
+	                            for (String m : results.keySet()) {
 	                                Value value = results.get(m);
 	                                if (value != null) {
 	                                    Leaf l = measurementOfLeaf.get(m);

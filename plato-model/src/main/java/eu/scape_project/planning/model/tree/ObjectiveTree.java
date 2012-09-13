@@ -312,8 +312,8 @@ public class ObjectiveTree implements Serializable {
      */
     public void adjustScalesToMeasurements() {
         for (Leaf l : getRoot().getAllLeaves()) {
-            if (l.getCriterion() != null) {
-                l.adjustScale(l.getCriterion().getScale());
+            if (l.getMeasure() != null) {
+                l.adjustScale(l.getMeasure().getScale());
             }
         }
     }    

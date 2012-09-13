@@ -30,7 +30,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.validator.constraints.Length;
 
 import eu.scape_project.planning.model.measurement.Measurement;
@@ -64,7 +63,6 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
     }
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @IndexColumn(name = "key_prop")
     @JoinTable(name = "detailedInfo_values")
     private Map<String,Measurement> measurements = new HashMap<String, Measurement>();
     
@@ -78,9 +76,9 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
      * @param m
      */
     public void put(Measurement m) {
-        if ((m == null)||(m.getProperty()== null))
-            throw new IllegalArgumentException("No property defined for measurement.");
-        measurements.put(m.getProperty().getName(), m);
+    	if (m != null) {
+            measurements.put(m.getMeasureId(), m);
+    	}
     }
 
     public Map<String, Measurement> getMeasurements() {

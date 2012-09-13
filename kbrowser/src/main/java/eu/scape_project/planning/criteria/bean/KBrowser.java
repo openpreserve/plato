@@ -214,13 +214,13 @@ public class KBrowser implements Serializable {
 
     public void initBean() {
         // init all known properties
-        allMeasurableProperties = criteriaManager.getKnownProperties();
+        allMeasurableProperties = criteriaManager.getAllAttributes();
         ArrayList<MeasurableProperty> allMeasurablePropertiesSortable = new ArrayList<MeasurableProperty>(
             allMeasurableProperties);
         Collections.sort(allMeasurablePropertiesSortable);
         allMeasurableProperties = allMeasurablePropertiesSortable;
         allMeasurablePropertiesCount = allMeasurableProperties.size();
-        nrOverallCriteria = criteriaManager.getKnownCriteria().size();
+        nrOverallCriteria = criteriaManager.getAllMeasures().size();
         constructMeasurablePropertiesMap();
         filteredMeasurableProperties = new ArrayList<MeasurableProperty>(allMeasurableProperties);
         filteredMeasurablePropertiesCount = filteredMeasurableProperties.size();

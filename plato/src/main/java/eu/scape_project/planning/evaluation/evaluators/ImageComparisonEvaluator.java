@@ -38,7 +38,6 @@ import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.scales.Scale;
-import eu.scape_project.planning.model.util.CriterionUri;
 import eu.scape_project.planning.model.values.BooleanValue;
 import eu.scape_project.planning.model.values.FloatValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
@@ -46,7 +45,7 @@ import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.utils.OS;
 
 public class ImageComparisonEvaluator extends EvaluatorBase implements IObjectEvaluator {
-    private static final String NAME = "imagecompare (imagemagick)";
+//    private static final String NAME = "imagecompare (imagemagick)";
 //    private static final String SOURCE = " - evaluated by " + NAME;
 	private static Logger log = LoggerFactory.getLogger(ImageComparisonEvaluator.class);
     
@@ -63,14 +62,14 @@ public class ImageComparisonEvaluator extends EvaluatorBase implements IObjectEv
     }
 
     
-    public HashMap<CriterionUri, Value> evaluate(Alternative alternative,
-            SampleObject sample, DigitalObject result, List<CriterionUri> criterionUris,
+    public HashMap<String, Value> evaluate(Alternative alternative,
+            SampleObject sample, DigitalObject result, List<String> measureUris,
             IStatusListener listener) throws EvaluatorException {
 
         //listener.updateStatus(NAME + ": Start evaluation"); //" for alternative: %s, sample: %s", NAME, alternative.getName(), sample.getFullname()));
         setUp();
         try {
-            HashMap<CriterionUri, Value> results = new HashMap<CriterionUri, Value>();
+            HashMap<String, Value> results = new HashMap<String, Value>();
     
             saveTempFile(sample);
             saveTempFile(result);
@@ -79,37 +78,36 @@ public class ImageComparisonEvaluator extends EvaluatorBase implements IObjectEv
             // -> could be optimized, but the used minimee evaluator will do separate calls anyway 
             ImageCompareEvaluator imageEvaluator = new ImageCompareEvaluator();
             
-            for(CriterionUri criterionUri: criterionUris) {
-                String propertyURI = criterionUri.getAsURI();
-                Scale scale = descriptor.getMeasurementScale(criterionUri);
+            for(String measureUri: measureUris) {
+                Scale scale = descriptor.getMeasurementScale(measureUri);
                 if (scale == null)  {
                     // This means that I am not entitled to evaluate this criterion and therefore supposed to skip it:
                     continue;
                 }
                 String mode = null;
-                if (OBJECT_IMAGE_SIMILARITY_EQUAL.equals(propertyURI)) {
+                if (OBJECT_IMAGE_SIMILARITY_EQUAL.equals(measureUri)) {
                 	mode = "equal";
-                } else if (OBJECT_IMAGE_SIMILARITY_AE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_AE.equals(measureUri)) {
                 	mode = "ae";
-                } else if (OBJECT_IMAGE_SIMILARITY_PAE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_PAE.equals(measureUri)) {
                 	mode = "pae";
-                } else if (OBJECT_IMAGE_SIMILARITY_PSNR.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_PSNR.equals(measureUri)) {
                 	mode = "psnr";
-                } else if (OBJECT_IMAGE_SIMILARITY_MAE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_MAE.equals(measureUri)) {
                 	mode = "mae";
-                } else if (OBJECT_IMAGE_SIMILARITY_MSE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_MSE.equals(measureUri)) {
                 	mode = "mse";
-                } else if (OBJECT_IMAGE_SIMILARITY_RMSE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_RMSE.equals(measureUri)) {
                 	mode = "rmse";
-                } else if (OBJECT_IMAGE_SIMILARITY_MEPP.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_MEPP.equals(measureUri)) {
                 	mode = "mepp";
-                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLE.equals(measureUri)) {
                 	mode = "ssimSimple";
-                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(measureUri)) {
                 	mode = "ssimSimpleHue";
-                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(measureUri)) {
                 	mode = "ssimSimpleSaturation";
-                } else if (OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(propertyURI)) {
+                } else if (OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(measureUri)) {
                 	mode = "equalJudged";
                 }
                 
@@ -154,7 +152,7 @@ public class ImageComparisonEvaluator extends EvaluatorBase implements IObjectEv
                     }
                     if (v != null) {
                         // add the value to the result set
-                        results.put(criterionUri, v);
+                        results.put(measureUri, v);
                     }
                 }
             }

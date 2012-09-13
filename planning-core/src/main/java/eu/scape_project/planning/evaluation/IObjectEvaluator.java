@@ -22,7 +22,6 @@ import java.util.List;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
-import eu.scape_project.planning.model.util.CriterionUri;
 import eu.scape_project.planning.model.values.Value;
 
 /**
@@ -190,15 +189,15 @@ public interface IObjectEvaluator extends IEvaluator {
      * @param alternative
      * @param sample
      * @param result
-     * @param criterionUris
+     * @param measureUris
      * @param listener
      * @return
      * @throws EvaluatorException
      */
-    public HashMap<CriterionUri, Value> evaluate(
+    public HashMap<String, Value> evaluate(
             Alternative alternative,
             SampleObject sample,
             DigitalObject result,
-            List<CriterionUri> criterionUris, IStatusListener listener) throws EvaluatorException;
+            List<String> measureUris, IStatusListener listener) throws EvaluatorException;
     
 }

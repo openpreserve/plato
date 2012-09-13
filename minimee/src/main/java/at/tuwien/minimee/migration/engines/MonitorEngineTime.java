@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import at.tuwien.minimee.migration.parser.TIME_Parser;
 import at.tuwien.minimee.model.ToolConfig;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 
@@ -96,17 +96,17 @@ public class MonitorEngineTime extends MiniMeeDefaultMigrationEngine {
         String dbg = "real:" + p.getReal()+",user:"+p.getUser()+",sys:"+p.getSys();
         LoggerFactory.getLogger(this.getClass()).debug("TIME measured: " + dbg);
         
-        for (MeasurableProperty property: getMeasurableProperties()) {
+        for (Measure measure: getMeasures()) {
             Measurement m = new Measurement();
-            m.setProperty(property);
-            PositiveFloatValue v = (PositiveFloatValue) property.getScale().createValue();
+            m.setMeasureId(measure.getUri());
+            PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
             
-            if (property.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
+            if (measure.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
                 v.setValue((p.getUser()+p.getSys())*1000);
             }
             
             m.setValue(v);
-            result.getMeasurements().put(property.getName(), m);
+            result.getMeasurements().put(measure.getName(), m);
         }
     }    
 }

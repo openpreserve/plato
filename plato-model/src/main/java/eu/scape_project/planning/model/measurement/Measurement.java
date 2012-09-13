@@ -24,8 +24,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import eu.scape_project.planning.model.scales.FreeStringScale;
-import eu.scape_project.planning.model.scales.PositiveFloatScale;
 import eu.scape_project.planning.model.values.FreeStringValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 import eu.scape_project.planning.model.values.Value;
@@ -41,8 +39,7 @@ public class Measurement implements Serializable {
     @GeneratedValue
     private int id;
     
-    @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private MeasurableProperty property;
+    private String measureId;
     
     @ManyToOne(cascade=CascadeType.ALL)
     private Value value;
@@ -51,32 +48,18 @@ public class Measurement implements Serializable {
         
     }
     
-    public Measurement(String propertyName, String value) {
-        MeasurableProperty p = new MeasurableProperty();
-        p.setName(propertyName);
-        p.setScale(new FreeStringScale());
-        FreeStringValue s = (FreeStringValue) p.getScale().createValue();
-        s.setValue(value);
-        this.setProperty(p);
-        this.setValue(s);
+    public Measurement(String measureId, String value) {
+    	this.measureId = measureId;
+    	this.value = new FreeStringValue();
+        ((FreeStringValue)this.value).setValue(value);
     }
     
-    public Measurement(String propertyName, double value) {
-        MeasurableProperty p = new MeasurableProperty();
-        p.setName(propertyName);
-        p.setScale(new PositiveFloatScale());
-        PositiveFloatValue v = (PositiveFloatValue) p.getScale().createValue();
-        v.setValue(value);
-        this.setProperty(p);
-        this.setValue(v);
+    public Measurement(String measureId, double value) {
+    	this.measureId = measureId;
+    	this.value = new PositiveFloatValue();
+        ((PositiveFloatValue)this.value).setValue(value);
     }
     
-    public MeasurableProperty getProperty() {
-        return property;
-    }
-    public void setProperty(MeasurableProperty property) {
-        this.property = property;
-    }
     public Value getValue() {
         return value;
     }
@@ -89,4 +72,12 @@ public class Measurement implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+	public String getMeasureId() {
+		return measureId;
+	}
+
+	public void setMeasureId(String measureId) {
+		this.measureId = measureId;
+	}
 }

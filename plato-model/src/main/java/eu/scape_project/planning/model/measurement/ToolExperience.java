@@ -62,10 +62,10 @@ public class ToolExperience implements Serializable {
      * @param m
      */
     public void addMeasurement(Measurement m) {
-        Measurements ms = measurements.get(m.getProperty().getName());
+        Measurements ms = measurements.get(m.getMeasureId());
         if (ms == null) {
             ms = new Measurements();
-            measurements.put(m.getProperty().getName(), ms);
+            measurements.put(m.getMeasureId(), ms);
         }
         ms.addMeasurement(m);
     }

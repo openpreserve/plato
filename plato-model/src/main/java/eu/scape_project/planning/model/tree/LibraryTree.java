@@ -27,6 +27,7 @@ import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
 import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.EvaluationScope;
 
 @Entity
 public class LibraryTree implements Serializable {
@@ -57,29 +58,23 @@ public class LibraryTree implements Serializable {
         action.setName("Action");
         action.setPredefined(true);
 
-        LibraryRequirement r = action.addRequirement();
-        r.setCategory(CriterionCategory.ACTION);
-        r.setName(CriterionCategory.ACTION.toString());
-        r.setPredefined(true);
-        
         LibraryRequirement obj = root.addRequirement();
         obj.setName("Object");
         obj.setPredefined(true);
-
-        r = obj.addRequirement();
-        r.setCategory(CriterionCategory.OUTCOME_EFFECT);
-        r.setName(CriterionCategory.OUTCOME_EFFECT.toString());
-        r.setPredefined(true);
-
-        r = obj.addRequirement();
-        r.setCategory(CriterionCategory.OUTCOME_FORMAT);
-        r.setName(CriterionCategory.OUTCOME_FORMAT.toString());
-        r.setPredefined(true);
         
-        r = obj.addRequirement();
-        r.setCategory(CriterionCategory.OUTCOME_OBJECT);
-        r.setName(CriterionCategory.OUTCOME_OBJECT.toString());
-        r.setPredefined(true);        
+        
+        LibraryRequirement r;
+        for (CriterionCategory category : CriterionCategory.values()) {
+        	if (category.getScope() == EvaluationScope.ALTERNATIVE_ACTION) {
+        		r = action.addRequirement();
+        	} else {
+        		r = obj.addRequirement();
+        	}
+        	r.setCategory(category);
+        	r.setName(category.getCriterionCategory());
+        	r.setPredefined(true);
+        }
+
     }
 
     public int getId() {

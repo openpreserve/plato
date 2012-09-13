@@ -18,7 +18,6 @@ package at.tuwien.minimee.model;
 
 import java.util.HashMap;
 
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.measurement.ToolExperience;
 
@@ -63,6 +62,6 @@ public class ExperienceBase {
      *  {@link ToolExperience#getAverage(String)}
      */
     public Measurement getAverage(String tool, Measurement m) {
-        return getToolExperience(tool).getAverage(m.getProperty().getName());
+        return getToolExperience(tool).getAverage(m.getMeasureId());
     }
 }

@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.Measure;
-import eu.scape_project.planning.model.measurement.Metric;
 
 /**
  * For administration of metrics, measurable properties and criteria
@@ -80,7 +79,7 @@ public class CriteriaManager implements Serializable {
      * @return
      */
     @Lock(LockType.READ)
-    public Collection<Measure> getKnownCriteria() {
+    public Collection<Measure> getAllMeasures() {
         return knownMeasures.values();
     }
 
@@ -90,7 +89,7 @@ public class CriteriaManager implements Serializable {
      * @return
      */
     @Lock(LockType.READ)
-    public Collection<Attribute> getKnownProperties() {
+    public Collection<Attribute> getAllAttributes() {
         return knownProperties.values();
     }
 
@@ -101,9 +100,9 @@ public class CriteriaManager implements Serializable {
      * @return
      */
     @Lock(LockType.READ)
-    public Measure getCriterion(String criterionUri) {
+    public Measure getMeasure(String measureUri) {
     	for (Measure measure : knownMeasures.values()) {
-    		if (measure.getUri().equals(criterionUri)) {
+    		if (measure.getUri().equals(measureUri)) {
     			return measure; 
     		}
     	}

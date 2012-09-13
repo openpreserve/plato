@@ -33,8 +33,8 @@ import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.EvaluationScope;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
@@ -246,7 +246,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     public void assignCriterionToLeaf(Measure measure, Leaf leaf) {
         leaf.setCriterion(measure);
         leaf.setScale(measure.getScale());
-        leaf.setSingle(measure.getProperty().getEvaluationScope() == EvaluationScope.ALTERNATIVE);
+        leaf.setSingle(measure.getAttribute().getCategory().getScope() == EvaluationScope.ALTERNATIVE_ACTION);
         leaf.touchIncludingScale();
     }
 

@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import at.tuwien.minimee.migration.parser.Jip_Parser;
 import at.tuwien.minimee.model.ToolConfig;
 import eu.scape_project.planning.model.beans.MigrationResult;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 
@@ -103,11 +103,11 @@ public class MonitorEngineJIP extends MiniMeeDefaultMigrationEngine {
         super.collectData(config, time, result);
         double totalTime = new Jip_Parser().getTotalTime(makeJIPOutFilename(time)+".txt");
         
-        for (MeasurableProperty property: getMeasurableProperties()) {
+        for (Measure measure: getMeasures()) {
             Measurement m = new Measurement();
-            m.setProperty(property);
-            PositiveFloatValue v = (PositiveFloatValue) property.getScale().createValue();
-            if (property.getName().equals("performance:totalTimeInJava")) {
+            m.setMeasureId(measure.getUri());
+            PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
+            if (measure.getName().equals("performance:totalTimeInJava")) {
                 v.setValue(totalTime);
             }
 //            if (property.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
@@ -115,7 +115,7 @@ public class MonitorEngineJIP extends MiniMeeDefaultMigrationEngine {
 //            }
 
             m.setValue(v);
-            result.getMeasurements().put(property.getName(), m);
+            result.getMeasurements().put(measure.getName(), m);
         }
     }
 }

@@ -26,8 +26,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import eu.scape_project.planning.model.scales.FloatScale;
-import eu.scape_project.planning.model.values.FloatValue;
 import eu.scape_project.planning.model.values.INumericValue;
 
 @Entity
@@ -50,28 +48,19 @@ public class Measurements implements Serializable {
             return null;
         }
         Measurement m = list.get(0);
-        if (! m.getProperty().isNumeric()) {
-            throw new IllegalArgumentException("cannot calculate average of nun-numeric value: "+m.getProperty().getName());
+        
+        if (! (m.getValue() instanceof INumericValue)) {
+            throw new IllegalArgumentException("cannot calculate average of nun-numeric value: " + m.getMeasureId());
         }
         
-        Measurement measurement = new Measurement();
-        MeasurableProperty property = new MeasurableProperty();
-        String propertyName = m.getProperty().getName();
-        property.setName(propertyName+":accumulated:average");
-        FloatScale scale = new FloatScale();
-        property.setScale(scale);
-        measurement.setProperty(property);
-        
-        scale.setUnit(""+list.size());
-    
-        Double d = 0.0;
-        for (Measurement entry : list) {
-            INumericValue value = (INumericValue) entry.getValue();
-            d+= value.value();
+        double average = 0.0;
+        for (Measurement meas : list) {
+            INumericValue value = (INumericValue) meas.getValue();
+            average += value.value();
         }
-        FloatValue average = (FloatValue) new FloatScale().createValue();
-        average.setValue(d/list.size());
-        measurement.setValue(average);
+        average = average / list.size();
+        
+        Measurement measurement = new Measurement(m.getMeasureId() + ":accumulated:average("+list.size()+")", average);
         return measurement;
     }
 

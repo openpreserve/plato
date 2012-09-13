@@ -17,14 +17,10 @@
 package eu.scape_project.planning.model;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -34,8 +30,6 @@ public class ByteStream implements Serializable {
      */
     private static final long serialVersionUID = 2177546307805229793L;
 
-    private static DecimalFormat df = new DecimalFormat("###.##");
-    
     /**
      * this is stored redundantly here, of course it could be calculated every time 
      * by accessing the byte[] - but we want to cache this in here to not access the
