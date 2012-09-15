@@ -187,6 +187,12 @@
 			<groupId>pt.gov.dgarq.roda</groupId>
 			<artifactId>roda-client</artifactId>
 			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>saxon</artifactId>
+					<groupId>net.sf.saxon</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 	</dependencies>
