@@ -49,6 +49,8 @@ import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 
 import sun.misc.BASE64Encoder;
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
@@ -70,6 +72,9 @@ public class ProjectExportAction implements Serializable {
 
     @Inject
     private EntityManager em;
+
+    @Inject
+    protected DigitalObjectManager digitalObjectManager;
 
     private String lastProjectExportPath;
 
@@ -131,10 +136,8 @@ public class ProjectExportAction implements Serializable {
         List<Plan> list = null;
         try {
             list = em.createQuery("select p from Plan p where p.planProperties.id = " + ppid).getResultList();
-        } catch (Exception e1) {
-            // FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
-            // "An error occured while generating the export file.");
-            log.error("Could not load planProperties: ", e1);
+        } catch (Exception e) {
+            log.error("Could not load planProperties: ", e);
             log.debug("Skipping the export of the plan with properties" + ppid + ": Couldnt load.");
             return false;
         }
@@ -151,27 +154,20 @@ public class ProjectExportAction implements Serializable {
 
                 writeBinaryObjects(recordIDs, uploadIDs, tempPath, encoder);
 
-                // this seems to be some debugging code, it crashes on windows!
-                // XMLWriter writer = new XMLWriter(new
-                // FileOutputStream("/tmp/testout"+System.currentTimeMillis()+".xml"));
-                // writer.write(doc);
-                // writer.close();
-
-                // perform XSLT transformation to get the DATA into the PLANS
+                // Perform XSLT transformation to get the DATA into the PLANS
                 addBinaryData(doc, out, tempPath);
             } catch (IOException e) {
-                // FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
-                // "An error occured while generating the export file.");
                 log.error("Could not open outputstream: ", e);
                 return false;
             } catch (TransformerException e) {
-                // FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
-                // "An error occured while generating the export file.");
                 log.error("failed to generate export file.", e);
+                return false;
+            } catch (StorageException e) {
+                log.error("Could not load object from stoarge.", e);
                 return false;
             }
         } finally {
-            /* clean up */
+            // Clean up
             list.clear();
             list = null;
 
@@ -279,12 +275,13 @@ public class ProjectExportAction implements Serializable {
      * @param tempDir
      * @param encoder
      * @throws IOException
+     * @throws StorageException
      */
     private void writeBinaryObjects(List<Integer> recordIDs, List<Integer> uploadIDs, String aTempDir,
-        BASE64Encoder encoder) throws IOException {
+        BASE64Encoder encoder) throws IOException, StorageException {
         int counter = 0;
         int skip = 0;
-        List<Integer> allIDs = new ArrayList<Integer>();
+        List<Integer> allIDs = new ArrayList<Integer>(recordIDs.size() + uploadIDs.size());
         allIDs.addAll(recordIDs);
         allIDs.addAll(uploadIDs);
         log.info("writing XMLs for bytestreams of digital objects. Size = " + allIDs.size());
@@ -298,7 +295,8 @@ public class ProjectExportAction implements Serializable {
             if (object.isDataExistent()) {
                 counter += object.getData().getSize();
                 File f = new File(aTempDir + object.getId() + ".xml");
-                writeBinaryData(id, object.getData(), f, encoder);
+                DigitalObject dataFilledObject = digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
+                writeBinaryData(id, dataFilledObject.getData(), f, encoder);
             } else {
                 skip++;
             }
@@ -310,8 +308,8 @@ public class ProjectExportAction implements Serializable {
     }
 
     /**
-     * Dumps binary data to provided file It results in an XML file with a
-     * single element: data,
+     * Dumps binary data to provided file. It results in an XML file with a
+     * single element: data.
      * 
      * @param id
      * @param data
