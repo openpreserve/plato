@@ -1,0 +1,26 @@
+<PicketLink xmlns="urn:picketlink:identity-federation:config:2.1">
+	<PicketLinkIDP xmlns="urn:picketlink:identity-federation:config:2.1"
+		AttributeManager="eu.scape_project.pw.idp.UserAttributeManager">
+		<IdentityURL>${idp.url}</IdentityURL>
+		<Trust>
+			<Domains>${trust.domains}</Domains>
+		</Trust>
+	</PicketLinkIDP>
+
+	<Handlers xmlns="urn:picketlink:identity-federation:handler:config:2.1">
+		<Handler
+			class="org.picketlink.identity.federation.web.handlers.saml2.SAML2IssuerTrustHandler" />
+		<Handler
+			class="org.picketlink.identity.federation.web.handlers.saml2.SAML2LogOutHandler" />
+		<Handler
+			class="org.picketlink.identity.federation.web.handlers.saml2.SAML2AuthenticationHandler" />
+		<Handler
+			class="org.picketlink.identity.federation.web.handlers.saml2.SAML2AttributeHandler">
+			<Option Key="ATTRIBUTE_KEYS" Value="username,firstName,lastName,email,userRoles" />
+			<Option Key="ATTRIBUTE_MANAGER" Value="eu.scape_project.pw.idp.UserAttributeManager" />
+		</Handler>
+		<Handler
+			class="org.picketlink.identity.federation.web.handlers.saml2.RolesGenerationHandler" />
+	</Handlers>
+
+</PicketLink>

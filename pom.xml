@@ -198,7 +198,7 @@
 	<repositories>
 		<repository>
 			<id>jboss</id>
-			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
 		</repository>
 		<repository>
 			<id>keep</id>

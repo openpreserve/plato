@@ -16,12 +16,12 @@
 		<param-value>server</param-value>
 	</context-param>
 	<context-param>
-		<param-name>org.richfaces.SKIN</param-name>
-		<param-value>blueSky</param-value>
+		<param-name>org.richfaces.skin</param-name>
+		<param-value>plain</param-value>
 	</context-param>
 	<context-param>
-		<param-name>org.richfaces.CONTROL_SKINNING</param-name>
-		<param-value>enable</param-value>
+		<param-name>org.richfaces.enableControlSkinning</param-name>
+		<param-value>false</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
@@ -41,6 +41,7 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsf</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
@@ -68,6 +69,12 @@
 		<web-resource-collection>
 			<web-resource-name>Resources</web-resource-name>
 			<url-pattern>/javax.faces.resource/*</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Resources</web-resource-name>
+			<url-pattern>/rfRes/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 
