@@ -2,7 +2,7 @@
 	<PicketLinkSP xmlns="urn:picketlink:identity-federation:config:1.0"
 		ServerEnvironment="tomcat" BindingType="POST">
 		<IdentityURL>${idp.url}</IdentityURL>
-		<ServiceURL>${plato.url}</ServiceURL>
+		<ServiceURL>${kbrowser.url}</ServiceURL>
 	</PicketLinkSP>
 	<Handlers xmlns="urn:picketlink:identity-federation:handler:config:2.1">
 		<Handler

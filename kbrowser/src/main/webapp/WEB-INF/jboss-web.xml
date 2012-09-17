@@ -2,7 +2,7 @@
 <jboss-web>
 	<security-domain>sp</security-domain>
 	<valve>
-		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.SPRedirectFormAuthenticator
+		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator
 		</class-name>
 	</valve>
 </jboss-web>

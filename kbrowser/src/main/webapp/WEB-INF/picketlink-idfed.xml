@@ -1,5 +1,0 @@
-<PicketLinkSP xmlns="urn:picketlink:identity-federation:config:1.0"
-	ServerEnvironment="tomcat">
-	<IdentityURL>${idp.url}</IdentityURL>
-	<ServiceURL>${kbrowser.url}</ServiceURL>
-</PicketLinkSP>
