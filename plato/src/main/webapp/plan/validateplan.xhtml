@@ -1166,14 +1166,36 @@
 									styleClass="discard-button" style="min-width: 150px;"
 									render="approveSection" />
 								<div class="save-placeholder" style="min-width: 150px"></div>
+
 								<h:commandButton id="deploy" value="Deploy plan"
-									action="#{validatePlan.deployPlan()}"
 									styleClass="proceed-button" style="min-width: 150px;"
-									render="approveSection" />
+									render="approveSection">
+									<rich:componentControl target="deployPopup" operation="show" />
+								</h:commandButton>
 							</div>
 						</a4j:outputPanel>
 					</a4j:outputPanel>
 				</fieldset>
+
+				<rich:popupPanel id="deployPopup" width="600" height="150"
+					onmaskclick="#{rich:component('deployPopup')}.hide();">
+					<f:facet name="header">
+						<h:outputText
+							value="Deploy to #{validatePlan.user.userGroup.repository.url}" />
+					</f:facet>
+					<f:facet name="controls">
+						<h:outputLink value="#"
+							onclick="#{rich:component('deployPopup')}.hide(); return false;">X</h:outputLink>
+					</f:facet>
+					<p:inputText labelText="Username" id="repositoryUsername"
+						input="#{validatePlan.repositoryUsername}" />
+					<p:inputText labelText="Password" id="repositoryPassword"
+						input="#{validatePlan.repositoryPassword}" />
+					<h:commandButton value="Deploy"
+						action="#{validatePlan.deployPlan()}"
+						onclick="#{rich:component('deployPopup')}.hide();" />
+				</rich:popupPanel>
+
 			</h:form>
 		</div>
 

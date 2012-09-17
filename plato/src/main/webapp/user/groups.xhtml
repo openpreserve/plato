@@ -17,14 +17,14 @@
 
 		<h1>Group</h1>
 
-		<h:form>
+		<h:form id="mainform">
 			<fieldset id="group" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					<h:outputText value="Current Group" />
 				</legend>
 				<p:inputText labelText="Name" id="name"
-					input="#{user.userGroup.name}" />
+					input="#{user.userGroup.name}" required="true" />
 
 				<p:inputDiv labelText="Group members" id="groupMembers"
 					input="#{user.userGroup.name}">
@@ -46,8 +46,8 @@
 					</h:commandButton>
 				</p:inputDiv>
 
-
-				<rich:popupPanel id="inviteUsersPopup" width="600" height="160">
+				<rich:popupPanel id="inviteUsersPopup" width="600" height="160"
+					onmaskclick="#{rich:component('inviteUsersPopup')}.hide();">
 					<f:facet name="header">
 						<h:outputText value="Invite users" />
 					</f:facet>
@@ -65,8 +65,18 @@
 				<h:commandButton value="Leave group" action="#{groups.leaveGroup()}"
 					rendered="#{user.userGroup.users.size() > 1}" />
 			</fieldset>
-		</h:form>
-		<h:form>
+
+			<fieldset id="repository" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					<h:outputText value="Repository configuration" />
+				</legend>
+
+				<p:inputText labelText="URL" id="url"
+					input="#{user.userGroup.repository.url}" />
+				<p:inputText labelText="Username" id="username"
+					input="#{user.userGroup.repository.username}" />
+			</fieldset>
 			<p:savediscard bean="#{groups}" />
 		</h:form>
 	</ui:define>

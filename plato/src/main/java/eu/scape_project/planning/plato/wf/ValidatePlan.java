@@ -19,12 +19,8 @@
  */
 package eu.scape_project.planning.plato.wf;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,7 +34,7 @@ import org.slf4j.Logger;
 
 import pt.gov.dgarq.roda.core.PlanClient;
 
-import com.google.common.io.Files;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
@@ -104,18 +100,18 @@ public class ValidatePlan extends AbstractWorkflowStep {
         // no custom save operation is needed here
     }
 
-    public void uploadPlanToRODA() throws PlanningException {
+    public void uploadPlanToRODA(String url, String username, String password) throws PlanningException {
 
-        String rodaCoreUrl = "http://roda.scape.keep.pt/roda-core/";
-        String rodaCoreUsername = "admin";
-        String rodaCorePassword = "roda";
+        // String url = "http://roda.scape.keep.pt/roda-core/";
+        // String username = "admin";
+        // String password = "roda";
 
         PlanClient planClient;
         try {
-            planClient = new PlanClient(new URL(rodaCoreUrl), rodaCoreUsername, rodaCorePassword);
+            planClient = new PlanClient(new URL(url), username, password);
         } catch (MalformedURLException e) {
-            log.error("Error creating PlanClient URL '" + rodaCoreUrl, e);
-            throw new PlanningException("Error creating PlanClient URL " + rodaCoreUrl, e);
+            log.error("Error creating PlanClient URL '" + url, e);
+            throw new PlanningException("Error creating PlanClient URL " + url, e);
         }
 
         // File tempDir = Files.createTempDir();
@@ -155,6 +151,11 @@ public class ValidatePlan extends AbstractWorkflowStep {
             throw new PlanningException("Error exporting plan", e);
         }
 
-        planClient.uploadPlan(planFile);
+        try {
+            planClient.uploadPlan(planFile);
+        } catch (UniformInterfaceException e) {
+            throw new PlanningException("Error deploying plan", e);
+        }
+
     }
 }

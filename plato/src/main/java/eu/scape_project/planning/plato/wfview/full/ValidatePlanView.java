@@ -41,6 +41,7 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.Trigger;
+import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.aggregators.IAggregator;
 import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
 import eu.scape_project.planning.model.aggregators.WeightedSum;
@@ -56,6 +57,8 @@ import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 @Named("validatePlan")
 @ConversationScoped
 public class ValidatePlanView extends AbstractView {
+    private static final long serialVersionUID = 8505584799409203390L;
+
     @Inject
     private Logger log;
 
@@ -63,14 +66,18 @@ public class ValidatePlanView extends AbstractView {
     private boolean displayEvalTransform = false;
     private boolean showAllAlternatives = false;
 
-    private static final long serialVersionUID = 1L;
-
     @Inject
     private ValidatePlan validatePlan;
     @Inject
     private TreeHelperBean policytreeHelper;
     @Inject
     private TreeHelperBean treeHelper;
+
+    @Inject
+    private User user;
+
+    private String repositoryUsername;
+    private String repositoryPassword;
 
     public ValidatePlanView() {
         currentPlanState = PlanState.PLAN_DEFINED;
@@ -117,6 +124,8 @@ public class ValidatePlanView extends AbstractView {
         planetsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition().getExecutablePlan());
         eprintsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition()
             .getEprintsExecutablePlan());
+
+        repositoryUsername = user.getUserGroup().getRepository().getUsername();
     }
 
     public String getCurrentDate() {
@@ -271,10 +280,14 @@ public class ValidatePlanView extends AbstractView {
 
     public void deployPlan() {
         try {
-            validatePlan.uploadPlanToRODA();
+            validatePlan.uploadPlanToRODA(user.getUserGroup().getRepository().getUrl(), repositoryUsername,
+                repositoryPassword);
             facesMessages.addInfo("Plan sucessfully deployed.");
         } catch (PlanningException e) {
-            facesMessages.addError("There was an error deploying the plan.");
+            facesMessages.addError("There was an error deploying the plan: " + e.getCause().getMessage());
+        } finally {
+            repositoryUsername = user.getUserGroup().getRepository().getUsername();
+            repositoryPassword = "";
         }
     }
 
@@ -290,4 +303,29 @@ public class ValidatePlanView extends AbstractView {
     public TreeHelperBean getTreeHelper() {
         return treeHelper;
     }
+
+    public String getRepositoryUsername() {
+        return repositoryUsername;
+    }
+
+    public void setRepositoryUsername(String repositoryUsername) {
+        this.repositoryUsername = repositoryUsername;
+    }
+
+    public String getRepositoryPassword() {
+        return repositoryPassword;
+    }
+
+    public void setRepositoryPassword(String repositoryPassword) {
+        this.repositoryPassword = repositoryPassword;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

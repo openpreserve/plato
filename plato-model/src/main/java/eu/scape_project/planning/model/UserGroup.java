@@ -29,6 +29,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class UserGroup implements Serializable {
@@ -45,6 +46,9 @@ public class UserGroup implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<RDFPolicy> policies = new HashSet<RDFPolicy>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Repository repository = new Repository();
 
     /**
      * Returns the policy with the latest import date.
@@ -106,6 +110,14 @@ public class UserGroup implements Serializable {
 
     public void setPolicies(Set<RDFPolicy> policies) {
         this.policies = policies;
+    }
+
+    public Repository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 
 }
