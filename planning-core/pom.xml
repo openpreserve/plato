@@ -71,7 +71,6 @@
 			<name>myGrid Snapshot Repository</name>
 			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
 		</repository>
-
 	</repositories>
 
 
@@ -119,7 +118,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
@@ -182,6 +180,11 @@
 			<groupId>net.sf.taverna.t2</groupId>
 			<artifactId>baclava</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.bripkens</groupId>
+			<artifactId>gravatar4java</artifactId>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 

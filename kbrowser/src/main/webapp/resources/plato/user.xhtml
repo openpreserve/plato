@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<cc:interface>
+	<cc:attribute name="id" required="false"></cc:attribute>
+	<cc:attribute name="user" required="false"></cc:attribute>
+	<cc:attribute name="size" required="false" default="30"></cc:attribute>
+</cc:interface>
+
+<cc:implementation>
+	<div class="user" style="height: #{cc.attrs.size}px">
+		<h:graphicImage styleClass="user"
+			value="#{gravatarHelper.getGravatarURL(cc.attrs.size)}"
+			style="width: #{cc.attrs.size}px; height: #{cc.attrs.size}px"
+			rendered="#{cc.attrs.user == null}" />
+		<h:outputText value="#{user.username}"
+			rendered="#{cc.attrs.user == null}" />
+		<h:graphicImage styleClass="user"
+			value="#{gravatarHelper.getGravatarURL(cc.attrs.user.email, cc.attrs.size)}"
+			style="width: #{cc.attrs.size}px; height: #{cc.attrs.size}px"
+			rendered="#{cc.attrs.user != null}" />
+		<h:outputText value="#{cc.attrs.user.username}"
+			rendered="#{cc.attrs.user != null}" />
+
+		<cc:insertChildren />
+	</div>
+</cc:implementation>
+
+</html>

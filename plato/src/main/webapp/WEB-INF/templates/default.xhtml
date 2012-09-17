@@ -55,23 +55,26 @@
 	</script>
 </h:head>
 <h:body>
-<div id="main-div">
-	<div id="header">
-		<div id="bear">
-		  	<a href="#{request.contextPath}/"> 
-		  		 <img src="#{request.contextPath}/resources/gfx/plato-logo.png" alt="" height="60px"/>
-	    	</a>
+	<div id="main-div">
+		<div id="header">
+			<div id="bear">
+				<a href="#{request.contextPath}/"> <img
+					src="#{request.contextPath}/resources/gfx/plato-logo.png" alt=""
+					height="60px" />
+				</a>
+			</div>
+			<div id="scape">
+				<a href="http://www.scape-project.eu/" target="_blank"><img
+					src="#{request.contextPath}/resources/gfx/scape-logo.png" alt=""
+					height="60px" /></a>
+			</div>
 		</div>
-		<div id="scape">
-			<a href="http://www.scape-project.eu/" target="_blank"><img src="#{request.contextPath}/resources/gfx/scape-logo.png" alt="" height="60px" /></a>
-		</div>
-	</div>
-	
-	<div id="menu-toolbar">
-	<div id="feedback">
-		<h:link value="feedback" outcome="/feedback.jsf"/>
-	</div>
-	<script type="text/javascript">
+
+		<div id="menu-toolbar">
+			<div id="feedback">
+				<h:link value="feedback" outcome="/feedback.jsf" />
+			</div>
+			<script type="text/javascript">
 		$(document).ready(
 			function() {
 				//add feedback animation 
@@ -92,40 +95,35 @@
                 );
 			}
 		);
-	</script>	
-	<ui:fragment rendered="#{viewWorkflowManager.active}">
-	   <ui:include src="/plato/shared/menu.xhtml" >
-	      <ui:param name="viewWorkflow" value="#{viewWorkflow}" />
-	   </ui:include>
-	</ui:fragment>
-	<ui:fragment rendered="#{!viewWorkflowManager.active}">
-	   <ui:include src="/plato/shared/menu.xhtml" >
-	      <ui:param name="viewWorkflow" value="null" />
-	   </ui:include>
-	</ui:fragment>
-	</div>
-	
+	</script>
+			<ui:fragment rendered="#{viewWorkflowManager.active}">
+				<ui:include src="/plato/shared/menu.xhtml">
+					<ui:param name="viewWorkflow" value="#{viewWorkflow}" />
+				</ui:include>
+			</ui:fragment>
+			<ui:fragment rendered="#{!viewWorkflowManager.active}">
+				<ui:include src="/plato/shared/menu.xhtml">
+					<ui:param name="viewWorkflow" value="null" />
+				</ui:include>
+			</ui:fragment>
+		</div>
 
-		
-	<div id="content">
-       	   <h:messages id="messages" globalOnly="true" showDetail="true" errorClass="error" warnClass="warning" infoClass="info"/>
-       	   
+		<div id="content">
+			<h:messages id="messages" globalOnly="true" showDetail="true"
+				errorClass="error" warnClass="warning" infoClass="info" />
+
 			<ui:insert name="content">
                     [Template content will be inserted here]
             </ui:insert>
+		</div>
 	</div>
-	
-	
-</div>
 
-<div id="footer">
-			(c) 2006-2012 Institute of Software Technology and Interactive Systems: &#171;
-            <a
-               href="mailto:plato@ifs.tuwien.ac.at?subject=[SCAPE-PlanningSuite:]">
-               off-ice bears
-            </a>
-            &#187;
-</div>
+	<div id="footer">
+		(c) 2006-2012 Institute of Software Technology and Interactive
+		Systems: &#171; <a
+			href="mailto:plato@ifs.tuwien.ac.at?subject=[SCAPE-PlanningSuite:]">
+			off-ice bears </a> &#187;
+	</div>
 
-</h:body> 
+</h:body>
 </html>

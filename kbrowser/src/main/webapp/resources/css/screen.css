@@ -692,3 +692,12 @@ ul#messages {
 #sampleactions input[type="submit"], input[type="button"] {
 	margin-right: 10px;
 }
+
+div.user {
+	width: 100%;
+}
+
+img.user {
+	vertical-align: middle;
+	padding-right: 5px;
+}
