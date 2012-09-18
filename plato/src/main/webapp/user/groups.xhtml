@@ -28,8 +28,7 @@
 
 				<p:inputDiv labelText="Group members" id="groupMembers"
 					input="#{user.userGroup.name}">
-
-					<h:dataTable value="#{user.userGroup.users}" var="groupMember"
+					<h:dataTable value="#{groups.groupUsers}" var="groupMember"
 						id="groupMembersTable">
 						<h:column>
 							<p:user user="#{groupMember}" size="40" />
@@ -40,7 +39,6 @@
 								rendered="#{groupMember.username != user.username}" />
 						</h:column>
 					</h:dataTable>
-
 					<h:commandButton value="Invite users">
 						<rich:componentControl target="inviteUsersPopup" operation="show" />
 					</h:commandButton>
@@ -61,11 +59,9 @@
 						action="#{groups.inviteUsers()}"
 						onclick="#{rich:component('inviteUsersPopup')}.hide();" />
 				</rich:popupPanel>
-
 				<h:commandButton value="Leave group" action="#{groups.leaveGroup()}"
-					rendered="#{user.userGroup.users.size() > 1}" />
+					rendered="#{groups.groupUsers.size() > 1}" />
 			</fieldset>
-
 			<fieldset id="repository" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />

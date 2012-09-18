@@ -1,192 +1,238 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
-                    xmlns:h="http://java.sun.com/jsf/html"
-                    xmlns:f="http://java.sun.com/jsf/core"
-                    xmlns:ui="http://java.sun.com/jsf/facelets"
-                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
-                    xmlns:p="http://java.sun.com/jsf/composite/plato"    
-                    template="/WEB-INF/templates/default.xhtml"
-                    xmlns:a4j="http://richfaces.org/a4j"
-                    xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
-    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
-    <ui:define name="content">
-        <h1>Run Experiments</h1>
-        
-        <h:form id="mainForm">
-            <h:inputText id="changedflag" value="#{runExperiments.changed}" style="display:none" />
-        
-            <a4j:outputPanel layout="block" id="alternativesTablePanel">
-            <h:dataTable id="alternativesTable" value="#{runExperiments.plan.alternativesDefinition.consideredAlternatives}" var="alt"
-                styleClass="tableStyle" 
-                headerClass="tableStyle-header"
-                rowClasses="tableStyle-row" >
-                <h:column>
-                    <f:facet name="header">Alternative</f:facet>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+	<ui:define name="content">
+		<h1>Run Experiments</h1>
+
+		<h:form id="mainForm">
+			<h:inputText id="changedflag" value="#{runExperiments.changed}"
+				style="display:none" />
+
+			<a4j:outputPanel layout="block" id="alternativesTablePanel">
+				<h:dataTable id="alternativesTable"
+					value="#{runExperiments.plan.alternativesDefinition.consideredAlternatives}"
+					var="alt" styleClass="tableStyle" headerClass="tableStyle-header"
+					rowClasses="tableStyle-row">
+					<h:column>
+						<f:facet name="header">Alternative</f:facet>
                     #{alt.name}
-                    <a4j:commandButton id="runExperiment" action="#{runExperiments.setupExperiment(alt)}" image="/resources/gfx/play-blue-small.png"
-                                       rendered="#{alt.executable and !alt.action.emulated}" oncomplete="#{rich:component('execPanel')}.show()" render="execPanel"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Description</f:facet>
-                    <rich:tabPanel switchType="client">
-                        <rich:tab header="Summary">
-                            <h:dataTable value="#{runExperiments.plan.sampleRecordsDefinition.records}" var="record">
-                                <h:column>
-                                    <f:facet name="header">Record</f:facet>
+                    <a4j:commandButton id="runExperiment"
+							action="#{runExperiments.setupExperiment(alt)}"
+							image="/resources/gfx/play-blue-small.png"
+							rendered="#{alt.executable and !alt.action.emulated}"
+							oncomplete="#{rich:component('execPanel')}.show()"
+							render="execPanel" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Description</f:facet>
+						<rich:tabPanel switchType="client">
+							<rich:tab header="Summary">
+								<h:dataTable
+									value="#{runExperiments.plan.sampleRecordsDefinition.records}"
+									var="record">
+									<h:column>
+										<f:facet name="header">Record</f:facet>
                                     #{record.fullname}
                                 </h:column>
-                                <h:column>
-                                    <f:facet name="header">Status</f:facet>
-	                                    <h:graphicImage rendered="#{alt.experiment.detailedInfo[record] == null}" value="/resources/gfx/icons/small/not-known.png" />
-	                                    <h:graphicImage rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==true)}" 
-	                                                    value="/resources/gfx/icons/small/true.png" />
-	                                    <h:graphicImage rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==false)}"
-	                                                    value="/resources/gfx/icons/small/false.png" />
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Report</f:facet>
-                                    <a4j:commandButton value="Edit Report" action="#{runExperiments.updateSelectedDetailedExperimentInfo(alt, record)}" render="experimentReportForm"
-                                                       oncomplete="#{rich:component('reportPanel')}.show()"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Resulting Object</f:facet>
-                                    <a4j:commandButton action="#{runExperiments.updateDataForNextUpload(alt, record)}" value="Upload result file"
-                                                       rendered="#{!alt.experiment.results[record].dataExistent}" oncomplete="#{rich:component('uploadPanel')}.show()"/>
-                                    <a4j:outputPanel layout="inline" rendered="#{alt.experiment.results[record].dataExistent}">
-                                        <h:commandLink value="Download '#{alt.experiment.results[record].fullname}'" action="#{runExperiments.downloadResultFile(alt, record)}" />
-	                                    (<h:outputText value="#{alt.experiment.results[record].sizeInMB}">
-	                                        <f:convertNumber maxFractionDigits="2" groupingUsed="false" />
-	                                    </h:outputText> MB)
-	                                    <a4j:commandButton action="#{runExperiments.removeResultFile(alt, record)}" value="Remove" render="alternativesTablePanel"/>
-                                    </a4j:outputPanel>
-                                </h:column>
-                            </h:dataTable>
-                        </rich:tab>
-                        <rich:tab header="Report">
-                            <p:inputTextArea id="experimentReport" input="#{alt.experiment.detailedRunDescription}" readonly="true"/>
-                        </rich:tab>
-                    </rich:tabPanel>
-                </h:column>
-            </h:dataTable>
-            </a4j:outputPanel>
-            
-            <a4j:commandButton id="runAllExperiments"
-                               value="             Run all experiments"
-                               rendered="#{runExperiments.hasExecutableExperiments}" 
-                               style="height: 4.5em; background-image: url(../resources/gfx/play.png); background-repeat: no-repeat; background-color: white;"
-                               action="#{runExperiments.setupAllExperiments}" oncomplete="#{rich:component('execPanel')}.show()" 
-                               render="alternativesTablePanel,execPanel" />
-                        
-            <p:savediscardproceed bean="#{viewWorkflow}" />
-        </h:form>
-        
+									<h:column>
+										<f:facet name="header">Status</f:facet>
+										<h:graphicImage
+											rendered="#{alt.experiment.detailedInfo[record] == null}"
+											value="/resources/gfx/icons/small/not-known.png" />
+										<h:graphicImage
+											rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==true)}"
+											value="/resources/gfx/icons/small/true.png" />
+										<h:graphicImage
+											rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==false)}"
+											value="/resources/gfx/icons/small/false.png" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">Report</f:facet>
+										<a4j:commandButton value="Edit Report"
+											action="#{runExperiments.updateSelectedDetailedExperimentInfo(alt, record)}"
+											render="experimentReportForm"
+											oncomplete="#{rich:component('reportPanel')}.show()" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">Resulting Object</f:facet>
+										<a4j:commandButton
+											action="#{runExperiments.updateDataForNextUpload(alt, record)}"
+											value="Upload result file"
+											rendered="#{!alt.experiment.results[record].dataExistent}"
+											oncomplete="#{rich:component('uploadPanel')}.show()" />
+										<a4j:outputPanel layout="inline"
+											rendered="#{alt.experiment.results[record].dataExistent}">
+											<h:commandLink
+												value="Download '#{alt.experiment.results[record].fullname}'"
+												action="#{runExperiments.downloadResultFile(alt, record)}" />
+	                                    (<h:outputText
+												value="#{alt.experiment.results[record].sizeInMB}">
+												<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											</h:outputText> MB)
+	                                    <a4j:commandButton
+												action="#{runExperiments.removeResultFile(alt, record)}"
+												value="Remove" render="alternativesTablePanel" />
+										</a4j:outputPanel>
+									</h:column>
+								</h:dataTable>
+							</rich:tab>
+							<rich:tab header="Report">
+								<p:inputTextArea id="experimentReport"
+									input="#{alt.experiment.detailedRunDescription}"
+									readonly="true" />
+							</rich:tab>
+						</rich:tabPanel>
+					</h:column>
+				</h:dataTable>
+			</a4j:outputPanel>
 
-        <ui:include src="/plato/shared/detailedExperimentInfoPanel.xhtml">
-            <ui:param name="detailedExperimentInfo" value="#{runExperiments.selectedDetailedExperimentInfo}" />
-        </ui:include>
-<!-- this does not work, with ppr of a4j:poll, then experimentStatus evaluates to null
+			<a4j:commandButton id="runAllExperiments"
+				value="             Run all experiments"
+				rendered="#{runExperiments.hasExecutableExperiments}"
+				style="height: 4.5em; background-image: url(../resources/gfx/play.png); background-repeat: no-repeat; background-color: white;"
+				action="#{runExperiments.setupAllExperiments}"
+				oncomplete="#{rich:component('execPanel')}.show()"
+				render="alternativesTablePanel,execPanel" />
+
+			<p:savediscardproceed bean="#{viewWorkflow}" />
+		</h:form>
+
+
+		<ui:include src="/plato/shared/detailedExperimentInfoPanel.xhtml">
+			<ui:param name="detailedExperimentInfo"
+				value="#{runExperiments.selectedDetailedExperimentInfo}" />
+		</ui:include>
+		<!-- this does not work, with ppr of a4j:poll, then experimentStatus evaluates to null
          
         <ui:include src="/plato/shared/runExperimentsPanel.xhtml">
             <a4j:param name="experimentStatus" value="#{runExperiments.experimentStatus}" />
             <a4j:param name="runExperimentsBean" value="#{runExperiments}" />
         </ui:include>
- -->        
+ -->
 		<a4j:queue name="pollQueue"></a4j:queue>
 		<a4j:queue name="cmdQueue"></a4j:queue>
-		 
+
 		<h:form id="pollform">
-		      <a4j:poll id="poll" interval="1000" enabled="#{runExperiments.experimentStatus.started and (not runExperiments.experimentStatus.finished)}" 
-		          render="poll,execRefreshPanel" action="#{runExperiments.experimentStatus.keepAlive}">
-		          <a4j:attachQueue name="pollQueue"></a4j:attachQueue>
-		      </a4j:poll>
+			<a4j:poll id="poll" interval="1000"
+				enabled="#{runExperiments.experimentStatus.started and (not runExperiments.experimentStatus.finished)}"
+				render="poll,execRefreshPanel"
+				action="#{runExperiments.experimentStatus.keepAlive}">
+				<a4j:attachQueue name="pollQueue"></a4j:attachQueue>
+			</a4j:poll>
 		</h:form>
 		<h:form id="executeExperimentsForm">
-		<rich:popupPanel id="execPanel" width="600" height="200" domElementAttachment="form">
-		    <f:facet name="header">
-		        <h:outputText value="Run Migrations" />
-		    </f:facet>
-		    <f:facet name="controls">
-		        <h:graphicImage id="closeMapping" 
-		            value="/resources/gfx/icons/cancel.png"
-		            title="Close" width="16" height="16"
-		            onclick="#{rich:component('execPanel')}.hide()" />
-		    </f:facet>            
-		    <a4j:outputPanel id="execRefreshPanel">
-		       <a4j:outputPanel rendered="#{not runExperiments.experimentStatus.started}">
-		           <h:outputText value="Alternatives queued for execution: #{runExperiments.experimentStatus.altTotal}" />
-		           <br/>
-		           <h:outputText value="Each will be applied to #{runExperiments.experimentStatus.samplesTotal} sample object(s)." />
-		           <br/>
-		           
-		           <a4j:commandButton
-		               onbegin=""
-		               action="#{runExperiments.startExperiments}" 
-		               title="Start experiments"
-		               render="poll"
-		               value="Start">
-		               <a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
-		               </a4j:commandButton>    
-		       </a4j:outputPanel>
-		       
-		       <a4j:outputPanel rendered="#{runExperiments.experimentStatus.started}">
-		           <h:outputText value="Applying alternative #{runExperiments.experimentStatus.altIndex + 1} of #{runExperiments.experimentStatus.altTotal}" /><br/>
-		           <h:outputText value=" .. to sample  #{runExperiments.experimentStatus.sampleIndex + 1} of #{runExperiments.experimentStatus.samplesTotal}" />
-		           <br/><br/>
-		           <h:outputText value="Current alternative: #{runExperiments.experimentStatus.currentAlternative.name}" rendered="#{runExperiments.experimentStatus.currentAlternative != null}"/><br/>
-		           <h:outputText value="Current sample object: #{runExperiments.experimentStatus.currentSample.shortName}" rendered="#{runExperiments.experimentStatus.currentSample != null}"/>
-		           <br/><br/>
-		           <a4j:commandButton
-		               rendered="#{not (runExperiments.experimentStatus.finished or runExperiments.experimentStatus.canceled)}"  
-		               action="#{runExperiments.experimentStatus.setCanceled(true)}" 
-		               value="Cancel experiments"/>
-		
-		           <h:outputText rendered="#{runExperiments.experimentStatus.canceled and (not runExperiments.experimentStatus.finished)}" value="Canceling experiments. Please wait until the currently active migration has finished."/>
-		           <a4j:outputPanel  rendered="#{runExperiments.experimentStatus.finished}">
-		               <b>
-		               <h:outputText rendered="#{not runExperiments.experimentStatus.canceled}" value="Finished experiments!"/>
-		               <h:outputText rendered="#{runExperiments.experimentStatus.canceled}" value="Canceled experiments!"/>
-		               </b>
-		               <a4j:commandButton  
-		                   action="#{runExperiments.experimentStatus.clear()}" 
-		                   title="Ok"  
-		                   value="Close"
-		                   oncomplete="#{rich:component('execPanel')}.hide()"
-		                   render="mainForm,executeExperimentsForm"/>
-		            </a4j:outputPanel>
-		        </a4j:outputPanel>
-		       </a4j:outputPanel>           
-		    </rich:popupPanel>
-</h:form>         
- 
-        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
+			<rich:popupPanel id="execPanel" width="600" height="200"
+				domElementAttachment="form"
+				onmaskclick="#{rich:component('execPanel')}.hide();">
+				<f:facet name="header">
+					<h:outputText value="Run Migrations" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('deployPopup')}.hide(); return false;">X</h:outputLink>
+				</f:facet>
+				<a4j:outputPanel id="execRefreshPanel">
+					<a4j:outputPanel
+						rendered="#{not runExperiments.experimentStatus.started}">
+						<h:outputText
+							value="Alternatives queued for execution: #{runExperiments.experimentStatus.altTotal}" />
+						<br />
+						<h:outputText
+							value="Each will be applied to #{runExperiments.experimentStatus.samplesTotal} sample object(s)." />
+						<br />
+
+						<a4j:commandButton onbegin=""
+							action="#{runExperiments.startExperiments}"
+							title="Start experiments" render="poll" value="Start">
+							<a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
+						</a4j:commandButton>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel
+						rendered="#{runExperiments.experimentStatus.started}">
+						<h:outputText
+							value="Applying alternative #{runExperiments.experimentStatus.altIndex + 1} of #{runExperiments.experimentStatus.altTotal}" />
+						<br />
+						<h:outputText
+							value=" .. to sample  #{runExperiments.experimentStatus.sampleIndex + 1} of #{runExperiments.experimentStatus.samplesTotal}" />
+						<br />
+						<br />
+						<h:outputText
+							value="Current alternative: #{runExperiments.experimentStatus.currentAlternative.name}"
+							rendered="#{runExperiments.experimentStatus.currentAlternative != null}" />
+						<br />
+						<h:outputText
+							value="Current sample object: #{runExperiments.experimentStatus.currentSample.shortName}"
+							rendered="#{runExperiments.experimentStatus.currentSample != null}" />
+						<br />
+						<br />
+						<a4j:commandButton
+							rendered="#{not (runExperiments.experimentStatus.finished or runExperiments.experimentStatus.canceled)}"
+							action="#{runExperiments.experimentStatus.setCanceled(true)}"
+							value="Cancel experiments" />
+
+						<h:outputText
+							rendered="#{runExperiments.experimentStatus.canceled and (not runExperiments.experimentStatus.finished)}"
+							value="Canceling experiments. Please wait until the currently active migration has finished." />
+						<a4j:outputPanel
+							rendered="#{runExperiments.experimentStatus.finished}">
+							<b> <h:outputText
+									rendered="#{not runExperiments.experimentStatus.canceled}"
+									value="Finished experiments!" /> <h:outputText
+									rendered="#{runExperiments.experimentStatus.canceled}"
+									value="Canceled experiments!" />
+							</b>
+							<a4j:commandButton
+								action="#{runExperiments.experimentStatus.clear()}" title="Ok"
+								value="Close"
+								oncomplete="#{rich:component('execPanel')}.hide();"
+								render="mainForm,executeExperimentsForm" />
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</rich:popupPanel>
+		</h:form>
+
+		<!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
                         outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
                         This workaround is described here: http://community.jboss.org/thread/171909
                         If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
                         the second click (on buttons, etc.).
         -->
-        <h:form>
-        <!-- upload panel -->
-            <rich:popupPanel id="uploadPanel" width="500" height="450" domElementAttachment="form">
-                <f:facet name="header">
-                    <h:outputText value="Uplod result file" />
-                </f:facet>
-                <f:facet name="controls">
-                    <h:graphicImage id="closeUpload" 
-                        value="/resources/gfx/icons/cancel.png"
-                        title="Close" width="16" height="16"
-                        onclick="#{rich:component('uploadPanel')}.hide()" />
-                </f:facet>            
-                <h:messages />
-              
-		        <rich:fileUpload id="uploadResultFile" fileUploadListener="#{runExperiments.uploadResultFile}" allowFlash="false" autoclear="true" 
-		                         render="alternativesTablePanel" onuploadcomplete="#{rich:component('uploadPanel')}.hide()" onclick="changed()"/>
-            </rich:popupPanel>
-        <!-- / upload panel -->
-        </h:form>        
+		<h:form>
+			<!-- upload panel -->
+			<rich:popupPanel id="uploadPanel" width="500" height="450"
+				domElementAttachment="form">
+				<f:facet name="header">
+					<h:outputText value="Uplod result file" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="closeUpload"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16"
+						height="16" onclick="#{rich:component('uploadPanel')}.hide()" />
+				</f:facet>
+				<h:messages />
+
+				<rich:fileUpload id="uploadResultFile"
+					fileUploadListener="#{runExperiments.uploadResultFile}"
+					allowFlash="false" autoclear="true" render="alternativesTablePanel"
+					onuploadcomplete="#{rich:component('uploadPanel')}.hide()"
+					onclick="changed()" />
+			</rich:popupPanel>
+			<!-- / upload panel -->
+		</h:form>
 
 
 
-    </ui:define>
+	</ui:define>
 </ui:composition>

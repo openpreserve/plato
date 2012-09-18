@@ -50,6 +50,11 @@ public class GroupsView implements Serializable {
     public GroupsView() {
     }
 
+    public String init() {
+        groups.init();
+        return "user/groups.jsf";
+    }
+
     /**
      * Method responsible for saving the made changes
      * 
@@ -122,14 +127,14 @@ public class GroupsView implements Serializable {
      * @param user
      */
     public void removeUser(User user) {
-        groups.switchGroup(user);
+        groups.removeUser(user);
     }
 
     /**
      * Leave a group
      */
     public void leaveGroup() {
-        groups.switchGroup();
+        groups.leaveGroup();
     }
 
     // --------------- getter/setter ---------------
@@ -137,9 +142,13 @@ public class GroupsView implements Serializable {
         return user;
     }
 
-    public Groups getGroups() {
-        return groups;
+    public List<User> getGroupUsers() {
+        return groups.getGroupUsers();
     }
+
+    // public Groups getGroups() {
+    // return groups;
+    // }
 
     public String getInviteMailsString() {
         return inviteMailsString;

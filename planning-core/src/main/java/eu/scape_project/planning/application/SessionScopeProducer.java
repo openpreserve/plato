@@ -98,6 +98,7 @@ public class SessionScopeProducer implements Serializable {
 
         // Get attributes
         HttpSession session = request.getSession();
+        @SuppressWarnings("unchecked")
         Map<String, List<Object>> attributes = (Map<String, List<Object>>) session
             .getAttribute("SESSION_ATTRIBUTE_MAP");
 
@@ -149,11 +150,11 @@ public class SessionScopeProducer implements Serializable {
             user.setEmail(email);
             update = true;
         }
-        if (firstName != null && !firstName.equals("") && !firstName.equals(user.getEmail())) {
+        if (firstName != null && !firstName.equals("") && !firstName.equals(user.getFirstName())) {
             user.setFirstName(firstName);
             update = true;
         }
-        if (lastName != null && !lastName.equals("") && !lastName.equals(user.getEmail())) {
+        if (lastName != null && !lastName.equals("") && !lastName.equals(user.getLastName())) {
             user.setLastName(lastName);
             update = true;
         }

@@ -19,6 +19,7 @@ package eu.scape_project.planning.user;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -40,8 +41,8 @@ import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.GroupInvitation;
-import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.UserGroup;
 
 @Stateful
 @SessionScoped
@@ -60,8 +61,8 @@ public class Groups implements Serializable {
     private Properties mailProperties;
 
     private Set<User> changedUsers = new HashSet<User>();
-
     private Set<UserGroup> changedGroups = new HashSet<UserGroup>();
+    private List<User> groupUsers = new ArrayList<User>();
 
     @PostConstruct
     public void init() {
@@ -77,6 +78,11 @@ public class Groups implements Serializable {
             log.error("Error while loading mail.properties", e);
         }
 
+        changedUsers.clear();
+        changedGroups.clear();
+
+        groupUsers = em.createQuery("SELECT u FROM User u WHERE u.userGroup = :group", User.class)
+            .setParameter("group", user.getUserGroup()).getResultList();
     }
 
     /**
@@ -92,12 +98,17 @@ public class Groups implements Serializable {
 
         // Save/delete changed groups
         for (UserGroup changedGroup : changedGroups) {
-            if (changedGroup.getUsers().size() == 0) {
+            List<User> users = em.createQuery("SELECT u FROM User u WHERE u.userGroup = :changedGroup", User.class)
+                .setParameter("changedGroup", changedGroup).getResultList();
+
+            if (users.size() == 0) {
                 deleteGroup(changedGroup);
             } else {
                 em.merge(changedGroup);
             }
         }
+
+        init();
 
         log.debug("Saved group of user " + user.getUsername());
     }
@@ -106,12 +117,10 @@ public class Groups implements Serializable {
      * Discards changes.
      */
     public void discard() {
-
         User origUser = em.find(User.class, user.getId());
         user.setUserGroup(origUser.getUserGroup());
 
-        changedUsers.clear();
-        changedGroups.clear();
+        init();
 
         log.debug("Group changes discarted for user " + user.getUsername());
     }
@@ -123,46 +132,51 @@ public class Groups implements Serializable {
      *            the group to delete
      */
     private void deleteGroup(UserGroup group) {
-
         List<GroupInvitation> invitations = em
             .createQuery("SELECT i FROM GroupInvitation i WHERE i.invitedGroup = :invitedGroup", GroupInvitation.class)
             .setParameter("invitedGroup", group).getResultList();
-
         for (GroupInvitation invitation : invitations) {
             invitation.setInvitedGroup(null);
             em.merge(invitation);
         }
 
-        em.remove(em.merge(group));
+        List<User> users = em.createQuery("SELECT u FROM User u WHERE u.userGroup = :changedGroup", User.class)
+            .setParameter("changedGroup", group).getResultList();
+        for (User user : users) {
+            UserGroup newGroup = new UserGroup();
+            newGroup.setName(user.getUsername());
+            em.merge(user);
+        }
 
+        em.remove(em.merge(group));
+    }
+
+    /**
+     * Marks a user as changed
+     * 
+     * @param user
+     */
+    private void markChangedUser(User user) {
+        if (!user.equals(this.user) && !changedUsers.contains(user)) {
+            changedUsers.add(user);
+        }
     }
 
     /**
      * Switches the group of the current user to a newly created group.
      */
-    public void switchGroup() {
-        switchGroup(user);
+    public void leaveGroup() {
+        removeUser(user);
     }
 
     /**
-     * Switches the group of the current user to a new group.
-     * 
-     * @param group
-     *            the group to switch to
+     * Removes the user from the group of the current user.
      */
-    public void switchGroup(UserGroup group) {
-        switchGroup(user, group);
-    }
-
-    /**
-     * Switches the group of the privided user to a newly created group.
-     * 
-     * @param user
-     *            the user to change
-     */
-    public void switchGroup(User user) {
+    public void removeUser(User user) {
         UserGroup group = new UserGroup();
         group.setName(user.getUsername());
+
+        groupUsers.remove(user);
 
         switchGroup(user, group);
     }
@@ -175,67 +189,14 @@ public class Groups implements Serializable {
      * @param group
      *            the group to switch to
      */
-    public void switchGroup(User user, UserGroup group) {
+    private void switchGroup(User user, UserGroup group) {
 
-        addChangedUser(user);
-
-        user.getUserGroup().getUsers().remove(user);
+        markChangedUser(user);
         changedGroups.add(user.getUserGroup());
-
-        group.getUsers().add(user);
         user.setUserGroup(group);
 
         log.debug("Switched user " + user.getUsername() + " to group " + group.getName());
     }
-
-    /**
-     * Marks a user as changed
-     * 
-     * @param user
-     */
-    private void addChangedUser(User user) {
-        if (!user.equals(this.user) && !changedUsers.contains(user)) {
-            changedUsers.add(user);
-        }
-    }
-
-    // /**
-    // * Invites users to join the group of the current user.
-    // *
-    // * @param invitedUsers
-    // * the users to invite
-    // * @param serverString
-    // * the server string
-    // */
-    // public List<String> inviteUsers(List<String> inviteMails, String
-    // serverString) {
-    //
-    // List<String> successfullyInvitedMails = new
-    // ArrayList<String>(inviteMails.size());
-    //
-    // for (String inviteMail : inviteMails) {
-    // inviteMail = inviteMail.trim();
-    //
-    // List<User> users =
-    // em.createQuery("SELECT u From User u WHERE u.email = :email", User.class)
-    // .setParameter("email", inviteMail).getResultList();
-    //
-    // if (users.size() > 0) {
-    // // Users found
-    // for (User user : users) {
-    // if (inviteUser(user, serverString)) {
-    // successfullyInvitedMails.add(inviteMail);
-    // }
-    // }
-    // } else {
-    // // No user found
-    // if (inviteUser(inviteMail, serverString)) {
-    // successfullyInvitedMails.add(inviteMail);
-    // }
-    // }
-    // }
-    // return successfullyInvitedMails;
-    // }
 
     /**
      * Invites a user to join the group of the current user.
@@ -456,8 +417,7 @@ public class Groups implements Serializable {
             switchGroup(user, invitation.getInvitedGroup());
             save();
 
-            log.info("Invitation to group " + user.getUserGroup().getName() + " accepted by user "
-                + user.getUsername());
+            log.info("Invitation to group " + user.getUserGroup().getName() + " accepted by user " + user.getUsername());
 
         } catch (NoResultException e) {
             log.info("InvitationActionToken for user " + user.getUsername() + " not found.");
@@ -484,8 +444,7 @@ public class Groups implements Serializable {
 
             em.remove(invitation);
 
-            log.info("Invitation to group " + user.getUserGroup().getName() + " declined by user "
-                + user.getUsername());
+            log.info("Invitation to group " + user.getUserGroup().getName() + " declined by user " + user.getUsername());
 
         } catch (NoResultException e) {
             log.info("InvitationActionToken for user " + user.getUsername() + " not found.");
@@ -493,6 +452,17 @@ public class Groups implements Serializable {
         }
     }
 
+    /**
+     * Returns the group name of an invitation identified by the action token.
+     * 
+     * @param invitationActionToken
+     *            the action token
+     * @return the name of the associated group
+     * @throws TokenNotFoundException
+     *             if the token could not be found
+     * @throws GroupNotFoundException
+     *             if the group does not exist anymore
+     */
     public String getInvitationGroupName(String invitationActionToken) throws TokenNotFoundException,
         GroupNotFoundException {
 
@@ -512,4 +482,16 @@ public class Groups implements Serializable {
             throw new TokenNotFoundException(e);
         }
     }
+
+    /**
+     * Gets the users of the provided group.
+     * 
+     * @param group
+     *            the group
+     * @return a list of users
+     */
+    public List<User> getGroupUsers() {
+        return groupUsers;
+    }
+
 }
