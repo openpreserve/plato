@@ -54,237 +54,236 @@ import eu.scape_project.planning.xml.C3POProfileParser;
 @ConversationScoped
 public class DefineSampleObjects extends AbstractWorkflowStep {
 
-	private static final long serialVersionUID = 5845302929371618848L;
+    private static final long serialVersionUID = 5845302929371618848L;
 
-	@Inject
-	private Logger log;
+    @Inject
+    private Logger log;
 
-	/**
-	 * Used to remove unused samples when saving. We need this list because we
-	 * have to remove dependent entries in the Uploads Hashmap in the Experiment
-	 * of every Alternative.
-	 */
-	List<SampleObject> samplesToRemove = new ArrayList<SampleObject>();
+    /**
+     * Used to remove unused samples when saving. We need this list because we
+     * have to remove dependent entries in the Uploads Hashmap in the Experiment
+     * of every Alternative.
+     */
+    List<SampleObject> samplesToRemove = new ArrayList<SampleObject>();
 
-	public DefineSampleObjects() {
-		this.requiredPlanState = PlanState.BASIS_DEFINED;
-		this.correspondingPlanState = PlanState.RECORDS_CHOSEN;
-	}
+    public DefineSampleObjects() {
+        this.requiredPlanState = PlanState.BASIS_DEFINED;
+        this.correspondingPlanState = PlanState.RECORDS_CHOSEN;
+    }
 
-	/*
-	 * public void init(Plan p){ super.init(p);
-	 * 
-	 * try { fits = new FitsIntegration(); } catch (Throwable e) { fits = null;
-	 * log.error("Could not instantiate FITS, it is not configured properly.",
-	 * e); } }
-	 */
+    /*
+     * public void init(Plan p){ super.init(p);
+     * 
+     * try { fits = new FitsIntegration(); } catch (Throwable e) { fits = null;
+     * log.error("Could not instantiate FITS, it is not configured properly.",
+     * e); } }
+     */
 
-	public void saveStepSpecific() {
-		/*
-		 * We need to persist the AlternativesDefinition here first, because
-		 * every SampleObject is used as a key for the Uploads Hashmap in the
-		 * Experiment of every Alternative. Therefore if one SampleObject is
-		 * removed, but still used as a key for the HashMap Hibernate will throw
-		 * error, because of foreign Key Relationship.
-		 * 
-		 * So when SampleObject is removed from the System we remove it from the
-		 * Hashmap too, then Save all Alternatives with the Experiments and
-		 * DigitalObject Hashmaps -> the Sample Recordarg0 to remove is
-		 * referenced nowhere in the project and the SampleRecordDefinition can
-		 * be saved....? Or wait! One thing before that... all the Values
-		 * objects have changed in #removeRecord() and we have to persist these
-		 * as well before deleting the sampleobject. THEN the
-		 * SampleRecordDefinition can be saved.
-		 */
-		/** dont forget to prepare changed entities e.g. set current user */
-		prepareChangesForPersist.prepare(plan);
+    public void saveStepSpecific() {
+        /*
+         * We need to persist the AlternativesDefinition here first, because
+         * every SampleObject is used as a key for the Uploads Hashmap in the
+         * Experiment of every Alternative. Therefore if one SampleObject is
+         * removed, but still used as a key for the HashMap Hibernate will throw
+         * error, because of foreign Key Relationship.
+         * 
+         * So when SampleObject is removed from the System we remove it from the
+         * Hashmap too, then Save all Alternatives with the Experiments and
+         * DigitalObject Hashmaps -> the Sample Recordarg0 to remove is
+         * referenced nowhere in the project and the SampleRecordDefinition can
+         * be saved....? Or wait! One thing before that... all the Values
+         * objects have changed in #removeRecord() and we have to persist these
+         * as well before deleting the sampleobject. THEN the
+         * SampleRecordDefinition can be saved.
+         */
+        /** dont forget to prepare changed entities e.g. set current user */
+        prepareChangesForPersist.prepare(plan);
 
-		saveEntity(plan.getAlternativesDefinition());
+        saveEntity(plan.getAlternativesDefinition());
 
-		for (SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
+        for (SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
 
-			// prep.prepare(record);
-			if (!samplesToRemove.contains(record)) {
-				if (record.getId() == 0) { // the record has not yet been
-					                       // persisted
-					em.persist(record);
-				} else {
-					em.persist(em.merge(record));
-				}
-			}
+            // prep.prepare(record);
+            if (!samplesToRemove.contains(record)) {
+                if (record.getId() == 0) { // the record has not yet been
+                                           // persisted
+                    em.persist(record);
+                } else {
+                    em.persist(em.merge(record));
+                }
+            }
 
-		}
+        }
 
-		// If we removed samples, persist all the Values objects of all leaves
-		// in the tree
-		// - that leads to the orphan VALUE objects to be deleted from the
-		// database.
-		if (samplesToRemove.size() > 0) {
-			for (Leaf l : plan.getTree().getRoot().getAllLeaves()) {
-				for (Alternative a : plan.getAlternativesDefinition().getConsideredAlternatives()) {
-					Values v = l.getValues(a.getName());
-					if (v != null) {
-						em.persist(em.merge(v));
-					} else {
-						log.error("values is NULL: " + l.getName() + ", " + a.getName());
-					}
-				}
-			}
-			// em.flush();
-		}
+        // If we removed samples, persist all the Values objects of all leaves
+        // in the tree
+        // - that leads to the orphan VALUE objects to be deleted from the
+        // database.
+        if (samplesToRemove.size() > 0) {
+            for (Leaf l : plan.getTree().getRoot().getAllLeaves()) {
+                for (Alternative a : plan.getAlternativesDefinition().getConsideredAlternatives()) {
+                    Values v = l.getValues(a.getName());
+                    if (v != null) {
+                        em.persist(em.merge(v));
+                    } else {
+                        log.error("values is NULL: " + l.getName() + ", " + a.getName());
+                    }
+                }
+            }
+            // em.flush();
+        }
 
-		// and don't forget to remove bytestreams of samples too
-		for (SampleObject o : samplesToRemove) {
-			try {
-				bytestreamManager.delete(o.getPid());
-			} catch (StorageException e) {
-				log.error("failed to delete sample: " + o.getPid(), e);
-			}
-		}
+        // and don't forget to remove bytestreams of samples too
+        for (SampleObject o : samplesToRemove) {
+            try {
+                bytestreamManager.delete(o.getPid());
+            } catch (StorageException e) {
+                log.error("failed to delete sample: " + o.getPid(), e);
+            }
+        }
 
-		saveEntity(plan.getSampleRecordsDefinition());
+        saveEntity(plan.getSampleRecordsDefinition());
 
-		samplesToRemove.clear();
-	}
+        samplesToRemove.clear();
+    }
 
-	public SampleObject addSample(String filename, String contentType, byte[] bytestream) throws PlanningException {
-		SampleObject sample = new SampleObject();
-		sample.setFullname(filename);
-		sample.setShortName(filename);
-		sample.setContentType(contentType);
+    public SampleObject addSample(String filename, String contentType, byte[] bytestream) throws PlanningException {
+        SampleObject sample = new SampleObject();
+        sample.setFullname(filename);
+        sample.setShortName(filename);
+        sample.setContentType(contentType);
 
-		ByteStream bsData = new ByteStream();
-		bsData.setData(bytestream);
-		sample.setData(bsData);
-		sample.getData().setSize(bytestream.length);
+        ByteStream bsData = new ByteStream();
+        bsData.setData(bytestream);
+        sample.setData(bsData);
+        sample.getData().setSize(bytestream.length);
 
-		digitalObjectManager.moveDataToStorage(sample);
-		plan.getSampleRecordsDefinition().addRecord(sample);
-		addedBytestreams.add(sample.getPid());
+        digitalObjectManager.moveDataToStorage(sample);
+        plan.getSampleRecordsDefinition().addRecord(sample);
+        addedBytestreams.add(sample.getPid());
 
-		// identify format of newly uploaded samples
-		if (shouldCharacterise(sample)) {
-			// identifyFormat(sample);
-			// describeInXcdl(sample);
-			characteriseFits(sample);
-		}
-		log.debug("Content-Type: " + sample.getContentType());
-		log.debug("Size of samples Array: " + plan.getSampleRecordsDefinition().getRecords().size());
-		log.debug("FileName: " + sample.getFullname());
-		log.debug("Length of File: " + sample.getData().getSize());
-		log.debug("added SampleObject: " + sample.getFullname());
-		log.debug("JHove initialized: " + (sample.getJhoveXMLString() != null));
+        // identify format of newly uploaded samples
+        if (shouldCharacterise(sample)) {
+            // identifyFormat(sample);
+            // describeInXcdl(sample);
+            characteriseFits(sample);
+        }
+        log.debug("Content-Type: " + sample.getContentType());
+        log.debug("Size of samples Array: " + plan.getSampleRecordsDefinition().getRecords().size());
+        log.debug("FileName: " + sample.getFullname());
+        log.debug("Length of File: " + sample.getData().getSize());
+        log.debug("added SampleObject: " + sample.getFullname());
+        log.debug("JHove initialized: " + (sample.getJhoveXMLString() != null));
 
-		return sample;
-	}
+        return sample;
+    }
 
-	/**
-	 * Reads the c3po profile and sets all information that can be parsed to the
-	 * current plan.
-	 * 
-	 * @param stream
-	 *            the input stream to the c3po profile.
-	 * @throws ParserException
-	 *             if the profile cannot be read for some reason.
-	 */
-	public void readProfile(InputStream stream) throws ParserException, PlanningException {
-		ByteStream bsData = new ByteStream();
-		byte[] bytestream = null;
-		try {
-			bytestream = FileUtils.inputStreamToBytes(stream);
-			bsData.setData(bytestream);
-			bsData.setSize(bytestream.length);
-			
-		} catch (IOException e) {
-			log.error("An error occurred while converting the profile stream: {}", e.getMessage());
-			throw new PlanningException("An error occurred while storing the profile");
-		}
-		
-		stream = new ByteArrayInputStream(bytestream);
-		C3POProfileParser parser = new C3POProfileParser();
-		parser.read(stream, false);
-		// if we are here the profile was read successfully
-		String id = parser.getCollectionId();
-		String key = parser.getPartitionFilterKey();
-		String count = parser.getObjectsCountInPartition();
-		String typeOfObjects = parser.getTypeOfObjects();
-		String description = parser.getDescriptionOfObjects();
-		List<SampleObject> samples = parser.getSampleObjects();
+    /**
+     * Reads the c3po profile and sets all information that can be parsed to the
+     * current plan.
+     * 
+     * @param stream
+     *            the input stream to the c3po profile.
+     * @throws ParserException
+     *             if the profile cannot be read for some reason.
+     */
+    public void readProfile(InputStream stream) throws ParserException, PlanningException {
+        ByteStream bsData = new ByteStream();
+        byte[] bytestream = null;
+        try {
+            bytestream = FileUtils.inputStreamToBytes(stream);
+            bsData.setData(bytestream);
+            bsData.setSize(bytestream.length);
 
+        } catch (IOException e) {
+            log.error("An error occurred while converting the profile stream: {}", e.getMessage());
+            throw new PlanningException("An error occurred while storing the profile");
+        }
 
-		DigitalObject object = new DigitalObject();
-		object.setContentType("application/xml");
-		object.setFullname(id + "_" + key + ".xml");
-		object.setData(bsData);
+        stream = new ByteArrayInputStream(bytestream);
+        C3POProfileParser parser = new C3POProfileParser();
+        parser.read(stream, false);
+        // if we are here the profile was read successfully
+        String id = parser.getCollectionId();
+        String key = parser.getPartitionFilterKey();
+        String count = parser.getObjectsCountInPartition();
+        String typeOfObjects = parser.getTypeOfObjects();
+        String description = parser.getDescriptionOfObjects();
+        List<SampleObject> samples = parser.getSampleObjects();
 
-		try {
-			digitalObjectManager.moveDataToStorage(object);
-			plan.getSampleRecordsDefinition().getCollectionProfile().setProfile(object);
-			addedBytestreams.add(object.getPid());
-		} catch (StorageException e) {
-			log.error("An error occurred while storing the profile: {}", e.getMessage());
-			throw new PlanningException("An error occurred while storing the profile");
-		}
+        DigitalObject object = new DigitalObject();
+        object.setContentType("application/xml");
+        object.setFullname(id + "_" + key + ".xml");
+        object.setData(bsData);
 
-		log.info("collection id {}", id);
-		log.info("collection count {}", count);
-		log.info("collection desc: {}", typeOfObjects);
-		log.info("found {} samples", samples.size());
+        try {
+            digitalObjectManager.moveDataToStorage(object);
+            plan.getSampleRecordsDefinition().getCollectionProfile().setProfile(object);
+            addedBytestreams.add(object.getPid());
+        } catch (StorageException e) {
+            log.error("An error occurred while storing the profile: {}", e.getMessage());
+            throw new PlanningException("An error occurred while storing the profile");
+        }
 
-		this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
+        log.info("collection id {}", id);
+        log.info("collection count {}", count);
+        log.info("collection desc: {}", typeOfObjects);
+        log.info("found {} samples", samples.size());
 
-		for (SampleObject sample : samples) {
-			this.plan.getSampleRecordsDefinition().addRecord(sample);
-		}
+        this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
 
-		CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
-		profile.setCollectionID(id + "?" + key);
-		profile.setNumberOfObjects(count);
-		profile.setTypeOfObjects(typeOfObjects);
-		this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
-		this.plan.getSampleRecordsDefinition().touch();
-		this.plan.touch();
+        for (SampleObject sample : samples) {
+            this.plan.getSampleRecordsDefinition().addRecord(sample);
+        }
 
-	}
+        CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
+        profile.setCollectionID(id + "?" + key);
+        profile.setNumberOfObjects(count);
+        profile.setTypeOfObjects(typeOfObjects);
+        this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
+        this.plan.getSampleRecordsDefinition().touch();
+        this.plan.touch();
 
-	/**
-	 * For some objects (such as raw camera files), calling characterisation
-	 * tools is useless and needs resources. This function tells us if we should
-	 * attempt characterisation. TODO Michael please explain!!
-	 * 
-	 * @param sample
-	 *            SampleObject to be checked
-	 * @return true if object should be characterised, false if it's better not
-	 *         to do that
-	 */
-	private boolean shouldCharacterise(SampleObject sample) {
-		String fullName = sample.getFullname();
-		if (fullName.toUpperCase().endsWith(".CR2") || fullName.toUpperCase().endsWith(".NEF")
-		        || fullName.toUpperCase().endsWith(".CRW")) {
-			return false;
-		}
-		return true;
-	}
+    }
 
-	public boolean hasDependetValues(SampleObject sample) {
-		if (sample == null || plan.getSampleRecordsDefinition().getRecords().size() == 0) {
-			return true;
-		}
+    /**
+     * For some objects (such as raw camera files), calling characterisation
+     * tools is useless and needs resources. This function tells us if we should
+     * attempt characterisation. TODO Michael please explain!!
+     * 
+     * @param sample
+     *            SampleObject to be checked
+     * @return true if object should be characterised, false if it's better not
+     *         to do that
+     */
+    private boolean shouldCharacterise(SampleObject sample) {
+        String fullName = sample.getFullname();
+        if (fullName.toUpperCase().endsWith(".CR2") || fullName.toUpperCase().endsWith(".NEF")
+            || fullName.toUpperCase().endsWith(".CRW")) {
+            return false;
+        }
+        return true;
+    }
 
-		int rec[] = { plan.getSampleRecordsDefinition().getRecords().indexOf(sample) };
+    public boolean hasDependetValues(SampleObject sample) {
+        if (sample == null || plan.getSampleRecordsDefinition().getRecords().size() == 0) {
+            return true;
+        }
 
-		// we need to construct the list of all altenative names because the
-		// tree doesnt know it
-		Set<String> alternatives = new HashSet<String>();
-		for (Alternative a : plan.getAlternativesDefinition().getConsideredAlternatives()) {
-			alternatives.add(a.getName());
-		}
+        int rec[] = {plan.getSampleRecordsDefinition().getRecords().indexOf(sample)};
 
-		return plan.getTree().hasValues(rec, alternatives);
-	}
+        // we need to construct the list of all altenative names because the
+        // tree doesnt know it
+        Set<String> alternatives = new HashSet<String>();
+        for (Alternative a : plan.getAlternativesDefinition().getConsideredAlternatives()) {
+            alternatives.add(a.getName());
+        }
 
-	public void removeSample(SampleObject sample) {
-		samplesToRemove.add(sample);
-		plan.removeSampleObject(sample);
-	}
+        return plan.getTree().hasValues(rec, alternatives);
+    }
+
+    public void removeSample(SampleObject sample) {
+        samplesToRemove.add(sample);
+        plan.removeSampleObject(sample);
+    }
 }

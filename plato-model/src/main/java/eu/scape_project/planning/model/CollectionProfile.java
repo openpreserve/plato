@@ -17,6 +17,7 @@
 package eu.scape_project.planning.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -161,5 +162,12 @@ public class CollectionProfile implements Serializable {
      */
     public void setProfile(DigitalObject profile) {
 	    this.profileDigitalObject = profile;
+    }
+    
+    public List<String> getObjectIdentifiers() {
+        String pid = this.profileDigitalObject.getPid();
+        
+        
+        return null;
     }
 }

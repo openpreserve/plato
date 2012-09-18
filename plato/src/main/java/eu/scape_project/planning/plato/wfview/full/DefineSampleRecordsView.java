@@ -57,209 +57,209 @@ import eu.scape_project.planning.utils.ParserException;
 @Named("defineSampleRecords")
 @ConversationScoped
 public class DefineSampleRecordsView extends AbstractView {
-	private static final long serialVersionUID = 1982741879942387660L;
+    private static final long serialVersionUID = 1982741879942387660L;
 
-	@Inject
-	private Logger log;
+    @Inject
+    private Logger log;
 
-	@Inject
-	private User user;
+    @Inject
+    private User user;
 
-	@Inject
-	private DefineSampleObjects defineSamples;
+    @Inject
+    private DefineSampleObjects defineSamples;
 
-	@Inject
-	private ByteStreamManager bytestreamManager;
+    @Inject
+    private ByteStreamManager bytestreamManager;
 
-	@Inject
-	private PlanManager planManager;
+    @Inject
+    private PlanManager planManager;
 
-	@Inject
-	private FacesMessages facesMessages;
+    @Inject
+    private FacesMessages facesMessages;
 
-	@Inject
-	private Downloader downloader;
+    @Inject
+    private Downloader downloader;
 
-	/**
-	 * Currently selected sample object. It determines which object is used for
-	 * fits-xml-popup, etc.
-	 */
-	private SampleObject selectedSampleObject;
+    /**
+     * Currently selected sample object. It determines which object is used for
+     * fits-xml-popup, etc.
+     */
+    private SampleObject selectedSampleObject;
 
-	/**
-	 * this determines the behaviour of the remove-buttons on the pag (see
-	 * there) - to remove sample samples from the list
-	 */
-	private int allowRemove = -1;
+    /**
+     * this determines the behaviour of the remove-buttons on the pag (see
+     * there) - to remove sample samples from the list
+     */
+    private int allowRemove = -1;
 
-	public DefineSampleRecordsView() {
-		currentPlanState = PlanState.BASIS_DEFINED;
-		name = "Define Sample Objects";
-		viewUrl = "/plan/definesamples.jsf";
-		group = "menu.defineRequirements";
-		selectedSampleObject = null;
-	}
+    public DefineSampleRecordsView() {
+        currentPlanState = PlanState.BASIS_DEFINED;
+        name = "Define Sample Objects";
+        viewUrl = "/plan/definesamples.jsf";
+        group = "menu.defineRequirements";
+        selectedSampleObject = null;
+    }
 
-	@Override
-	public void init(Plan plan) {
-		super.init(plan);
-		allowRemove = -1;
-	}
+    @Override
+    public void init(final Plan plan) {
+        super.init(plan);
+        allowRemove = -1;
+    }
 
-	protected boolean needsClearEm() {
-		return true;
-	}
+    protected boolean needsClearEm() {
+        return true;
+    }
 
-	public List<SampleObject> getSamples() {
-		List<SampleObject> samples = plan.getSampleRecordsDefinition().getRecords();
-		if (samples.size() == 0) {
-			return null;
-		} else {
-			return samples;
-		}
-	}
+    public List<SampleObject> getSamples() {
+        List<SampleObject> samples = plan.getSampleRecordsDefinition().getRecords();
+        if (samples.size() == 0) {
+            return null;
+        } else {
+            return samples;
+        }
+    }
 
-	public SampleRecordsDefinition getSampleRecordsDefintion() {
-		return plan.getSampleRecordsDefinition();
-	}
+    public SampleRecordsDefinition getSampleRecordsDefintion() {
+        return plan.getSampleRecordsDefinition();
+    }
 
-	/**
-	 * Uploads a file into a newly created sample sample and adds this sample
-	 * sample to the list in the project.
-	 * 
-	 * @return
-	 */
-	public void listener(FileUploadEvent event) throws Exception {
-		UploadedFile item = event.getUploadedFile();
-		String fileName = item.getName();
+    /**
+     * Uploads a file into a newly created sample sample and adds this sample
+     * sample to the list in the project.
+     * 
+     * @return
+     */
+    public void listener(final FileUploadEvent event) throws Exception {
+        UploadedFile item = event.getUploadedFile();
+        String fileName = item.getName();
 
-		try {
+        try {
 
-			defineSamples.addSample(fileName, item.getContentType(),
-			        FileUtils.inputStreamToBytes(item.getInputStream()));
+            defineSamples.addSample(fileName, item.getContentType(),
+                FileUtils.inputStreamToBytes(item.getInputStream()));
 
-		} catch (Exception e) {
-			log.error("failed to add sample object.", e);
-			facesMessages.addError("Failed to add sample object.");
-		}
-		System.gc();
-	}
+        } catch (Exception e) {
+            log.error("failed to add sample object.", e);
+            facesMessages.addError("Failed to add sample object.");
+        }
+        System.gc();
+    }
 
-	public void uploadCollectionProfile(FileUploadEvent event) {
-		UploadedFile item = event.getUploadedFile();
-		String fileName = item.getName();
-		log.debug("Collection Profile file [{}] uploaded", fileName);
+    public void uploadCollectionProfile(final FileUploadEvent event) {
+        UploadedFile item = event.getUploadedFile();
+        String fileName = item.getName();
+        log.debug("Collection Profile file [{}] uploaded", fileName);
 
-		if (!fileName.endsWith(".xml")) {
-			log.warn("The uploaded file [{}] is not an xml file", fileName);
-			facesMessages.addError("The uploaded file is not an xml");
-			return;
-		}
+        if (!fileName.endsWith(".xml")) {
+            log.warn("The uploaded file [{}] is not an xml file", fileName);
+            facesMessages.addError("The uploaded file is not an xml");
+            return;
+        }
 
-		try {
-			this.defineSamples.readProfile(item.getInputStream());
-			
-		} catch (ParserException e) {
-			log.warn("An error occurred during parsing: {}", e.getMessage());
-			this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
-		} catch (PlanningException e) {
-			log.warn("An error occurred furing parsing: {}", e.getMessage());
-			this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
-		} catch (IOException e) {
-			log.warn("An error occurred while opening the input stream: {}", e.getMessage());
-			this.facesMessages.addError("An error occurred, while reading the file. Please try again");
-		}
-	}
+        try {
+            this.defineSamples.readProfile(item.getInputStream());
 
-	/**
-	 * Adds a new sample to the list of sample samples in the project. This is a
-	 * sample sample without data.
-	 */
-	public String newSample() {
-		SampleObject newSample = new SampleObject();
+        } catch (ParserException e) {
+            log.warn("An error occurred during parsing: {}", e.getMessage());
+            this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
+        } catch (PlanningException e) {
+            log.warn("An error occurred furing parsing: {}", e.getMessage());
+            this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
+        } catch (IOException e) {
+            log.warn("An error occurred while opening the input stream: {}", e.getMessage());
+            this.facesMessages.addError("An error occurred, while reading the file. Please try again");
+        }
+    }
 
-		plan.getSampleRecordsDefinition().addRecord(newSample);
-		// this SampleRecordsDefinition has been changed
-		plan.getSampleRecordsDefinition().touch();
+    /**
+     * Adds a new sample to the list of sample samples in the project. This is a
+     * sample sample without data.
+     */
+    public String newSample() {
+        SampleObject newSample = new SampleObject();
 
-		return null;
-	}
+        plan.getSampleRecordsDefinition().addRecord(newSample);
+        // this SampleRecordsDefinition has been changed
+        plan.getSampleRecordsDefinition().touch();
 
-	/**
-	 * Removes a sample from the list of samplerecords in the project AND also
-	 * removes all associated:
-	 * <ul>
-	 * <li>evaluation values contained in the tree</li>
-	 * <li>experiment results and their xcdl-files</li>
-	 * </ul>
-	 * - if there are any.
-	 */
-	public String removeSample(SampleObject sample) {
-		log.info("Removing SampleObject from Plan: " + sample.getFullname());
-		defineSamples.removeSample(sample);
-		allowRemove = -1;
-		return null;
-	}
+        return null;
+    }
 
-	public void characteriseFits(SampleObject object) {
-		defineSamples.characteriseFits(object);
-	}
+    /**
+     * Removes a sample from the list of samplerecords in the project AND also
+     * removes all associated:
+     * <ul>
+     * <li>evaluation values contained in the tree</li>
+     * <li>experiment results and their xcdl-files</li>
+     * </ul>
+     * - if there are any.
+     */
+    public String removeSample(final SampleObject sample) {
+        log.info("Removing SampleObject from Plan: " + sample.getFullname());
+        defineSamples.removeSample(sample);
+        allowRemove = -1;
+        return null;
+    }
 
-	/**
-	 * Method responsible for setting the selected SampleObject.
-	 * 
-	 * @param sampleObj
-	 *            Sample object to select.
-	 */
-	public void selectSampleObject(SampleObject sampleObj) {
-		this.selectedSampleObject = sampleObj;
-		log.debug("Selected sample object " + sampleObj.getFullname());
-	}
+    public void characteriseFits(final SampleObject object) {
+        defineSamples.characteriseFits(object);
+    }
 
-	/**
-	 * checks if the sample contains evaluation values. If yes, the user should
-	 * be asked for confirmation before removing it. If not, the sample is
-	 * removed. *
-	 * 
-	 * @see ObjectiveTree#hasValues(int[],Alternative)
-	 * 
-	 * @return always returns null
-	 */
-	public String askRemoveSample(SampleObject sample) {
-		if (defineSamples.hasDependetValues(sample)) {
-			allowRemove = sample.getId();
-		} else {
-			removeSample(sample);
-		}
+    /**
+     * Method responsible for setting the selected SampleObject.
+     * 
+     * @param sampleObj
+     *            Sample object to select.
+     */
+    public void selectSampleObject(final SampleObject sampleObj) {
+        this.selectedSampleObject = sampleObj;
+        log.debug("Selected sample object " + sampleObj.getFullname());
+    }
 
-		return null;
-	}
+    /**
+     * checks if the sample contains evaluation values. If yes, the user should
+     * be asked for confirmation before removing it. If not, the sample is
+     * removed. *
+     * 
+     * @see ObjectiveTree#hasValues(int[],Alternative)
+     * 
+     * @return always returns null
+     */
+    public String askRemoveSample(final SampleObject sample) {
+        if (defineSamples.hasDependetValues(sample)) {
+            allowRemove = sample.getId();
+        } else {
+            removeSample(sample);
+        }
 
-	public int getAllowRemove() {
-		return allowRemove;
-	}
+        return null;
+    }
 
-	/**
-	 * Starts a download for the given digital object. Uses
-	 * {@link eu.scape_project.planning.util.Downloader} to perform the
-	 * download.
-	 */
-	public void download(DigitalObject object) {
-		File file = bytestreamManager.getTempFile(object.getPid());
-		downloader.download(object, file);
-	}
+    public int getAllowRemove() {
+        return allowRemove;
+    }
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return defineSamples;
-	}
+    /**
+     * Starts a download for the given digital object. Uses
+     * {@link eu.scape_project.planning.util.Downloader} to perform the
+     * download.
+     */
+    public void download(final DigitalObject object) {
+        File file = bytestreamManager.getTempFile(object.getPid());
+        downloader.download(object, file);
+    }
 
-	public SampleObject getSelectedSampleObject() {
-		return selectedSampleObject;
-	}
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return defineSamples;
+    }
 
-	public void setSelectedSampleObject(SampleObject selectedSampleObject) {
-		this.selectedSampleObject = selectedSampleObject;
-	}
+    public SampleObject getSelectedSampleObject() {
+        return selectedSampleObject;
+    }
+
+    public void setSelectedSampleObject(final SampleObject selectedSampleObject) {
+        this.selectedSampleObject = selectedSampleObject;
+    }
 
 }
