@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.api.RepositoryConnectorApi;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
@@ -40,8 +41,11 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.repository.RODAConnector;
 import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.utils.Helper;
 import eu.scape_project.planning.utils.ParserException;
+import eu.scape_project.planning.utils.RepositoryConnectorException;
 import eu.scape_project.planning.xml.C3POProfileParser;
 
 /**
@@ -188,21 +192,18 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
      *             if the profile cannot be read for some reason.
      */
     public void readProfile(InputStream stream) throws ParserException, PlanningException {
-        ByteStream bsData = new ByteStream();
-        byte[] bytestream = null;
-        try {
-            bytestream = FileUtils.inputStreamToBytes(stream);
-            bsData.setData(bytestream);
-            bsData.setSize(bytestream.length);
+        log.info("Pre-processing profile information");
 
-        } catch (IOException e) {
-            log.error("An error occurred while converting the profile stream: {}", e.getMessage());
+        ByteStream bsData = this.convertToByteStream(stream);
+        if (bsData == null) {
             throw new PlanningException("An error occurred while storing the profile");
         }
 
-        stream = new ByteArrayInputStream(bytestream);
+        log.info("Parsing profile information");
+        stream = new ByteArrayInputStream(bsData.getData());
         C3POProfileParser parser = new C3POProfileParser();
         parser.read(stream, false);
+
         // if we are here the profile was read successfully
         String id = parser.getCollectionId();
         String key = parser.getPartitionFilterKey();
@@ -210,11 +211,64 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         String typeOfObjects = parser.getTypeOfObjects();
         String description = parser.getDescriptionOfObjects();
         List<SampleObject> samples = parser.getSampleObjects();
+        String name = id + "_" + key + ".xml";
 
+        log.info("Storing profile");
+        this.storeProfile(name, bsData);
+
+        log.info("processing sample objects information");
+        RepositoryConnectorApi roda = new RODAConnector();
+        this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
+        this.processSamples(roda, samples);
+
+        CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
+        profile.setCollectionID(id + "?" + key);
+        profile.setNumberOfObjects(count);
+        profile.setTypeOfObjects(typeOfObjects);
+        this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
+        this.plan.getSampleRecordsDefinition().touch();
+        this.plan.touch();
+
+    }
+
+    /**
+     * Converts the input stream object to a {@link ByteStream} wrapper.
+     * 
+     * @param stream
+     *            the stream to wrap.
+     * @return the new {@link ByteStream} or null if an error occurred.
+     */
+    private ByteStream convertToByteStream(InputStream stream) {
+        ByteStream bsData = null;
+        byte[] bytes = null;
+        try {
+            bytes = FileUtils.inputStreamToBytes(stream);
+            bsData = new ByteStream();
+            bsData.setData(bytes);
+            bsData.setSize(bytes.length);
+        } catch (IOException e) {
+            log.error("An error occurred while converting the stream: {}", e.getMessage());
+        }
+
+        return bsData;
+    }
+
+    /**
+     * Creates a {@link DigitalObject} with the given name from the profile and
+     * stores it within this plato instance.
+     * 
+     * @param name
+     *            the name of the profile file.
+     * @param profile
+     *            the profile {@link ByteStream} object.
+     * @throws PlanningException
+     *             if an error occurrs during storage.
+     */
+    private void storeProfile(String name, ByteStream profile) throws PlanningException {
         DigitalObject object = new DigitalObject();
         object.setContentType("application/xml");
-        object.setFullname(id + "_" + key + ".xml");
-        object.setData(bsData);
+        object.setFullname(name);
+        object.setData(profile);
 
         try {
             digitalObjectManager.moveDataToStorage(object);
@@ -224,25 +278,34 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
             log.error("An error occurred while storing the profile: {}", e.getMessage());
             throw new PlanningException("An error occurred while storing the profile");
         }
+    }
 
-        log.info("collection id {}", id);
-        log.info("collection count {}", count);
-        log.info("collection desc: {}", typeOfObjects);
-        log.info("found {} samples", samples.size());
-
-        this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
-
+    /**
+     * Marks the passed samples for storage and examines if they come from a
+     * RODA instance. If yes, then the Data is downloaded using the
+     * {@link RODAConnector}.
+     * 
+     * @param samples
+     *            the samples to process.
+     */
+    private void processSamples(RepositoryConnectorApi repo, List<SampleObject> samples) {
         for (SampleObject sample : samples) {
+            String uid = sample.getFullname();
+
+            if (Helper.isRODAidentifier(uid)) {
+                log.info("Sample object is from a RODA instance. Downloading {}", uid);
+                try {
+                    InputStream sampleStream = repo.downloadFile(uid);
+                    ByteStream bsSample = this.convertToByteStream(sampleStream);
+                    sample.setData(bsSample);
+
+                } catch (RepositoryConnectorException e) {
+                    log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
+                }
+            }
+
             this.plan.getSampleRecordsDefinition().addRecord(sample);
         }
-
-        CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
-        profile.setCollectionID(id + "?" + key);
-        profile.setNumberOfObjects(count);
-        profile.setTypeOfObjects(typeOfObjects);
-        this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
-        this.plan.getSampleRecordsDefinition().touch();
-        this.plan.touch();
 
     }
 

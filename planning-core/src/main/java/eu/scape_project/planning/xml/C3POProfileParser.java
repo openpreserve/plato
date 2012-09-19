@@ -211,7 +211,7 @@ public class C3POProfileParser {
         Element samples = this.profile.getRootElement().element("partition").element("samples");
         for (Object s : samples.elements()) {
             Element sample = (Element) s;
-            objects.add(this.parserSample(sample));
+            objects.add(this.parseSample(sample));
         }
 
         return objects;
@@ -239,7 +239,7 @@ public class C3POProfileParser {
         return uris;
     }
 
-    private SampleObject parserSample(Element sample) {
+    private SampleObject parseSample(Element sample) {
         SampleObject object = new SampleObject();
 
         String uid = sample.attributeValue("uid");
