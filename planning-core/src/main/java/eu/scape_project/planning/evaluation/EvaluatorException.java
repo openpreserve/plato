@@ -18,9 +18,9 @@ package eu.scape_project.planning.evaluation;
 
 public class EvaluatorException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public EvaluatorException() {
+    public EvaluatorException() {
     }
 
     public EvaluatorException(String arg0) {

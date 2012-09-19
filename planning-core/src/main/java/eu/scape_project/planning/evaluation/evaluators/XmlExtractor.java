@@ -42,18 +42,19 @@ import eu.scape_project.planning.model.scales.Scale;
 import eu.scape_project.planning.model.values.Value;
 
 /**
- * This is a generic helper class that takes an XPath expression and uses
- * it to search a specified XML and extract a @link {@link Value} 
+ * This is a generic helper class that takes an XPath expression and uses it to
+ * search a specified XML and extract a @link {@link Value}
+ * 
  * @author cb
- *
+ * 
  */
 public class XmlExtractor implements Serializable {
-	private static final long serialVersionUID = -8844757294292266759L;
+    private static final long serialVersionUID = -8844757294292266759L;
 
-	private static Logger log = LoggerFactory.getLogger(XmlExtractor.class);
-			
+    private static Logger log = LoggerFactory.getLogger(XmlExtractor.class);
+
     private NamespaceContext namespaceContext;
-    
+
     public NamespaceContext getNamespaceContext() {
         return namespaceContext;
     }
@@ -65,43 +66,33 @@ public class XmlExtractor implements Serializable {
     public Value extractValue(Document xml, Scale scale, String xpath, String commentXPath) {
         try {
             Document pcdlDoc = xml;
-            String text = extractTextInternal(pcdlDoc,xpath);
+            String text = extractTextInternal(pcdlDoc, xpath);
             Value v = scale.createValue();
             v.parse(text);
             if (commentXPath != null) {
-                String comment = extractTextInternal(pcdlDoc,commentXPath);
+                String comment = extractTextInternal(pcdlDoc, commentXPath);
                 v.setComment(comment);
             }
             return v;
-            
+
         } catch (Exception e) {
-            log.error(
-                    "Could not parse XML " +
-                    " searching for path "+xpath+
-                    ": "+e.getMessage(),
-                    e);  
+            log.error("Could not parse XML " + " searching for path " + xpath + ": " + e.getMessage(), e);
             return null;
-        } 
+        }
     }
-    
+
     public String extractText(Document xml, String xpath) {
         try {
             Document pcdlDoc = xml;
-            String text = extractTextInternal(pcdlDoc,xpath);
+            String text = extractTextInternal(pcdlDoc, xpath);
             return text;
         } catch (Exception e) {
-            log.error(
-                    "Could not parse XML " +
-                    " searching for path "+xpath+
-                    ": "+e.getMessage(),
-                    e);  
+            log.error("Could not parse XML " + " searching for path " + xpath + ": " + e.getMessage(), e);
             return null;
-        }         
+        }
     }
-    
 
-    public Document getDocument(InputSource xml)
-            throws ParserConfigurationException, SAXException, IOException {
+    public Document getDocument(InputSource xml) throws ParserConfigurationException, SAXException, IOException {
         // extract value via XPath
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true); // never forget this!
@@ -109,13 +100,15 @@ public class XmlExtractor implements Serializable {
         Document pcdlDoc = builder.parse(xml);
         return pcdlDoc;
     }
-    
+
     public Value extractAttributeValue() {
         return null;
     }
-    
+
     /**
-     * very useful: {@link http://www.ibm.com/developerworks/library/x-javaxpathapi.html}
+     * very useful: {@link http
+     * ://www.ibm.com/developerworks/library/x-javaxpathapi.html}
+     * 
      * @param doc
      * @param path
      * @param scale
@@ -125,12 +118,11 @@ public class XmlExtractor implements Serializable {
      * @throws IOException
      * @throws XPathExpressionException
      */
-    private  String extractTextInternal(Document doc, String path) 
-    throws ParserConfigurationException, SAXException, IOException, XPathExpressionException 
-    {
-       
+    private String extractTextInternal(Document doc, String path) throws ParserConfigurationException, SAXException,
+        IOException, XPathExpressionException {
+
         XPathFactory factory = XPathFactory.newInstance();
-        
+
         XPath xpath = factory.newXPath();
         xpath.setNamespaceContext(namespaceContext);
         XPathExpression expr = xpath.compile(path);
@@ -138,40 +130,36 @@ public class XmlExtractor implements Serializable {
             String result = (String) expr.evaluate(doc, XPathConstants.STRING);
             return result;
         } catch (Exception e) {
-            log.error("XML extraction for path "+path+" failed: "+e.getMessage(),e);
-            return "XML extraction for path "+path+" failed: "+e.getMessage();
+            log.error("XML extraction for path " + path + " failed: " + e.getMessage(), e);
+            return "XML extraction for path " + path + " failed: " + e.getMessage();
         }
     }
 
     public HashMap<String, String> extractValues(Document xml, String path) {
         try {
             HashMap<String, String> resultMap = new HashMap<String, String>();
-            
+
             XPathFactory factory = XPathFactory.newInstance();
-            
+
             XPath xpath = factory.newXPath();
             xpath.setNamespaceContext(namespaceContext);
             XPathExpression expr = xpath.compile(path);
-            
-            NodeList list = (NodeList) expr.evaluate(xml,  XPathConstants.NODESET);
+
+            NodeList list = (NodeList) expr.evaluate(xml, XPathConstants.NODESET);
             if (list != null) {
                 for (int i = 0; i < list.getLength(); i++) {
                     Node n = list.item(i);
                     String content = n.getTextContent();
                     if (content != null) {
-                        resultMap.put(n.getLocalName(), content);    
+                        resultMap.put(n.getLocalName(), content);
                     }
                 }
             }
             return resultMap;
         } catch (Exception e) {
-            log.error(
-                    "Could not parse XML " +
-                    " searching for path "+path+
-                    ": "+e.getMessage(),
-                    e);  
+            log.error("Could not parse XML " + " searching for path " + path + ": " + e.getMessage(), e);
             return null;
-        } 
+        }
     }
-    
+
 }

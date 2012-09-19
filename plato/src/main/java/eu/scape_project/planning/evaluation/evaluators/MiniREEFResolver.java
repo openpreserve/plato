@@ -29,31 +29,28 @@ public class MiniREEFResolver implements Serializable {
     private static MiniREEFResolver reefResolver;
 
     private MiniREEF reef;
-    
 
     private MiniREEFResolver() {
         reef = new MiniREEF();
         URL modelURL = Thread.currentThread().getContextClassLoader().getResource("data/p2/p2unified.rdf");
         reef.addModel(modelURL.getFile());
         reef.addReasoning();
-        
     }
+
     public static MiniREEFResolver getInstance() {
-        if (reefResolver == null ) {
+        if (reefResolver == null) {
             reefResolver = new MiniREEFResolver();
         }
         return reefResolver;
     }
-    
+
     public ResultSet resolve(String statement, Map<String, String> params) {
         for (String key : params.keySet()) {
             // parameters have to be wrapped
             statement = statement.replace("$" + key + "$", params.get(key));
         }
-        
+
         return reef.resolve(statement);
     }
-    
-    
-    
+
 }

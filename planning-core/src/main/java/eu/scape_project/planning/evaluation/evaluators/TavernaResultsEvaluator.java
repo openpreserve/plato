@@ -25,14 +25,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.scape_project.planning.evaluation.EvaluatorBase;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
-import eu.scape_project.planning.model.scales.Scale;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 import eu.scape_project.planning.model.values.Value;
 
@@ -45,14 +43,12 @@ import eu.scape_project.planning.model.values.Value;
  * @author cb
  * 
  */
-public class TavernaResultsEvaluator extends EvaluatorBase implements IObjectEvaluator {
+public class TavernaResultsEvaluator implements IObjectEvaluator {
     private static Logger log = LoggerFactory.getLogger(TavernaResultsEvaluator.class);
 
     private Map<String, String> criterionPorts = new HashMap<String, String>();
 
     public TavernaResultsEvaluator() {
-        // load information about measurements
-        loadMeasurementsDescription("data/evaluation/measurementsConsolidated.xml");
     }
 
     private String encodeCriterionPorts(String measureUri) {
@@ -85,23 +81,21 @@ public class TavernaResultsEvaluator extends EvaluatorBase implements IObjectEva
             // uri = scape://criterion#123
             if (OBJECT_FORMAT_RELATIVEFILESIZE.equals(measureUri)) {
                 if (result != null) {
-                    Scale scale = descriptor.getMeasurementScale(measureUri);
                     // evaluate here
-                    PositiveFloatValue v = (PositiveFloatValue) scale.createValue();
+                    PositiveFloatValue v = new PositiveFloatValue();
                     double d = ((double) result.getData().getSize()) / sample.getData().getSize() * 100;
                     long l = Math.round(d);
                     d = ((double) l) / 100;
                     v.setValue(d);
                     results.put(measureUri, v);
-                    listener.updateStatus(String.format("Objectevaluator: evaluated measurement: %s = %s",
-                        measureUri, v.toString()));
+                    listener.updateStatus(String.format("Objectevaluator: evaluated measurement: %s = %s", measureUri,
+                        v.toString()));
                 }
             }
         }
         measureUris.removeAll(results.keySet());
         FITSEvaluator fitsEval = new FITSEvaluator();
-        HashMap<String, Value> fitsResults = fitsEval.evaluate(alternative, sample, result, measureUris,
-            listener);
+        HashMap<String, Value> fitsResults = fitsEval.evaluate(alternative, sample, result, measureUris, listener);
         fitsResults.putAll(results);
 
         return fitsResults;

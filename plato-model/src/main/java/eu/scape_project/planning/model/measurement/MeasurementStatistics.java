@@ -25,30 +25,33 @@ import eu.scape_project.planning.model.values.INumericValue;
 public class MeasurementStatistics implements Serializable {
     private static final long serialVersionUID = 1588887112971264736L;
 
-    public static ToolExperience generateToolExperience(Map<String,DetailedExperimentInfo> detailedInfos){
+    public static ToolExperience generateToolExperience(Map<String, DetailedExperimentInfo> detailedInfos) {
         ToolExperience toolExp = new ToolExperience();
         for (DetailedExperimentInfo info : detailedInfos.values()) {
             /* put measurements of sample files to toolExp */
             for (Measurement m : info.getMeasurements().values()) {
-               /* for calculating the average only numeric measurements are of interest 
-                  but we need the list of all available properties to write statistics to files */
-               toolExp.addMeasurement(m);
+                /*
+                 * for calculating the average only numeric measurements are of
+                 * interest but we need the list of all available properties to
+                 * write statistics to files
+                 */
+                toolExp.addMeasurement(m);
             }
         }
         return toolExp;
     }
-    
-    public static DetailedExperimentInfo getAverage(ToolExperience toolExp){
+
+    public static DetailedExperimentInfo getAverage(ToolExperience toolExp) {
         DetailedExperimentInfo averages = new DetailedExperimentInfo();
-        for(String key:toolExp.getMeasurements().keySet()) {
+        for (String key : toolExp.getMeasurements().keySet()) {
             /* average can only calculated of numeric values */
-            if (toolExp.getMeasurements().get(key). getList().get(0).getValue() instanceof INumericValue) {
-               Measurement m = toolExp.getAverage(key);
-               if (!Double.isInfinite(((INumericValue)m.getValue()).value()))
-                  averages.getMeasurements().put(key, m);
+            if (toolExp.getMeasurements().get(key).getList().get(0).getValue() instanceof INumericValue) {
+                Measurement m = toolExp.getAverage(key);
+                if (!Double.isInfinite(((INumericValue) m.getValue()).value()))
+                    averages.getMeasurements().put(key, m);
             }
         }
         return averages;
     }
-    
+
 }

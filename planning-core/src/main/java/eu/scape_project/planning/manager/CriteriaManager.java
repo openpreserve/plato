@@ -40,12 +40,13 @@ import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.Measure;
 
 /**
- * For administration of metrics, measurable properties and criteria
- * This should be the interface to a Measurement Property Registry (MPR)
- * - the registry should be queried for all measurement entities
- * - this would prevent entities being overwritten by accident, and ease notification on changed entities
- * - changes to already known entities should trigger events for preservation watch 
- *  
+ * For administration of metrics, measurable properties and criteria This should
+ * be the interface to a Measurement Property Registry (MPR) - the registry
+ * should be queried for all measurement entities - this would prevent entities
+ * being overwritten by accident, and ease notification on changed entities -
+ * changes to already known entities should trigger events for preservation
+ * watch
+ * 
  * @author kraxner
  */
 @Singleton
@@ -55,27 +56,31 @@ import eu.scape_project.planning.model.measurement.Measure;
 public class CriteriaManager implements Serializable {
     private static final long serialVersionUID = -2305838596050068452L;
 
-    @Inject private Logger log;
-    
+    @Inject
+    private Logger log;
+
     @PersistenceContext
     private EntityManager em;
-    
-	public CriteriaManager() {
+
+    public CriteriaManager() {
     }
-    
+
     /**
-     * cache for lookup of all currently known criteria by their id (propertyId#metricId)
+     * cache for lookup of all currently known criteria by their id
+     * (propertyId#metricId)
      */
     private Map<String, Measure> knownMeasures = new HashMap<String, Measure>();
 
     /**
-     * cache for lookup of all currently known MeasurableProperties by their propertyId
+     * cache for lookup of all currently known MeasurableProperties by their
+     * propertyId
      */
     private Map<String, Attribute> knownProperties = new HashMap<String, Attribute>();
 
     /**
-     * Returns a list of all known criteria
-     * IMPORTANT: this list MUST NOT be altered!  
+     * Returns a list of all known criteria IMPORTANT: this list MUST NOT be
+     * altered!
+     * 
      * @return
      */
     @Lock(LockType.READ)
@@ -84,8 +89,9 @@ public class CriteriaManager implements Serializable {
     }
 
     /**
-     * returns a list of all known properties
-     * IMPORTANT: this list MUST NOT be altered!
+     * returns a list of all known properties IMPORTANT: this list MUST NOT be
+     * altered!
+     * 
      * @return
      */
     @Lock(LockType.READ)
@@ -93,20 +99,20 @@ public class CriteriaManager implements Serializable {
         return knownProperties.values();
     }
 
-
     /**
      * Returns the criterion for the given criterionUri
+     * 
      * @param uri
      * @return
      */
     @Lock(LockType.READ)
     public Measure getMeasure(String measureUri) {
-    	for (Measure measure : knownMeasures.values()) {
-    		if (measure.getUri().equals(measureUri)) {
-    			return measure; 
-    		}
-    	}
-    	return null;
+        for (Measure measure : knownMeasures.values()) {
+            if (measure.getUri().equals(measureUri)) {
+                return measure;
+            }
+        }
+        return null;
     }
 
     /**
@@ -114,34 +120,37 @@ public class CriteriaManager implements Serializable {
      */
     private void load() {
     }
-    
+
     /**
      * FIXME: reload from RDF
      * 
-     * Reads the XML file from {@link #DESCRIPTOR_FILE} and adds the contained criteria to the database.
-     * For criteria that already exist in the database (as designated by URI), the information is updated. 
+     * Reads the XML file from {@link #DESCRIPTOR_FILE} and adds the contained
+     * criteria to the database. For criteria that already exist in the database
+     * (as designated by URI), the information is updated.
+     * 
      * @see eu.scape_project.planning.application.ICriteriaManager#reload()
-     * ATTENTION:
-     * From all available CRUD operation only CReate and Update are covered. Delete operations are not executed.
-     * Thus, if you have deleted Properties in your XML they are not deleted in database as well.
+     *      ATTENTION: From all available CRUD operation only CReate and Update
+     *      are covered. Delete operations are not executed. Thus, if you have
+     *      deleted Properties in your XML they are not deleted in database as
+     *      well.
      */
     @Lock(LockType.WRITE)
     public void reload() {
-    
+
     }
-    
+
     // Method used for testing purposes (mocking the EntityManager)
     public void setEm(EntityManager em) {
         this.em = em;
     }
-    
-    @PostConstruct 
+
+    @PostConstruct
     public void init() {
         load();
         if (knownMeasures.isEmpty()) {
             reload();
         }
-        
+
     }
 
     @Remove

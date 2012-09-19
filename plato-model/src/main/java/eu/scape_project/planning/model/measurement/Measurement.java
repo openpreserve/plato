@@ -38,46 +38,49 @@ public class Measurement implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    
+
     private String measureId;
-    
-    @ManyToOne(cascade=CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Value value;
-    
+
     public Measurement() {
-        
+
     }
-    
+
     public Measurement(String measureId, String value) {
-    	this.measureId = measureId;
-    	this.value = new FreeStringValue();
-        ((FreeStringValue)this.value).setValue(value);
+        this.measureId = measureId;
+        this.value = new FreeStringValue();
+        ((FreeStringValue) this.value).setValue(value);
     }
-    
+
     public Measurement(String measureId, double value) {
-    	this.measureId = measureId;
-    	this.value = new PositiveFloatValue();
-        ((PositiveFloatValue)this.value).setValue(value);
+        this.measureId = measureId;
+        this.value = new PositiveFloatValue();
+        ((PositiveFloatValue) this.value).setValue(value);
     }
-    
+
     public Value getValue() {
         return value;
     }
+
     public void setValue(Value value) {
         this.value = value;
     }
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
 
-	public String getMeasureId() {
-		return measureId;
-	}
+    public String getMeasureId() {
+        return measureId;
+    }
 
-	public void setMeasureId(String measureId) {
-		this.measureId = measureId;
-	}
+    public void setMeasureId(String measureId) {
+        this.measureId = measureId;
+    }
 }

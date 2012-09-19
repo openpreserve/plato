@@ -36,7 +36,7 @@ import flanagan.analysis.Regression;
  * Holds measured values of a tool.
  * 
  * @author Christoph Becker
- *
+ * 
  */
 @Entity
 public class ToolExperience implements Serializable {
@@ -46,19 +46,19 @@ public class ToolExperience implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    
-    /**
-     * Maps property names to lists of measurements of this property 
-     */
-//    @IndexColumn(name = "key_name")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "toolexp_measurements")
-    private Map<String,Measurements> measurements = new HashMap<String,Measurements>();
 
     /**
-     * Adds a Measurement to the list of measurements
-     * uses its property name as key for this hashmap
-     *   
+     * Maps property names to lists of measurements of this property
+     */
+    // @IndexColumn(name = "key_name")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "toolexp_measurements")
+    private Map<String, Measurements> measurements = new HashMap<String, Measurements>();
+
+    /**
+     * Adds a Measurement to the list of measurements uses its property name as
+     * key for this hashmap
+     * 
      * @param m
      */
     public void addMeasurement(Measurement m) {
@@ -69,7 +69,7 @@ public class ToolExperience implements Serializable {
         }
         ms.addMeasurement(m);
     }
-    
+
     /**
      * Calculates the average of all measurements for the given property
      * 
@@ -80,7 +80,7 @@ public class ToolExperience implements Serializable {
         Measurements m = measurements.get(propertyName);
         return (m == null ? null : m.getAverage());
     }
-    
+
     /**
      * Returns the number of measurements of the given property
      * 
@@ -91,10 +91,10 @@ public class ToolExperience implements Serializable {
         Measurements m = measurements.get(propertyName);
         return (m == null ? 0 : m.getSize());
     }
-    
+
     /**
-     * Uses linear regression to calculate the tool's startup time based on the elapsed 
-     * time and size of the file that has been migrated. 
+     * Uses linear regression to calculate the tool's startup time based on the
+     * elapsed time and size of the file that has been migrated.
      * 
      * @return startup time of the tool
      */
@@ -102,51 +102,53 @@ public class ToolExperience implements Serializable {
         Measurements elapsedTimeMeasurements = measurements.get(MigrationResult.MIGRES_USED_TIME);
         Measurements resultFileSizes = measurements.get(MigrationResult.MIGRES_RESULT_FILESIZE);
         Measurements relativeFileSizes = measurements.get(MigrationResult.MIGRES_RELATIVE_FILESIZE);
-        
+
         if (elapsedTimeMeasurements == null || resultFileSizes == null || relativeFileSizes == null) {
             return 0.0;
         }
-                
-        if (!((elapsedTimeMeasurements.getSize() == resultFileSizes.getSize()) 
-                && (resultFileSizes.getSize() == relativeFileSizes.getSize()))) {
+
+        if (!((elapsedTimeMeasurements.getSize() == resultFileSizes.getSize()) && (resultFileSizes.getSize() == relativeFileSizes
+            .getSize()))) {
             return 0.0;
         }
 
-        // For some reason the library cannot calculate the function if it has only 2 values.
-        // IllegalArgumentException: The degrees of freedom must be greater than 0
-        //  is the result.
+        // For some reason the library cannot calculate the function if it has
+        // only 2 values.
+        // IllegalArgumentException: The degrees of freedom must be greater than
+        // 0
+        // is the result.
         if (elapsedTimeMeasurements.getSize() <= 2) {
             return 0.0;
         }
-        
+
         if (elapsedTimeMeasurements.getSize() <= 0) {
             return 0.0;
         }
-        
+
         double[] xArray = new double[elapsedTimeMeasurements.getSize()];
         double[] yArray = new double[elapsedTimeMeasurements.getSize()];
-        
+
         int i = 0;
-        
+
         for (i = 0; i < resultFileSizes.getSize(); i++) {
-            
-            double resultFileSize = ((INumericValue)resultFileSizes.getList().get(i).getValue()).value();
-            double factor = ((INumericValue)relativeFileSizes.getList().get(i).getValue()).value();
-            
+
+            double resultFileSize = ((INumericValue) resultFileSizes.getList().get(i).getValue()).value();
+            double factor = ((INumericValue) relativeFileSizes.getList().get(i).getValue()).value();
+
             xArray[i] = (resultFileSize / factor) * 100.0;
-            yArray[i] = ((INumericValue)elapsedTimeMeasurements.getList().get(i).getValue()).value(); 
+            yArray[i] = ((INumericValue) elapsedTimeMeasurements.getList().get(i).getValue()).value();
         }
-        
+
         Regression reg = new Regression(xArray, yArray);
         reg.linear();
         double[] bestEstimates = reg.getBestEstimates();
-        
+
         // y = k*x + d
         // y = bestEstimate[1]*x + bestEstimate[0]
         double startUpTime = bestEstimates[0];
 
         return startUpTime;
-        
+
     }
 
     public Map<String, Measurements> getMeasurements() {
@@ -164,6 +166,5 @@ public class ToolExperience implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
 }

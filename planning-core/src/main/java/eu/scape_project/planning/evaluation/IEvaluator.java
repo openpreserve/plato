@@ -24,9 +24,4 @@ package eu.scape_project.planning.evaluation;
  * @author cb
  */
 public interface IEvaluator {
-    /**
-     * returns a measurement descriptor xml of all measurements that the evaluator can provide
-     * @return
-     */
-    public String getPossibleMeasurements();
 }

@@ -86,10 +86,9 @@ import eu.scape_project.planning.model.Transformation;
 import eu.scape_project.planning.model.TriggerDefinition;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.XcdlDescription;
-import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Attribute;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
-import eu.scape_project.planning.model.measurement.Metric;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FloatScale;
@@ -322,8 +321,8 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
         fileVersion = "xxx";
         Digester d = new Digester();
         d.setValidating(false);
-        //StrictErrorHandler errorHandler = new StrictErrorHandler();
-        //d.setErrorHandler(errorHandler);
+        // StrictErrorHandler errorHandler = new StrictErrorHandler();
+        // d.setErrorHandler(errorHandler);
         d.push(this);
         // to read the version we have to support all versions:
         d.addSetProperties("*/projects", "version", "fileVersion");
@@ -438,9 +437,8 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
         try {
             InputStream xsl = Thread.currentThread().getContextClassLoader().getResourceAsStream(xslFile);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            
+
             Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
-            
 
             OutputStream transformedOut = new FileOutputStream(toFile);
             Result outputTarget = new StreamResult(transformedOut);
@@ -582,11 +580,10 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
             Digester digester = new Digester(parser);
 
             SchemaResolver schemaResolver = new SchemaResolver();
-            schemaResolver
-                .addSchemaLocation(  PLATO_SCHEMA_URI, SCHEMA_LOCATION + PLATO_SCHEMA)
-                .addSchemaLocation(  PAP_SCHEMA_URI, SCHEMA_LOCATION + PAP_SCHEMA)
-                .addSchemaLocation(  TAVERNA_SCHEMA_URI, SCHEMA_LOCATION + TAVERNA_SCHEMA);
-            
+            schemaResolver.addSchemaLocation(PLATO_SCHEMA_URI, SCHEMA_LOCATION + PLATO_SCHEMA)
+                .addSchemaLocation(PAP_SCHEMA_URI, SCHEMA_LOCATION + PAP_SCHEMA)
+                .addSchemaLocation(TAVERNA_SCHEMA_URI, SCHEMA_LOCATION + TAVERNA_SCHEMA);
+
             digester.setEntityResolver(schemaResolver);
 
             digester.setErrorHandler(new StrictErrorHandler());
@@ -1226,7 +1223,8 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
         digester.addSetNext("*/criterion", "setCriterion");
         ProjectImporter.addPropertyRules(digester, "*/criterion/property");
         // and the selected metric
-        ProjectImporter.addMetricRules(digester, "*/criterion/metric", "setMetric");
+        // ProjectImporter.addMetricRules(digester, "*/criterion/metric",
+        // "setMetric");
 
         /*
          * for each scale-type a set of rules
@@ -1341,15 +1339,16 @@ public class ProjectImporter extends PreservationPlanXML implements Serializable
 
     }
 
-    private static void addMetricRules(final Digester digester, final String pattern, final String method) {
-        digester.addObjectCreate(pattern, Metric.class);
-        digester.addSetProperties(pattern);
-        digester.addBeanPropertySetter(pattern + "/metricId");
-        digester.addBeanPropertySetter(pattern + "/name");
-        digester.addBeanPropertySetter(pattern + "/description");
-        // scale is created automatically with "global" rule
-        digester.addSetNext(pattern, method);
-    }
+    // private static void addMetricRules(final Digester digester, final String
+    // pattern, final String method) {
+    // digester.addObjectCreate(pattern, Metric.class);
+    // digester.addSetProperties(pattern);
+    // digester.addBeanPropertySetter(pattern + "/metricId");
+    // digester.addBeanPropertySetter(pattern + "/name");
+    // digester.addBeanPropertySetter(pattern + "/description");
+    // // scale is created automatically with "global" rule
+    // digester.addSetNext(pattern, method);
+    // }
 
     public List<String> getAppliedTransformations() {
         return appliedTransformations;

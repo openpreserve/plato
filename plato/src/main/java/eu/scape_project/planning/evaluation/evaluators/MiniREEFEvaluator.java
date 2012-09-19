@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.tuwien.minireef.ResultSet;
-import eu.scape_project.planning.evaluation.EvaluatorBase;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IActionEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
@@ -34,9 +33,9 @@ import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.scales.Scale;
 import eu.scape_project.planning.model.values.Value;
 
-public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator {
-    
-	private static Logger log = LoggerFactory.getLogger(MiniREEFEvaluator.class);
+public class MiniREEFEvaluator implements IActionEvaluator {
+
+    private static Logger log = LoggerFactory.getLogger(MiniREEFEvaluator.class);
 
     private static final String P2_RESOURCE_FORMAT_LICENSE_RIGHTS_OPEN = "http://p2-registry.ecs.soton.ac.uk/pronom/risk_categories/rights/open";
     private static final String P2_RESOURCE_FORMAT_LICENSE_RIGHTS_IPR_PROTECTED = "http://p2-registry.ecs.soton.ac.uk/pronom/risk_categories/rights/ipr_protected";
@@ -44,26 +43,19 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
 
     private Map<String, String> statements = new HashMap<String, String>();
 
-    private static final String DESCRIPTOR_FILE = "data/evaluation/measurementsConsolidated.xml";
-    
-    public MiniREEFEvaluator(){
-        // load information about measurements
-        loadMeasurementsDescription(DESCRIPTOR_FILE);
-        
+    public MiniREEFEvaluator() {
         addStatements();
     }
-    
-    public HashMap<String, Value> evaluate(
-            Alternative alternative,
-            List<String> measureUris,
-            IStatusListener listener) throws EvaluatorException{
-        
+
+    public HashMap<String, Value> evaluate(Alternative alternative, List<String> measureUris, IStatusListener listener)
+        throws EvaluatorException {
+
         HashMap<String, Value> results = new HashMap<String, Value>();
 
         if (alternative.getAction() == null) {
             return results;
         }
-        
+
         // prepare commonly used parameters
         Map<String, String> params = new HashMap<String, String>();
 
@@ -74,38 +66,33 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
             puid = targetInfo.getPuid();
         }
         params.put("PUID", puid);
-        
-        
-        for (String measureId: measureUris) {
-            Scale scale = descriptor.getMeasurementScale(measureId);
-            if (scale == null)  {
-                // This means that I am not entitled to evaluate this criterion and therefore supposed to skip it:
-                continue;
-            }
-            
-            Value value = scale.createValue();
-            
+
+        for (String measureId : measureUris) {
+
+            Scale scale = null; // FIXME
+            Value value = null; // FIXME scale.createValue();
+
             if (ACTION_BATCH_SUPPORT.equals(measureId)) {
                 if (!alternative.getAction().isEmulated() && alternative.getAction().isExecutable()) {
-                    // this alternative is wrapped as service and therefore provides batch support 
+                    // this alternative is wrapped as service and therefore
+                    // provides batch support
                     value.parse("Yes");
                     value.setComment("this alternative is wrapped as service and therefore provides batch support");
                 }
             }
-            
 
             String statement = statements.get(measureId);
             if (statement == null) {
                 // this leaf cannot be evaluated by MiniREEF - skip it
                 continue;
-            } 
-            
+            }
+
             String result = null;
-            
+
             // add additional params if necessary
             // ...
             ResultSet resultSet = MiniREEFResolver.getInstance().resolve(statement, params);
-            listener.updateStatus("MiniREEF is attempting to evaluate "+measureId);
+            listener.updateStatus("MiniREEF is attempting to evaluate " + measureId);
 
             if (resultSet == null) {
                 // this should not happen, if MiniREEF is properly configured
@@ -113,24 +100,24 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
                 // skip this leaf
                 continue;
             }
-            
-            // evaluation was successful! 
-            if (measureId.startsWith(FORMAT_NUMBEROFTOOLS)){
-                // _measure_ is the number of tools found 
+
+            // evaluation was successful!
+            if (measureId.startsWith(FORMAT_NUMBEROFTOOLS)) {
+                // _measure_ is the number of tools found
                 result = "" + resultSet.size();
                 value.parse(result);
                 // add names of tools as comment
-                value.setComment(toCommaSeparated(resultSet.getColResults("swname")) + 
-                       "; - according to miniREEF/P2 knowledge base");
-                listener.updateStatus("MiniREEF evaluated "+measureId);
-            } else if (FORMAT_SUSTAINABILITY_RIGHTS.equals(measureId)){
+                value.setComment(toCommaSeparated(resultSet.getColResults("swname"))
+                    + "; - according to miniREEF/P2 knowledge base");
+                listener.updateStatus("MiniREEF evaluated " + measureId);
+            } else if (FORMAT_SUSTAINABILITY_RIGHTS.equals(measureId)) {
                 if (resultSet.size() > 0) {
                     // e.g. open = false, comment: "Format is encumbered by IPR"
                     String comment = "";
                     String valueStr = "";
-                    for (int i=0; i < resultSet.size(); i++) {
+                    for (int i = 0; i < resultSet.size(); i++) {
                         List<String> vals = resultSet.getRow(i);
-                        comment = comment + vals.get(0)+"\n";
+                        comment = comment + vals.get(0) + "\n";
                         String type = vals.get(1);
                         if (P2_RESOURCE_FORMAT_LICENSE_RIGHTS_IPR_PROTECTED.equals(type)) {
                             valueStr = "ipr_protected";
@@ -138,53 +125,53 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
                         } else if (P2_RESOURCE_FORMAT_LICENSE_RIGHTS_PROPRIETARY.equals(type)) {
                             valueStr = "proprietary";
                             comment = comment + valueStr;
-                        }else if (P2_RESOURCE_FORMAT_LICENSE_RIGHTS_OPEN.equals(type)) {
+                        } else if (P2_RESOURCE_FORMAT_LICENSE_RIGHTS_OPEN.equals(type)) {
                             valueStr = "open";
                             comment = comment + valueStr;
                         }
                     }
                     if (resultSet.size() > 1) {
-                        comment = comment + ": more than one right category applies to this format, check for reason of this conflict.\n";
+                        comment = comment
+                            + ": more than one right category applies to this format, check for reason of this conflict.\n";
                     }
                     value = scale.createValue();
                     value.parse(valueStr);
                     value.setComment(comment + ": according to MiniREEF/P2 knowledge base");
-                    listener.updateStatus("MiniREEF evaluated "+measureId);
+                    listener.updateStatus("MiniREEF evaluated " + measureId);
                 }
-                listener.updateStatus("P2 does not contain enough information to evaluate "+measureId+" for this format.");
-            } else if ((FORMAT_COMPLEXITY.equals(measureId)) || 
-                       (FORMAT_DISCLOSURE.equals(measureId)) || 
-                       (FORMAT_UBIQUITY.equals(measureId))   ||
-                       (FORMAT_DOCUMENTATION_QUALITY.equals(measureId))||
-                       (FORMAT_STABILITY.equals(measureId))||
-                       (FORMAT_LICENSE.equals(measureId)))  {
-                if (resultSet.size()>0) {
+                listener.updateStatus("P2 does not contain enough information to evaluate " + measureId
+                    + " for this format.");
+            } else if ((FORMAT_COMPLEXITY.equals(measureId)) || (FORMAT_DISCLOSURE.equals(measureId))
+                || (FORMAT_UBIQUITY.equals(measureId)) || (FORMAT_DOCUMENTATION_QUALITY.equals(measureId))
+                || (FORMAT_STABILITY.equals(measureId)) || (FORMAT_LICENSE.equals(measureId))) {
+                if (resultSet.size() > 0) {
                     String text = resultSet.getRow(0).get(0);
                     if (text.trim().length() > 0) {
                         value = scale.createValue();
                         value.parse(text);
                         value.setComment("according to miniREEF/P2 knowledge base");
                     }
-                    listener.updateStatus("MiniREEF evaluated "+measureId);
+                    listener.updateStatus("MiniREEF evaluated " + measureId);
                 } else {
-                    listener.updateStatus("P2 does not contain enough information to evaluate "+measureId+" for this format.");
+                    listener.updateStatus("P2 does not contain enough information to evaluate " + measureId
+                        + " for this format.");
                 }
-                
-            } 
+
+            }
             // put measure to result map
             results.put(measureId, value);
         }
-        
+
         return results;
     }
-    
+
     private String toCommaSeparated(List<String> list) {
         if (list == null) {
             return "";
         }
         StringBuilder b = new StringBuilder();
         Iterator<String> iter = list.iterator();
-        while(iter.hasNext())  {
+        while (iter.hasNext()) {
             b.append(iter.next());
             if (iter.hasNext()) {
                 b.append(", ");
@@ -192,134 +179,96 @@ public class MiniREEFEvaluator extends EvaluatorBase implements IActionEvaluator
         }
         return b.toString();
     }
-    
+
     /**
-     * add a set of available ARQ - SPARQL statements
-     * at the moment only results with one column can be handled
+     * add a set of available ARQ - SPARQL statements at the moment only results
+     * with one column can be handled
      * 
-     * You can define parameters by wrapping an identifier with '$' 
-     * - they will be replaced later on with supplied values   
+     * You can define parameters by wrapping an identifier with '$' - they will
+     * be replaced later on with supplied values
      */
     private void addStatements() {
         // action://format/numberOfTools
-        String statement=
-            "SELECT distinct ?swname " +
-            "WHERE { ?sw ?link ?format . " +
-            "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink> . " +
-            "        ?format pronom:FileFormatIdentifier ?ident . " +
-            "        ?ident  pronom:Identifier \"$PUID$\" ." +
-            "        ?ident  pronom:IdentifierType \"PUID\" ." +
-            "        ?sw pronom:SoftwareName  ?swname } ";
+        String statement = "SELECT distinct ?swname " + "WHERE { ?sw ?link ?format . "
+            + "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink> . "
+            + "        ?format pronom:FileFormatIdentifier ?ident . "
+            + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
+            + "        ?sw pronom:SoftwareName  ?swname } ";
 
         statements.put(FORMAT_NUMBEROFTOOLS, statement);
-        
-        // action://format/numberOfTools/save : "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
-        statement=
-            "SELECT distinct ?swname " +
-            "WHERE { ?sw ?link ?format . " +
-            "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save> . " +
-            "        ?format pronom:FileFormatIdentifier ?ident . " +
-            "        ?ident  pronom:Identifier \"$PUID$\" ." +
-            "        ?ident  pronom:IdentifierType \"PUID\" ." +
-            "        ?sw pronom:SoftwareName  ?swname } ";
+
+        // action://format/numberOfTools/save :
+        // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
+        statement = "SELECT distinct ?swname " + "WHERE { ?sw ?link ?format . "
+            + "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save> . "
+            + "        ?format pronom:FileFormatIdentifier ?ident . "
+            + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
+            + "        ?sw pronom:SoftwareName  ?swname } ";
 
         statements.put(FORMAT_NUMBEROFTOOLS_SAVE, statement);
-        
-        // action://format/numberOfTools/open : "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
-        statement=
-            "SELECT distinct ?swname " +
-            "WHERE { ?sw ?link ?format . " +
-            "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Open> . " +
-            "        ?format pronom:FileFormatIdentifier ?ident . " +
-            "        ?ident  pronom:Identifier \"$PUID$\" ." +
-            "        ?ident  pronom:IdentifierType \"PUID\" ." +
-            "        ?sw pronom:SoftwareName  ?swname } ";
+
+        // action://format/numberOfTools/open :
+        // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
+        statement = "SELECT distinct ?swname " + "WHERE { ?sw ?link ?format . "
+            + "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Open> . "
+            + "        ?format pronom:FileFormatIdentifier ?ident . "
+            + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
+            + "        ?sw pronom:SoftwareName  ?swname } ";
 
         statements.put(FORMAT_NUMBEROFTOOLS_OPEN, statement);
 
-        // action://format/numberOfTools/other : "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other"
-        statement=
-            "SELECT distinct ?swname " +
-            "WHERE { ?sw ?link ?format . " +
-            "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other> . " +
-            "        ?format pronom:FileFormatIdentifier ?ident . " +
-            "        ?ident  pronom:Identifier \"$PUID$\" ." +
-            "        ?ident  pronom:IdentifierType \"PUID\" ." +
-            "        ?sw pronom:SoftwareName  ?swname } ";
+        // action://format/numberOfTools/other :
+        // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other"
+        statement = "SELECT distinct ?swname " + "WHERE { ?sw ?link ?format . "
+            + "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other> . "
+            + "        ?format pronom:FileFormatIdentifier ?ident . "
+            + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
+            + "        ?sw pronom:SoftwareName  ?swname } ";
 
         statements.put(FORMAT_NUMBEROFTOOLS_OTHERS, statement);
-        
-        statement = 
-            "SELECT ?d WHERE { " +
-            " ?format pronom:FormatDisclosure ?d . " +
-            " ?format pronom:FileFormatIdentifier ?ident . "+
-            " ?ident pronom:IdentifierType \"PUID\" . " +
-            " ?ident pronom:Identifier \"$PUID$\" }";
-        statements.put(FORMAT_DISCLOSURE,statement);
-        
+
+        statement = "SELECT ?d WHERE { " + " ?format pronom:FormatDisclosure ?d . "
+            + " ?format pronom:FileFormatIdentifier ?ident . " + " ?ident pronom:IdentifierType \"PUID\" . "
+            + " ?ident pronom:Identifier \"$PUID$\" }";
+        statements.put(FORMAT_DISCLOSURE, statement);
+
         // p2 is used to add information about ubiquity
-        statement = 
-            "SELECT ?d  WHERE {  " + 
-            "?format p2-additional:ubiquity ?u . " +
-            "?u rdfs:comment ?d . "  +
-            "?format pronom:IsSupertypeOf ?pronomformat . " +
-            "?pronomformat pronom:FileFormatIdentifier ?ident ." +
-            "?ident pronom:IdentifierType \"PUID\" ." +
-            "?ident pronom:Identifier \"$PUID$\" }";
+        statement = "SELECT ?d  WHERE {  " + "?format p2-additional:ubiquity ?u . " + "?u rdfs:comment ?d . "
+            + "?format pronom:IsSupertypeOf ?pronomformat . " + "?pronomformat pronom:FileFormatIdentifier ?ident ."
+            + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
         statements.put(FORMAT_UBIQUITY, statement);
 
         // p2 is used to add information about ubiquity
-        statement = 
-            "SELECT ?d  WHERE {  " + 
-            "?format p2-additional:complexity ?u . " +
-            "?u rdfs:comment ?d . "  +
-            "?format pronom:IsSupertypeOf ?pronomformat . " +
-            "?pronomformat pronom:FileFormatIdentifier ?ident ." +
-            "?ident pronom:IdentifierType \"PUID\" ." +
-            "?ident pronom:Identifier \"$PUID$\" }";
+        statement = "SELECT ?d  WHERE {  " + "?format p2-additional:complexity ?u . " + "?u rdfs:comment ?d . "
+            + "?format pronom:IsSupertypeOf ?pronomformat . " + "?pronomformat pronom:FileFormatIdentifier ?ident ."
+            + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
         statements.put(FORMAT_COMPLEXITY, statement);
 
-        
-        statement = 
-            "SELECT ?d  WHERE {  " + 
-            "?format p2-additional:documentation_quality ?q . " +
-            "?q rdfs:comment ?d . "  +
-            "?format  pronom:FileFormatIdentifier ?ident ." +
-            "?ident pronom:IdentifierType \"PUID\" ." +
-            "?ident pronom:Identifier \"$PUID$\" " +      
-             " }";
+        statement = "SELECT ?d  WHERE {  " + "?format p2-additional:documentation_quality ?q . "
+            + "?q rdfs:comment ?d . " + "?format  pronom:FileFormatIdentifier ?ident ."
+            + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" " + " }";
         statements.put(FORMAT_DOCUMENTATION_QUALITY, statement);
-        
+
         // pronom(!) is used to add information about stability
-        statement = 
-            "SELECT ?d  WHERE {  " + 
-            "?format pronom:stability ?u . " +
-            "?u rdfs:comment ?d . "  +
-            "?format pronom:IsSupertypeOf ?pronomformat . " +
-            "?pronomformat pronom:FileFormatIdentifier ?ident ." +
-            "?ident pronom:IdentifierType \"PUID\" ." +
-            "?ident pronom:Identifier \"$PUID$\" }";
+        statement = "SELECT ?d  WHERE {  " + "?format pronom:stability ?u . " + "?u rdfs:comment ?d . "
+            + "?format pronom:IsSupertypeOf ?pronomformat . " + "?pronomformat pronom:FileFormatIdentifier ?ident ."
+            + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
         statements.put(FORMAT_STABILITY, statement);
-        
+
         /**
-         * we use the same query for information on rights,
-         * and select the comment and rdf:resource, this way we can provide more detailed information,
-         * if a right model does not apply to the format  
+         * we use the same query for information on rights, and select the
+         * comment and rdf:resource, this way we can provide more detailed
+         * information, if a right model does not apply to the format
          */
         // pronom(!) is used to add information about rights!
-        String selectRights =
-            "SELECT DISTINCT ?d ?u WHERE {  " + 
-            "?format pronom:rights ?u . " +
-            "?u rdfs:comment ?d . "  +
-            "?format pronom:IsSupertypeOf ?pronomformat . " +
-            "?pronomformat pronom:FileFormatIdentifier ?ident ." +
-            "?ident pronom:IdentifierType \"PUID\" ." +
-            "?ident pronom:Identifier \"$PUID$\" }";
+        String selectRights = "SELECT DISTINCT ?d ?u WHERE {  " + "?format pronom:rights ?u . "
+            + "?u rdfs:comment ?d . " + "?format pronom:IsSupertypeOf ?pronomformat . "
+            + "?pronomformat pronom:FileFormatIdentifier ?ident ." + "?ident pronom:IdentifierType \"PUID\" ."
+            + "?ident pronom:Identifier \"$PUID$\" }";
         statements.put(FORMAT_LICENSE, selectRights);
 
         // pronom(!) is used to add information about rights!
         statements.put(FORMAT_SUSTAINABILITY_RIGHTS, selectRights);
     }
-    
-    
+
 }

@@ -34,7 +34,7 @@ public class Measurements implements Serializable {
     private static final long serialVersionUID = -6824569989115569984L;
     @Id
     @GeneratedValue
-    private int id;    
+    private int id;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Measurement> list = new ArrayList<Measurement>();
@@ -42,25 +42,26 @@ public class Measurements implements Serializable {
     public void addMeasurement(Measurement measurement) {
         list.add(measurement);
     }
-    
+
     public Measurement getAverage() {
         if (list.size() == 0) {
             return null;
         }
         Measurement m = list.get(0);
-        
-        if (! (m.getValue() instanceof INumericValue)) {
+
+        if (!(m.getValue() instanceof INumericValue)) {
             throw new IllegalArgumentException("cannot calculate average of nun-numeric value: " + m.getMeasureId());
         }
-        
+
         double average = 0.0;
         for (Measurement meas : list) {
             INumericValue value = (INumericValue) meas.getValue();
             average += value.value();
         }
         average = average / list.size();
-        
-        Measurement measurement = new Measurement(m.getMeasureId() + ":accumulated:average("+list.size()+")", average);
+
+        Measurement measurement = new Measurement(m.getMeasureId() + ":accumulated:average(" + list.size() + ")",
+            average);
         return measurement;
     }
 

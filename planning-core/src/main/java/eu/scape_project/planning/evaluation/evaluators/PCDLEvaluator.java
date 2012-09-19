@@ -29,38 +29,35 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import eu.scape_project.planning.evaluation.EvaluatorBase;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IActionEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
 import eu.scape_project.planning.model.Alternative;
-import eu.scape_project.planning.model.scales.Scale;
+import eu.scape_project.planning.model.scales.OrdinalScale;
+import eu.scape_project.planning.model.values.BooleanValue;
 import eu.scape_project.planning.model.values.Value;
 
 /**
  * This class extracts values from PCDL descriptors
+ * 
  * @author cb
- *
+ * 
  */
-public class PCDLEvaluator extends EvaluatorBase implements IActionEvaluator {
-    
-    private static final String DESCRIPTOR_FILE = "data/evaluation/measurementsConsolidated.xml";
+public class PCDLEvaluator implements IActionEvaluator {
 
-	private static Logger log = LoggerFactory.getLogger(PCDLEvaluator.class);
+    private static Logger log = LoggerFactory.getLogger(PCDLEvaluator.class);
 
     private HashMap<String, String> extractionPaths = new HashMap<String, String>();
+
     // maybe another hashmap for commentsPaths
 
     public PCDLEvaluator() {
-        // load information about measurements
-        loadMeasurementsDescription(DESCRIPTOR_FILE);
-        addExtractionPaths();        
+        addExtractionPaths();
     }
-    
-    public HashMap<String, Value> evaluate(Alternative alternative,
-            List<String> measureUris, IStatusListener listener)
-            throws EvaluatorException {
-        
+
+    public HashMap<String, Value> evaluate(Alternative alternative, List<String> measureUris, IStatusListener listener)
+        throws EvaluatorException {
+
         HashMap<String, Value> results = new HashMap<String, Value>();
         if ((alternative.getAction() == null) || (alternative.getAction().getDescriptor() == null)) {
             return results;
@@ -68,41 +65,39 @@ public class PCDLEvaluator extends EvaluatorBase implements IActionEvaluator {
 
         try {
             // yes, this is a hack. It's a demo.
-            // If this is a minimee action, we know that there will be 
+            // If this is a minimee action, we know that there will be
             // a PCDL for it, so we retrieve it locally:
             if (alternative.getAction().getUrl().contains("minimee/")) {
-                String pcdlFile = alternative.getAction().getDescriptor()+".xml";
-                InputStream pcdlStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(
-                        "data/pcdl/"+pcdlFile);
+                String pcdlFile = alternative.getAction().getDescriptor() + ".xml";
+                InputStream pcdlStream = Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream("data/pcdl/" + pcdlFile);
                 if (pcdlStream == null) {
                     log.debug("pcdl descriptor not found: " + pcdlFile);
                     return results;
                 }
                 XmlExtractor xmlExtractor = new XmlExtractor();
                 Document doc = xmlExtractor.getDocument(new InputSource(pcdlStream));
-                
-                for(String measureUri: measureUris) {
-                    Scale scale = descriptor.getMeasurementScale(measureUri);
-                    if (scale == null)  {
-                        // This means that I am not entitled to evaluate this criterion and therefore supposed to skip it:
-                        continue;
-                    }
+
+                for (String measureUri : measureUris) {
                     if (ACTION_RETAIN_FILENAME.equals(measureUri)) {
-                        // for all wrapped minimee migrators the output filename can be determined by -o <filename> or something similar  
-                        Value v = scale.createValue();
+                        // for all wrapped minimee migrators the output filename
+                        // can be determined by -o <filename> or something
+                        // similar
+                        Value v = new BooleanValue();
                         v.setComment("obtained from PCDL descriptor");
                         v.parse("Yes");
                         results.put(measureUri, v);
                     }
-                    
+
                     String extractionPath = extractionPaths.get(measureUri);
                     if (extractionPath != null) {
-                    	Value v = new XmlExtractor().extractValue(doc, scale, extractionPath, null);
+                        Value v = new XmlExtractor().extractValue(doc, new OrdinalScale(), extractionPath, null);
                         if (v != null) {
                             v.setComment("obtained from PCDL descriptor");
-                            results.put(measureUri, v);                        
+                            results.put(measureUri, v);
                         } else {
-                            // No: only successfully evaluated values are returned  
+                            // No: only successfully evaluated values are
+                            // returned
                             // v = leaf.getScale().createValue();
                             // v.setComment("failed to obtain value from PCDL descriptor");
                             log.debug("failed to obtain value from PCDL descriptor for path: " + extractionPath);
@@ -111,7 +106,7 @@ public class PCDLEvaluator extends EvaluatorBase implements IActionEvaluator {
                 }
             }
             return results;
-            
+
         } catch (ParserConfigurationException e) {
             throw new EvaluatorException("Could not access PCDL descriptor", e);
         } catch (SAXException e) {
@@ -120,7 +115,7 @@ public class PCDLEvaluator extends EvaluatorBase implements IActionEvaluator {
             throw new EvaluatorException("Could not access PCDL descriptor", e);
         }
     }
-    
+
     private void addExtractionPaths() {
         extractionPaths.put(ACTION_BUSINESS_LICENCING_SCHEMA, "//Licensing/Schema/text()");
         extractionPaths.put(ACTION_LICENSE, "//Licensing/License/text()");

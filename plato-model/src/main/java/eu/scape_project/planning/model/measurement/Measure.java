@@ -30,6 +30,11 @@ import eu.scape_project.planning.model.IChangesHandler;
 import eu.scape_project.planning.model.ITouchable;
 import eu.scape_project.planning.model.scales.Scale;
 
+/**
+ * 
+ * @author Michael Kraxner
+ * 
+ */
 @Entity
 public class Measure implements Comparable<Measure>, Serializable, ITouchable {
     private static final long serialVersionUID = -3942656115528678720L;
@@ -39,12 +44,12 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
     private long id;
 
     private String uri;
-    
+
     private String name;
-    
+
     @Lob
     private String description;
-    
+
     @OneToOne
     private Attribute attribute;
 
@@ -53,7 +58,6 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
-
 
     /**
      * @see ITouchable#handleChanges(IChangesHandler)
@@ -78,19 +82,17 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
 
     @Override
     public int compareTo(final Measure c) {
-    	// TODO check where used
+        // TODO check where used
         return this.uri.toLowerCase().compareTo(c.getUri().toLowerCase());
     }
 
-    
     public Scale getScale() {
-    	return scale;
+        return scale;
     }
 
     public String getUnit() {
         return scale.getUnit();
     }
-
 
     public void setId(final long id) {
         this.id = id;
@@ -117,32 +119,31 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
         return this.id;
     }
 
+    public void setScale(Scale scale) {
+        this.scale = scale;
+    }
 
-	public void setScale(Scale scale) {
-		this.scale = scale;
-	}
+    public Attribute getAttribute() {
+        return attribute;
+    }
 
-	public Attribute getAttribute() {
-		return attribute;
-	}
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
+    }
 
-	public void setAttribute(Attribute attribute) {
-		this.attribute = attribute;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

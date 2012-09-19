@@ -128,6 +128,7 @@ public class CriterionSelector implements Serializable {
     			return a;
     		}
     	}
+    	return null;
     }
     private Measure findMeasureByName(String name) {
     	if (name == null) {
@@ -138,6 +139,7 @@ public class CriterionSelector implements Serializable {
     			return a;
     		}
     	}
+    	return null;
     }
     
     public String getSelectedAttributeName() {
@@ -173,24 +175,25 @@ public class CriterionSelector implements Serializable {
         
         filteredAttributes.clear();
         filteredAttributes.addAll(newFilteredMP);
-        setFilteredMeasurablePropertiesCount(newFilteredMP.size());
+//        setFilteredMeasurablePropertiesCount(newFilteredMP.size());
                 
         // check if selected Attribute is still available in the new filtered list.
         Boolean mpStillInFilteredList = false;
         if (selectedAttribute != null) {
-            for (Attribute mp : filteredAttributes) {
-                if (mp.getPropertyId().equals(selectedAttribute.getPropertyId())) {
-                    mpStillInFilteredList = true;
-                    log.debug("Selected Property still available in new filtered list");
-                }
-            }
+//            for (Attribute mp : filteredAttributes) {
+//                if (mp.getPropertyId().equals(selectedAttribute.getPropertyId())) {
+//                    mpStillInFilteredList = true;
+//                    log.debug("Selected Property still available in new filtered list");
+//                }
+//            }
             
             // if the previous selected MeasuableProperty is not available any more in the new filtered list
             // set the selection to null (which also affects the metrics select)
             if (!mpStillInFilteredList) {
-                setSelectedAttributeString(null);
-                log.debug("Reset Selected Property to null");
-                updateMetrics();
+            	// FIXME
+//                setSelectedAttributeString(null);
+//                log.debug("Reset Selected Property to null");
+//                updateMetrics();
             }
         }
     }

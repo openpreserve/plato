@@ -19,12 +19,14 @@ package eu.scape_project.planning.model.measurement;
 import java.io.Serializable;
 
 /**
- * EvaluationScope of a measurement is either an action, or the outcome of an action
+ * EvaluationScope defines how a {@link Measure measure} is obtained. It is
+ * either based:
+ * - on the action applied to an object, or 
+ * - on the resulting object.
  * 
  * @author Michael Kraxner
- *
+ * 
  */
 public enum EvaluationScope implements Serializable {
-	ALTERNATIVE_ACTION,
-	OBJECT;
+    ALTERNATIVE_ACTION, OBJECT;
 }
