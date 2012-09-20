@@ -1,4 +1,5 @@
 <lookup:criteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lookup="uri:lookup">
+<!-- 
 	<criterion ID="outcome://object/image/similarity#equal">
 		<plato:measure ID="http://ifs.tuwien.ac.at/dp/plato/similarity-equal">
 		</plato:measure>
@@ -7,4 +8,5 @@
 		<plato:measure ID="http://ifs.tuwien.ac.at/dp/plato/similarity-simm">
 		</plato:measure>
 	</criterion>
+ -->	
 </lookup:criteria>

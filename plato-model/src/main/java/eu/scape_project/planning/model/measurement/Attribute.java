@@ -21,10 +21,10 @@ public class Attribute {
     @Id
     @GeneratedValue
     private long id;
-    
+
     private String uri;
 
-	private String name;
+    private String name;
 
     @Lob
     private String description;
@@ -39,15 +39,7 @@ public class Attribute {
     public void setId(long id) {
         this.id = id;
     }
-    
-    public String getUri() {
-		return uri;
-	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
-    
     public String getName() {
         return name;
     }
