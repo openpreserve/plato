@@ -29,7 +29,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import eu.scape_project.planning.xml.PreservationPlanXML;
+import eu.scape_project.planning.xml.PlanXMLConstants;
 import eu.scape_project.planning.xml.SchemaResolver;
 import eu.scape_project.planning.xml.StrictDefaultHandler;
 import eu.scape_project.planning.xml.ValidatingParserFactory;
@@ -89,11 +89,11 @@ public class SchemaValidationTest {
             InputStream inPlan = getClass().getClassLoader().getResourceAsStream("plans/plan_with_pap.xml");
             
             SAXParser parser = validatingParserFactory.getValidatingParser();
-            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PreservationPlanXML.PLATO_SCHEMA_URI);
+            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PlanXMLConstants.PLATO_SCHEMA_URI);
             SchemaResolver schemaResolver = new SchemaResolver()
-                .addSchemaLocation(PreservationPlanXML.PLATO_SCHEMA_URI, "plans/plato-V4.0.0.xsd")
-                .addSchemaLocation(PreservationPlanXML.PAP_SCHEMA_URI, "plans/preservationActionPlan-V1.xsd")
-                .addSchemaLocation(PreservationPlanXML.TAVERNA_SCHEMA_URI, "plans/t2flow.xsd");
+                .addSchemaLocation(PlanXMLConstants.PLATO_SCHEMA_URI, PlanXMLConstants.PLATO_SCHEMA_LOCATION)
+                .addSchemaLocation(PlanXMLConstants.PAP_SCHEMA_URI, PlanXMLConstants.PAP_SCHEMA_LOCATION)
+                .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
             
             parser.parse(inPlan, new StrictDefaultHandler(schemaResolver));
 	}

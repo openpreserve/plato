@@ -1,6 +1,6 @@
 <!-- 
    ==========================================================
-   Stylesheet for migration of Plato XML format: V3.9.0 to V4.0.0
+   Stylesheet for migration of Plato XML format: V3.9.0 to V3.9.9
    ==========================================================
    Changes:
       * changes default namespace to ifs.tuwien.ac.at/dp/plato/
@@ -52,8 +52,8 @@
 
 <xsl:template match="oldplato:plans">
 	<xsl:element name="{local-name()}" xmlns="http://ifs.tuwien.ac.at/dp/plato" namespace="http://ifs.tuwien.ac.at/dp/plato" >
-		<xsl:attribute name="xsi:schemaLocation">http://ifs.tuwien.ac.at/dp/plato plato-4.0.0.xsd</xsl:attribute>
-		<xsl:attribute name="version">4.0.0</xsl:attribute>
+		<xsl:attribute name="xsi:schemaLocation">http://ifs.tuwien.ac.at/dp/plato plato-3.9.9.xsd</xsl:attribute>
+		<xsl:attribute name="version">3.9.9</xsl:attribute>
     	<xsl:apply-templates/>
     	
     </xsl:element>
@@ -70,23 +70,22 @@
 -->
 <!-- criterion has now an ID, other content is only there for documentation -->
 <xsl:template match="oldplato:criterion">
-	<xsl:if test="oldplato:property/oldplato:category/text()">
+	<xsl:if test="./oldplato:property/oldplato:category/text()">
 	<xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
-	    <xsl:variable name="schema" select="substring-before(concat(oldplato:property/oldplato:category, ':'),':')"/>
+	    <xsl:variable name="schema" select="substring-before(./oldplato:property/oldplato:category/text(), ':')"/>
 	    <xsl:variable name="part">
 	       <xsl:call-template name="append_non_empty">
-	       		<xsl:with-param name="content" select="substring-after(oldplato:property/oldplato:category,':')"/>
+	       		<xsl:with-param name="content" select="substring-after(./oldplato:property/oldplato:category/text(),':')"/>
 	       		<xsl:with-param name="suffix" select="'/'"/>
 	       </xsl:call-template>
 	    </xsl:variable>
 	    <xsl:variable name="metric">
 	    	<xsl:call-template name="append_non_empty">
-	    		<xsl:with-param name="content" select="oldplato:metric/oldplato:metricId"/>
+	    		<xsl:with-param name="content" select="./oldplato:metric/oldplato:metricId/text()"/>
 	    		<xsl:with-param name="prefix" select="'#'"/>
 	    	</xsl:call-template>
 	    </xsl:variable>
-
-        <xsl:attribute name="ID"> <xsl:value-of select="concat($schema, '://', $part, oldplato:property/oldplato:propertyId, $metric)"/> </xsl:attribute>
+        <xsl:attribute name="ID"> <xsl:value-of select="concat($schema, '://', $part, ./oldplato:property/oldplato:propertyId/text(), $metric)"/> </xsl:attribute>
 		   	
       <xsl:apply-templates select="*"/>
 	</xsl:element>
@@ -95,7 +94,7 @@
 
 <!-- util: adds prefix and suffix, only if content is not empty  -->
 <xsl:template name="append_non_empty" >
-	<xsl:param name="content" select="''"/>subject
+	<xsl:param name="content" select="''"/>
 	<xsl:param name="prefix" select="''"/>
 	<xsl:param name="suffix" select="''"/>
 	<xsl:if test="$content != ''">

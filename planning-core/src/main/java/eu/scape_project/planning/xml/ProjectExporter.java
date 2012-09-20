@@ -49,6 +49,7 @@ import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Trigger;
+import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.scales.FreeStringScale;
@@ -86,10 +87,8 @@ public class ProjectExporter implements Serializable {
     public static Namespace platoNS;
 
     static {
-        // excutablePlanNS = new Namespace("wdt",
-        // "http://www.planets-project.eu/wdt");
         xsi = new Namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        platoNS = new Namespace("", PreservationPlanXML.PLATO_NS);
+        platoNS = new Namespace("", PlanXMLConstants.PLATO_NS);
     }
 
     public ProjectExporter() {
@@ -125,8 +124,8 @@ public class ProjectExporter implements Serializable {
 
         root.add(xsi);
         root.add(platoNS);
-        root.addAttribute(xsi.getPrefix() + ":schemaLocation", PreservationPlanXML.PLATO_NS + " "
-            + PreservationPlanXML.PLATO_SCHEMA);
+        root.addAttribute(xsi.getPrefix() + ":schemaLocation", PlanXMLConstants.PLATO_NS + " "
+            + PlanXMLConstants.PLATO_SCHEMA);
         root.add(new Namespace("fits", "http://hul.harvard.edu/ois/xml/ns/fits/fits_output"));
 
         // set version of corresponding schema
@@ -369,7 +368,7 @@ public class ProjectExporter implements Serializable {
                 }
 
                 if (l.isMapped()) {
-                    addCriterionInfo(l.getMeasure(), leaf);
+                    addMeasure(l.getMeasure(), leaf);
                 }
 
                 Element eval = leaf.addElement("evaluation");
@@ -411,56 +410,32 @@ public class ProjectExporter implements Serializable {
     }
 
     /**
-     * creates a new element with all information of the given criterion
-     * mapping, and adds it to the parent node. This includes the property and
-     * the chosen metric, but NOT the list of possible metrics.
+     * creates a new element with all information of the given measure
+     * and adds it to the parent node. 
      * 
      * @param info
      * @param parent
      */
-    private void addCriterionInfo(Measure measure, Element parent) {
-        Element infoEl = parent.addElement("criterion");
+    private void addMeasure(Measure measure, Element parent) {
+        Element measureEl = parent.addElement("measure");
 
-        // Attribute prop = (Attribute) measure.getProperty();
-        // if (prop != null) {
-        // Element propertyEl = infoEl.addElement("property");
-        // addStringElement(propertyEl, "category",
-        // prop.getCategory().toString());
-        // addStringElement(propertyEl, "propertyId", prop.getPropertyId());
-        // addStringElement(propertyEl, "name", prop.getName());
-        // addStringElement(propertyEl, "description", prop.getDescription());
-        // addStringElement(propertyEl, "evaluationScope",
-        // prop.getEvaluationScope() != null ?
-        // prop.getEvaluationScope().toString() : "");
-        //
-        // addScale(prop.getScale(), propertyEl);
-        // // note: we only keep the selected property and metric
-        // addChangeLog(prop.getChangeLog(), propertyEl);
-        //
-        // }
-        // addMetric(measure.getMetric(), infoEl);
-        // infoEl.addAttribute("ID", measure.getUri());
-        //
-        // addChangeLog(measure.getChangeLog(), infoEl);
+        measureEl.addAttribute("ID", measure.getUri());
+        addStringElement(measureEl, "name", measure.getName());
+        addStringElement(measureEl, "description", measure.getDescription());
+        
+         Attribute attribute = (Attribute) measure.getAttribute();
+         if (attribute != null) {
+             Element attributeEl = measureEl.addElement("attribute");
+             attributeEl.addAttribute("ID", attribute.getUri());
+             addStringElement(attributeEl, "name", attribute.getName());
+             addStringElement(attributeEl, "description", attribute.getDescription());
+    
+             addStringElement(attributeEl, "category", attribute.getCategory().toString());
+         }
+         addScale(measure.getScale(), measureEl);
+         
+         // addChangeLog(measure.getChangeLog(), measureEl);
     }
-
-    // /**
-    // * creates a new element with all information of the given metric,
-    // * and adds it to the parent node.
-    // *
-    // * @param m
-    // * @param parent
-    // */
-    // private void addMetric(Metric m, Element parent) {
-    // if (m != null) {
-    // Element metricEl = parent.addElement("metric");
-    // addStringElement(metricEl, "metricId", m.getMetricId());
-    // addStringElement(metricEl, "name", m.getName());
-    // addStringElement(metricEl, "description", m.getDescription());
-    // addScale(m.getScale(), metricEl);
-    // addChangeLog(m.getChangeLog(), metricEl);
-    // }
-    // }
 
     /**
      * Adds the given node's properties to the xmlNode.

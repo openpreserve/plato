@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Plato: Planning Tool
+ developed within the EU IST FP6 project PLANETS: Preservation and Long-term Access through Networked Services,
+ Contract number 033789, June 2006-May 2009.
+ Subproject: PP - Preservation Planning
+ Workpackage: PP4 - Preservation Plan Decision Support
+ Responsible partner:  TUWIEN - Vienna University of Technology, Department of Software Technology  and Interactive Systems
+ Further information:
+ www.planets-project.eu
+ www.ifs.tuwien.ac.at/dp -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="plans">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="1" name="plan" type="projectType"></xs:element>
+				</xs:sequence>
+			</xs:sequence>
+     		<xs:attribute use="required" name="version" type="xs:string"></xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+    <xs:complexType name="projectType">
+        <xs:all>
+            <xs:element minOccurs="1" name="changelog" type="changeLogType"/>
+            <xs:element minOccurs="1" name="state" type="projectStateType"/>
+            <xs:element minOccurs="1" name="properties" type="projectPropertiesType"/>
+            <xs:element minOccurs="1" name="basis" type="projectBasisType"/>
+            <xs:element minOccurs="1" name="sampleRecords" type="sampleRecordDefinitionType"/>
+            <xs:element minOccurs="0" name="requirementsDefinition" type="requirementsDefinitionType"/>
+            <xs:element minOccurs="1" name="alternatives" type="alternativesDefinitionType"/>
+            <xs:element minOccurs="0" name="decision" type="decisionType"/>
+            <xs:element minOccurs="0" name="evaluation" type="evaluationStepType"/>
+            <xs:element minOccurs="0" name="importanceWeighting" type="importanceWeightingType"/>
+            <xs:element minOccurs="0" name="recommendation" type="recommendationType"/>
+            <xs:element minOccurs="0" name="transformation" type="transformationType"/>
+            <xs:element minOccurs="1" name="tree" type="objectiveTreeType"/>
+        </xs:all>
+        <xs:attribute use="optional" name="version" type="xs:string"></xs:attribute>
+    </xs:complexType>
+
+	<xs:complexType name="booleanScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="unit" type="xs:string" use="optional"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="restriction" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Yes/No"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="yanScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="unit" type="xs:string" use="optional"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="restriction" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Yes/Acceptable/No"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ordinalScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="unit" type="xs:string" use="optional"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="restriction" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[^/]*(/([^/]*))*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="positiveFloatScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="unit" type="xs:string" use="required"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="restriction" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="((\+)?[0-9]*(\.)?[0-9]*)?"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="floatScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="unit" type="xs:string" use="required"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="positiveIntegerScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="unit" type="xs:string" use="required"/>
+		<xs:attribute name="restriction" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="((\+)?[0-9]*)?"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="integerScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="unit" type="xs:string" use="required"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="intRangeScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="unit" type="xs:string" use="required"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="restriction" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[^/]*(/([^/]*))*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="floatRangeScaleType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="unit" type="xs:string" use="required"/>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="restriction" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[^/]*(/([^/]*))*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="booleanResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Yes"/>
+					<xs:enumeration value="No"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="yanResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Yes"/>
+					<xs:enumeration value="Acceptable"/>
+					<xs:enumeration value="No"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="ordinalResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+	</xs:complexType>
+	
+	<xs:complexType name="positiveFloatResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:minInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="floatResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:decimal" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="positiveIntegerResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="integerResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:integer" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="aggregationModeType">
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="WORST"/>
+					<xs:enumeration value="AVERAGE"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="alternativeType">
+        <xs:all>
+     		<xs:element name="description" type="maxLengthStringMandatory" />
+     		<xs:element name="action" type="preservationActionDefinitionType" minOccurs="0"/>
+			<xs:element name="resourceDescription" type="resourceDescriptionType" />
+			<xs:element name="experiment" type="experimentType" />
+			<xs:element name="changelog" type="changeLogType" />
+		</xs:all>
+		<xs:attribute name="discarded" type="xs:boolean"/>
+		<xs:attribute name="name">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="20"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	
+  <xs:complexType name="preservationActionDefinitionType">
+    <xs:all>
+      <xs:element name="params">
+         <xs:complexType>
+            <xs:sequence>
+               <xs:element name="param" type="parameterType" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:element>
+      <xs:element name="changelog" type="changeLogType"/>
+    </xs:all>
+      <xs:attribute name="info" type="xs:string"/>
+      <xs:attribute name="servicelocator" type="xs:string" use="required"/>
+      <xs:attribute name="shortname" type="xs:string" use="required"/>
+      <xs:attribute name="targetFormat" type="xs:string"/>
+      <xs:attribute name="url" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameterType">
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="value" type="xs:string" use="required"/>
+  </xs:complexType>
+	
+	<xs:complexType name="experimentType">
+		<xs:all>
+            <xs:element name="description" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="runDescription" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="uploads">
+		        <xs:complexType>
+		          <xs:sequence>
+		            <xs:element name="upload" minOccurs="0" maxOccurs="unbounded" type="sampleUploadType"/>
+		          </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="evaluationType">
+		<xs:annotation>
+			<xs:documentation>the valueMap for this leaf: - for each alternative a list of result-values, one per sample-record. all result-values are of the same type, specified by the scale-type of the leaf</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="alternative" type="evaluatedAlternativeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="intRangeResultType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:integer" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="ordinalTransformerType">
+		<xs:all>
+			<xs:element name="mappings" type="mappingsType"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="mappingsType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="mapping" type="mappingType"/>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:complexType name="mappingType">
+        <xs:attribute name="ordinal" type="xs:string" use="required"/>
+        <xs:attribute name="target" use="required">
+           <xs:simpleType>
+             <xs:restriction base="xs:decimal">
+               <xs:minInclusive value="0.0"/>
+               <xs:maxInclusive value="5.0"/>
+             </xs:restriction>
+           </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+	<xs:complexType name="numericTransformerType">
+		<xs:all>
+			<xs:element name="mode" type="modeType"/>
+			<xs:element name="thresholds" type="thresholdsType"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="thresholdType">
+		<xs:attribute name="value" type="xs:decimal" use="required"/>
+		<xs:attribute name="target" type="xs:integer" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="thresholdsType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="threshold" type="thresholdType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="modeType">
+		<xs:attribute name="value" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="LINEAR"/>
+					<xs:enumeration value="THRESHOLD_STEPPING"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+    
+	<xs:complexType name="resourceDescriptionType">
+		<xs:all>
+            <xs:element name="necessaryResources" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="configSettings" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="reasonForConsidering" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+	</xs:complexType>
+	
+	<xs:complexType name="evaluatedAlternativeType">
+		<xs:sequence>
+            <xs:element name="comment" minOccurs="0" maxOccurs="1">
+              <xs:simpleType>
+                 <xs:restriction base="xs:string">
+                    <xs:maxLength value="50"/>
+                 </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+			<xs:choice>
+	            <xs:annotation>
+	                <xs:documentation>one result-value per sample-record</xs:documentation>
+	            </xs:annotation>
+				<xs:element name="ordinalResult" type="ordinalResultType" maxOccurs="unbounded"/>
+				<xs:element name="booleanResult" type="booleanResultType" maxOccurs="unbounded"/>
+				<xs:element name="yanResult" type="yanResultType" maxOccurs="unbounded"/>
+				<xs:element name="floatResult" type="floatResultType" maxOccurs="unbounded"/>
+				<xs:element name="positiveFloatResult" type="positiveFloatResultType" maxOccurs="unbounded"/>
+				<xs:element name="floatRangeResult" type="floatResultType" maxOccurs="unbounded"/>
+				<xs:element name="intRangeResult" type="integerResultType" maxOccurs="unbounded"/>
+				<xs:element name="integerResult" type="integerResultType" maxOccurs="unbounded"/>
+				<xs:element name="positiveIntegerResult" type="positiveIntegerResultType" maxOccurs="unbounded"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="key" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>key is the name of the alternative</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="leafType">
+		<xs:complexContent>
+			<xs:extension base="treeNodeType">
+				<xs:sequence>
+					<xs:element name="aggregationMode" type="aggregationModeType" minOccurs="0"/>
+					<xs:sequence minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>each leaf defines a property of a certain type</xs:documentation>
+						</xs:annotation>
+						<xs:choice>
+							<xs:element name="ordinalScale" type="ordinalScaleType"/>
+							<xs:element name="yanScale" type="yanScaleType"/>
+							<xs:element name="booleanScale" type="booleanScaleType"/>
+							<xs:element name="intRangeScale" type="intRangeScaleType"/>
+							<xs:element name="floatRangeScale" type="floatRangeScaleType"/>
+							<xs:element name="positiveFloatScale" type="positiveFloatScaleType"/>
+							<xs:element name="floatScale" type="floatScaleType"/>
+							<xs:element name="integerScale" type="integerScaleType"/>
+							<xs:element name="positiveIntegerScale" type="positiveIntegerScaleType"/>
+						</xs:choice>
+					</xs:sequence>
+					<xs:sequence minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>transformer corresponding to the scale-type of this leaf</xs:documentation>
+						</xs:annotation>
+						<xs:choice>
+							<xs:element name="ordinalTransformer" type="ordinalTransformerType"/>
+							<xs:element name="numericTransformer" type="numericTransformerType"/>
+						</xs:choice>
+					</xs:sequence>
+					<xs:element name="evaluation" type="evaluationType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="treeNodeType">
+		<xs:sequence>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="weight" type="xs:double" use="required"/>
+		<xs:attribute name="single" type="xs:boolean" use="required"/>
+		<xs:attribute name="lock" type="xs:boolean" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="nodeType">
+		<xs:complexContent>
+			<xs:extension base="treeNodeType">
+				<xs:choice  minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="leaf" type="leafType"/>
+					<xs:element name="node" type="nodeType"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="changeLogType">
+		<xs:attribute name="created" type="xs:integer" use="required"/>
+		<xs:attribute name="createdBy" type="xs:string"/>
+		<xs:attribute name="changed" type="xs:integer" use="required"/>
+		<xs:attribute name="changedBy" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="projectPropertiesType">
+        <xs:all>
+            <xs:element name="report" type="uploadType" minOccurs="0"/>
+            <xs:element name="description" type="maxLengthString" />
+    	    <xs:element name="changelog" type="changeLogType" />
+        </xs:all>
+		<xs:attribute name="author" type="nonEmptyString"  use="required"/>
+		<xs:attribute name="organization" type="nonEmptyString"  use="required"/>
+		<xs:attribute name="name" type="nonEmptyString"  use="required"/>
+        <xs:attribute name="privateProject" type="xs:boolean"/>
+        <xs:attribute name="reportPublic" type="xs:boolean"/>
+
+	</xs:complexType>
+
+	<xs:complexType name="projectBasisType">
+        <xs:all>
+            <xs:element name="documentTypes" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="applyingPolicies" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="applyingPoliciesUpload" type="uploadType" minOccurs="0"/>
+            <xs:element name="designatedCommunity" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="designatedCommunityUpload" type="uploadType" minOccurs="0"/>
+            <xs:element name="mandate" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="mandateUpload" type="uploadType" minOccurs="0"/>
+            <xs:element name="organisationalProcedures" type="maxLengthString"  minOccurs="0"/>
+            <xs:element name="planningPurpose" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="planRelations" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="preservationRights" type="maxLengthString" minOccurs="0"/>
+            <xs:element name="referenceToAgreements" type="maxLengthString" minOccurs="0"/>
+    	    <xs:element name="triggers" minOccurs="0">
+    	      <xs:complexType>
+    	        <xs:sequence>
+    	           <xs:element name="trigger" type="triggerType" minOccurs="0" maxOccurs="unbounded"/>
+    	        </xs:sequence>
+    	      </xs:complexType>
+    	    </xs:element>
+    	    <xs:element name="numberOfObjects" type="xs:string" minOccurs="0"/>
+            <xs:element name="changelog" type="changeLogType"/>
+        </xs:all>
+        <xs:attribute name="identificationCode" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="sampleRecordDefinitionType">
+		<xs:sequence>
+            <xs:element name="samplesDescription" type="maxLengthString" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="collectionProfile" type="collectionProfileType" minOccurs="0" maxOccurs="1"/>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="record" type="sampleRecordType"/>
+			</xs:sequence>
+			<xs:element name="changelog" type="changeLogType" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="alternativesDefinitionType">
+		<xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="alternative" type="alternativeType"/>
+			</xs:sequence>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="decisionType">
+        <xs:all>
+			<xs:element name="goDecision">
+				<xs:complexType>
+					<xs:attribute name="value" type="xs:string" use="required" />
+				</xs:complexType>
+			</xs:element>
+            <xs:element name="reason" type="maxLengthStringMandatory" minOccurs="0"/>
+            <xs:element name="actionNeeded" type="maxLengthStringMandatory" minOccurs="0"/>
+            <xs:element name="changelog" type="changeLogType" />
+		</xs:all>
+	</xs:complexType>
+
+    <xs:complexType name="evaluationStepType">
+        <xs:all>
+            <xs:element name="comment" type="maxLengthString"  minOccurs="0"/>
+            <xs:element name="changelog" type="changeLogType"/>
+        </xs:all>
+    </xs:complexType>
+
+	<xs:complexType name="objectiveTreeType">
+		<xs:sequence>
+			<xs:element name="node" type="nodeType" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="weightsInitialized" type="xs:boolean" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="sampleRecordType">
+		<xs:all>
+            <xs:element name="description" type="longString" minOccurs="0"/>
+            <xs:element name="originalTechnicalEnvironment" type="longString"  minOccurs="0"/>
+			<xs:element name="data" type="xs:base64Binary" minOccurs="0"/>
+			<xs:element name="formatInfo" type="formatInfoType" minOccurs="0"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+		<xs:attribute name="shortName" type="nonEmptyString" use="required"/>
+		<xs:attribute name="fullname" type="nonEmptyString" use="required"/>
+        <xs:attribute name="contentType" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="transformationType">
+		<xs:all>
+            <xs:element name="comment" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="importanceWeightingType">
+		<xs:all>
+            <xs:element name="comment" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:all>
+	</xs:complexType>
+
+  <xs:complexType name="collectionProfileType">
+    <xs:all>
+      <xs:element name="collectionID" type="maxLengthString" minOccurs="0"/>
+      <xs:element name="description" type="maxLengthString"  minOccurs="0"/>
+      <xs:element name="expectedGrowthRate" type="maxLengthString" minOccurs="0"/>
+      <xs:element name="numberOfObjects" type="maxLengthString"  minOccurs="0"/>
+      <xs:element name="typeOfObjects" type="maxLengthString"   minOccurs="0"/>
+    </xs:all>
+  </xs:complexType>
+  	
+  <xs:complexType name="uploadType">
+    <xs:all>
+      <xs:element name="data" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="changelog" type="changeLogType" minOccurs="0" />      
+    </xs:all>
+    <xs:attribute name="fullname" type="xs:string"/>
+    <xs:attribute name="contentType" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="sampleUploadType">
+    <xs:complexContent>
+      <xs:extension base="uploadType">
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="formatInfoType">
+    <xs:all>
+       <xs:element name="changelog" type="changeLogType"  minOccurs="0"/>
+    </xs:all>
+    <xs:attribute name="defaultExtension" type="xs:string"/>
+    <xs:attribute name="mimeType" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="puid" type="xs:string"/>
+    <xs:attribute name="version" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="projectStateType">
+      <xs:attribute use="required" name="value">
+          <xs:simpleType>
+              <xs:restriction base="xs:integer">
+                  <xs:minInclusive value="0"></xs:minInclusive>
+                  <xs:maxInclusive value="12"></xs:maxInclusive>
+              </xs:restriction>
+          </xs:simpleType>
+      </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="recommendationType">
+     <xs:all>
+        <xs:element name="reasoning" type="maxLengthString" minOccurs="0"/>
+        <xs:element name="changelog" type="changeLogType"  minOccurs="0"/>
+     </xs:all>
+     <xs:attribute name="alternativeName" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="requirementsDefinitionType">
+    <xs:all>
+      <xs:element name="description" type="maxLengthString" minOccurs="0"/>
+      <xs:element name="uploads" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="upload" minOccurs="0" maxOccurs="unbounded" type="uploadType"/>
+            </xs:sequence>
+          </xs:complexType>
+      </xs:element>
+      <xs:element name="changelog" type="changeLogType"/>
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="triggerType">
+    <xs:attribute name="id" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+  
+    <xs:simpleType name="longString">
+       <xs:restriction base="xs:string">
+         <xs:maxLength value="5000"/>
+       </xs:restriction>
+    </xs:simpleType>
+  
+	<xs:simpleType name="maxLengthString">
+       <xs:restriction base="xs:string">
+  	     <xs:maxLength value="32672"/>
+       </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="maxLengthStringMandatory">
+      <xs:restriction base="maxLengthString">
+		<xs:minLength value="1"/>
+      </xs:restriction>
+	</xs:simpleType>
+
+    <xs:simpleType name="nonEmptyString">
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

@@ -3,6 +3,7 @@ package eu.scape_project.planning.model.measurement;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
@@ -18,6 +19,7 @@ import javax.persistence.Lob;
 public class Attribute {
 
     @Id
+    @GeneratedValue
     private long id;
     
     private String uri;
@@ -68,6 +70,14 @@ public class Attribute {
 
     public void setCategory(CriterionCategory category) {
         this.category = category;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
 }
