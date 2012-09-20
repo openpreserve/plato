@@ -250,9 +250,7 @@ public class CriteriaManager implements Serializable {
      */
     @Lock(LockType.WRITE)
     public void reload() {
-    	String dir = "C:/Users/hku/Documents/data/work/IFS/plato-dev/plato/planning-core/src/main/resources";
-    	
-    	dir = dir + "/" + MEASURES_DIR + "/" + MEASURES_FILE; 
+    	String dir = MEASURES_DIR + "/" + MEASURES_FILE; 
     	
     	model = FileManager.get().loadModel(dir);
     	
