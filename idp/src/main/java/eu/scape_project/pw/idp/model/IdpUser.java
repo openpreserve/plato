@@ -36,7 +36,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
-import eu.scape_project.pw.idp.PasswordHashingEntityListener;
 
 /**
  * User object used in the identity provider.
@@ -69,6 +68,7 @@ public class IdpUser {
      * E-Mail of the user.
      */
     @Email
+    @Column(unique = true)
     private String email;
 
     /**

@@ -249,7 +249,7 @@ textarea,input[type="text"],input[type="password"],select {
 	background-image: none;
 }
 
-.input input[type=text] {
+.input input[type=text],input[type="password"] {
 	padding: 2px;
 	margin-right: 0;
 	background-color: white;
@@ -264,15 +264,15 @@ textarea,input[type="text"],input[type="password"],select {
 	outline: none;
 }
 
-.input input[type=text]:focus {
+.input input[type=text]:focus,input[type="password"]:focus {
 	box-shadow: 2px 1px 5px #155C89;
 }
 
-.input input[type=text]::-webkit-input-placeholder {
+.input input[type=text]::-webkit-input-placeholder,input[type=password]::-webkit-input-placeholder {
 	color: #BABABA;
 }
 
-.input input[type=text]:-moz-placeholder {
+.input input[type=text]:-moz-placeholder,input[type=password]:-moz-placeholder {
 	color: #BABABA;
 }
 

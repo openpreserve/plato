@@ -16,8 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.planning.user;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,11 +41,23 @@ import org.slf4j.Logger;
 import eu.scape_project.planning.model.GroupInvitation;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.UserGroup;
+import eu.scape_project.planning.utils.PropertiesLoader;
 
+/**
+ * Class to update the group of the current user.
+ */
 @Stateful
 @SessionScoped
 public class Groups implements Serializable {
+    /**
+     * Serial version UID
+     */
     private static final long serialVersionUID = 1811189638942547758L;
+
+    /**
+     * Name of the executor properties
+     */
+    private static final String CONFIG_NAME = "mail.properties";
 
     @Inject
     private Logger log;
@@ -58,25 +68,32 @@ public class Groups implements Serializable {
     @Inject
     private User user;
 
+    /**
+     * Properties for sending mails
+     */
     private Properties mailProperties;
 
+    /**
+     * Users marked as changed
+     */
     private Set<User> changedUsers = new HashSet<User>();
+
+    /**
+     * Groups marked as changed
+     */
     private Set<UserGroup> changedGroups = new HashSet<UserGroup>();
+
+    /**
+     * The current users of the group
+     */
     private List<User> groupUsers = new ArrayList<User>();
 
+    /**
+     * Initialises the class.
+     */
     @PostConstruct
     public void init() {
-        try {
-            InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("mail.properties");
-            if (in != null) {
-                mailProperties = new Properties();
-                mailProperties.load(in);
-            } else {
-                log.error("Could not find mail.properties");
-            }
-        } catch (IOException e) {
-            log.error("Error while loading mail.properties", e);
-        }
+        mailProperties = PropertiesLoader.loadProperties(CONFIG_NAME);
 
         changedUsers.clear();
         changedGroups.clear();
@@ -126,7 +143,7 @@ public class Groups implements Serializable {
     }
 
     /**
-     * Sets all invitations of the group to null and deletes the group.
+     * Deletes the provided group from the DB.
      * 
      * @param group
      *            the group to delete
@@ -152,25 +169,14 @@ public class Groups implements Serializable {
     }
 
     /**
-     * Marks a user as changed
-     * 
-     * @param user
-     */
-    private void markChangedUser(User user) {
-        if (!user.equals(this.user) && !changedUsers.contains(user)) {
-            changedUsers.add(user);
-        }
-    }
-
-    /**
-     * Switches the group of the current user to a newly created group.
+     * Removes the current user from his group.
      */
     public void leaveGroup() {
         removeUser(user);
     }
 
     /**
-     * Removes the user from the group of the current user.
+     * Removes the provided user from the group of the current user.
      */
     public void removeUser(User user) {
         UserGroup group = new UserGroup();
@@ -179,6 +185,17 @@ public class Groups implements Serializable {
         groupUsers.remove(user);
 
         switchGroup(user, group);
+    }
+
+    /**
+     * Marks a user as changed.
+     * 
+     * @param user
+     */
+    private void markChangedUser(User user) {
+        if (!user.equals(this.user) && !changedUsers.contains(user)) {
+            changedUsers.add(user);
+        }
     }
 
     /**

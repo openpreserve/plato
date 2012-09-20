@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.pw.idp;
+package eu.scape_project.pw.idp.model;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.apache.commons.codec.digest.DigestUtils;
 
-import eu.scape_project.pw.idp.model.IdpUser;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * EntityListener class that hashes the plaintext password befor storing the
@@ -33,12 +32,13 @@ public class PasswordHashingEntityListener {
      * Hashes the plainPassword of the user if set and stores it in password.
      * 
      * @param user
+     *            the to update
      */
     @SuppressWarnings("unused")
     @PreUpdate
     @PrePersist
     private void hashPassword(IdpUser user) {
-        String password = user.getPlainPassword();
+        final String password = user.getPlainPassword();
         if (password != null) {
             user.setPassword(DigestUtils.md5Hex(password));
         }

@@ -16,34 +16,31 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.bean;
 
-import java.util.List;
+import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
+
+import eu.scape_project.pw.idp.UserManager;
+import eu.scape_project.pw.idp.model.IdpUser;
+import eu.scape_project.pw.idp.utils.FacesMessages;
+import eu.scape_project.pw.idp.utils.PropertiesLoader;
 
 import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaFactory;
 
-import org.slf4j.Logger;
-
-import eu.scape_project.pw.idp.UserManager;
-import eu.scape_project.pw.idp.model.IdpRole;
-import eu.scape_project.pw.idp.model.IdpUser;
-
+/**
+ * Viewbean to add a new user.
+ */
 @ManagedBean(name = "addUser")
 @ViewScoped
-public class AddUserBean {
+public class AddUserView {
 
     @Inject
-    private EntityManager em;
-
-    @Inject
-    private Logger log;
+    private FacesMessages facesMessages;
 
     private IdpUser user;
 
@@ -63,15 +60,23 @@ public class AddUserBean {
     @Inject
     private UserManager userManager;
 
-    public AddUserBean() {
+    /**
+     * Creates a new instance of this view.
+     */
+    public AddUserView() {
         user = new IdpUser();
 
-        reCaptcha = ReCaptchaFactory.newReCaptcha("6Lclf9ASAAAAAJE2REWGZ7chcFgndfWIhAY01v_n",
-            "6Lclf9ASAAAAAGMQlB8N-6a-UeKKXH6eMuB1hnEH", false);
+        Properties idpProperties = PropertiesLoader.loadProperties("idp.properties");
+
+        reCaptcha = ReCaptchaFactory.newReCaptcha(idpProperties.getProperty("recaptcha.publickey"),
+            idpProperties.getProperty("recaptcha.privatekey"), false);
         addUserSuccessful = false;
         activateUserSuccessful = false;
     }
 
+    /**
+     * Adds the user.
+     */
     public void addUser() {
         // create user
         userManager.addUser(user);
@@ -81,14 +86,14 @@ public class AddUserBean {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
             .getRequest();
         String serverString = request.getServerName() + ":" + request.getServerPort();
-        userManager.sendActivationMail(user, serverString);
+        if (!userManager.sendActivationMail(user, serverString)) {
+            facesMessages.addError("Could not send activation mail.");
+        }
     }
 
     /**
      * Method responsible for triggering the activation of an already created
-     * user
-     * 
-     * @return outcome-string of the page to display.
+     * user.
      */
     public void activateUser() {
         // fetch the token from URL request

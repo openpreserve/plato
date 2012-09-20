@@ -22,17 +22,24 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import eu.scape_project.planning.model.User;
+
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
-import eu.scape_project.planning.model.User;
 
+/**
+ * Helper class to get gravatar URL.
+ */
 @Named("gravatarHelper")
 @SessionScoped
 public class GravatarHelper implements Serializable {
 
     private static final long serialVersionUID = -2943870846396992143L;
 
+    /**
+     * Default size of the gravatar.
+     */
     public static final int DEFAULT_SIZE = 30;
 
     @Inject

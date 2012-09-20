@@ -44,6 +44,9 @@ import org.slf4j.LoggerFactory;
 import eu.scape_project.planning.taverna.TavernaPort;
 import eu.scape_project.planning.utils.PropertiesLoader;
 
+/**
+ * Class to execute Taverna workflows on a remote server via SSH.
+ */
 public class SSHTavernaExecutor implements TavernaExecutor {
 
     private static Logger log = LoggerFactory.getLogger(SSHTavernaExecutor.class);
@@ -51,27 +54,37 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /**
      * Name of the executor properties
      */
-    private static final String SSH_PROPERTIES = "config/tavernaserverssh";
+    private static final String CONFIG_NAME = "tavernaserverssh.properties";
+
     /**
      * Filename of input data document
      */
     private static final String INPUT_DOC_FILENAME = "input_data.xml";
+
     /**
      * Filename of output data document
      */
     private static final String OUTPUT_DOC_FILENAME = "output_data.xml";
+
     /**
      * Taverna command
      */
     private static final String TAVERNA_COMMAND = "$TAVERNA_HOME/executeworkflow.sh -inputdoc %%inputdoc%% -outputdoc %%outputdoc%% %%workflow%%";
 
+    /**
+     * Baclava XML namespace
+     */
     private static final Namespace namespace = Namespace.getNamespace("b",
         "http://org.embl.ebi.escience/baclava/0.1alpha");
 
-    /*
-     * Properties
+    /**
+     * SSH properties
      */
     private Properties sshProperties;
+
+    /**
+     * Timeout for remote commands
+     */
     private Integer commandTimeout;
 
     /*
@@ -113,14 +126,10 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * Initializes the Executor.
      */
     public void init() {
-        try {
-            sshProperties = PropertiesLoader.loadProperties(SSH_PROPERTIES);
-            commandTimeout = Integer.parseInt(sshProperties.getProperty("command.timeout"));
+        sshProperties = PropertiesLoader.loadProperties(CONFIG_NAME);
+        commandTimeout = Integer.parseInt(sshProperties.getProperty("command.timeout"));
 
-            clear();
-        } catch (IOException e) {
-            log.error("Error loading properties " + SSH_PROPERTIES, e);
-        }
+        clear();
     }
 
     /*

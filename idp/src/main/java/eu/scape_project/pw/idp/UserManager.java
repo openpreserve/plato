@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
@@ -30,30 +33,63 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
+import eu.scape_project.pw.idp.utils.PropertiesLoader;
+
+import org.slf4j.Logger;
 
 /**
  * Class responsible for managing users in the identity provider.
  */
 @Stateless
 public class UserManager {
+
+    /**
+     * Name of the configuration file.
+     */
+    private static final String CONFIG_NAME = "mail.properties";
+
+    /**
+     * Entitymanager.
+     */
     @Inject
     private EntityManager em;
 
+    /**
+     * Logger for this class.
+     */
     @Inject
     private Logger log;
 
+    /**
+     * Standard rolename for a user.
+     */
     private final String idpUserStandardRoleName = "authenticated";
+
+    /**
+     * Properties for activation mail.
+     */
+    private Properties mailProperties;
+
+    @Resource
+    private SessionContext sessionContext;
+
+    /**
+     * Init this class.
+     */
+    @PostConstruct
+    public void init() {
+        mailProperties = PropertiesLoader.loadProperties(CONFIG_NAME);
+    }
 
     /**
      * Method responsible for adding a new user.
      * 
      * @param user
      *            User to add.
+     * @throws IdpException
      */
     public void addUser(IdpUser user) {
         // Set standard role
@@ -82,10 +118,11 @@ public class UserManager {
      * @param actionToken
      *            Unique-id (only known by the wanted user itself) used to
      *            identify the user to activate.
+     * @return true if the user was activated
      */
     public Boolean activateUser(String actionToken) {
-        List<IdpUser> matchingUser = (List<IdpUser>) em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.actionToken = :actionToken")
+        List<IdpUser> matchingUser = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.actionToken = :actionToken", IdpUser.class)
             .setParameter("actionToken", actionToken).getResultList();
 
         if (matchingUser.size() != 1) {
@@ -116,25 +153,16 @@ public class UserManager {
      * @return True if activation email was sent. False otherwise
      */
     public boolean sendActivationMail(IdpUser user, String serverString) {
-        // EMail settings
-        final String toEmail = user.getEmail();
-        final String fromEmail = "planningsuite@ifs.tuwien.ac.at";
-        final String smtpServer = "mr.tuwien.ac.at";
 
         try {
             Properties props = System.getProperties();
 
-            Properties mailProps = new Properties();
-            mailProps.put("TO", toEmail);
-            mailProps.put("FROM", fromEmail);
-            mailProps.put("SMTPSERVER", smtpServer);
-
-            props.put("mail.smtp.host", mailProps.getProperty("SMTPSERVER"));
+            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
             Session session = Session.getDefaultInstance(props, null);
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProps.getProperty("FROM")));
-            message.setRecipient(RecipientType.TO, new InternetAddress(mailProps.getProperty("TO")));
+            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setRecipient(RecipientType.TO, new InternetAddress(user.getEmail()));
             message.setSubject("Please Confirm your Planningsuite user account");
 
             StringBuilder builder = new StringBuilder();
@@ -148,11 +176,11 @@ public class UserManager {
             message.saveChanges();
 
             Transport.send(message);
-            log.debug("Activation mail sent successfully to " + toEmail);
+            log.debug("Activation mail sent successfully to " + user.getEmail());
 
             return true;
         } catch (Exception e) {
-            log.error("Error at sending activation mail to " + toEmail);
+            log.error("Error at sending activation mail to " + user.getEmail());
             return false;
         }
     }

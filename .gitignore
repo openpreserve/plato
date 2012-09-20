@@ -7,4 +7,3 @@ target/
 .checkstyle
 *.jsfdia
 *~
-planning-core/src/main/resources/config/tavernaserverssh.properties

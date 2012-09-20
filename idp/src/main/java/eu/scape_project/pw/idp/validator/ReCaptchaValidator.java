@@ -16,6 +16,8 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.validator;
 
+import java.util.Properties;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,11 +26,28 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.scape_project.pw.idp.utils.PropertiesLoader;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
+/**
+ * Validator for ReCaptcha.
+ */
 @FacesValidator("ReCaptchaValidator")
 public class ReCaptchaValidator implements Validator {
+
+    /**
+     * IDP properties.
+     */
+    private Properties idpProperties;
+
+    /**
+     * Constructor.
+     */
+    public ReCaptchaValidator() {
+        idpProperties = PropertiesLoader.loadProperties("idp.properties");
+    }
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -36,7 +55,7 @@ public class ReCaptchaValidator implements Validator {
 
         String remoteAddr = request.getRemoteAddr();
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-        reCaptcha.setPrivateKey("6Lclf9ASAAAAAGMQlB8N-6a-UeKKXH6eMuB1hnEH");
+        reCaptcha.setPrivateKey(idpProperties.getProperty("recaptcha.privatekey"));
 
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");

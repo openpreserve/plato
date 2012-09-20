@@ -24,6 +24,9 @@ import javax.persistence.Id;
 
 import org.hibernate.validator.constraints.URL;
 
+/**
+ * Describes a repository.
+ */
 @Entity
 public class Repository implements Serializable {
     private static final long serialVersionUID = -3659021986541051911L;
@@ -33,12 +36,11 @@ public class Repository implements Serializable {
     private int id;
 
     @URL
-    private String url;
+    private String url = "";
 
-    private String username;
+    private String username = "";
 
     // ---------- getter/setter ----------
-
     public int getId() {
         return id;
     }

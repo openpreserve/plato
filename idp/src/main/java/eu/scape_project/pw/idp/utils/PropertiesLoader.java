@@ -1,4 +1,4 @@
-package eu.scape_project.planning.utils;
+package eu.scape_project.pw.idp.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -137,7 +137,7 @@ public class PropertiesLoader {
                 in.close();
             }
         } catch (IOException e) {
-            log.warn("Could not read file properties " + folder + File.separator + name);
+            log.debug("Could not read file properties " + folder + File.separator + name);
             return defaults;
         }
     }

@@ -30,7 +30,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
+/**
+ * A group of users that collaborate during planning.
+ */
 @Entity
 public class UserGroup implements Serializable {
     private static final long serialVersionUID = -3659021986541051911L;
@@ -41,12 +45,13 @@ public class UserGroup implements Serializable {
 
     private String name;
 
-//    @OneToMany(mappedBy = "userGroup", fetch = FetchType.LAZY)
-//    private List<User> users = new ArrayList<User>();
+    // @OneToMany(mappedBy = "userGroup", fetch = FetchType.LAZY)
+    // private List<User> users = new ArrayList<User>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RDFPolicy> policies = new ArrayList<RDFPolicy>();
 
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private Repository repository = new Repository();
 
@@ -96,13 +101,13 @@ public class UserGroup implements Serializable {
         this.name = name;
     }
 
-//    public List<User> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(List<User> users) {
-//        this.users = users;
-//    }
+    // public List<User> getUsers() {
+    // return users;
+    // }
+    //
+    // public void setUsers(List<User> users) {
+    // this.users = users;
+    // }
 
     public Set<RDFPolicy> getPolicies() {
         return new HashSet<RDFPolicy>(policies);
