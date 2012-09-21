@@ -44,23 +44,26 @@ import eu.scape_project.planning.plato.bean.ExperimentStatus;
 @Stateful
 @ConversationScoped
 public class RunExperiments extends AbstractWorkflowStep {
-	private static final long serialVersionUID = -31490789968518812L;
-	
-	@Inject private Logger log;
-	
-	@Inject private ExperimentRunner experimentRunner;
-	
-	private ExperimentStatus experimentStatus = new ExperimentStatus();
+    private static final long serialVersionUID = -31490789968518812L;
 
-	public RunExperiments() {
-    	requiredPlanState = PlanState.EXPERIMENT_DEFINED;
-    	correspondingPlanState = PlanState.EXPERIMENT_PERFORMED;
-	}
-	
-	public void init(Plan p){
-		super.init(p);
-		
-        // add empty result files where missing (only for considered alternatives!)
+    @Inject
+    private Logger log;
+
+    @Inject
+    private ExperimentRunner experimentRunner;
+
+    private ExperimentStatus experimentStatus = new ExperimentStatus();
+
+    public RunExperiments() {
+        requiredPlanState = PlanState.EXPERIMENT_DEFINED;
+        correspondingPlanState = PlanState.EXPERIMENT_PERFORMED;
+    }
+
+    public void init(Plan p) {
+        super.init(p);
+
+        // add empty result files where missing (only for considered
+        // alternatives!)
         List<SampleObject> allRecords = p.getSampleRecordsDefinition().getRecords();
         for (Alternative alternative : p.getAlternativesDefinition().getConsideredAlternatives()) {
             Experiment exp = alternative.getExperiment();
@@ -69,85 +72,90 @@ public class RunExperiments extends AbstractWorkflowStep {
                 DigitalObject u = exp.getResults().get(record);
 
                 if (u == null) {
-                    exp.addRecord(record);  
+                    exp.addRecord(record);
                     u = exp.getResults().get(record);
                 }
             }
         }
-		
-	}
-	
-	/**
-	 * Sets up the experiment for a single alternative
-	 * 
-	 * @param alternative
-	 */
-	public ExperimentStatus setupExperiment(Alternative alternative) {
+
+    }
+
+    /**
+     * Sets up the experiment for a single alternative
+     * 
+     * @param alternative
+     */
+    public ExperimentStatus setupExperiment(Alternative alternative) {
         experimentStatus.experimentSetup(Arrays.asList(alternative), plan.getSampleRecordsDefinition().getRecords());
         return experimentStatus;
-	}
-	
-	/**
-	 * Sets up the experiment for all selected, runnable alternatives
-	 */
-	public ExperimentStatus setupAllExperiments() {
-		List<Alternative> runnableAlternatives = getRunnableAlternatives();
-		experimentStatus.experimentSetup(runnableAlternatives, plan.getSampleRecordsDefinition().getRecords());
-        return experimentStatus;
-	}
-	
-	private List<Alternative> getRunnableAlternatives() {
-		List<Alternative> runnableAlternatives = new ArrayList<Alternative>();
-		for (Alternative a : plan.getAlternativesDefinition().getAlternatives()) {
-			if (! a.isDiscarded() && a.isExecutable()) {
-				runnableAlternatives.add(a);
-			}
-		}
-		return runnableAlternatives;
-	}
-	
+    }
+
     /**
-     * runs all experiments scheduled in experimentStatus
+     * Sets up the experiment for all selected, runnable alternatives
+     */
+    public ExperimentStatus setupAllExperiments() {
+        List<Alternative> runnableAlternatives = getRunnableAlternatives();
+        experimentStatus.experimentSetup(runnableAlternatives, plan.getSampleRecordsDefinition().getRecords());
+        return experimentStatus;
+    }
+
+    private List<Alternative> getRunnableAlternatives() {
+        List<Alternative> runnableAlternatives = new ArrayList<Alternative>();
+        for (Alternative a : plan.getAlternativesDefinition().getAlternatives()) {
+            if (!a.isDiscarded() && a.isExecutable()) {
+                runnableAlternatives.add(a);
+            }
+        }
+        return runnableAlternatives;
+    }
+
+    /**
+     * Runs all experiments scheduled in experimentStatus.
      */
     public void startExperiments() {
-    	experimentRunner.startExperiments(plan, experimentStatus);
-    	log.error("started experiments... ");
+        experimentRunner.startExperiments(plan, experimentStatus);
+        log.info("Started experiments... ");
     }
-    
 
-    
-	/**
-	 * Method responsible for uploading a result file.
-	 * 
-	 * @param resultFile File to upload.
-	 * @param alternative Alternative the file was uploaded for.
-	 * @param sampleObject Sample the file was uploaded for.
-	 * @throws StorageException is thrown if any error occurs at uploading the result file.
-	 */
-	public void uploadResultFile(DigitalObject resultFile, Alternative alternative, SampleObject sampleObject) throws StorageException {
-		digitalObjectManager.moveDataToStorage(resultFile);
-		addedBytestreams.add(resultFile.getPid());
-		
-		characteriseFits(resultFile);
-		
-		alternative.getExperiment().getResults().put(sampleObject, resultFile);
-	}
-	
-	/**
-	 * Removes a previously uploaded result file.
-	 * 
-	 * @param alternative Alternative the file was uploaded for.
-	 * @param sampleObject Sample the file was uploaded for.
-	 */
-	public void removeResultFile(Alternative alternative, SampleObject sampleObject) {
-		DigitalObject resultFile = alternative.getExperiment().getResults().put(sampleObject, new DigitalObject());
-		bytestreamsToRemove.add(resultFile.getPid());
-		
-		alternative.getExperiment().getResults().put(sampleObject, new DigitalObject());
-	}
-	
-	public void characteriseResults() {
-		List<Alternative> runnableAlternatives = getRunnableAlternatives();
+    /**
+     * Method responsible for uploading a result file.
+     * 
+     * @param resultFile
+     *            File to upload.
+     * @param alternative
+     *            Alternative the file was uploaded for.
+     * @param sampleObject
+     *            Sample the file was uploaded for.
+     * @throws StorageException
+     *             is thrown if any error occurs at uploading the result file.
+     */
+    public void uploadResultFile(DigitalObject resultFile, Alternative alternative, SampleObject sampleObject)
+        throws StorageException {
+        digitalObjectManager.moveDataToStorage(resultFile);
+        addedBytestreams.add(resultFile.getPid());
+
+        characteriseFits(resultFile);
+
+        alternative.getExperiment().getResults().put(sampleObject, resultFile);
+    }
+
+    /**
+     * Removes a previously uploaded result file.
+     * 
+     * @param alternative
+     *            Alternative the file was uploaded for.
+     * @param sampleObject
+     *            Sample the file was uploaded for.
+     */
+    public void removeResultFile(Alternative alternative, SampleObject sampleObject) {
+        DigitalObject resultFile = alternative.getExperiment().getResults().put(sampleObject, new DigitalObject());
+        bytestreamsToRemove.add(resultFile.getPid());
+
+        alternative.getExperiment().getResults().put(sampleObject, new DigitalObject());
+    }
+
+    public void characteriseResults() {
+        List<Alternative> runnableAlternatives = getRunnableAlternatives();
         List<SampleObject> allRecords = plan.getSampleRecordsDefinition().getRecords();
         for (Alternative alternative : runnableAlternatives) {
             Experiment exp = alternative.getExperiment();
@@ -160,18 +168,19 @@ public class RunExperiments extends AbstractWorkflowStep {
                 }
             }
         }
-		
-	}
-	
-	@Override
-	protected void saveStepSpecific() {
-		prepareChangesForPersist.prepare(plan);
-		characteriseResults();		
-		
-		// init tree values for all considered alternatives
-		plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(), plan.getSampleRecordsDefinition().getRecords().size());
-		
-		saveEntity(plan.getAlternativesDefinition());
-		saveEntity(plan.getTree());
-	}
+
+    }
+
+    @Override
+    protected void saveStepSpecific() {
+        prepareChangesForPersist.prepare(plan);
+        characteriseResults();
+
+        // init tree values for all considered alternatives
+        plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(),
+            plan.getSampleRecordsDefinition().getRecords().size());
+
+        saveEntity(plan.getAlternativesDefinition());
+        saveEntity(plan.getTree());
+    }
 }

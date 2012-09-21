@@ -137,7 +137,7 @@ public class PropertiesLoader {
                 in.close();
             }
         } catch (IOException e) {
-            log.warn("Could not read file properties " + folder + File.separator + name);
+            log.debug("Could not read file properties " + folder + File.separator + name);
             return defaults;
         }
     }

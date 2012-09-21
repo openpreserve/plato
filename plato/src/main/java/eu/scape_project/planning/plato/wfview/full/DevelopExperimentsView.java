@@ -22,8 +22,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
@@ -31,44 +29,52 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DevelopExperiments;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 
+import org.slf4j.Logger;
+
 /**
- * Class used as backing-bean for the view developexperiments.xhtml
+ * Class used as backing-bean for the view developexperiments.xhtml.
  * 
  * @author Markus Hamm
  */
 @Named("developExperiments")
 @ConversationScoped
 public class DevelopExperimentsView extends AbstractView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject private Logger log;
-	
-	@Inject private DevelopExperiments developExperiments;
-	
-	private List<Alternative> alternatives;
-	
-	public DevelopExperimentsView() {
-    	currentPlanState = PlanState.GO_CHOSEN;
-    	name = "Develop Experiments";
-    	viewUrl = "/plan/developexperiments.jsf";
-    	group = "menu.evaluateAlternatives";    	
-	}
-	
-	public void init(Plan plan) {
-    	super.init(plan);
-    	alternatives = plan.getAlternativesDefinition().getAlternatives();
-	}
-	
-	public List<Alternative> getAlternatives() {
-		return alternatives;
-	}
+    @Inject
+    private Logger log;
 
-	public void setAlternatives(List<Alternative> alternatives) {
-		this.alternatives = alternatives;
-	}
+    @Inject
+    private DevelopExperiments developExperiments;
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return developExperiments;
-	}
+    private List<Alternative> alternatives;
+
+    /**
+     * Default constructor.
+     */
+    public DevelopExperimentsView() {
+        currentPlanState = PlanState.GO_CHOSEN;
+        name = "Develop Experiments";
+        viewUrl = "/plan/developexperiments.jsf";
+        group = "menu.evaluateAlternatives";
+    }
+
+    @Override
+    public void init(Plan plan) {
+        super.init(plan);
+        alternatives = plan.getAlternativesDefinition().getAlternatives();
+    }
+
+    public List<Alternative> getAlternatives() {
+        return alternatives;
+    }
+
+    public void setAlternatives(List<Alternative> alternatives) {
+        this.alternatives = alternatives;
+    }
+
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return developExperiments;
+    }
 }

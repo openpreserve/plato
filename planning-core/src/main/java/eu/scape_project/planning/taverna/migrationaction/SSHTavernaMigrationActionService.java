@@ -1,5 +1,6 @@
 package eu.scape_project.planning.taverna.migrationaction;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -10,9 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
@@ -28,11 +26,19 @@ import eu.scape_project.planning.taverna.executor.TavernaExecutorException;
 import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
+import eu.scape_project.planning.utils.FileUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Migration action service for executing migration actions using taverna on a
+ * remote server via SSH.
+ */
 public class SSHTavernaMigrationActionService implements IMigrationAction {
     private static Logger log = LoggerFactory.getLogger(SSHTavernaMigrationActionService.class);
 
-    MigrationResult lastResult;
+    private MigrationResult lastResult;
 
     @Override
     public boolean perform(PreservationActionDefinition action, SampleObject sampleObject) throws PlatoException {
@@ -74,8 +80,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 // Input from path
-                Set<TavernaPort> inputFromPorts = t2flowParser.getInputPorts(new URI(
-                    T2FlowParserFallback.FROM_OBJECT_PATH_URI));
+                Set<TavernaPort> inputFromPorts =
+                    t2flowParser.getInputPorts(new URI(T2FlowParserFallback.FROM_OBJECT_PATH_URI));
                 if (inputFromPorts.size() != 1) {
                     result.setSuccessful(false);
                     result.setReport("The number of from ports of workflow " + action.getUrl() + " is "
@@ -84,13 +90,14 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 for (TavernaPort inputFromPort : inputFromPorts) {
-                    inputData.put(inputFromPort, tavernaExecutor.new ByteArraySourceFile(digitalObject.getFullname(),
-                        digitalObject.getData().getData()));
+                    inputData.put(inputFromPort,
+                        tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject.getFullname()),
+                            digitalObject.getData().getData()));
                 }
 
                 // Input to path
-                Set<TavernaPort> inputToPorts = t2flowParser.getInputPorts(new URI(
-                    T2FlowParserFallback.TO_OBJECT_PATH_URI));
+                Set<TavernaPort> inputToPorts =
+                    t2flowParser.getInputPorts(new URI(T2FlowParserFallback.TO_OBJECT_PATH_URI));
                 if (inputToPorts.size() != 1) {
                     result.setSuccessful(false);
                     result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
@@ -99,7 +106,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 SSHInMemoryTempFile tempFile = new SSHInMemoryTempFile();
-                tempFile.setName("result." + digitalObject.getFullname() + "." + targetExtension);
+                tempFile.setName("result." + FileUtils.makeFilename(digitalObject.getFullname()) + "."
+                    + targetExtension);
                 for (TavernaPort inputToPort : inputToPorts) {
                     inputData.put(inputToPort, tempFile);
                 }
@@ -112,8 +120,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 tavernaExecutor.setOutputPorts(outputPorts);
 
                 // Output files
-                Set<TavernaPort> outputToPorts = t2flowParser.getOutputPorts(new URI(
-                    T2FlowParserFallback.TO_OBJECT_PATH_URI));
+                Set<TavernaPort> outputToPorts =
+                    t2flowParser.getOutputPorts(new URI(T2FlowParserFallback.TO_OBJECT_PATH_URI));
                 if (outputToPorts.size() != 1) {
                     result.setSuccessful(false);
                     result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
@@ -121,8 +129,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                     return result;
                 }
 
-                HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles = new HashMap<TavernaPort, SSHInMemoryTempFile>(
-                    1);
+                HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles =
+                    new HashMap<TavernaPort, SSHInMemoryTempFile>(1);
                 for (TavernaPort outputToPort : outputToPorts) {
                     requestedFiles.put(outputToPort, tempFile);
                 }

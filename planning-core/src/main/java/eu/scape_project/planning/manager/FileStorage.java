@@ -28,12 +28,12 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.utils.FileUtils;
+
+import org.slf4j.Logger;
 
 /**
  * A {@link IByteStreamStorage} which stores the data in the file system. The
@@ -50,186 +50,195 @@ import eu.scape_project.planning.utils.FileUtils;
  * 
  */
 // @Default
+// Do not use @ConversationScoped because the ExperimentRunner is called
+// asynchronous and no ConversationScope is available then.
+// @ConversationScoped
 @Stateful
-@ConversationScoped
+@ApplicationScoped
 public class FileStorage implements Serializable, IByteStreamStorage {
-	private static final long serialVersionUID = -2406172386311143101L;
+    private static final long serialVersionUID = -2406172386311143101L;
 
-	@Inject
-	private Logger log;
+    @Inject
+    private Logger log;
 
-	/**
-	 * if not provided in filestorage.properties, it defaults to
-	 * JBOSS_HOME/standalone/data/ps-filestore/"
-	 */
-	private String storagePath = null;
+    /**
+     * if not provided in filestorage.properties, it defaults to
+     * JBOSS_HOME/standalone/data/ps-filestore/".
+     */
+    private String storagePath = null;
 
-	/**
-	 * File handle to storagePath
-	 */
-	private File storagePathFile;
+    /**
+     * File handle to storagePath.
+     */
+    private File storagePathFile;
 
-	/**
-	 * will be used as namespace for persistent identifiers, according to
-	 * {@link https://wiki.duraspace.org/display/FEDORA35/Fedora+Identifiers}
-	 */
-	private String repositoryName;
+    /**
+     * will be used as namespace for persistent identifiers, according to
+     * {@link https://wiki.duraspace.org/display/FEDORA35/Fedora+Identifiers}.
+     */
+    private String repositoryName;
 
-	public FileStorage() {
-	}
+    /**
+     * Default constructor.
+     */
+    public FileStorage() {
+    }
 
-	@PostConstruct
-	public void init() {
+    /**
+     * Initializes class.
+     */
+    @PostConstruct
+    public void init() {
 
-		// try to load storagePath from config file
-		try {
-			InputStream in = Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream("config/filestorage.properties");
-			if (in != null) {
-				Properties props = new Properties();
-				props.load(in);
-				storagePath = props.getProperty("storage.path");
-				/*if (storagePath != null && !storagePath.equals("")) {
-					storagePath = storagePath + "/ps-filestore/";
-				}*/
-			}
-		} catch (IOException e) {
-			log.error("error while loading filestorage.properties", e);
-			storagePath=null;
-		}
-		
-		boolean jb = false;
-		while(!jb){
-			
-			if (storagePath == null) {
-				storagePath = System.getenv("JBOSS_HOME");
-				jb = true;
-				if (storagePath != null) {
-					storagePath = storagePath
-							+ "/standalone/data";
-				}
-			}
+        // try to load storagePath from config file
+        try {
+            InputStream in = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("config/filestorage.properties");
+            if (in != null) {
+                Properties props = new Properties();
+                props.load(in);
+                storagePath = props.getProperty("storage.path");
+                /*
+                 * if (storagePath != null && !storagePath.equals("")) {
+                 * storagePath = storagePath + "/ps-filestore/"; }
+                 */
+            }
+        } catch (IOException e) {
+            log.error("error while loading filestorage.properties", e);
+            storagePath = null;
+        }
 
-			if (storagePath != null) {
-				storagePathFile = new File(storagePath);
-				if (storagePathFile.exists()) {
-					storagePath = storagePath + "/ps-filestore/";
-					storagePathFile = new File(storagePath);
-					if (storagePathFile.exists()){
-						log.info("found storage directory " + storagePath );
-						break;
-					}else {
-						if (storagePathFile.mkdirs()) {
-							log.info("storage directory " + storagePath + " is created");
-							break;
-						}else {
-							log.error("failed to create storage directory "
-								+ storagePath);
-							storagePathFile = null;
-							storagePath = null;
-						}
-					}
-				}else {
-					log.warn("Storage path " + storagePath + " does not exist.");
-					storagePath = null;
-				}
-			}
-		}
-		if (storagePathFile !=null) {
-			log.info("storage directory set to " +storagePath);
-		}else {
-			log.error("failed to init storage directory");			
-		}
-		// for now we only consider one repository
-		repositoryName = "plato";
-	}
+        boolean jb = false;
+        while (!jb) {
 
-	@Override
-	public String store(String pid, byte[] bytestream) throws StorageException {
-		String objectId;
-		if (pid == null) {
-			// a new object
-			objectId = UUID.randomUUID().toString();
-			pid = repositoryName + ":" + objectId;
-		} else {
-			// we ignore the object's namespace
-			objectId = pid.substring(pid.indexOf(':') + 1);
-		}
-		// we try to rename the file, if it already exists
-		File file = new File(storagePathFile, objectId);
-		File backup = null;
-		if (file.exists()) {
-			try {
-				backup = File.createTempFile(file.getName(), "backup",
-						storagePathFile);
-				file.renameTo(backup);
-			} catch (IOException e) {
-				throw new StorageException("failed to create backup for: "
-						+ pid, e);
-			}
-		}
-		try {
-			// write data to filesystem
-			FileUtils.writeToFile(new ByteArrayInputStream(bytestream),
-					new FileOutputStream(file));
-			// data was stored successfully, backup is not needed any more
-			if (backup != null) {
-				backup.delete();
-			}
-		} catch (IOException e) {
-			// try to restore old file
-			if (backup != null) {
-				if (backup.renameTo(file)) {
-					backup = null;
-				} else {
-					throw new StorageException(
-							"failed to store digital object: " + pid
-									+ " and failed to restore backup!");
-				}
-			}
-			throw new StorageException(
-					"failed to store digital object: " + pid, e);
-		}
-		return pid;
+            if (storagePath == null) {
+                storagePath = System.getenv("JBOSS_HOME");
+                jb = true;
+                if (storagePath != null) {
+                    storagePath = storagePath + "/standalone/data";
+                }
+            }
 
-	}
+            if (storagePath != null) {
+                storagePathFile = new File(storagePath);
+                if (storagePathFile.exists()) {
+                    storagePath = storagePath + "/ps-filestore/";
+                    storagePathFile = new File(storagePath);
+                    if (storagePathFile.exists()) {
+                        log.info("found storage directory " + storagePath);
+                        break;
+                    } else {
+                        if (storagePathFile.mkdirs()) {
+                            log.info("storage directory " + storagePath + " is created");
+                            break;
+                        } else {
+                            log.error("failed to create storage directory " + storagePath);
+                            storagePathFile = null;
+                            storagePath = null;
+                        }
+                    }
+                } else {
+                    log.warn("Storage path " + storagePath + " does not exist.");
+                    storagePath = null;
+                }
+            }
+        }
+        if (storagePathFile != null) {
+            log.info("storage directory set to " + storagePath);
+        } else {
+            log.error("failed to init storage directory");
+        }
+        // for now we only consider one repository
+        repositoryName = "plato";
+    }
 
-	@Override
-	public byte[] load(String pid) throws StorageException {
-		File file = getFile(pid);
-		try {
-			return FileUtils.inputStreamToBytes(new FileInputStream(file));
-		} catch (IOException e) {
-			throw new StorageException(
-					"failed to load data for persistent identifier: " + pid);
-		}
-	}
+    @Override
+    public String store(String pid, byte[] bytestream) throws StorageException {
+        String objectId;
+        if (pid == null) {
+            // a new object
+            objectId = UUID.randomUUID().toString();
+            pid = repositoryName + ":" + objectId;
+        } else {
+            // we ignore the object's namespace
+            objectId = pid.substring(pid.indexOf(':') + 1);
+        }
+        // we try to rename the file, if it already exists
+        File file = new File(storagePathFile, objectId);
+        File backup = null;
+        if (file.exists()) {
+            try {
+                backup = File.createTempFile(file.getName(), "backup", storagePathFile);
+                file.renameTo(backup);
+            } catch (IOException e) {
+                throw new StorageException("failed to create backup for: " + pid, e);
+            }
+        }
+        try {
+            // write data to filesystem
+            FileUtils.writeToFile(new ByteArrayInputStream(bytestream), new FileOutputStream(file));
+            // data was stored successfully, backup is not needed any more
+            if (backup != null) {
+                backup.delete();
+            }
+        } catch (IOException e) {
+            // try to restore old file
+            if (backup != null) {
+                if (backup.renameTo(file)) {
+                    backup = null;
+                } else {
+                    throw new StorageException("failed to store digital object: " + pid
+                        + " and failed to restore backup!");
+                }
+            }
+            throw new StorageException("failed to store digital object: " + pid, e);
+        }
+        return pid;
 
-	public String getStoragePath() {
-		return storagePath;
-	}
+    }
 
-	@Override
-	public void delete(String pid) throws StorageException {
-		File file = getFile(pid);
-		if (!file.delete()) {
-			log.error("failed to delete object: " + pid);
-		}
-	}
+    @Override
+    public byte[] load(String pid) throws StorageException {
+        File file = getFile(pid);
+        try {
+            return FileUtils.inputStreamToBytes(new FileInputStream(file));
+        } catch (IOException e) {
+            throw new StorageException("failed to load data for persistent identifier: " + pid);
+        }
+    }
 
-	private File getFile(String pid) throws StorageException {
-		if ((pid == null) || (pid.isEmpty())) {
-			throw new StorageException(
-					"provided persistent identifier is empty");
-		}
-		String objectId = pid.substring(pid.indexOf(':') + 1);
-		File file = new File(storagePathFile, objectId);
-		if (file.exists()) {
-			return file;
-		} else {
-			throw new StorageException(
-					"no object found for persistent identifier: " + pid);
-		}
-	}
+    @Override
+    public void delete(String pid) throws StorageException {
+        File file = getFile(pid);
+        if (!file.delete()) {
+            log.error("failed to delete object: " + pid);
+        }
+    }
 
+    /**
+     * Returns a file for the provided pid.
+     * 
+     * @param pid
+     *            the pid of the object
+     * @return the file
+     * @throws StorageException
+     *             if the pid is empty or the object could not be found
+     */
+    private File getFile(String pid) throws StorageException {
+        if ((pid == null) || (pid.isEmpty())) {
+            throw new StorageException("provided persistent identifier is empty");
+        }
+        String objectId = pid.substring(pid.indexOf(':') + 1);
+        File file = new File(storagePathFile, objectId);
+        if (file.exists()) {
+            return file;
+        } else {
+            throw new StorageException("no object found for persistent identifier: " + pid);
+        }
+    }
+
+    // --------------- getter/setter ---------------
+    public String getStoragePath() {
+        return storagePath;
+    }
 }

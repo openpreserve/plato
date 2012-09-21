@@ -17,6 +17,19 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import eu.scape_project.planning.taverna.TavernaPort;
+import eu.scape_project.planning.utils.PropertiesLoader;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.Namespace;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.channel.direct.Session;
@@ -31,19 +44,6 @@ import net.sf.taverna.t2.baclava.DataThing;
 import net.sf.taverna.t2.baclava.factory.DataThingFactory;
 import net.sf.taverna.t2.baclava.factory.DataThingXMLFactory;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import eu.scape_project.planning.taverna.TavernaPort;
-import eu.scape_project.planning.utils.PropertiesLoader;
-
 /**
  * Class to execute Taverna workflows on a remote server via SSH.
  */
@@ -52,38 +52,39 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private static Logger log = LoggerFactory.getLogger(SSHTavernaExecutor.class);
 
     /**
-     * Name of the executor properties
+     * Name of the executor properties.
      */
     private static final String CONFIG_NAME = "tavernaserverssh.properties";
 
     /**
-     * Filename of input data document
+     * Filename of input data document.
      */
     private static final String INPUT_DOC_FILENAME = "input_data.xml";
 
     /**
-     * Filename of output data document
+     * Filename of output data document.
      */
     private static final String OUTPUT_DOC_FILENAME = "output_data.xml";
 
     /**
-     * Taverna command
+     * Taverna command.
      */
-    private static final String TAVERNA_COMMAND = "$TAVERNA_HOME/executeworkflow.sh -inputdoc %%inputdoc%% -outputdoc %%outputdoc%% %%workflow%%";
+    private static final String TAVERNA_COMMAND =
+        "$TAVERNA_HOME/executeworkflow.sh -inputdoc %%inputdoc%% -outputdoc %%outputdoc%% %%workflow%%";
 
     /**
-     * Baclava XML namespace
+     * Baclava XML namespace.
      */
-    private static final Namespace namespace = Namespace.getNamespace("b",
+    private static final Namespace NAMESPACE = Namespace.getNamespace("b",
         "http://org.embl.ebi.escience/baclava/0.1alpha");
 
     /**
-     * SSH properties
+     * SSH properties.
      */
     private Properties sshProperties;
 
     /**
-     * Timeout for remote commands
+     * Timeout for remote commands.
      */
     private Integer commandTimeout;
 
@@ -93,8 +94,8 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private String workflowUrl;
     private File workflowFile;
     private Map<TavernaPort, Object> inputData = new HashMap<TavernaPort, Object>();
-    Set<TavernaPort> outputPorts = new HashSet<TavernaPort>();
-    HashMap<TavernaPort, ?> outputFiles = new HashMap<TavernaPort, Object>();
+    private Set<TavernaPort> outputPorts = new HashSet<TavernaPort>();
+    private HashMap<TavernaPort, ?> outputFiles = new HashMap<TavernaPort, Object>();
 
     private Map<TavernaPort, Object> outputData = new HashMap<TavernaPort, Object>();;
     private String outputDoc;
@@ -179,6 +180,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * Prepares the ssh client.
      * 
      * @throws IOException
+     *             if an error occured during setting up the client
      */
     private void prepareClient() throws IOException {
         ssh = new SSHClient();
@@ -192,25 +194,24 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * 
      * @return the keyprovider
      * @throws IOException
+     *             if the keys could not be loaded
      */
     private KeyProvider getKeyProvider() throws IOException {
-        // KeyProvider kp = ssh.loadKeys("/home/plangg/.ssh/id_dsa");
-        KeyProvider kp = ssh.loadKeys(sshProperties.getProperty("private.key"),
-            sshProperties.getProperty("public.key"), new PasswordFinder() {
-                @Override
-                public char[] reqPassword(Resource<?> resource) {
-                    if (sshProperties.getProperty("password") == null) {
-                        return null;
-                    } else {
-                        return sshProperties.getProperty("password").toCharArray();
-                    }
+        KeyProvider kp = ssh.loadKeys(sshProperties.getProperty("private.key"), new PasswordFinder() {
+            @Override
+            public char[] reqPassword(Resource<?> resource) {
+                if (sshProperties.getProperty("password") == null) {
+                    return null;
+                } else {
+                    return sshProperties.getProperty("password").toCharArray();
                 }
+            }
 
-                @Override
-                public boolean shouldRetry(Resource<?> resource) {
-                    return false;
-                }
-            });
+            @Override
+            public boolean shouldRetry(Resource<?> resource) {
+                return false;
+            }
+        });
 
         return kp;
     }
@@ -235,7 +236,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * @throws TavernaExecutorException
      */
     private String prepareInputs() throws IOException, TavernaExecutorException {
-        Element rootElement = new Element("dataThingMap", namespace);
+        Element rootElement = new Element("dataThingMap", NAMESPACE);
         Document document = new Document(rootElement);
 
         for (Entry<TavernaPort, Object> entry : inputData.entrySet()) {
@@ -246,7 +247,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
             DataThing thing = DataThingFactory.bake(dereferencedInput);
 
-            Element dataThingElement = new Element("dataThing", namespace);
+            Element dataThingElement = new Element("dataThing", NAMESPACE);
             dataThingElement.setAttribute("key", port.getName());
             dataThingElement.addContent(thing.getElement());
             rootElement.addContent(dataThingElement);
@@ -442,8 +443,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private void executeWorkflow() throws IOException, TavernaExecutorException {
         final Session session = ssh.startSession();
         try {
-            String command = TAVERNA_COMMAND.replace("%%inputdoc%%", inputDocPath)
-                .replace("%%outputdoc%%", outputDocPath).replace("%%workflow%%", workflowPath);
+            String command =
+                TAVERNA_COMMAND.replace("%%inputdoc%%", inputDocPath).replace("%%outputdoc%%", outputDocPath)
+                    .replace("%%workflow%%", workflowPath);
             final Command cmd = session.exec(command);
             cmd.join(commandTimeout, TimeUnit.SECONDS);
 
