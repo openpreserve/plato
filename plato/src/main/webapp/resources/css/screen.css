@@ -268,11 +268,13 @@ textarea,input[type="text"],input[type="password"],select {
 	box-shadow: 2px 1px 5px #155C89;
 }
 
-.input input[type=text]::-webkit-input-placeholder,input[type=password]::-webkit-input-placeholder {
+.input input[type=text]::-webkit-input-placeholder,input[type=password]::-webkit-input-placeholder
+	{
 	color: #BABABA;
 }
 
-.input input[type=text]:-moz-placeholder,input[type=password]:-moz-placeholder {
+.input input[type=text]:-moz-placeholder,input[type=password]:-moz-placeholder
+	{
 	color: #BABABA;
 }
 
@@ -729,4 +731,40 @@ div.rf-pp-hdr-cntrls a {
 
 div.rf-pp-cntr {
 	border: 1px solid #000000;
+}
+
+.paged-list .rf-ds {
+	width: 100%;
+	text-align: center;
+	background: none;
+}
+
+.paged-list .rf-ds-btn,.paged-list .rf-ds-btn:HOVER,.paged-list .rf-ds-nmb-btn,.paged-list .rf-ds-nmb-btn:HOVER
+	{
+	background: none;
+	border: none;
+	color: black;
+	font-size: 14px;
+}
+
+.paged-list {
+	width: 100%;
+	padding: 2px;
+	background-color: white;
+	border-top: 1px solid #155C89;
+	border-right: 1px solid #155C89;
+	border-bottom: 1px solid #155C89;
+	border-left: 11px solid #155C89;
+}
+
+.paged-list .rf-dg {
+	width: 100%;
+}
+
+.paged-list .rf-dg-c {
+	color: #000;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: italic;
+	border: 1px solid A0A0A0;
 }

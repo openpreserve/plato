@@ -16,31 +16,92 @@
  ******************************************************************************/
 package eu.scape_project.planning.plato.wfview.full;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.CreateExecutablePlan;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.utils.ParserException;
+import eu.scape_project.planning.xml.C3POProfileParser;
 
+/**
+ * View bean for step Create Executable Plan.
+ */
 @Named("createExecutablePlan")
 @ConversationScoped
 public class CreateExecutablePlanView extends AbstractView {
-	private static final long serialVersionUID = 1L;
-	
-	@Inject private CreateExecutablePlan createExecutablePlan;
+    private static final long serialVersionUID = 1L;
 
-	public CreateExecutablePlanView() {
-    	currentPlanState = PlanState.ANALYSED;
-    	name = "Create Executable Plan";
-    	viewUrl = "/plan/createexecutableplan.jsf";
-    	group="menu.buildPreservationPlan";
-	}
-	
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return createExecutablePlan;
-	}
+    @Inject
+    private CreateExecutablePlan createExecutablePlan;
+
+    @Inject
+    private DigitalObjectManager digitalObjectManager;
+
+    /**
+     * Default constructor.
+     */
+    public CreateExecutablePlanView() {
+        currentPlanState = PlanState.ANALYSED;
+        name = "Create Executable Plan";
+        viewUrl = "/plan/createexecutableplan.jsf";
+        group = "menu.buildPreservationPlan";
+    }
+
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return createExecutablePlan;
+    }
+
+    public boolean isCollectionProfileDefined() {
+        return plan.getSampleRecordsDefinition().getCollectionProfile() != null;
+    }
+
+    /**
+     * Returns the list of objects specified in the collection profile.
+     * 
+     * @return the list of objects or null
+     */
+    public List<String> getCollectionProfileElements() {
+
+        DigitalObject profile = plan.getSampleRecordsDefinition().getCollectionProfile().getProfile();
+
+        try {
+            DigitalObject datafilledProfile = digitalObjectManager.getCopyOfDataFilledDigitalObject(profile);
+
+            C3POProfileParser parser = new C3POProfileParser();
+            parser.read(new ByteArrayInputStream(datafilledProfile.getData().getRealByteStream().getData()), false);
+
+            List<String> elements = parser.getObjectIdentifiers();
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            elements.addAll(elements);
+            return elements;
+
+        } catch (StorageException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
 }
