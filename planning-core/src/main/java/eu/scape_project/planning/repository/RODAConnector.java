@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.api.RepositoryConnectorApi;
+import eu.scape_project.planning.utils.PropertiesLoader;
 import eu.scape_project.planning.utils.RepositoryConnectorException;
 
 /**
@@ -118,21 +119,34 @@ public class RODAConnector implements RepositoryConnectorApi {
             return this.config;
         }
 
-        Properties props = new Properties();
-        try {
-            props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(CONNECTOR_API_PROPERTIES));
-
-            this.config = new HashMap<String, String>();
-            for (Object key : props.keySet()) {
-                this.config.put(key.toString(), props.getProperty(key.toString()));
-            }
-
-            return config;
-
-        } catch (IOException e) {
+        Properties props = PropertiesLoader.loadProperties("connectorapi.properties");
+        if (props == null) {
             LOGGER.warn("An error occurred while reading the properties file {}", CONNECTOR_API_PROPERTIES);
             return new HashMap<String, String>();
         }
+        this.config = new HashMap<String, String>();
+        for (Object key : props.keySet()) {
+            this.config.put(key.toString(), props.getProperty(key.toString()));
+        }
+
+        return config;
+
+        // Properties props = new Properties();
+        // try {
+        // props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(CONNECTOR_API_PROPERTIES));
+        //
+        // this.config = new HashMap<String, String>();
+        // for (Object key : props.keySet()) {
+        // this.config.put(key.toString(), props.getProperty(key.toString()));
+        // }
+        //
+        // return config;
+        //
+        // } catch (IOException e) {
+        // LOGGER.warn("An error occurred while reading the properties file {}",
+        // CONNECTOR_API_PROPERTIES);
+        // return new HashMap<String, String>();
+        // }
 
     }
 
