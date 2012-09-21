@@ -288,7 +288,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
      * @param samples
      *            the samples to process.
      */
-    private void processSamples(RepositoryConnectorApi repo, List<SampleObject> samples) {
+    private void processSamples(RepositoryConnectorApi repo, List<SampleObject> samples) throws PlanningException {
         for (SampleObject sample : samples) {
             String uid = sample.getFullname();
 
@@ -298,6 +298,9 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
                     InputStream sampleStream = repo.downloadFile(uid);
                     ByteStream bsSample = this.convertToByteStream(sampleStream);
                     sample.setData(bsSample);
+
+                    digitalObjectManager.moveDataToStorage(sample);
+                    addedBytestreams.add(sample.getPid());
 
                 } catch (RepositoryConnectorException e) {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
