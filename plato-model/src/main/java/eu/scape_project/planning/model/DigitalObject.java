@@ -252,7 +252,7 @@ public class DigitalObject implements Serializable, ITouchable {
 	}
 
 	public Double getSizeInMB() {
-		return sizeInMB;
+		return Math.round(sizeInMB * 100.0d) / 100.0d;
 	}
 
 	public void setSizeInMB(Double sizeInMB) {

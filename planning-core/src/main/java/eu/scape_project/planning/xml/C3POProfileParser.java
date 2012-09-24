@@ -258,10 +258,8 @@ public class C3POProfileParser {
         nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='size']");
         if (nodes.size() == 1) {
             Element size = (Element) nodes.get(0);
-            DecimalFormat format = new DecimalFormat("#.##");
-            double sizeInMB = Double
-                .parseDouble(format.format((Double.parseDouble(size.attributeValue("value")) / 1024 / 1024)));
-            object.setSizeInMB(sizeInMB);
+            double value = Double.parseDouble(size.attributeValue("value")) / 1024 / 1024;
+            object.setSizeInMB(value);
         }
 
         FormatInfo info = this.getFormatInfo(sample, object.getContentType());
