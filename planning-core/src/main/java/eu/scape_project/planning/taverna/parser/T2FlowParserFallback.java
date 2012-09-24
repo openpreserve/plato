@@ -8,11 +8,11 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import eu.scape_project.planning.taverna.TavernaPort;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
-
-import eu.scape_project.planning.taverna.TavernaPort;
 
 public class T2FlowParserFallback extends T2FlowParser {
 
@@ -27,7 +27,7 @@ public class T2FlowParserFallback extends T2FlowParser {
     private static final String MEASURES_URI_PREFIX = "http://scape-project.eu/pw/vocab/measures/";
 
     /**
-     * Creates a T2FlowParserFallback from the inputstream
+     * Creates a T2FlowParserFallback from the inputstream.
      * 
      * @param t2flow
      *            the inputstream to parse
@@ -54,7 +54,7 @@ public class T2FlowParserFallback extends T2FlowParser {
      * @throws TavernaParserException
      */
     private boolean isFallbackApplicable() throws TavernaParserException {
-        return (super.getProfile() == ComponentProfile.NoProfile && getProfile() != ComponentProfile.NoProfile);
+        return super.getProfile() == ComponentProfile.NoProfile && getProfile() != ComponentProfile.NoProfile;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class T2FlowParserFallback extends T2FlowParser {
         String profileVersion = super.getProfileVersion();
 
         // Use fixed version if workflow fallback applicable
-        if (isFallbackApplicable() && profileVersion.equals("")) {
+        if (isFallbackApplicable() && profileVersion == null) {
             return "0.1";
         }
 
@@ -97,7 +97,7 @@ public class T2FlowParserFallback extends T2FlowParser {
         String version = super.getVersion();
 
         // Use fixed version if workflow fallback applicable
-        if (isFallbackApplicable() && version.equals("")) {
+        if (isFallbackApplicable() && version == null) {
             return "1.0";
         }
 
@@ -109,7 +109,7 @@ public class T2FlowParserFallback extends T2FlowParser {
         String owner = super.getOwner();
 
         // Use author if workflow fallback applicable
-        if (isFallbackApplicable() && owner.equals("")) {
+        if (isFallbackApplicable() && owner == null) {
             return getAuthor();
         }
 

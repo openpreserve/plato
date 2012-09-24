@@ -5,28 +5,40 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
+import javax.xml.parsers.SAXParser;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import eu.scape_project.planning.taverna.TavernaPort;
+import eu.scape_project.planning.xml.ProjectImporter;
+import eu.scape_project.planning.xml.SchemaResolver;
+import eu.scape_project.planning.xml.ValidatingParserFactory;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.XPath;
+import org.dom4j.io.SAXReader;
+import org.jaxen.NamespaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import eu.scape_project.planning.taverna.TavernaPort;
-
 public class T2FlowParser {
     private static Logger log = LoggerFactory.getLogger(T2FlowParser.class);
+
+    protected static final String SCHEMA_LOCATION = "data/schemas/";
+
+    protected static final NamespaceContext T2FLOW_NAMESPACE_CONTEXT = new T2FlowNamespaceContext();
 
     public enum ComponentProfile {
 
@@ -71,8 +83,6 @@ public class T2FlowParser {
      */
     private Document doc = null;
 
-    private T2FlowNamespaceContext nsc = new T2FlowNamespaceContext();
-
     /**
      * Creates a T2FlowParser from the inputstream
      * 
@@ -98,16 +108,29 @@ public class T2FlowParser {
      * Initialises the parser by reading the the t2flow from the input stream
      * and parsing it.
      * 
-     * @throws ParserConfigurationException
+     * @param t2flow
+     * @throws DocumentException
      * @throws SAXException
-     * @throws IOException
+     * @throws ParserConfigurationException
      */
-    protected void initialise(InputStream t2flow) throws ParserConfigurationException, SAXException, IOException {
+    protected void initialise(InputStream t2flow) throws DocumentException, SAXException, ParserConfigurationException {
+
         log.debug("Parsing inputstream");
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
-        DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
-        doc = builder.parse(t2flow);
+
+        ValidatingParserFactory vpf = new ValidatingParserFactory();
+
+        SAXParser parser = vpf.getValidatingParser();
+        parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, ProjectImporter.TAVERNA_SCHEMA_URI);
+
+        SAXReader reader = new SAXReader(parser.getXMLReader());
+        reader.setValidation(true);
+
+        SchemaResolver schemaResolver = new SchemaResolver();
+        schemaResolver.addSchemaLocation(ProjectImporter.TAVERNA_SCHEMA_URI, SCHEMA_LOCATION
+            + ProjectImporter.TAVERNA_SCHEMA);
+        reader.setEntityResolver(schemaResolver);
+
+        doc = reader.read(t2flow);
     }
 
     /**
@@ -120,22 +143,19 @@ public class T2FlowParser {
 
         log.debug("Extracting profile");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Profile']/uri");
 
-        try {
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Profile']/uri");
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
 
-            String profileUri = (String) expr.evaluate(doc, XPathConstants.STRING);
-
-            // TODO: Is this a good idea?
-            return ComponentProfile.fromString(profileUri);
-
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        String profileUri = "";
+        if (node != null) {
+            profileUri = node.getText();
         }
+
+        // TODO: Is this a good idea?
+        return ComponentProfile.fromString(profileUri);
     }
 
     /**
@@ -148,18 +168,15 @@ public class T2FlowParser {
 
         log.debug("Extracting profile version");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.ProfileVersion']/value");
 
-        try {
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.ProfileVersion']/value");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -172,19 +189,16 @@ public class T2FlowParser {
 
         log.debug("Extracting profile ID");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper.createXPath("/t2f:workflow/t2f:dataflow[@role='top']/@id");
 
-        try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            XPathExpression expr = xPath.compile("/t2f:workflow/t2f:dataflow[@role='top']/@id");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -195,22 +209,19 @@ public class T2FlowParser {
      */
     public String getVersion() throws TavernaParserException {
 
-        log.debug("Extracting profile version");
+        log.debug("Extracting workflow version");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Version']/value");
 
-        try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Version']/value");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -223,17 +234,17 @@ public class T2FlowParser {
 
         log.debug("Extracting workflow name");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
-        try {
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.DescriptiveTitle']/text");
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.DescriptiveTitle']/text");
 
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -246,17 +257,15 @@ public class T2FlowParser {
 
         log.debug("Extracting workflow description");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
-        try {
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription']/text");
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription']/text");
 
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -269,18 +278,15 @@ public class T2FlowParser {
 
         log.debug("Extracting workflow author");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Author']/text");
 
-        try {
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Author']/text");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -293,20 +299,17 @@ public class T2FlowParser {
 
         log.debug("Extracting workflow owner");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Owner']/text");
 
-        try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Owner']/text");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
@@ -319,114 +322,93 @@ public class T2FlowParser {
 
         log.debug("Extracting workflow license");
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.License']/text");
 
-        try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.License']/text");
-
-            return (String) expr.evaluate(doc, XPathConstants.STRING);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        Node node = xpath.selectSingleNode(doc);
+        if (node == null) {
+            return null;
         }
+        return node.getText();
     }
 
     /**
-     * Returns the input ports of the document
+     * Returns the input ports of the document.
      * 
      * @return
      * @throws TavernaParserException
      */
     public Set<TavernaPort> getInputPorts() throws TavernaParserException {
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
 
-        try {
-            XPathExpression expr = xPath.compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:inputPorts/t2f:port");
-            NodeList inputPortNodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        XPath xpath = DocumentHelper.createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:inputPorts/t2f:port");
 
-            return createPorts(inputPortNodes);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
-        }
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        @SuppressWarnings("unchecked")
+        List<Element> inputPortNodes = xpath.selectNodes(doc);
+
+        return createPorts(inputPortNodes);
     }
 
     /**
-     * Returns the input ports of the document
+     * Returns the input ports of the document.
      * 
-     * @return
+     * @return a set of taverna ports
      * @throws TavernaParserException
      */
     public Set<TavernaPort> getInputPorts(URI uri) throws TavernaParserException {
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:inputPorts/t2f:port[t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri/text()='"
+                + uri.toString() + "']");
 
-        try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:inputPorts/t2f:port[t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri/text()='"
-                    + uri.toString() + "']");
-            NodeList inputPortNodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        @SuppressWarnings("unchecked")
+        List<Element> inputPortNodes = xpath.selectNodes(doc);
 
-            return createPorts(inputPortNodes);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
-        }
+        return createPorts(inputPortNodes);
     }
 
     /**
-     * Returns the input ports of the document
+     * Returns the input ports of the document.
      * 
      * @return
      * @throws TavernaParserException
      */
     public Set<TavernaPort> getOutputPorts() throws TavernaParserException {
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
 
-        try {
-            XPathExpression expr = xPath.compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:outputPorts/t2f:port");
-            NodeList outputPortNodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        XPath xpath = DocumentHelper.createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:outputPorts/t2f:port");
 
-            return createPorts(outputPortNodes);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
-        }
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        @SuppressWarnings("unchecked")
+        List<Element> inputPortNodes = xpath.selectNodes(doc);
+
+        return createPorts(inputPortNodes);
     }
 
     /**
-     * Returns the input ports of the document
+     * Returns the input ports of the document.
      * 
      * @return
      * @throws TavernaParserException
      */
     public Set<TavernaPort> getOutputPorts(URI uri) throws TavernaParserException {
 
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:outputPorts/t2f:port[t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri/text()='"
+                + uri.toString() + "']");
 
-        try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            XPathExpression expr = xPath
-                .compile("/t2f:workflow/t2f:dataflow[@role='top']/t2f:outputPorts/t2f:port[t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri/text()='"
-                    + uri.toString() + "']");
-            NodeList outputPortNodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        @SuppressWarnings("unchecked")
+        List<Element> inputPortNodes = xpath.selectNodes(doc);
 
-            return createPorts(outputPortNodes);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
-        }
+        return createPorts(inputPortNodes);
     }
 
     /**
@@ -437,15 +419,12 @@ public class T2FlowParser {
      * @return the ports
      * @throws TavernaParserException
      */
-    private Set<TavernaPort> createPorts(NodeList nodes) throws TavernaParserException {
+    private Set<TavernaPort> createPorts(List<Element> nodes) throws TavernaParserException {
 
-        Set<TavernaPort> ports = new HashSet<TavernaPort>(nodes.getLength());
-
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Element portNode = (Element) nodes.item(i);
-            ports.add(createPort(portNode));
+        Set<TavernaPort> ports = new HashSet<TavernaPort>(nodes.size());
+        for (Element node : nodes) {
+            ports.add(createPort(node));
         }
-
         return ports;
     }
 
@@ -455,54 +434,40 @@ public class T2FlowParser {
      * @param portElement
      *            the port element
      * @return the name of the port
-     * @throws XPathExpressionException
+     * @throws TavernaParserException
      */
     private TavernaPort createPort(Element portElement) throws TavernaParserException {
 
         TavernaPort port = new TavernaPort();
 
         // Get name
-        NodeList nameNodes = portElement.getElementsByTagNameNS(nsc.getNamespaceURI("t2f"), "name");
-
-        if (nameNodes.getLength() != 1) {
-            throw new TavernaParserException("Not a valid port element");
-        }
-        port.setName(((Element) nameNodes.item(0)).getTextContent());
+        Element nameElement = portElement.element("name");
+        port.setName(nameElement.getText());
 
         // Get depth
-        NodeList depthNodes = portElement.getElementsByTagNameNS(nsc.getNamespaceURI("t2f"), "depth");
-
-        // if (depthNodes.getLength() != 1) {
-        // throw new TavernaParserException("Not a valid port element");
-        // }
-        if (depthNodes.getLength() == 1) {
-            Integer depth = Integer.parseInt(((Element) depthNodes.item(0)).getTextContent());
+        Element depthElement = portElement.element("depth");
+        if (depthElement != null) {
+            Integer depth = Integer.parseInt(depthElement.getText());
             port.setDepth(depth);
         }
 
         // Get URIs
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xPath = factory.newXPath();
-        xPath.setNamespaceContext(nsc);
+        // TODO: Fix XPath to use correct annotation class after annotation
+        // is implemented in Taverna
+        XPath xpath = DocumentHelper
+            .createXPath("t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri");
 
-        XPathExpression expr;
+        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        @SuppressWarnings("unchecked")
+        List<Element> uriElements = xpath.selectNodes(portElement);
+
         try {
-            // TODO: Fix XPath to use correct annotation class after annotation
-            // is implemented in Taverna
-            expr = xPath
-                .compile("t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri");
-
-            NodeList uriNodes = (NodeList) expr.evaluate(portElement, XPathConstants.NODESET);
-
             Set<URI> uris = new HashSet<URI>();
-            for (int i = 0; i < uriNodes.getLength(); i++) {
-                Element uriElement = (Element) uriNodes.item(i);
-                URI uri = new URI(uriElement.getTextContent());
+            for (Element uriElement : uriElements) {
+                URI uri = new URI(uriElement.getText());
                 uris.add(uri);
             }
             port.setUris(uris);
-        } catch (XPathExpressionException e) {
-            throw new TavernaParserException(e);
         } catch (URISyntaxException e) {
             throw new TavernaParserException("URI element contains invalid URI", e);
         }

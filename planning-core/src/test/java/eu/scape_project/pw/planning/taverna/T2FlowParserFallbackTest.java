@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Set;
 
-import org.junit.Test;
-
-import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
-import eu.scape_project.planning.taverna.parser.T2FlowParser.ComponentProfile;
 import eu.scape_project.planning.taverna.TavernaPort;
+import eu.scape_project.planning.taverna.parser.T2FlowParser.ComponentProfile;
+import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
+
+import org.junit.Test;
 
 public class T2FlowParserFallbackTest {
 
@@ -39,7 +39,7 @@ public class T2FlowParserFallbackTest {
 
         // TODO: Fix XPath to use correct annotation class after annotation
         // is implemented in Taverna
-        assertTrue(t2flowParser.getVersion().equals(""));
+        assertTrue(t2flowParser.getVersion() == null);
     }
 
     @Test
@@ -141,7 +141,7 @@ public class T2FlowParserFallbackTest {
 
         T2FlowParserFallback t2flowParser = T2FlowParserFallback.createParser(t2flow);
 
-        assertTrue(t2flowParser.getLicense().equals(""));
+        assertTrue(t2flowParser.getLicense() == null);
     }
 
     @Test

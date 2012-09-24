@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Set;
 
-import org.junit.Test;
-
+import eu.scape_project.planning.taverna.TavernaPort;
 import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.T2FlowParser.ComponentProfile;
-import eu.scape_project.planning.taverna.TavernaPort;
+
+import org.junit.Test;
 
 public class T2FlowParserTest {
 
@@ -47,7 +47,7 @@ public class T2FlowParserTest {
 
         // TODO: Fix XPath to use correct annotation class after annotation
         // is implemented in Taverna
-        assertTrue(t2flowParser.getVersion().equals(""));
+        assertTrue(t2flowParser.getVersion() == null);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class T2FlowParserTest {
         T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
 
         // TODO: Fix expected value after annotation is implemented in Taverna
-        assertTrue(t2flowParser.getOwner().equals(""));
+        assertTrue(t2flowParser.getOwner() == null);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class T2FlowParserTest {
         T2FlowParser t2flowParser = T2FlowParser.createParser(t2flow);
 
         // TODO: Fix expected value after annotation is implemented in Taverna
-        assertTrue(t2flowParser.getLicense().equals(""));
+        assertTrue(t2flowParser.getLicense() == null);
     }
 
     @Test
@@ -348,5 +348,4 @@ public class T2FlowParserTest {
             }
         }
     }
-
 }
