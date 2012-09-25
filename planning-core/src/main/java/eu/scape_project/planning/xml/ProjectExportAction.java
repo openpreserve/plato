@@ -27,7 +27,9 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -41,14 +43,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.io.DocumentSource;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-
-import sun.misc.BASE64Encoder;
 import eu.scape_project.planning.manager.DigitalObjectManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.ByteStream;
@@ -57,6 +51,18 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.OS;
+import eu.scape_project.planning.utils.ParserException;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.XPath;
+import org.dom4j.io.DocumentSource;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * This class inserts test data into the persistence layer, including import of
@@ -66,6 +72,11 @@ import eu.scape_project.planning.utils.OS;
  */
 public class ProjectExportAction implements Serializable {
     private static final long serialVersionUID = 2155152208617526555L;
+
+    /**
+     * Boundary of data to load before calling the garbage collector.
+     */
+    private static final int LOADED_DATA_SIZE_BOUNDARY = 200 * 1024 * 1024;
 
     @Inject
     private Logger log;
@@ -125,37 +136,35 @@ public class ProjectExportAction implements Serializable {
      *            used to write temp files for binary data, must not be used by
      *            other exports at the same time
      * @return True if export was successful, false otherwise.
-     * 
      */
     public boolean exportComplete(int ppid, OutputStream out, String baseTempPath) {
         BASE64Encoder encoder = new BASE64Encoder();
         ProjectExporter exporter = new ProjectExporter();
         Document doc = exporter.createProjectDoc();
 
-        // int i = 0;
-        List<Plan> list = null;
+        Plan plan = null;
         try {
-            list = em.createQuery("select p from Plan p where p.planProperties.id = " + ppid).getResultList();
+            plan = em.createQuery("select p from Plan p where p.planProperties.id = " + ppid, Plan.class)
+                .getSingleResult();
         } catch (Exception e) {
             log.error("Could not load planProperties: ", e);
             log.debug("Skipping the export of the plan with properties" + ppid + ": Couldnt load.");
             return false;
         }
         try {
-            // log.debug("adding project "+p.getplanProperties().getName()+" to XML...");
             String tempPath = baseTempPath;
             File tempDir = new File(tempPath);
             tempDir.mkdirs();
 
-            List<Integer> uploadIDs = new ArrayList<Integer>();
-            List<Integer> recordIDs = new ArrayList<Integer>();
             try {
-                exporter.addProject(list.get(0), doc, uploadIDs, recordIDs);
-
-                writeBinaryObjects(recordIDs, uploadIDs, tempPath, encoder);
+                exporter.addProject(plan, doc, false);
 
                 // Perform XSLT transformation to get the DATA into the PLANS
+                List<Integer> binaryObjectIds = getBinaryObjectIds(doc);
+                writeBinaryObjects(binaryObjectIds, tempPath, encoder);
                 addBinaryData(doc, out, tempPath);
+
+                addPreservationActionPlanData(doc, out, tempPath);
             } catch (IOException e) {
                 log.error("Could not open outputstream: ", e);
                 return false;
@@ -165,17 +174,161 @@ public class ProjectExportAction implements Serializable {
             } catch (StorageException e) {
                 log.error("Could not load object from stoarge.", e);
                 return false;
+            } catch (ParserException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         } finally {
             // Clean up
-            list.clear();
-            list = null;
+            plan = null;
 
             em.clear();
             System.gc();
         }
 
         return true;
+    }
+
+    /**
+     * Returns a list of object IDs that are stored in the document without
+     * binary data.
+     * 
+     * @param doc
+     *            the document to search
+     * @return a list of IDs
+     */
+    private List<Integer> getBinaryObjectIds(Document doc) {
+
+        // Get data elements that have data and a number as content
+        XPath xpath = doc.createXPath("//plato:data[@hasData='true' and number(.) = number(.)]");
+
+        Map<String, String> namespaceMap = new HashMap<String, String>();
+        namespaceMap.put("plato", PreservationPlanXML.PLATO_NS);
+        xpath.setNamespaceURIs(namespaceMap);
+
+        @SuppressWarnings("unchecked")
+        List<Element> elements = xpath.selectNodes(doc);
+
+        List<Integer> objectIds = new ArrayList<Integer>(elements.size());
+        for (Element element : elements) {
+            objectIds.add(Integer.parseInt(element.getStringValue()));
+        }
+        return objectIds;
+    }
+
+    private void addPreservationActionPlanData(Document doc, OutputStream out, String tempPath)
+        throws StorageException, IOException {
+        List<Integer> t2flowExecutablePlanIds = getT2flowExecutablePlanIds(doc);
+        List<Integer> collectionProfileIds = getCollectionProfileIds(doc);
+
+        writeDigitalObjects(t2flowExecutablePlanIds, tempPath);
+        writeDigitalObjects(collectionProfileIds, tempPath);
+
+    }
+
+    /**
+     * Returns the t2flow executable plan IDs that are in the document without
+     * data.
+     * 
+     * @param doc
+     *            the document to search
+     * @return a list of IDs
+     */
+    private List<Integer> getT2flowExecutablePlanIds(Document doc) {
+        // Get data elements that have data and a number as content
+        XPath xpath = doc.createXPath("//plato:executablePlan[@type='t2flow']");
+
+        Map<String, String> namespaceMap = new HashMap<String, String>();
+        namespaceMap.put("plato", PreservationPlanXML.PLATO_NS);
+        xpath.setNamespaceURIs(namespaceMap);
+
+        @SuppressWarnings("unchecked")
+        List<Element> elements = xpath.selectNodes(doc);
+
+        List<Integer> objectIds = new ArrayList<Integer>(elements.size());
+        for (Element element : elements) {
+            objectIds.add(Integer.parseInt(element.getStringValue()));
+        }
+        return objectIds;
+    }
+
+    /**
+     * Returns the collection profile IDs that are in the document without data.
+     * 
+     * @param doc
+     *            the docuemnt to seasrch
+     * @return a list of IDs
+     */
+    private List<Integer> getCollectionProfileIds(Document doc) {
+        // Get data elements that have data and a number as content
+        XPath xpath = doc.createXPath("//plato:preservationActionPlan/objects");
+
+        Map<String, String> namespaceMap = new HashMap<String, String>();
+        namespaceMap.put("plato", PreservationPlanXML.PLATO_NS);
+        xpath.setNamespaceURIs(namespaceMap);
+
+        @SuppressWarnings("unchecked")
+        List<Element> elements = xpath.selectNodes(doc);
+
+        List<Integer> objectIds = new ArrayList<Integer>(elements.size());
+        for (Element element : elements) {
+            objectIds.add(Integer.parseInt(element.getStringValue()));
+        }
+        return objectIds;
+    }
+
+    private void writeDigitalObjects(List<Integer> objectIds, String aTempDir) throws IOException, StorageException {
+        int counter = 0;
+        int skip = 0;
+        log.info("Writing bytestreams of digital objects. Size = " + objectIds.size());
+        for (Integer id : objectIds) {
+            if (counter > LOADED_DATA_SIZE_BOUNDARY) { // Call GC if unused data
+                                                       // exceeds boundary
+                System.gc();
+                counter = 0;
+            }
+            DigitalObject object = em.find(DigitalObject.class, id);
+            if (object.isDataExistent()) {
+                counter += object.getData().getSize();
+                File f = new File(aTempDir + object.getId() + ".xml");
+                DigitalObject dataFilledObject = digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
+                FileOutputStream out = new FileOutputStream(f);
+                try {
+                    out.write(dataFilledObject.getData().getData());
+                } finally {
+                    out.close();
+                }
+                dataFilledObject = null;
+            } else {
+                skip++;
+            }
+            object = null;
+        }
+        em.clear();
+        System.gc();
+        log.info("Finished writing bytestreams of digital objects. Skipped empty objects: " + skip);
+    }
+
+    /**
+     * Performs XSLT transformation to get the DATA into the PLANS
+     */
+    private void addT2flowExecutablePlan(Document doc, OutputStream out, String aTempDir) throws TransformerException {
+        InputStream xsl = Thread.currentThread().getContextClassLoader()
+            .getResourceAsStream("data/xslt/addT2flowToPlan.xsl");
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+        Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
+        transformer.setParameter("tempDir", aTempDir);
+
+        Source xmlSource = new DocumentSource(doc);
+
+        Result outputTarget = new StreamResult(out); // new
+                                                     // FileWriter(outFile));
+
+        log.debug("starting bytestream transformation ...");
+        transformer.transform(xmlSource, outputTarget);
+        log.debug("FINISHED bytestream transformation!");
     }
 
     /**
@@ -267,27 +420,23 @@ public class ProjectExportAction implements Serializable {
     }
 
     /**
-     * Loads all binary data for the given samplerecord- and upload Ids and
-     * dumps it to XML files, located in tempDir
+     * Loads all binary data for the given digital objects and dumps it to XML
+     * files, located in tempDir.
      * 
-     * @param recordIDs
-     * @param uploadIDs
+     * @param objectIds
      * @param tempDir
      * @param encoder
      * @throws IOException
      * @throws StorageException
      */
-    private void writeBinaryObjects(List<Integer> recordIDs, List<Integer> uploadIDs, String aTempDir,
-        BASE64Encoder encoder) throws IOException, StorageException {
+    private void writeBinaryObjects(List<Integer> objectIds, String aTempDir, BASE64Encoder encoder)
+        throws IOException, StorageException {
         int counter = 0;
         int skip = 0;
-        List<Integer> allIDs = new ArrayList<Integer>(recordIDs.size() + uploadIDs.size());
-        allIDs.addAll(recordIDs);
-        allIDs.addAll(uploadIDs);
-        log.info("writing XMLs for bytestreams of digital objects. Size = " + allIDs.size());
-        for (Integer id : allIDs) {
-            if (counter > 200 * 1024 * 1024) { // 200 MB unused stuff lying
-                                               // around
+        log.info("writing XMLs for bytestreams of digital objects. Size = " + objectIds.size());
+        for (Integer id : objectIds) {
+            if (counter > LOADED_DATA_SIZE_BOUNDARY) { // Call GC if unused data
+                                                       // exceeds boundary
                 System.gc();
                 counter = 0;
             }
@@ -305,7 +454,7 @@ public class ProjectExportAction implements Serializable {
         }
         em.clear();
         System.gc();
-        log.info("finished writing bytestreams of digital objects. skipped empty objects: " + skip);
+        log.info("Finished writing bytestreams of digital objects. Skipped empty objects: " + skip);
     }
 
     /**
@@ -329,6 +478,7 @@ public class ProjectExportAction implements Serializable {
         writer.close();
     }
 
+    // -------- getter/setter --------
     public String getLastProjectExportPath() {
         return lastProjectExportPath;
     }
