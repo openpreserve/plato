@@ -16,6 +16,7 @@
  ******************************************************************************/
 package eu.scape_project.planning.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,16 +27,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-
-import sun.misc.BASE64Encoder;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
@@ -63,7 +54,21 @@ import eu.scape_project.planning.model.tree.TemplateTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.model.util.FloatFormatter;
 import eu.scape_project.planning.model.values.Value;
+import eu.scape_project.planning.taverna.parser.T2FlowParser;
+import eu.scape_project.planning.taverna.parser.TavernaParserException;
+import eu.scape_project.planning.utils.ParserException;
 import eu.scape_project.planning.xml.plan.TimestampFormatter;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * Static methods providing means to export projects to XML using dom4j.
@@ -410,8 +415,8 @@ public class ProjectExporter implements Serializable {
     }
 
     /**
-     * creates a new element with all information of the given measure
-     * and adds it to the parent node. 
+     * creates a new element with all information of the given measure and adds
+     * it to the parent node.
      * 
      * @param info
      * @param parent
@@ -422,19 +427,19 @@ public class ProjectExporter implements Serializable {
         measureEl.addAttribute("ID", measure.getUri());
         addStringElement(measureEl, "name", measure.getName());
         addStringElement(measureEl, "description", measure.getDescription());
-        
-         Attribute attribute = (Attribute) measure.getAttribute();
-         if (attribute != null) {
-             Element attributeEl = measureEl.addElement("attribute");
-             attributeEl.addAttribute("ID", attribute.getUri());
-             addStringElement(attributeEl, "name", attribute.getName());
-             addStringElement(attributeEl, "description", attribute.getDescription());
-    
-             addStringElement(attributeEl, "category", attribute.getCategory().toString());
-         }
-         addScale(measure.getScale(), measureEl);
-         
-         // addChangeLog(measure.getChangeLog(), measureEl);
+
+        Attribute attribute = (Attribute) measure.getAttribute();
+        if (attribute != null) {
+            Element attributeEl = measureEl.addElement("attribute");
+            attributeEl.addAttribute("ID", attribute.getUri());
+            addStringElement(attributeEl, "name", attribute.getName());
+            addStringElement(attributeEl, "description", attribute.getDescription());
+
+            addStringElement(attributeEl, "category", attribute.getCategory().toString());
+        }
+        addScale(measure.getScale(), measureEl);
+
+        // addChangeLog(measure.getChangeLog(), measureEl);
     }
 
     /**
@@ -741,7 +746,7 @@ public class ProjectExporter implements Serializable {
                     for (Measurement m : dinfo.getMeasurements().values()) {
                         Element measurement = measurements.addElement("measurement");
                         measurement.addAttribute("measureId", m.getMeasureId());
-                        
+
                         // measurement.value:
                         String typename = deriveElementname(m.getValue().getClass());
 
@@ -1006,4 +1011,74 @@ public class ProjectExporter implements Serializable {
             addChangeLog(s.getChangeLog(), scale);
         }
     }
+
+    public Document createPreservationActionPlanDoc() {
+        Document doc = DocumentHelper.createDocument();
+
+        Element root = doc.addElement("preservationActionPlan");
+
+        root.add(xsi);
+        root.add(platoNS);
+        root.addAttribute(xsi.getPrefix() + ":schemaLocation", PlanXMLConstants.PLATO_NS + " "
+            + PlanXMLConstants.PAP_SCHEMA);
+
+        // set version of corresponding schema
+        root.addAttribute("version", "4.0.0");
+
+        return doc;
+    }
+
+    public void addPreservationActionPlan(Plan p, Element preservationActionPlan, List<Integer> executablePlanIDs)
+        throws ParserException {
+
+        // Collection
+        if (p.getSampleRecordsDefinition().getCollectionProfile() != null) {
+            Element collection = preservationActionPlan.addElement("collection");
+            collection.addAttribute("uid", p.getSampleRecordsDefinition().getCollectionProfile().getCollectionID());
+            // collection.addAttribute("name",
+            // p.getSampleRecordsDefinition().getCollectionProfile().getCollectionID());
+        }
+
+        // Objects
+        if (p.getSampleRecordsDefinition().getCollectionProfile() != null
+            && p.getSampleRecordsDefinition().getCollectionProfile().getProfile() != null
+            && p.getSampleRecordsDefinition().getCollectionProfile().getProfile().isDataExistent()) {
+            Element objects = preservationActionPlan.addElement("objects");
+
+            DigitalObject profile = p.getSampleRecordsDefinition().getCollectionProfile().getProfile();
+            C3POProfileParser parser = new C3POProfileParser();
+            parser.read(new ByteArrayInputStream(profile.getData().getData()), false);
+            List<String> objectIdentifiers = parser.getObjectIdentifiers();
+
+            for (String objectIdentifier : objectIdentifiers) {
+                objects.addElement("object").addAttribute("uid", objectIdentifier);
+            }
+        }
+
+        // t2flow
+        if (p.getExecutablePlanDefinition().getT2flowExecutablePlan() != null
+            && p.getExecutablePlanDefinition().getT2flowExecutablePlan().isDataExistent()) {
+
+            Element executablePlan = preservationActionPlan.addElement("executablePlan").addAttribute("type", "t2flow");
+
+            DigitalObject t2flow = p.getExecutablePlanDefinition().getT2flowExecutablePlan();
+
+            if (executablePlanIDs != null) {
+                executablePlan.setText("" + t2flow.getId());
+                executablePlanIDs.add(t2flow.getId());
+            } else {
+                try {
+                    T2FlowParser parser = T2FlowParser
+                        .createParser(new ByteArrayInputStream(t2flow.getData().getData()));
+                    Document doc = parser.getDoc();
+                    executablePlan.add(doc.getRootElement());
+                } catch (TavernaParserException e) {
+                    throw new ParserException("Error parsing executable plan", e);
+                }
+
+            }
+
+        }
+    }
+
 }

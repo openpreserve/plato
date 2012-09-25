@@ -92,11 +92,42 @@
 			<fieldset id="executable_pp" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					Executable Preservation Plan
+					Executable Plan
 				</legend>
+				<a4j:outputPanel id="executablePlan">
+					<div>
+						<h:commandButton
+							action="#{createExecutablePlan.download(createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan)}"
+							value="Download Executable Plan"
+							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}" />
+						<input type="button"
+							onclick="$('#uploadT2flowExecutablePlan').toggle('normal');"
+							value="Upload Executable Plan" />
+					</div>
+					<div class="sampleform">
+						<rich:fileUpload id="uploadT2flowExecutablePlan"
+							fileUploadListener="#{createExecutablePlan.uploadT2flowExecutablePlan}"
+							acceptedTypes="t2flow" allowFlash="false">
+							<a4j:ajax event="uploadcomplete" execute="@none"
+								render="executablePlan preservationActinoPlan" />
+						</rich:fileUpload>
+					</div>
+				</a4j:outputPanel>
+			</fieldset>
 
-				In future releases executable preservation plans can be downloaded
-				here.
+			<fieldset class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					Preservation Action Plan
+				</legend>
+				<a4j:outputPanel id="preservationActinoPlan">
+					<div>
+						<h:commandButton
+							action="#{createExecutablePlan.downloadPreservationActionPlan}"
+							value="Download Preservation Action Plan"
+							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}" />
+					</div>
+				</a4j:outputPanel>
 			</fieldset>
 
 			<p:savediscardproceed bean="#{viewWorkflow}" />

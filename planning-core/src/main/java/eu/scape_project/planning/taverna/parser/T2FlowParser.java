@@ -1,6 +1,5 @@
 package eu.scape_project.planning.taverna.parser;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,10 +9,6 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import eu.scape_project.planning.taverna.TavernaPort;
 import eu.scape_project.planning.xml.ProjectImporter;
@@ -30,9 +25,11 @@ import org.dom4j.io.SAXReader;
 import org.jaxen.NamespaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Parser for t2flow files.
+ */
 public class T2FlowParser {
     private static Logger log = LoggerFactory.getLogger(T2FlowParser.class);
 
@@ -40,6 +37,9 @@ public class T2FlowParser {
 
     protected static final NamespaceContext T2FLOW_NAMESPACE_CONTEXT = new T2FlowNamespaceContext();
 
+    /**
+     * Component profiles.
+     */
     public enum ComponentProfile {
 
         MigrationAction("http://scape-project.eu/component/profile/migrationaction"), Characterisation(
@@ -49,6 +49,12 @@ public class T2FlowParser {
 
         private final String uri;
 
+        /**
+         * Creates a component profile based on the provided URI.
+         * 
+         * @param uri
+         *            the uri of the profile
+         */
         ComponentProfile(String uri) {
             this.uri = uri;
         }
@@ -84,21 +90,19 @@ public class T2FlowParser {
     private Document doc = null;
 
     /**
-     * Creates a T2FlowParser from the inputstream
+     * Creates a T2FlowParser from the inputstream.
      * 
      * @param t2flow
      *            the inputstream to parse
      * @return the parser
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @throws TavernaParserException
      */
     public static T2FlowParser createParser(InputStream t2flow) throws TavernaParserException {
         T2FlowParser parser = new T2FlowParser();
         try {
             parser.initialise(t2flow);
         } catch (Exception e) {
-            log.error("Error initialising T2FlowParser");
+            log.error("Error initialising T2FlowParser: {}", e.getMessage());
             throw new TavernaParserException("Error initialising T2FlowParser", e);
         }
         return parser;
@@ -474,4 +478,10 @@ public class T2FlowParser {
 
         return port;
     }
+
+    // -------- Getter/Setter --------
+    public Document getDoc() {
+        return doc;
+    }
+
 }

@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  * Entity bean storing additional information about an Evaluation-Step.
- *
+ * 
  * @author Mark Guttenbrunner
  */
 @Entity
@@ -38,11 +38,12 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
 
     private static final long serialVersionUID = 8385664635418556928L;
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-    
+
     private String objectPath;
-    
+
     @Lob
     private String toolParameters;
 
@@ -51,15 +52,18 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
 
     @Lob
     private String validateQA;
-    
+
     @Length(max = 2000000)
     @Column(length = 2000000)
     protected String executablePlan;
-    
+
     @Length(max = 2000000)
     @Column(length = 2000000)
     protected String eprintsExecutablePlan;
-    
+
+    @OneToOne(cascade = CascadeType.ALL)
+    protected DigitalObject t2flowExecutablePlan;
+
     public String getExecutablePlan() {
         return executablePlan;
     }
@@ -67,7 +71,7 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     public void setExecutablePlan(String executablePlan) {
         this.executablePlan = executablePlan;
     }
-    
+
     public String getEprintsExecutablePlan() {
         return eprintsExecutablePlan;
     }
@@ -76,7 +80,7 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
         this.eprintsExecutablePlan = eprintsExecutablePlan;
     }
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
     public int getId() {
@@ -94,9 +98,11 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     public void setChangeLog(ChangeLog value) {
         changeLog = value;
     }
+
     public boolean isChanged() {
         return changeLog.isAltered();
     }
+
     public void touch() {
         getChangeLog().touch();
     }
@@ -104,7 +110,7 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     /**
      * @see ITouchable#handleChanges(IChangesHandler)
      */
-    public void handleChanges(IChangesHandler h){
+    public void handleChanges(IChangesHandler h) {
         h.visit(this);
     }
 
@@ -139,4 +145,13 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     public void setToolParameters(String toolParameters) {
         this.toolParameters = toolParameters;
     }
+
+    public DigitalObject getT2flowExecutablePlan() {
+        return t2flowExecutablePlan;
+    }
+
+    public void setT2flowExecutablePlan(DigitalObject t2flowExecutablePlan) {
+        this.t2flowExecutablePlan = t2flowExecutablePlan;
+    }
+
 }

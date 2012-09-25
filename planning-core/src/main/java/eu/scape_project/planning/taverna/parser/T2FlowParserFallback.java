@@ -1,19 +1,18 @@
 package eu.scape_project.planning.taverna.parser;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import eu.scape_project.planning.taverna.TavernaPort;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 
+/**
+ * Parser for t2flow files that uses fallback mechanisms.
+ */
 public class T2FlowParserFallback extends T2FlowParser {
 
     private static Logger log = LoggerFactory.getLogger(T2FlowParser.class);
@@ -32,16 +31,14 @@ public class T2FlowParserFallback extends T2FlowParser {
      * @param t2flow
      *            the inputstream to parse
      * @return the parser
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @throws TavernaParserException
      */
     public static T2FlowParserFallback createParser(InputStream t2flow) throws TavernaParserException {
         T2FlowParserFallback parser = new T2FlowParserFallback();
         try {
             parser.initialise(t2flow);
         } catch (Exception e) {
-            log.error("Error initialising T2FlowParser");
+            log.error("Error initialising T2FlowParser: {}", e.getMessage());
             throw new TavernaParserException("Error initialising T2FlowParser", e);
         }
         return parser;
@@ -207,7 +204,7 @@ public class T2FlowParserFallback extends T2FlowParser {
     }
 
     /**
-     * Returns a port of the port set with the provided name
+     * Returns a port of the port set with the provided name.
      * 
      * @param ports
      *            a set of port to search
@@ -227,7 +224,7 @@ public class T2FlowParserFallback extends T2FlowParser {
     }
 
     /**
-     * Returns a port of the port set that fits the provided URI
+     * Returns a port of the port set that fits the provided URI.
      * 
      * @param ports
      *            a set of ports to search
