@@ -968,8 +968,6 @@ public class ProjectExporter implements Serializable {
             if (leaf.isMapped()) {
                 mInfoUri = leaf.getMeasure().getUri();
             }
-            // ((Leaf)node).getCriterion().getUri()
-            // mInfoUri = ((Leaf)node).getMeasurementInfo().getUri();
         }
         // add DESCRIPTION if existent
         if (((mInfoUri != null) && (!"".equals(mInfoUri)))
@@ -982,7 +980,7 @@ public class ProjectExporter implements Serializable {
             // and measurement info
 
             if ((mInfoUri != null) && (!"".equals(mInfoUri))) {
-                descr = "measuredProperty=" + mInfoUri + "\n";
+                descr = "measureId=" + mInfoUri + "\n";
             }
             if (node.getDescription() != null) {
                 descr = descr + node.getDescription();

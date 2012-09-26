@@ -23,6 +23,7 @@ import java.net.URISyntaxException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.digester3.Digester;
 import org.slf4j.Logger;
@@ -54,15 +55,17 @@ public class TreeLoader implements Serializable {
     private MindMap loadFreeMindMap(InputStream in) {
         try {
             MindMap map = new MindMap();
-
-            SAXParser parser = validatingParserFactory.getValidatingParser();
-            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE,
-                "http://freemind.sourceforge.net/freemind.xsd");
+            SAXParserFactory f = SAXParserFactory.newInstance();
+            SAXParser parser = f.newSAXParser();
+ 
+//            SAXParser parser = validatingParserFactory.getValidatingParser();
+//            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE,
+//                "http://freemind.sourceforge.net/freemind.xsd");
             // load content into temporary structure
             Digester digester = new Digester(parser);
-            digester.setEntityResolver(new SchemaResolver().addSchemaLocation(
-                "http://freemind.sourceforge.net/freemind.xsd", "data/schemas/freemind.xsd"));
-            digester.setErrorHandler(new StrictErrorHandler());
+//            digester.setEntityResolver(new SchemaResolver().addSchemaLocation(
+//                "http://freemind.sourceforge.net/freemind.xsd", "data/schemas/freemind.xsd"));
+//            digester.setErrorHandler(new StrictErrorHandler());
 
             digester.push(map);
 

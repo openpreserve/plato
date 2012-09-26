@@ -36,7 +36,7 @@
 					<archive>
 						<manifestEntries>
 							<Dependencies>javaee.api, javax.faces.api, org.hibernate,
-								org.hibernate.validator, javax.persistence.api, org.dom4j</Dependencies>
+								org.hibernate.validator, javax.persistence.api, org.dom4j, org.jaxen</Dependencies>
 							<!-- from plato pom: <Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api, 
 								org.joda.time, org.hibernate, org.hibernate.validator, org.dom4j</Dependencies> -->
 						</manifestEntries>
@@ -131,6 +131,11 @@
 			<version>3.2</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 		</dependency>
@@ -190,6 +195,7 @@
 			<groupId>de.bripkens</groupId>
 			<artifactId>gravatar4java</artifactId>
 			<version>1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>com.hp.hpl.jena</groupId>
 			<artifactId>arq</artifactId>

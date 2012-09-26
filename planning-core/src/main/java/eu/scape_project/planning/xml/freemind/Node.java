@@ -329,7 +329,7 @@ public class Node {
         if (DESCRIPTION == null) {
             return;
         }
-        String key = "measuredProperty=";
+        String key = "measureId=";
         int idx = DESCRIPTION.indexOf(key);
         if (idx > -1) {
             int newLineIndex = DESCRIPTION.indexOf('\n');
@@ -348,7 +348,7 @@ public class Node {
     public void setMIU(Leaf leaf) {
         String descr = DESCRIPTION;
         if (descr != null) {
-            String key = "measuredProperty=";
+            String key = "measureId=";
             int idx = descr.indexOf(key);
             if (idx > -1) {
                 int endIdx = descr.indexOf("\n", idx+key.length());

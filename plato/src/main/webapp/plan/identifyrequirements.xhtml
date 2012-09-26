@@ -360,7 +360,7 @@
 	                    the second click (on buttons, etc.).
 	    -->
 	    <h:form>
-	    <!-- criterion selection -->
+	    <!-- measure selection -->
 	      <rich:popupPanel id="editLeafMapping" width="700" height="400" domElementAttachment="form">
 	        <f:facet name="header">
 	            <h:outputText value="Select a measure" />
@@ -391,7 +391,7 @@
 	                        <f:selectItems value="#{identifyRequirements.critSelector.categories}" var="cat"  noSelectionValue="(all)"
 	                                       itemLabel="#{cat.criterionCategory}" itemValue="#{cat}" />
 	                        <a4j:ajax event="change"
-	                                     render="attributes_select, measures_select, criterion_description, saveMappingButton, removeMappingButton"
+	                                     render="attributes_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
 	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>                  
 	               </td>
@@ -400,7 +400,7 @@
 	                        <f:selectItems value="#{identifyRequirements.critSelector.filteredAttributes}" var="attr"  
 	                                       itemLabel="#{attr.name}" itemValue="#{attr.name}" noSelectionValue="(all)" />
 	                        <a4j:ajax event="change"
-	                                     render="measures_select, criterion_description, saveMappingButton, removeMappingButton"
+	                                     render="measures_select, measure_description, saveMappingButton, removeMappingButton"
 	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>
 	               </td>
@@ -409,7 +409,7 @@
 	                        <f:selectItems id="metrics_select_items" value="#{identifyRequirements.critSelector.filteredMeasures}" var="measure" 
 	                                       itemLabel="#{measure.name}" itemValue="#{measure.name}" noSelectionLabel="(none)" />
 	                        <a4j:ajax event="change"
-	                                     render="criterion_description, saveMappingButton, removeMappingButton"
+	                                     render="measure_description, saveMappingButton, removeMappingButton"
 	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>
 	               </td>
@@ -426,7 +426,7 @@
 	       </table>
 	        
 	        <br/><br/>
-	        <h:panelGroup id="criterion_description">
+	        <h:panelGroup id="measure_description">
 	            <table class="size-xxl border" style="width: 60em; border: 1px solid #DDDDDD;">
 	                <tr>
 	                    <th class="align-left" style="width: 20em;">Measure characteristic</th>
@@ -474,7 +474,7 @@
                 </a4j:commandLink>
 	        </a4j:outputPanel>
 	      </rich:popupPanel>
-	      <!-- / criterion selection -->
+	      <!-- / measure selection -->
 	      </h:form>      
       
     </ui:define>

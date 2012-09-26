@@ -138,7 +138,7 @@ public class Leaf extends TreeNode {
     @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN}) 
     private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
 
-    @ManyToOne(cascade=CascadeType.MERGE)
+    @ManyToOne(cascade=CascadeType.ALL)
     private Measure measure;
     
     public Map<String, Values> getValueMap() {
@@ -773,7 +773,7 @@ public class Leaf extends TreeNode {
 
     @Transient
     public boolean isMapped() {
-        return ((measure != null) &&(measure.getUri() != null)); // FIXME can we remove the second part?
+        return (measure != null);
     }
 
     /**

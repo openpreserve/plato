@@ -227,7 +227,6 @@
 				</h:column>
 				-->
 			</h:dataTable>
-			<ui:remove>
 			<!-- TODO auto-evaluation -->
 			<h:panelGroup rendered="#{leaf.mapped}">
 				<h:outputText
@@ -240,53 +239,48 @@
 						<col width="300" />
 					</colgroup>
 					<tr>
-						<td>Property category</td>
+						<td>Criterion category</td>
 						<td><h:outputText
-							value="#{leaf.criterion.property.category.category}-#{leaf.criterion.property.category.subCategory}" /></td>
+							value="#{leaf.measure.attribute.category.criterionCategory}" /></td>
 					</tr>
 					<tr>
-						<td>Property ID</td>
+						<td>Attribute ID</td>
 						<td><h:outputText
-							value="#{leaf.criterion.property.propertyId}" /></td>
+							value="#{leaf.measure.attribute.uri}" /></td>
 					</tr>
 					<tr>
-						<td>Property name</td>
-						<td><h:outputText
-							value="#{leaf.criterion.property.name}" /></td>
+						<td>Attribute name</td>
+						<td><h:outputText value="#{leaf.measure.attribute.name}" /></td>
 					</tr>
 					<tr>
-						<td>Property description</td>
+						<td>Attribute description</td>
 						<td><h:outputText
-							value="#{leaf.criterion.property.description}" /></td>
+							value="#{leaf.measure.attribute.description}" /></td>
 					</tr>
 					<tr>
-						<td>Metric ID</td>
+						<td>Measure ID</td>
 						<td><h:outputText
-							value="#{leaf.criterion.metric.metricId}" /></td>
+							value="#{leaf.measure.uri}" /></td>
 					</tr>
 					<tr>
-						<td>Metric name</td>
-						<td><h:outputText value="#{leaf.criterion.metric.name}" /></td>
+						<td>Measure name</td>
+						<td><h:outputText
+							value="#{leaf.measure.name}" /></td>
 					</tr>
 					<tr>
-						<td>Metric description</td>
+						<td>Measure description</td>
 						<td><h:outputText
-							value="#{leaf.criterion.metric.description}" /></td>
+							value="#{leaf.measure.description}" /></td>
 					</tr>
 					<tr>
 						<td>Measurement scale</td>
 						<td><h:outputText
-							value="#{leaf.criterion.scale.displayName}" /></td>
-					</tr>
-					<tr>
-						<td>Measurement unit</td>
-						<td><h:outputText value="#{leaf.criterion.scale.unit}" /></td>
+							value="#{leaf.measure.scale.displayName}" /></td>
 					</tr>
 				</table>
 			</h:panelGroup>
 			<h:commandButton rendered="#{leaf.mapped}" value="Evaluate"
 				action="#{workflowstep.evaluate(leaf)}" render="leafTable" />
-            </ui:remove>
 			<hr />
 
 		</h:column>

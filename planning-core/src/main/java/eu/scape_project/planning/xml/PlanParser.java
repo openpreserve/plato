@@ -12,6 +12,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.digester3.CallMethodRule;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.NodeCreateRule;
@@ -47,6 +48,7 @@ import eu.scape_project.planning.model.TriggerDefinition;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.XcdlDescription;
 import eu.scape_project.planning.model.measurement.Attribute;
+import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.scales.BooleanScale;
@@ -78,6 +80,7 @@ import eu.scape_project.planning.model.values.PositiveIntegerValue;
 import eu.scape_project.planning.model.values.YanValue;
 import eu.scape_project.planning.xml.plan.BinaryDataWrapper;
 import eu.scape_project.planning.xml.plan.ChangeLogFactory;
+import eu.scape_project.planning.xml.plan.EnumConverter;
 import eu.scape_project.planning.xml.plan.ExperimentWrapper;
 import eu.scape_project.planning.xml.plan.GoDecisionFactory;
 import eu.scape_project.planning.xml.plan.NodeContentWrapper;
@@ -308,6 +311,9 @@ public class PlanParser {
     }
 
     private static void addRules(Digester digester) throws ParserConfigurationException {
+        
+        //ConvertUtils.register(new CriterionCategoryConverter(), CriterionCategory.class);
+        ConvertUtils.register(new EnumConverter<CriterionCategory>(CriterionCategory.class), CriterionCategory.class);
         // start with a new file
         digester.addObjectCreate("*/plan", Plan.class);
         digester.addSetProperties("*/plan");
@@ -854,7 +860,7 @@ public class PlanParser {
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
         
-        PlanParser.addPropertyRules(digester, pattern + "/attribute");
+        PlanParser.addAttributeRules(digester, pattern + "/attribute");
         // scale will be set by global rule
     }
 
@@ -894,14 +900,13 @@ public class PlanParser {
         digester.addSetNext(pattern, "setScale");
     }
 
-    private static void addPropertyRules(final Digester digester, final String pattern) {
+    private static void addAttributeRules(final Digester digester, final String pattern) {
         digester.addObjectCreate(pattern, Attribute.class);
         digester.addSetNext(pattern, "setAttribute");
-        digester.addSetProperties(pattern);
-        digester.addBeanPropertySetter(pattern + "/uri");
+        digester.addSetProperties(pattern, "ID", "uri");
+
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
-
         digester.addBeanPropertySetter(pattern + "/category");
     }
 }
