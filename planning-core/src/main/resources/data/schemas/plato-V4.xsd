@@ -11,8 +11,9 @@
  
  Changes in V4.0.0:
  
-  * new model for measuring significant properties: measure and attributes based on the new quality model 
-    as replacement for criterion, measureableproperty, and metric
+  * new model for measuring significant properties: 
+    - measure and attributes based on the new quality model as replacement for criterion, measureableproperty, and metric
+    - MeasurementType: refers to measureId instead of MeasureableProperty
 
   * new way to handle versions:
     The current major version of this schema is V4, all upcoming sub-versions must be backwards compatible, i.g. accept document-instances of older V4 versions.
@@ -621,8 +622,8 @@
 				<xs:element name="positiveIntegerValue" type="positiveIntegerValueType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="freeStringValue" type="freeStringValueType" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:choice>
-			<xs:element name="property" type="measureablePropertyType"/>
 		</xs:sequence>
+		<xs:attribute name="measureId" type="xs:anyURI"/>
 	</xs:complexType>
 	<xs:complexType name="measureablePropertyType">
 		<xs:sequence>

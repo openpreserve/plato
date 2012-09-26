@@ -532,13 +532,10 @@ public class PlanParser {
         // read contained measurements:
         digester.addObjectCreate("*/detailedInfo/measurements/measurement", Measurement.class);
         digester.addSetNext("*/detailedInfo/measurements/measurement", "put");
+        digester.addSetProperties("*/measurement");
         // values are defined with wild-cards, and therefore set
         // automatically
-        digester.addObjectCreate("*/measurement/property", Attribute.class);
-        digester.addSetProperties("*/measurement/property");
-        digester.addSetNext("*/measurement/property", "setProperty");
-        // scales are defined with wild-cards, and therefore set
-        // automatically
+        
 
         /*
          * for each value type a set of rules because of FreeStringValue we

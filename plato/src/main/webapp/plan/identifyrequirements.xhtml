@@ -96,7 +96,7 @@
 										   <h:outputText rendered="#{node.scale.restricted}" value="#{node.scale.restriction}  " />
 										   <h:outputText value="[#{node.scale.unit}]" rendered="#{not empty(node.scale.unit)}" />
 										   <br/>
-                                           <h:outputText value="#{(node.mapped ? (node.criterion.uri):'')}"/>
+                                           <h:outputText value="#{(node.mapped ? (node.measure.uri):'')}"/>
 									   </a4j:outputPanel>
 		                            </div>
 		                            
@@ -162,7 +162,7 @@
 					                                    oncomplete="#{rich:component('editLeafMapping')}.show();" execute="@this">
 					                                    <h:graphicImage id="showMapping"
 					                                        value="/resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
-					                                        title="Edit measurement info: #{(node.mapped ? (node.criterion.uri):'')}"
+					                                        title="Edit measurement info: #{(node.mapped ? (node.measure.uri):'')}"
 					                                        width="22" height="22" />
 					                                </a4j:commandLink>
 				                                </a4j:outputPanel>
@@ -388,39 +388,41 @@
 	           <tr style="background-color: #F2F2F2;">
 	               <td>
 	                    <h:selectOneListbox size="7" id="categories_select" value="#{identifyRequirements.critSelector.selectedCategory}" required="false" style="width: 14em;">
-	                        <f:selectItems value="#{identifyRequirements.critSelector.categories}" var="cat" noSelectionValue="(all)"
-	                                       itemLabel="#{cat}" itemValue="#{cat}" />
+	                        <f:selectItems value="#{identifyRequirements.critSelector.categories}" var="cat"  noSelectionValue="(all)"
+	                                       itemLabel="#{cat.criterionCategory}" itemValue="#{cat}" />
 	                        <a4j:ajax event="change"
-	                                     render="properties_select, metrics_select, criterion_description, savePropertyMappingButton, removeMappingButton"
-	                                     listener="#{identifyRequirements.critSelector.selectCategory}"/>
+	                                     render="attributes_select, measures_select, criterion_description, saveMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>                  
 	               </td>
 	               <td>
-	                    <h:selectOneListbox size="7" id="attributes_select" value="#{identifyRequirements.critSelector.selectedAttributeString}" required="false" style="width: 34em;">
-	                        <f:selectItems value="#{identifyRequirements.critSelector.filteredAttributes}" var="attr" 
-	                                       itemLabel="#{attr.name}" itemValue="#{attr.name}" />
+	                    <h:selectOneListbox size="7" id="attributes_select" value="#{identifyRequirements.critSelector.selectedAttributeName}" required="false" style="width: 34em;">
+	                        <f:selectItems value="#{identifyRequirements.critSelector.filteredAttributes}" var="attr"  
+	                                       itemLabel="#{attr.name}" itemValue="#{attr.name}" noSelectionValue="(all)" />
 	                        <a4j:ajax event="change"
-	                                     render="measures_select, criterion_description, savePropertyMappingButton, removeMappingButton"
-	                                     listener="#{identifyRequirements.critSelector.selectAttribute}"/>
+	                                     render="measures_select, criterion_description, saveMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>
 	               </td>
 	               <td>
-	                    <h:selectOneListbox size="7" id="measures_select" value="#{identifyRequirements.critSelector.selectedMeasureString}" required="false" style="width: 10em;">
-	                        <f:selectItems id="metrics_select_items" value="#{identifyRequirements.critSelector.measures}" var="measure" 
-	                                       itemLabel="#{measure.name}" itemValue="#{measure.uri}" noSelectionLabel="(none)" />
+	                    <h:selectOneListbox size="7" id="measures_select" value="#{identifyRequirements.critSelector.selectedMeasureName}" required="false" style="width: 14em;">
+	                        <f:selectItems id="metrics_select_items" value="#{identifyRequirements.critSelector.filteredMeasures}" var="measure" 
+	                                       itemLabel="#{measure.name}" itemValue="#{measure.name}" noSelectionLabel="(none)" />
 	                        <a4j:ajax event="change"
-	                                     render="criterion_description, savePropertyMappingButton, removeMappingButton"
-	                                     listener="#{identifyRequirements.critSelector.selectMeasure}"/>
+	                                     render="criterion_description, saveMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>
 	               </td>
 	           </tr>
+	           <ui:remove>
 	           <tr style="background-color: #F2F2F2;">
 	               <td>
-	               <!-- Attributes in Category: <h:outputText id="properties_statistics" value="#{identifyRequirements.critSelector.filteredAttributesCount}" /> -->
+	               Attributes in Category: <h:outputText id="properties_statistics" value="#{identifyRequirements.critSelector.filteredAttributesCount}" /> 
 	               </td>
 	               <td> </td>
 	               <td> </td>
 	           </tr>
+	           </ui:remove>
 	       </table>
 	        
 	        <br/><br/>
@@ -436,16 +438,16 @@
 	                </tr> 
 	                <tr>
 	                    <td>measure</td>
-                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedMetric.description}" rendered="#{identifyRequirements.critSelector.selectedMeasure != null}"/></td>
+                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedMeasure.description}" rendered="#{identifyRequirements.critSelector.selectedMeasure != null}"/></td>
 	                </tr>
 	            </table>       
 	        </h:panelGroup>
 	        
 	        <br/><br/>
 	        
-	        <h:panelGroup id="savePropertyMappingButton">
+	        <h:panelGroup id="saveMappingButton">
 	            <a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
-	                rendered="#{null != identifyRequirements.critSelector.selectedMeasure}"
+	                rendered="#{null != identifyRequirements.critSelector.selectedMeasureName}"
 	                action="#{identifyRequirements.assignCriterionMapping}"
 	                oncomplete="#{rich:component('editLeafMapping')}.hide()"
 	                onclick="changed()"
@@ -455,7 +457,7 @@
 	                    title="Map measure to decision criteria" width="32" height="32" />
 	            </a4j:commandLink>
 	            <h:graphicImage
-	                rendered="#{null == identifyRequirements.critSelector.selectedMeasure}"
+	                rendered="#{null == identifyRequirements.critSelector.selectedMeasureName}"
 	                value="/resources/gfx/icons/apply-disabled.png"
 	                title="Map measure to decision criteria" width="32" height="32" />
 	        </h:panelGroup>

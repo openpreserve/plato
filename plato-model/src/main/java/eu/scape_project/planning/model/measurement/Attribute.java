@@ -31,6 +31,24 @@ public class Attribute {
 
     @Enumerated(EnumType.STRING)
     private CriterionCategory category;
+    
+    public Attribute(){
+    }
+    
+    /**
+     * Create a new attribute
+     * 
+     * With the values from the given Attribute
+     * The id is NOT copied
+     * 
+     * @param attribute
+     */
+    public Attribute(final Attribute attribute) {
+        this.category = attribute.category;
+        this.description = attribute.description;
+        this.name = attribute.name;
+        this.uri = attribute.uri;
+    }
 
     public long getId() {
         return id;
@@ -44,7 +62,7 @@ public class Attribute {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -52,7 +70,7 @@ public class Attribute {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -60,7 +78,7 @@ public class Attribute {
         return category;
     }
 
-    public void setCategory(CriterionCategory category) {
+    public void setCategory(final CriterionCategory category) {
         this.category = category;
     }
 
@@ -68,7 +86,7 @@ public class Attribute {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(final String uri) {
         this.uri = uri;
     }
 

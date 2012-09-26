@@ -25,6 +25,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
@@ -235,18 +236,20 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     }
 
     /**
-     * Method responsible for assigning a criterion to a defined
-     * leaf/requirement.
+     * Assigns the values of the given measure to the leaf. For this a copy of
+     * the measure is created, the original measure is left unchanged.
      * 
      * @param measure
-     *            Criterion to assign.
      * @param leaf
-     *            Wanted leaf.
      */
-    public void assignCriterionToLeaf(Measure measure, Leaf leaf) {
-        leaf.setCriterion(measure);
+    public void assignMeasureToLeaf(final Measure measure, Leaf leaf) {
+        Measure m = new Measure(measure);
+        leaf.setMeasure(measure);
         leaf.setScale(measure.getScale());
         leaf.setSingle(measure.getAttribute().getCategory().getScope() == EvaluationScope.ALTERNATIVE_ACTION);
+        if (StringUtils.isEmpty(leaf.getName())) {
+            leaf.setName(measure.getName());
+        }
         leaf.touchIncludingScale();
     }
 
@@ -257,7 +260,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
      *            Leaf to detach the criterion from
      */
     public void detachCriterionFromLeaf(Leaf leaf) {
-        leaf.setCriterion(null);
+        leaf.setMeasure(null);
         leaf.touch();
     }
 

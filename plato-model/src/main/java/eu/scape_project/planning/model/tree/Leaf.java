@@ -101,29 +101,6 @@ public class Leaf extends TreeNode {
     @OneToOne(cascade = CascadeType.ALL)
     private Transformer transformer;
 
-    /**
-     * touches everything: this, the scale and the transformer (if existing)
-     */
-    @Override
-    public void touchAll(String username) {
-        touch(username);
-        if (scale != null) {
-            scale.touch(username);
-        }
-        if (transformer != null) {
-            transformer.touch(username);
-        }
-    }
-    
-    /**
-     * Method responsible for touching this Leaf and its Scale.
-     */
-    public void touchIncludingScale() {
-    	touch();
-    	if (scale != null) {
-    		scale.touch();
-    	}
-    }
 
     /**
      * determines the aggregation mode for the values of the sample records(!)
@@ -162,7 +139,7 @@ public class Leaf extends TreeNode {
     private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
 
     @ManyToOne(cascade=CascadeType.MERGE)
-    private Measure measure; // we should be able to cope with null values here:  = new Criterion();
+    private Measure measure;
     
     public Map<String, Values> getValueMap() {
         return valueMap;
@@ -397,7 +374,7 @@ public class Leaf extends TreeNode {
             log.debug("CHECK THIS: setting scale to null.");
             scale = null;
             // remove mapping
-            setCriterion(null);
+            setMeasure(null);
         } else {
             // If
             if ((this.scale == null) //we don't have a scale yet
@@ -405,7 +382,7 @@ public class Leaf extends TreeNode {
                 // the new scale is not the same as ours
             {
                 // a new scale was chosen, remove mapping
-                setCriterion(null);//new Criterion());
+                setMeasure(null);//new Criterion());
 
                 setScale(newScale.clone());
                 setDefaultAggregation();
@@ -770,7 +747,7 @@ public class Leaf extends TreeNode {
         clone.setTransformer(newTransformer);
         clone.setAggregationMode(this.getAggregationMode());
         if (measure != null) {
-            clone.setCriterion(measure);
+            clone.setMeasure(measure);
         }
         return clone;
     }
@@ -868,7 +845,7 @@ public class Leaf extends TreeNode {
         return measure;
     }
 
-    public void setCriterion(Measure measure) {
+    public void setMeasure(Measure measure) {
         this.measure = measure;
     }
     
@@ -1149,7 +1126,7 @@ public class Leaf extends TreeNode {
         for (Value val : valueList) {
             TargetValue targetValue;
             
-            // do ordinal transformation
+            // do ordinal transformationCriterion
             if (transformer instanceof OrdinalTransformer) {
                 OrdinalTransformer ordTrans = (OrdinalTransformer) transformer;
                 
@@ -1209,5 +1186,29 @@ public class Leaf extends TreeNode {
         double actualOutputRange = getTotalWeight() * (outputUpperBound - outputLowerBound) + koFactor;
         
         return actualOutputRange;
-    }  
+    }
+    /**
+     * touches everything: this, the scale and the transformer (if existing)
+     */
+    @Override
+    public void touchAll(String username) {
+        touch(username);
+        if (scale != null) {
+            scale.touch(username);
+        }
+        if (transformer != null) {
+            transformer.touch(username);
+        }
+    }
+    
+    /**
+     * Method responsible for touching this Leaf and its Scale.
+     */
+    public void touchIncludingScale() {
+        touch();
+        if (scale != null) {
+                scale.touch();
+        }
+    }
+    
 }

@@ -740,6 +740,8 @@ public class ProjectExporter implements Serializable {
                     Element measurements = detailedInfo.addElement("measurements");
                     for (Measurement m : dinfo.getMeasurements().values()) {
                         Element measurement = measurements.addElement("measurement");
+                        measurement.addAttribute("measureId", m.getMeasureId());
+                        
                         // measurement.value:
                         String typename = deriveElementname(m.getValue().getClass());
 
@@ -747,11 +749,6 @@ public class ProjectExporter implements Serializable {
                         // .addAttribute("value", m.getValue().toString());
                         addStringElement(valueElem, "value", m.getValue().toString());
                         addChangeLog(m.getValue().getChangeLog(), valueElem);
-
-                        // measurement.property:
-                        // Element property = measurement.addElement("property")
-                        // .addAttribute("name", m.getProperty().getName());
-                        // addScale(m.getProperty().getScale(), property);
                     }
                 }
                 addChangeLog(a.getExperiment().getChangeLog(), experiment);

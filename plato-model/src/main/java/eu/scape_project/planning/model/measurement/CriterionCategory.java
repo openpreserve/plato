@@ -53,8 +53,10 @@ public enum CriterionCategory implements Serializable {
         EvaluationScope.OBJECT),
     FUNCTIONAL_CORRECTNESS_INFORMATION_PROPERTY("Action", "Action quality", "Functional correctness",
         "Functional correctness: Information Property", EvaluationScope.OBJECT),
-    FUNCTIONAL_CORRECTNESS_TRANSFORMATIONAL_INFORMATION_PROPERTY("Action", "Action quality", "Functional correctness",
-        "Functional correctness: Transformational Information Property", EvaluationScope.OBJECT),
+    FUNCTIONAL_CORRECTNESS_TRANSFORMATION_INDEPENDENT_PROPERTY("Action", "Action quality", "Functional correctness",
+        "Functional correctness: Transformation Independent Property", EvaluationScope.OBJECT),
+//        FUNCTIONAL_CORRECTNESS_TRANSFORMATIONAL_INFORMATION_PROPERTY("Action", "Action quality", "Functional correctness",
+//            "Functional correctness: Transformational Information Property", EvaluationScope.OBJECT),
     FUNCTIONAL_CORRECTNESS_REPRESENTATION_INSTANCE_PROPERTY("Action", "Action quality", "Functional correctness",
         "Functional correctness: Representation Instance Property", EvaluationScope.ALTERNATIVE_ACTION),
     FUNCTIONAL_APPROPRIATENESS("Action", "Action quality", "Functional correctness", "Functional appropriateness",
@@ -87,7 +89,7 @@ public enum CriterionCategory implements Serializable {
     private String criterionCategory;
     private EvaluationScope scope;
 
-    private CriterionCategory(String topCategory, String subCategory, String subsubCategory, String criterionCategory,
+    private CriterionCategory(final String topCategory, final String subCategory, final String subsubCategory, final String criterionCategory,
         EvaluationScope scope) {
         this.topCategory = topCategory;
         this.subCategory = subCategory;

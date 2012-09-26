@@ -367,7 +367,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>available metadata for database</rdfs:label>
   <description>Different metadata available for database</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_information_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_information_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/235" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/236" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/237" />
@@ -393,6 +393,7 @@
   <description>Quality of the present data dictionary.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not available/good/acceptable/bad</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/237">
@@ -409,6 +410,7 @@
   <description>Quality of the present data model.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not available/good/acceptable/bad</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/239">
@@ -417,6 +419,7 @@
   <description>Syntax used in the present data model.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not available/ERD/UML/other</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/240">
@@ -455,7 +458,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format adoption</rdfs:label>
   <description>Degree of adoption of a format</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/138" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/139" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/140" />
@@ -510,13 +513,14 @@
   <description>Ubiquity or popularity of the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>ubiquitous/widespread/specialised/obsolete</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/34">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>software vendor</rdfs:label>
   <description>Assessment of the vendor of an action (active, out of business, about to go bankrupt, unreliable...)</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/action_maintenance"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_maintenance"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/107" />
 </rdf:Description>
 
@@ -526,13 +530,14 @@
   <description>Business status of the action vendor</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/34"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>in business/no longer in same business/out of business</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/59">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format rights</rdfs:label>
   <description>This covers the question of openness and rights restrictions on a format: Do known IPR issues exist? Is the format copyrighted by one company? Are there known patents or other rights?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/159" />
 </rdf:Description>
 
@@ -542,13 +547,14 @@
   <description>Existence of rights applying to the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/59"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>open/ipr_protected/proprietary</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/45">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>automated quality assurance support</rdfs:label>
   <description>Indicators whether the outcome of an action supports automated QA</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/134" />
 </rdf:Description>
 
@@ -564,7 +570,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>colour space of a digital image</rdfs:label>
   <description>The designated colour space of the decompressed image data</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/55" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/56" />
 </rdf:Description>
@@ -575,6 +581,7 @@
   <description>Colour model of the decompressed image data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/20"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>WhiteIsZero/BlackIsZero/RGB/Palette/Transparency/CMYK/YCbCr/CIELab</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/56">
@@ -589,7 +596,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>document structure</rdfs:label>
   <description>Indicators for how well the structure of a multi-page document has been preserved</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/340" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/341" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/342" />
@@ -695,7 +702,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format stability</rdfs:label>
   <description>Degree of stability of a format and its versions</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/142" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/160" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/161" />
@@ -715,6 +722,7 @@
   <description>Stability of the outcome format with respect to changes.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/49"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>less than 1 year/1-2 years/3-5 years/more than 5 years</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/161">
@@ -723,13 +731,14 @@
   <description>Standardization of the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/49"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>international standard/de facto standard/none</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/2">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image EXIF metadata</rdfs:label>
   <description>The accuracy of Exchangeable Image File Format (EXIF) metadata of an image.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/250" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/251" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/252" />
@@ -1096,7 +1105,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format viewing features support</rdfs:label>
   <description>Are specific features in principle supported by the format when viewed in common viewers? (e.g. easy PDF creation, zoom etc)</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/154" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/157" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/163" />
@@ -1139,7 +1148,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image orientation</rdfs:label>
   <description>This specifies the orientation of the image in relation to the placement of its rows and columns when it was saved to disk i.e. it denotes whether the image has been rotated or flipped.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/62" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/63" />
 </rdf:Description>
@@ -1150,6 +1159,7 @@
   <description>Orientation of the image in relation to the placement of its rows and columns when it was saved to disk i.e. it denotes whether the image has been rotated or flipped.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/23"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>Horizontal (normal)/Mirror horizontal/Rotate 180/Mirror vertical/Mirror horizontal and rotate 270 CW/Rotate 90 CW/Mirror horizontal and rotate 90 CW/Rotate 270 CW</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/63">
@@ -1164,7 +1174,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image content</rdfs:label>
   <description>The accuracy of image content preservation</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/1" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/2" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/3" />
@@ -1252,7 +1262,7 @@
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image metadata</rdfs:label>
   <description>The accuracy of metadata of an image.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/291" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/292" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/293" />
@@ -1342,7 +1352,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>input object validation</rdfs:label>
   <description>Does the action perform validation of the input?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/46" />
 </rdf:Description>
 
@@ -1358,7 +1368,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>modular design</rdfs:label>
   <description>Indicators for the modularity of the system design of an action, which is an aspect of maintainability</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/modularity"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/modularity"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/94" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/95" />
 </rdf:Description>
@@ -1369,6 +1379,7 @@ direction) has been retained</description>
   <description>Assessment of the action-tool design in terms of modularity.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/29"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>yes/no/not observable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/95">
@@ -1377,13 +1388,14 @@ direction) has been retained</description>
   <description>Indicates if and in what terms the action-tool implements plug-ins.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/29"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>yes - open specification/yes - closed specification/no/not observable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/9">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>operational costs of a preservation action</rdfs:label>
   <description>These are the operational costs of running a preservation action.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/action_costs"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_costs"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/14" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/15" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/17" />
@@ -1453,7 +1465,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>compression</rdfs:label>
   <description>Compression used in outcome object.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/117" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/118" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/119" />
@@ -1465,6 +1477,7 @@ direction) has been retained</description>
   <description>Type of compression used in the outcome object</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/39"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>none/lossless/lossy</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/118">
@@ -1487,7 +1500,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>file name handling</rdfs:label>
   <description>Indicators for how the preservation action handles file names</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/66" />
 </rdf:Description>
 
@@ -1503,7 +1516,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>Software interface of a preservation action</rdfs:label>
   <description>The question of how to interface a preservation action tool, which can be a key factor limiting technical adoption in a given environment, but also drive or limit the scalability of operations where this action is involved (e.g. when no batch interface is provided)</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/interoperability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/interoperability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/32" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/33" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/34" />
@@ -1555,7 +1568,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>handling of illegal content elements</rdfs:label>
   <description>How does the action handle illegal (i.e. out-of-spec) elements inside content?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/39" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/40" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/41" />
@@ -1568,6 +1581,7 @@ direction) has been retained</description>
   <description>The way the action handles illegal image compressions</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/14"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>convert/remove/keep</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/40">
@@ -1576,6 +1590,7 @@ direction) has been retained</description>
   <description>The way the action handles illegal image formats</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/14"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>convert/remove/keep</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/41">
@@ -1584,6 +1599,7 @@ direction) has been retained</description>
   <description>The way the action handles illegal Javascript elements</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/14"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>convert/remove/keep</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/42">
@@ -1592,13 +1608,14 @@ direction) has been retained</description>
   <description>The way the action handles illegal video elements</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/14"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>convert/remove/keep</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/76">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>PC gaming hardware controller support</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/213" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/214" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/215" />
@@ -1613,6 +1630,7 @@ direction) has been retained</description>
   <description>Indicates personal computer gaming hardware audible controller feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/76"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/214">
@@ -1621,6 +1639,7 @@ direction) has been retained</description>
   <description>Indicates personal computer gaming hardware controller force feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/76"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supporte</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/215">
@@ -1629,6 +1648,7 @@ direction) has been retained</description>
   <description>Indicates if and in which way standard pc gaming hardware exists which resembles the feel of the original.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/76"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>controllers resembling original controller not available/controllers resembling original controller not supported/controllers resembling original controller supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/216">
@@ -1637,6 +1657,7 @@ direction) has been retained</description>
   <description>Indicates if and in which way standard pc gaming hardware exists which resembles the look of the original.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/76"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>controllers resembling original controller not available/controllers resembling original controller not supported/controllers resembling original controller supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/217">
@@ -1645,6 +1666,7 @@ direction) has been retained</description>
   <description>Indicates personal computer gaming hardware response delay (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/76"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/218">
@@ -1653,13 +1675,14 @@ direction) has been retained</description>
   <description>Indicates personal computer gaming hardware visual controller feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/76"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/47">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>preservation watch and planning costs</rdfs:label>
   <description>Effects of a preservation action on preservation watch and planning costs</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/outcome_effect"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/outcome_effect"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/136" />
 </rdf:Description>
 
@@ -1669,13 +1692,14 @@ direction) has been retained</description>
   <description>Effects of a preservation action on preservation watch and planning costs: Do they increase or decrease?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/47"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>increase/unchanged/decrease</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/80">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game network support</rdfs:label>
   <description>Degree of network support.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_information_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_information_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/232" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/233" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/234" />
@@ -1687,6 +1711,7 @@ direction) has been retained</description>
   <description>Indicates the lag occuring at network play.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/80"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/233">
@@ -1695,6 +1720,7 @@ direction) has been retained</description>
   <description>Indicates whether network protocols are supported by the game.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/80"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/234">
@@ -1703,13 +1729,14 @@ direction) has been retained</description>
   <description>Indicates it the use of the original servers is supported at network play.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/80"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/7">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format standardization</rdfs:label>
   <description>Degree of standardization of the format</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/13" />
 </rdf:Description>
 
@@ -1725,7 +1752,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>sampling frequency</rdfs:label>
   <description>The number of captured pixels per unit distance</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/59" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/60" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/61" />
@@ -1753,13 +1780,14 @@ direction) has been retained</description>
   <description>The unit of measurement for X Sampling Frequency and Y Sampling Frequency. </description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/22"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>none/inch/cm</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/24">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>output object validation</rdfs:label>
   <description>Does the action perform validation of the output?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/64" />
 </rdf:Description>
 
@@ -1775,7 +1803,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>server environment integration</rdfs:label>
   <description>Feasibility of integration of an action into a server environment</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/installability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/installability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/99" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/100" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/101" />
@@ -1789,6 +1817,7 @@ direction) has been retained</description>
   <description>Assessment of how easy it is to integrate an action into a particular server environment.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/32"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>good/acceptable/poor/not possible</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/100">
@@ -1827,7 +1856,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format metadata support</rdfs:label>
   <description>Indicators for the support that a format provides for metadata</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_quality_and_functionality"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_quality_and_functionality"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/149" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/150" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/151" />
@@ -1861,7 +1890,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>ease of operations</rdfs:label>
   <description>How easy are operations with this action?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/operability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/operability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/115" />
 </rdf:Description>
 
@@ -1871,13 +1900,14 @@ direction) has been retained</description>
   <description>Assessment of how easy it is to use an action in operations</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/38"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>good/acceptable/poor</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/46">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>archival storage costs</rdfs:label>
   <description>Effects of a preservation action on archival storage costs</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/outcome_effect"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/outcome_effect"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/135" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/137" />
 </rdf:Description>
@@ -1888,6 +1918,7 @@ direction) has been retained</description>
   <description>Effects of a preservation action on archival storage costs: Do they increase or decrease?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/46"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>increase/unchanged/decrease</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/137">
@@ -1902,7 +1933,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/181" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/182" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/183" />
@@ -1936,7 +1967,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>Total costs of ownership of a preservation action</rdfs:label>
   <description>These are the total costs of a preservation action (according to some TCO model)</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/action_costs"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_costs"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/30" />
 </rdf:Description>
 
@@ -1952,7 +1983,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>coverage of content</rdfs:label>
   <description>How much of the content that needs treatment is supported by this action?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_appropriateness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_appropriateness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/44" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/48" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/49" />
@@ -1995,7 +2026,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>colour depth</rdfs:label>
   <description>Bits per component (channel) for each pixel</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/169" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/170" />
 </rdf:Description>
@@ -2020,7 +2051,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format transparency</rdfs:label>
   <description>How transparent is the format and its specification?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/143" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/158" />
 </rdf:Description>
@@ -2031,6 +2062,7 @@ direction) has been retained</description>
   <description>Indicator of the complexity of a format as judged by experts in the domain</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/50"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>high/medium/low</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/158">
@@ -2045,7 +2077,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>database representation</rdfs:label>
   <description>Database representation information</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/171" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/172" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/173" />
@@ -2088,7 +2120,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>PC standard hardware controller support</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/219" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/220" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/221" />
@@ -2103,6 +2135,7 @@ direction) has been retained</description>
   <description>Indicates personal computer standard hardware audible controller feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/75"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/220">
@@ -2111,6 +2144,7 @@ direction) has been retained</description>
   <description>Indicates personal computer standard hardware controller force feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/75"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/221">
@@ -2119,6 +2153,7 @@ direction) has been retained</description>
   <description>Indicates personal computer standard hardware response delay (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/75"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/222">
@@ -2127,6 +2162,7 @@ direction) has been retained</description>
   <description>Indicates if and in which way personal computer standard hardware is supported.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/75"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>supported and resemble look of original controller/supported/not supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/223">
@@ -2135,6 +2171,7 @@ direction) has been retained</description>
   <description>Indicates personal computer standard hardware usability (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/75"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not acceptable/fairly playable/well playable/perfectly playable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/224">
@@ -2143,13 +2180,14 @@ direction) has been retained</description>
   <description>Indicates personal computer standard hardware visual controller feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/75"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/54">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format recoverability</rdfs:label>
   <description>Resilience of the format aginst errors: Can errors be detected and/or recovered?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/152" />
 </rdf:Description>
 
@@ -2159,13 +2197,14 @@ direction) has been retained</description>
   <description>Indicates the presence of features built into the format that allow the detection of and recovery from errors (such as checksums)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/54"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>recoverable/detectable/none</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/40">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format conformity</rdfs:label>
   <description>Does the digital object conform to its specification?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/120" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/121" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/122" />
@@ -2199,7 +2238,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>searchability</rdfs:label>
   <description>Is it possible to search the content of the digital object</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/124" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/125" />
 </rdf:Description>
@@ -2210,6 +2249,7 @@ direction) has been retained</description>
   <description>Indicates if and in which way the document is searchable.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/42"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>full/partial/no</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/125">
@@ -2224,7 +2264,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format licence costs</rdfs:label>
   <description>Which licence costs are incurred when using a certain format?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_business_factors"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_business_factors"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/155" />
 </rdf:Description>
 
@@ -2240,7 +2280,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>degree of specific feature support for video games</rdfs:label>
   <description>Indicators for the specific support of particular features that are present in video games</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/68" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/69" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/70" />
@@ -2274,6 +2314,7 @@ direction) has been retained</description>
   <description>Indicator for the mode in which an action supports byte stream media</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported as stand-alone file/supported encapsulated in file</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/69">
@@ -2354,6 +2395,7 @@ direction) has been retained</description>
   <description>Indicates whether an action is capable of displaying the reference to the preferred emulator.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>yes - with system configuration/yes - without system configuration/no</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/79">
@@ -2386,6 +2428,7 @@ direction) has been retained</description>
   <description>indicates in which way video games can be started by an action.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>command line/user interface/ command line and user interface</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/83">
@@ -2410,6 +2453,7 @@ direction) has been retained</description>
   <description>Indicates in which way necessary accessories (e.g. special controller mandatory for playing a video game) are supported by an action.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/Y/N</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/86">
@@ -2418,6 +2462,7 @@ direction) has been retained</description>
   <description>Indicates in which way original accessories (special controller, etc.) are supported by an action.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported with special hardware/supported without special hardware</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/87">
@@ -2426,6 +2471,7 @@ direction) has been retained</description>
   <description>The way an action supports original media.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported with special hardware/supported without special hardware</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/88">
@@ -2434,6 +2480,7 @@ direction) has been retained</description>
   <description>The way an action communicates with the operating system.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>native/none/via network/via virtual media</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/89">
@@ -2450,6 +2497,7 @@ direction) has been retained</description>
   <description>Indicates on which levels an action operates to be able to run the video game.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>high level and no BIOS is needed/low level and no BIOS is needed/high level and BIOS is needed/low level and BIOS is needed</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/91">
@@ -2466,13 +2514,14 @@ direction) has been retained</description>
   <description>Media types supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/neither byte-stream nor original media supported/original media but no byte stream supported/byte stream but not original media supported/byte stream and original media supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/8">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>setup costs of a preservation action</rdfs:label>
   <description>These are the initial setup costs required for preservation operations. This includes many factors such as acquisition, one-time license fees, installation and configuration, etc.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/action_costs"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_costs"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/16" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/22" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/23" />
@@ -2560,7 +2609,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game interactivity</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/197" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/210" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/211" />
@@ -2573,6 +2622,7 @@ direction) has been retained</description>
   <description>Indicates if additional items (like game boards used in role-playing games) are supported by the game emulation itself (and therefore are not required physical), or if they are not supported and therefore are required to be physically present - otherwise the game cannot be played.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/72"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/210">
@@ -2581,6 +2631,7 @@ direction) has been retained</description>
   <description>Indicates overlay response delay (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/72"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/211">
@@ -2589,6 +2640,7 @@ direction) has been retained</description>
   <description>Indicates whether overlays are supported</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/72"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported but necessary for game play/not supported and not necessary for game play/supported but not necessary for game play/supported and necessary for game play</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/212">
@@ -2597,13 +2649,14 @@ direction) has been retained</description>
   <description>Indicates overlay usability (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/72"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not usable/usable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/71">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game graphics</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/184" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/185" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/186" />
@@ -2638,6 +2691,7 @@ direction) has been retained</description>
   <description>Indicates the quality of hardware supported special effects.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>no objects displayed/not applicable/severe differences to original/small differences to original/no differences noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/187">
@@ -2646,6 +2700,7 @@ direction) has been retained</description>
   <description>Indicates how good 2D object loayer placement is working.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/188">
@@ -2654,6 +2709,7 @@ direction) has been retained</description>
   <description>Indicates how good 2D object position placement is working.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/189">
@@ -2662,6 +2718,7 @@ direction) has been retained</description>
   <description>Indicates how good 3D object calculation is working.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/190">
@@ -2670,6 +2727,7 @@ direction) has been retained</description>
   <description>Indicates how good 3D object clipping is working.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction> no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/191">
@@ -2678,6 +2736,7 @@ direction) has been retained</description>
   <description>Indicates the quality of 3D texture quality.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/192">
@@ -2686,6 +2745,7 @@ direction) has been retained</description>
   <description>Indicates in which way screen overlays are supported.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported manually by loading image/supported by auto-detection/supported through encapsulation</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/193">
@@ -2700,14 +2760,14 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>database context information</rdfs:label>
   <description>Context information of the resulting database</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/60">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>OCR Text</rdfs:label>
   <description>OCR text extracted from an image.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/168" />
 </rdf:Description>
 
@@ -2723,7 +2783,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format documentation</rdfs:label>
   <description>Indicators for the documentation that is available for a format</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/147" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/148" />
 </rdf:Description>
@@ -2734,6 +2794,7 @@ direction) has been retained</description>
   <description>Availability of the documentation for a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/52"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>yes-free/yes-pay/no</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/148">
@@ -2742,13 +2803,14 @@ direction) has been retained</description>
   <description>Judgement of the quality of documentation available for a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/52"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>complete/fragmentary/useless</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/18">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>Support of active content</rdfs:label>
   <description>Are Macros specifically supported?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/47" />
 </rdf:Description>
 
@@ -2764,7 +2826,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>error handling</rdfs:label>
   <description>Indicators for how well the preservation action deals with errors</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/fault_tolerance"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/fault_tolerance"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/65" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/67" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/105" />
@@ -2785,6 +2847,7 @@ direction) has been retained</description>
   <description>Indicates tho which degree reported errors are understandable to human users.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/25"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>good/acceptable/poor/no</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/105">
@@ -2807,7 +2870,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>memory usage</rdfs:label>
   <description>Memory used for processing of objects in an action</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/resource_utilization"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/resource_utilization"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/97" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/98" />
 </rdf:Description>
@@ -2832,7 +2895,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>colour profile of a digital image</rdfs:label>
   <description>The colour profile associated with the digital image.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/57" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/58" />
 </rdf:Description>
@@ -2857,7 +2920,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>special controller support</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/198" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/199" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/203" />
@@ -2870,6 +2933,7 @@ direction) has been retained</description>
   <description>Indicates original special controller audible feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/73"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/199">
@@ -2878,6 +2942,7 @@ direction) has been retained</description>
   <description>Indicates original special controller force feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/73"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/203">
@@ -2886,6 +2951,7 @@ direction) has been retained</description>
   <description>Indicates if and under what circumstances original special controller are supported.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/73"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported with special hardware/supported with special software/native supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/204">
@@ -2894,13 +2960,14 @@ direction) has been retained</description>
   <description>Indicates original special controller visual feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/73"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/70">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game audio</rdfs:label>
   <description>Information about audio quality of the video game.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/194" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/195" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/196" />
@@ -2934,7 +3001,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>document metadata</rdfs:label>
   <description>Information about the document</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/351" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/352" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/353" />
@@ -2995,7 +3062,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>stability</rdfs:label>
   <description>Stability of an action under normal operations</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/maturity"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/maturity"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/108" />
 </rdf:Description>
 
@@ -3005,13 +3072,14 @@ direction) has been retained</description>
   <description>Judgement of the stability of an action </description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/35"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>stable/largely stable/unstable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/13">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>Activity logging</rdfs:label>
   <description>This represents the common requirement of knowing as precisely as possible what a preservation action tool did and how, i.e. how much reporting happens on the side of a preservation action about the activities that have taken place. This includes both the amount of information procuded as well as the format (e.g. whether this is human-readable, machine-processible or in PREMIS format)</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/37" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/38" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/43" />
@@ -3031,6 +3099,7 @@ direction) has been retained</description>
   <description>The format of logging output produced by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/13"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>text/xml/premis/database/none</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/43">
@@ -3045,7 +3114,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>standard controller support</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/205" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/206" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/207" />
@@ -3059,6 +3128,7 @@ direction) has been retained</description>
   <description>Indicates original standard controller audible feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/74"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/206">
@@ -3067,6 +3137,7 @@ direction) has been retained</description>
   <description>Indicates original standard controller force feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/74"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/207">
@@ -3075,6 +3146,7 @@ direction) has been retained</description>
   <description>Indicates original standard controller response delay (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/74"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/208">
@@ -3083,6 +3155,7 @@ direction) has been retained</description>
   <description>Indicates if and under what circumstances original standard controller are supported.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/74"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported with special hardware/supported with special software/native supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/209">
@@ -3091,13 +3164,14 @@ direction) has been retained</description>
   <description>Indicates original standard controller visual feedback (if applicable).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/74"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not supported/supported</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/43">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>validity of METS metadata</rdfs:label>
   <description>Does METS metadata conform to its specification?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/126" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/127" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/129" />
@@ -3131,7 +3205,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>interactive elements in documents</rdfs:label>
   <description>Interactive elements in documents</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/382" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/383" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/384" />
@@ -3183,7 +3257,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image-specific features supported</rdfs:label>
   <description>Are image-specific features supported by the action?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_completeness"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_completeness"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/45" />
 </rdf:Description>
 
@@ -3199,7 +3273,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>file size</rdfs:label>
   <description>What happened to the size of the file?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/123" />
 </rdf:Description>
 
@@ -3215,7 +3289,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>archival provenance information</rdfs:label>
   <description>Provenance information on the archival process documented in outcome</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_information_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_information_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/245" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/246" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/247" />
@@ -3267,7 +3341,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format disclosure</rdfs:label>
   <description>Disclosure of the format</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_sustainability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_sustainability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/153" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/164" />
 </rdf:Description>
@@ -3278,6 +3352,7 @@ direction) has been retained</description>
   <description>Possibilies to identify the outcome format (cf. PRONOM)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/55"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>automatic_specific/automatic_generic/automatic_tentative/manual/none</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/164">
@@ -3286,13 +3361,14 @@ direction) has been retained</description>
   <description>Possibilies to validate conformance to a format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/55"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>automatic/manual/none</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/62">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>descriptive metadata for database elements</rdfs:label>
   <description>Context information of the database</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/322" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/323" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/324" />
@@ -3461,7 +3537,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>format support for specific database features</rdfs:label>
   <description>Indicators for the specific support of particular features that are present in databases</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/format_quality_and_functionality"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/format_quality_and_functionality"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/144" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/145" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/146" />
@@ -3495,7 +3571,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>content interpretation quality</rdfs:label>
   <description>This refers to the degrees of quality of content representation, such as the question whether a digital photograph is represented as interpreted data or as raw sensor data with interpretation instructions</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/165" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/166" />
 </rdf:Description>
@@ -3514,13 +3590,14 @@ direction) has been retained</description>
   <description>Indicates whether a quality loss occurs at reinterpretating the content stored in a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/56"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>minimal/acceptable/not acceptable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/4">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image DC metadata</rdfs:label>
   <description>The accuracy of Dubling Core (DC) metadata to an image.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/300" />
 </rdf:Description>
 
@@ -3536,7 +3613,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>audio synchronicity</rdfs:label>
   <description>Degree to which audio is synchronous with video</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/225" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/226" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/227" />
@@ -3548,6 +3625,7 @@ direction) has been retained</description>
   <description>Indicates to which degree music appears synchronous to the related video.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/78"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/226">
@@ -3556,6 +3634,7 @@ direction) has been retained</description>
   <description>Indicates to which degree sound appears synchronous to the related video.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/78"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/227">
@@ -3564,13 +3643,14 @@ direction) has been retained</description>
   <description>Indicates to which degree speech appears synchronous to the related video.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/78"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/severe errors apparent/small error noticeable/no error noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/28">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>customization</rdfs:label>
   <description>Indicators for the degree to which it is possible to customize the action-tool according to specific user needs</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/modifiability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/modifiability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/93" />
 </rdf:Description>
 
@@ -3580,13 +3660,14 @@ direction) has been retained</description>
   <description>How easy is it to customize an action?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/28"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>good/acceptable/poor/not possible</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/30">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>batch processing capacity</rdfs:label>
   <description>Capacity of an action in batch processing mode</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/capacity"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/capacity"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/96" />
 </rdf:Description>
 
@@ -3602,7 +3683,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image size</rdfs:label>
   <description>Dimensions of a digital image</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/50" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/51" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/52" />
@@ -3654,7 +3735,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>document content</rdfs:label>
   <description>Information on content stored in document</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/357" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/358" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/359" />
@@ -3886,7 +3967,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>configurability</rdfs:label>
   <description>Configurability of an action</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/operability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/operability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/111" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/114" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/116" />
@@ -3898,6 +3979,7 @@ direction) has been retained</description>
   <description>Means available for configuring an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/36"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>internal only/external parameter/configuration file</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/114">
@@ -3906,6 +3988,7 @@ direction) has been retained</description>
   <description>Assessment of how easy it is to administer an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/36"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>good/acceptable/poor</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/116">
@@ -3914,13 +3997,14 @@ direction) has been retained</description>
   <description>Indicator how the action manages object-level specific configuration settings</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/36"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>internal only/external parameter/configuration file/object encapsulated config</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/77">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>input overlay support</rdfs:label>
   <description>Degree to which overlays are supported</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/200" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/201" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/202" />
@@ -3932,6 +4016,7 @@ direction) has been retained</description>
   <description>Overlay response delay</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/77"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/considerable delay/short delay/delay not noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/201">
@@ -3948,13 +4033,14 @@ direction) has been retained</description>
   <description>Degree to which input overlay is usable</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/77"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>not applicable/not usable/usable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/3">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>image IPTC metadata</rdfs:label>
   <description>The accuracy of International Press Telecommunications Council (IPTC) metadata of an image.</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/290" />
 </rdf:Description>
 
@@ -3970,7 +4056,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game documentation</rdfs:label>
   <description>Availability of different types of documentation</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_transformation_independent_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_transformation_independent_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/228" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/229" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/230" />
@@ -4013,7 +4099,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>community</rdfs:label>
   <description>Assessment of the user/developer community: Is this action actively supported, maintained, improved, used?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/action_maintenance"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_maintenance"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/104" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/109" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/110" />
@@ -4047,7 +4133,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>software licence of a preservation action</rdfs:label>
   <description>These are the licence agreements of a preservation action</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/action_licensing"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_licensing"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/31" />
 </rdf:Description>
 
@@ -4063,7 +4149,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>video game set-up</rdfs:label>
   <description></description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_information_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_information_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/179" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/180" />
 </rdf:Description>
@@ -4082,13 +4168,14 @@ direction) has been retained</description>
   <description>The way game configuration takes place.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/68"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>manual/pre-configured/not needed</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/44">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>validity of XMP metadata</rdfs:label>
   <description>Does XMP metadata conform to its specification?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/128" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/130" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/131" />
@@ -4122,7 +4209,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>processing time</rdfs:label>
   <description>processing time</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/time_behaviour"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/time_behaviour"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/10" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/11" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/12" />
@@ -4156,7 +4243,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>database data representation</rdfs:label>
   <description>Compliance of data fields with standards</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_information_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_information_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/241" />
 </rdf:Description>
 
@@ -4172,7 +4259,7 @@ direction) has been retained</description>
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>documentation</rdfs:label>
   <description>Is there good documentation available to support operations?</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/operability"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/operability"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/112" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/113" />
 </rdf:Description>
@@ -4183,6 +4270,7 @@ direction) has been retained</description>
   <description>Availability of documentation to support the operations of an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/37"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>yes-free/yes-pay/no</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/113">
@@ -4191,13 +4279,14 @@ direction) has been retained</description>
   <description>Quality of documentation to support the operations of an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/37"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>complete/fragmentary/useless</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/85">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Attribute"/>
   <rdfs:label>database content</rdfs:label>
   <description>Indicators for how well the content of the database has been preserved</description>
-  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/functional_correctness_representation_instance_property"/>
+  <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/301" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/302" />
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/303" />
@@ -4389,5 +4478,5 @@ direction) has been retained</description>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
 </rdf:Description>
 
-<!-- Generated with csvmod2rdf 0.1.0  -->
+<!-- Generated with csvmod2rdf 0.3.1  -->
 </rdf:RDF>     

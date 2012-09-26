@@ -18,6 +18,7 @@ package eu.scape_project.planning.manager;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,12 +30,10 @@ import javax.ejb.LockType;
 import javax.ejb.Remove;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -49,6 +48,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.util.FileManager;
 
 import eu.scape_project.planning.model.measurement.Attribute;
+import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FloatScale;
@@ -56,6 +56,7 @@ import eu.scape_project.planning.model.scales.FreeStringScale;
 import eu.scape_project.planning.model.scales.OrdinalScale;
 import eu.scape_project.planning.model.scales.PositiveFloatScale;
 import eu.scape_project.planning.model.scales.PositiveIntegerScale;
+import eu.scape_project.planning.model.scales.RestrictedScale;
 import eu.scape_project.planning.model.scales.Scale;
 
 /**
@@ -78,49 +79,61 @@ public class CriteriaManager implements Serializable {
     public static final String MEASURES_DIR = "data/measures";
     public static final String MEASURES_FILE = "attributes_measures.rdf";
 
-    @Inject
-    private Logger log;
+    private Logger log = LoggerFactory.getLogger(CriteriaManager.class);
 
-    @PersistenceContext
-    private EntityManager em;
-    
     private Model model;
 
     public CriteriaManager() {
     	model = ModelFactory.createMemModelMaker().createDefaultModel();
     }
+    
+    /**
+     * cache for looking up CriterionCategories by their uri
+     */
+    private Map<String, CriterionCategory> knownCategories = new HashMap<String, CriterionCategory>();
 
     /**
-     * cache for lookup of all currently known measures by their id
+     * cache for lookup of all currently known measures by their uri
      * 
      */
     private Map<String, Measure> knownMeasures = new HashMap<String, Measure>();
 
     /**
-     * cache for lookup of all currently known attributes by their id
+     * cache for lookup of all currently known attributes by their uri
      */
     private Map<String, Attribute> knownAttributes = new HashMap<String, Attribute>();
+    
+    
+    /**
+     * Returns a list of all known categories
+     * IMPORTANT: this list can not (and must not) be altered!
+     * 
+     * @return
+     */
+    public Collection<CriterionCategory> getAllCriterionCategories(){
+        return Collections.unmodifiableCollection(knownCategories.values());
+    }
 
     /**
-     * Returns a list of all known criteria IMPORTANT: this list MUST NOT be
-     * altered!
+     * Returns a list of all known criteria 
+     * IMPORTANT: this list can not (and must not) be altered!
      * 
      * @return
      */
     @Lock(LockType.READ)
     public Collection<Measure> getAllMeasures() {
-        return knownMeasures.values();
+        return Collections.unmodifiableCollection(knownMeasures.values());
     }
 
     /**
-     * returns a list of all known properties IMPORTANT: this list MUST NOT be
-     * altered!
+     * returns a list of all known properties
+     * IMPORTANT: this list can not (and must not) be altered!
      * 
      * @return
      */
     @Lock(LockType.READ)
     public Collection<Attribute> getAllAttributes() {
-        return knownAttributes.values();
+        return Collections.unmodifiableCollection(knownAttributes.values());
     }
 
     /**
@@ -131,12 +144,7 @@ public class CriteriaManager implements Serializable {
      */
     @Lock(LockType.READ)
     public Measure getMeasure(String measureUri) {
-        for (Measure measure : knownMeasures.values()) {
-            if (measure.getUri().equals(measureUri)) {
-                return measure;
-            }
-        }
-        return null;
+        return knownMeasures.get(measureUri);
     }
 
     /**
@@ -145,12 +153,46 @@ public class CriteriaManager implements Serializable {
     private void load() {
     }
     
+    private void resolveCriterionCategories() {
+        String statement = "SELECT ?c ?cn ?scope WHERE { " +
+                           "?c rdf:type pw:CriterionCategory . " +
+                           "?c rdfs:label ?cn . " +
+                           "?c pw:scope ?scope }";
+        String commonNS = 
+            "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+            "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
+            "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+        
+        Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        while ((results != null) && (results.hasNext())) {
+                QuerySolution qs = results.next();
+            String categoryId = qs.getResource("c").toString();
+            String name = categoryId.substring(categoryId.lastIndexOf('/')+1);
+            name = name.replaceAll("-", "_");
+            try {
+                CriterionCategory c = CriterionCategory.valueOf(name.toUpperCase());
+                if (c != null) {
+                    knownCategories.put(categoryId, c);
+                }
+            } catch (IllegalArgumentException e) {
+                log.error("Unknown CriterionCategory: " + name);
+            }
+            
+        }
+        
+        
+    }
+    
     private void resolveAttributes() {
         String statement=      
-			"SELECT ?a ?an ?ad WHERE { " +
+			"SELECT ?a ?an ?ad ?ac WHERE { " +
 			"?a rdf:type pw:Attribute . " +
 			"?a rdfs:label ?an . " +
-			"?a pw:description ?ad . }";
+			"?a pw:description ?ad . " +
+			"?a pw:criterioncategory ?ac }";
 
         String commonNS = 
                 "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
@@ -169,6 +211,13 @@ public class CriteriaManager implements Serializable {
             a.setDescription(qs.getLiteral("ad").getString());
             a.setName(qs.getLiteral("an").getString());
             a.setUri(qs.getResource("a").toString());
+            String categoryUri = qs.getResource("ac").toString();
+//            if (!categoryUri.contains("/categories/")) {
+//                categoryUri = categoryUri.replaceFirst("/vocab/", "/vocab/categories/");
+//            }
+            a.setCategory(knownCategories.get( categoryUri  ));
+
+            
             
             knownAttributes.put(a.getUri(), a);
         }
@@ -176,13 +225,14 @@ public class CriteriaManager implements Serializable {
     }
     
     private void resolveMeasures () {
-        String statement=
-        		"SELECT ?m ?mn ?md ?a ?s WHERE { " +
+        String statement =
+        		"SELECT ?m ?mn ?md ?a ?s ?r WHERE { " +
         		"?m rdf:type pw:Measure . " +
         		"?m pw:attribute ?a . " +
         		"?m rdfs:label ?mn . " +
-        		"?m pw:description ?md ." +
-        		"?m pw:scale ?s . }";
+        		"?m pw:description ?md . " +
+        		"?m pw:scale ?s . " +
+        		"optional{?m pw:restriction ?r} }";
 
         String commonNS = 
                 "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
@@ -194,45 +244,51 @@ public class CriteriaManager implements Serializable {
         ResultSet results = qe.execSelect();
 
         while ((results != null) && (results.hasNext())) {
-        	QuerySolution qs = results.next();
-        	
+            QuerySolution qs = results.next();
+
             Resource attribute = qs.getResource("a");
-            
-            String attributeUri = attribute.toString(); 
-            
+
+            String attributeUri = attribute.toString();
+
             Measure m = new Measure();
-            
+
             m.setUri(qs.getResource("m").toString());
             m.setName(qs.getLiteral("mn").getString());
             m.setDescription(qs.getLiteral("md").getString());
+
+            Scale s = createScale(qs.getResource("s").getLocalName());
+            m.setScale(s);
             
-            m.setScale(createScale(qs.getResource("s").getLocalName()));
-            
+            if ((s instanceof RestrictedScale) && (qs.contains("r"))) {
+                String restriction = qs.getLiteral("r").getString();
+                ((RestrictedScale)s).setRestriction(restriction);
+            }
+
             Attribute a = knownAttributes.get(attributeUri);
-            
+
             m.setAttribute(a);
-            
+
             knownMeasures.put(m.getUri(), m);
         }
     }
     
-    Scale createScale(String scaleName) {
-    	
-    	if ("Boolean".equalsIgnoreCase(scaleName)) {
-    		return new BooleanScale();
-    	} else if ("Free Text".equalsIgnoreCase(scaleName)) {
-    		return new FreeStringScale();
-    	} else if ("Number".equalsIgnoreCase(scaleName)) {
-    		return new FloatScale();
-    	} else if ("Positive Number".equalsIgnoreCase(scaleName)) {
-    		return new PositiveFloatScale();
-    	} else if ("Positive Integer".equalsIgnoreCase(scaleName)) {
-    		return new PositiveIntegerScale();
-    	} else if ("Ordinal".equalsIgnoreCase(scaleName)) {
-    		return new OrdinalScale();
-    	}
-    	
-    	return null;
+    private Scale createScale(String scaleName) {
+
+        if ("Boolean".equalsIgnoreCase(scaleName)) {
+            return new BooleanScale();
+        } else if ("FreeText".equalsIgnoreCase(scaleName)) {
+            return new FreeStringScale();
+        } else if ("Number".equalsIgnoreCase(scaleName)) {
+            return new FloatScale();
+        } else if ("PositiveNumber".equalsIgnoreCase(scaleName)) {
+            return new PositiveFloatScale();
+        } else if ("PositiveInteger".equalsIgnoreCase(scaleName)) {
+            return new PositiveIntegerScale();
+        } else if ("Ordinal".equalsIgnoreCase(scaleName)) {
+            return new OrdinalScale();
+        }
+
+        return null;
     }
 
     /**
@@ -250,17 +306,13 @@ public class CriteriaManager implements Serializable {
      */
     @Lock(LockType.WRITE)
     public void reload() {
-    	String dir = MEASURES_DIR + "/" + MEASURES_FILE; 
-    	
-    	model = FileManager.get().loadModel(dir);
-    	
-        resolveAttributes();
-        resolveMeasures();    	
-    }
+        String dir = MEASURES_DIR + "/" + MEASURES_FILE;
 
-    // Method used for testing purposes (mocking the EntityManager)
-    public void setEm(EntityManager em) {
-        this.em = em;
+        model = FileManager.get().loadModel(dir);
+
+        resolveCriterionCategories();
+        resolveAttributes();
+        resolveMeasures();
     }
 
     @PostConstruct
@@ -276,9 +328,4 @@ public class CriteriaManager implements Serializable {
     public void destroy() {
     }
     
-    public static void main (String[] args) {
-    	CriteriaManager criteriaManager = new CriteriaManager();
-    	
-    	criteriaManager.init();
-    }
 }
