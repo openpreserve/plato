@@ -98,13 +98,13 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
         T2FlowParser parser = T2FlowParserFallback.createParser(new ByteArrayInputStream(bsData.getData()));
 
         if (!parser.getProfile().equals(T2FlowParser.ComponentProfile.ExecutablePlan)) {
-            // TODO: Throw exception, this is commented for test purpouses
+            // TODO: Throw exception, this is commented for test purposes
             // throw new
             // PlanningException("The provided profile does not adhere to the Executable Plan Profile.");
         }
 
         String name = parser.getName();
-        storeExecutablePlan(FileUtils.makeFilename(name + ".t2flow"), bsData);
+        storeExecutablePlan(FileUtils.makeFilename(name) + ".t2flow", bsData);
     }
 
     /**

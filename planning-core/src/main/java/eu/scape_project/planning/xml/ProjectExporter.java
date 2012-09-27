@@ -24,11 +24,13 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
+import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Experiment;
@@ -78,14 +80,19 @@ import sun.misc.BASE64Encoder;
 public class ProjectExporter implements Serializable {
     private static final long serialVersionUID = 7538933914251415135L;
 
+    /**
+     * Encoding used for writing data.
+     */
+    private static final String ENCODING = "UTF-8";
+
     @Inject
     private Logger logger;
 
     private TimestampFormatter formatter = new TimestampFormatter();
     private FloatFormatter floatFormatter = new FloatFormatter();
 
-    public static OutputFormat prettyFormat = new OutputFormat(" ", true, "UTF-8"); // OutputFormat.createPrettyPrint();
-    public static OutputFormat compactFormat = new OutputFormat(null, false, "UTF-8"); // OutputFormat.createPrettyPrint();
+    public static OutputFormat prettyFormat = new OutputFormat(" ", true, ENCODING); // OutputFormat.createPrettyPrint();
+    public static OutputFormat compactFormat = new OutputFormat(null, false, ENCODING); // OutputFormat.createPrettyPrint();
 
     public static Namespace excutablePlanNS;
     public static Namespace xsi;
@@ -118,7 +125,7 @@ public class ProjectExporter implements Serializable {
      */
     public Document exportToXml(Plan p) {
         Document doc = createProjectDoc();
-        addProject(p, doc, null, null);
+        addProject(p, doc, false);
         return doc;
     }
 
@@ -467,64 +474,149 @@ public class ProjectExporter implements Serializable {
         }
     }
 
-    private Element addUpload(DigitalObject upload, Element parentNode, String elementName, BASE64Encoder encoder,
-        List<Integer> uploadIDs) {
+    /**
+     * Adds the digital object to the parentNode. If the object is null or has
+     * no data, it is not added.
+     * 
+     * @param upload
+     *            the DigitalObject to add
+     * @param parent
+     *            the parent element of the element to create
+     * @param elementName
+     *            the name of the element to create
+     * @param encoder
+     *            encoder to use for writing data
+     * @param addDigitalObjectData
+     *            true if the data should be written, false otherwise
+     * @return the newly created element or null if none was created
+     */
+    private Element addUpload(DigitalObject upload, Element parent, String elementName, BASE64Encoder encoder,
+        boolean addDigitalObjectData) {
         Element xmlNode = null;
-        if ((upload != null) && (!"".equals(upload.getFullname())) && upload.isDataExistent()) {
-            xmlNode = parentNode.addElement(elementName);
+        if (upload != null && !"".equals(upload.getFullname()) && upload.isDataExistent()) {
+            xmlNode = addEncodedDigitalObject(upload, parent, elementName, encoder, addDigitalObjectData);
+        }
+        return xmlNode;
+    }
+
+    /**
+     * Adds the digital object to the parentNode. If the object is null it is
+     * not added.
+     * 
+     * @param upload
+     *            the DigitalObject to add
+     * @param parent
+     *            the parent element of the element to create
+     * @param elementName
+     *            the name of the element to create
+     * @param encoder
+     *            encoder to use for writing data
+     * @param addDigitalObjectData
+     *            true if the data should be written, false otherwise
+     * @return the newly created element or null if none was created
+     */
+    private Element addEncodedDigitalObject(DigitalObject upload, Element parent, String elementName,
+        BASE64Encoder encoder, boolean addDigitalObjectData) {
+
+        Element xmlNode = null;
+        if (upload != null) {
+            xmlNode = parent.addElement(elementName);
             xmlNode.addAttribute("fullname", upload.getFullname()).addAttribute("contentType", upload.getContentType());
 
             Element data = xmlNode.addElement("data");
-            data.addAttribute("hasData", "true");
-            data.addAttribute("encoding", "base64");
-            if (uploadIDs != null) {
-                // write only DigitalObject.id, it will be replaced later
-                data.setText("" + upload.getId());
-                // remember ID of upload
-                uploadIDs.add(upload.getId());
+            if (upload.isDataExistent()) {
+                data.addAttribute("hasData", "true");
+                data.addAttribute("encoding", "base64");
+                if (!addDigitalObjectData) {
+                    // Add only DigitalObject ID, it can be replaced later
+                    data.setText(String.valueOf(upload.getId()));
+                } else {
+                    // Add encoded data
+                    data.setText(encoder.encode(upload.getData().getData()));
+                }
             } else {
-                // directly write encoded data
-                data.setText(encoder.encode(upload.getData().getData()));
+                data.addAttribute("hasData", "false");
             }
-            if (upload.getXcdlDescription() != null) {
-                addUpload(upload.getXcdlDescription(), xmlNode, "xcdlDescription", encoder, uploadIDs);
-            }
-            addJhoveString(upload, encoder, xmlNode);
+
+            addUpload(upload.getXcdlDescription(), xmlNode, "xcdlDescription", encoder, addDigitalObjectData);
+            addJhoveInfo(upload, encoder, xmlNode);
             addFitsInfo(upload, encoder, xmlNode);
+            Element formatInfo = xmlNode.addElement("formatInfo")
+                .addAttribute("puid", upload.getFormatInfo().getPuid())
+                .addAttribute("name", upload.getFormatInfo().getName())
+                .addAttribute("version", upload.getFormatInfo().getVersion())
+                .addAttribute("mimeType", upload.getFormatInfo().getMimeType())
+                .addAttribute("defaultExtension", upload.getFormatInfo().getDefaultExtension());
+            addChangeLog(upload.getFormatInfo().getChangeLog(), formatInfo);
             addChangeLog(upload.getChangeLog(), xmlNode);
         }
         return xmlNode;
     }
 
-    private void addJhoveString(DigitalObject digitalObject, BASE64Encoder encoder, Element xmlNode) {
+    /**
+     * Adds the Jhove information of the digital object to the provided element
+     * if it has one.
+     * 
+     * @param digitalObject
+     *            the digital object
+     * @param encoder
+     *            encoder to use for writing data
+     * @param parent
+     *            the parent element of the element to create
+     * @return the newly created element or null if none was created
+     */
+    private Element addJhoveInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent) {
+        Element jhoveElement = null;
         String jhoveXML = digitalObject.getJhoveXMLString();
         if ((jhoveXML != null) && (!"".equals(jhoveXML))) {
-            Element jhove = xmlNode.addElement("jhoveXML");
-            jhove.addAttribute("encoding", "base64");
+            jhoveElement = parent.addElement("jhoveXML");
+            jhoveElement.addAttribute("encoding", "base64");
             try {
-                jhove.setText(encoder.encode(jhoveXML.getBytes("UTF-8")));
+                jhoveElement.setText(encoder.encode(jhoveXML.getBytes(ENCODING)));
             } catch (UnsupportedEncodingException e) {
-                jhove.setText("");
+                jhoveElement.setText("");
                 logger.error(e.getMessage(), e);
             }
         }
+        return jhoveElement;
     }
 
-    private void addFitsInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element xmlNode) {
+    /**
+     * Adds the fits information of the digital object to the provided element
+     * if it has one.
+     * 
+     * @param digitalObject
+     *            the digital object
+     * @param encoder
+     *            encoder to use for writing data
+     * @param parent
+     *            the parent element of the element to create
+     * @return the newly created element or null if none was created
+     */
+    private Element addFitsInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent) {
+        Element fitsElement = null;
         String fitsInfo = digitalObject.getFitsXMLString();
         if ((fitsInfo != null) && (!"".equals(fitsInfo))) {
-            Element fitsElement = xmlNode.addElement("fitsXML");
+            fitsElement = parent.addElement("fitsXML");
             fitsElement.addAttribute("encoding", "base64");
             try {
-                fitsElement.setText(encoder.encode(fitsInfo.getBytes("UTF-8")));
+                fitsElement.setText(encoder.encode(fitsInfo.getBytes(ENCODING)));
             } catch (UnsupportedEncodingException e) {
                 fitsElement.setText("");
                 logger.error(e.getMessage(), e);
             }
         }
+        return fitsElement;
     }
 
-    private String deriveElementname(Class c) {
+    /**
+     * Creates an element name from the provided class.
+     * 
+     * @param c
+     *            the class to use
+     * @return an element name
+     */
+    private String deriveElementname(Class<?> c) {
         String name = c.getName();
         name = name.substring(name.lastIndexOf(".") + 1);
         name = name.substring(0, 1).toLowerCase() + name.substring(1);
@@ -533,12 +625,12 @@ public class ProjectExporter implements Serializable {
 
     /**
      * Adds the XML-representation of the given project to the parent
-     * <code>projectNode</code>
+     * <code>projectNode</code>.
      * 
      * @param p
      * @param projectNode
      */
-    public void addProject(Plan p, Document projectsDoc, List<Integer> uploadIDs, List<Integer> recordIDs) {
+    public void addProject(Plan p, Document projectsDoc, boolean addDigitalObjectData) {
 
         Element projectNode = projectsDoc.getRootElement().addElement(new QName("plan", platoNS));
 
@@ -548,7 +640,7 @@ public class ProjectExporter implements Serializable {
         addChangeLog(p.getChangeLog(), projectNode);
 
         Element properties = projectNode.addElement("properties");
-        addUpload(p.getPlanProperties().getReportUpload(), properties, "report", encoder, uploadIDs);
+        addUpload(p.getPlanProperties().getReportUpload(), properties, "report", encoder, addDigitalObjectData);
 
         // Plan state
         properties.addElement("state").addAttribute("value",
@@ -580,11 +672,11 @@ public class ProjectExporter implements Serializable {
 
         Element triggers = basis.addElement("triggers");
         if (p.getProjectBasis().getTriggers() != null) {
-            addTrigger(triggers, p.getProjectBasis().getTriggers().getNewCollection());
-            addTrigger(triggers, p.getProjectBasis().getTriggers().getPeriodicReview());
-            addTrigger(triggers, p.getProjectBasis().getTriggers().getChangedEnvironment());
-            addTrigger(triggers, p.getProjectBasis().getTriggers().getChangedObjective());
-            addTrigger(triggers, p.getProjectBasis().getTriggers().getChangedCollectionProfile());
+            addTrigger(p.getProjectBasis().getTriggers().getNewCollection(), triggers);
+            addTrigger(p.getProjectBasis().getTriggers().getPeriodicReview(), triggers);
+            addTrigger(p.getProjectBasis().getTriggers().getChangedEnvironment(), triggers);
+            addTrigger(p.getProjectBasis().getTriggers().getChangedObjective(), triggers);
+            addTrigger(p.getProjectBasis().getTriggers().getChangedCollectionProfile(), triggers);
         }
 
         Element policyTree = basis.addElement("policyTree");
@@ -611,196 +703,175 @@ public class ProjectExporter implements Serializable {
                 .getTypeOfObjects());
             addStringElement(collectionProfile, "retentionPeriod", p.getSampleRecordsDefinition()
                 .getCollectionProfile().getRetentionPeriod());
+        }
 
-            for (SampleObject rec : p.getSampleRecordsDefinition().getRecords()) {
-                Element sampleRecord = samplerecords.addElement("record").addAttribute("shortName", rec.getShortName())
-                    .addAttribute("fullname", rec.getFullname()).addAttribute("contentType", rec.getContentType());
+        for (SampleObject rec : p.getSampleRecordsDefinition().getRecords()) {
+            Element sampleRecord = addEncodedDigitalObject(rec, samplerecords, "record", encoder, addDigitalObjectData);
 
-                Element data = sampleRecord.addElement("data");
-                if (rec.isDataExistent()) {
-                    data.addAttribute("hasData", "true");
-                    data.addAttribute("encoding", "base64");
-                    if (recordIDs != null) {
-                        data.setText("" + rec.getId());
-                        recordIDs.add(rec.getId());
-                    } else {
-                        data.setText(encoder.encode(rec.getData().getData()));
-                    }
-                    addUpload(rec.getXcdlDescription(), sampleRecord, "xcdlDescription", encoder, uploadIDs);
-                    addJhoveString(rec, encoder, sampleRecord);
-                    addFitsInfo(rec, encoder, sampleRecord);
-                } else {
-                    data.addAttribute("hasData", "false");
-                }
-
-                Element formatInfo = sampleRecord.addElement("formatInfo")
-                    .addAttribute("puid", rec.getFormatInfo().getPuid())
-                    .addAttribute("name", rec.getFormatInfo().getName())
-                    .addAttribute("version", rec.getFormatInfo().getVersion())
-                    .addAttribute("mimeType", rec.getFormatInfo().getMimeType())
-                    .addAttribute("defaultExtension", rec.getFormatInfo().getDefaultExtension());
-                addChangeLog(rec.getFormatInfo().getChangeLog(), formatInfo);
-
-                addChangeLog(rec.getChangeLog(), sampleRecord);
-
+            if (sampleRecord != null) {
+                sampleRecord.addAttribute("shortName", rec.getShortName());
                 addStringElement(sampleRecord, "description", rec.getDescription());
                 addStringElement(sampleRecord, "originalTechnicalEnvironment", rec.getOriginalTechnicalEnvironment());
-
             }
-            addChangeLog(p.getSampleRecordsDefinition().getChangeLog(), samplerecords);
-
-            // Requirementsdefinition
-            Element rdef = projectNode.addElement("requirementsDefinition");
-            addStringElement(rdef, "description", p.getRequirementsDefinition().getDescription());
-            Element uploads = rdef.addElement("uploads");
-            for (DigitalObject upload : p.getRequirementsDefinition().getUploads()) {
-                addUpload(upload, uploads, "upload", encoder, uploadIDs);
-            }
-            addChangeLog(p.getRequirementsDefinition().getChangeLog(), rdef);
-
-            // Alternatives
-            Element alternatives = projectNode.addElement("alternatives");
-            addStringElement(alternatives, "description", p.getAlternativesDefinition().getDescription());
-
-            for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
-                /*
-                 * Export all alternatives (also discarded ones) Indices of the
-                 * result-set reference only the considered alternatives!
-                 */
-                Element alt = alternatives.addElement("alternative")
-                    .addAttribute("discarded", Boolean.toString(a.isDiscarded())).addAttribute("name", a.getName());
-                addStringElement(alt, "description", a.getDescription());
-                if (a.getAction() != null) {
-                    Element action = alt.addElement("action");
-                    action.addAttribute("shortname", a.getAction().getShortname())
-                        .addAttribute("url", a.getAction().getUrl())
-                        .addAttribute("actionIdentifier", a.getAction().getActionIdentifier())
-                        .addAttribute("info", a.getAction().getInfo())
-                        .addAttribute("targetFormat", a.getAction().getTargetFormat())
-                        .addAttribute("executable", String.valueOf(a.getAction().isExecutable()));
-                    addStringElement(action, "descriptor", a.getAction().getDescriptor());
-                    addStringElement(action, "parameterInfo", a.getAction().getParameterInfo());
-
-                    Element params = action.addElement("params");
-                    if (a.getAction().getParams() != null) {
-                        for (Parameter param : a.getAction().getParams()) {
-                            params.addElement("param").addAttribute("name", param.getName())
-                                .addAttribute("value", param.getValue());
-                        }
-                    }
-                    addChangeLog(a.getAction().getChangeLog(), action);
-                }
-
-                Element resourceDescr = alt.addElement("resourceDescription");
-                addStringElement(resourceDescr, "necessaryResources", a.getResourceDescription()
-                    .getNecessaryResources());
-                addStringElement(resourceDescr, "configSettings", a.getResourceDescription().getConfigSettings());
-                addStringElement(resourceDescr, "reasonForConsidering", a.getResourceDescription()
-                    .getReasonForConsidering());
-                addChangeLog(a.getResourceDescription().getChangeLog(), resourceDescr);
-
-                Element experiment = alt.addElement("experiment");
-                Experiment exp = a.getExperiment();
-                addStringElement(experiment, "description", exp.getDescription());
-                // addStringElement(experiment, "runDescription",
-                // exp.getRunDescription());
-                addStringElement(experiment, "settings", exp.getSettings());
-                uploads = experiment.addElement("results");
-                for (SampleObject record : exp.getResults().keySet()) {
-                    DigitalObject up = exp.getResults().get(record);
-                    if (up != null) {
-                        // only existing uploads are exported
-                        Element upload = addUpload(up, uploads, "result", encoder, uploadIDs);
-                        if (upload != null) {
-                            upload.addAttribute("key", record.getShortName());
-                        }
-                    }
-                }
-                // // */experiment/xcdlDescriptions/xcdlDescription
-                // Element xcdls = experiment.addElement("xcdlDescriptions");
-                // for (SampleObject record : exp.getResults().keySet()) {
-                // DigitalObject result = exp.getResults().get(record);
-                // if (result != null) {
-                // XcdlDescription x = result.getXcdlDescription();
-                // if (x != null) {
-                // // only existing xcdls are exported
-                // Element upload = addUpload(x, xcdls, "xcdlDescription",
-                // encoder, uploadIDs);
-                // if (upload != null) {
-                // upload.addAttribute("key", record.getShortName());
-                // }
-                // }
-                // }
-                // }
-                // export detailed experiment info's
-                Element detailedInfos = experiment.addElement("detailedInfos");
-                for (SampleObject record : exp.getDetailedInfo().keySet()) {
-                    DetailedExperimentInfo dinfo = exp.getDetailedInfo().get(record);
-                    Element detailedInfo = detailedInfos.addElement("detailedInfo")
-                        .addAttribute("key", record.getShortName())
-                        .addAttribute("successful", "" + dinfo.getSuccessful());
-                    addStringElement(detailedInfo, "programOutput", dinfo.getProgramOutput());
-                    addStringElement(detailedInfo, "cpr", dinfo.getCpr());
-
-                    Element measurements = detailedInfo.addElement("measurements");
-                    for (Measurement m : dinfo.getMeasurements().values()) {
-                        Element measurement = measurements.addElement("measurement");
-                        measurement.addAttribute("measureId", m.getMeasureId());
-
-                        // measurement.value:
-                        String typename = deriveElementname(m.getValue().getClass());
-
-                        Element valueElem = measurement.addElement(typename);
-                        // .addAttribute("value", m.getValue().toString());
-                        addStringElement(valueElem, "value", m.getValue().toString());
-                        addChangeLog(m.getValue().getChangeLog(), valueElem);
-                    }
-                }
-                addChangeLog(a.getExperiment().getChangeLog(), experiment);
-
-                addChangeLog(a.getChangeLog(), alt);
-            }
-            addChangeLog(p.getAlternativesDefinition().getChangeLog(), alternatives);
-
-            // go-nogo - is created in the go-nogo step and need not exist
-            if (p.getDecision() != null) {
-                Element decision = projectNode.addElement("decision");
-                addStringElement(decision, "reason", p.getDecision().getReason());
-                addStringElement(decision, "actionNeeded", p.getDecision().getActionNeeded());
-                decision.addElement("goDecision").addAttribute("value", p.getDecision().getDecision().name());
-                addChangeLog(p.getDecision().getChangeLog(), decision);
-            }
-            // Evaluation
-            Element evaluation = projectNode.addElement("evaluation");
-            addStringElement(evaluation, "comment", p.getEvaluation().getComment());
-            addChangeLog(p.getEvaluation().getChangeLog(), evaluation);
-
-            // importance weighting
-            Element importanceWeighting = projectNode.addElement("importanceWeighting");
-            addStringElement(importanceWeighting, "comment", p.getImportanceWeighting().getComment());
-            addChangeLog(p.getImportanceWeighting().getChangeLog(), importanceWeighting);
-
-            // Recommendation
-            Element recommendation = projectNode.addElement("recommendation");
-            if (p.getRecommendation().getAlternative() != null) {
-                recommendation.addAttribute("alternativeName", p.getRecommendation().getAlternative().getName());
-            }
-            addStringElement(recommendation, "reasoning", p.getRecommendation().getReasoning());
-            addStringElement(recommendation, "effects", p.getRecommendation().getEffects());
-            addChangeLog(p.getRecommendation().getChangeLog(), recommendation);
-
-            // transformation
-            Element trafo = projectNode.addElement("transformation");
-            addStringElement(trafo, "comment", p.getTransformation().getComment());
-            addChangeLog(p.getTransformation().getChangeLog(), trafo);
-
-            // Objectivetree (including weights, evaluation values and
-            // transformers)
-            Element tree = projectNode.addElement("tree");
-            tree.addAttribute("weightsInitialized", "" + p.getTree().isWeightsInitialized());
-            if (p.getTree().getRoot() != null)
-                addSubTree(p.getTree().getRoot(), tree);
         }
+        addChangeLog(p.getSampleRecordsDefinition().getChangeLog(), samplerecords);
+
+        // Requirementsdefinition
+        Element rdef = projectNode.addElement("requirementsDefinition");
+        addStringElement(rdef, "description", p.getRequirementsDefinition().getDescription());
+        Element uploads = rdef.addElement("uploads");
+        for (DigitalObject upload : p.getRequirementsDefinition().getUploads()) {
+            addUpload(upload, uploads, "upload", encoder, addDigitalObjectData);
+        }
+        addChangeLog(p.getRequirementsDefinition().getChangeLog(), rdef);
+
+        // Alternatives
+        Element alternatives = projectNode.addElement("alternatives");
+        addStringElement(alternatives, "description", p.getAlternativesDefinition().getDescription());
+
+        for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
+            /*
+             * Export all alternatives (also discarded ones) Indices of the
+             * result-set reference only the considered alternatives!
+             */
+            Element alt = alternatives.addElement("alternative")
+                .addAttribute("discarded", Boolean.toString(a.isDiscarded())).addAttribute("name", a.getName());
+            addStringElement(alt, "description", a.getDescription());
+            if (a.getAction() != null) {
+                Element action = alt.addElement("action");
+                action.addAttribute("shortname", a.getAction().getShortname())
+                    .addAttribute("url", a.getAction().getUrl())
+                    .addAttribute("actionIdentifier", a.getAction().getActionIdentifier())
+                    .addAttribute("info", a.getAction().getInfo())
+                    .addAttribute("targetFormat", a.getAction().getTargetFormat())
+                    .addAttribute("executable", String.valueOf(a.getAction().isExecutable()));
+                addStringElement(action, "descriptor", a.getAction().getDescriptor());
+                addStringElement(action, "parameterInfo", a.getAction().getParameterInfo());
+
+                Element params = action.addElement("params");
+                if (a.getAction().getParams() != null) {
+                    for (Parameter param : a.getAction().getParams()) {
+                        params.addElement("param").addAttribute("name", param.getName())
+                            .addAttribute("value", param.getValue());
+                    }
+                }
+                addChangeLog(a.getAction().getChangeLog(), action);
+            }
+
+            Element resourceDescr = alt.addElement("resourceDescription");
+            addStringElement(resourceDescr, "necessaryResources", a.getResourceDescription().getNecessaryResources());
+            addStringElement(resourceDescr, "configSettings", a.getResourceDescription().getConfigSettings());
+            addStringElement(resourceDescr, "reasonForConsidering", a.getResourceDescription()
+                .getReasonForConsidering());
+            addChangeLog(a.getResourceDescription().getChangeLog(), resourceDescr);
+
+            Element experiment = alt.addElement("experiment");
+            Experiment exp = a.getExperiment();
+            addStringElement(experiment, "description", exp.getDescription());
+            // addStringElement(experiment, "runDescription",
+            // exp.getRunDescription());
+            addStringElement(experiment, "settings", exp.getSettings());
+            Element results = experiment.addElement("results");
+            for (Entry<SampleObject, DigitalObject> entry : exp.getResults().entrySet()) {
+                Element result = addUpload(entry.getValue(), results, "result", encoder, addDigitalObjectData);
+                if (result != null) {
+                    result.addAttribute("key", entry.getKey().getShortName());
+                }
+            }
+
+            // // */experiment/xcdlDescriptions/xcdlDescription
+            // Element xcdls = experiment.addElement("xcdlDescriptions");
+            // for (SampleObject record : exp.getResults().keySet()) {
+            // DigitalObject result = exp.getResults().get(record);
+            // if (result != null) {
+            // XcdlDescription x = result.getXcdlDescription();
+            // if (x != null) {
+            // // only existing xcdls are exported
+            // Element upload = addUpload(x, xcdls, "xcdlDescription",
+            // encoder, uploadIDs);
+            // if (upload != null) {
+            // upload.addAttribute("key", record.getShortName());
+            // }
+            // }
+            // }
+            // }
+
+            // export detailed experiment info's
+            Element detailedInfos = experiment.addElement("detailedInfos");
+            for (SampleObject record : exp.getDetailedInfo().keySet()) {
+                DetailedExperimentInfo dinfo = exp.getDetailedInfo().get(record);
+                Element detailedInfo = detailedInfos.addElement("detailedInfo")
+                    .addAttribute("key", record.getShortName()).addAttribute("successful", "" + dinfo.getSuccessful());
+                addStringElement(detailedInfo, "programOutput", dinfo.getProgramOutput());
+                addStringElement(detailedInfo, "cpr", dinfo.getCpr());
+
+                Element measurements = detailedInfo.addElement("measurements");
+                for (Measurement m : dinfo.getMeasurements().values()) {
+                    Element measurement = measurements.addElement("measurement");
+                    measurement.addAttribute("measureId", m.getMeasureId());
+
+                    // measurement.value:
+                    String typename = deriveElementname(m.getValue().getClass());
+
+                    Element valueElem = measurement.addElement(typename);
+                    // .addAttribute("value", m.getValue().toString());
+                    addStringElement(valueElem, "value", m.getValue().toString());
+                    addChangeLog(m.getValue().getChangeLog(), valueElem);
+                }
+            }
+            addChangeLog(a.getExperiment().getChangeLog(), experiment);
+
+            addChangeLog(a.getChangeLog(), alt);
+        }
+        addChangeLog(p.getAlternativesDefinition().getChangeLog(), alternatives);
+
+        // go-nogo - is created in the go-nogo step and need not exist
+        if (p.getDecision() != null) {
+            Element decision = projectNode.addElement("decision");
+            addStringElement(decision, "reason", p.getDecision().getReason());
+            addStringElement(decision, "actionNeeded", p.getDecision().getActionNeeded());
+            decision.addElement("goDecision").addAttribute("value", p.getDecision().getDecision().name());
+            addChangeLog(p.getDecision().getChangeLog(), decision);
+        }
+
+        // Evaluation
+        Element evaluation = projectNode.addElement("evaluation");
+        addStringElement(evaluation, "comment", p.getEvaluation().getComment());
+        addChangeLog(p.getEvaluation().getChangeLog(), evaluation);
+
+        // importance weighting
+        Element importanceWeighting = projectNode.addElement("importanceWeighting");
+        addStringElement(importanceWeighting, "comment", p.getImportanceWeighting().getComment());
+        addChangeLog(p.getImportanceWeighting().getChangeLog(), importanceWeighting);
+
+        // Recommendation
+        Element recommendation = projectNode.addElement("recommendation");
+        if (p.getRecommendation().getAlternative() != null) {
+            recommendation.addAttribute("alternativeName", p.getRecommendation().getAlternative().getName());
+        }
+        addStringElement(recommendation, "reasoning", p.getRecommendation().getReasoning());
+        addStringElement(recommendation, "effects", p.getRecommendation().getEffects());
+        addChangeLog(p.getRecommendation().getChangeLog(), recommendation);
+
+        // transformation
+        Element trafo = projectNode.addElement("transformation");
+        addStringElement(trafo, "comment", p.getTransformation().getComment());
+        addChangeLog(p.getTransformation().getChangeLog(), trafo);
+
+        // Objectivetree (including weights, evaluation values and
+        // transformers)
+        Element tree = projectNode.addElement("tree");
+        tree.addAttribute("weightsInitialized", "" + p.getTree().isWeightsInitialized());
+        if (p.getTree().getRoot() != null) {
+            addSubTree(p.getTree().getRoot(), tree);
+        }
+
+        // Preservation action plan
+        Element preservationActionPlan = projectNode.addElement("preservationActionPlan");
+        addPreservationActionPlanData(p.getSampleRecordsDefinition().getCollectionProfile(), preservationActionPlan,
+            addDigitalObjectData);
+        addPreservationActionPlanT2flow(p.getExecutablePlanDefinition().getT2flowExecutablePlan(),
+            preservationActionPlan, addDigitalObjectData);
 
         // Element executablePlan = projectNode.addElement("executablePlan");
         //
@@ -866,25 +937,34 @@ public class ProjectExporter implements Serializable {
 
         triggers = planDef.addElement("triggers");
         if (pdef.getTriggers() != null) {
-            addTrigger(triggers, pdef.getTriggers().getNewCollection());
-            addTrigger(triggers, pdef.getTriggers().getPeriodicReview());
-            addTrigger(triggers, pdef.getTriggers().getChangedEnvironment());
-            addTrigger(triggers, pdef.getTriggers().getChangedObjective());
-            addTrigger(triggers, pdef.getTriggers().getChangedCollectionProfile());
+            addTrigger(pdef.getTriggers().getNewCollection(), triggers);
+            addTrigger(pdef.getTriggers().getPeriodicReview(), triggers);
+            addTrigger(pdef.getTriggers().getChangedEnvironment(), triggers);
+            addTrigger(pdef.getTriggers().getChangedObjective(), triggers);
+            addTrigger(pdef.getTriggers().getChangedCollectionProfile(), triggers);
         }
 
         addChangeLog(pdef.getChangeLog(), planDef);
-
     }
 
-    private void addTrigger(Element triggers, Trigger t) {
-        if (t == null) {
-            return;
+    /**
+     * Adds the provided trigger to the parent element.
+     * 
+     * @param t
+     *            the trigger to add
+     * @param parent
+     *            the parent of the element to create
+     * @return the newly created element or null if none was created
+     */
+    private Element addTrigger(Trigger t, Element parent) {
+        Element trigger = null;
+        if (t != null) {
+            trigger = parent.addElement("trigger");
+            trigger.addAttribute("type", t.getType().name());
+            trigger.addAttribute("active", Boolean.toString(t.isActive()));
+            trigger.addAttribute("description", t.getDescription());
         }
-        Element trigger = triggers.addElement("trigger");
-        trigger.addAttribute("type", t.getType().name());
-        trigger.addAttribute("active", Boolean.toString(t.isActive()));
-        trigger.addAttribute("description", t.getDescription());
+        return trigger;
     }
 
     /**
@@ -894,8 +974,12 @@ public class ProjectExporter implements Serializable {
      * at all.
      * 
      * @param parent
+     *            the parent element of the element to create
      * @param name
+     *            the name of the element to create
      * @param value
+     *            the value of the element to create
+     * @return the newly created element
      */
     private Element addStringElement(Element parent, String name, String value) {
         Element e = null;
@@ -994,11 +1078,21 @@ public class ProjectExporter implements Serializable {
         }
     }
 
-    private void addScale(Scale s, Element parent) {
+    /**
+     * Adds the provided scale to the parent element.
+     * 
+     * @param s
+     *            the scale to add
+     * @param parent
+     *            the parent element of the element to add
+     * @return the newly created element
+     */
+    private Element addScale(Scale s, Element parent) {
+        Element scale = null;
         if (s != null) {
             String typename = deriveElementname(s.getClass());
 
-            Element scale = parent.addElement(typename);
+            scale = parent.addElement(typename);
             // && (!"".equals(s.getUnit()
             if (s.getUnit() != null) {
                 scale.addAttribute("unit", s.getUnit());
@@ -1010,62 +1104,78 @@ public class ProjectExporter implements Serializable {
             }
             addChangeLog(s.getChangeLog(), scale);
         }
+        return scale;
     }
 
-    public Document createPreservationActionPlanDoc() {
-        Document doc = DocumentHelper.createDocument();
+    /**
+     * Adds data for the preservation action plan to the parent element.
+     * 
+     * @param collectionProfile
+     *            source of the data
+     * @param parent
+     *            the parent element of the element to create
+     * @param addDigitalObjectData
+     *            true if the data should be written, false otherwise
+     * @return the newly created element or null if none was created
+     */
+    private Element addPreservationActionPlanData(CollectionProfile collectionProfile, Element parent,
+        boolean addDigitalObjectData) {
 
-        Element root = doc.addElement("preservationActionPlan");
-
-        root.add(xsi);
-        root.add(platoNS);
-        root.addAttribute(xsi.getPrefix() + ":schemaLocation", PlanXMLConstants.PLATO_NS + " "
-            + PlanXMLConstants.PAP_SCHEMA);
-
-        // set version of corresponding schema
-        root.addAttribute("version", "4.0.0");
-
-        return doc;
-    }
-
-    public void addPreservationActionPlan(Plan p, Element preservationActionPlan, List<Integer> executablePlanIDs)
-        throws ParserException {
-
-        // Collection
-        if (p.getSampleRecordsDefinition().getCollectionProfile() != null) {
-            Element collection = preservationActionPlan.addElement("collection");
-            collection.addAttribute("uid", p.getSampleRecordsDefinition().getCollectionProfile().getCollectionID());
+        Element collection = null;
+        if (collectionProfile != null) {
+            collection = parent.addElement("collection");
+            collection.addAttribute("uid", collectionProfile.getCollectionID());
+            // TODO: Collection has no name
             // collection.addAttribute("name",
             // p.getSampleRecordsDefinition().getCollectionProfile().getCollectionID());
-        }
 
-        // Objects
-        if (p.getSampleRecordsDefinition().getCollectionProfile() != null
-            && p.getSampleRecordsDefinition().getCollectionProfile().getProfile() != null
-            && p.getSampleRecordsDefinition().getCollectionProfile().getProfile().isDataExistent()) {
-            Element objects = preservationActionPlan.addElement("objects");
+            // Objects
+            if (collectionProfile.getProfile() != null && collectionProfile.getProfile().isDataExistent()) {
+                Element objects = parent.addElement("objects");
 
-            DigitalObject profile = p.getSampleRecordsDefinition().getCollectionProfile().getProfile();
-            C3POProfileParser parser = new C3POProfileParser();
-            parser.read(new ByteArrayInputStream(profile.getData().getData()), false);
-            List<String> objectIdentifiers = parser.getObjectIdentifiers();
+                DigitalObject profile = collectionProfile.getProfile();
 
-            for (String objectIdentifier : objectIdentifiers) {
-                objects.addElement("object").addAttribute("uid", objectIdentifier);
+                if (!addDigitalObjectData) {
+                    objects.setText(String.valueOf(profile.getId()));
+                } else {
+                    C3POProfileParser parser = new C3POProfileParser();
+                    try {
+                        parser.read(new ByteArrayInputStream(profile.getData().getData()), false);
+
+                        List<String> objectIdentifiers = parser.getObjectIdentifiers();
+
+                        for (String objectIdentifier : objectIdentifiers) {
+                            objects.addElement("object").addAttribute("uid", objectIdentifier);
+                        }
+                    } catch (ParserException e) {
+                        logger.error("Error parsing collection profile.", e);
+                    }
+                }
             }
         }
+        return collection;
+    }
 
-        // t2flow
-        if (p.getExecutablePlanDefinition().getT2flowExecutablePlan() != null
-            && p.getExecutablePlanDefinition().getT2flowExecutablePlan().isDataExistent()) {
+    /**
+     * Adds an executable plan t2flow to the parent.
+     * 
+     * @param t2flow
+     *            the t2flow to add
+     * @param parent
+     *            the parent element of the element to create
+     * @param addDigitalObjectData
+     *            true if the data should be written, false otherwise
+     * @return the newly created element or null if none was created
+     */
+    private Element addPreservationActionPlanT2flow(DigitalObject t2flow, Element parent, boolean addDigitalObjectData) {
+        Element executablePlan = null;
 
-            Element executablePlan = preservationActionPlan.addElement("executablePlan").addAttribute("type", "t2flow");
+        if (t2flow != null && t2flow.isDataExistent()) {
+            executablePlan = parent.addElement("executablePlan").addAttribute("type", "t2flow");
 
-            DigitalObject t2flow = p.getExecutablePlanDefinition().getT2flowExecutablePlan();
-
-            if (executablePlanIDs != null) {
-                executablePlan.setText("" + t2flow.getId());
-                executablePlanIDs.add(t2flow.getId());
+            if (!addDigitalObjectData) {
+                // Add only DigitalObject ID, it can be replaced later
+                executablePlan.setText(String.valueOf(t2flow.getId()));
             } else {
                 try {
                     T2FlowParser parser = T2FlowParser
@@ -1073,12 +1183,12 @@ public class ProjectExporter implements Serializable {
                     Document doc = parser.getDoc();
                     executablePlan.add(doc.getRootElement());
                 } catch (TavernaParserException e) {
-                    throw new ParserException("Error parsing executable plan", e);
+                    logger.error("Error parsing t2flow executable plan.", e);
                 }
 
             }
-
         }
+        return executablePlan;
     }
 
 }

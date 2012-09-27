@@ -162,9 +162,10 @@ public class ProjectExportAction implements Serializable {
                 // Perform XSLT transformation to get the DATA into the PLANS
                 List<Integer> binaryObjectIds = getBinaryObjectIds(doc);
                 writeBinaryObjects(binaryObjectIds, tempPath, encoder);
-                addBinaryData(doc, out, tempPath);
-
+                
                 addPreservationActionPlanData(doc, out, tempPath);
+                
+                addBinaryData(doc, out, tempPath);
             } catch (IOException e) {
                 log.error("Could not open outputstream: ", e);
                 return false;
@@ -174,9 +175,6 @@ public class ProjectExportAction implements Serializable {
             } catch (StorageException e) {
                 log.error("Could not load object from stoarge.", e);
                 return false;
-            } catch (ParserException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         } finally {
             // Clean up
@@ -203,7 +201,7 @@ public class ProjectExportAction implements Serializable {
         XPath xpath = doc.createXPath("//plato:data[@hasData='true' and number(.) = number(.)]");
 
         Map<String, String> namespaceMap = new HashMap<String, String>();
-        namespaceMap.put("plato", PreservationPlanXML.PLATO_NS);
+        namespaceMap.put("plato", PlanXMLConstants.PLATO_NS);
         xpath.setNamespaceURIs(namespaceMap);
 
         @SuppressWarnings("unchecked")
@@ -236,10 +234,10 @@ public class ProjectExportAction implements Serializable {
      */
     private List<Integer> getT2flowExecutablePlanIds(Document doc) {
         // Get data elements that have data and a number as content
-        XPath xpath = doc.createXPath("//plato:executablePlan[@type='t2flow']");
+        XPath xpath = doc.createXPath("//plato:preservationActionPlan/plato:executablePlan[@type='t2flow' and number(.) = number(.)]");
 
         Map<String, String> namespaceMap = new HashMap<String, String>();
-        namespaceMap.put("plato", PreservationPlanXML.PLATO_NS);
+        namespaceMap.put("plato", PlanXMLConstants.PLATO_NS);
         xpath.setNamespaceURIs(namespaceMap);
 
         @SuppressWarnings("unchecked")
@@ -261,10 +259,10 @@ public class ProjectExportAction implements Serializable {
      */
     private List<Integer> getCollectionProfileIds(Document doc) {
         // Get data elements that have data and a number as content
-        XPath xpath = doc.createXPath("//plato:preservationActionPlan/objects");
+        XPath xpath = doc.createXPath("//plato:preservationActionPlan/plato:objects[number(.) = number(.)]");
 
         Map<String, String> namespaceMap = new HashMap<String, String>();
-        namespaceMap.put("plato", PreservationPlanXML.PLATO_NS);
+        namespaceMap.put("plato", PlanXMLConstants.PLATO_NS);
         xpath.setNamespaceURIs(namespaceMap);
 
         @SuppressWarnings("unchecked")

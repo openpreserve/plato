@@ -133,7 +133,7 @@ public class CreateExecutablePlanView extends AbstractView {
         }
 
         try {
-            this.createExecutablePlan.readT2flowExecutablePlan(item.getInputStream());
+            createExecutablePlan.readT2flowExecutablePlan(item.getInputStream());
         } catch (TavernaParserException e) {
             log.warn("An error occurred during parsing: {}", e.getMessage());
             facesMessages.addError("An error occurred, while reading in the uploaded executable plan: "
@@ -161,26 +161,4 @@ public class CreateExecutablePlanView extends AbstractView {
         downloader.download(object, file);
     }
 
-    public void downloadPreservationActionPlan() {
-        ProjectExporter exporter = new ProjectExporter();
-        Document doc = exporter.createPreservationActionPlanDoc();
-
-        try {
-            DigitalObject profile = plan.getSampleRecordsDefinition().getCollectionProfile().getProfile();
-            // TODO: Can we do this? No we can't!
-            plan.getSampleRecordsDefinition().getCollectionProfile()
-                .setProfile(digitalObjectManager.getCopyOfDataFilledDigitalObject(profile));
-            DigitalObject executablePlan = plan.getExecutablePlanDefinition().getT2flowExecutablePlan();
-            plan.getExecutablePlanDefinition().setT2flowExecutablePlan(
-                digitalObjectManager.getCopyOfDataFilledDigitalObject(executablePlan));
-            exporter.addPreservationActionPlan(plan, doc.getRootElement(), null);
-
-        } catch (ParserException e) {
-            log.warn("An error occured creating the preservation action plan", e.getMessage());
-            facesMessages.addError("An error occured creating the preservation action plan.");
-        } catch (StorageException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }

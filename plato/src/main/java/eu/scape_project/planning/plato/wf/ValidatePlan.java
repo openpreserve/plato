@@ -19,8 +19,12 @@
  */
 package eu.scape_project.planning.plato.wf;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,10 +34,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
-import pt.gov.dgarq.roda.core.PlanClient;
-
+import com.google.common.io.Files;
 import com.sun.jersey.api.client.UniformInterfaceException;
 
 import eu.scape_project.planning.exception.PlanningException;
@@ -42,7 +43,10 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.validation.ValidationError;
 import eu.scape_project.planning.xml.ProjectExportAction;
-import eu.scape_project.planning.xml.ProjectExporter;
+
+import org.slf4j.Logger;
+
+import pt.gov.dgarq.roda.core.PlanClient;
 
 /**
  * @author Michael Kraxner
@@ -102,10 +106,6 @@ public class ValidatePlan extends AbstractWorkflowStep {
 
     public void uploadPlanToRODA(String url, String username, String password) throws PlanningException {
 
-        // String url = "http://roda.scape.keep.pt/roda-core/";
-        // String username = "admin";
-        // String password = "roda";
-
         PlanClient planClient;
         try {
             planClient = new PlanClient(new URL(url), username, password);
@@ -114,42 +114,37 @@ public class ValidatePlan extends AbstractWorkflowStep {
             throw new PlanningException("Error creating PlanClient URL " + url, e);
         }
 
-        // File tempDir = Files.createTempDir();
-        // File planFile;
-        // try {
-        // planFile = File.createTempFile("roda-deploy-plan-", ".xml", tempDir);
-        // } catch (IOException e) {
-        // log.error("Error creating temporary file for plan in directory " +
-        // tempDir.getAbsolutePath());
-        // throw new
-        // PlanningException("Error creating temporary file for plan in directory "
-        // + tempDir.getAbsolutePath(), e);
-        // }
-        //
-        // OutputStream out;
-        // try {
-        // out = new BufferedOutputStream(new FileOutputStream(planFile));
-        // } catch (FileNotFoundException e) {
-        // log.error("Temporary file for plan not found at " +
-        // planFile.getAbsolutePath());
-        // throw new PlanningException("Temporary file for plan not found at " +
-        // planFile.getAbsolutePath(), e);
-        // }
-        //
-        // if (!projectExport.exportComplete(plan.getPlanProperties().getId(),
-        // out, tempDir.getAbsolutePath())) {
-        // log.error("Error exporting plan");
-        // throw new PlanningException("Error exporting plan");
-        // }
-
-        ProjectExporter projectExporter = new ProjectExporter();
+        File tempDir = Files.createTempDir();
         File planFile;
         try {
-            planFile = projectExporter.exportToFile(plan);
+            planFile = File.createTempFile("roda-deploy-plan-", ".xml", tempDir);
         } catch (IOException e) {
-            log.error("Error exporting plan");
-            throw new PlanningException("Error exporting plan", e);
+            log.error("Error creating temporary file for plan in directory {}.", tempDir.getAbsolutePath());
+            throw new PlanningException("Error creating temporary file for plan in directory "
+                + tempDir.getAbsolutePath(), e);
         }
+
+        OutputStream out;
+        try {
+            out = new BufferedOutputStream(new FileOutputStream(planFile));
+        } catch (FileNotFoundException e) {
+            log.error("Temporary file for plan not found at {}.", planFile.getAbsolutePath());
+            throw new PlanningException("Temporary file for plan not found at " + planFile.getAbsolutePath(), e);
+        }
+
+        if (!projectExport.exportComplete(plan.getPlanProperties().getId(), out, tempDir.getAbsolutePath())) {
+            log.error("Error exporting plan {}", plan.getPlanProperties().getId());
+            throw new PlanningException("Error exporting plan");
+        }
+
+        // ProjectExporter projectExporter = new ProjectExporter();
+        // File planFile;
+        // try {
+        // planFile = projectExporter.exportToFile(plan);
+        // } catch (IOException e) {
+        // log.error("Error exporting plan");
+        // throw new PlanningException("Error exporting plan", e);
+        // }
 
         try {
             planClient.uploadPlan(planFile);
