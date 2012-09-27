@@ -72,7 +72,7 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
         this.machine = machine;
     }
 
-    public void addProperty(Measure p) {
+    public void addMeasure(Measure p) {
         measures.add(p);
     }
     

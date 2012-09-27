@@ -166,7 +166,7 @@ public class MiniMeeRegistry {
      * Reloads registry data, at the moment from an XML file
      */
     public void reload() throws MiniMeeException {
-        String configFile = "data/services/miniMEE-actions.xml";
+        String configFile = "data/services/default-actions-config.xml";
        
         reloadFrom(configFile);
         

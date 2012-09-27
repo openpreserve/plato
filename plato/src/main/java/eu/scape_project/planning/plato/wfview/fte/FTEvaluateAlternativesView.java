@@ -156,7 +156,7 @@ public class FTEvaluateAlternativesView extends AbstractView {
     public void startExperiments(){
 		experimentStatus.setStarted(true);
 		evalAlternatives.startExperiments();
-		log.error("Experiment started...");
+		log.info("Experiment started...");
 	}
 
     public void clearExperiments() {

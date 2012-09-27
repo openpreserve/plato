@@ -7,29 +7,37 @@
 
 	<evaluators>
 	</evaluators>
-	
+<!--
+performance:time:elapsedPerMB
+10	processing time	elapsed time per MB	elapsed processing time per Megabyte of input data, measured in milliseconds	Positive Number
+<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+
+performance:time:elapsed
+11	processing time	elapsed time per object	elapsed processing time per object processed, measured in milliseconds	Positive Number
+<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+
+12	processing time	cpu time per MB	time of the CPU consumed by the process for each MB of input data, measured in milliseconds	Positive Number
+<measure ID="http://scape-project.eu/pw/vocab/measures/12" name="cpu time per MB" />
+
+97	memory usage	average memory used per Megabyte	Memory used per megabyte of input, measured in megabyte.	Positive Number
+<measure ID="http://scape-project.eu/pw/vocab/measures/97" name="average memory used per Megabyte" />
+
+98	memory usage	maximum peak memory used	Maximum of the peak memory used in processing, measured in megabytes.	Positive Number
+<measure ID="http://scape-project.eu/pw/vocab/measures/98" name="maximum peak memory used" />
+ 
+result:relativeFilesizePercent
+123	file size	comparative file size	Factor for relative output file size, calculated as: (size of output file / size of input file)	Positive Number 
+<measure ID="http://scape-project.eu/pw/vocab/measures/123" name="comparative file size" />
+ -->	
 	<engines>
 		<engine name="default"
 			class="at.tuwien.minimee.migration.engines.MiniMeeDefaultMigrationEngine"
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="performance:time:elapsed">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="performance:time:elapsedPerMB">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:relativeFilesizePercent">
-					<positiveFloatScale unit="percent" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:filesize">
-					<positiveFloatScale unit="byte" displayName="Positive number"
-						restriction="" />
-				</property>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/123" name="comparative file size" />
 			</measurableProperties>
 		</engine>
 
@@ -38,18 +46,9 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="performance:time:elapsed">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="performance:time:elapsedPerMB">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:relativeFilesizePercent">
-					<positiveFloatScale unit="percent" displayName="Positive number"
-						restriction="" />
-				</property>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/123" name="comparative file size" />
 			</measurableProperties>
 		</engine>
 
@@ -59,6 +58,9 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/97" name="average memory used per Megabyte" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/98" name="maximum peak memory used" />
+<!-- 			
 				<property name="performance:memory:gross">
 					<positiveFloatScale unit="MB" displayName="Positive number"
 						restriction="" />
@@ -67,6 +69,7 @@
 					<positiveFloatScale unit="MB" displayName="Positive number"
 						restriction="" />
 				</property>
+				-->
 			</measurableProperties>
 		</engine>
 
@@ -75,28 +78,10 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="performance:time:used">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-
-				<property name="performance:time:elapsed">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="performance:time:elapsedPerMB">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:relativeFilesizePercent">
-					<positiveFloatScale unit="percent" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:filesize">
-					<positiveFloatScale unit="byte" displayName="Positive number"
-						restriction="" />
-				</property>
-
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/12" name="cpu time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/123" name="comparative file size" />
 			</measurableProperties>
 		</engine>
 
@@ -105,28 +90,10 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="performance:time:used">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-
-				<property name="performance:time:elapsed">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="performance:time:elapsedPerMB">
-					<positiveFloatScale unit="msec" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:relativeFilesizePercent">
-					<positiveFloatScale unit="percent" displayName="Positive number"
-						restriction="" />
-				</property>
-				<property name="result:filesize">
-					<positiveFloatScale unit="byte" displayName="Positive number"
-						restriction="" />
-				</property>
-
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/12" name="cpu time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/123" name="comparative file size" />
 			</measurableProperties>
 		</engine>
 
@@ -136,6 +103,13 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/12" name="cpu time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/97" name="average memory used per Megabyte" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/98" name="maximum peak memory used" />
+
+<!-- 			
 				<property name="performance:memory:gross">
 					<positiveFloatScale unit="MB" displayName="Positive number"
 						restriction="" />
@@ -177,6 +151,7 @@
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
 				</property>
+-->
 			</measurableProperties>
 		</engine>
 		<engine name="PSLIST_MONITOR"
@@ -184,10 +159,7 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
-				<property name="performance:memory:used">
-					<positiveFloatScale unit="MB" displayName="Positive number"
-						restriction="" />
-				</property>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/97" name="average memory used per Megabyte" />
 			</measurableProperties>
 		</engine>
 		<engine name="TOPJava"
@@ -195,6 +167,12 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/12" name="cpu time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/97" name="average memory used per Megabyte" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/98" name="maximum peak memory used" />
+<!-- 			
 				<property name="performance:memory:gross">
 					<positiveFloatScale unit="MB" displayName="Positive number"
 						restriction="" />
@@ -236,6 +214,7 @@
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
 				</property>
+				-->
 			</measurableProperties>
 		</engine>
 		<engine name="TOPOpenOffice"
@@ -243,6 +222,12 @@
 			machine="minimeeserver">
 			<includedEngines />
 			<measurableProperties>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/12" name="cpu time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/97" name="average memory used per Megabyte" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/98" name="maximum peak memory used" />
+<!-- 			
 				<property name="performance:memory:gross">
 					<positiveFloatScale unit="MB" displayName="Positive number"
 						restriction="" />
@@ -284,6 +269,7 @@
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
 				</property>
+-->
 			</measurableProperties>
 		</engine>
 		<engine name="JIP"
@@ -291,6 +277,9 @@
 			configParam="/home/kraxner/minimee-config/engines/jip-1.1.1/profile/profile.jar">
 			<includedEngines />
 			<measurableProperties>
+				<measure ID="http://scape-project.eu/pw/vocab/measures/10" name="elapsed time per MB" />
+				<measure ID="http://scape-project.eu/pw/vocab/measures/11" name="elapsed time per object" />
+<!-- 			
 				<property name="performance:time:used">
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
@@ -299,6 +288,7 @@
 					<positiveFloatScale unit="msec" displayName="Positive number"
 						restriction="" />
 				</property>
+-->
 			</measurableProperties>
 		</engine>
 		<engine name="combined-JIP-HPROF"
@@ -329,8 +319,8 @@
 		-->
 
 		<tool name="ImageIO"
-			executablePath="c:/minimee-config/migration-tools/ImageConverter.jar"
-			initialisationDir="c:/minimee-config">
+			executablePath="/home/kraxner/minimee-config/migration-tools/ImageConverter.jar"
+			initialisationDir="/home/kraxner/minimee-config">
 
 			<config url="gifToPNG-JavaImageIO">
 				<name>GIF to PNG</name>

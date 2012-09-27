@@ -46,7 +46,7 @@
 							rendered="#{record!=null and altern.experiment.results[record]!=null  and altern.experiment.results[record].dataExistent}"
 							action="#{workflowstep.downloadResultFile(altern, record)}" />
                         <rich:tooltip target="downloadResult">Download result of applying #{altern.name} to #{record.shortName}</rich:tooltip>
-                        
+                        <ui:remove>
 						<a4j:commandButton
 							rendered="#{record!=null and altern.experiment.results[record]!=null  and altern.experiment.results[record].dataExistent}"
 							action="#{workflowstep.setTreeFromRecordAltern(record,altern)}"
@@ -55,6 +55,7 @@
 							image="/resources/gfx/icons/small/compareView.png"
 							oncomplete="Richfaces.showModalPanel('jhovePanel', {top:'100px'});"
 							render="jhovePanel" />
+						</ui:remove>
 					</td>
 				</ui:repeat>
 			</tr>
