@@ -221,6 +221,7 @@
 			                                <h:inputTextarea id="node_description" rows="2"
 			                                                 value="#{node.description}" style="width: 350px;">
 			                                    <f:validateLength maximum="32672" />
+			                                    <a4j:ajax onbeforesubmit="changed()" event="change" listener="#{node.touch}" />
 			                                </h:inputTextarea>
                                         </a4j:outputPanel>
 		                            </div>

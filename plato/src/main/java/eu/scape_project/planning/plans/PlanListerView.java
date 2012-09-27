@@ -21,11 +21,9 @@ import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
@@ -54,9 +52,6 @@ public class PlanListerView implements Serializable {
     private Logger log;
 
     @Inject
-    private EntityManager em;
-
-    @Inject
     private PlanManager planManager;
 
     @Inject
@@ -64,11 +59,6 @@ public class PlanListerView implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
-
-    @Inject
-    private Conversation conversation;
-
-    private PlanProperties selectedProp;
 
     /**
      * Variable determining the plan selection which should be shown to the

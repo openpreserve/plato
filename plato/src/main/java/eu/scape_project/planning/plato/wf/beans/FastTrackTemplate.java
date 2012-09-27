@@ -18,16 +18,16 @@ package eu.scape_project.planning.plato.wf.beans;
 
 public class FastTrackTemplate {
 
-    private String absolutePath;
+    private String path;
     
     private String displayString;
 
-    public String getAbsolutePath() {
-        return absolutePath;
+    public String getPath() {
+        return path;
     }
 
-    public void setAbsolutePath(String absolutePath) {
-        this.absolutePath = absolutePath;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getDisplayString() {

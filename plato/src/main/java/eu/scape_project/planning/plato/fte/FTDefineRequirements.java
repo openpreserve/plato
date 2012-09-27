@@ -19,7 +19,6 @@
  */
 package eu.scape_project.planning.plato.fte;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -168,7 +167,7 @@ public class FTDefineRequirements extends AbstractWorkflowStep {
         List<TemplateTree> templateTrees = null;
         try {
             PlanParser parser = new PlanParser();
-            templateTrees = parser.importTemplates(new FileInputStream(template.getAbsolutePath()));
+            templateTrees = parser.importTemplates(Thread.currentThread().getContextClassLoader().getResourceAsStream(template.getPath()));
         } catch (Exception e) {
             throw new PlanningException("Unable to load template.", e);
         }

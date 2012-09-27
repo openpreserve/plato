@@ -49,7 +49,10 @@ public class TakeGoDecision extends AbstractWorkflowStep {
      */
     @Override
     protected void saveStepSpecific() {
-        // TODO Auto-generated method stub
+        prepareChangesForPersist.prepare(plan);
+        // alternatives might have been discarded
+        saveEntity(plan.getAlternativesDefinition());
+        saveEntity(plan.getDecision());
     }
 
 }

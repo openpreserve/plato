@@ -16,69 +16,56 @@
  ******************************************************************************/
 package eu.scape_project.planning.plato.wf.beans;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @SessionScoped
 @Named("fastTrackTemplates")
 public class FastTrackTemplates implements Serializable {
-	private static final long serialVersionUID = 8582365566558811935L;
+    private static final long serialVersionUID = 8582365566558811935L;
+    
+    private static final Logger log = LoggerFactory.getLogger(FastTrackTemplates.class);
 
-	private List<FastTrackTemplate> templateList = new ArrayList<FastTrackTemplate>();
-    
+    private List<FastTrackTemplate> templateList = new ArrayList<FastTrackTemplate>();
+
     private FastTrackTemplate fastTrackTemplate = null;
-    
+
     private String directory;
-    
+
     public FastTrackTemplates() {
     }
-    
+
     public void init() {
         directory = "templates/fasttrack";
-        
-        URL url = Thread.currentThread().getContextClassLoader().getResource(directory);
-        
-        File dir = new File(url.getFile());
-        
-        templateList = iterateFiles(dir.listFiles());
-    }
-    
-    private List<FastTrackTemplate> iterateFiles(File[] files) {
-        List<FastTrackTemplate> list = new ArrayList<FastTrackTemplate>();
-        
-        if (files == null) {
-            return list;
-        }
-        
-        for (File f : files) {
-            if (f.isDirectory()) {
-                list.addAll(iterateFiles(f.listFiles()));
-            } else {          
-                FastTrackTemplate ftt  = new FastTrackTemplate();
-                ftt.setAbsolutePath(f.getAbsolutePath());
-                
-                String absolutePath = f.getAbsolutePath();
-                int start = absolutePath.lastIndexOf(directory) + directory.length();
-                
-                
-                String displayString = absolutePath.substring(start+1, absolutePath.length()-f.getName().length()-1);
-                
-                ftt.setDisplayString(displayString);
-                list.add(ftt);
+        templateList.clear();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(directory + "/templates.lst")));
+            String line = reader.readLine();
+            while (line != null) {
+                FastTrackTemplate template = new FastTrackTemplate();
+                int sepPos = line.indexOf("=");
+                template.setPath(directory + "/" + line.substring(0, sepPos));
+                template.setDisplayString(line.substring(sepPos+1));
+                templateList.add(template);
+                line = reader.readLine();
             }
+        } catch (IOException e) {
+            log.error("Failed to load list of fast track templates.", e);
         }
-        
-        return list;
     }
-    
+
     // --------------- getter/setter ---------------
-    
+
     public List<FastTrackTemplate> getTemplateList() {
         return templateList;
     }
@@ -93,5 +80,5 @@ public class FastTrackTemplates implements Serializable {
 
     public void setFastTrackTemplate(FastTrackTemplate fastTrackTemplate) {
         this.fastTrackTemplate = fastTrackTemplate;
-    }    
+    }
 }

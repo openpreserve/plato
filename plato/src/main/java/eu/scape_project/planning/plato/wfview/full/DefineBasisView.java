@@ -24,8 +24,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
@@ -33,7 +31,6 @@ import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineBasis;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.planning.utils.FacesMessages;
 
 /**
  * Bean for the viewWorkflow step 'Define Basis'.
@@ -42,12 +39,6 @@ import eu.scape_project.planning.utils.FacesMessages;
 @ConversationScoped
 public class DefineBasisView extends AbstractView implements Serializable {
     private static final long serialVersionUID = 8237053627553012469L;
-
-    @Inject
-    private Logger log;
-
-    @Inject
-    private FacesMessages facesMessages;
 
     @Inject
     private DefineBasis defineBasis;

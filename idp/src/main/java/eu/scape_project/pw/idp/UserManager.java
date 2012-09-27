@@ -163,7 +163,7 @@ public class UserManager {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(user.getEmail()));
-            message.setSubject("Please Confirm your Planningsuite user account");
+            message.setSubject("Please confirm your Planningsuite user account");
 
             StringBuilder builder = new StringBuilder();
             builder.append("Dear " + user.getFirstName() + " " + user.getLastName() + ", \n\n");
