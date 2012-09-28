@@ -162,7 +162,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 for (Entry<TavernaPort, ?> entry : outputFiles.entrySet()) {
                     SSHInMemoryTempFile resultFile = (SSHInMemoryTempFile) entry.getValue();
                     u.getData().setData(resultFile.getData());
-                    u.setFullname(resultFile.getName());
+                    u.setFullname(action.getShortname() + " - " + digitalObject.getFullname());
                 }
                 FormatInfo tFormat = new FormatInfo();
                 tFormat.setDefaultExtension(targetExtension);
