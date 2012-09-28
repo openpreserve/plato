@@ -37,122 +37,144 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 /**
  * Backing bean for workflow step Set Importance Factors
  * 
- * The objective tree is shown to the user, who can enter a weight for each node and leaf. 
- * When the user enters a weight factor all other siblings are automatically adjusted so that the
- * sum equals to 1.0
+ * The objective tree is shown to the user, who can enter a weight for each node
+ * and leaf. When the user enters a weight factor all other siblings are
+ * automatically adjusted so that the sum equals to 1.0
  * 
  * @author Michael Kraxner, Markus Hamm
- *
+ * 
  */
 @Named("setImportanceFactors")
 @ConversationScoped
 public class SetImportanceFactorsView extends AbstractView {
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Helper class mapping alternative names to transformed and aggregated result values.
-	 * - this way we can easily provide a {@link SetImportanceFactorsView#criterionResultMap mapping} from criteria to these values   
-	 *   which simplifies displaying these values beside each leaf.
-	 * 
-	 * @author Michael Kraxner
-	 *
-	 */
-	public class ResultMap implements Serializable{
-	    private static final long serialVersionUID = 1L;
-	    
-	    private HashMap<String,Double> results = new HashMap<String,Double>();
-	    
-	    public HashMap<String, Double> getResults() {
-	        return results;
-	    }
+    private static final long serialVersionUID = 1L;
 
-	    public void setResults(HashMap<String, Double> results) {
-	        this.results = results;
-	    }
-	}	
-	
-	@Inject private SetImportanceFactors setImportanceFactors;
-	
-	/**
-	 * The currently selected root node 
-	 */
-	private List<TreeNode> focusedNode;
-	
-	/**
-	 * Determines if weights are balanced automatically.
-	 */
-	private boolean autoBalancingEnabled;
-	
-	/**
-	 * Maps leafs to transformed and aggregated results per alternative.
-	 */
+    private TreeNode currentNode = null;
+
+    /**
+     * Helper class mapping alternative names to transformed and aggregated
+     * result values. - this way we can easily provide a
+     * {@link SetImportanceFactorsView#criterionResultMap mapping} from criteria
+     * to these values which simplifies displaying these values beside each
+     * leaf.
+     * 
+     * @author Michael Kraxner
+     * 
+     */
+    public class ResultMap implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private HashMap<String, Double> results = new HashMap<String, Double>();
+
+        public HashMap<String, Double> getResults() {
+            return results;
+        }
+
+        public void setResults(HashMap<String, Double> results) {
+            this.results = results;
+        }
+    }
+
+    @Inject
+    private SetImportanceFactors setImportanceFactors;
+
+    /**
+     * The currently selected root node
+     */
+    private List<TreeNode> focusedNode;
+
+    /**
+     * Determines if weights are balanced automatically.
+     */
+    private boolean autoBalancingEnabled;
+
+    /**
+     * Maps leafs to transformed and aggregated results per alternative.
+     */
     private HashMap<Leaf, ResultMap> criterionResultMap;
 
+    public SetImportanceFactorsView() {
+        currentPlanState = PlanState.TRANSFORMATION_DEFINED;
+        name = "Set Importance Factors";
+        viewUrl = "/plan/setimportancefactors.jsf";
+        group = "menu.analyseResults";
 
-	public SetImportanceFactorsView() {
-    	currentPlanState = PlanState.TRANSFORMATION_DEFINED;
-    	name = "Set Importance Factors";
-    	viewUrl = "/plan/setimportancefactors.jsf";
-    	group = "menu.analyseResults";
-    	
-    	focusedNode = new ArrayList<TreeNode>();
-    	criterionResultMap = new HashMap<Leaf,ResultMap>();
-	}
-	
-	public void init(Plan plan){
-		super.init(plan);
-		autoBalancingEnabled = true;
-		
-        
+        focusedNode = new ArrayList<TreeNode>();
+        criterionResultMap = new HashMap<Leaf, ResultMap>();
+    }
+
+    public void init(Plan plan) {
+        super.init(plan);
+        autoBalancingEnabled = true;
+
         // fill our temporary result map with all the result values
         criterionResultMap.clear();
         for (Leaf l : plan.getTree().getRoot().getAllLeaves()) {
-            HashMap<String,Double> map = new HashMap<String,Double>();
-            for (Alternative a: plan.getAlternativesDefinition().getConsideredAlternatives()) {
+            HashMap<String, Double> map = new HashMap<String, Double>();
+            for (Alternative a : plan.getAlternativesDefinition().getConsideredAlternatives()) {
                 map.put(a.getName(), l.getResult(a));
             }
             ResultMap m = new ResultMap();
             m.setResults(map);
-            criterionResultMap.put(l,m);
+            criterionResultMap.put(l, m);
         }
-		
-		
-		resetFocus();
-		
-	}
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return setImportanceFactors;
-	}
+        resetFocus();
 
-	public boolean isAutoBalancingEnabled() {
-		return autoBalancingEnabled;
-	}
+    }
 
-	public void setAutoBalancingEnabled(boolean autoBalancingEnabled) {
-		this.autoBalancingEnabled = autoBalancingEnabled;
-	}
-	
-	/**
-	 * Resets the focused node to the root of the objective tree.
-	 */
-	public void resetFocus(){
-		focusedNode.clear();
-		focusedNode.add(plan.getTree().getRoot());
-	}
-	
-	public void focusOn(TreeNode node) {
-		//focusedNode.clear();
-		focusedNode = new ArrayList<TreeNode>();
-		focusedNode.add(node);
-	}
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return setImportanceFactors;
+    }
 
-	public List<TreeNode> getFocusedNode() {
-		return focusedNode;
-	}
+    public boolean isAutoBalancingEnabled() {
+        return autoBalancingEnabled;
+    }
 
-	public HashMap<Leaf, ResultMap> getCriterionResultMap() {
-		return criterionResultMap;
-	}
+    public void setAutoBalancingEnabled(boolean autoBalancingEnabled) {
+        this.autoBalancingEnabled = autoBalancingEnabled;
+    }
+
+    /**
+     * Resets the focused node to the root of the objective tree.
+     */
+    public void resetFocus() {
+        focusedNode.clear();
+        focusedNode.add(plan.getTree().getRoot());
+    }
+
+    public void focusOn(TreeNode node) {
+        // focusedNode.clear();
+        focusedNode = new ArrayList<TreeNode>();
+        focusedNode.add(node);
+    }
+
+    public List<TreeNode> getFocusedNode() {
+        return focusedNode;
+    }
+
+    public HashMap<Leaf, ResultMap> getCriterionResultMap() {
+        return criterionResultMap;
+    }
+
+    /**
+     * Sets the current node.
+     * 
+     * @param currentNode
+     *            the current node
+     */
+    private void setCurrentNode(TreeNode currentNode) {
+        this.currentNode = currentNode;
+    }
+
+    /**
+     * Balances weights for the current node.
+     */
+    public void balanceWeights() {
+        if (currentNode != null) {
+            currentNode.balanceWeights();
+            currentNode = null;
+        }
+    }
 }
