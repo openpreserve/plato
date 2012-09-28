@@ -80,8 +80,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 // Input from path
-                Set<TavernaPort> inputFromPorts =
-                    t2flowParser.getInputPorts(new URI(T2FlowParserFallback.FROM_OBJECT_PATH_URI));
+                Set<TavernaPort> inputFromPorts = t2flowParser.getInputPorts(new URI(
+                    T2FlowParserFallback.FROM_OBJECT_PATH_URI));
                 if (inputFromPorts.size() != 1) {
                     result.setSuccessful(false);
                     result.setReport("The number of from ports of workflow " + action.getUrl() + " is "
@@ -96,8 +96,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 // Input to path
-                Set<TavernaPort> inputToPorts =
-                    t2flowParser.getInputPorts(new URI(T2FlowParserFallback.TO_OBJECT_PATH_URI));
+                Set<TavernaPort> inputToPorts = t2flowParser.getInputPorts(new URI(
+                    T2FlowParserFallback.TO_OBJECT_PATH_URI));
                 if (inputToPorts.size() != 1) {
                     result.setSuccessful(false);
                     result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
@@ -120,8 +120,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 tavernaExecutor.setOutputPorts(outputPorts);
 
                 // Output files
-                Set<TavernaPort> outputToPorts =
-                    t2flowParser.getOutputPorts(new URI(T2FlowParserFallback.TO_OBJECT_PATH_URI));
+                Set<TavernaPort> outputToPorts = t2flowParser.getOutputPorts(new URI(
+                    T2FlowParserFallback.TO_OBJECT_PATH_URI));
                 if (outputToPorts.size() != 1) {
                     result.setSuccessful(false);
                     result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
@@ -129,8 +129,8 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                     return result;
                 }
 
-                HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles =
-                    new HashMap<TavernaPort, SSHInMemoryTempFile>(1);
+                HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles = new HashMap<TavernaPort, SSHInMemoryTempFile>(
+                    1);
                 for (TavernaPort outputToPort : outputToPorts) {
                     requestedFiles.put(outputToPort, tempFile);
                 }
@@ -160,7 +160,9 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
 
                 DigitalObject u = new DigitalObject();
                 for (Entry<TavernaPort, ?> entry : outputFiles.entrySet()) {
-                    u.getData().setData(((SSHInMemoryTempFile) entry.getValue()).getData());
+                    SSHInMemoryTempFile resultFile = (SSHInMemoryTempFile) entry.getValue();
+                    u.getData().setData(resultFile.getData());
+                    u.setFullname(resultFile.getName());
                 }
                 FormatInfo tFormat = new FormatInfo();
                 tFormat.setDefaultExtension(targetExtension);
