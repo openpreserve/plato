@@ -29,6 +29,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
 import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("groups")
@@ -47,12 +48,15 @@ public class GroupsView implements Serializable {
     private User user;
     private String inviteMailsString = "";
 
+    @Inject
+    private ViewWorkflowManager viewWorkflowManager;
+
     public GroupsView() {
     }
 
     public String init() {
         groups.init();
-        return "user/groups.jsf";
+        return "/user/groups.jsp";
     }
 
     /**

@@ -77,7 +77,8 @@
 							</h:panelGroup>
 						</f:facet>
 						<rich:menuItem>
-							<h:commandLink value="Group" action="#{groups.init()}" />
+							<h:commandLink value="Group" onclick="return mayExit_noClick();"
+								action="#{groups.init()}" />
 						</rich:menuItem>
 						<rich:menuItem>
 							<h:outputLink>
