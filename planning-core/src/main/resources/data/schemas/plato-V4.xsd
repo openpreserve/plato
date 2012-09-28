@@ -14,6 +14,7 @@
   * new model for measuring significant properties: 
     - measure and attributes based on the new quality model as replacement for criterion, measureableproperty, and metric
     - MeasurementType: refers to measureId instead of MeasureableProperty
+  * Information about CollectionProfile
 
   * new way to handle versions:
     The current major version of this schema is V4, all upcoming sub-versions must be backwards compatible, i.g. accept document-instances of older V4 versions.
@@ -423,6 +424,7 @@
 			<xs:element name="numberOfObjects" type="maxLengthString" minOccurs="0"/>
 			<xs:element name="typeOfObjects" type="maxLengthString" minOccurs="0"/>
 			<xs:element name="retentionPeriod" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="profile" type="digitalObjectType" minOccurs="0"/>
 		</xs:all>
 	</xs:complexType>
 	<xs:complexType name="experimentResultType">
