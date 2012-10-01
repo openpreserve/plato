@@ -92,15 +92,15 @@ import eu.scape_project.planning.xml.plan.TransformationModeFactory;
 import eu.scape_project.planning.xml.plan.TriggerFactory;
 
 /**
- * Creates preservation plans and templates from their XML representations.  
+ * Creates preservation plans and templates from their XML representations.
  * 
  * @author Michael Kraxner
- *
+ * 
  */
 public class PlanParser {
-    
+
     private final static Logger log = LoggerFactory.getLogger(PlanParser.class);
-    
+
     /**
      * Used by digester
      */
@@ -113,10 +113,9 @@ public class PlanParser {
 
     private final ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
 
-
     /**
-     * Deserializes the plans stored in the file.
-     * - the representation must be of the {@link PlanXMLConstants#PLATO_SCHEMA_VERSION current version} 
+     * Deserializes the plans stored in the file. - the representation must be
+     * of the {@link PlanXMLConstants#PLATO_SCHEMA_VERSION current version}
      * 
      * @param file
      * @return
@@ -177,7 +176,8 @@ public class PlanParser {
             StrictErrorHandler errorHandler = new StrictErrorHandler();
             digester.setErrorHandler(errorHandler);
 
-            // At the moment XML files for template tree's are only used internally,
+            // At the moment XML files for template tree's are only used
+            // internally,
             // later we will define a schema and use it also for validation
 
             digester.push(this);
@@ -224,7 +224,7 @@ public class PlanParser {
             Digester digester = new Digester(parser);
 
             SchemaResolver schemaResolver = new SchemaResolver();
-            
+
             schemaResolver.addSchemaLocation(PlanXMLConstants.PLATO_SCHEMA_URI, PlanXMLConstants.PLATO_SCHEMA_LOCATION)
                 .addSchemaLocation(PlanXMLConstants.PAP_SCHEMA_URI, PlanXMLConstants.PAP_SCHEMA_LOCATION)
                 .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
@@ -235,7 +235,7 @@ public class PlanParser {
             digester.push(this);
 
             PlanParser.addRules(digester);
-            
+
             digester.setUseContextClassLoader(true);
             plans = new ArrayList<Plan>();
 
@@ -311,8 +311,9 @@ public class PlanParser {
     }
 
     private static void addRules(Digester digester) throws ParserConfigurationException {
-        
-        //ConvertUtils.register(new CriterionCategoryConverter(), CriterionCategory.class);
+
+        // ConvertUtils.register(new CriterionCategoryConverter(),
+        // CriterionCategory.class);
         ConvertUtils.register(new EnumConverter<CriterionCategory>(CriterionCategory.class), CriterionCategory.class);
         // start with a new file
         digester.addObjectCreate("*/plan", Plan.class);
@@ -331,8 +332,7 @@ public class PlanParser {
         digester.addFactoryCreate("*/plan/properties/state", PlanStateFactory.class);
         digester.addSetNext("*/plan/properties/state", "setState");
 
-        PlanParser.addCreateUpload(digester, "*/plan/properties/report", "setReportUpload",
-            DigitalObject.class);
+        PlanParser.addCreateUpload(digester, "*/plan/properties/report", "setReportUpload", DigitalObject.class);
 
         digester.addObjectCreate("*/plan/basis", ProjectBasis.class);
         digester.addSetProperties("*/plan/basis");
@@ -416,8 +416,7 @@ public class PlanParser {
         digester.addSetProperties("*/record/formatInfo");
         digester.addSetNext("*/record/formatInfo", "setFormatInfo");
 
-        PlanParser.addCreateUpload(digester, "*/record/xcdlDescription", "setXcdlDescription",
-            XcdlDescription.class);
+        PlanParser.addCreateUpload(digester, "*/record/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
 
         // - collection profile
         digester.addObjectCreate("*/plan/sampleRecords/collectionProfile", CollectionProfile.class);
@@ -428,8 +427,7 @@ public class PlanParser {
         digester.addCallMethod("*/plan/sampleRecords/collectionProfile/description", "setDescription", 0);
         digester.addCallMethod("*/plan/sampleRecords/collectionProfile/numberOfObjects", "setNumberOfObjects", 0);
         digester.addCallMethod("*/plan/sampleRecords/collectionProfile/typeOfObjects", "setTypeOfObjects", 0);
-        digester.addCallMethod("*/plan/sampleRecords/collectionProfile/expectedGrowthRate",
-            "setExpectedGrowthRate", 0);
+        digester.addCallMethod("*/plan/sampleRecords/collectionProfile/expectedGrowthRate", "setExpectedGrowthRate", 0);
         digester.addCallMethod("*/plan/sampleRecords/collectionProfile/retentionPeriod", "setRetentionPeriod", 0);
 
         // requirements definition
@@ -442,8 +440,8 @@ public class PlanParser {
         // - uploads
         digester.addObjectCreate("*/plan/requirementsDefinition/uploads", ArrayList.class);
         digester.addSetNext("*/plan/requirementsDefinition/uploads", "setUploads");
-        PlanParser.addCreateUpload(digester, "*/plan/requirementsDefinition/uploads/upload", "add",
-            DigitalObject.class);
+        PlanParser
+            .addCreateUpload(digester, "*/plan/requirementsDefinition/uploads/upload", "add", DigitalObject.class);
 
         // alternatives
         digester.addObjectCreate("*/plan/alternatives", AlternativesDefinition.class);
@@ -488,8 +486,7 @@ public class PlanParser {
         digester.addCallMethod("*/experiment/settings", "setSettings", 0);
 
         PlanParser.addCreateUpload(digester, "*/experiment/results/result", null, DigitalObject.class);
-        PlanParser.addCreateUpload(digester, "*/result/xcdlDescription", "setXcdlDescription",
-            XcdlDescription.class);
+        PlanParser.addCreateUpload(digester, "*/result/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
 
         // call function addUpload of ExperimentWrapper
         CallMethodRule r = new CallMethodRule(1, "addResult", 2); // method
@@ -541,12 +538,11 @@ public class PlanParser {
         digester.addSetProperties("*/measurement");
         // values are defined with wild-cards, and therefore set
         // automatically
-        
 
         /*
-         * for each value type a set of rules because of FreeStringValue we
-         * need to store the value as XML-element instead of an attribute
-         * naming them "ResultValues" wasn't nice too
+         * for each value type a set of rules because of FreeStringValue we need
+         * to store the value as XML-element instead of an attribute naming them
+         * "ResultValues" wasn't nice too
          */
         PlanParser.addCreateValue(digester, BooleanValue.class, "setValue");
         PlanParser.addCreateValue(digester, FloatRangeValue.class, "setValue");
@@ -608,11 +604,11 @@ public class PlanParser {
         digester.addObjectCreate("*/leaf/evaluation", HashMap.class);
         digester.addSetNext("*/leaf/evaluation", "setValueMap");
         /*
-         * The valueMap has an entry for each (considered) alternative ...
-         * and for each alternative there is a list of values, one per
-         * SampleObject. Note: The digester uses a stack, therefore the rule
-         * to put the list of values to the valueMap must be added after the
-         * rule for adding the values to the list.
+         * The valueMap has an entry for each (considered) alternative ... and
+         * for each alternative there is a list of values, one per SampleObject.
+         * Note: The digester uses a stack, therefore the rule to put the list
+         * of values to the valueMap must be added after the rule for adding the
+         * values to the list.
          */
 
         /*
@@ -623,8 +619,8 @@ public class PlanParser {
         digester.addCallMethod("*/leaf/evaluation/alternative/comment", "setComment", 0);
 
         /*
-         * for each result-type a set of rules they are added to the
-         * valueMap by the rules above
+         * for each result-type a set of rules they are added to the valueMap by
+         * the rules above
          */
         PlanParser.addCreateResultValue(digester, BooleanValue.class);
         PlanParser.addCreateResultValue(digester, FloatValue.class);
@@ -638,8 +634,7 @@ public class PlanParser {
         PlanParser.addCreateResultValue(digester, FreeStringValue.class);
 
         /*
-         * 1. The valueMap has an entry for each (considered) alternative
-         * ...
+         * 1. The valueMap has an entry for each (considered) alternative ...
          */
         // call put of the ValueMap (HashMap)
         r = new CallMethodRule(1, "put", 2);
@@ -700,7 +695,7 @@ public class PlanParser {
         // provide the name of the setter method
         digester.addObjectParam("*/plan/executablePlan/eprintsPlan", 1, "setEprintsExecutablePlan");
 
-        digester.addSetNext("*/plan/executablePlan/eprintsPlan", "setNode");
+        // digester.addSetNext("*/plan/executablePlan/eprintsPlan", "setNode");
 
         digester.addCallMethod("*/plan/executablePlan/objectPath", "setObjectPath", 0);
         digester.addCallMethod("*/plan/executablePlan/toolParameters", "setToolParameters", 0);
@@ -727,7 +722,8 @@ public class PlanParser {
         digester.addSetNext("*/plan/planDefinition/triggers", "setTriggers");
         // every time a */plan/basis/triggers/trigger is encountered:
         digester.addFactoryCreate("*/plan/planDefinition/triggers/trigger", TriggerFactory.class);
-        digester.addSetNext("*/plan/planDefinition/triggers/trigger", "setTrigger");    }
+        digester.addSetNext("*/plan/planDefinition/triggers/trigger", "setTrigger");
+    }
 
     /**
      * Create a rule for reading an upload entry for the given location
@@ -859,7 +855,7 @@ public class PlanParser {
         digester.addSetProperties(pattern, "ID", "uri");
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
-        
+
         PlanParser.addAttributeRules(digester, pattern + "/attribute");
         // scale will be set by global rule
     }

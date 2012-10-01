@@ -33,6 +33,7 @@ import at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
@@ -84,28 +85,28 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                     continue;
                 }
                 String mode = null;
-                if (OBJECT_IMAGE_SIMILARITY_EQUAL.equals(measureUri)) {
+                if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_EQUAL.equals(measureUri)) {
                     mode = "equal";
-                } else if (OBJECT_IMAGE_SIMILARITY_AE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_AE.equals(measureUri)) {
                     mode = "ae";
-                } else if (OBJECT_IMAGE_SIMILARITY_PAE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_PAE.equals(measureUri)) {
                     mode = "pae";
-                } else if (OBJECT_IMAGE_SIMILARITY_PSNR.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_PSNR.equals(measureUri)) {
                     mode = "psnr";
-                } else if (OBJECT_IMAGE_SIMILARITY_MAE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MAE.equals(measureUri)) {
                     mode = "mae";
-                } else if (OBJECT_IMAGE_SIMILARITY_MSE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MSE.equals(measureUri)) {
                     mode = "mse";
-                } else if (OBJECT_IMAGE_SIMILARITY_RMSE.equals(measureUri)) {
-                } else if (OBJECT_IMAGE_SIMILARITY_MEPP.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_RMSE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MEPP.equals(measureUri)) {
                     mode = "mepp";
-                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLE.equals(measureUri)) {
                     mode = "ssimSimple";
-                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(measureUri)) {
                     mode = "ssimSimpleHue";
-                } else if (OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(measureUri)) {
                     mode = "ssimSimpleSaturation";
-                } else if (OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(measureUri)) {
+                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(measureUri)) {
                     mode = "equalJudged";
                 }
 

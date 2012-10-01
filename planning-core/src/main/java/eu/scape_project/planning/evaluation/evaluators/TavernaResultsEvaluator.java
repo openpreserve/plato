@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
@@ -79,7 +80,7 @@ public class TavernaResultsEvaluator implements IObjectEvaluator {
 
         for (String measureUri : measureUris) {
             // uri = scape://criterion#123
-            if (OBJECT_FORMAT_RELATIVEFILESIZE.equals(measureUri)) {
+            if (MeasureConstants.COMPARATIVE_FILE_SIZE.equals(measureUri)) {
                 if (result != null) {
                     // evaluate here
                     PositiveFloatValue v = new PositiveFloatValue();

@@ -32,12 +32,14 @@ import org.xml.sax.SAXException;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FreeStringScale;
+import eu.scape_project.planning.model.scales.OrdinalScale;
 import eu.scape_project.planning.model.scales.Scale;
 import eu.scape_project.planning.model.util.FloatFormatter;
 import eu.scape_project.planning.model.values.BooleanValue;
@@ -85,17 +87,17 @@ public class FITSEvaluator implements IObjectEvaluator {
 
                 for (String measureUri : measureUris) {
                     Value v = null;
-                    if (OBJECT_FORMAT_CORRECT_WELLFORMED.equals(measureUri)) {
+                    if (MeasureConstants.FORMAT_CONFORMITY_WELL_FORMEDNESS.equals(measureUri)) {
 
                         v = extractor.extractValue(fitsDocResult, new BooleanScale(),
                             "//fits:well-formed[@status='SINGLE_RESULT']/text()",
                             "//fits:filestatus/fits:message/text()");
-                    } else if (OBJECT_FORMAT_CORRECT_VALID.equals(measureUri)) {
+                    } else if (MeasureConstants.FORMAT_CONFORMITY_VALIDITY.equals(measureUri)) {
                         v = extractor.extractValue(fitsDocResult, new BooleanScale(),
                             "//fits:filestatus/fits:valid[@status='SINGLE_RESULT']/text()",
                             "//fits:filestatus/fits:message/text()");
                     }
-                    if (OBJECT_COMPRESSION_SCHEME.equals(measureUri)) {
+                    if (MeasureConstants.COMPRESSION_ALGORITHM.equals(measureUri)) {
                         v = extractor.extractValue(fitsDocResult, new FreeStringScale(),
                             "//fits:compressionScheme/text()", null);
                     }
@@ -109,7 +111,7 @@ public class FITSEvaluator implements IObjectEvaluator {
                         continue;
                     }
 
-                    if (OBJECT_FORMAT_CORRECT_CONFORMS.equals(measureUri)) {
+                    if (MeasureConstants.FORMAT_CONFORMITY_CONFORMS.equals(measureUri)) {
                         if (alternative.getAction() != null) {
                             String puid = "UNDEFINED";
                             FormatInfo info = alternative.getAction().getTargetFormatInfo();
@@ -120,15 +122,15 @@ public class FITSEvaluator implements IObjectEvaluator {
                                 "//fits:externalIdentifier[@type='puid']/text()");
                             v = identicalValues(puid, fitsText, new BooleanScale());
                         }
-                    } else if ((OBJECT_IMAGE_DIMENSION_WIDTH_EQUAL).equals(measureUri)) {
+                    } else if ((MeasureConstants.IMAGE_SIZE_IMAGE_WIDTH_EQUAL).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:imageWidth/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:imageWidth/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_DIMENSION_HEIGHT_EQUAL).equals(measureUri)) {
+                    } else if ((MeasureConstants.IMAGE_SIZE_IMAGE_HEIGHT_EQUAL).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:imageHeight/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:imageHeight/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_DIMENSION_ASPECTRATIO_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.IMAGE_ASPECT_RATIO_RETAINED).equals(measureUri)) {
                         try {
                             int sampleHeight = Integer.parseInt(extractor.extractText(fitsDocSample,
                                 "//fits:imageHeight/text()"));
@@ -151,10 +153,13 @@ public class FITSEvaluator implements IObjectEvaluator {
                             v = new BooleanValue();
                             v.setComment("Image width and/or height are not available - aspectRatio cannot be calculated");
                         }
-                    } else if ((OBJECT_COMPRESSION_SCHEME_RETAINED).equals(measureUri)) {
-                        v = identicalValues(sampleImageCompressionScheme, resultImageCompressionScheme,
-                            new BooleanScale());
-                    } else if (OBJECT_SUSTAINABLILITY_TRANSPARENCY_COMPRESSION.equals(measureUri)) {
+                        // } else if
+                        // ((OBJECT_COMPRESSION_SCHEME_RETAINED).equals(measureUri))
+                        // {
+                        // v = identicalValues(sampleImageCompressionScheme,
+                        // resultImageCompressionScheme,
+                        // new BooleanScale());
+                    } else if (MeasureConstants.COMPRESSION_COMPRESSION_TYPE.equals(measureUri)) {
                         v = new OrdinalValue();
                         if ((resultImageCompressionScheme == null) || ("".equals(resultImageCompressionScheme))) {
                             v.parse("none");
@@ -164,41 +169,53 @@ public class FITSEvaluator implements IObjectEvaluator {
                             v.parse("lossy");
                             v.setComment("compression scheme: " + resultImageCompressionScheme);
                         }
-                    } else if ((OBJECT_IMAGE_COLORENCODING_BITSPERSAMPLE_EQUAL).equals(measureUri)) {
+                    } else if ((MeasureConstants.COLOR_DEPTH_BITS_PER_SAMPLE_EQUAL).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:bitsPerSample/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:bitsPerSample/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                        // FIXME
-                    } else if ((OBJECT_IMAGE_COLORENCODING_SAMPLESPERPIXEL_EQUAL).equals(measureUri)) {
-                        String sampleValue = extractor.extractText(fitsDocSample, "//fits:samplesPerPixel/text()");
-                        String resultValue = extractor.extractText(fitsDocResult, "//fits:samplesPerPixel/text()");
-                        v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                        // FIXME
-                    } else if ((OBJECT_IMAGE_PHOTOMETRICINTERPRETATION_COLORSPACE + "#equal").equals(measureUri)) {
-                        String sampleValue = extractor.extractText(fitsDocSample, "//fits:colorSpace/text()");
-                        String resultValue = extractor.extractText(fitsDocResult, "//fits:colorSpace/text()");
-                        v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_PHOTOMETRICINTERPRETATION_COLORPROFILE_ICCPROFILE_EQUAL)
-                        .equals(measureUri)) {
+                        // } else if
+                        // ((EXIF_SAMPLES_PER_PIXEL_RETAINED).equals(measureUri))
+                        // {
+                        // String sampleValue =
+                        // extractor.extractText(fitsDocSample,
+                        // "//fits:samplesPerPixel/text()");
+                        // String resultValue =
+                        // extractor.extractText(fitsDocResult,
+                        // "//fits:samplesPerPixel/text()");
+                        // v = identicalValues(sampleValue, resultValue, new
+                        // BooleanScale());
+                        // } else if
+                        // ((OBJECT_IMAGE_PHOTOMETRICINTERPRETATION_COLORSPACE +
+                        // "#equal").equals(measureUri)) {
+                        // String sampleValue =
+                        // extractor.extractText(fitsDocSample,
+                        // "//fits:colorSpace/text()");
+                        // String resultValue =
+                        // extractor.extractText(fitsDocResult,
+                        // "//fits:colorSpace/text()");
+                        // v = identicalValues(sampleValue, resultValue, new
+                        // BooleanScale());
+                    } else if ((MeasureConstants.COLOUR_MODEL_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:iccProfileName/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:iccProfileName/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_SPATIALMETRICS_SAMPLINGFREQUENCYUNIT_EQUAL).equals(measureUri)) {
-                        String sampleValue = extractor
-                            .extractText(fitsDocSample, "//fits:samplingFrequencyUnit/text()");
+                    } else if ((MeasureConstants.SAMPLING_FREQUENCY_UNIT).equals(measureUri)) {
                         String resultValue = extractor
                             .extractText(fitsDocResult, "//fits:samplingFrequencyUnit/text()");
-                        v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_SPATIALMETRICS_XSAMPLINGFREQUENCY_EQUAL).equals(measureUri)) {
+                        v = new OrdinalScale().createValue();
+                        ((OrdinalValue) v).setValue(resultValue);
+                    } else if ((MeasureConstants.OBJECT_IMAGE_SPATIALMETRICS_XSAMPLINGFREQUENCY_EQUAL)
+                        .equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:xSamplingFrequency/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:xSamplingFrequency/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_SPATIALMETRICS_YSAMPLINGFREQUENCY_EQUAL).equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_SPATIALMETRICS_YSAMPLINGFREQUENCY_EQUAL)
+                        .equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:ySamplingFrequency/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:ySamplingFrequency/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
 
-                    } else if ((OBJECT_IMAGE_METADATA + "#equal").equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA + "#equal").equals(measureUri)) {
                         // we use the equal metric. reserve PRESERVED metric for
                         // later and get it right.
                         HashMap<String, String> sampleMetadata = extractor.extractValues(fitsDocSample,
@@ -206,26 +223,26 @@ public class FITSEvaluator implements IObjectEvaluator {
                         HashMap<String, String> resultMetadata = extractor.extractValues(fitsDocResult,
                             "//fits:exiftool/*[local-name() != 'rawdata']");
                         v = preservedValues(sampleMetadata, resultMetadata, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_METADATA_PRODUCER_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_PRODUCER_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:ImageCreation/ImageProducer/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:ImageCreation/ImageProducer/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_METADATA_SOFTWARE_RETAINED).equals(measureUri)) {
+                    } else if (MeasureConstants.OBJECT_IMAGE_METADATA_SOFTWARE_RETAINED.equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:creatingApplicationName/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:creatingApplicationName/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((OBJECT_IMAGE_METADATA_CREATIONDATE_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_CREATIONDATE_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:ImageCreation/DateTimeCreated/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:ImageCreation/DateTimeCreated/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
                         // FIXME
-                    } else if ((OBJECT_IMAGE_METADATA_LASTMODIFIED + "#equal").equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_LASTMODIFIED + "#equal").equals(measureUri)) {
                         String sampleValue = extractor
                             .extractText(fitsDocSample, "//fits:fileinfo/lastmodified/text()");
                         String resultValue = extractor
@@ -233,14 +250,14 @@ public class FITSEvaluator implements IObjectEvaluator {
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
                         // FIXME only a criterion for EXIF IDF0 image
                         // description is defined
-                    } else if ((OBJECT_IMAGE_METADATA_DESCRIPTION + "#equal").equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_DESCRIPTION + "#equal").equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:exiftool/ImageDescription/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:exiftool/ImageDescription/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
 
-                    } else if ((OBJECT_IMAGE_METADATA_ORIENTATION_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_ORIENTATION_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:exiftool/Orientation/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:exiftool/Orientation/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());

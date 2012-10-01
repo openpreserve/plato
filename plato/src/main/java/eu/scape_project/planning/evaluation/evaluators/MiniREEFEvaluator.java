@@ -28,6 +28,7 @@ import at.tuwien.minireef.ResultSet;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IActionEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.scales.Scale;
@@ -72,7 +73,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             Scale scale = null; // FIXME
             Value value = null; // FIXME scale.createValue();
 
-            if (ACTION_BATCH_SUPPORT.equals(measureId)) {
+            if (MeasureConstants.ACTION_BATCH_SUPPORT.equals(measureId)) {
                 if (!alternative.getAction().isEmulated() && alternative.getAction().isExecutable()) {
                     // this alternative is wrapped as service and therefore
                     // provides batch support
@@ -102,7 +103,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             }
 
             // evaluation was successful!
-            if (measureId.startsWith(FORMAT_NUMBEROFTOOLS)) {
+            if (measureId.startsWith(MeasureConstants.FORMAT_NUMBEROFTOOLS)) {
                 // _measure_ is the number of tools found
                 result = "" + resultSet.size();
                 value.parse(result);
@@ -110,7 +111,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
                 value.setComment(toCommaSeparated(resultSet.getColResults("swname"))
                     + "; - according to miniREEF/P2 knowledge base");
                 listener.updateStatus("MiniREEF evaluated " + measureId);
-            } else if (FORMAT_SUSTAINABILITY_RIGHTS.equals(measureId)) {
+            } else if (MeasureConstants.FORMAT_SUSTAINABILITY_RIGHTS.equals(measureId)) {
                 if (resultSet.size() > 0) {
                     // e.g. open = false, comment: "Format is encumbered by IPR"
                     String comment = "";
@@ -141,9 +142,12 @@ public class MiniREEFEvaluator implements IActionEvaluator {
                 }
                 listener.updateStatus("P2 does not contain enough information to evaluate " + measureId
                     + " for this format.");
-            } else if ((FORMAT_COMPLEXITY.equals(measureId)) || (FORMAT_DISCLOSURE.equals(measureId))
-                || (FORMAT_UBIQUITY.equals(measureId)) || (FORMAT_DOCUMENTATION_QUALITY.equals(measureId))
-                || (FORMAT_STABILITY.equals(measureId)) || (FORMAT_LICENSE.equals(measureId))) {
+            } else if ((MeasureConstants.FORMAT_COMPLEXITY.equals(measureId))
+                || (MeasureConstants.FORMAT_DISCLOSURE.equals(measureId))
+                || (MeasureConstants.FORMAT_UBIQUITY.equals(measureId))
+                || (MeasureConstants.FORMAT_DOCUMENTATION_QUALITY.equals(measureId))
+                || (MeasureConstants.FORMAT_STABILITY.equals(measureId))
+                || (MeasureConstants.FORMAT_LICENSE.equals(measureId))) {
                 if (resultSet.size() > 0) {
                     String text = resultSet.getRow(0).get(0);
                     if (text.trim().length() > 0) {
@@ -195,7 +199,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
             + "        ?sw pronom:SoftwareName  ?swname } ";
 
-        statements.put(FORMAT_NUMBEROFTOOLS, statement);
+        statements.put(MeasureConstants.FORMAT_NUMBEROFTOOLS, statement);
 
         // action://format/numberOfTools/save :
         // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
@@ -205,7 +209,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
             + "        ?sw pronom:SoftwareName  ?swname } ";
 
-        statements.put(FORMAT_NUMBEROFTOOLS_SAVE, statement);
+        statements.put(MeasureConstants.FORMAT_NUMBEROFTOOLS_SAVE, statement);
 
         // action://format/numberOfTools/open :
         // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
@@ -215,7 +219,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
             + "        ?sw pronom:SoftwareName  ?swname } ";
 
-        statements.put(FORMAT_NUMBEROFTOOLS_OPEN, statement);
+        statements.put(MeasureConstants.FORMAT_NUMBEROFTOOLS_OPEN, statement);
 
         // action://format/numberOfTools/other :
         // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other"
@@ -225,35 +229,35 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
             + "        ?sw pronom:SoftwareName  ?swname } ";
 
-        statements.put(FORMAT_NUMBEROFTOOLS_OTHERS, statement);
+        statements.put(MeasureConstants.FORMAT_NUMBEROFTOOLS_OTHERS, statement);
 
         statement = "SELECT ?d WHERE { " + " ?format pronom:FormatDisclosure ?d . "
             + " ?format pronom:FileFormatIdentifier ?ident . " + " ?ident pronom:IdentifierType \"PUID\" . "
             + " ?ident pronom:Identifier \"$PUID$\" }";
-        statements.put(FORMAT_DISCLOSURE, statement);
+        statements.put(MeasureConstants.FORMAT_DISCLOSURE, statement);
 
         // p2 is used to add information about ubiquity
         statement = "SELECT ?d  WHERE {  " + "?format p2-additional:ubiquity ?u . " + "?u rdfs:comment ?d . "
             + "?format pronom:IsSupertypeOf ?pronomformat . " + "?pronomformat pronom:FileFormatIdentifier ?ident ."
             + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
-        statements.put(FORMAT_UBIQUITY, statement);
+        statements.put(MeasureConstants.FORMAT_UBIQUITY, statement);
 
         // p2 is used to add information about ubiquity
         statement = "SELECT ?d  WHERE {  " + "?format p2-additional:complexity ?u . " + "?u rdfs:comment ?d . "
             + "?format pronom:IsSupertypeOf ?pronomformat . " + "?pronomformat pronom:FileFormatIdentifier ?ident ."
             + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
-        statements.put(FORMAT_COMPLEXITY, statement);
+        statements.put(MeasureConstants.FORMAT_COMPLEXITY, statement);
 
         statement = "SELECT ?d  WHERE {  " + "?format p2-additional:documentation_quality ?q . "
             + "?q rdfs:comment ?d . " + "?format  pronom:FileFormatIdentifier ?ident ."
             + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" " + " }";
-        statements.put(FORMAT_DOCUMENTATION_QUALITY, statement);
+        statements.put(MeasureConstants.FORMAT_DOCUMENTATION_QUALITY, statement);
 
         // pronom(!) is used to add information about stability
         statement = "SELECT ?d  WHERE {  " + "?format pronom:stability ?u . " + "?u rdfs:comment ?d . "
             + "?format pronom:IsSupertypeOf ?pronomformat . " + "?pronomformat pronom:FileFormatIdentifier ?ident ."
             + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
-        statements.put(FORMAT_STABILITY, statement);
+        statements.put(MeasureConstants.FORMAT_STABILITY, statement);
 
         /**
          * we use the same query for information on rights, and select the
@@ -265,10 +269,10 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "?u rdfs:comment ?d . " + "?format pronom:IsSupertypeOf ?pronomformat . "
             + "?pronomformat pronom:FileFormatIdentifier ?ident ." + "?ident pronom:IdentifierType \"PUID\" ."
             + "?ident pronom:Identifier \"$PUID$\" }";
-        statements.put(FORMAT_LICENSE, selectRights);
+        statements.put(MeasureConstants.FORMAT_LICENSE, selectRights);
 
         // pronom(!) is used to add information about rights!
-        statements.put(FORMAT_SUSTAINABILITY_RIGHTS, selectRights);
+        statements.put(MeasureConstants.FORMAT_SUSTAINABILITY_RIGHTS, selectRights);
     }
 
 }

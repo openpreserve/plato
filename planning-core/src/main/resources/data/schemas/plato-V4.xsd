@@ -502,7 +502,6 @@
 	</xs:complexType>
 	<xs:complexType name="executablePlanDefinitionType">
 		<xs:sequence>
-			<xs:element name="eprintsPlan" type="eprintsPlanType" minOccurs="0"/>
 			<xs:element name="objectPath" type="maxLengthString" minOccurs="0"/>
 			<xs:element name="toolParameters" type="maxLengthString" minOccurs="0"/>
 			<xs:element name="triggersConditions" type="maxLengthString" minOccurs="0"/>

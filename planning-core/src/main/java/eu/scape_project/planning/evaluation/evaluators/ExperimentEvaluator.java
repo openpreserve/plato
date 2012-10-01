@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
+import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
@@ -69,10 +70,12 @@ public class ExperimentEvaluator implements IObjectEvaluator {
      * 
      */
     static {
-        propertyToMeasuredValues.put(OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE, "performance:time:used");
+        propertyToMeasuredValues.put(MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE,
+            "performance:time:used");
         // propertyToMeasuredValues.put(OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB,
         // "performance:time:elapsedPerMB");
-        propertyToMeasuredValues.put(OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE, "performance:memory:gross");
+        propertyToMeasuredValues.put(MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE,
+            "performance:memory:gross");
     }
 
     /**
@@ -96,7 +99,7 @@ public class ExperimentEvaluator implements IObjectEvaluator {
     public Value evaluate(Alternative alternative, SampleObject sample, DigitalObject result, String measureUri) {
         double sampleSize = sample.getData().getSize() * (1024 * 1024);
 
-        if (OBJECT_ACTION_ACTIVITYLOGGING_AMOUNT.equals(measureUri)) {
+        if (MeasureConstants.OBJECT_ACTION_ACTIVITYLOGGING_AMOUNT.equals(measureUri)) {
             Map<SampleObject, DetailedExperimentInfo> detailedInfo = alternative.getExperiment().getDetailedInfo();
             DetailedExperimentInfo detailedExperimentInfo = detailedInfo.get(sample);
             if ((detailedExperimentInfo != null) && (detailedExperimentInfo.getProgramOutput() != null)) {
@@ -106,7 +109,7 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 return v;
             }
             return null;
-        } else if (OBJECT_ACTION_ACTIVITYLOGGING_FORMAT.equals(measureUri)) {
+        } else if (MeasureConstants.OBJECT_ACTION_ACTIVITYLOGGING_FORMAT.equals(measureUri)) {
             Map<SampleObject, DetailedExperimentInfo> detailedInfo = alternative.getExperiment().getDetailedInfo();
             DetailedExperimentInfo detailedExperimentInfo = detailedInfo.get(sample);
             if ((detailedExperimentInfo != null) && (detailedExperimentInfo.getProgramOutput() != null)) {
@@ -116,9 +119,9 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 return v;
             }
             return null;
-        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(measureUri)) {
+        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample,
-                OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
+                MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();
@@ -132,9 +135,9 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 value.setComment("extracted from experiment details");
                 return value;
             }
-        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB.equals(measureUri)) {
+        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample,
-                OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
+                MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();
@@ -146,9 +149,9 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 value.setComment("extracted from experiment details");
                 return value;
             }
-        } else if (OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERMB.equals(measureUri)) {
+        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERMB.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample,
-                OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE);
+                MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();

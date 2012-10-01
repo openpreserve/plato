@@ -4,7 +4,8 @@
    ==========================================================
    Changes:
       * measure and attributes based on the new quality model 
-        replace criterion, measureableproperty, and metric 
+        replace criterion, measureableproperty, and metric
+      * remove eprintsPlan 
       
    ==========================================================
 
@@ -68,6 +69,13 @@
 	<xsl:copy-of xmlns="http://ifs.tuwien.ac.at/dp/plato" select="exsl:node-set($criteriaText)/lookup:criteria/lookup:criterion[@ID=$critID]/*" />
 	
  -->	
+</xsl:template>
+
+<!-- remove eprintsPlan -->
+<xsl:template match="plato:eprintsPlan">
+<xsl:comment>
+	<xsl:copy-of select="."></xsl:copy-of> 
+</xsl:comment>
 </xsl:template>
 
 </xsl:stylesheet>
