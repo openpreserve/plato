@@ -17,6 +17,7 @@
 		<h1>Set Importance Factors</h1>
 
 		<h:form id="mainform">
+			<a4j:queue ignoreDupResponses="true" requestDelay="100" />
 			<h:inputText id="changedflag" value="#{setImportanceFactors.changed}"
 				style="display:none" />
 
@@ -67,13 +68,15 @@
 						</div>
 					</div>
 					<div id="treecontent" style="clear: both; padding-top: 5px;">
+						<h:outputScript library="js" name="plan/setimportancefactors.js"
+							target="head" />
 						<rich:tree id="richTree" selectionType="client" immediate="true"
 							var="node">
 							<rich:treeModelRecursiveAdaptor
 								roots="#{setImportanceFactors.focusedNode}"
 								nodes="#{node.children}" leaf="#{node.leaf}" id="treeAdaptor">
 								<rich:treeNode icon="" iconLeaf=""
-									highlightedClass="highlighted" expanded="false">
+									highlightedClass="highlighted" expanded="false" id="treeNode">
 									<div class="treetable_cell"
 										style="height: 25px; width: 200px; min-width: 180px; text-align: left">
 										<h:outputText id="name" value="#{node.name}" />
@@ -89,21 +92,26 @@
 												style="width: 98%;" minValue="0" maxValue="1" step="0.01"
 												showInput="true" showToolTip="true"
 												enableManualInput="false" disabled="#{!node.child}"
-												id="test">
+												id="weightSlider">
+
 												<a4j:ajax
 													disabled="#{!setImportanceFactors.autoBalancingEnabled}"
-													event="mouseup" listener="#{node.balanceWeights}"
-													render="richTree" />
+													event="change"
+													data="#{setImportanceFactors.currentBalancedValues}"
+													listener="#{setImportanceFactors.balanceNode(node, node.weight)}"
+													oncomplete="updateBalancedNodeData(#{rich:component('treeNode')}, event.data);"
+													render="totalWeight" />
 											</rich:inputNumberSlider>
 										</div>
 
 										<div class="treetable_cell"
 											style="width: 60px; text-align: center;">
 											<!-- Total Weight -->
-											<h:outputText value="#{node.totalWeight}">
+											<h:outputText value="#{node.totalWeight}" id="totalWeight">
 												<f:convertNumber maxFractionDigits="2" />
 											</h:outputText>
 										</div>
+
 										<div class="treetable_cell"
 											style="width: 60px; text-align: center;">
 											<!-- Lock -->

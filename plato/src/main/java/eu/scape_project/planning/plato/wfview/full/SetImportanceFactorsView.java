@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -49,7 +50,7 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 public class SetImportanceFactorsView extends AbstractView {
     private static final long serialVersionUID = 1L;
 
-    private TreeNode currentNode = null;
+    private List<WeightData> currentBalancedValues = new ArrayList<WeightData>();
 
     /**
      * Helper class mapping alternative names to transformed and aggregated
@@ -75,11 +76,35 @@ public class SetImportanceFactorsView extends AbstractView {
         }
     }
 
+    public class WeightData implements Serializable {
+        private static final long serialVersionUID = 8390778358195956443L;
+
+        private double weight;
+
+        private double totalWeight;
+
+        public double getWeight() {
+            return weight;
+        }
+
+        public void setWeight(double weight) {
+            this.weight = weight;
+        }
+
+        public double getTotalWeight() {
+            return totalWeight;
+        }
+
+        public void setTotalWeight(double totalWeight) {
+            this.totalWeight = totalWeight;
+        }
+    }
+
     @Inject
     private SetImportanceFactors setImportanceFactors;
 
     /**
-     * The currently selected root node
+     * The currently selected root node.
      */
     private List<TreeNode> focusedNode;
 
@@ -158,23 +183,27 @@ public class SetImportanceFactorsView extends AbstractView {
         return criterionResultMap;
     }
 
-    /**
-     * Sets the current node.
-     * 
-     * @param currentNode
-     *            the current node
-     */
-    private void setCurrentNode(TreeNode currentNode) {
-        this.currentNode = currentNode;
-    }
+    public void balanceNode(TreeNode node, double weight) {
 
-    /**
-     * Balances weights for the current node.
-     */
-    public void balanceWeights() {
-        if (currentNode != null) {
-            currentNode.balanceWeights();
-            currentNode = null;
+        currentBalancedValues.clear();
+
+        node.balanceWeights();
+        if (node.getParent() != null) {
+            for (TreeNode child : node.getParent().getChildren()) {
+                WeightData weightData = new WeightData();
+                weightData.setWeight(child.getWeight());
+                weightData.setTotalWeight(child.getTotalWeight());
+                currentBalancedValues.add(weightData);
+            }
         }
     }
+
+    public List<WeightData> getCurrentBalancedValues() {
+        return currentBalancedValues;
+    }
+
+    public void setCurrentBalancedValues(List<WeightData> currentBalancedValues) {
+        this.currentBalancedValues = currentBalancedValues;
+    }
+
 }
