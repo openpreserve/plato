@@ -15,7 +15,6 @@ import javax.xml.parsers.SAXParser;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.digester3.CallMethodRule;
 import org.apache.commons.digester3.Digester;
-import org.apache.commons.digester3.NodeCreateRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +82,6 @@ import eu.scape_project.planning.xml.plan.ChangeLogFactory;
 import eu.scape_project.planning.xml.plan.EnumConverter;
 import eu.scape_project.planning.xml.plan.ExperimentWrapper;
 import eu.scape_project.planning.xml.plan.GoDecisionFactory;
-import eu.scape_project.planning.xml.plan.NodeContentWrapper;
 import eu.scape_project.planning.xml.plan.OrdinalTransformerMappingFactory;
 import eu.scape_project.planning.xml.plan.PlanStateFactory;
 import eu.scape_project.planning.xml.plan.RecommendationWrapper;
@@ -651,6 +649,13 @@ public class PlanParser {
         // Executable plan definition
         digester.addObjectCreate("*/plan/executablePlan", ExecutablePlanDefinition.class);
         digester.addSetProperties("*/plan/executablePlan");
+        digester.addCallMethod("*/plan/executablePlan/objectPath", "setObjectPath", 0);
+        digester.addCallMethod("*/plan/executablePlan/toolParameters", "setToolParameters", 0);
+        digester.addCallMethod("*/plan/executablePlan/triggersConditions", "setTriggersConditions", 0);
+        digester.addCallMethod("*/plan/executablePlan/validateQA", "setValidateQA", 0);
+        PlanParser.addCreateUpload(digester, "*/plan/executablePlan/workflow", "setT2flowExecutablePlan",
+            DigitalObject.class);
+        
         digester.addSetNext("*/plan/executablePlan", "setExecutablePlanDefinition");
 
         //
@@ -660,47 +665,43 @@ public class PlanParser {
         // the
         // same order as defined
         // first create the wrapper
-        digester.addObjectCreate("*/plan/executablePlan/planWorkflow", NodeContentWrapper.class);
-        // then an element for workflowConf
-        digester.addRule("*/plan/executablePlan/planWorkflow/workflowConf", new NodeCreateRule());
-
-        // CallMethod and SetNext rules are called at closing element-tags,
-        // (last
-        // in - first out!)
-
-        CallMethodRule rr = new CallMethodRule(1, "setNodeContent", 2);
-        digester.addRule("*/plan/executablePlan/planWorkflow/workflowConf", rr);
-        // right below the wrapper is an instance of
-        // ExecutablePlanDefinition
-        digester.addCallParam("*/plan/executablePlan/planWorkflow/workflowConf", 0, 1);
-        // provide the name of the setter method
-        digester.addObjectParam("*/plan/executablePlan/planWorkflow/workflowConf", 1, "setExecutablePlan");
-
-        // the generated node is not accessible as CallParam (why?!?), but
-        // available for addSetNext
-        digester.addSetNext("*/plan/executablePlan/planWorkflow/workflowConf", "setNode");
-
-        //
-        // Import EPrints executable plan if present
-        //
-        digester.addObjectCreate("*/plan/executablePlan/eprintsPlan", NodeContentWrapper.class);
-        // then an element for workflowConf
-        digester.addRule("*/plan/executablePlan/eprintsPlan", new NodeCreateRule());
-
-        CallMethodRule rr2 = new CallMethodRule(1, "setNodeContentEPrintsPlan", 2);
-        digester.addRule("*/plan/executablePlan/eprintsPlan", rr2);
-        // right below the wrapper is an instance of
-        // ExecutablePlanDefinition
-        digester.addCallParam("*/plan/executablePlan/eprintsPlan", 0, 1);
-        // provide the name of the setter method
-        digester.addObjectParam("*/plan/executablePlan/eprintsPlan", 1, "setEprintsExecutablePlan");
+//        digester.addObjectCreate("*/plan/executablePlan/planWorkflow", NodeContentWrapper.class);
+//        // then an element for workflowConf
+//        digester.addRule("*/plan/executablePlan/planWorkflow/workflowConf", new NodeCreateRule());
+//
+//        // CallMethod and SetNext rules are called at closing element-tags,
+//        // (last
+//        // in - first out!)
+//
+//        CallMethodRule rr = new CallMethodRule(1, "setNodeContent", 2);
+//        digester.addRule("*/plan/executablePlan/planWorkflow/workflowConf", rr);
+//        // right below the wrapper is an instance of
+//        // ExecutablePlanDefinition
+//        digester.addCallParam("*/plan/executablePlan/planWorkflow/workflowConf", 0, 1);
+//        // provide the name of the setter method
+//        digester.addObjectParam("*/plan/executablePlan/planWorkflow/workflowConf", 1, "setExecutablePlan");
+//
+//        // the generated node is not accessible as CallParam (why?!?), but
+//        // available for addSetNext
+//        digester.addSetNext("*/plan/executablePlan/planWorkflow/workflowConf", "setNode");
+//
+//        //
+//        // Import EPrints executable plan if present
+//        //
+//        digester.addObjectCreate("*/plan/executablePlan/eprintsPlan", NodeContentWrapper.class);
+//        // then an element for workflowConf
+//        digester.addRule("*/plan/executablePlan/eprintsPlan", new NodeCreateRule());
+//
+//        CallMethodRule rr2 = new CallMethodRule(1, "setNodeContentEPrintsPlan", 2);
+//        digester.addRule("*/plan/executablePlan/eprintsPlan", rr2);
+//        // right below the wrapper is an instance of
+//        // ExecutablePlanDefinition
+//        digester.addCallParam("*/plan/executablePlan/eprintsPlan", 0, 1);
+//        // provide the name of the setter method
+//        digester.addObjectParam("*/plan/executablePlan/eprintsPlan", 1, "setEprintsExecutablePlan");
 
         // digester.addSetNext("*/plan/executablePlan/eprintsPlan", "setNode");
 
-        digester.addCallMethod("*/plan/executablePlan/objectPath", "setObjectPath", 0);
-        digester.addCallMethod("*/plan/executablePlan/toolParameters", "setToolParameters", 0);
-        digester.addCallMethod("*/plan/executablePlan/triggersConditions", "setTriggersConditions", 0);
-        digester.addCallMethod("*/plan/executablePlan/validateQA", "setValidateQA", 0);
 
         // Plan definition
         digester.addObjectCreate("*/plan/planDefinition", PlanDefinition.class);

@@ -57,10 +57,6 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     @Column(length = 2000000)
     protected String executablePlan;
 
-    @Length(max = 2000000)
-    @Column(length = 2000000)
-    protected String eprintsExecutablePlan;
-
     @OneToOne(cascade = CascadeType.ALL)
     protected DigitalObject t2flowExecutablePlan;
 
@@ -70,14 +66,6 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
 
     public void setExecutablePlan(String executablePlan) {
         this.executablePlan = executablePlan;
-    }
-
-    public String getEprintsExecutablePlan() {
-        return eprintsExecutablePlan;
-    }
-
-    public void setEprintsExecutablePlan(String eprintsExecutablePlan) {
-        this.eprintsExecutablePlan = eprintsExecutablePlan;
     }
 
     @OneToOne(cascade = CascadeType.ALL)

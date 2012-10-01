@@ -97,21 +97,23 @@ public class CreateExecutablePlanView extends AbstractView {
     public List<String> getCollectionProfileElements() {
 
         DigitalObject profile = plan.getSampleRecordsDefinition().getCollectionProfile().getProfile();
-
-        try {
-            DigitalObject datafilledProfile = digitalObjectManager.getCopyOfDataFilledDigitalObject(profile);
-
-            C3POProfileParser parser = new C3POProfileParser();
-            parser.read(new ByteArrayInputStream(datafilledProfile.getData().getRealByteStream().getData()), false);
-
-            List<String> elements = parser.getObjectIdentifiers();
-            return elements;
-        } catch (StorageException e) {
-            facesMessages.addError("Could not load collection profile.");
-        } catch (ParserException e) {
-            facesMessages.addError("Could not parse collection profile.");
+        if (profile != null) {
+            try {
+                DigitalObject datafilledProfile = digitalObjectManager.getCopyOfDataFilledDigitalObject(profile);
+    
+                C3POProfileParser parser = new C3POProfileParser();
+                parser.read(new ByteArrayInputStream(datafilledProfile.getData().getRealByteStream().getData()), false);
+    
+                List<String> elements = parser.getObjectIdentifiers();
+                return elements;
+            } catch (StorageException e) {
+                facesMessages.addError("Could not load collection profile.");
+            } catch (ParserException e) {
+                facesMessages.addError("Could not parse collection profile.");
+            }
+        } else {
+            log.debug("No profile defined so far.");
         }
-
         return null;
     }
 

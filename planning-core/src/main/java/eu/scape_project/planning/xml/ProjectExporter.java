@@ -28,11 +28,22 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+
+import sun.misc.BASE64Encoder;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
 import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.ExecutablePlanDefinition;
 import eu.scape_project.planning.model.Experiment;
 import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.Plan;
@@ -60,17 +71,6 @@ import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.ParserException;
 import eu.scape_project.planning.xml.plan.TimestampFormatter;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * Static methods providing means to export projects to XML using dom4j.
@@ -866,59 +866,25 @@ public class ProjectExporter implements Serializable {
             addSubTree(p.getTree().getRoot(), tree);
         }
 
+        // add ExecutablePlanDefinition
+        Element executablePlanDef = projectNode.addElement("executablePlan");
+        ExecutablePlanDefinition plan = p.getExecutablePlanDefinition();
+        addStringElement(executablePlanDef, "objectPath", plan.getObjectPath());
+        addStringElement(executablePlanDef, "toolParameters", plan.getToolParameters());
+        addStringElement(executablePlanDef, "triggersConditions", plan.getTriggersConditions());
+        addStringElement(executablePlanDef, "validateQA", plan.getValidateQA());
+        addUpload(plan.getT2flowExecutablePlan(), executablePlanDef, "workflow", encoder,
+            addDigitalObjectData);
+        addChangeLog(plan.getChangeLog(), executablePlanDef);
+
         // Preservation action plan
         Element preservationActionPlan = projectNode.addElement("preservationActionPlan");
+
+        // FIXME generating the PAP should not happen here
         addPreservationActionPlanData(p.getSampleRecordsDefinition().getCollectionProfile(), preservationActionPlan,
             addDigitalObjectData);
         addPreservationActionPlanT2flow(p.getExecutablePlanDefinition().getT2flowExecutablePlan(),
             preservationActionPlan, addDigitalObjectData);
-
-        // Element executablePlan = projectNode.addElement("executablePlan");
-        //
-        // try {
-        // if (p.getExecutablePlanDefinition().getExecutablePlan() != null) {
-        // Document execPlan =
-        // DocumentHelper.parseText(p.getExecutablePlanDefinition().getExecutablePlan());
-        // Element execPlanRoot = execPlan.getRootElement();
-        // if (execPlanRoot.hasContent()){
-        // Element planWorkflow = executablePlan.addElement("planWorkflow");
-        // planWorkflow.add(execPlanRoot);
-        // }
-        // }
-        //
-        // if (p.getExecutablePlanDefinition().getEprintsExecutablePlan() !=
-        // null) {
-        // Document execPlan =
-        // DocumentHelper.parseText(p.getExecutablePlanDefinition().getEprintsExecutablePlan());
-        // Element execPlanRoot = execPlan.getRootElement();
-        // if (execPlanRoot.hasContent()) {
-        // //Element planWorkflow = executablePlan.addElement("eprintsPlan");
-        // executablePlan.add(execPlanRoot);
-        // }
-        // }
-        //
-        // } catch (DocumentException e) {
-        // // if the stored exec. plan is invalid for some reason, we leave the
-        // plan out.
-        // // TODO: HK this should no happen as we write the xml ourselves, but
-        // still,
-        // // we need a mechanism here to prevent the export if the xml is
-        // invalid.
-        // logger.error(e.getMessage(),e);
-        // }
-        //
-        //
-        // // TODO HK how does this here relate to the upper try-catch block and
-        // the exception??
-        // // Smells like a hack!
-        // ExecutablePlanDefinition plan = p.getExecutablePlanDefinition();
-        // addStringElement(executablePlan, "objectPath", plan.getObjectPath());
-        // addStringElement(executablePlan, "toolParameters",
-        // plan.getToolParameters());
-        // addStringElement(executablePlan, "triggersConditions",
-        // plan.getTriggersConditions());
-        // addStringElement(executablePlan, "validateQA", plan.getValidateQA());
-        // addChangeLog(plan.getChangeLog(), executablePlan);
 
         Element planDef = projectNode.addElement("planDefinition");
         PlanDefinition pdef = p.getPlanDefinition();
@@ -1130,14 +1096,16 @@ public class ProjectExporter implements Serializable {
             // p.getSampleRecordsDefinition().getCollectionProfile().getCollectionID());
 
             // Objects
+            Element objects = parent.addElement("objects");
+            
             if (collectionProfile.getProfile() != null && collectionProfile.getProfile().isDataExistent()) {
-                Element objects = parent.addElement("objects");
 
                 DigitalObject profile = collectionProfile.getProfile();
 
-                if (!addDigitalObjectData) {
-                    objects.setText(String.valueOf(profile.getId()));
-                } else {
+// TODO: check: this does not make sense, does it?                 
+//                if (!addDigitalObjectData) {
+//                    objects.setText(String.valueOf(profile.getId()));
+//                } else {
                     C3POProfileParser parser = new C3POProfileParser();
                     try {
                         parser.read(new ByteArrayInputStream(profile.getData().getData()), false);
@@ -1150,7 +1118,7 @@ public class ProjectExporter implements Serializable {
                     } catch (ParserException e) {
                         logger.error("Error parsing collection profile.", e);
                     }
-                }
+//                }
             }
         }
         return collection;

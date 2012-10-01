@@ -506,28 +506,8 @@
 			<xs:element name="toolParameters" type="maxLengthString" minOccurs="0"/>
 			<xs:element name="triggersConditions" type="maxLengthString" minOccurs="0"/>
 			<xs:element name="validateQA" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="workflow" type="digitalObjectType" minOccurs="0"/>
 			<xs:element name="changelog" type="changeLogType"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="eprintsPlanType">
-		<xs:sequence>
-			<xs:element name="tool">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="toolIdentifier">
-							<xs:complexType>
-								<xs:attribute name="uri" type="xs:string"/>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="parameters">
-							<xs:complexType>
-								<xs:attribute name="toolParameters" type="xs:string"/>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="targetFormat" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="planDefinitionType">
