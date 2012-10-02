@@ -25,6 +25,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sun.misc.BASE64Encoder;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
@@ -55,19 +67,6 @@ import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.model.util.FloatFormatter;
 import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.xml.plan.TimestampFormatter;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * Static methods providing means to export projects to XML using dom4j.
