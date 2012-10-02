@@ -92,7 +92,6 @@ public class ValidatePlanView extends AbstractView {
         log.debug("initialising validatePlan");
 
         planetsExecutablePlanPrettyFormat = "";
-        eprintsExecutablePlanPrettyFormat = "";
 
         this.acceptableAlternatives.clear();
 
@@ -122,8 +121,6 @@ public class ValidatePlanView extends AbstractView {
         }
 
         planetsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition().getExecutablePlan());
-        eprintsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition()
-            .getEprintsExecutablePlan());
 
         repositoryUsername = user.getUserGroup().getRepository().getUsername();
     }
@@ -195,11 +192,6 @@ public class ValidatePlanView extends AbstractView {
      */
     private String planetsExecutablePlanPrettyFormat = "";
 
-    /**
-     * for display on the page.
-     */
-    private String eprintsExecutablePlanPrettyFormat = "";
-
     private IAggregator sumAggregator = new WeightedSum();
 
     private Map<Trigger, String> selectedTriggers;
@@ -226,10 +218,6 @@ public class ValidatePlanView extends AbstractView {
 
     public String getPlanetsExecutablePlanPrettyFormat() {
         return planetsExecutablePlanPrettyFormat;
-    }
-
-    public String getEprintsExecutablePlanPrettyFormat() {
-        return eprintsExecutablePlanPrettyFormat;
     }
 
     public IAggregator getSumAggregator() {
