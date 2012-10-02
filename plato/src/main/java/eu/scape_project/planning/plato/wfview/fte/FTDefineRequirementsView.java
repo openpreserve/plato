@@ -70,7 +70,7 @@ public class FTDefineRequirementsView extends AbstractView {
     private List<TreeNode> treeRoots;
 
     public FTDefineRequirementsView() {
-        currentPlanState = PlanState.FTE_INITIALISED;
+        currentPlanState = PlanState.CREATED;
         name = "Define Requirements";
         viewUrl = "/fte/FTdefinerequirements.jsf";
         ftTemplates = new ArrayList<FastTrackTemplate>();

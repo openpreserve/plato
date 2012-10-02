@@ -29,7 +29,7 @@
  	xmlns:exsl="http://exslt.org/common"
     extension-element-prefixes="exsl"    
     xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd"
-    exclude-result-prefixes="java xalan exsl">
+    exclude-result-prefixes="java xalan exsl lookup">
 
 <xsl:output method="xml" indent="yes" encoding="UTF-8" />
 <xsl:preserve-space elements="*"/>
@@ -42,11 +42,41 @@
 </xsl:template>
 
 <xsl:template match="plato:plans">
-	<xsl:element name="{local-name()}" xmlns="http://ifs.tuwien.ac.at/dp/plato" namespace="http://ifs.tuwien.ac.at/dp/plato" >
-		<xsl:attribute name="xsi:schemaLocation">http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd</xsl:attribute>
-		<xsl:attribute name="version">4.0.0</xsl:attribute>
+	<plans xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.0">
     	<xsl:apply-templates/>
-    </xsl:element>
+    </plans>
+</xsl:template>
+
+<xsl:template match="plato:properties">
+	<xsl:element name="properties" namespace="http://ifs.tuwien.ac.at/dp/plato">
+	<xsl:apply-templates select="@*"/>
+	<xsl:attribute name="planType" >
+	<xsl:choose>
+		<xsl:when test="./plato:state/@value > 15">FTE</xsl:when>
+		<xsl:otherwise>FULL</xsl:otherwise>
+	</xsl:choose>	
+	</xsl:attribute>
+	<xsl:apply-templates select="*|text()"></xsl:apply-templates>
+	</xsl:element> 
+</xsl:template>
+<xsl:template match="plato:properties/plato:state">
+	<xsl:choose>
+	<xsl:when test="@value = 16">
+	<state value="0"></state>
+	</xsl:when>
+	<xsl:when test="@value = 17">
+	<state value="4"></state>
+	</xsl:when>
+	<xsl:when test="@value = 18">
+	<state value="9"></state>
+	</xsl:when>
+	<xsl:when test="@value = 19">
+	<state value="12"></state>
+	</xsl:when>
+	<xsl:otherwise>
+	<xsl:copy-of select="."/>
+	</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
 <xsl:variable name="criteriaText">
@@ -63,6 +93,10 @@
 </xsl:variable>
 
 <xsl:template match="plato:criterion">
+<xsl:comment>
+	<xsl:copy-of select="."></xsl:copy-of> 
+</xsl:comment>
+
 <!-- 
     <xsl:variable name="critID" select="./@ID"/>
     criterion: <xsl:value-of select="$critID"></xsl:value-of>

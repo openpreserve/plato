@@ -61,6 +61,15 @@
 					</archive>
 					<webResources>
 						<resource>
+							<directory>${basedir}/../planning-core/src/main/resources/data</directory>
+							<filtering>false</filtering>
+							<targetPath>data</targetPath>
+							<includes>
+								<include>**/schemas/*.xsd</include>
+								<include>**/xslt/V*.xsl</include>
+							</includes>
+						</resource>
+						<resource>
 							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
 							<filtering>true</filtering>
 							<targetPath>WEB-INF</targetPath>
@@ -68,6 +77,7 @@
 								<include>**/picketlink*.xml</include>
 							</includes>
 						</resource>
+						
 					</webResources>
 				</configuration>
 			</plugin>

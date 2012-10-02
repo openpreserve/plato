@@ -416,6 +416,7 @@
 
         <div class="center-position">
             <ui:include src="/plato/shared/resultTree.xhtml">
+               <ui:param name="treeHelper" value="#{ftAnalyseResults.treeHelper}"/>
                <ui:param name="rootNode" value="#{ftAnalyseResults.aggMultResultNodes}" />
                <ui:param name="alternatives" value="#{ftAnalyseResults.plan.alternativesDefinition.consideredAlternatives}" />
             </ui:include>
@@ -460,6 +461,7 @@
             
             <a4j:outputPanel layout="block" rendered="#{ftAnalyseResults.showAllConsideredAlternativesForWeightedSum or not empty ftAnalyseResults.acceptableAlternatives}">
                 <ui:include src="/plato/shared/resultTree.xhtml">
+	               <ui:param name="treeHelper" value="#{ftAnalyseResults.treeHelper}"/>
                    <ui:param name="rootNode" value="#{ftAnalyseResults.aggSumResultNodes}" />
                    <ui:param name="alternatives" value="#{ftAnalyseResults.weightedSumResultTreeShownAlternatives}" />
                 </ui:include>

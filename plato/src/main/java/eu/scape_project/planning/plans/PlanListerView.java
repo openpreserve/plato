@@ -59,6 +59,8 @@ public class PlanListerView implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
+    
+    private List<String> transformations;
 
     /**
      * Variable determining the plan selection which should be shown to the
@@ -87,6 +89,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String listAll() {
+        resetTransformations();
         projectSelection = WhichProjects.ALLPROJECTS;
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
@@ -94,6 +97,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String listFTEProjects() {
+        resetTransformations();
         projectSelection = WhichProjects.FTEPROJECTS;
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
@@ -101,6 +105,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String listAllProjects() {
+        resetTransformations();
         projectSelection = WhichProjects.ALLPROJECTS;
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
@@ -108,6 +113,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String listMyProjects() {
+        resetTransformations();
         projectSelection = WhichProjects.MYPROJECTS;
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
@@ -115,6 +121,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String listPublicProjects() {
+        resetTransformations();
         projectSelection = WhichProjects.PUBLICPROJECTS;
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
@@ -122,6 +129,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String listPublicFTEResults() {
+        resetTransformations();
         projectSelection = WhichProjects.PUBLICFTEPROJECTS;
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
@@ -129,6 +137,7 @@ public class PlanListerView implements Serializable {
     }
 
     public String unlock(final int pid) {
+        resetTransformations();
         planManager.unlockPlan(pid);
         list = planManager.list(projectSelection);
         return null;
@@ -141,24 +150,15 @@ public class PlanListerView implements Serializable {
         tmp.deleteOnExit();
         FileUtils.writeToFile(item.getInputStream(), new FileOutputStream(tmp));
         try {
+            resetTransformations();
             projectImporter.importPlans(tmp);
             tmp.delete();
 
             List<String> appliedTransformations = projectImporter.getAppliedTransformations();
-
+            transformations = appliedTransformations;
             if (!appliedTransformations.isEmpty()) {
-                StringBuffer msg = new StringBuffer();
-                msg.append("The following transformations have been applied:<br/><br/>");
-                msg.append("<ul>");
-                for (String xsl : appliedTransformations) {
-
-                    msg.append("<li>").append("<a href='/data/xslt/" + xsl + "' target='_blank'>" + xsl + "</a>")
-                        .append("</li>");
-                }
-                msg.append("</ul>");
                 facesMessages.addInfo(null, 
-                    "Your XML file was outdated, therefore it had to be migrated to the current Plato XML format.",
-                    msg.toString());
+                    "Your XML file was outdated, therefore it had to be migrated to the current Plato Schema.");
             }
 
             list = planManager.list(projectSelection);
@@ -167,6 +167,14 @@ public class PlanListerView implements Serializable {
 
             facesMessages.addError("Failed to upload plan: " + item.getName());
         }
+    }
+    
+    private void resetTransformations(){
+        transformations = null;
+    }
+    
+    public List<String> getTransformations() {
+        return transformations;
     }
 
     // --------------- getter/setter ---------------

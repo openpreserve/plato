@@ -74,8 +74,8 @@ public class FTDefineRequirements extends AbstractWorkflowStep {
     private List<TreeNode> nodesToDelete;
 
     public FTDefineRequirements() {
-        this.requiredPlanState = PlanState.FTE_INITIALISED;
-        this.correspondingPlanState = PlanState.FTE_REQUIREMENTS_DEFINED;
+        this.requiredPlanState = PlanState.CREATED;
+        this.correspondingPlanState = PlanState.TREE_DEFINED;
         nodesToDelete = new ArrayList<TreeNode>();
     }
 

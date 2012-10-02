@@ -47,7 +47,7 @@
 						<f:facet name="header">
 						   Type
 						</f:facet>
-						#{p.state.fasttrack? 'FTE' : 'Full'}
+						#{p.planType.full ? 'Full' : 'FTE'}
 					</h:column>
 					<h:column>
 						<f:facet name="header">
@@ -91,7 +91,17 @@
 						<br />
 					</h:column>
 				</h:dataTable>
+				<a4j:outputPanel layout="block" id="transformationInfo"  rendered="#{not empty(planLister.transformations)}">				
+				<b>The following transformations have been applied to Your plan:</b>
+			    <ul>
+			        <ui:repeat value="#{planLister.transformations}" var="transformation">
+			            <li><h:outputLink  value="data/xslt/#{transformation}" target="_blank">#{transformation}</h:outputLink> </li>
+			        </ui:repeat>
+			    </ul>
+				</a4j:outputPanel>				
+				
 		    </a4j:outputPanel>
+		    
 		</h:form>
 		
 		<rich:collapsiblePanel id="uploadPanel" header="Upload a plan" expanded="false" switchType="client" style="margin-top: 40px; width: 500px;">

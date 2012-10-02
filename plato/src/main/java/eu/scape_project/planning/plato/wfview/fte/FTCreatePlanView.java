@@ -28,6 +28,7 @@ import javax.inject.Named;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
 
@@ -80,6 +81,7 @@ public class FTCreatePlanView implements Serializable{
 		
 		plan = new Plan();
 		
+                plan.getPlanProperties().setPlanType(PlanType.FTE);
 		plan.getPlanProperties().setAuthor(user.getFullName());
 		plan.getPlanProperties().setPrivateProject(true);
 		plan.getPlanProperties().setOwner(user.getUsername());
@@ -90,7 +92,6 @@ public class FTCreatePlanView implements Serializable{
         String identificationCode = Plan.fastTrackEvaluationPrefix + timestamp;
         plan.getProjectBasis().setIdentificationCode(identificationCode);
 		
-
         // We have to prevent the user from navigating to the step 'Load plan'
         // because the user wouldn't be able to leave this step: Going to 'Define
         // Basis' is not possible as the project hasn't been saved so far.
@@ -107,7 +108,7 @@ public class FTCreatePlanView implements Serializable{
 	 * @return
 	 */
 	public String savePlan() {
-		planManager.save(plan, PlanState.FTE_INITIALISED, plan);
+		planManager.save(plan, PlanState.CREATED, plan);
 		conversation.end();
 		return viewWorkflowManager.startWorkflow(plan.getPlanProperties().getId());
 	}

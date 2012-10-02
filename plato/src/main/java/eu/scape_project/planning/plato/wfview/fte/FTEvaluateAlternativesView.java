@@ -75,7 +75,7 @@ public class FTEvaluateAlternativesView extends AbstractView {
 
 	
 	public FTEvaluateAlternativesView() {
-    	currentPlanState = PlanState.FTE_REQUIREMENTS_DEFINED;
+    	currentPlanState = PlanState.TREE_DEFINED;
     	name = "Evaluate Alternatives";
     	viewUrl = "/fte/FTevaluatealternatives.jsf";
     	

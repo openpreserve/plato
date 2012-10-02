@@ -2,7 +2,7 @@
 <plans xmlns="http://ifs.tuwien.ac.at/dp/plato" version="4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato  http://ifs.tuwien.ac.at/dp/plato/plato-V4.0.0.xsd">
 	<plan>
 		<changelog created="2010-05-14T10:34:54" createdBy="sbauer" changed="2011-02-14T13:44:56" changedBy="becker"/>
-		<properties author="Stephan Bauer (first version: Stephan Bauer, Gi-Won Chung, Michael Kraxner, Sara Pourmanouchehri)" organization="Vienna University of Technology" name="Archiving Digital Photographs 2" privateProject="true" reportPublic="false">
+		<properties author="Stephan Bauer (first version: Stephan Bauer, Gi-Won Chung, Michael Kraxner, Sara Pourmanouchehri)" organization="Vienna University of Technology" name="Archiving Digital Photographs 2" privateProject="true" reportPublic="false" planType="FULL">
 			<state value="11"/>
 			<description>This plan is part of the analysis how raw photos can be preserved. This analysis based on an inital analysis created for the UE Digital Preservation at TU Wien.</description>
 			<owner>becker</owner>
@@ -295,26 +295,6 @@ Results are retrieved manually.</description>
 									</mappings>
 									<changelog created="2011-06-29T11:03:39" createdBy="admin" changed="2011-06-29T14:59:51" changedBy="admin"/>
 								</ordinalTransformer>
-								<criterion ID="outcome://object/image/similarity#equal">
-									<property>
-										<category>outcome:object</category>
-										<propertyId>image/similarity</propertyId>
-										<name>image: similarity</name>
-										<description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-										<evaluationScope>OUTCOME</evaluationScope>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</property>
-									<metric>
-										<metricId>equal</metricId>
-										<name>equal</name>
-										<description>Comparison of two values for equality</description>
-										<booleanScale unit="equality" restriction="Yes/No">
-											<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-										</booleanScale>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</metric>
-									<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-								</criterion>
 								<evaluation>
 									<alternative key="Adobe DNG Converter -u">
 										<booleanResult>
@@ -489,26 +469,6 @@ Results are retrieved manually.</description>
 									</thresholds>
 									<changelog created="2011-06-29T11:04:01" createdBy="admin" changed="2011-06-29T15:10:37" changedBy="admin"/>
 								</numericTransformer>
-								<criterion ID="outcome://object/image/similarity#ssimSimple">
-									<property>
-										<category>outcome:object</category>
-										<propertyId>image/similarity</propertyId>
-										<name>image: similarity</name>
-										<description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-										<evaluationScope>OUTCOME</evaluationScope>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</property>
-									<metric>
-										<metricId>ssimSimple</metricId>
-										<name>SSIM simple</name>
-										<description/>
-										<floatScale unit="SSIM">
-											<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-										</floatScale>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</metric>
-									<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-								</criterion>
 								<evaluation>
 									<alternative key="Adobe DNG Converter -u">
 										<floatResult>
@@ -683,26 +643,6 @@ Results are retrieved manually.</description>
 									</thresholds>
 									<changelog created="2011-06-29T11:04:19" createdBy="admin" changed="2011-06-29T15:11:03" changedBy="admin"/>
 								</numericTransformer>
-								<criterion ID="outcome://object/image/similarity#ssimSimpleSaturation">
-									<property>
-										<category>outcome:object</category>
-										<propertyId>image/similarity</propertyId>
-										<name>image: similarity</name>
-										<description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-										<evaluationScope>OUTCOME</evaluationScope>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</property>
-									<metric>
-										<metricId>ssimSimpleSaturation</metricId>
-										<name>SSIM simple saturation</name>
-										<description/>
-										<floatScale unit="SSIM">
-											<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-										</floatScale>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</metric>
-									<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-								</criterion>
 								<evaluation>
 									<alternative key="Adobe DNG Converter -u">
 										<floatResult>
@@ -877,26 +817,6 @@ Results are retrieved manually.</description>
 									</thresholds>
 									<changelog created="2011-06-29T11:04:30" createdBy="admin" changed="2011-06-29T15:09:28" changedBy="admin"/>
 								</numericTransformer>
-								<criterion ID="outcome://object/image/similarity#ssimSimpleHue">
-									<property>
-										<category>outcome:object</category>
-										<propertyId>image/similarity</propertyId>
-										<name>image: similarity</name>
-										<description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-										<evaluationScope>OUTCOME</evaluationScope>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</property>
-									<metric>
-										<metricId>ssimSimpleHue</metricId>
-										<name>SSIM simple hue</name>
-										<description/>
-										<floatScale unit="SSIM">
-											<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-										</floatScale>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</metric>
-									<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-								</criterion>
 								<evaluation>
 									<alternative key="Adobe DNG Converter -u">
 										<floatResult>
@@ -1068,26 +988,6 @@ Results are retrieved manually.</description>
 									</mappings>
 									<changelog created="2011-06-29T11:04:44" createdBy="admin" changed="2011-06-29T15:09:57" changedBy="admin"/>
 								</ordinalTransformer>
-								<criterion ID="outcome://object/image/similarity#equalJudged">
-									<property>
-										<category>outcome:object</category>
-										<propertyId>image/similarity</propertyId>
-										<name>image: similarity</name>
-										<description>Quantitative indication of similarity between input and ouput. A variety of distance metrics for image comparison are available.</description>
-										<evaluationScope>OUTCOME</evaluationScope>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</property>
-									<metric>
-										<metricId>equalJudged</metricId>
-										<name>Equality judgement</name>
-										<description>Judged comparison for equality</description>
-										<ordinalScale unit="" restriction="equal/unsignificant changes/significant changes">
-											<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-										</ordinalScale>
-										<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-									</metric>
-									<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-								</criterion>
 								<evaluation>
 									<alternative key="Adobe DNG Converter -u">
 										<ordinalResult>
@@ -1288,29 +1188,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:02:29" createdBy="admin" changed="2011-06-29T15:24:19" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/shutterSpeedValue#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/shutterSpeedValue</propertyId>
-												<name>image metadata: exif: shutter speed value</name>
-												<description>Shutter speed</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<floatScale unit="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</floatScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -1491,29 +1368,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:16:12" createdBy="admin" changed="2011-06-29T15:24:23" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/fnumber#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/fnumber</propertyId>
-												<name>image metadata: exif: f number</name>
-												<description>Lens f-number (ratio of lens aperture to focal length) used when the image was captured.</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<positiveFloatScale unit="" restriction="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</positiveFloatScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -1694,29 +1548,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:17:14" createdBy="admin" changed="2011-06-29T15:24:30" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/cfaPattern#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/cfaPattern</propertyId>
-												<name>image metadata: exif: cfa pattern</name>
-												<description>Color Filter Array (CFA) geometric pattern of the image sensor when one-chip color area sinsor is used.</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<freeStringScale unit="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</freeStringScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -1897,29 +1728,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:17:26" createdBy="admin" changed="2011-06-29T15:24:34" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/exposureProgram#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/exposureProgram</propertyId>
-												<name>image metadata: exif: exposure program</name>
-												<description>Class of the program used by the camera to set exposure when the picture is taken.</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<positiveIntegerScale unit="" restriction="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</positiveIntegerScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -2100,29 +1908,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:17:52" createdBy="admin" changed="2011-06-29T15:24:41" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/exposureMode#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/exposureMode</propertyId>
-												<name>image metadata: exif: exposure mode</name>
-												<description>Exposure mode</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<positiveIntegerScale unit="" restriction="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</positiveIntegerScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -2303,29 +2088,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:18:08" createdBy="admin" changed="2011-06-29T15:24:45" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/spectralSensitivity#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/spectralSensitivity</propertyId>
-												<name>image metadata: exif: spectral sensivity</name>
-												<description>Spectral sensitivity of each channel of the camera used.</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<freeStringScale unit="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</freeStringScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -2506,29 +2268,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:18:50" createdBy="admin" changed="2011-06-29T15:24:50" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/isoSpeed#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/isoSpeed</propertyId>
-												<name>image metadata: exif: iso-speed value</name>
-												<description>ISO speed</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<positiveIntegerScale unit="" restriction="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</positiveIntegerScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -2709,29 +2448,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:19:03" createdBy="admin" changed="2011-06-29T15:24:54" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/oECF#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/oECF</propertyId>
-												<name>image metadata: exif: oECF</name>
-												<description>Opto-Electric Conversion Function (OECF) specified in ISO 14524</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<freeStringScale unit="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</freeStringScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -2912,29 +2628,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:19:11" createdBy="admin" changed="2011-06-29T15:24:58" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/brightnessValue#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/brightnessValue</propertyId>
-												<name>image metadata: exif: brightness value</name>
-												<description/>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<floatScale unit="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</floatScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -3115,29 +2808,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:19:22" createdBy="admin" changed="2011-06-29T15:25:03" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/exposureBiasValue#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/exposureBiasValue</propertyId>
-												<name>image metadata: exif: exposure bias value</name>
-												<description>Brightness values measured when the image was captured, using APEX (Additive Szstem of Photographic Exposure) values.</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<floatScale unit="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</floatScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:46" changed="2012-06-13T15:14:46"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>
@@ -3318,29 +2988,6 @@ manually evaluated with Adobe Camera Raw 5.7.0.213</comment>
 											</mappings>
 											<changelog created="2011-06-29T11:19:38" createdBy="admin" changed="2011-06-29T15:25:07" changedBy="admin"/>
 										</ordinalTransformer>
-										<criterion ID="outcome://object/image/metadata/exif/pictureTakingConditions/subjectDistance#retained">
-											<property>
-												<category>outcome:object</category>
-												<propertyId>image/metadata/exif/pictureTakingConditions/subjectDistance</propertyId>
-												<name>image metadata: exif: subject distance</name>
-												<description>Distance in meters, between the frontal plane of the camera lens and the subject on which the camera was focused.</description>
-												<evaluationScope>OUTCOME</evaluationScope>
-												<positiveFloatScale unit="" restriction="">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</positiveFloatScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</property>
-											<metric>
-												<metricId>retained</metricId>
-												<name>retained</name>
-												<description>Indicator if all values in source measurement do exist in result measurement</description>
-												<booleanScale unit="retained" restriction="Yes/No">
-													<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-												</booleanScale>
-												<changelog created="2012-06-13T15:14:44" changed="2012-06-13T15:14:44"/>
-											</metric>
-											<changelog created="2012-06-13T15:14:45" changed="2012-06-13T15:14:45"/>
-										</criterion>
 										<evaluation>
 											<alternative key="Adobe DNG Converter -u">
 												<booleanResult>

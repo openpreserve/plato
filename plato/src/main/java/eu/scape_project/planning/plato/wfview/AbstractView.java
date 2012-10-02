@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.ITouchable;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
@@ -45,11 +44,7 @@ public abstract class AbstractView implements Serializable{
 
 	@Inject private Logger log;
 	
-	
-	@Inject private PlanManager planManager;
-	
 	@Inject protected FacesMessages facesMessages; 
-
 	
 	/**
 	 * The plan to modify/work on

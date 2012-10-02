@@ -43,6 +43,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.XPath;
+import org.dom4j.io.DocumentSource;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+
+import sun.misc.BASE64Encoder;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.DigitalObjectManager;
 import eu.scape_project.planning.manager.StorageException;
@@ -52,18 +61,6 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.OS;
-import eu.scape_project.planning.utils.ParserException;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.dom4j.XPath;
-import org.dom4j.io.DocumentSource;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * This class inserts test data into the persistence layer, including import of

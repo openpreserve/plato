@@ -160,6 +160,10 @@ public class DefineAlternativesView extends AbstractView {
 
             plan.removeAlternative(alternative);
             alternativeIdAllowedToRemove = -1;
+            
+            if (alternative == editableAlternative) {
+                editableAlternative = null;
+            }
 
             return;
         }

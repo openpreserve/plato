@@ -33,6 +33,7 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanDefinition;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.Policy;
 import eu.scape_project.planning.model.PolicyNode;
@@ -313,6 +314,7 @@ public class PlanParser {
         // ConvertUtils.register(new CriterionCategoryConverter(),
         // CriterionCategory.class);
         ConvertUtils.register(new EnumConverter<CriterionCategory>(CriterionCategory.class), CriterionCategory.class);
+        ConvertUtils.register(new EnumConverter<PlanType>(PlanType.class), PlanType.class);
         // start with a new file
         digester.addObjectCreate("*/plan", Plan.class);
         digester.addSetProperties("*/plan");

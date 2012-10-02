@@ -55,7 +55,7 @@
                         <h:outputText rendered="#{alternative.id == defineAlternatives.alternativeIdAllowedToRemove}"
                                       value="This alternative has associated evaluation values. These will be removed as well. Are you sure?" />
 	                    <a4j:commandButton action="#{defineAlternatives.tryRemoveAlternative(alternative)}" value="Remove"
-	                                       render="alterativesTablePanel" execute="@this" onclick="changed()" />
+	                                       render="alterativesTablePanel editAlternativePanel" execute="@this" onclick="changed()" />
 	                </h:column>
                 </h:dataTable>
             </a4j:outputPanel>

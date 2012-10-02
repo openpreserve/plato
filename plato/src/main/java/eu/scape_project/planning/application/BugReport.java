@@ -24,20 +24,15 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.application.ErrorMessage;
-import eu.scape_project.planning.application.Messages;
-import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
 
 @RequestScoped

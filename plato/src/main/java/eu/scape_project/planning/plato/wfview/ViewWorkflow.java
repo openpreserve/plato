@@ -21,10 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
@@ -40,9 +37,6 @@ import eu.scape_project.planning.model.PlanState;
 @ConversationScoped
 public class ViewWorkflow implements Serializable {
     private static final long serialVersionUID = -8304259709178234866L;
-
-    @Inject
-    private Logger log;
 
     private List<AbstractView> steps;
 

@@ -2,7 +2,6 @@ package eu.scape_project.planning.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 

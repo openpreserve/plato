@@ -26,9 +26,10 @@ import eu.scape_project.planning.model.SampleObject;
 public class ExperimentStatus implements Serializable {
 
     private static final long serialVersionUID = -793940683965238929L;
-    
-    //private static Logger log = LoggerFactory.getLogger(ExperimentStatus.class);
-    
+
+    // private static Logger log =
+    // LoggerFactory.getLogger(ExperimentStatus.class);
+
     private List<Alternative> alternatives = new ArrayList<Alternative>();
     private List<SampleObject> samples = new ArrayList<SampleObject>();
 
@@ -42,14 +43,13 @@ public class ExperimentStatus implements Serializable {
 
     private int altIndex;
     private int sampleIndex;
-    
+
     private boolean started;
     private boolean finished;
     private boolean canceled;
 
-	private int ticks;
+    private int ticks;
 
-    
     public boolean isStarted() {
         return started;
     }
@@ -58,21 +58,20 @@ public class ExperimentStatus implements Serializable {
         return canceled;
     }
 
-    public void setCanceled(boolean canceled) {
-        canceled = canceled;
+    public void setCanceled(final boolean canceled) {
+        this.canceled = canceled;
     }
-    
+
     public void cancel() {
-    	canceled = true;
+        canceled = true;
     }
-    
 
     public void experimentSetup(List<Alternative> alternatives, List<SampleObject> samples) {
         clear();
         this.alternatives.addAll(alternatives);
         this.samples.addAll(samples);
     }
-    
+
     public boolean isFinished() {
         return finished;
     }
@@ -91,23 +90,25 @@ public class ExperimentStatus implements Serializable {
         started = false;
         ticks = 0;
     }
+
     public int getNextSampleIndex() {
         return ++sampleIndex;
     }
-    
+
     public SampleObject getNextSample() {
         if (!canceled) {
-            if (sampleIndex < samples.size()-1) {
+            if (sampleIndex < samples.size() - 1) {
                 sampleIndex++;
-                return  samples.get(sampleIndex);
+                return samples.get(sampleIndex);
             }
         }
         return null;
     }
+
     public Alternative getNextAlternative() {
         started = true;
         if (!canceled) {
-            if (altIndex < alternatives.size()-1) {
+            if (altIndex < alternatives.size() - 1) {
                 // start with first sample
                 sampleIndex = -1;
                 altIndex++;
@@ -118,6 +119,7 @@ public class ExperimentStatus implements Serializable {
         finished = true;
         return null;
     }
+
     public int getAltIndex() {
         return altIndex;
     }
@@ -125,7 +127,6 @@ public class ExperimentStatus implements Serializable {
     public int getAltTotal() {
         return alternatives.size();
     }
-
 
     public int getSampleIndex() {
         return sampleIndex;
@@ -136,25 +137,25 @@ public class ExperimentStatus implements Serializable {
     }
 
     public SampleObject getCurrentSample() {
-        if ((sampleIndex < 0) || (sampleIndex >= samples.size()) ) {
+        if ((sampleIndex < 0) || (sampleIndex >= samples.size())) {
             return null;
         }
         return samples.get(sampleIndex);
     }
-    
+
     public Alternative getCurrentAlternative() {
         if ((altIndex < 0) || (altIndex >= alternatives.size())) {
             return null;
         }
         return alternatives.get(altIndex);
     }
-    
-    public void keepAlive(){
-    	ticks ++;
-//    	log.error("current ticks: " + ticks);
+
+    public void keepAlive() {
+        ticks++;
+        // log.error("current ticks: " + ticks);
     }
 
-	public void setStarted(boolean started) {
-		this.started = started;
-	}
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
 }

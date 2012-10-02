@@ -30,17 +30,18 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
- * Holds attributes of a preservation project. Attributes such as the projects author
- * or whether the project is read-only.
- *
+ * Holds attributes of a preservation project. Attributes such as the projects
+ * author or whether the project is read-only.
+ * 
  * @author Hannes Kulovits
  */
 @Entity
-public class PlanProperties implements Serializable, ITouchable{
+public class PlanProperties implements Serializable, ITouchable {
 
     private static final long serialVersionUID = -8462944745153839130L;
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
 
     /**
@@ -48,20 +49,16 @@ public class PlanProperties implements Serializable, ITouchable{
      */
     private String author;
 
-    public PlanProperties() {
-        this.reportUpload = new DigitalObject();
-    }
-
     /**
-     * This flag is used to be able to determine if a user is allowed to load a project.
-     * It is set in LoadPlanAction
+     * This flag is used to be able to determine if a user is allowed to load a
+     * project. It is set in LoadPlanAction
      */
     @Transient
     private boolean readOnly = false;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
@@ -84,7 +81,7 @@ public class PlanProperties implements Serializable, ITouchable{
      */
     private String organization;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
     /**
@@ -93,30 +90,22 @@ public class PlanProperties implements Serializable, ITouchable{
     private int openHandle = 0;
 
     /**
-     * Name of the user that has opened the project last. When the project is closed
-     * this property is reset to an empty string.
+     * Name of the user that has opened the project last. When the project is
+     * closed this property is reset to an empty string.
      */
     private String openedByUser = "";
 
-    /**
-     * Indicates whether the project may be realoded again. As the project is locked when
-     * a user is working with it we needed a mechanism to prevent a project from being
-     * permanently locked. This may occur when the user doesn't logout properly or some
-     * unexpected error occurs. When a project may be reloaded is determined in
-     * {@link eu.scape_project.planning.action.project.LoadPlanAction#list()}
-     */
-    @Transient
-    private boolean allowReload = false;
 
     /**
-     * Indicates if the project is set to private which means that only the user who
-     * created it can open and edit it.
+     * Indicates if the project is set to private which means that only the user
+     * who created it can open and edit it.
      */
     private boolean privateProject = false;
 
     /**
-     * Although a project is set to private the uploaded report {@link #reportUpload}
-     * may be opened by other users. If {@link #reportPublic} is set to true this is the case.
+     * Although a project is set to private the uploaded report
+     * {@link #reportUpload} may be opened by other users. If
+     * {@link #reportPublic} is set to true this is the case.
      */
     private boolean reportPublic = false;
 
@@ -125,32 +114,56 @@ public class PlanProperties implements Serializable, ITouchable{
      */
     private String owner = "";
 
-	@Enumerated(EnumType.STRING)
-	private PlanState state = PlanState.CREATED;
-	
-	public PlanState getState() {
-		return state;
-	}
-
-	public void setState(PlanState state) {
-		this.state = state;
-	}	
+    @Enumerated(EnumType.STRING)
+    private PlanState state = PlanState.CREATED;
     
+    @Enumerated(EnumType.STRING)
+    private PlanType planType = PlanType.FULL; 
+    
+
+    /**
+     * Indicates whether the project may be realoded again. As the project is
+     * locked when a user is working with it we needed a mechanism to prevent a
+     * project from being permanently locked. This may occur when the user
+     * doesn't logout properly or some unexpected error occurs. When a project
+     * may be reloaded is determined in
+     * {@link eu.scape_project.planning.action.project.LoadPlanAction#list()}
+     */
+    @Transient
+    private boolean allowReload = false;
+
+    public PlanProperties() {
+        this.reportUpload = new DigitalObject();
+    }
+
+    public PlanState getState() {
+        return state;
+    }
+
+    public void setState(PlanState state) {
+        this.state = state;
+    }
+
     public String getOwner() {
         return owner;
     }
+
     public void setOwner(String owner) {
         this.owner = owner;
     }
+
     public boolean isPrivateProject() {
         return privateProject;
     }
+
     public void setPrivateProject(boolean privateProject) {
         this.privateProject = privateProject;
     }
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -170,6 +183,7 @@ public class PlanProperties implements Serializable, ITouchable{
     public String getOrganization() {
         return organization;
     }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -189,9 +203,11 @@ public class PlanProperties implements Serializable, ITouchable{
     public void touch() {
         this.changeLog.touch();
     }
+
     public ChangeLog getChangeLog() {
         return changeLog;
     }
+
     public void setChangeLog(ChangeLog value) {
         changeLog = value;
     }
@@ -205,10 +221,10 @@ public class PlanProperties implements Serializable, ITouchable{
      */
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
-        
+
         reportUpload.handleChanges(h);
     }
-    
+
     /**
      * Actually, this is a "may open" or an "is closed"
      * 
@@ -229,31 +245,48 @@ public class PlanProperties implements Serializable, ITouchable{
     public DigitalObject getReportUpload() {
         return reportUpload;
     }
+
     public void setReportUpload(DigitalObject reportUpload) {
         this.reportUpload = reportUpload;
     }
+
     public boolean isReportPublic() {
         return reportPublic;
     }
+
     public void setReportPublic(boolean reportPublic) {
         this.reportPublic = reportPublic;
     }
+
     public boolean isReadOnly() {
         return readOnly;
     }
+
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
     }
+
     public boolean isAllowReload() {
         return allowReload;
     }
+
     public void setAllowReload(boolean allowReload) {
         this.allowReload = allowReload;
     }
+
     public String getOpenedByUser() {
         return openedByUser;
     }
+
     public void setOpenedByUser(String openedByUser) {
         this.openedByUser = openedByUser;
+    }
+
+    public PlanType getPlanType() {
+        return planType;
+    }
+
+    public void setPlanType(PlanType planType) {
+        this.planType = planType;
     }
 }

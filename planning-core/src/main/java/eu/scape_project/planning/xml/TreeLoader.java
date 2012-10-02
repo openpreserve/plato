@@ -46,7 +46,7 @@ public class TreeLoader implements Serializable {
 
     private static Logger log = LoggerFactory.getLogger(TreeLoader.class);
 
-    private ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
+//    private ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
 
     public TreeLoader() {
 

@@ -19,7 +19,6 @@ package eu.scape_project.planning.application;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.directory.InvalidAttributesException;
@@ -27,8 +26,6 @@ import javax.naming.directory.InvalidAttributesException;
 import org.richfaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.application.Messages;
-import eu.scape_project.planning.application.NewsMessage;
 import eu.scape_project.planning.utils.FacesMessages;
 
 /**

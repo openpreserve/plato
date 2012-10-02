@@ -36,6 +36,7 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.transform.OrdinalTransformer;
@@ -102,53 +103,46 @@ public class PlanManager implements Serializable {
      */
     public List<PlanProperties> list(WhichProjects whichProjects) {
 
-        String projectListQuery;
+        Query query = null;
 
         if (whichProjects == WhichProjects.MYPROJECTS) {
             // load user's projects
-            // projectListQuery =
-            // "select p from PlanProperties p where (p.owner = '"+
-            // user.getUsername() +
-            // "' and not (p.projectBasis.identificationCode LIKE 'FAST-TRACK-%'))"
-            // + " order by p.id" ;
-            projectListQuery = "select p.planProperties from Plan p where"
-                + " (p.planProperties.owner = '"
-                + user.getUsername()
-                + "')"
-                + " and (p.projectBasis.identificationCode = null or p.projectBasis.identificationCode NOT LIKE 'FAST-TRACK-%')"
-                + " order by p.planProperties.id";
-
-            // setPlanlist("my preservation plans");
+            query = em.createQuery("select p.planProperties from Plan p where"
+                + " (p.planProperties.owner = :owner)"
+                + " and ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+                + " order by p.planProperties.id");
+            
+            query.setParameter("owner", user.getUsername());
+            query.setParameter("planType", PlanType.FULL);
         } else if (whichProjects == WhichProjects.ALLPROJECTS && (user.isAdmin())) {
             // load all projects, public and private,
             // but ONLY if the user is an admin
-            projectListQuery = "select p from PlanProperties p order by p.id";
-            // setPlanlist("all preservation plans");
+            query = em.createQuery("select p from PlanProperties p order by p.id");
         } else if (whichProjects == WhichProjects.FTEPROJECTS) {
-
-            projectListQuery = "select p.planProperties from Plan p where" + " (p.planProperties.owner = '"
-                + user.getUsername() + "')" + " and (p.projectBasis.identificationCode LIKE 'FAST-TRACK-%')"
-                + " order by p.planProperties.id";
-
-            // setPlanlist("fast track plans");
+            query = em.createQuery("select p.planProperties from Plan p where" + " (p.planProperties.owner = :owner) "
+                + " and (p.planProperties.planType = :planType)"
+                + " order by p.planProperties.id");
+            query.setParameter("owner", user.getUsername());
+            query.setParameter("planType", PlanType.FTE);
         } else if (whichProjects == WhichProjects.PUBLICFTEPROJECTS) {
 
-            projectListQuery = "select p.planProperties from Plan p where"
+            query = em.createQuery("select p.planProperties from Plan p where"
                 + " (p.planProperties.privateProject = false )"
-                + " and (p.projectBasis.identificationCode LIKE 'FAST-TRACK-%')" + " order by p.planProperties.id";
-
-            // setPlanlist("public fast track plans");
-
+                + " and (p.planProperties.planType = :planType)" 
+                + " order by p.planProperties.id");
+            query.setParameter("planType", PlanType.FTE);
         } else {
             // load all public projects, which includes those with published
             // reports
-            projectListQuery = "select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
-                + " or (p.planProperties.privateProject = true and p.planProperties.reportPublic = true)) and p.projectBasis.identificationCode NOT LIKE 'FAST-TRACK-%' "
-                + " order by p.planProperties.id";
-            // setPlanlist("public preservation plans");
+            query = em.createQuery("select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
+                + " or (p.planProperties.privateProject = true and p.planProperties.reportPublic = true)) " 
+                + " and (p.planProperties.planType = :planType) "
+                + " order by p.planProperties.id");
+            query.setParameter("planType", PlanType.FULL);
         }
 
-        List<PlanProperties> planList = em.createQuery(projectListQuery).getResultList();
+        @SuppressWarnings("unchecked")
+        List<PlanProperties> planList = (List<PlanProperties>)query.getResultList();
 
         //
         // readOnly in PlanProperties is *transient*, it is used

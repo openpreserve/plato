@@ -222,7 +222,7 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
                 if (!measure.getUri().startsWith("machine:")) {
                     Measurement m = new Measurement();
                     m.setMeasureId(measure.getUri());
-                    PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
+                    PositiveFloatValue v = new PositiveFloatValue();
                     if (measure.getUri().equals(MeasureConstants.ELAPSED_TIME_PER_OBJECT)) {
                         v.setValue(elapsed);
                         m.setValue(v);

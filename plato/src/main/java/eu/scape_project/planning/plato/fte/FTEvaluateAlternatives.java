@@ -24,8 +24,6 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import com.hp.hpl.jena.sparql.function.library.eval;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.EvaluationStatus;
@@ -57,8 +55,8 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
 	@Inject private EvaluateExperiments evaluateExperiments;
 	
 	public FTEvaluateAlternatives() {
-		this.requiredPlanState = PlanState.FTE_REQUIREMENTS_DEFINED;
-		this.correspondingPlanState = PlanState.FTE_ALTERNATIVES_EVALUATED;
+		this.requiredPlanState = PlanState.TREE_DEFINED;
+		this.correspondingPlanState = PlanState.RESULTS_CAPTURED;
 	}
 
 	@Override

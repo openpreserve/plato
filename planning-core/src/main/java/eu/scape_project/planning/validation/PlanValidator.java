@@ -60,9 +60,9 @@ public class PlanValidator implements Serializable {
         boolean result = true;
 
         // if the plan
-        if (plan.getPlanProperties().getState().getValue() < (state.getValue() - 1)) {
-            return false;
-        }
+//        if (plan.getPlanProperties().getState().getValue() < (state.getValue() - 1)) {
+//            return false;
+//        }
         switch (state) {
             case BASIS_DEFINED:
                 result = isBasisDefinedSatisfied(plan, errors);
@@ -105,9 +105,6 @@ public class PlanValidator implements Serializable {
                 break;
             case PLAN_VALIDATED:
                 result = isPlanValidatedSatisfied(plan, errors);
-                break;
-            case FTE_REQUIREMENTS_DEFINED:
-                result = isFteRequirementsDefinedSatisfied(plan, errors);
                 break;
             default:
                 break;
@@ -267,14 +264,14 @@ public class PlanValidator implements Serializable {
         return true;
     }
 
-    private boolean isFteRequirementsDefinedSatisfied(Plan plan, List<ValidationError> errors) {
-        // FteRequirementsDefined state is satisfied when the corresponding
-        // full-wf steps
-        // RecordsChoosen and RequirementsDefined satisfied
-        boolean isRecordChoosenSatisfied = isRecordsChosenSatisfied(plan, errors);
-        boolean isRequiremensDefinedSatisfied = isRequirementsDefinedSatisfied(plan, errors);
-
-        boolean result = isRecordChoosenSatisfied && isRequiremensDefinedSatisfied;
-        return result;
-    }
+//    private boolean isFteRequirementsDefinedSatisfied(Plan plan, List<ValidationError> errors) {
+//        // FteRequirementsDefined state is satisfied when the corresponding
+//        // full-wf steps
+//        // RecordsChoosen and RequirementsDefined satisfied
+//        boolean isRecordChoosenSatisfied = isRecordsChosenSatisfied(plan, errors);
+//        boolean isRequiremensDefinedSatisfied = isRequirementsDefinedSatisfied(plan, errors);
+//
+//        boolean result = isRecordChoosenSatisfied && isRequiremensDefinedSatisfied;
+//        return result;
+//    }
 }

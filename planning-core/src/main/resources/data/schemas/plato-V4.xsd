@@ -15,6 +15,7 @@
     - measure and attributes based on the new quality model as replacement for criterion, measureableproperty, and metric
     - MeasurementType: refers to measureId instead of MeasureableProperty
   * Information about CollectionProfile
+  * PlanState: covers full evaluation, PlanType distinguishes between types of plans, e.g. full evaluation, or fast track evaluation  
 
   * new way to handle versions:
     The current major version of this schema is V4, all upcoming sub-versions must be backwards compatible, i.g. accept document-instances of older V4 versions.
@@ -288,6 +289,7 @@
 		<xs:attribute name="name" type="nonEmptyString" use="required"/>
 		<xs:attribute name="privateProject" type="xs:boolean"/>
 		<xs:attribute name="reportPublic" type="xs:boolean"/>
+		<xs:attribute name="planType" type="planTypeType" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="projectBasisType">
 		<xs:all>
@@ -456,11 +458,18 @@
 			<xs:simpleType>
 				<xs:restriction base="xs:integer">
 					<xs:minInclusive value="0"/>
-					<xs:maxInclusive value="19"/>
+					<xs:maxInclusive value="15"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:complexType>
+	<xs:simpleType name="planTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FULL"/>
+			<xs:enumeration value="FTE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<xs:complexType name="recommendationType">
 		<xs:all>
 			<xs:element name="reasoning" type="maxLengthString" minOccurs="0"/>
