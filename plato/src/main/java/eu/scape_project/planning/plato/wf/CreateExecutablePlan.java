@@ -22,6 +22,7 @@ package eu.scape_project.planning.plato.wf;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
@@ -37,7 +38,9 @@ import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.xml.PreservationActionPlanGenerator;
 
+import org.dom4j.io.OutputFormat;
 import org.slf4j.Logger;
 
 /**
@@ -52,6 +55,9 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
 
     @Inject
     private Logger log;
+
+    @Inject
+    private PreservationActionPlanGenerator generator;
 
     /**
      * Default constructor.
@@ -154,4 +160,31 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
             throw new PlanningException("An error occurred while storing the profile", e);
         }
     }
+
+    public void generatePreservationActionPlan() throws PlanningException {
+
+        generator.setCollectionProfile(plan.getSampleRecordsDefinition().getCollectionProfile());
+        generator.setExecutablePlanDefinition(plan.getExecutablePlanDefinition());
+        generator.setOutputFormat(OutputFormat.createPrettyPrint());
+
+        try {
+            DigitalObject object = generator.generatePreservationActionPlan(FileUtils.makeFilename(plan
+                .getPlanProperties().getName()
+                + " - "
+                + plan.getRecommendation().getAlternative().getName()
+                + " - PreservationActionPlan"));
+
+            digitalObjectManager.moveDataToStorage(object);
+            plan.getExecutablePlanDefinition().setPreservationActionPlan(object);
+            addedBytestreams.add(object.getPid());
+
+        } catch (UnsupportedEncodingException e) {
+            log.error("Error generating preservation action plan {}.", e.getMessage());
+            throw new PlanningException("Error generating preservation action plan.", e);
+        } catch (StorageException e) {
+            log.error("An error occurred while storing the executable plan: {}", e.getMessage());
+            throw new PlanningException("An error occurred while storing the profile", e);
+        }
+    }
+
 }

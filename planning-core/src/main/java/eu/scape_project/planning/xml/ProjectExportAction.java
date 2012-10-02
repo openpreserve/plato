@@ -43,6 +43,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.DigitalObjectManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.ByteStream;
@@ -160,20 +161,26 @@ public class ProjectExportAction implements Serializable {
                 exporter.addProject(plan, doc, false);
 
                 // Perform XSLT transformation to get the DATA into the PLANS
+                // Prepare base 64 encoded binary data
                 List<Integer> binaryObjectIds = getBinaryObjectIds(doc);
                 writeBinaryObjects(binaryObjectIds, tempPath, encoder);
-                
-                addPreservationActionPlanData(doc, out, tempPath);
-                
+                // Prepare preservation action plan
+                List<Integer> preservationActionPlanIDs = getPreservationActionPlanIds(doc);
+                writeDigitalObjects(preservationActionPlanIDs, tempPath);
+                // Call XSLT
                 addBinaryData(doc, out, tempPath);
+
             } catch (IOException e) {
-                log.error("Could not open outputstream: ", e);
+                log.error("Could not open outputstream.", e);
                 return false;
             } catch (TransformerException e) {
                 log.error("failed to generate export file.", e);
                 return false;
             } catch (StorageException e) {
                 log.error("Could not load object from stoarge.", e);
+                return false;
+            } catch (PlanningException e) {
+                log.error("Could not export plan.", e);
                 return false;
             }
         } finally {
@@ -214,42 +221,6 @@ public class ProjectExportAction implements Serializable {
         return objectIds;
     }
 
-    private void addPreservationActionPlanData(Document doc, OutputStream out, String tempPath)
-        throws StorageException, IOException {
-        List<Integer> t2flowExecutablePlanIds = getT2flowExecutablePlanIds(doc);
-        List<Integer> collectionProfileIds = getCollectionProfileIds(doc);
-
-        writeDigitalObjects(t2flowExecutablePlanIds, tempPath);
-        writeDigitalObjects(collectionProfileIds, tempPath);
-
-    }
-
-    /**
-     * Returns the t2flow executable plan IDs that are in the document without
-     * data.
-     * 
-     * @param doc
-     *            the document to search
-     * @return a list of IDs
-     */
-    private List<Integer> getT2flowExecutablePlanIds(Document doc) {
-        // Get data elements that have data and a number as content
-        XPath xpath = doc.createXPath("//plato:preservationActionPlan/plato:executablePlan[@type='t2flow' and number(.) = number(.)]");
-
-        Map<String, String> namespaceMap = new HashMap<String, String>();
-        namespaceMap.put("plato", PlanXMLConstants.PLATO_NS);
-        xpath.setNamespaceURIs(namespaceMap);
-
-        @SuppressWarnings("unchecked")
-        List<Element> elements = xpath.selectNodes(doc);
-
-        List<Integer> objectIds = new ArrayList<Integer>(elements.size());
-        for (Element element : elements) {
-            objectIds.add(Integer.parseInt(element.getStringValue()));
-        }
-        return objectIds;
-    }
-
     /**
      * Returns the collection profile IDs that are in the document without data.
      * 
@@ -257,9 +228,9 @@ public class ProjectExportAction implements Serializable {
      *            the docuemnt to seasrch
      * @return a list of IDs
      */
-    private List<Integer> getCollectionProfileIds(Document doc) {
+    private List<Integer> getPreservationActionPlanIds(Document doc) {
         // Get data elements that have data and a number as content
-        XPath xpath = doc.createXPath("//plato:preservationActionPlan/plato:objects[number(.) = number(.)]");
+        XPath xpath = doc.createXPath("//plato:preservationActionPlan[number(.) = number(.)]");
 
         Map<String, String> namespaceMap = new HashMap<String, String>();
         namespaceMap.put("plato", PlanXMLConstants.PLATO_NS);
@@ -275,7 +246,20 @@ public class ProjectExportAction implements Serializable {
         return objectIds;
     }
 
-    private void writeDigitalObjects(List<Integer> objectIds, String aTempDir) throws IOException, StorageException {
+    /**
+     * Writes the digital objects of the provided objectIds to the tempDir as
+     * files.
+     * 
+     * @param objectIds
+     *            the IDs of the objects to write
+     * @param tempDir
+     *            a temporary directory where the files will be written
+     * @throws IOException
+     *             if an error occurred during write
+     * @throws StorageException
+     *             if the objects could not be loaded
+     */
+    private void writeDigitalObjects(List<Integer> objectIds, String tempDir) throws IOException, StorageException {
         int counter = 0;
         int skip = 0;
         log.info("Writing bytestreams of digital objects. Size = " + objectIds.size());
@@ -288,7 +272,7 @@ public class ProjectExportAction implements Serializable {
             DigitalObject object = em.find(DigitalObject.class, id);
             if (object.isDataExistent()) {
                 counter += object.getData().getSize();
-                File f = new File(aTempDir + object.getId() + ".xml");
+                File f = new File(tempDir + object.getId() + ".xml");
                 DigitalObject dataFilledObject = digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
                 FileOutputStream out = new FileOutputStream(f);
                 try {
@@ -305,28 +289,6 @@ public class ProjectExportAction implements Serializable {
         em.clear();
         System.gc();
         log.info("Finished writing bytestreams of digital objects. Skipped empty objects: " + skip);
-    }
-
-    /**
-     * Performs XSLT transformation to get the DATA into the PLANS
-     */
-    private void addT2flowExecutablePlan(Document doc, OutputStream out, String aTempDir) throws TransformerException {
-        InputStream xsl = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream("data/xslt/addT2flowToPlan.xsl");
-
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
-        Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
-        transformer.setParameter("tempDir", aTempDir);
-
-        Source xmlSource = new DocumentSource(doc);
-
-        Result outputTarget = new StreamResult(out); // new
-                                                     // FileWriter(outFile));
-
-        log.debug("starting bytestream transformation ...");
-        transformer.transform(xmlSource, outputTarget);
-        log.debug("FINISHED bytestream transformation!");
     }
 
     /**
@@ -396,16 +358,25 @@ public class ProjectExportAction implements Serializable {
     }
 
     /**
-     * Performs XSLT transformation to get the DATA into the PLANS
+     * Performs XSLT transformation to get the data into the plans.
+     * 
+     * @param doc
+     *            the plan document
+     * @param out
+     *            output stream to write the transformed plan XML
+     * @param tempDir
+     *            temporary directory where the data files are located
+     * @throws TransformerException
+     *             if an error occured during transformation
      */
-    private void addBinaryData(Document doc, OutputStream out, String aTempDir) throws TransformerException {
+    private void addBinaryData(Document doc, OutputStream out, String tempDir) throws TransformerException {
         InputStream xsl = Thread.currentThread().getContextClassLoader()
             .getResourceAsStream("data/xslt/bytestreams.xsl");
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
         Transformer transformer = transformerFactory.newTransformer(new StreamSource(xsl));
-        transformer.setParameter("tempDir", aTempDir);
+        transformer.setParameter("tempDir", tempDir);
 
         Source xmlSource = new DocumentSource(doc);
 

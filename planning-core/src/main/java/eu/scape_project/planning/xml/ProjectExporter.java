@@ -16,7 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.planning.xml;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,21 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.inject.Inject;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-
-import sun.misc.BASE64Encoder;
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
-import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.ExecutablePlanDefinition;
@@ -67,10 +54,20 @@ import eu.scape_project.planning.model.tree.TemplateTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.model.util.FloatFormatter;
 import eu.scape_project.planning.model.values.Value;
-import eu.scape_project.planning.taverna.parser.T2FlowParser;
-import eu.scape_project.planning.taverna.parser.TavernaParserException;
-import eu.scape_project.planning.utils.ParserException;
 import eu.scape_project.planning.xml.plan.TimestampFormatter;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * Static methods providing means to export projects to XML using dom4j.
@@ -85,8 +82,7 @@ public class ProjectExporter implements Serializable {
      */
     private static final String ENCODING = "UTF-8";
 
-    @Inject
-    private Logger logger;
+    private Logger log = LoggerFactory.getLogger(ProjectExporter.class);;
 
     private TimestampFormatter formatter = new TimestampFormatter();
     private FloatFormatter floatFormatter = new FloatFormatter();
@@ -94,14 +90,8 @@ public class ProjectExporter implements Serializable {
     public static OutputFormat prettyFormat = new OutputFormat(" ", true, ENCODING); // OutputFormat.createPrettyPrint();
     public static OutputFormat compactFormat = new OutputFormat(null, false, ENCODING); // OutputFormat.createPrettyPrint();
 
-    public static Namespace excutablePlanNS;
-    public static Namespace xsi;
-    public static Namespace platoNS;
-
-    static {
-        xsi = new Namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        platoNS = new Namespace("", PlanXMLConstants.PLATO_NS);
-    }
+    private static final Namespace XSI_NAMESPACE = new Namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+    private static final Namespace PLATO_NAMESPACE = new Namespace("", PlanXMLConstants.PLATO_NS);
 
     public ProjectExporter() {
     }
@@ -110,8 +100,14 @@ public class ProjectExporter implements Serializable {
      * Returns the xml-representation of the given project as a String. NOTE: It
      * writes all data - including encoded binary data - directly to the DOM
      * tree this may result in performance problems for large amounts of data.
+     * 
+     * @param p
+     *            the plan to export
+     * @return the XML representation of the plan
+     * @throws PlanningException
+     *             if an error occured during export
      */
-    public String exportToString(Plan p) {
+    public String exportToString(Plan p) throws PlanningException {
         return exportToXml(p).asXML();
     }
 
@@ -121,22 +117,31 @@ public class ProjectExporter implements Serializable {
      * the DOM tree this may result in performance problems for large amounts of
      * data.
      * 
+     * @param p
+     *            the plan to export
      * @return dom4j-document representing the given project
+     * @throws PlanningException
+     *             if an error occured during export
      */
-    public Document exportToXml(Plan p) {
+    public Document exportToXml(Plan p) throws PlanningException {
         Document doc = createProjectDoc();
         addProject(p, doc, false);
         return doc;
     }
 
+    /**
+     * Creates a dom4j document template to add plans.
+     * 
+     * @return the dom4j document
+     */
     public Document createProjectDoc() {
         Document doc = DocumentHelper.createDocument();
 
         Element root = doc.addElement("plans");
 
-        root.add(xsi);
-        root.add(platoNS);
-        root.addAttribute(xsi.getPrefix() + ":schemaLocation", PlanXMLConstants.PLATO_NS + " "
+        root.add(XSI_NAMESPACE);
+        root.add(PLATO_NAMESPACE);
+        root.addAttribute(XSI_NAMESPACE.getPrefix() + ":schemaLocation", PlanXMLConstants.PLATO_NS + " "
             + PlanXMLConstants.PLATO_SCHEMA);
         root.add(new Namespace("fits", "http://hul.harvard.edu/ois/xml/ns/fits/fits_output"));
 
@@ -146,12 +151,17 @@ public class ProjectExporter implements Serializable {
         return doc;
     }
 
+    /**
+     * Creates a template document.
+     * 
+     * @return the dom4j-document
+     */
     public Document createTemplateDoc() {
         Document doc = DocumentHelper.createDocument();
 
         Element root = doc.addElement("templates");
 
-        root.add(xsi);
+        root.add(XSI_NAMESPACE);
 
         return doc;
     }
@@ -208,6 +218,7 @@ public class ProjectExporter implements Serializable {
         descriptionElement.setText(description);
 
         // remove the evaluation from the template
+        @SuppressWarnings("unchecked")
         List<Element> nodes = templateDoc.selectNodes("//leaf/evaluation");
 
         for (Element n : nodes) {
@@ -237,11 +248,23 @@ public class ProjectExporter implements Serializable {
      * file. NOTE: It writes all data - including encoded binary data - directly
      * to the DOM tree this may result in performance problems for large amounts
      * of data.
+     * 
+     * @param p
+     *            the plan to export
+     * @param target
+     *            the file to write the plan
+     * @throws IOException
+     *             if an error occured during write
+     * @throws PlanningException
+     *             if an error occured during export
      */
-    public void exportToFile(Plan p, File target) throws IOException {
+    public void exportToFile(Plan p, File target) throws IOException, PlanningException {
         XMLWriter writer = new XMLWriter(new FileWriter(target), ProjectExporter.prettyFormat);
-        writer.write(exportToXml(p));
-        writer.close();
+        try {
+            writer.write(exportToXml(p));
+        } finally {
+            writer.close();
+        }
     }
 
     /**
@@ -250,8 +273,15 @@ public class ProjectExporter implements Serializable {
      * data - including encoded binary data - directly to the DOM tree this may
      * result in performance problems for large amounts of data.
      * 
+     * @param p
+     *            the plan to export
+     * @throws IOException
+     *             if an error occured during export
+     * @throws PlanningException
+     *             if an error occured during export
+     * 
      */
-    public File exportToFile(Plan p) throws IOException {
+    public File exportToFile(Plan p) throws IOException, PlanningException {
         File temp = File.createTempFile("plato-plan-export-", ".xml");
         exportToFile(p, temp);
         return temp;
@@ -465,13 +495,25 @@ public class ProjectExporter implements Serializable {
         addChangeLog(data.getChangeLog(), xmlNode);
     }
 
-    private void addChangeLog(ChangeLog log, Element xmlNode) {
+    /**
+     * Adds a changelog element to the provided parent if changelog is defined.
+     * 
+     * @param log
+     *            the changelog to add
+     * @param parent
+     *            the parent element
+     * @return the newly created element or null
+     */
+    private Element addChangeLog(ChangeLog log, Element parent) {
+        Element xmlNode = null;
         if (log != null) {
-            xmlNode.addElement("changelog").addAttribute("created", formatter.formatTimestamp(log.getCreated()))
+            xmlNode = parent.addElement("changelog")
+                .addAttribute("created", formatter.formatTimestamp(log.getCreated()))
                 .addAttribute("createdBy", log.getCreatedBy())
                 .addAttribute("changed", formatter.formatTimestamp(log.getChanged()))
                 .addAttribute("changedBy", log.getChangedBy());
         }
+        return xmlNode;
     }
 
     /**
@@ -489,9 +531,11 @@ public class ProjectExporter implements Serializable {
      * @param addDigitalObjectData
      *            true if the data should be written, false otherwise
      * @return the newly created element or null if none was created
+     * @throws PlanningException
+     *             if an error occured during export
      */
     private Element addUpload(DigitalObject upload, Element parent, String elementName, BASE64Encoder encoder,
-        boolean addDigitalObjectData) {
+        boolean addDigitalObjectData) throws PlanningException {
         Element xmlNode = null;
         if (upload != null && !"".equals(upload.getFullname()) && upload.isDataExistent()) {
             xmlNode = addEncodedDigitalObject(upload, parent, elementName, encoder, addDigitalObjectData);
@@ -514,9 +558,11 @@ public class ProjectExporter implements Serializable {
      * @param addDigitalObjectData
      *            true if the data should be written, false otherwise
      * @return the newly created element or null if none was created
+     * @throws PlanningException
+     *             if an error occured during export
      */
     private Element addEncodedDigitalObject(DigitalObject upload, Element parent, String elementName,
-        BASE64Encoder encoder, boolean addDigitalObjectData) {
+        BASE64Encoder encoder, boolean addDigitalObjectData) throws PlanningException {
 
         Element xmlNode = null;
         if (upload != null) {
@@ -564,8 +610,11 @@ public class ProjectExporter implements Serializable {
      * @param parent
      *            the parent element of the element to create
      * @return the newly created element or null if none was created
+     * @throws PlanningException
+     *             if an error occured during export
      */
-    private Element addJhoveInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent) {
+    private Element addJhoveInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent)
+        throws PlanningException {
         Element jhoveElement = null;
         String jhoveXML = digitalObject.getJhoveXMLString();
         if ((jhoveXML != null) && (!"".equals(jhoveXML))) {
@@ -574,8 +623,8 @@ public class ProjectExporter implements Serializable {
             try {
                 jhoveElement.setText(encoder.encode(jhoveXML.getBytes(ENCODING)));
             } catch (UnsupportedEncodingException e) {
-                jhoveElement.setText("");
-                logger.error(e.getMessage(), e);
+                log.error("Error writing JHOVE info {}.", e.getMessage());
+                throw new PlanningException("Error writing JHOVE info.", e);
             }
         }
         return jhoveElement;
@@ -592,8 +641,11 @@ public class ProjectExporter implements Serializable {
      * @param parent
      *            the parent element of the element to create
      * @return the newly created element or null if none was created
+     * @throws PlanningException
+     *             if an error occured during export
      */
-    private Element addFitsInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent) {
+    private Element addFitsInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent)
+        throws PlanningException {
         Element fitsElement = null;
         String fitsInfo = digitalObject.getFitsXMLString();
         if ((fitsInfo != null) && (!"".equals(fitsInfo))) {
@@ -602,8 +654,8 @@ public class ProjectExporter implements Serializable {
             try {
                 fitsElement.setText(encoder.encode(fitsInfo.getBytes(ENCODING)));
             } catch (UnsupportedEncodingException e) {
-                fitsElement.setText("");
-                logger.error(e.getMessage(), e);
+                log.error("Error writing fits info {}.", e.getMessage());
+                throw new PlanningException("Error writing fits info.", e);
             }
         }
         return fitsElement;
@@ -628,14 +680,20 @@ public class ProjectExporter implements Serializable {
      * <code>projectNode</code>.
      * 
      * @param p
-     * @param projectNode
+     *            the plan to add
+     * @param projectsDoc
+     *            the document where the plan should be added
+     * @param addDigitalObjectData
+     *            whether the digital object data should be added to the XML
+     * @throws PlanningException
+     *             if an error occured during export
      */
-    public void addProject(Plan p, Document projectsDoc, boolean addDigitalObjectData) {
-
-        Element projectNode = projectsDoc.getRootElement().addElement(new QName("plan", platoNS));
+    public void addProject(Plan p, Document projectsDoc, boolean addDigitalObjectData) throws PlanningException {
 
         // Base64 encoder for binary data
         BASE64Encoder encoder = new BASE64Encoder();
+
+        Element projectNode = projectsDoc.getRootElement().addElement(new QName("plan", PLATO_NAMESPACE));
 
         addChangeLog(p.getChangeLog(), projectNode);
 
@@ -703,6 +761,8 @@ public class ProjectExporter implements Serializable {
                 .getTypeOfObjects());
             addStringElement(collectionProfile, "retentionPeriod", p.getSampleRecordsDefinition()
                 .getCollectionProfile().getRetentionPeriod());
+            addEncodedDigitalObject(p.getSampleRecordsDefinition().getCollectionProfile().getProfile(),
+                collectionProfile, "profile", encoder, addDigitalObjectData);
         }
 
         for (SampleObject rec : p.getSampleRecordsDefinition().getRecords()) {
@@ -873,19 +933,13 @@ public class ProjectExporter implements Serializable {
         addStringElement(executablePlanDef, "toolParameters", plan.getToolParameters());
         addStringElement(executablePlanDef, "triggersConditions", plan.getTriggersConditions());
         addStringElement(executablePlanDef, "validateQA", plan.getValidateQA());
-        addUpload(plan.getT2flowExecutablePlan(), executablePlanDef, "workflow", encoder,
-            addDigitalObjectData);
+        addUpload(plan.getT2flowExecutablePlan(), executablePlanDef, "workflow", encoder, addDigitalObjectData);
         addChangeLog(plan.getChangeLog(), executablePlanDef);
 
-        // Preservation action plan
-        Element preservationActionPlan = projectNode.addElement("preservationActionPlan");
+        // Export generated preservation action plan
+        exportPreservationActionPlan(plan.getPreservationActionPlan(), projectNode, addDigitalObjectData);
 
-        // FIXME generating the PAP should not happen here
-        addPreservationActionPlanData(p.getSampleRecordsDefinition().getCollectionProfile(), preservationActionPlan,
-            addDigitalObjectData);
-        addPreservationActionPlanT2flow(p.getExecutablePlanDefinition().getT2flowExecutablePlan(),
-            preservationActionPlan, addDigitalObjectData);
-
+        // Plan definition
         Element planDef = projectNode.addElement("planDefinition");
         PlanDefinition pdef = p.getPlanDefinition();
         planDef.addAttribute("currency", pdef.getCurrency());
@@ -1073,90 +1127,34 @@ public class ProjectExporter implements Serializable {
         return scale;
     }
 
-    /**
-     * Adds data for the preservation action plan to the parent element.
-     * 
-     * @param collectionProfile
-     *            source of the data
-     * @param parent
-     *            the parent element of the element to create
-     * @param addDigitalObjectData
-     *            true if the data should be written, false otherwise
-     * @return the newly created element or null if none was created
-     */
-    private Element addPreservationActionPlanData(CollectionProfile collectionProfile, Element parent,
-        boolean addDigitalObjectData) {
+    private Element exportPreservationActionPlan(DigitalObject preservationActionPlan, Element parent,
+        boolean addDigitalObjectData) throws PlanningException {
 
-        Element collection = null;
-        if (collectionProfile != null) {
-            collection = parent.addElement("collection");
-            collection.addAttribute("uid", collectionProfile.getCollectionID());
-            // TODO: Collection has no name
-            // collection.addAttribute("name",
-            // p.getSampleRecordsDefinition().getCollectionProfile().getCollectionID());
+        Element preservationActionPlanElement = null;
 
-            // Objects
-            Element objects = parent.addElement("objects");
-            
-            if (collectionProfile.getProfile() != null && collectionProfile.getProfile().isDataExistent()) {
-
-                DigitalObject profile = collectionProfile.getProfile();
-
-// TODO: check: this does not make sense, does it?                 
-//                if (!addDigitalObjectData) {
-//                    objects.setText(String.valueOf(profile.getId()));
-//                } else {
-                    C3POProfileParser parser = new C3POProfileParser();
-                    try {
-                        parser.read(new ByteArrayInputStream(profile.getData().getData()), false);
-
-                        List<String> objectIdentifiers = parser.getObjectIdentifiers();
-
-                        for (String objectIdentifier : objectIdentifiers) {
-                            objects.addElement("object").addAttribute("uid", objectIdentifier);
-                        }
-                    } catch (ParserException e) {
-                        logger.error("Error parsing collection profile.", e);
-                    }
-//                }
-            }
-        }
-        return collection;
-    }
-
-    /**
-     * Adds an executable plan t2flow to the parent.
-     * 
-     * @param t2flow
-     *            the t2flow to add
-     * @param parent
-     *            the parent element of the element to create
-     * @param addDigitalObjectData
-     *            true if the data should be written, false otherwise
-     * @return the newly created element or null if none was created
-     */
-    private Element addPreservationActionPlanT2flow(DigitalObject t2flow, Element parent, boolean addDigitalObjectData) {
-        Element executablePlan = null;
-
-        if (t2flow != null && t2flow.isDataExistent()) {
-            executablePlan = parent.addElement("executablePlan").addAttribute("type", "t2flow");
-
+        if (preservationActionPlan != null && preservationActionPlan.isDataExistent()) {
             if (!addDigitalObjectData) {
-                // Add only DigitalObject ID, it can be replaced later
-                executablePlan.setText(String.valueOf(t2flow.getId()));
+                preservationActionPlanElement = parent.addElement("preservationActionPlan");
+                preservationActionPlanElement.setText(String.valueOf(preservationActionPlan.getId()));
             } else {
+                Document doc;
                 try {
-                    T2FlowParser parser = T2FlowParser
-                        .createParser(new ByteArrayInputStream(t2flow.getData().getData()));
-                    Document doc = parser.getDoc();
-                    executablePlan.add(doc.getRootElement());
-                } catch (TavernaParserException e) {
-                    logger.error("Error parsing t2flow executable plan.", e);
+                    doc = DocumentHelper.parseText(new String(preservationActionPlan.getData().getData(), ENCODING));
+
+                    if (doc.getRootElement().hasContent()) {
+                        preservationActionPlanElement = doc.getRootElement();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    log.error("Error parsing preservation action plan {}.", e.getMessage());
+                    throw new PlanningException("Error parsing preservation action plan.", e);
+                } catch (DocumentException e) {
+                    log.error("Error parsing preservation action plan {}.", e.getMessage());
+                    throw new PlanningException("Error parsing preservation action plan.", e);
                 }
-
             }
-        }
-        return executablePlan;
-    }
 
+        }
+
+        return preservationActionPlanElement;
+    }
 }

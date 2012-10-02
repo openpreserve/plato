@@ -60,6 +60,9 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     @OneToOne(cascade = CascadeType.ALL)
     protected DigitalObject t2flowExecutablePlan;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    protected DigitalObject preservationActionPlan;
+
     public String getExecutablePlan() {
         return executablePlan;
     }
@@ -140,6 +143,14 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
 
     public void setT2flowExecutablePlan(DigitalObject t2flowExecutablePlan) {
         this.t2flowExecutablePlan = t2flowExecutablePlan;
+    }
+
+    public DigitalObject getPreservationActionPlan() {
+        return preservationActionPlan;
+    }
+
+    public void setPreservationActionPlan(DigitalObject preservationActionPlan) {
+        this.preservationActionPlan = preservationActionPlan;
     }
 
 }
