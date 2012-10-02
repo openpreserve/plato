@@ -83,6 +83,8 @@ public class SetImportanceFactorsView extends AbstractView {
 
         private double totalWeight;
 
+        private boolean locked;
+
         public double getWeight() {
             return weight;
         }
@@ -98,6 +100,15 @@ public class SetImportanceFactorsView extends AbstractView {
         public void setTotalWeight(double totalWeight) {
             this.totalWeight = totalWeight;
         }
+
+        public boolean isLocked() {
+            return locked;
+        }
+
+        public void setLocked(boolean locked) {
+            this.locked = locked;
+        }
+
     }
 
     @Inject
@@ -183,8 +194,7 @@ public class SetImportanceFactorsView extends AbstractView {
         return criterionResultMap;
     }
 
-    public void balanceNode(TreeNode node, double weight) {
-
+    public void balanceNode(TreeNode node) {
         currentBalancedValues.clear();
 
         node.balanceWeights();
@@ -192,7 +202,8 @@ public class SetImportanceFactorsView extends AbstractView {
             for (TreeNode child : node.getParent().getChildren()) {
                 WeightData weightData = new WeightData();
                 weightData.setWeight(child.getWeight());
-                weightData.setTotalWeight(child.getTotalWeight());
+                weightData.setTotalWeight(Math.round(10000.0 * child.getTotalWeight()) / 10000.0);
+                weightData.setLocked(child.isLock());
                 currentBalancedValues.add(weightData);
             }
         }

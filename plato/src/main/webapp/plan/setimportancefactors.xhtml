@@ -98,9 +98,8 @@
 													disabled="#{!setImportanceFactors.autoBalancingEnabled}"
 													event="change"
 													data="#{setImportanceFactors.currentBalancedValues}"
-													listener="#{setImportanceFactors.balanceNode(node, node.weight)}"
-													oncomplete="updateBalancedNodeData(#{rich:component('treeNode')}, event.data);"
-													render="totalWeight" />
+													listener="#{setImportanceFactors.balanceNode(node)}"
+													oncomplete="updateBalancedNodeData(#{rich:component('treeNode')}, event.data);" />
 											</rich:inputNumberSlider>
 										</div>
 
@@ -116,7 +115,7 @@
 											style="width: 60px; text-align: center;">
 											<!-- Lock -->
 											<h:selectBooleanCheckbox rendered="#{node!=null}"
-												value="#{node.lock}" disabled="#{!node.child}">
+												value="#{node.lock}" disabled="#{!node.child}" id="locked">
 												<a4j:ajax onbeforesubmit="changed()" event="change"
 													listener="#{node.touch}" />
 											</h:selectBooleanCheckbox>

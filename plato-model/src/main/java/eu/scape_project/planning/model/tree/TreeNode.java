@@ -446,6 +446,7 @@ public abstract class TreeNode implements ITreeNode, Serializable, ITouchable, C
         }
         // this node has been changed
         changed.touch();
+        changed.setLock(true);
     }
 
     /**
