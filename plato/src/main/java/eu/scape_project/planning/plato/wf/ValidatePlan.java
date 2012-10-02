@@ -137,15 +137,6 @@ public class ValidatePlan extends AbstractWorkflowStep {
             throw new PlanningException("Error exporting plan");
         }
 
-        // ProjectExporter projectExporter = new ProjectExporter();
-        // File planFile;
-        // try {
-        // planFile = projectExporter.exportToFile(plan);
-        // } catch (IOException e) {
-        // log.error("Error exporting plan");
-        // throw new PlanningException("Error exporting plan", e);
-        // }
-
         try {
             planClient.uploadPlan(planFile);
         } catch (UniformInterfaceException e) {

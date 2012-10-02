@@ -471,9 +471,9 @@ public class Plan implements Serializable, ITouchable {
     }
 
     /**
-     * returns a list of all digital objects in the plan
+     * Returns a list of all digital objects in the plan.
      * 
-     * @return
+     * @return a list of digital objects
      */
     public List<DigitalObject> getDigitalObjects() {
         List<DigitalObject> list = new ArrayList<DigitalObject>();
@@ -487,6 +487,16 @@ public class Plan implements Serializable, ITouchable {
                     list.add(r.getXcdlDescription());
                 }
             }
+        }
+        if (getExecutablePlanDefinition().getT2flowExecutablePlan() != null) {
+            list.add(getExecutablePlanDefinition().getT2flowExecutablePlan());
+        }
+        if (getExecutablePlanDefinition().getPreservationActionPlan() != null) {
+            list.add(getExecutablePlanDefinition().getPreservationActionPlan());
+        }
+        if (getSampleRecordsDefinition().getCollectionProfile() != null
+            && getSampleRecordsDefinition().getCollectionProfile().getProfile() != null) {
+            list.add(getSampleRecordsDefinition().getCollectionProfile().getProfile());
         }
         return list;
     }

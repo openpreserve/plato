@@ -536,7 +536,7 @@ public class ProjectExporter implements Serializable {
     private Element addUpload(DigitalObject upload, Element parent, String elementName, BASE64Encoder encoder,
         boolean addDigitalObjectData) throws PlanningException {
         Element xmlNode = null;
-        if (upload != null && !"".equals(upload.getFullname()) && upload.isDataExistent()) {
+        if (upload != null && upload.isDataExistent()) {
             xmlNode = addEncodedDigitalObject(upload, parent, elementName, encoder, addDigitalObjectData);
         }
         return xmlNode;
@@ -761,8 +761,8 @@ public class ProjectExporter implements Serializable {
                 .getTypeOfObjects());
             addStringElement(collectionProfile, "retentionPeriod", p.getSampleRecordsDefinition()
                 .getCollectionProfile().getRetentionPeriod());
-            addEncodedDigitalObject(p.getSampleRecordsDefinition().getCollectionProfile().getProfile(),
-                collectionProfile, "profile", encoder, addDigitalObjectData);
+            addUpload(p.getSampleRecordsDefinition().getCollectionProfile().getProfile(), collectionProfile, "profile",
+                encoder, addDigitalObjectData);
         }
 
         for (SampleObject rec : p.getSampleRecordsDefinition().getRecords()) {
