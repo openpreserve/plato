@@ -35,11 +35,12 @@ import org.xml.sax.SAXException;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
-import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DetailedExperimentInfo;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.beans.MigrationResult;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.OrdinalValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
@@ -70,12 +71,8 @@ public class ExperimentEvaluator implements IObjectEvaluator {
      * 
      */
     static {
-        propertyToMeasuredValues.put(MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE,
-            "performance:time:used");
-        // propertyToMeasuredValues.put(OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB,
-        // "performance:time:elapsedPerMB");
-        propertyToMeasuredValues.put(MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE,
-            "performance:memory:gross");
+        propertyToMeasuredValues.put(MigrationResult.MIGRES_MEMORY_GROSS,
+            MigrationResult.MIGRES_MEMORY_GROSS);
     }
 
     /**
@@ -99,7 +96,7 @@ public class ExperimentEvaluator implements IObjectEvaluator {
     public Value evaluate(Alternative alternative, SampleObject sample, DigitalObject result, String measureUri) {
         double sampleSize = sample.getData().getSize() * (1024 * 1024);
 
-        if (MeasureConstants.OBJECT_ACTION_ACTIVITYLOGGING_AMOUNT.equals(measureUri)) {
+        if (MeasureConstants.AMOUNT_OF_LOGGING.equals(measureUri)) {
             Map<SampleObject, DetailedExperimentInfo> detailedInfo = alternative.getExperiment().getDetailedInfo();
             DetailedExperimentInfo detailedExperimentInfo = detailedInfo.get(sample);
             if ((detailedExperimentInfo != null) && (detailedExperimentInfo.getProgramOutput() != null)) {
@@ -109,7 +106,7 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 return v;
             }
             return null;
-        } else if (MeasureConstants.OBJECT_ACTION_ACTIVITYLOGGING_FORMAT.equals(measureUri)) {
+        } else if (MeasureConstants.FORMAT_OF_LOGGIN.equals(measureUri)) {
             Map<SampleObject, DetailedExperimentInfo> detailedInfo = alternative.getExperiment().getDetailedInfo();
             DetailedExperimentInfo detailedExperimentInfo = detailedInfo.get(sample);
             if ((detailedExperimentInfo != null) && (detailedExperimentInfo.getProgramOutput() != null)) {
@@ -119,25 +116,25 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 return v;
             }
             return null;
-        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(measureUri)) {
+//        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(measureUri)) {
+//            Value extracted = extractMeasuredValue(alternative, sample,
+//                MeasureConstants.ELAPSED_TIME_PER_OBJECT);
+//            if (extracted instanceof PositiveFloatValue) {
+//                PositiveFloatValue value = new PositiveFloatValue();
+//                double floatVal = ((PositiveFloatValue) extracted).getValue();
+//                if (Double.compare(floatVal, 0.0) != 0) {
+//                    // calculate msec/MB
+//                    floatVal = floatVal / sampleSize;
+//                    // throughput is defined in MB per second, time/perMB is
+//                    // msec/MB
+//                    value.setValue((1.0 / (floatVal / 1000.0)));
+//                }
+//                value.setComment("extracted from experiment details");
+//                return value;
+//            }
+        } else if (MeasureConstants.ELAPSED_TIME_PER_MB.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample,
-                MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
-            if (extracted instanceof PositiveFloatValue) {
-                PositiveFloatValue value = new PositiveFloatValue();
-                double floatVal = ((PositiveFloatValue) extracted).getValue();
-                if (Double.compare(floatVal, 0.0) != 0) {
-                    // calculate msec/MB
-                    floatVal = floatVal / sampleSize;
-                    // throughput is defined in MB per second, time/perMB is
-                    // msec/MB
-                    value.setValue((1.0 / (floatVal / 1000.0)));
-                }
-                value.setComment("extracted from experiment details");
-                return value;
-            }
-        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERMB.equals(measureUri)) {
-            Value extracted = extractMeasuredValue(alternative, sample,
-                MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_TIME_PERSAMPLE);
+                MeasureConstants.ELAPSED_TIME_PER_OBJECT);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();
@@ -149,9 +146,9 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 value.setComment("extracted from experiment details");
                 return value;
             }
-        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERMB.equals(measureUri)) {
+        } else if (MeasureConstants.AVERAGE_MEMORY_USED_PER_MB.equals(measureUri)) {
             Value extracted = extractMeasuredValue(alternative, sample,
-                MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_MEMORY_PERSAMPLE);
+                MigrationResult.MIGRES_MEMORY_GROSS);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();

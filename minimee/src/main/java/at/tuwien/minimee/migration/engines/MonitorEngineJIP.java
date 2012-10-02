@@ -107,7 +107,7 @@ public class MonitorEngineJIP extends MiniMeeDefaultMigrationEngine {
             Measurement m = new Measurement();
             m.setMeasureId(measure.getUri());
             PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
-            if (measure.getName().equals("performance:totalTimeInJava")) {
+            if (measure.getUri().equals("performance:totalTimeInJava")) {
                 v.setValue(totalTime);
             }
 //            if (property.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
@@ -115,7 +115,7 @@ public class MonitorEngineJIP extends MiniMeeDefaultMigrationEngine {
 //            }
 
             m.setValue(v);
-            result.getMeasurements().put(measure.getName(), m);
+            result.getMeasurements().put(measure.getUri(), m);
         }
     }
 }

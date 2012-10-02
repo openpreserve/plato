@@ -33,6 +33,7 @@ import at.tuwien.minimee.util.LinuxCommandExecutor;
 import at.tuwien.minimee.util.TopParser;
 import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
 
@@ -46,8 +47,6 @@ public class MonitorEngineTOPDefault extends MiniMeeDefaultMigrationEngine {
     private Logger log = LoggerFactory.getLogger(this.getClass());
     
     private String monitorScript = "topmonitorcall.sh";
-    
-    //protected LinuxCommandMonitor monitor = new LinuxCommandMonitor();
     
     @Override
     protected void cleanup(long time, String inputFile, String outputFile) {
@@ -184,42 +183,41 @@ public class MonitorEngineTOPDefault extends MiniMeeDefaultMigrationEngine {
         p.parse();
         
         ExecutionFootprintList performance = p.getList();
-        //log.debug(performance.toString());
         
         for (Measure measure: getMeasures()) {
-            if (!measure.getName().startsWith("machine:")) {
+            if (!measure.getUri().startsWith("machine:")) {
                 Measurement m = new Measurement();
                 m.setMeasureId(measure.getUri());
                 PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
 
-                if (measure.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
+                if (measure.getUri().equals(MeasureConstants.ELAPSED_TIME_PER_OBJECT)) {
                     v.setValue(performance.getTotalCpuTimeUsed());
                 }
-                if (measure.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
+                if (measure.getUri().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
                     v.setValue(performance.getMaxVirtualMemory());
                 }
-                if (measure.getName().equals(MigrationResult.MIGRES_MEMORY_NET)) {
+                if (measure.getUri().equals(MigrationResult.MIGRES_MEMORY_NET)) {
                     v.setValue(performance.getMaxResidentSize());
                 }
 
 
-                if (measure.getName().equals("performance:averageResidentSize")) {
+                if (measure.getUri().equals("performance:averageResidentSize")) {
                     v.setValue(performance.getAverageResidentSize());
-                } else if (measure.getName().equals("performance:averageSharedMemory")) {
+                } else if (measure.getUri().equals("performance:averageSharedMemory")) {
                     v.setValue(performance.getAverageSharedMemory());
-                } else if (measure.getName().equals("performance:averageVirtualMemory")) {
+                } else if (measure.getUri().equals("performance:averageVirtualMemory")) {
                     v.setValue(performance.getAverageVirtualMemory());
-                } else if (measure.getName().equals("performance:maxResidentSize")) {
+                } else if (measure.getUri().equals("performance:maxResidentSize")) {
                     v.setValue(performance.getMaxResidentSize());
-                } else if (measure.getName().equals("performance:maxSharedMemory")) {
+                } else if (measure.getUri().equals("performance:maxSharedMemory")) {
                     v.setValue(performance.getMaxSharedMemory());
-                } else if (measure.getName().equals("performance:maxVirtualMemory")) {
+                } else if (measure.getUri().equals("performance:maxVirtualMemory")) {
                     v.setValue(performance.getMaxVirtualMemory());
-                } else if (measure.getName().equals("performance:totalCpuTimeUsed")) {
+                } else if (measure.getUri().equals("performance:totalCpuTimeUsed")) {
                     v.setValue(performance.getTotalCpuTimeUsed());
                 }
                 m.setValue(v);
-                result.getMeasurements().put(measure.getName(), m);
+                result.getMeasurements().put(measure.getUri(), m);
             }
         }
         

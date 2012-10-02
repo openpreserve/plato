@@ -39,8 +39,8 @@ import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.xml.EngineFactory;
 import at.tuwien.minimee.registry.xml.EvaluatorFactory;
 import at.tuwien.minimee.util.StrictErrorHandler;
-import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.measurement.ToolExperience;
 import eu.scape_project.planning.model.values.INumericValue;
@@ -330,7 +330,7 @@ public class ToolRegistry {
         for (String config : benchmarkConfigs.keySet()) {
             ToolExperience ex = eb.getToolExperience(config);
 
-            Measurement m = ex.getAverage(MigrationResult.MIGRES_ELAPSED_TIME_PER_MB);
+            Measurement m = ex.getAverage(MeasureConstants.ELAPSED_TIME_PER_MB);
             if (m != null) {
                 INumericValue v = (INumericValue) m.getValue();
                 score += v.value();

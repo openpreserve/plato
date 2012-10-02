@@ -32,8 +32,8 @@ import org.xml.sax.SAXException;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IActionEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
-import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.scales.OrdinalScale;
 import eu.scape_project.planning.model.values.BooleanValue;
 import eu.scape_project.planning.model.values.Value;
@@ -80,7 +80,7 @@ public class PCDLEvaluator implements IActionEvaluator {
                 Document doc = xmlExtractor.getDocument(new InputSource(pcdlStream));
 
                 for (String measureUri : measureUris) {
-                    if (MeasureConstants.ACTION_RETAIN_FILENAME.equals(measureUri)) {
+                    if (MeasureConstants.RETAIN_ORIGINAL_FILENAME.equals(measureUri)) {
                         // for all wrapped minimee migrators the output filename
                         // can be determined by -o <filename> or something
                         // similar
@@ -118,7 +118,7 @@ public class PCDLEvaluator implements IActionEvaluator {
     }
 
     private void addExtractionPaths() {
-        extractionPaths.put(MeasureConstants.ACTION_BUSINESS_LICENCING_SCHEMA, "//Licensing/Schema/text()");
-        extractionPaths.put(MeasureConstants.ACTION_LICENSE, "//Licensing/License/text()");
+        extractionPaths.put(MeasureConstants.LICENCING_SCHEMA, "//Licensing/Schema/text()");
+//        extractionPaths.put(MeasureConstants.ACTION_LICENSE, "//Licensing/License/text()");
     }
 }

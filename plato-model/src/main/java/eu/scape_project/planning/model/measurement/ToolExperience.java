@@ -99,9 +99,9 @@ public class ToolExperience implements Serializable {
      * @return startup time of the tool
      */
     public double getStartupTime() {
-        Measurements elapsedTimeMeasurements = measurements.get(MigrationResult.MIGRES_USED_TIME);
+        Measurements elapsedTimeMeasurements = measurements.get(MeasureConstants.ELAPSED_TIME_PER_OBJECT);
         Measurements resultFileSizes = measurements.get(MigrationResult.MIGRES_RESULT_FILESIZE);
-        Measurements relativeFileSizes = measurements.get(MigrationResult.MIGRES_RELATIVE_FILESIZE);
+        Measurements relativeFileSizes = measurements.get(MeasureConstants.COMPARATIVE_FILE_SIZE);
 
         if (elapsedTimeMeasurements == null || resultFileSizes == null || relativeFileSizes == null) {
             return 0.0;

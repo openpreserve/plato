@@ -19,7 +19,6 @@ package at.tuwien.minimee.migration.engines;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,9 +139,9 @@ import eu.scape_project.planning.model.values.PositiveFloatValue;
             //
             // copy the shell script to the working directory
             //
-            URL monitorCallShellScriptUrl = Thread.currentThread().getContextClassLoader().getResource(from);
-            File f = new File(monitorCallShellScriptUrl.getFile());
-            String directoryPath = f.getAbsolutePath();
+//            URL monitorCallShellScriptUrl = Thread.currentThread().getContextClassLoader().getResource(from);
+//            File f = new File(monitorCallShellScriptUrl.getFile());
+//            String directoryPath = f.getAbsolutePath();
             
             /*
             URL urlJar = new URL(directoryPath.substring(
@@ -182,7 +181,7 @@ import eu.scape_project.planning.model.values.PositiveFloatValue;
                 m.setMeasureId(measure.getUri());
                 PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
 
-                if (measure.getName().equals("performance:memory:used")) {
+                if (measure.getUri().equals("performance:memory:used")) {
                     v.setValue(123.12);
                 } 
 //                if (property.getName().equals(MigrationResult.MIGRES_USED_TIME)) {
@@ -196,7 +195,7 @@ import eu.scape_project.planning.model.values.PositiveFloatValue;
 //                }
          
                 m.setValue(v);
-                result.getMeasurements().put(measure.getName(), m);
+                result.getMeasurements().put(measure.getUri(), m);
             }
             
         }

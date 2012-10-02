@@ -61,32 +61,15 @@ public class MigrationResult implements Serializable{
      * String 
      */
     public static final String MIGRES_REPORT = "process:report";
-    /**
-     * CPU time elapsed during migration. 
-     * Unit: [msec] .. milliseconds  
-     */
-    public static final String MIGRES_ELAPSED_TIME = "performance:time:elapsed";
-
     
-    /**
-     * CPU time elapsed during migration, per MB of input file size
-     * Unit: [msec] .. milliseconds  
-     */
-    public static final String MIGRES_ELAPSED_TIME_PER_MB = "performance:time:elapsedPerMB";
-
-    
-    /**
-     * CPU time used during migration
-     * Unit: [msec] .. milliseconds  
-     */
-    public static final String MIGRES_USED_TIME = "performance:time:used";
-    
-    /**
-     * CPU time used during migration, per Megabyte
-     * Unit: [msec] .. milliseconds  
-     */
-    public static final String MIGRES_USED_TIME_PER_MB = "performance:time:usedPerMB";
-    
+//    /**
+//     * CPU time elapsed during migration, per MB of input file size
+//     * Unit: [msec] .. milliseconds
+//     * 
+//     * 
+//     *  
+//     */
+//    public static final String MIGRES_ELAPSED_TIME_PER_MB = "performance:time:elapsedPerMB";
 
     
     /**
@@ -102,35 +85,29 @@ public class MigrationResult implements Serializable{
     public static final String MIGRES_MEMORY_NET = "performance:memory:net";
     
     
-    /**
-     * Memory used during migration
-     * Unit: [MB]  .. megabytes 
-     */
-    public static final String MIGRES_MEMORY_USED = "performance:memoryUsed";
+//    /**
+//     * Memory used during migration
+//     * Unit: [MB]  .. megabytes 
+//     */
+//    public static final String MIGRES_MEMORY_USED = "performance:memoryUsed";
     
-    /**
-     * Average CPU load
-     * Unit: [%] .. percent [0.0 .. 100]% 
-     */
-    public static final String MIGRES_AVERAGE_CPU_LOAD = "performance:averageCPULoad";
+//    /**
+//     * Average CPU load
+//     * Unit: [%] .. percent [0.0 .. 100]% 
+//     */
+//    public static final String MIGRES_AVERAGE_CPU_LOAD = "performance:averageCPULoad";
     
-    /**
-     * Average of memory used during migration
-     * Unit: [MB] .. megabytes 
-     */
-    public static final String MIGRES_AVERAGE_MEMORY_LOAD = "performance:averageMemoryLoad";
+//    /**
+//     * Average of memory used during migration
+//     * Unit: [MB] .. megabytes 
+//     */
+//    public static final String MIGRES_AVERAGE_MEMORY_LOAD = "performance:averageMemoryLoad";
     
     /**
      * File size of migration result
      * Unit: [MB] .. megabytes
      */
     public static final String MIGRES_RESULT_FILESIZE = "result:filesize";
-    
-    /**
-     * Resulting file size in relation to size of original file
-     * Unit: [%] ratio [0.0 .. ) 
-     */
-    public static final String MIGRES_RELATIVE_FILESIZE = "result:relativeFilesizePercent";
     
     public String getReport() {
         return report;

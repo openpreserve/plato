@@ -40,6 +40,7 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.values.FreeStringValue;
 import eu.scape_project.planning.model.values.PositiveFloatValue;
@@ -214,30 +215,30 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
             double elapsed = r.getElapsedTimeMS();
             double elapsedPerMB = ((double)elapsed)/(getMByte(data));
 
-            Measurement me = new Measurement(MigrationResult.MIGRES_ELAPSED_TIME,elapsed);
-            result.getMeasurements().put(MigrationResult.MIGRES_ELAPSED_TIME, me);
+            Measurement me = new Measurement(MeasureConstants.ELAPSED_TIME_PER_OBJECT,elapsed);
+            result.getMeasurements().put(MeasureConstants.ELAPSED_TIME_PER_OBJECT, me);
 
             for (Measure measure: getMeasures()) {
-                if (!measure.getName().startsWith("machine:")) {
+                if (!measure.getUri().startsWith("machine:")) {
                     Measurement m = new Measurement();
                     m.setMeasureId(measure.getUri());
                     PositiveFloatValue v = (PositiveFloatValue) measure.getScale().createValue();
-                    if (measure.getName().equals(MigrationResult.MIGRES_ELAPSED_TIME)) {
+                    if (measure.getUri().equals(MeasureConstants.ELAPSED_TIME_PER_OBJECT)) {
                         v.setValue(elapsed);
                         m.setValue(v);
-                        result.getMeasurements().put(measure.getName(), m);
-                    } else if (measure.getName().equals(MigrationResult.MIGRES_ELAPSED_TIME_PER_MB)) {
+                        result.getMeasurements().put(measure.getUri(), m);
+                    } else if (measure.getUri().equals(MeasureConstants.ELAPSED_TIME_PER_MB)) {
                         v.setValue(elapsedPerMB);
                         m.setValue(v);
-                        result.getMeasurements().put(measure.getName(), m);
-                    } else if (measure.getName().equals(MigrationResult.MIGRES_RELATIVE_FILESIZE)) {
+                        result.getMeasurements().put(measure.getUri(), m);
+                    } else if (measure.getUri().equals(MeasureConstants.COMPARATIVE_FILE_SIZE)) {
                         v.setValue(((double)length)/data.length * 100);
                         m.setValue(v);
-                        result.getMeasurements().put(measure.getName(), m);
-                    } else if (measure.getName().equals(MigrationResult.MIGRES_RESULT_FILESIZE)) {
+                        result.getMeasurements().put(measure.getUri(), m);
+                    } else if (measure.getUri().equals(MigrationResult.MIGRES_RESULT_FILESIZE)) {
                         v.setValue((double)length);
                         m.setValue(v);
-                        result.getMeasurements().put(measure.getName(), m);
+                        result.getMeasurements().put(measure.getUri(), m);
                     }
                 }                
             }
@@ -287,25 +288,25 @@ public class MiniMeeDefaultMigrationEngine implements IMigrationEngine {
         Machine m = ToolRegistry.getInstance().getMachine(machine);
 
         for (Measure measure: getMeasures()) {
-            if (measure.getName().startsWith("machine:")) {
+            if (measure.getUri().startsWith("machine:")) {
                 Measurement measurement = new Measurement();
                 measurement.setMeasureId(measure.getUri());
                 FreeStringValue v =(FreeStringValue) measure.getScale().createValue();
-                if (measure.getName().equals(Machine.MACHINE_NAME)) {
+                if (measure.getUri().equals(Machine.MACHINE_NAME)) {
                     v.setValue(m.getId());
-                } else if (measure.getName().equals(Machine.MACHINE_OS)) {
+                } else if (measure.getUri().equals(Machine.MACHINE_OS)) {
                     v.setValue(m.getOperatingSystem());
-                } else if (measure.getName().equals(Machine.MACHINE_CPUS)) {
+                } else if (measure.getUri().equals(Machine.MACHINE_CPUS)) {
                     v.setValue(m.getCpus());
-                } else if (measure.getName().equals(Machine.MACHINE_CPUCLOCK)) {
+                } else if (measure.getUri().equals(Machine.MACHINE_CPUCLOCK)) {
                     v.setValue(m.getCpuClock());
-                } else if (measure.getName().equals(Machine.MACHINE_CPUTYPE)) {
+                } else if (measure.getUri().equals(Machine.MACHINE_CPUTYPE)) {
                     v.setValue(m.getCpuType());
-                } else if (measure.getName().equals(Machine.MACHINE_MEMORY)) {
+                } else if (measure.getUri().equals(Machine.MACHINE_MEMORY)) {
                     v.setValue(m.getMemory());
                 } 
                 measurement.setValue(v);
-                result.getMeasurements().put(measure.getName(), measurement);
+                result.getMeasurements().put(measure.getUri(), measurement);
             }
         }        
         

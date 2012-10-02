@@ -69,7 +69,7 @@ public class MonitorEngineHPROF extends MiniMeeDefaultMigrationEngine {
 //                v.setValue(p.getTotal_virtual());
 //            } 
 
-            if (measure.getName().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
+            if (measure.getUri().equals(MigrationResult.MIGRES_MEMORY_GROSS)) {
                 v.setValue(p.getTotal_allocated());
             } 
 
@@ -78,14 +78,14 @@ public class MonitorEngineHPROF extends MiniMeeDefaultMigrationEngine {
              * it's the virtual memory still allocated when HProf collects information
              * - if garbage collector was called, this value is lower than the actual v-memory consumption 
              */
-            if (measure.getName().equals("performance:totalVirtualMemory")) {
+            if (measure.getUri().equals("performance:totalVirtualMemory")) {
                 v.setValue(p.getTotal_virtual());
             } 
-            if (measure.getName().equals("performance:totalAllocatedMemory")) {
+            if (measure.getUri().equals("performance:totalAllocatedMemory")) {
                 v.setValue(p.getTotal_allocated());
             }
             m.setValue(v);
-            result.getMeasurements().put(measure.getName(), m);
+            result.getMeasurements().put(measure.getUri(), m);
         }
     }
 }

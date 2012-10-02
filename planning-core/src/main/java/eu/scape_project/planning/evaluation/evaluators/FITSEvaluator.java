@@ -32,11 +32,11 @@ import org.xml.sax.SAXException;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
-import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FreeStringScale;
 import eu.scape_project.planning.model.scales.OrdinalScale;
@@ -204,18 +204,18 @@ public class FITSEvaluator implements IObjectEvaluator {
                             .extractText(fitsDocResult, "//fits:samplingFrequencyUnit/text()");
                         v = new OrdinalScale().createValue();
                         ((OrdinalValue) v).setValue(resultValue);
-                    } else if ((MeasureConstants.OBJECT_IMAGE_SPATIALMETRICS_XSAMPLINGFREQUENCY_EQUAL)
+                    } else if ((MeasureConstants.X_SAMPLING_FREQUENCY_PRESERVED)
                         .equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:xSamplingFrequency/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:xSamplingFrequency/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((MeasureConstants.OBJECT_IMAGE_SPATIALMETRICS_YSAMPLINGFREQUENCY_EQUAL)
+                    } else if ((MeasureConstants.Y_SAMPLING_FREQUENCY_PRESERVED)
                         .equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:ySamplingFrequency/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:ySamplingFrequency/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
 
-                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA + "#equal").equals(measureUri)) {
+                    } else if ((MeasureConstants.EXIF_ALL_METADATA_RETAINED + "#equal").equals(measureUri)) {
                         // we use the equal metric. reserve PRESERVED metric for
                         // later and get it right.
                         HashMap<String, String> sampleMetadata = extractor.extractValues(fitsDocSample,
@@ -223,41 +223,41 @@ public class FITSEvaluator implements IObjectEvaluator {
                         HashMap<String, String> resultMetadata = extractor.extractValues(fitsDocResult,
                             "//fits:exiftool/*[local-name() != 'rawdata']");
                         v = preservedValues(sampleMetadata, resultMetadata, new BooleanScale());
-                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_PRODUCER_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.PRODUCER_METADATA_ELEMENT_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:ImageCreation/ImageProducer/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:ImageCreation/ImageProducer/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if (MeasureConstants.OBJECT_IMAGE_METADATA_SOFTWARE_RETAINED.equals(measureUri)) {
+                    } else if (MeasureConstants.SOFTWARE_METADATA_ELEMENT_RETAINED.equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:creatingApplicationName/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:creatingApplicationName/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_CREATIONDATE_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.DATE_AND_TIME_OF_CREATION_METADATA_ELEMENT_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:ImageCreation/DateTimeCreated/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:ImageCreation/DateTimeCreated/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
                         // FIXME
-                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_LASTMODIFIED + "#equal").equals(measureUri)) {
-                        String sampleValue = extractor
-                            .extractText(fitsDocSample, "//fits:fileinfo/lastmodified/text()");
-                        String resultValue = extractor
-                            .extractText(fitsDocResult, "//fits:fileinfo/lastmodified/text()");
-                        v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                        // FIXME only a criterion for EXIF IDF0 image
-                        // description is defined
-                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_DESCRIPTION + "#equal").equals(measureUri)) {
+//                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_LASTMODIFIED + "#equal").equals(measureUri)) {
+//                        String sampleValue = extractor
+//                            .extractText(fitsDocSample, "//fits:fileinfo/lastmodified/text()");
+//                        String resultValue = extractor
+//                            .extractText(fitsDocResult, "//fits:fileinfo/lastmodified/text()");
+//                        v = identicalValues(sampleValue, resultValue, new BooleanScale());
+//                        // FIXME only a criterion for EXIF IDF0 image
+//                        // description is defined
+                    } else if ((MeasureConstants.EXIF_IMAGE_DESCRIPTION_RETAINED + "#equal").equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:exiftool/ImageDescription/text()");
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:exiftool/ImageDescription/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
 
-                    } else if ((MeasureConstants.OBJECT_IMAGE_METADATA_ORIENTATION_RETAINED).equals(measureUri)) {
+                    } else if ((MeasureConstants.IMAGE_ORIENTATION_METADATA_ELEMENT_RETAINED).equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample, "//fits:exiftool/Orientation/text()");
                         String resultValue = extractor.extractText(fitsDocResult, "//fits:exiftool/Orientation/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());

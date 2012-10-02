@@ -33,10 +33,13 @@ import at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
-import eu.scape_project.planning.evaluation.MeasureConstants;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.measurement.MeasureConstants;
+import eu.scape_project.planning.model.scales.BooleanScale;
+import eu.scape_project.planning.model.scales.FloatScale;
+import eu.scape_project.planning.model.scales.PositiveFloatScale;
 import eu.scape_project.planning.model.scales.Scale;
 import eu.scape_project.planning.model.values.BooleanValue;
 import eu.scape_project.planning.model.values.FloatValue;
@@ -68,46 +71,44 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
             saveTempFile(sample);
             saveTempFile(result);
 
-            // NOTE: imageEvaluator is still called once per leaf !
+            // NOTE: imageEvaluator is still called once per criterion !
             // -> could be optimized, but the used minimee evaluator will do
             // separate calls anyway
             ImageCompareEvaluator imageEvaluator = new ImageCompareEvaluator();
 
-            for (String measureUri : measureUris) {// ProjectImporter.addMetricRules(digester,
-                                                   // "*/criterion/metric",
-                                                   // "setMetric");
-
-                Scale scale = null; // FIXME
-                                    // descriptor.getMeasurementScale(measureUri);
-                if (scale == null) {
-                    // This means that I am not entitled to evaluate this
-                    // criterion and therefore supposed to skip it:
-                    continue;
-                }
+            for (String measureUri : measureUris) {
+                Scale scale = null; 
                 String mode = null;
-                if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_EQUAL.equals(measureUri)) {
+                if (MeasureConstants.IMAGE_CONTENT_IS_EQUAL.equals(measureUri)) {
                     mode = "equal";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_AE.equals(measureUri)) {
+                    scale = new BooleanScale();
+                } else if (MeasureConstants.ABSOLUTE_ERROR_AE.equals(measureUri)) {
                     mode = "ae";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_PAE.equals(measureUri)) {
+                    scale = new PositiveFloatScale();
+                } else if (MeasureConstants.PEAK_ABSOLUTE_ERROR_PAE.equals(measureUri)) {
                     mode = "pae";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_PSNR.equals(measureUri)) {
+                    scale = new PositiveFloatScale();
+                } else if (MeasureConstants.PEAK_SIGNAL_TO_NOISE_RATIO.equals(measureUri)) {
                     mode = "psnr";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MAE.equals(measureUri)) {
+                    scale = new PositiveFloatScale();
+                } else if (MeasureConstants.MEAN_ABSOLUTE_ERROR.equals(measureUri)) {
                     mode = "mae";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MSE.equals(measureUri)) {
+                    scale = new PositiveFloatScale();
+                } else if (MeasureConstants.MEAN_SQUARED_ERROR.equals(measureUri)) {
                     mode = "mse";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_RMSE.equals(measureUri)) {
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MEPP.equals(measureUri)) {
-                    mode = "mepp";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLE.equals(measureUri)) {
+                    scale = new PositiveFloatScale();
+                } else if (MeasureConstants.IMAGE_DISTANCE_RMSE.equals(measureUri)) {
+//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MEPP.equals(measureUri)) {
+//                    mode = "mepp";
+                } else if (MeasureConstants.IMAGE_DISTANCE_SSIM.equals(measureUri)) {
                     mode = "ssimSimple";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(measureUri)) {
-                    mode = "ssimSimpleHue";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(measureUri)) {
-                    mode = "ssimSimpleSaturation";
-                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(measureUri)) {
-                    mode = "equalJudged";
+                    scale = new FloatScale();
+//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(measureUri)) {
+//                    mode = "ssimSimpleHue";
+//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(measureUri)) {
+//                    mode = "ssimSimpleSaturation";
+//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(measureUri)) {
+//                    mode = "equalJudged";
                 }
 
                 if (mode != null) {
@@ -117,23 +118,18 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                             tempFiles.get(result), "AE");
 
                         if (d.compareTo(Scale.MAX_VALUE) == 0) {
-                            // No: only evaluation results are returned, no
-                            // error messages
+                            // No: only evaluation results are returned, no error messages
                             // v.setComment("ImageMagick compare failed or could not be called");
                         } else {
                             v = scale.createValue();
                             ((BooleanValue) v).bool(d.compareTo(0.0) == 0);
                             v.setComment("ImageMagick compare returned " + Double.toString(d) + " different pixels");
                         }
-                        // log.debug("difference" +
-                        // Double.toString(Scale.MAX_VALUE-d));
                     } else {
                         Double d = imageEvaluator.evaluate(tempDir.getAbsolutePath(), tempFiles.get(sample),
                             tempFiles.get(result), mode);
                         if (d == null) {
-                            // No: only evaluation results are returned, no
-                            // error messages
-                            // v = leaf.getScale().createValue();
+                            // No: only evaluation results are returned, no error messages
                             // v.setComment("ImageMagick comparison failed");
                         } else {
                             v = scale.createValue();

@@ -191,7 +191,7 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
                                 // evaluation
                                 measurementsToEval.removeAll(results.keySet());
                             } catch (Exception e) {
-                                log.error("evaluator failed" + e.getMessage(), e);
+                                log.error("evaluator failed: " + e.getMessage(), e);
                                 continue;
                             }
                         }
