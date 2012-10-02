@@ -34,7 +34,7 @@
 				-->
 			</ui:remove>			
 			
-			<h:commandButton id="list" action="#{planLister.listAll}" value="List all" rendered="#{user.admin}" class="margin-top"/>
+			<h:commandButton id="list" action="#{planLister.listAll}" value="List both, my private and all public" rendered="#{user.admin}" class="margin-top"/>
 			
 			<a4j:outputPanel layout="block" id="planListPanel">
 				<h:dataTable value="#{planLister.list}" var="p"

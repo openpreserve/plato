@@ -56,7 +56,7 @@ public class PlanManager implements Serializable {
     private static final long serialVersionUID = -1L;
 
     public enum WhichProjects {
-        ALLPROJECTS, PUBLICPROJECTS, MYPROJECTS, FTEPROJECTS, PUBLICFTEPROJECTS;
+        ALLPROJECTS, ALLFTEPROJECTS, PUBLICPROJECTS, MYPROJECTS, FTEPROJECTS, PUBLICFTEPROJECTS;
     }
 
     @Inject
@@ -114,10 +114,15 @@ public class PlanManager implements Serializable {
             
             query.setParameter("owner", user.getUsername());
             query.setParameter("planType", PlanType.FULL);
-        } else if (whichProjects == WhichProjects.ALLPROJECTS && (user.isAdmin())) {
+        } else if ((whichProjects == WhichProjects.ALLPROJECTS || whichProjects == WhichProjects.ALLFTEPROJECTS) && (user.isAdmin())) {
             // load all projects, public and private,
             // but ONLY if the user is an admin
-            query = em.createQuery("select p from PlanProperties p order by p.id");
+            query = em.createQuery("select p from PlanProperties p where (p.planType = :planType) order by p.id");
+            if (whichProjects == WhichProjects.ALLFTEPROJECTS) {
+                query.setParameter("planType", PlanType.FTE);
+            } else {
+                query.setParameter("planType", PlanType.FULL);
+            }
         } else if (whichProjects == WhichProjects.FTEPROJECTS) {
             query = em.createQuery("select p.planProperties from Plan p where" + " (p.planProperties.owner = :owner) "
                 + " and (p.planProperties.planType = :planType)"
@@ -135,7 +140,7 @@ public class PlanManager implements Serializable {
             // load all public projects, which includes those with published
             // reports
             query = em.createQuery("select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
-                + " or (p.planProperties.privateProject = true and p.planProperties.reportPublic = true)) " 
+                + " or (p.planProperties.reportPublic = true)) " 
                 + " and (p.planProperties.planType = :planType) "
                 + " order by p.planProperties.id");
             query.setParameter("planType", PlanType.FULL);

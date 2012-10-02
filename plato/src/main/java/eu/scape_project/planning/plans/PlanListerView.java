@@ -90,7 +90,11 @@ public class PlanListerView implements Serializable {
 
     public String listAll() {
         resetTransformations();
-        projectSelection = WhichProjects.ALLPROJECTS;
+        if (projectSelection == WhichProjects.FTEPROJECTS || projectSelection == WhichProjects.PUBLICFTEPROJECTS || projectSelection == WhichProjects.ALLFTEPROJECTS) {
+            projectSelection = WhichProjects.ALLFTEPROJECTS;
+        } else { 
+            projectSelection = WhichProjects.ALLPROJECTS;
+        }
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
@@ -106,7 +110,11 @@ public class PlanListerView implements Serializable {
 
     public String listAllProjects() {
         resetTransformations();
-        projectSelection = WhichProjects.ALLPROJECTS;
+        if (projectSelection == WhichProjects.FTEPROJECTS || projectSelection == WhichProjects.PUBLICFTEPROJECTS) {
+            projectSelection = WhichProjects.ALLFTEPROJECTS;
+        } else { 
+            projectSelection = WhichProjects.ALLPROJECTS;
+        }
         list = planManager.list(projectSelection);
         log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
