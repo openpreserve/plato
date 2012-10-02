@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
@@ -61,7 +62,15 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         prepareChangesForPersist.prepare(plan);
 
         saveEntity(plan.getTree());
-        saveEntity(plan.getAlternativesDefinition());
+        AlternativesDefinition storedAltDef = (AlternativesDefinition)saveEntity(plan.getAlternativesDefinition());
+        
+        for (Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
+            Alternative storedAlt = storedAltDef.alternativeByName(alt.getName());
+            if (storedAlt != null) {
+                alt.setId(storedAlt.getId());
+            }
+        }
+        
         saveEntity(plan.getRecommendation());
     }
 
