@@ -78,7 +78,7 @@
 	</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
-
+<!--  
 <xsl:variable name="criteriaText">
 <lookup:criteria xmlns="http://ifs.tuwien.ac.at/dp/plato">
 	<lookup:criterion ID="outcome://object/image/similarity#equal">
@@ -91,7 +91,7 @@
 	</lookup:criterion>
 </lookup:criteria>
 </xsl:variable>
-
+-->
 <xsl:template match="plato:criterion">
 <xsl:comment>
 	<xsl:copy-of select="."></xsl:copy-of> 
