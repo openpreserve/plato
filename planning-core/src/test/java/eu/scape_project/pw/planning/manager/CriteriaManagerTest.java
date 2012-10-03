@@ -95,7 +95,9 @@ public class CriteriaManagerTest {
 	    Assert.assertTrue(StringUtils.isNotEmpty(a.getName()));
 
 	    CriterionCategory category = a.getCategory();
-	    Assert.assertNotNull(category);
+	    Assert.assertNotNull("Measure '" + m.getName() + "' has no category!", category);
+	    Assert.assertTrue("Measure '" + m.getName() + "' category has no uri!", StringUtils.isNotEmpty(category.getUri()));
+	    Assert.assertNotNull("Measure '" + m.getName() + "' category " + category.getUri() + " has no scope", category.getScope());
 	    
             Scale s = m.getScale();
             Assert.assertNotNull("Measure '" + m.getName() + "' has no scale!", s);

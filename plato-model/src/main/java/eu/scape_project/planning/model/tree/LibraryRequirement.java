@@ -18,17 +18,20 @@
  ******************************************************************************/
 package eu.scape_project.planning.model.tree;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
-import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.Measure;
 
 @Entity
 @DiscriminatorValue("LR")
 public class LibraryRequirement extends Node {
     private static final long serialVersionUID = 2407351076268518335L;
 
+    @OneToOne(cascade = CascadeType.ALL)
     private CriterionCategory category = null;
     
     private boolean predefined = false;

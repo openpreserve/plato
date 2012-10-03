@@ -18,7 +18,6 @@ package eu.scape_project.planning.plato.wfview.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,7 +41,7 @@ public class CriterionSelector implements Serializable {
     @Inject
     private CriteriaManager criteriaManager;
 
-    private Collection<CriterionCategory> categories;
+    private List<CriterionCategory> categories;
 
     private List<Attribute> allAttributes;
     private Collection<Attribute> filteredAttributes;
@@ -84,13 +83,27 @@ public class CriterionSelector implements Serializable {
         }
     }
 
+    class CategoryNameComparator implements Comparator<CriterionCategory> {
+        @Override
+        public int compare(CriterionCategory o1, CriterionCategory o2) {
+            if (null == o1) {
+                return -1;
+            } else if (null == o2) {
+                return 1;
+            }
+            return o1.getName().compareTo(o2.getName());
+        }
+    }
+
     public CriterionSelector() {
-        categories = new ArrayList<CriterionCategory>(Arrays.asList(CriterionCategory.values()));
 
         clearSelection();
     }
 
     public void init() {
+        categories = new ArrayList<CriterionCategory>(criteriaManager.getAllCriterionCategories());
+        Collections.sort(categories, new CategoryNameComparator());
+        
         allAttributes = new ArrayList<Attribute>(criteriaManager.getAllAttributes());
         Collections.sort(allAttributes, new AttributeNameComparator());
 
@@ -109,10 +122,34 @@ public class CriterionSelector implements Serializable {
         selectedMeasure = null;
     }
 
+    public String getSelectedCategoryName() {
+        if (selectedCategory == null) {
+            return null;
+        } else {
+            return selectedCategory.getName();
+        }
+    }
+
+    public void setSelectedCategoryName(String name) {
+        this.selectedCategory = findCategoryByName(name);
+    }
+    
     public void setSelectedAttributeName(String name) {
         selectedAttribute = findAttributeByName(name);
     }
 
+    private CriterionCategory findCategoryByName(String name) {
+        if (name == null) {
+            return null;
+        }
+        for (CriterionCategory c : categories) {
+            if (name.equals(c.getName())) {
+                return c;
+            }
+        }
+        return null;
+    }
+    
     private Attribute findAttributeByName(String name) {
         if (name == null) {
             return null;
@@ -167,7 +204,7 @@ public class CriterionSelector implements Serializable {
         } else {
             boolean isSelectedAttributeInList = false;
             for (Attribute attr : allAttributes) {
-                if (attr.getCategory() == selectedCategory) {
+                if (attr.getCategory().getUri().equals(selectedCategory.getUri())) {
                     filteredAttributes.add(attr);
     
                     // try to restore previous attribute selection  
@@ -206,19 +243,22 @@ public class CriterionSelector implements Serializable {
             selectedMeasure = filteredMeasures.iterator().next();
         }
     }
+    
+    public void selectMeasure(Measure measure) {
+        if (measure != null) {
+            selectedMeasure = measure;
+            selectedAttribute = measure.getAttribute();
+            selectedCategory = selectedAttribute.getCategory();
+            
+            applyFilter();
+        } else {
+            clearSelection();
+        }
+        
+    }
 
     public Measure getSelectedMeasure() {
         return selectedMeasure;
-    }
-
-    // --------------- general getter/setter ---------------
-
-    public CriterionCategory getSelectedCategory() {
-        return selectedCategory;
-    }
-
-    public void setSelectedCategory(CriterionCategory selectedCategory) {
-        this.selectedCategory = selectedCategory;
     }
 
     public Collection<CriterionCategory> getCategories() {
@@ -235,5 +275,9 @@ public class CriterionSelector implements Serializable {
 
     public Attribute getSelectedAttribute() {
         return selectedAttribute;
+    }
+
+    public CriterionCategory getSelectedCategory() {
+        return selectedCategory;
     }
 }

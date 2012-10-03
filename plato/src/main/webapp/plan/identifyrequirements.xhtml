@@ -158,7 +158,7 @@
 				                                <a4j:outputPanel layout="block" styleClass="mappingDiv" rendered="#{node.leaf and not identifyRequirements.editingNodeComments}">
 					                                <a4j:commandLink
 					                                    action="#{identifyRequirements.selectLeaf(node)}"
-					                                    render="propertyMappingEditor"
+					                                    render="editLeafMapping"
 					                                    oncomplete="#{rich:component('editLeafMapping')}.show();" execute="@this">
 					                                    <h:graphicImage id="showMapping"
 					                                        value="/resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
@@ -382,22 +382,22 @@
 	               <th></th>
 	           </tr>
 	           <tr>
-	               <th style="width: 15em;"><i>Category</i></th>
-	               <th style="width: 35em;"><i>Attribute</i></th>
-	               <th style="width: 10em;"><i>Measure</i></th>
+	               <th style="width: 20em;"><i>Category</i></th>
+	               <th style="width: 20em;"><i>Attribute</i></th>
+	               <th style="width: 20em;"><i>Measure</i></th>
 	           </tr>
 	           <tr style="background-color: #F2F2F2;">
 	               <td>
-	                    <h:selectOneListbox size="7" id="categories_select" value="#{identifyRequirements.critSelector.selectedCategory}" required="false" style="width: 14em;">
+	                    <h:selectOneListbox size="7" id="categories_select" value="#{identifyRequirements.critSelector.selectedCategoryName}" required="false" style="width: 20em;">
 	                        <f:selectItems value="#{identifyRequirements.critSelector.categories}" var="cat"  noSelectionValue="(all)"
-	                                       itemLabel="#{cat.criterionCategory}" itemValue="#{cat}" />
+	                                       itemLabel="#{cat.name}" itemValue="#{cat.name}" />
 	                        <a4j:ajax event="change"
 	                                     render="attributes_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
 	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
 	                    </h:selectOneListbox>                  
 	               </td>
 	               <td>
-	                    <h:selectOneListbox size="7" id="attributes_select" value="#{identifyRequirements.critSelector.selectedAttributeName}" required="false" style="width: 34em;">
+	                    <h:selectOneListbox size="7" id="attributes_select" value="#{identifyRequirements.critSelector.selectedAttributeName}" required="false" style="width: 20em;">
 	                        <f:selectItems value="#{identifyRequirements.critSelector.filteredAttributes}" var="attr"  
 	                                       itemLabel="#{attr.name}" itemValue="#{attr.name}" noSelectionValue="(all)" />
 	                        <a4j:ajax event="change"
@@ -406,7 +406,7 @@
 	                    </h:selectOneListbox>
 	               </td>
 	               <td>
-	                    <h:selectOneListbox size="7" id="measures_select" value="#{identifyRequirements.critSelector.selectedMeasureName}" required="false" style="width: 14em;">
+	                    <h:selectOneListbox size="7" id="measures_select" value="#{identifyRequirements.critSelector.selectedMeasureName}" required="false" style="width: 20em;">
 	                        <f:selectItems id="metrics_select_items" value="#{identifyRequirements.critSelector.filteredMeasures}" var="measure" 
 	                                       itemLabel="#{measure.name}" itemValue="#{measure.name}" noSelectionLabel="(none)" />
 	                        <a4j:ajax event="change"
@@ -433,6 +433,10 @@
 	                    <th class="align-left" style="width: 20em;">Measure characteristic</th>
 	                    <th class="align-left" style="width: 40em;">Value</th>
 	                </tr>                
+	                <tr>
+	                    <td>category</td>
+                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedCategory.name}" rendered="#{identifyRequirements.critSelector.selectedCategory != null}"/></td>
+	                </tr> 
 	                <tr>
 	                    <td>attribute description</td>
                         <td><h:outputText value="#{identifyRequirements.critSelector.selectedAttribute.description}" rendered="#{identifyRequirements.critSelector.selectedAttribute != null}"/></td>

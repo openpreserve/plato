@@ -16,7 +16,10 @@
  ******************************************************************************/
 package eu.scape_project.planning.model.measurement;
 
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * This is based on the quality model of preservation planning attributes and measures 
@@ -24,97 +27,60 @@ import java.io.Serializable;
  * @author Michael Kraxner
  * 
  */
-public enum CriterionCategory implements Serializable {
-    TIME_BEHAVIOUR("Action", "Action quality", "Performance efficiency", "Time behaviour",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    RESOURCE_UTILIZATION("Action", "Action quality", "Performance efficiency", "Resource utilization",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    CAPACITY("Action", "Action quality", "Performance efficiency", "Capacity", EvaluationScope.ALTERNATIVE_ACTION),
-    CO_EXISTENCE("Action", "Action quality", "Compatability", "Co-existence", EvaluationScope.ALTERNATIVE_ACTION),
-    INTEROPERABILITY("Action", "Action quality", "Compatability", "Interoperability",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    APPROPRIATENESS_RECOGNIZABILITY("Action", "Action quality", "Usability", "Appropriateness recognizability",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    LEARNABILITY("Action", "Action quality", "Usability", "Learnability", EvaluationScope.ALTERNATIVE_ACTION),
-    OPERABILITY("Action", "Action quality", "Usability", "Operability", EvaluationScope.ALTERNATIVE_ACTION),
-    USER_ERROR_PROTECTION("Action", "Action quality", "Usability", "User error protection",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    USER_INTERFACE_AESTHETICS("Action", "Action quality", "Usability", "User interface aesthetics",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    ACCESSIBILITY("Action", "Action quality", "Usability", "Accessibility", EvaluationScope.ALTERNATIVE_ACTION),
-    ADAPTABILITY("Action", "Action quality", "Portability", "Adaptability", EvaluationScope.ALTERNATIVE_ACTION),
-    INSTALLABILITY("Action", "Action quality", "Portability", "Installability", EvaluationScope.ALTERNATIVE_ACTION),
-    REPLACEABILITY("Action", "Action quality", "Portability", "Replaceability", EvaluationScope.ALTERNATIVE_ACTION),
-    MATURITY("Action", "Action quality", "Reliability", "Maturity", EvaluationScope.ALTERNATIVE_ACTION),
-    AVAILABILITY("Action", "Action quality", "Reliability", "Availability", EvaluationScope.ALTERNATIVE_ACTION),
-    FAULT_TOLERANCE("Action", "Action quality", "Reliability", "Fault tolerance", EvaluationScope.ALTERNATIVE_ACTION),
-    RECOVERABILITY("Action", "Action quality", "Reliability", "Recoverability", EvaluationScope.ALTERNATIVE_ACTION),
-    FUNCTIONAL_COMPLETENESS("Action", "Action quality", "Functional suitability", "Functional completeness",
-        EvaluationScope.OBJECT),
-    FUNCTIONAL_CORRECTNESS_INFORMATION_PROPERTY("Action", "Action quality", "Functional correctness",
-        "Functional correctness: Information Property", EvaluationScope.OBJECT),
-    FUNCTIONAL_CORRECTNESS_TRANSFORMATION_INDEPENDENT_PROPERTY("Action", "Action quality", "Functional correctness",
-        "Functional correctness: Transformation Independent Property", EvaluationScope.OBJECT),
-//        FUNCTIONAL_CORRECTNESS_TRANSFORMATIONAL_INFORMATION_PROPERTY("Action", "Action quality", "Functional correctness",
-//            "Functional correctness: Transformational Information Property", EvaluationScope.OBJECT),
-    FUNCTIONAL_CORRECTNESS_REPRESENTATION_INSTANCE_PROPERTY("Action", "Action quality", "Functional correctness",
-        "Functional correctness: Representation Instance Property", EvaluationScope.ALTERNATIVE_ACTION),
-    FUNCTIONAL_APPROPRIATENESS("Action", "Action quality", "Functional correctness", "Functional appropriateness",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    MODULARITY("Action", "Action quality", "Maintainability", "Modularity", EvaluationScope.ALTERNATIVE_ACTION),
-    REUSABILITY("Action", "Action quality", "Maintainability", "Reusability", EvaluationScope.ALTERNATIVE_ACTION),
-    ANALYSABILITY("Action", "Action quality", "Maintainability", "Analysability", EvaluationScope.ALTERNATIVE_ACTION),
-    MODIFIABILITY("Action", "Action quality", "Maintainability", "Modifiability", EvaluationScope.ALTERNATIVE_ACTION),
-    TESTABILITY("Action", "Action quality", "Maintainability", "Testability", EvaluationScope.ALTERNATIVE_ACTION),
-    CONFIDENTIALITY("Action", "Action quality", "Security", "Confidentiality", EvaluationScope.ALTERNATIVE_ACTION),
-    INTEGRITY("Action", "Action quality", "Security", "Integrity", EvaluationScope.ALTERNATIVE_ACTION),
-    NON_REPUDIATION("Action", "Action quality", "Security", "Non-repudiation", EvaluationScope.ALTERNATIVE_ACTION),
-    ACCOUNTABILITY("Action", "Action quality", "Security", "Accountability", EvaluationScope.ALTERNATIVE_ACTION),
-    AUTHENTICITY_OF_THE_ACTION("Action", "Action quality", "Security", "Authenticity of the action",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    ACTION_COSTS("Action", "Action quality", "", "Action costs", EvaluationScope.ALTERNATIVE_ACTION),
-    ACTION_LICENSING("Action", "Action quality", "", "Action licensing", EvaluationScope.ALTERNATIVE_ACTION),
-    ACTION_MAINTENANCE("Action", "Action quality", "", "Action maintenance", EvaluationScope.ALTERNATIVE_ACTION),
-    OUTCOME_EFFECT("Outcome", "", "", "Outcome effect", EvaluationScope.ALTERNATIVE_ACTION),
-    FORMAT_SUSTAINABILITY("Outcome", "Format of the content", "", "Format sustainability",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    FORMAT_QUALITY_AND_FUNCTIONALITY("Outcome", "Format of the content", "", "Format quality and functionality",
-        EvaluationScope.ALTERNATIVE_ACTION),
-    FORMAT_BUSINESS_FACTORS("Outcome", "Format of the content", "", "Format business factors",
-        EvaluationScope.ALTERNATIVE_ACTION);
-
-    private String topCategory;
-    private String subCategory;
-    private String subsubCategory;
-    private String criterionCategory;
+@Entity
+public class CriterionCategory {
+    
+    @Id
+    @GeneratedValue
+    private long id;
+    
+    private String name;
+    
+    private String uri;
+    
+    @Enumerated
     private EvaluationScope scope;
-
-    private CriterionCategory(final String topCategory, final String subCategory, final String subsubCategory, final String criterionCategory,
-        EvaluationScope scope) {
-        this.topCategory = topCategory;
-        this.subCategory = subCategory;
-        this.subsubCategory = subsubCategory;
-        this.criterionCategory = criterionCategory;
+    
+    public CriterionCategory(){
+        
     }
-
-    public String getSubCategory() {
-        return subCategory;
-    }
-
-    public String getTopCategory() {
-        return topCategory;
-    }
-
-    public String getSubsubCategory() {
-        return subsubCategory;
-    }
-
-    public String getCriterionCategory() {
-        return criterionCategory;
+    
+    public CriterionCategory(final String uri, final String name,final EvaluationScope scope) {
+        this.uri = uri;
+        this.name = name;
+        this.scope = scope;
     }
 
     public EvaluationScope getScope() {
         return scope;
+    }
+
+    public void setScope(EvaluationScope scope) {
+        this.scope = scope;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

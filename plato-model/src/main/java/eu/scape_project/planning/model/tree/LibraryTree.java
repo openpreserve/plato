@@ -28,9 +28,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
-import eu.scape_project.planning.model.measurement.CriterionCategory;
-import eu.scape_project.planning.model.measurement.EvaluationScope;
-
 @Entity
 public class LibraryTree implements Serializable {
 
@@ -48,36 +45,37 @@ public class LibraryTree implements Serializable {
     
     public LibraryTree() {
     }
-    
-    public void addMainRequirements() {
-        name = "RequirementsLibrary";
-        
-        root = new LibraryRequirement();
-        root.setName("Requirements");
-        root.setPredefined(true);
-        // add predefined nodes
-        LibraryRequirement action = root.addRequirement();
-        action.setName("Action");
-        action.setPredefined(true);
 
-        LibraryRequirement obj = root.addRequirement();
-        obj.setName("Object");
-        obj.setPredefined(true);
-        
-        
-        LibraryRequirement r;
-        for (CriterionCategory category : CriterionCategory.values()) {
-        	if (category.getScope() == EvaluationScope.ALTERNATIVE_ACTION) {
-        		r = action.addRequirement();
-        	} else {
-        		r = obj.addRequirement();
-        	}
-        	r.setCategory(category);
-        	r.setName(category.getCriterionCategory());
-        	r.setPredefined(true);
-        }
-
-    }
+// FIXME: this should happen "outside"
+//    public void addMainRequirements() {
+//        name = "RequirementsLibrary";
+//        
+//        root = new LibraryRequirement();
+//        root.setName("Requirements");
+//        root.setPredefined(true);
+//        // add predefined nodes
+//        LibraryRequirement action = root.addRequirement();
+//        action.setName("Action");
+//        action.setPredefined(true);
+//
+//        LibraryRequirement obj = root.addRequirement();
+//        obj.setName("Object");
+//        obj.setPredefined(true);
+//        
+//        
+//        LibraryRequirement r;
+//        for (CriterionCategory category : CriterionCategory.values()) {
+//        	if (category.getScope() == EvaluationScope.ALTERNATIVE_ACTION) {
+//        		r = action.addRequirement();
+//        	} else {
+//        		r = obj.addRequirement();
+//        	}
+//        	r.setCategory(category);
+//        	r.setName(category.getCriterionCategory());
+//        	r.setPredefined(true);
+//        }
+//
+//    }
 
     public int getId() {
         return id;        

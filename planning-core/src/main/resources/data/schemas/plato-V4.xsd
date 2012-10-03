@@ -14,10 +14,10 @@
   * new model for measuring significant properties: 
     - measure and attributes based on the new quality model as replacement for criterion, measureableproperty, and metric
     - MeasurementType: refers to measureId instead of MeasureableProperty
+    - EvaluationScope: {ALTERNATIVE_ACTION, OBJECT}
   * Information about CollectionProfile
-  * PlanState: covers full evaluation, PlanType distinguishes between types of plans, e.g. full evaluation, or fast track evaluation  
-
-  * new way to handle versions:
+  * PlanState: covers full evaluation, PlanType distinguishes between types of plans, e.g. full evaluation, or fast track evaluation
+  * new version management:
     The current major version of this schema is V4, all upcoming sub-versions must be backwards compatible, i.g. accept document-instances of older V4 versions.
     The version attribute of this schema reflects the exact version of corresponding plans. 
  
@@ -660,9 +660,17 @@
 		<xs:sequence>
 			<xs:element name="name" type="xs:string"/>
 			<xs:element name="description" type="maxLengthString" minOccurs="0"/>
-			<xs:element name="category" type="xs:string"/>
+			<xs:element name="category" type="criterionCategoryType"/>
 		</xs:sequence>
 		<xs:attribute name="ID" type="xs:anyURI" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="criterionCategoryType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="ID" type="xs:anyURI" use="required"/>
+		<xs:attribute name="scope" type="evaluationScopeType" use="required"/>
 	</xs:complexType>
 	
 	<!-- scale definitions -->
@@ -971,8 +979,8 @@
 	</xs:complexType>
 	<xs:simpleType name="evaluationScopeType">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="ALTERNATIVE"/>
-			<xs:enumeration value="OUTCOME"/>
+			<xs:enumeration value="ALTERNATIVE_ACTION"/>
+			<xs:enumeration value="OBJECT"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<!-- basic types -->

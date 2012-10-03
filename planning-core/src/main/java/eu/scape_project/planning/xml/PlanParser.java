@@ -64,6 +64,7 @@ import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.XcdlDescription;
 import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.scales.BooleanScale;
@@ -326,10 +327,8 @@ public class PlanParser {
 
     private static void addRules(Digester digester) throws ParserConfigurationException {
 
-        // ConvertUtils.register(new CriterionCategoryConverter(),
-        // CriterionCategory.class);
-        ConvertUtils.register(new EnumConverter<CriterionCategory>(CriterionCategory.class), CriterionCategory.class);
         ConvertUtils.register(new EnumConverter<PlanType>(PlanType.class), PlanType.class);
+        ConvertUtils.register(new EnumConverter<EvaluationScope>(EvaluationScope.class), EvaluationScope.class);
         // start with a new file
         digester.addObjectCreate("*/plan", Plan.class);
         digester.addSetProperties("*/plan");
@@ -929,9 +928,14 @@ public class PlanParser {
         digester.addObjectCreate(pattern, Attribute.class);
         digester.addSetNext(pattern, "setAttribute");
         digester.addSetProperties(pattern, "ID", "uri");
-
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
-        digester.addBeanPropertySetter(pattern + "/category");
+        
+        digester.addObjectCreate(pattern + "/category", CriterionCategory.class);
+        digester.addSetProperties(pattern + "/category", "ID", "uri");
+        digester.addSetProperties(pattern + "/category", "scope", "scope");
+        digester.addBeanPropertySetter(pattern + "/category/name");
+        digester.addSetNext(pattern + "/category", "setCategory");
+        
     }
 }

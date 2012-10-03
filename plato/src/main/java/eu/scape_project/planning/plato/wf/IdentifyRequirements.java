@@ -243,14 +243,18 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
      * @param leaf
      */
     public void assignMeasureToLeaf(final Measure measure, Leaf leaf) {
-        Measure m = new Measure(measure);
-        leaf.setMeasure(measure);
-        leaf.setScale(measure.getScale());
-        leaf.setSingle(measure.getAttribute().getCategory().getScope() == EvaluationScope.ALTERNATIVE_ACTION);
-        if (StringUtils.isEmpty(leaf.getName())) {
-            leaf.setName(measure.getName());
+        Measure oldMeasure = leaf.getMeasure();
+        if ((oldMeasure == null) ||
+            (!oldMeasure.getUri().equals(measure.getUri()))) {
+            Measure m = new Measure(measure);
+            leaf.setMeasure(m);
+            leaf.setScale(m.getScale());
+            leaf.setSingle(m.getAttribute().getCategory().getScope() == EvaluationScope.ALTERNATIVE_ACTION);
+            if (StringUtils.isEmpty(leaf.getName())) {
+                leaf.setName(m.getName());
+            }
+            leaf.touchIncludingScale();
         }
-        leaf.touchIncludingScale();
     }
 
     /**

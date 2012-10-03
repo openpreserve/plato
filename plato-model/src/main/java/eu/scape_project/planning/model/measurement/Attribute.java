@@ -1,11 +1,11 @@
 package eu.scape_project.planning.model.measurement;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 
 /**
  * Describes an attribute of a significant property. Attributes might be
@@ -29,7 +29,7 @@ public class Attribute {
     @Lob
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    @OneToOne(cascade = CascadeType.ALL)
     private CriterionCategory category;
     
     public Attribute(){

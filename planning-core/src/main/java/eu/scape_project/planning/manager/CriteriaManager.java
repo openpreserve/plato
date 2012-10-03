@@ -49,6 +49,7 @@ import com.hp.hpl.jena.util.FileManager;
 
 import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FloatScale;
@@ -147,12 +148,6 @@ public class CriteriaManager implements Serializable {
         return knownMeasures.get(measureUri);
     }
 
-    /**
-     * loads all existing properties, metrics, and criteria from the database
-     */
-    private void load() {
-    }
-    
     private void resolveCriterionCategories() {
         String statement = "SELECT ?c ?cn ?scope WHERE { " +
                            "?c rdf:type pw:CriterionCategory . " +
@@ -170,20 +165,23 @@ public class CriteriaManager implements Serializable {
         while ((results != null) && (results.hasNext())) {
                 QuerySolution qs = results.next();
             String categoryId = qs.getResource("c").toString();
-            String name = categoryId.substring(categoryId.lastIndexOf('/')+1);
-            name = name.replaceAll("-", "_");
-            try {
-                CriterionCategory c = CriterionCategory.valueOf(name.toUpperCase());
-                if (c != null) {
-                    knownCategories.put(categoryId, c);
-                }
-            } catch (IllegalArgumentException e) {
-                log.error("Unknown CriterionCategory: " + name);
-            }
+            String name = qs.getLiteral("cn").getString();
+            String scopeStr = qs.getResource("scope").getLocalName();
             
+            EvaluationScope scope = null;
+            
+            if ("OBJECT".equals(scopeStr)) {
+                scope = EvaluationScope.OBJECT;
+            } else {
+                scope = EvaluationScope.ALTERNATIVE_ACTION;
+            }
+            if (scope != null) {
+                CriterionCategory category = new CriterionCategory(categoryId, name, scope);
+                knownCategories.put(categoryId, category);
+            } else {
+                log.warn("CriterionCategory without defined scope: " + categoryId + ", " + name);
+            }
         }
-        
-        
     }
     
     private void resolveAttributes() {
@@ -212,12 +210,7 @@ public class CriteriaManager implements Serializable {
             a.setName(qs.getLiteral("an").getString());
             a.setUri(qs.getResource("a").toString());
             String categoryUri = qs.getResource("ac").toString();
-//            if (!categoryUri.contains("/categories/")) {
-//                categoryUri = categoryUri.replaceFirst("/vocab/", "/vocab/categories/");
-//            }
             a.setCategory(knownCategories.get( categoryUri  ));
-
-            
             
             knownAttributes.put(a.getUri(), a);
         }
@@ -317,7 +310,6 @@ public class CriteriaManager implements Serializable {
 
     @PostConstruct
     public void init() {
-        load();
         if (knownMeasures.isEmpty()) {
             reload();
         }

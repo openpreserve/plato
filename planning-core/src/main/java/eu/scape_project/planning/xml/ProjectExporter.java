@@ -53,6 +53,7 @@ import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Trigger;
 import eu.scape_project.planning.model.measurement.Attribute;
+import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.scales.FreeStringScale;
@@ -471,7 +472,11 @@ public class ProjectExporter implements Serializable {
             addStringElement(attributeEl, "name", attribute.getName());
             addStringElement(attributeEl, "description", attribute.getDescription());
 
-            addStringElement(attributeEl, "category", attribute.getCategory().toString());
+            CriterionCategory category = attribute.getCategory();
+            Element categoryEl = attributeEl.addElement("category");
+            categoryEl.addAttribute("ID", category.getUri());
+            categoryEl.addAttribute("scope", category.getScope().toString());
+            addStringElement(categoryEl, "name", category.getName());
         }
         addScale(measure.getScale(), measureEl);
 
