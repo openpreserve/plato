@@ -123,7 +123,7 @@ public class OrganisationalPoliciesView implements Serializable {
      */
     private void updatePolicies() {
 
-        Set<RDFPolicy> policySet = user.getUserGroup().getPolicies();
+        List<RDFPolicy> policySet = user.getUserGroup().getPolicies();
 
         if (policySet == null) {
             policies = new ArrayList<RDFPolicy>(0);

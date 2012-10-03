@@ -109,12 +109,12 @@ public class UserGroup implements Serializable {
     // this.users = users;
     // }
 
-    public Set<RDFPolicy> getPolicies() {
-        return new HashSet<RDFPolicy>(policies);
+    public List<RDFPolicy> getPolicies() {
+    	return policies;
     }
 
-    public void setPolicies(Set<RDFPolicy> policies) {
-        this.policies = new ArrayList<RDFPolicy>(policies);
+    public void setPolicies(List<RDFPolicy> policies) {
+        this.policies = policies;
     }
 
     public Repository getRepository() {

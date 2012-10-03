@@ -56,6 +56,7 @@ public class OrganisationalPolicies implements Serializable {
 	 */
 	public void importPolicy(InputStream input) throws IOException {
 		String content = IOUtils.toString(input, "UTF-8");
+		input.close();
 
 		RDFPolicy policy = new RDFPolicy();
 		policy.setPolicy(content);
