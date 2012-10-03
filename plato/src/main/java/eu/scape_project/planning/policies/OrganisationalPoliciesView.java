@@ -202,7 +202,7 @@ public class OrganisationalPoliciesView implements Serializable {
             return "New";
         } else {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk-mm-ss");
-            return "Valid from " + formatter.format(policy.getDateCreated());
+            return "Uploaded: " + formatter.format(policy.getDateCreated());
         }
     }
 
