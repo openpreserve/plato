@@ -20,11 +20,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -37,6 +32,7 @@ import org.richfaces.model.UploadedFile;
 
 import eu.scape_project.planning.model.RDFPolicy;
 import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.policy.ControlPolicy;
 import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("organisationalPolicies")
@@ -48,14 +44,12 @@ public class OrganisationalPoliciesView implements Serializable {
     private FacesMessages facesMessages;
 
     @Inject
-    private OrganisationalPolicies organisationalPolicies;
-
+    private OrganisationalPolicies policies;
+    
     @Inject
     private User user;
 
     private UploadedFile importFile = null;
-
-    private ArrayList<RDFPolicy> policies = new ArrayList<RDFPolicy>(0);
 
     /**
      * Method responsible for initializing all properties with proper values -
@@ -64,7 +58,7 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return OutcomeString which navigates to this page
      */
     public String init() {
-        updatePolicies();
+    	policies.init();
         return "/user/organisationalpolicies.jsf";
     }
 
@@ -78,22 +72,22 @@ public class OrganisationalPoliciesView implements Serializable {
         importFile = event.getUploadedFile();
 
         try {
-            organisationalPolicies.importPolicy(importFile.getInputStream());
+        	policies.importPolicy(importFile.getInputStream());
             facesMessages.addInfo("Policy imported successfully");
 
             importFile = null;
-            updatePolicies();
         } catch (IOException e) {
             facesMessages.addError("The uploaded policy file is not valid");
         }
+        
+        
     }
 
     /**
      * Deletes all policies from the current user
      */
     public void clearPolicies() {
-        organisationalPolicies.clearPolicies();
-        updatePolicies();
+    	policies.clearPolicies();
     }
 
     /**
@@ -102,7 +96,7 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return Outcome String redirecting to start page.
      */
     public String save() {
-        organisationalPolicies.save();
+    	policies.save();
         init();
         return "/index.jsp";
     }
@@ -113,45 +107,9 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return Outcome String redirecting to start page.
      */
     public String discard() {
-        organisationalPolicies.discard();
+    	policies.discard();
         init();
         return "/index.jsp";
-    }
-
-    /**
-     * Updates the policies list from the current user's policies.
-     */
-    private void updatePolicies() {
-
-        List<RDFPolicy> policySet = user.getUserGroup().getPolicies();
-
-        if (policySet == null) {
-            policies = new ArrayList<RDFPolicy>(0);
-        } else {
-            policies = new ArrayList<RDFPolicy>(policySet);
-
-            Collections.sort(policies, Collections.reverseOrder(new Comparator<RDFPolicy>() {
-                @Override
-                public int compare(RDFPolicy o1, RDFPolicy o2) {
-                    if (o1 == null || o2 == null) {
-                        throw new NullPointerException();
-                    }
-
-                    // Policies with no date are ranked below others
-                    if (o1.getDateCreated() == null && o2.getDateCreated() == null) {
-                        return 0;
-                    }
-                    if (o1.getDateCreated() == null) {
-                        return 1;
-                    }
-                    if (o2.getDateCreated() == null) {
-                        return -1;
-                    }
-
-                    return o1.getDateCreated().compareTo(o2.getDateCreated());
-                }
-            }));
-        }
     }
 
     /**
@@ -159,8 +117,8 @@ public class OrganisationalPoliciesView implements Serializable {
      * 
      * @return the policies
      */
-    public List<RDFPolicy> getPolicies() {
-        return policies;
+    public OrganisationalPolicies getPolicies() {
+    	return policies;
     }
 
     /**
@@ -188,6 +146,15 @@ public class OrganisationalPoliciesView implements Serializable {
             facesMessages.addError("An error occured while generating the policy file");
         }
         FacesContext.getCurrentInstance().responseComplete();
+    }
+    
+    public String controlPolicyToString(ControlPolicy controlPolicy) {
+    	String text = "The control policy identified by URI " + controlPolicy.getUri() + " ";
+    	
+    	text += "indicates that measure " + controlPolicy.getMeasure().getName() + " ";
+    	text += controlPolicy.getModality().toString() + " have a value " + controlPolicy.getQualifier().toString() + " " + controlPolicy.getValue();
+    	
+    	return text;
     }
 
     /**
@@ -217,11 +184,11 @@ public class OrganisationalPoliciesView implements Serializable {
     }
 
     public OrganisationalPolicies getOrganisationalPolicies() {
-        return organisationalPolicies;
+        return policies;
     }
 
     public void setOrganisationalPolicies(OrganisationalPolicies organisationalPolicies) {
-        this.organisationalPolicies = organisationalPolicies;
+        this.policies = organisationalPolicies;
     }
 
     public User getUser() {

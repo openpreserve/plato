@@ -17,36 +17,24 @@
 		<h1>Group Policies</h1>
 
 		<h:form id="policyForm">
-
-			<a4j:outputPanel id="policyPanel">
-				<a4j:outputPanel layout="block"
-					rendered="#{organisationalPolicies.policies.size() > 0}">
-					<rich:accordion id="policyAccordion">
-						<c:forEach items="#{organisationalPolicies.policies}" var="policy">
-							<rich:accordionItem
-								header="#{organisationalPolicies.getPolicyHeaderText(policy)}">
-								<div class="input-no-label">
-									<h:inputTextarea value="#{policy.policy}" readonly="true"
-										class="p-input-textarea" style="height: 500px;" />
-								</div>
-
-								<a4j:outputPanel layout="block">
-									<h:commandButton value="Download"
-										action="#{organisationalPolicies.downloadPolicy(policy)}"
-										immediate="true">
-									</h:commandButton>
-								</a4j:outputPanel>
-							</rich:accordionItem>
-
-						</c:forEach>
-					</rich:accordion>
-				</a4j:outputPanel>
-				<a4j:outputPanel layout="block"
-					rendered="#{organisationalPolicies.policies.size() == 0}">
-					<fieldset>You have no policies defined.</fieldset>
-				</a4j:outputPanel>
-			</a4j:outputPanel>
-
+		
+			<a4j:outputPanel id="policyPanel" layout="block">
+				<c:forEach items="#{organisationalPolicies.policies.scenarios}" var="s">
+				    <h2>
+						<h:outputText value="#{s.name}"></h:outputText>			
+				    </h2>
+				    
+				    <ul>
+				    <c:forEach items="#{s.controlPolicies}" var="p">
+				    	<li>
+				    		<h:outputText value="#{organisationalPolicies.controlPolicyToString(p)}"></h:outputText>
+				    	</li>
+				    </c:forEach>
+				    </ul>
+                	
+	        	</c:forEach>
+	        </a4j:outputPanel>
+		
 			<fieldset class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
@@ -60,8 +48,8 @@
 					<rich:fileUpload
 						fileUploadListener="#{organisationalPolicies.importPolicy}"
 						addLabel="Select" uploadLabel="Import policy" maxFilesQuantity="1"
-						listHeight="62px" render="policyPanel importPanel"
-						onuploadcomplete="#{rich:component('policyAccordion')}.switchToItem('@first')" />
+						listHeight="62px" render="policyPanel"
+						onuploadcomplete="#{rich:component('policyPanel')}.switchToItem('@first')" />
 				</a4j:outputPanel>
 			</fieldset>
 		</h:form>
