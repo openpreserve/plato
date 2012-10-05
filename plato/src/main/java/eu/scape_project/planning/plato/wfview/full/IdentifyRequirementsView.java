@@ -31,10 +31,14 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.policy.ControlPolicy;
+import eu.scape_project.planning.model.policy.Scenario;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FloatScale;
@@ -54,6 +58,7 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.IdentifyRequirements;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.beans.CriterionSelector;
+import eu.scape_project.planning.policies.OrganisationalPolicies;
 import eu.scape_project.planning.utils.Downloader;
 
 /**
@@ -70,9 +75,13 @@ public class IdentifyRequirementsView extends AbstractView {
 
     @Inject
     private IdentifyRequirements identifyRequirements;
-
+    
     @Inject
     private Downloader downloader;
+    
+    @Inject
+    private OrganisationalPolicies policies;
+
 
     /**
      * Supporting class for AJAX Criterion selection. This selection is used for
@@ -283,6 +292,27 @@ public class IdentifyRequirementsView extends AbstractView {
             facesMessages.addError("importPanel", "Error at importing FreeMind file. Maybe it is currupted. "
                 + "Please make sure you added at least one level of nodes to the midmap.");
         }
+    }
+    
+    public void generateTreeFromPolicies() {
+    	
+    	// for testing purposes, just select the first scenario
+    	Scenario s = policies.getScenarios().get(0);
+    	
+    	if (s == null) {
+    		return;
+    	}
+    	
+    	boolean success = identifyRequirements.createTreeFromScenario(s);
+    	
+    	if (success) {
+    		facesMessages.addInfo("importPanel", "Tree created successfully");
+    		
+    		treeRoots.clear();
+            treeRoots.add(plan.getTree().getRoot());
+            requirementstreeHelper.expandAll(plan.getTree().getRoot());
+    	}
+        
     }
 
     /**

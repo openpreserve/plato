@@ -118,6 +118,9 @@ public class OrganisationalPolicies implements Serializable {
 	}
 	
 	private void resolveScenarios (String rdfPolicies) {
+		
+		scenarios.clear();
+		
 		Model model = ModelFactory.createMemModelMaker().createDefaultModel();
 		
 		InputStream in = new ByteArrayInputStream(rdfPolicies.getBytes());
@@ -155,64 +158,69 @@ public class OrganisationalPolicies implements Serializable {
 		QueryExecution qe = QueryExecutionFactory.create(query, model);
 		ResultSet results = qe.execSelect();
 		
-        while ((results != null) && (results.hasNext())) {
-            QuerySolution qs = results.next();
-            
-            String controlPolicyUri = qs.getResource("objective").getURI();
-            String scenarioUri = qs.getResource("scenario").getURI();
-            String scenarioName = qs.getLiteral("scenario_name").toString();
-            String measureUri = qs.getResource("measure").toString();
-            String modality = qs.getResource("modality").getLocalName();
-            String value = qs.getLiteral("value").getString();
-            Resource qualifier = qs.getResource("qualifier");
-            
-            Scenario s = getScenario(scenarioUri);
-            
-            if (s == null) {
-            	s = new Scenario();
-            	
-            	s.setName(scenarioName);
-            	s.setUri(scenarioUri);
-            	
-            	scenarios.add(s);
-            }
-            
-            ControlPolicy cp = new ControlPolicy();
-            
-            Measure m = criteriaManager.getMeasure(measureUri);
-            
-            cp.setUri(controlPolicyUri);
-            cp.setValue(value);
-            cp.setMeasure(m);
-            
-            if (qualifier != null) {
-            	
-            	if (qualifier.getLocalName().equalsIgnoreCase("GT")) {
-            		cp.setQualifier(ControlPolicy.Qualifier.GT);
-            	} else if (qualifier.getLocalName().equalsIgnoreCase("LT")) {
-            		cp.setQualifier(ControlPolicy.Qualifier.LT);
-            	} if (qualifier.getLocalName().equalsIgnoreCase("LE")) {
-            		cp.setQualifier(ControlPolicy.Qualifier.LE);
-            	} if (qualifier.getLocalName().equalsIgnoreCase("GE")) {
-            		cp.setQualifier(ControlPolicy.Qualifier.GE);
-            	} if (qualifier.getLocalName().equalsIgnoreCase("EQ")) {
-            		cp.setQualifier(ControlPolicy.Qualifier.EQ);
-            	}
-            } else {
-            	cp.setQualifier(ControlPolicy.Qualifier.EQ);
-            }
-            
-            if (modality.equalsIgnoreCase("MUST")) {
-            	cp.setModality(ControlPolicy.Modality.MUST);
-            } else if (modality.equalsIgnoreCase("SHOULD")) {
-            	cp.setModality(ControlPolicy.Modality.SHOULD);
-            }
-            
-            s.getControlPolicies().add(cp);
-            
-        }
-        qe.close();
-		
+		try {
+
+			while ((results != null) && (results.hasNext())) {
+				QuerySolution qs = results.next();
+
+				String controlPolicyUri = qs.getResource("objective").getURI();
+				String scenarioUri = qs.getResource("scenario").getURI();
+				String scenarioName = qs.getLiteral("scenario_name").toString();
+				String measureUri = qs.getResource("measure").toString();
+				String modality = qs.getResource("modality").getLocalName();
+				String value = qs.getLiteral("value").getString();
+				Resource qualifier = qs.getResource("qualifier");
+
+				Scenario s = getScenario(scenarioUri);
+
+				if (s == null) {
+					s = new Scenario();
+
+					s.setName(scenarioName);
+					s.setUri(scenarioUri);
+
+					scenarios.add(s);
+				}
+
+				ControlPolicy cp = new ControlPolicy();
+
+				Measure m = criteriaManager.getMeasure(measureUri);
+
+				cp.setUri(controlPolicyUri);
+				cp.setValue(value);
+				cp.setMeasure(m);
+
+				if (qualifier != null) {
+
+					if (qualifier.getLocalName().equalsIgnoreCase("GT")) {
+						cp.setQualifier(ControlPolicy.Qualifier.GT);
+					} else if (qualifier.getLocalName().equalsIgnoreCase("LT")) {
+						cp.setQualifier(ControlPolicy.Qualifier.LT);
+					} if (qualifier.getLocalName().equalsIgnoreCase("LE")) {
+						cp.setQualifier(ControlPolicy.Qualifier.LE);
+					} if (qualifier.getLocalName().equalsIgnoreCase("GE")) {
+						cp.setQualifier(ControlPolicy.Qualifier.GE);
+					} if (qualifier.getLocalName().equalsIgnoreCase("EQ")) {
+						cp.setQualifier(ControlPolicy.Qualifier.EQ);
+					}
+				} else {
+					cp.setQualifier(ControlPolicy.Qualifier.EQ);
+				}
+
+				if (modality.equalsIgnoreCase("MUST")) {
+					cp.setModality(ControlPolicy.Modality.MUST);
+				} else if (modality.equalsIgnoreCase("SHOULD")) {
+					cp.setModality(ControlPolicy.Modality.SHOULD);
+				}
+
+				s.getControlPolicies().add(cp);
+
+			}
+		} catch (Exception e) {
+
+		} finally {
+			qe.close();
+		}
 	}
 	
 	public Scenario getScenario(String scenarioUri) {

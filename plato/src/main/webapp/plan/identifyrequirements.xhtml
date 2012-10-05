@@ -263,6 +263,21 @@
 	                    <a4j:commandButton value="Attach documentation file" oncomplete="#{rich:component('uploadPanel')}.show()" />
                     </a4j:outputPanel>
                 </fieldset>
+                
+                <fieldset id="treeGenerationFromPolicies" class="center-position size-full">
+                    <legend class="fieldset-full-size-legend"> 
+                    	<ui:include src="/plato/shared/legend_nav.xhtml" /> 
+                    	Generate tree from policies 
+                    </legend> 
+                    
+                    <a4j:outputPanel layout="block" id="treeGenerationFromPoliciesPanel">
+                        <b>Import</b>
+                        
+                        <a4j:commandButton value="Generate" action="#{identifyRequirements.generateTreeFromPolicies()}" render="objectivetree" />
+                    </a4j:outputPanel>
+                    
+                </fieldset>
+                
 
                 <fieldset id="importexport" class="center-position size-full">
                     <legend class="fieldset-full-size-legend"> 

@@ -17,9 +17,11 @@
 package eu.scape_project.planning.manager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -147,6 +149,41 @@ public class CriteriaManager implements Serializable {
     public Measure getMeasure(String measureUri) {
         return knownMeasures.get(measureUri);
     }
+    
+    @Lock(LockType.READ)
+    public Attribute getAttribute(String attributeUri) {
+        return knownAttributes.get(attributeUri);
+    }
+    
+    @Lock(LockType.READ)
+    public List<String> getCategoryHierachy(String measureUri) {
+    	List<String> hierarchy = new ArrayList<String>();
+    			
+    	Measure m = knownMeasures.get(measureUri);
+    	
+    	if (m == null) {
+    		return hierarchy;
+    	}
+    	
+    	Attribute a = knownAttributes.get(m.getAttribute().getUri());
+    	
+    	if (a == null) {
+    		return hierarchy;
+    	}
+    	
+    	hierarchy.add(0, a.getName());
+    	
+    	CriterionCategory criterionCategory = a.getCategory();
+    	
+    	if (criterionCategory == null) {
+    		return hierarchy;
+    	}
+    	
+    	hierarchy.add(0, criterionCategory.getName());
+    	
+    	return hierarchy;
+    }
+    
 
     private void resolveCriterionCategories() {
         String statement = "SELECT ?c ?cn ?scope WHERE { " +

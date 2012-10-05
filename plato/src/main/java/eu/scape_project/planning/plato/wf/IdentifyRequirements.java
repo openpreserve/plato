@@ -30,12 +30,16 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
 import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.policy.ControlPolicy;
+import eu.scape_project.planning.model.policy.Scenario;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
@@ -65,6 +69,9 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
 
     @Inject
     private TreeLoader treeLoader;
+    
+    @Inject
+    private CriteriaManager criteriaManager;        
 
     @Inject
     private ProjectExporter projectExporter;
@@ -222,6 +229,71 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
         log.debug("Imported FreeMind file successfully.");
 
         return true;
+    }
+    
+    public boolean createTreeFromScenario(Scenario scenario) {
+    	
+    	ObjectiveTree newTree = new ObjectiveTree();
+    	
+    	Node root = new Node();
+    	root.setName(scenario.getName());
+    	
+    	newTree.setRoot(root);
+    	
+    	for (ControlPolicy cp : scenario.getControlPolicies()) {
+    		
+    		Measure m = criteriaManager.getMeasure(cp.getMeasure().getUri());
+    		
+    		List<String> criteriaHierarchy = criteriaManager.getCategoryHierachy(m.getUri());
+    		
+    		Leaf leaf = createLeafInCriteriaHierarchy(newTree.getRoot(), criteriaHierarchy);
+    		
+    		if (leaf != null) {
+    			assignMeasureToLeaf(m, leaf);
+    		}
+    		
+    		log.info(criteriaHierarchy.toString());
+    	}
+    	
+    	nodesToDelete.add(plan.getTree().getRoot());
+    	
+        // set new tree as plan tree
+        plan.getTree().setRoot(newTree.getRoot());
+
+        // make sure all scales are set according to measurement infos
+        plan.getTree().adjustScalesToMeasurements();
+        plan.getTree().setWeightsInitialized(false);
+
+        log.debug("Tree created successfully.");
+
+    	return true;
+    }
+    
+    private Leaf createLeafInCriteriaHierarchy(TreeNode node, List<String> criteriaHierarchy) {
+    	
+    	if (criteriaHierarchy.size() > 0) {
+    		
+    		for (TreeNode n : node.getChildren()) {
+    			if (n.getName().equalsIgnoreCase(criteriaHierarchy.get(0))) {
+    				criteriaHierarchy.remove(0);
+    				return createLeafInCriteriaHierarchy(n, criteriaHierarchy);
+    			} 
+    		}
+    		
+    		Node newNode = new Node();
+    		newNode.setName(criteriaHierarchy.get(0));
+    		((Node)node).addChild(newNode);
+    		
+    		criteriaHierarchy.remove(0);
+    		
+    		return createLeafInCriteriaHierarchy(newNode, criteriaHierarchy);    			
+   		} else {
+    		
+    		Leaf leaf = new Leaf();    		    		
+    		((Node)node).addChild(leaf);
+    		
+    		return leaf;
+    	}
     }
 
     /**
