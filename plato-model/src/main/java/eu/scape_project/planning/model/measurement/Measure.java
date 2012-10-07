@@ -58,27 +58,24 @@ public class Measure implements Comparable<Measure>, Serializable, ITouchable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
-    
-    
-    public Measure(){
+
+    public Measure() {
     }
 
     /**
      * Create a new measure
      * 
-     * creates a deep copy of the given measure
-     * The id is NOT copied
+     * creates a deep copy of the given measure The id is NOT copied
      * 
      * @param measure
      */
-    public Measure(final Measure measure){
+    public Measure(final Measure measure) {
         this.uri = measure.uri;
         this.name = measure.name;
         this.description = measure.description;
         this.attribute = new Attribute(measure.attribute);
         this.scale = measure.scale.clone();
     }
-    
 
     /**
      * @see ITouchable#handleChanges(IChangesHandler)

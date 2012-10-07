@@ -78,7 +78,7 @@ import eu.scape_project.planning.model.scales.Scale;
 @Named("criteriaManager")
 public class CriteriaManager implements Serializable {
     private static final long serialVersionUID = -2305838596050068452L;
-    
+
     public static final String MEASURES_DIR = "data/measures";
     public static final String MEASURES_FILE = "attributes_measures.rdf";
 
@@ -87,9 +87,9 @@ public class CriteriaManager implements Serializable {
     private Model model;
 
     public CriteriaManager() {
-    	model = ModelFactory.createMemModelMaker().createDefaultModel();
+        model = ModelFactory.createMemModelMaker().createDefaultModel();
     }
-    
+
     /**
      * cache for looking up CriterionCategories by their uri
      */
@@ -105,21 +105,20 @@ public class CriteriaManager implements Serializable {
      * cache for lookup of all currently known attributes by their uri
      */
     private Map<String, Attribute> knownAttributes = new HashMap<String, Attribute>();
-    
-    
+
     /**
-     * Returns a list of all known categories
-     * IMPORTANT: this list can not (and must not) be altered!
+     * Returns a list of all known categories IMPORTANT: this list can not (and
+     * must not) be altered!
      * 
      * @return
      */
-    public Collection<CriterionCategory> getAllCriterionCategories(){
+    public Collection<CriterionCategory> getAllCriterionCategories() {
         return Collections.unmodifiableCollection(knownCategories.values());
     }
 
     /**
-     * Returns a list of all known criteria 
-     * IMPORTANT: this list can not (and must not) be altered!
+     * Returns a list of all known criteria IMPORTANT: this list can not (and
+     * must not) be altered!
      * 
      * @return
      */
@@ -129,8 +128,8 @@ public class CriteriaManager implements Serializable {
     }
 
     /**
-     * returns a list of all known properties
-     * IMPORTANT: this list can not (and must not) be altered!
+     * returns a list of all known properties IMPORTANT: this list can not (and
+     * must not) be altered!
      * 
      * @return
      */
@@ -149,64 +148,60 @@ public class CriteriaManager implements Serializable {
     public Measure getMeasure(String measureUri) {
         return knownMeasures.get(measureUri);
     }
-    
+
     @Lock(LockType.READ)
     public Attribute getAttribute(String attributeUri) {
         return knownAttributes.get(attributeUri);
     }
-    
+
     @Lock(LockType.READ)
     public List<String> getCategoryHierachy(String measureUri) {
-    	List<String> hierarchy = new ArrayList<String>();
-    			
-    	Measure m = knownMeasures.get(measureUri);
-    	
-    	if (m == null) {
-    		return hierarchy;
-    	}
-    	
-    	Attribute a = knownAttributes.get(m.getAttribute().getUri());
-    	
-    	if (a == null) {
-    		return hierarchy;
-    	}
-    	
-    	hierarchy.add(0, a.getName());
-    	
-    	CriterionCategory criterionCategory = a.getCategory();
-    	
-    	if (criterionCategory == null) {
-    		return hierarchy;
-    	}
-    	
-    	hierarchy.add(0, criterionCategory.getName());
-    	
-    	return hierarchy;
+        List<String> hierarchy = new ArrayList<String>();
+
+        Measure m = knownMeasures.get(measureUri);
+
+        if (m == null) {
+            return hierarchy;
+        }
+
+        Attribute a = knownAttributes.get(m.getAttribute().getUri());
+
+        if (a == null) {
+            return hierarchy;
+        }
+
+        hierarchy.add(0, a.getName());
+
+        CriterionCategory criterionCategory = a.getCategory();
+
+        if (criterionCategory == null) {
+            return hierarchy;
+        }
+
+        hierarchy.add(0, criterionCategory.getName());
+
+        return hierarchy;
     }
-    
 
     private void resolveCriterionCategories() {
-        String statement = "SELECT ?c ?cn ?scope WHERE { " +
-                           "?c rdf:type pw:CriterionCategory . " +
-                           "?c rdfs:label ?cn . " +
-                           "?c pw:scope ?scope }";
-        String commonNS = 
-            "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-            "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
-            "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
-        
+        String statement = "SELECT ?c ?cn ?scope WHERE { " + "?c rdf:type pw:CriterionCategory . "
+            + "?c rdfs:label ?cn . " + "?c pw:scope ?scope }";
+        String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
+            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         ResultSet results = qe.execSelect();
 
         while ((results != null) && (results.hasNext())) {
-                QuerySolution qs = results.next();
+            QuerySolution qs = results.next();
             String categoryId = qs.getResource("c").toString();
             String name = qs.getLiteral("cn").getString();
             String scopeStr = qs.getResource("scope").getLocalName();
-            
+
             EvaluationScope scope = null;
-            
+
             if ("OBJECT".equals(scopeStr)) {
                 scope = EvaluationScope.OBJECT;
             } else {
@@ -220,55 +215,44 @@ public class CriteriaManager implements Serializable {
             }
         }
     }
-    
-    private void resolveAttributes() {
-        String statement=      
-			"SELECT ?a ?an ?ad ?ac WHERE { " +
-			"?a rdf:type pw:Attribute . " +
-			"?a rdfs:label ?an . " +
-			"?a pw:description ?ad . " +
-			"?a pw:criterioncategory ?ac }";
 
-        String commonNS = 
-                "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-                "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
-                "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
-        
+    private void resolveAttributes() {
+        String statement = "SELECT ?a ?an ?ad ?ac WHERE { " + "?a rdf:type pw:Attribute . " + "?a rdfs:label ?an . "
+            + "?a pw:description ?ad . " + "?a pw:criterioncategory ?ac }";
+
+        String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
+            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         ResultSet results = qe.execSelect();
 
         while ((results != null) && (results.hasNext())) {
-        	QuerySolution qs = results.next();
-        	
+            QuerySolution qs = results.next();
+
             Attribute a = new Attribute();
-            
+
             a.setDescription(qs.getLiteral("ad").getString());
             a.setName(qs.getLiteral("an").getString());
             a.setUri(qs.getResource("a").toString());
             String categoryUri = qs.getResource("ac").toString();
-            a.setCategory(knownCategories.get( categoryUri  ));
-            
+            a.setCategory(knownCategories.get(categoryUri));
+
             knownAttributes.put(a.getUri(), a);
         }
-        
-    }
-    
-    private void resolveMeasures () {
-        String statement =
-        		"SELECT ?m ?mn ?md ?a ?s ?r WHERE { " +
-        		"?m rdf:type pw:Measure . " +
-        		"?m pw:attribute ?a . " +
-        		"?m rdfs:label ?mn . " +
-        		"?m pw:description ?md . " +
-        		"?m pw:scale ?s . " +
-        		"optional{?m pw:restriction ?r} }";
 
-        String commonNS = 
-                "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
-                "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> " +
-                "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
-        
+    }
+
+    private void resolveMeasures() {
+        String statement = "SELECT ?m ?mn ?md ?a ?s ?r WHERE { " + "?m rdf:type pw:Measure . "
+            + "?m pw:attribute ?a . " + "?m rdfs:label ?mn . " + "?m pw:description ?md . " + "?m pw:scale ?s . "
+            + "optional{?m pw:restriction ?r} }";
+
+        String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
+            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         ResultSet results = qe.execSelect();
@@ -288,10 +272,10 @@ public class CriteriaManager implements Serializable {
 
             Scale s = createScale(qs.getResource("s").getLocalName());
             m.setScale(s);
-            
+
             if ((s instanceof RestrictedScale) && (qs.contains("r"))) {
                 String restriction = qs.getLiteral("r").getString();
-                ((RestrictedScale)s).setRestriction(restriction);
+                ((RestrictedScale) s).setRestriction(restriction);
             }
 
             Attribute a = knownAttributes.get(attributeUri);
@@ -301,7 +285,7 @@ public class CriteriaManager implements Serializable {
             knownMeasures.put(m.getUri(), m);
         }
     }
-    
+
     private Scale createScale(String scaleName) {
 
         if ("Boolean".equalsIgnoreCase(scaleName)) {
@@ -356,5 +340,5 @@ public class CriteriaManager implements Serializable {
     @Remove
     public void destroy() {
     }
-    
+
 }

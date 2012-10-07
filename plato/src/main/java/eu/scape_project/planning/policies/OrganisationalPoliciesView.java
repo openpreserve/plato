@@ -45,7 +45,7 @@ public class OrganisationalPoliciesView implements Serializable {
 
     @Inject
     private OrganisationalPolicies policies;
-    
+
     @Inject
     private User user;
 
@@ -58,7 +58,7 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return OutcomeString which navigates to this page
      */
     public String init() {
-    	policies.init();
+        policies.init();
         return "/user/organisationalpolicies.jsf";
     }
 
@@ -72,22 +72,21 @@ public class OrganisationalPoliciesView implements Serializable {
         importFile = event.getUploadedFile();
 
         try {
-        	policies.importPolicy(importFile.getInputStream());
+            policies.importPolicy(importFile.getInputStream());
             facesMessages.addInfo("Policy imported successfully");
 
             importFile = null;
         } catch (IOException e) {
             facesMessages.addError("The uploaded policy file is not valid");
         }
-        
-        
+
     }
 
     /**
      * Deletes all policies from the current user
      */
     public void clearPolicies() {
-    	policies.clearPolicies();
+        policies.clearPolicies();
     }
 
     /**
@@ -96,7 +95,7 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return Outcome String redirecting to start page.
      */
     public String save() {
-    	policies.save();
+        policies.save();
         init();
         return "/index.jsp";
     }
@@ -107,7 +106,7 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return Outcome String redirecting to start page.
      */
     public String discard() {
-    	policies.discard();
+        policies.discard();
         init();
         return "/index.jsp";
     }
@@ -118,7 +117,7 @@ public class OrganisationalPoliciesView implements Serializable {
      * @return the policies
      */
     public OrganisationalPolicies getPolicies() {
-    	return policies;
+        return policies;
     }
 
     /**
@@ -147,14 +146,15 @@ public class OrganisationalPoliciesView implements Serializable {
         }
         FacesContext.getCurrentInstance().responseComplete();
     }
-    
+
     public String controlPolicyToString(ControlPolicy controlPolicy) {
-    	String text = "The control policy identified by URI " + controlPolicy.getUri() + " ";
-    	
-    	text += "indicates that measure " + controlPolicy.getMeasure().getName() + " ";
-    	text += controlPolicy.getModality().toString() + " have a value " + controlPolicy.getQualifier().toString() + " " + controlPolicy.getValue();
-    	
-    	return text;
+        String text = "The control policy identified by URI " + controlPolicy.getUri() + " ";
+
+        text += "indicates that measure " + controlPolicy.getMeasure().getName() + " ";
+        text += controlPolicy.getModality().toString() + " have a value " + controlPolicy.getQualifier().toString()
+            + " " + controlPolicy.getValue();
+
+        return text;
     }
 
     /**

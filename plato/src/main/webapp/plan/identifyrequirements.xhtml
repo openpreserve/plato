@@ -263,21 +263,6 @@
 	                    <a4j:commandButton value="Attach documentation file" oncomplete="#{rich:component('uploadPanel')}.show()" />
                     </a4j:outputPanel>
                 </fieldset>
-                
-                <fieldset id="treeGenerationFromPolicies" class="center-position size-full">
-                    <legend class="fieldset-full-size-legend"> 
-                    	<ui:include src="/plato/shared/legend_nav.xhtml" /> 
-                    	Generate tree from policies 
-                    </legend> 
-                    
-                    <a4j:outputPanel layout="block" id="treeGenerationFromPoliciesPanel">
-                        <b>Import</b>
-                        
-                        <a4j:commandButton value="Generate" action="#{identifyRequirements.generateTreeFromPolicies()}" render="objectivetree" />
-                    </a4j:outputPanel>
-                    
-                </fieldset>
-                
 
                 <fieldset id="importexport" class="center-position size-full">
                     <legend class="fieldset-full-size-legend"> 
@@ -286,7 +271,7 @@
                     </legend>
                     
                     <a4j:outputPanel layout="block" id="importPanel">
-                        <b>Import</b>
+                        <b>Import Freemind file</b>
 	                    <p>
 		                    You can replace the current objective tree with a tree specified in Freemind format by uploading it here. 
 		                    Bear in mind that this replaces your current tree!
@@ -300,6 +285,15 @@
 	                       <a4j:commandButton value="Import tree" action="#{identifyRequirements.importFreeMindWithoutUnits()}" render="importPanel, objectivetree" />
 	                       <a4j:commandButton value="Import tree including units" action="#{identifyRequirements.importFreeMindWithUnits()}" render="importPanel, objectivetree" />
 	                    </a4j:outputPanel>
+	                    
+	                    <br/><br/>
+	                    <b>Preservation scenario</b>
+						<p>
+						   You can replace the current objective tree with a tree that is automatically created from the control policies you have defined
+						   for a certain scenario. Please consider that this action replaces your current tree!  
+						</p>	   
+						<a4j:commandButton value="Select scenario" oncomplete="#{rich:component('scenarioSelectionPopupPanel')}.show()" />
+						                 
                     </a4j:outputPanel>
                     
                     <br/>
@@ -495,8 +489,48 @@
 	        </a4j:outputPanel>
 	      </rich:popupPanel>
 	      <!-- / measure selection -->
-	      </h:form>      
-      
-    </ui:define>
+	      </h:form>
+
+
+		<h:form>
+
+			<!-- scenario selection-->
+			<rich:popupPanel id="scenarioSelectionPopupPanel" width="350" height="300" domElementAttachment="form">
+
+				<f:facet name="header">
+					<h:outputText value="Select a scenario" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="closeScenarioSelection"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+						onclick="#{rich:component('scenarioSelectionPopupPanel')}.hide()" />
+				</f:facet>
+
+				<h:messages />
+
+				<h:selectOneListbox size="7" id="scenarioSelectionListBox"
+					value="#{identifyRequirements.selectedScenario}" required="false" style="width: 20em;">
+					<f:selectItems value="#{identifyRequirements.policies.scenarios}"
+						var="s" itemLabel="#{s.name}" itemValue="#{s.name}" />
+					<a4j:ajax event="change" render="scenarioSelectionButton" />
+				</h:selectOneListbox>
+
+				<br/>
+				
+				<h:panelGroup id="scenarioSelectionCommandLinkPanelGroup">
+					<a4j:commandLink id="scenarioSelectionCommandLink"
+						style="color: #FFFFFF;"
+						action="#{identifyRequirements.generateTreeFromPolicies}"
+						oncomplete="#{rich:component('scenarioSelectionPopupPanel')}.hide()"
+						render="richTree">
+						<h:graphicImage value="/resources/gfx/icons/apply.png"
+							title="Select a scenario" width="32" height="32" />
+					</a4j:commandLink>
+				</h:panelGroup>
+			</rich:popupPanel>
+			<!-- / measure selection -->
+		</h:form>
+
+	</ui:define>
 </ui:composition>
         

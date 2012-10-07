@@ -31,13 +31,10 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.measurement.Measure;
-import eu.scape_project.planning.model.policy.ControlPolicy;
 import eu.scape_project.planning.model.policy.Scenario;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
@@ -75,13 +72,12 @@ public class IdentifyRequirementsView extends AbstractView {
 
     @Inject
     private IdentifyRequirements identifyRequirements;
-    
+
     @Inject
     private Downloader downloader;
-    
+
     @Inject
     private OrganisationalPolicies policies;
-
 
     /**
      * Supporting class for AJAX Criterion selection. This selection is used for
@@ -89,6 +85,8 @@ public class IdentifyRequirementsView extends AbstractView {
      */
     @Inject
     private CriterionSelector critSelector;
+
+    private Scenario selectedScenario;
 
     @Inject
     private TreeHelperBean requirementstreeHelper;
@@ -110,6 +108,16 @@ public class IdentifyRequirementsView extends AbstractView {
      * Items for the scale SelectMenu.
      */
     private List<SelectItem> scaleList;
+    
+    private List<SelectItem> scenarioList;
+
+    public List<SelectItem> getScenarioList() {
+        return scenarioList;
+    }
+
+    public void setScenarioList(List<SelectItem> scenarioList) {
+        this.scenarioList = scenarioList;
+    }
 
     private DigitalObject importFile;
 
@@ -126,6 +134,7 @@ public class IdentifyRequirementsView extends AbstractView {
 
         treeRoots = new ArrayList<TreeNode>();
         scaleList = new ArrayList<SelectItem>();
+        scenarioList = new ArrayList<SelectItem>();
         importFile = null;
     }
 
@@ -135,10 +144,12 @@ public class IdentifyRequirementsView extends AbstractView {
         treeRoots.add(plan.getTree().getRoot());
         populateScaleList();
         critSelector.init();
+        
+        populateScenarioList();
 
         requirementstreeHelper.expandAll(plan.getTree().getRoot());
     }
-
+    
     /**
      * Attaches a new Leaf to the given object (which is, hopefully, a Node).
      * 
@@ -293,26 +304,23 @@ public class IdentifyRequirementsView extends AbstractView {
                 + "Please make sure you added at least one level of nodes to the midmap.");
         }
     }
-    
+
     public void generateTreeFromPolicies() {
-    	
-    	// for testing purposes, just select the first scenario
-    	Scenario s = policies.getScenarios().get(0);
-    	
-    	if (s == null) {
-    		return;
-    	}
-    	
-    	boolean success = identifyRequirements.createTreeFromScenario(s);
-    	
-    	if (success) {
-    		facesMessages.addInfo("importPanel", "Tree created successfully");
-    		
-    		treeRoots.clear();
+
+        if (selectedScenario == null) {
+            return;
+        }
+
+        boolean success = identifyRequirements.createTreeFromScenario(selectedScenario);
+
+        if (success) {
+            facesMessages.addInfo("importPanel", "Tree created successfully");
+
+            treeRoots.clear();
             treeRoots.add(plan.getTree().getRoot());
             requirementstreeHelper.expandAll(plan.getTree().getRoot());
-    	}
-        
+        }
+
     }
 
     /**
@@ -343,6 +351,18 @@ public class IdentifyRequirementsView extends AbstractView {
         String freeMindXML = identifyRequirements.exportTreeAsFreeMindXML();
         downloader.downloadMM(freeMindXML, plan.getPlanProperties().getName() + ".mm");
     }
+    
+    private void populateScenarioList() {
+        if (policies.getScenarios().size() > 0) {
+            scenarioList.clear();
+        }
+        
+        for (Scenario s : policies.getScenarios()) {
+            scenarioList.add(new SelectItem(Scenario.class.getCanonicalName(), s.getName()));
+        }
+    }
+
+
 
     /**
      * Method responsible for populating possible SelectItmes of the Scale
@@ -405,6 +425,22 @@ public class IdentifyRequirementsView extends AbstractView {
     }
 
     // --------------- getter/setter ---------------
+    
+    public OrganisationalPolicies getPolicies() {
+        return policies;
+    }
+
+    public void setPolicies(OrganisationalPolicies policies) {
+        this.policies = policies;
+    }
+    
+    public Scenario getSelectedScenario() {
+        return selectedScenario;
+    }
+
+    public void setSelectedScenario(Scenario selectedScenario) {
+        this.selectedScenario = selectedScenario;
+    }    
 
     public boolean isEditingNodeComments() {
         return editingNodeComments;

@@ -31,15 +31,14 @@ public class Attribute {
 
     @OneToOne(cascade = CascadeType.ALL)
     private CriterionCategory category;
-    
-    public Attribute(){
+
+    public Attribute() {
     }
-    
+
     /**
      * Create a new attribute
      * 
-     * With the values from the given Attribute
-     * The id is NOT copied
+     * With the values from the given Attribute The id is NOT copied
      * 
      * @param attribute
      */
