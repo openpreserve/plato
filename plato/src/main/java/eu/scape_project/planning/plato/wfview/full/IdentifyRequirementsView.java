@@ -111,14 +111,6 @@ public class IdentifyRequirementsView extends AbstractView {
     
     private List<SelectItem> scenarioList;
 
-    public List<SelectItem> getScenarioList() {
-        return scenarioList;
-    }
-
-    public void setScenarioList(List<SelectItem> scenarioList) {
-        this.scenarioList = scenarioList;
-    }
-
     private DigitalObject importFile;
 
     /**
@@ -145,6 +137,7 @@ public class IdentifyRequirementsView extends AbstractView {
         populateScaleList();
         critSelector.init();
         
+        policies.init();
         populateScenarioList();
 
         requirementstreeHelper.expandAll(plan.getTree().getRoot());
@@ -437,10 +430,23 @@ public class IdentifyRequirementsView extends AbstractView {
     public Scenario getSelectedScenario() {
         return selectedScenario;
     }
-
-    public void setSelectedScenario(Scenario selectedScenario) {
-        this.selectedScenario = selectedScenario;
-    }    
+    
+    public String getSelectedScenarioName(){
+        if (selectedScenario == null) {
+            return null;
+        } else {
+            return selectedScenario.getName();
+        }
+    }
+    
+    public void setSelectedScenarioName(String name) {
+        selectedScenario = null;
+        for (Scenario scenario : policies.getScenarios()) {
+            if (scenario.getName().equals(name)) {
+                selectedScenario = scenario;
+            }
+        }
+    }
 
     public boolean isEditingNodeComments() {
         return editingNodeComments;
@@ -485,4 +491,13 @@ public class IdentifyRequirementsView extends AbstractView {
     public TreeHelperBean getRequirementstreeHelper() {
         return requirementstreeHelper;
     }
+
+    public List<SelectItem> getScenarioList() {
+        return scenarioList;
+    }
+
+    public void setScenarioList(List<SelectItem> scenarioList) {
+        this.scenarioList = scenarioList;
+    }
+    
 }

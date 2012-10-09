@@ -495,7 +495,7 @@
 		<h:form>
 
 			<!-- scenario selection-->
-			<rich:popupPanel id="scenarioSelectionPopupPanel" width="350" height="300" domElementAttachment="form">
+			<rich:popupPanel id="scenarioSelectionPopupPanel" autosized="true" domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Select a scenario" />
@@ -506,21 +506,17 @@
 						onclick="#{rich:component('scenarioSelectionPopupPanel')}.hide()" />
 				</f:facet>
 
-				<h:messages />
-
-				<h:selectOneListbox size="7" id="scenarioSelectionListBox"
-					value="#{identifyRequirements.selectedScenario}" required="false" style="width: 20em;">
+				<h:selectOneListbox size="7" id="scenarioSelectionListBox"  
+					value="#{identifyRequirements.selectedScenarioName}" required="false" style="width: 30em;">
 					<f:selectItems value="#{identifyRequirements.policies.scenarios}"
 						var="s" itemLabel="#{s.name}" itemValue="#{s.name}" />
-					<a4j:ajax event="change" render="scenarioSelectionButton" />
+                    <a4j:ajax event="change" render="confirmScenarioPanel" />
 				</h:selectOneListbox>
-
 				<br/>
-				
-				<h:panelGroup id="scenarioSelectionCommandLinkPanelGroup">
-					<a4j:commandLink id="scenarioSelectionCommandLink"
+				<h:panelGroup id="confirmScenarioPanel" >
+					<a4j:commandLink id="confirmScenarioLink" rendered="#{not empty(identifyRequirements.selectedScenarioName)}"
 						style="color: #FFFFFF;"
-						action="#{identifyRequirements.generateTreeFromPolicies}"
+						action="#{identifyRequirements.generateTreeFromPolicies()}"
 						oncomplete="#{rich:component('scenarioSelectionPopupPanel')}.hide()"
 						render="richTree">
 						<h:graphicImage value="/resources/gfx/icons/apply.png"
