@@ -254,12 +254,10 @@ public class C3POProfileParser {
     }
 
     private SampleObject parseSample(Element sample) {
-        SampleObject object = new SampleObject();
 
         String uid = sample.attributeValue("uid");
-
+        SampleObject object = new SampleObject(uid);
         object.setFullname(uid);
-        object.setShortName(uid);
 
         List nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='mimetype']");
         if (nodes.size() > 1) {

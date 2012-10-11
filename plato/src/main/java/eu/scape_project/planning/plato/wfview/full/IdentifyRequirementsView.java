@@ -109,8 +109,6 @@ public class IdentifyRequirementsView extends AbstractView {
      */
     private List<SelectItem> scaleList;
     
-    private List<SelectItem> scenarioList;
-
     private DigitalObject importFile;
 
     /**
@@ -126,7 +124,6 @@ public class IdentifyRequirementsView extends AbstractView {
 
         treeRoots = new ArrayList<TreeNode>();
         scaleList = new ArrayList<SelectItem>();
-        scenarioList = new ArrayList<SelectItem>();
         importFile = null;
     }
 
@@ -138,7 +135,6 @@ public class IdentifyRequirementsView extends AbstractView {
         critSelector.init();
         
         policies.init();
-        populateScenarioList();
 
         requirementstreeHelper.expandAll(plan.getTree().getRoot());
     }
@@ -345,18 +341,6 @@ public class IdentifyRequirementsView extends AbstractView {
         downloader.downloadMM(freeMindXML, plan.getPlanProperties().getName() + ".mm");
     }
     
-    private void populateScenarioList() {
-        if (policies.getScenarios().size() > 0) {
-            scenarioList.clear();
-        }
-        
-        for (Scenario s : policies.getScenarios()) {
-            scenarioList.add(new SelectItem(Scenario.class.getCanonicalName(), s.getName()));
-        }
-    }
-
-
-
     /**
      * Method responsible for populating possible SelectItmes of the Scale
      * SelectBox (showing up in the requirements tree).
@@ -491,13 +475,4 @@ public class IdentifyRequirementsView extends AbstractView {
     public TreeHelperBean getRequirementstreeHelper() {
         return requirementstreeHelper;
     }
-
-    public List<SelectItem> getScenarioList() {
-        return scenarioList;
-    }
-
-    public void setScenarioList(List<SelectItem> scenarioList) {
-        this.scenarioList = scenarioList;
-    }
-    
 }

@@ -39,7 +39,7 @@ public class VPlanLeafTest {
     public void hasKOPotential_ordinalTrans_independentOfAggregation() {
         VPlanLeaf avgAggLeaf = createLeafWithOrdinalTransformer(SampleAggregationMode.AVERAGE);
         VPlanLeaf worstAggLeaf = createLeafWithOrdinalTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(false, avgAggLeaf.hasKOPotential());
         assertEquals(false, worstAggLeaf.hasKOPotential());
     }
@@ -48,7 +48,7 @@ public class VPlanLeafTest {
     public void hasKOPotential_numericTransformer_independentOfAggregation() {
         VPlanLeaf avgAggLeaf = createLeafWithNumericTransformer(SampleAggregationMode.AVERAGE);
         VPlanLeaf worstAggLeaf = createLeafWithNumericTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(true, avgAggLeaf.hasKOPotential());
         assertEquals(true, worstAggLeaf.hasKOPotential());
     }
@@ -56,83 +56,82 @@ public class VPlanLeafTest {
     @Test
     public void getActualKO_ordinalTransformerNotMappingTo0_average() {
         VPlanLeaf leaf = createLeafWithOrdinalTransformer(SampleAggregationMode.AVERAGE);
-        
+
         assertEquals(0, leaf.getActualKO(), 0.001);
     }
-    
+
     @Test
     public void getActualKO_ordinalTransformerNotMappingTo0_worst() {
         VPlanLeaf leaf = createLeafWithOrdinalTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(0, leaf.getActualKO(), 0.001);
     }
 
     @Test
     public void getActualKO_numericTransformer_average() {
         VPlanLeaf leaf = createLeafWithNumericTransformer(SampleAggregationMode.AVERAGE);
-        
+
         assertEquals(0, leaf.getActualKO(), 0.001);
-    }   
+    }
 
     @Test
     public void getActualKO_numericTransformer_worst() {
         VPlanLeaf leaf = createLeafWithNumericTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(1, leaf.getActualKO(), 0.001);
-    }   
+    }
 
     @Test
     public void getPotentialOutputRange_ordinalTransformer_independentOfAggregation() {
         VPlanLeaf avgAggLeaf = createLeafWithOrdinalTransformer(SampleAggregationMode.AVERAGE);
         VPlanLeaf worstAggLeaf = createLeafWithOrdinalTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(4, avgAggLeaf.getPotentialOutputRange(), 0.001);
         assertEquals(4, worstAggLeaf.getPotentialOutputRange(), 0.001);
-    }    
-    
+    }
+
     @Test
     public void getPotentialOutputRange_numericTransformer_independentOfAggregation() {
         VPlanLeaf avgAggLeaf = createLeafWithNumericTransformer(SampleAggregationMode.AVERAGE);
         VPlanLeaf worstAggLeaf = createLeafWithNumericTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(5, avgAggLeaf.getPotentialOutputRange(), 0.001);
         assertEquals(5, worstAggLeaf.getPotentialOutputRange(), 0.001);
-    }        
-    
+    }
+
     @Test
     public void getActualOutputRange_ordinalTransformer_average() {
         VPlanLeaf leaf = createLeafWithOrdinalTransformer(SampleAggregationMode.AVERAGE);
-        
+
         assertEquals(3, leaf.getActualOutputRange(), 0.001);
     }
-    
+
     @Test
     public void getActualOutputRange_ordinalTransformer_worst() {
         VPlanLeaf leaf = createLeafWithOrdinalTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(0, leaf.getActualOutputRange(), 0.001);
     }
-    
+
     @Test
     public void getActualOutputRange_numericTransformer_average() {
         VPlanLeaf leaf = createLeafWithNumericTransformer(SampleAggregationMode.AVERAGE);
-        
+
         assertEquals(0.6, leaf.getActualOutputRange(), 0.001);
     }
 
     @Test
     public void getActualOutputRange_numericTransformer_worst() {
         VPlanLeaf leaf = createLeafWithNumericTransformer(SampleAggregationMode.WORST);
-        
+
         assertEquals(1, leaf.getActualOutputRange(), 0.001);
-    }   
-    
+    }
 
     // -------------------------- helper methods --------------------------
-    
+
     private VPlanLeaf createLeafWithOrdinalTransformer(SampleAggregationMode aggregationMode) {
         VPlanLeaf leaf = new VPlanLeaf();
-        
+
         // create simple transformer
         OrdinalTransformer ordinalTrans = new OrdinalTransformer();
         Map<String, TargetValueObject> mapping = new HashMap<String, TargetValueObject>();
@@ -144,7 +143,7 @@ public class VPlanLeafTest {
         mapping.put("N", tv1);
         ordinalTrans.setMapping(mapping);
         leaf.setTransformer(ordinalTrans);
-        
+
         // set scale
         OrdinalScale ordinalScale = new OrdinalScale();
         ordinalScale.setRestriction("Yes/No");
@@ -155,7 +154,7 @@ public class VPlanLeafTest {
         yes.setValue("Y");
         OrdinalValue no = new OrdinalValue();
         no.setValue("N");
-        
+
         Values valuesAlternative1 = new Values();
         Values valuesAlternative2 = new Values();
         valuesAlternative1.add(yes);
@@ -166,22 +165,22 @@ public class VPlanLeafTest {
         valuesAlternative2.add(no);
         valuesAlternative2.add(no);
         valuesAlternative2.add(no);
-        
+
         Map<String, Values> valueMap = new HashMap<String, Values>();
         valueMap.put("alt1", valuesAlternative1);
         valueMap.put("alt2", valuesAlternative2);
         leaf.setValueMap(valueMap);
-        
+
         leaf.setAggregationMode(aggregationMode);
         leaf.setWeight(1);
         leaf.setTotalWeight(1);
-        
+
         return leaf;
     }
-    
+
     private VPlanLeaf createLeafWithNumericTransformer(SampleAggregationMode aggregationMode) {
         VPlanLeaf leaf = new VPlanLeaf();
-        
+
         // create simple transformer
         NumericTransformer numericTrans = new NumericTransformer();
         numericTrans.setThreshold1(1d);
@@ -194,7 +193,7 @@ public class VPlanLeafTest {
         // set scale
         PositiveFloatScale scale = new PositiveFloatScale();
         leaf.setScale(scale);
-       
+
         // valueMap
         FloatValue v0 = new FloatValue();
         v0.setValue(0d);
@@ -208,7 +207,7 @@ public class VPlanLeafTest {
         v4.setValue(4d);
         FloatValue v5 = new FloatValue();
         v5.setValue(5d);
-        
+
         Values valuesAlternative1 = new Values();
         Values valuesAlternative2 = new Values();
         valuesAlternative1.add(v0);
@@ -221,16 +220,16 @@ public class VPlanLeafTest {
         valuesAlternative2.add(v1);
         valuesAlternative2.add(v3);
         valuesAlternative2.add(v5);
-        
+
         Map<String, Values> valueMap = new HashMap<String, Values>();
         valueMap.put("alt1", valuesAlternative1);
         valueMap.put("alt2", valuesAlternative2);
         leaf.setValueMap(valueMap);
-        
+
         leaf.setAggregationMode(aggregationMode);
         leaf.setWeight(1);
         leaf.setTotalWeight(1);
-        
+
         return leaf;
     }
 }

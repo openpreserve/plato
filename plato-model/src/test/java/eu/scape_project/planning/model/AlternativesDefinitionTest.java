@@ -18,180 +18,95 @@ package eu.scape_project.planning.model;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import eu.scape_project.planning.exception.PlanningException;
 
 public class AlternativesDefinitionTest {
-	private AlternativesDefinition alternativesDefinition;
-	
-	public AlternativesDefinitionTest() {
-		alternativesDefinition = new AlternativesDefinition();
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Test(expected=PlanningException.class)
-	public void addAlternative_addAlternativeWithAlreadyExistingNameThrowsException() throws PlanningException {
-		// existing alternatives
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		alternativesDefinition.setAlternatives(existingAlternatives);
-				
-		// new alternative
-		Alternative altToAdd = new Alternative();
-		altToAdd.setName("alt2");
-		
-		alternativesDefinition.addAlternative(altToAdd);
-	}
+    private AlternativesDefinition alternativesDefinition;
 
-	@SuppressWarnings("deprecation")
-	@Test
-	public void addAlternative_addNewAlternativeWithUniqueNameIsAdded() throws PlanningException {
-		// existing alternatives
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		alternativesDefinition.setAlternatives(existingAlternatives);
-				
-		// new alternative
-		Alternative altToAdd = new Alternative();
-		altToAdd.setName("unique name");
-		
-		alternativesDefinition.addAlternative(altToAdd);
-		
-		assertEquals(3, alternativesDefinition.getAlternatives().size());
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Test
-	public void renameAlternative_renameAlternativeToTheSameNameDoesNothing() throws PlanningException {
-		// existing alternatives
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		alternativesDefinition.setAlternatives(existingAlternatives);
-						
-		alternativesDefinition.renameAlternative(alt2, "alt2");
-		
-		assertEquals("alt2", alt2.getName());
-	}	
+    public AlternativesDefinitionTest() {
+        alternativesDefinition = new AlternativesDefinition();
+    }
 
-	@SuppressWarnings("deprecation")
-	@Test(expected=PlanningException.class)
-	public void renameAlternative_renameAlternativeToNotUniqueNameThrowsException() throws PlanningException {
-		// existing alternatives
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		alternativesDefinition.setAlternatives(existingAlternatives);
-						
-		alternativesDefinition.renameAlternative(alt2, "alt1");
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Test(expected=PlanningException.class)
-	public void renameAlternative_renameUnknownAlternativeThrowsException() throws PlanningException {
-		// existing alternatives
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		alternativesDefinition.setAlternatives(existingAlternatives);
+    @Test(expected = PlanningException.class)
+    public void addAlternative_addAlternativeWithAlreadyExistingNameThrowsException() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
 
-		Alternative unknownAlternative = new Alternative();
-		unknownAlternative.setName("unknown");
-		
-		alternativesDefinition.renameAlternative(unknownAlternative, "xxxx");
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Test
-	public void renameAlternative_renameAlternativeToUniqueNameSucceeds() throws PlanningException {
-		// existing alternatives
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		alternativesDefinition.setAlternatives(existingAlternatives);
-						
-		alternativesDefinition.renameAlternative(alt2, "newName");
-		
-		assertEquals("newName", alt2.getName());
-	}	
-	
-	@SuppressWarnings("deprecation")
-	@Test 
-	public void test_Adding_Alternatives_With_the_Same_Name_At_Once() {
-		AlternativesDefinition aDef = new AlternativesDefinition();
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		Alternative alt3 = new Alternative();
-		alt3.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		existingAlternatives.add(alt3);
-		aDef.setAlternatives(existingAlternatives);
-		int count = 0;
-		for (Alternative a : aDef.getAlternatives()) {
-			if (a.getName().equals("alt2")) {
-				count++;
-			}
-		}
-		Assert.assertTrue(count==1);
-	}
-	
-	@Test 
-	public void test_Alternatives_With_The_Same_Name_Exist() {
-		AlternativesDefinition aDef = new AlternativesDefinition();
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		Alternative alt3 = new Alternative();
-		alt3.setName("alt3");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-		existingAlternatives.add(alt1);
-		existingAlternatives.add(alt2);
-		existingAlternatives.add(alt3);
-		aDef.setAlternatives(existingAlternatives);
-		alt3.setName("alt2");
-		int count = 0;
-		for (Alternative a : aDef.getAlternatives()) {
-			if (a.getName().equals("alt2")) {
-				count++;
-			}
-		}
-		Assert.assertTrue(count==1);
-	}
+        // new alternative
+        Alternative altToAdd = new Alternative("alt2", "alt2");
+
+        alternativesDefinition.addAlternative(altToAdd);
+    }
+
+    @Test
+    public void addAlternative_addNewAlternativeWithUniqueNameIsAdded() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        // new alternative
+        Alternative altToAdd = new Alternative("unique name", "unique name");
+        alternativesDefinition.addAlternative(altToAdd);
+
+        assertEquals(3, alternativesDefinition.getAlternatives().size());
+    }
+
+    @Test
+    public void renameAlternative_renameAlternativeToTheSameNameDoesNothing() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        alternativesDefinition.renameAlternative(alt2, "alt2");
+
+        assertEquals("alt2", alt2.getName());
+    }
+
+    @Test(expected = PlanningException.class)
+    public void renameAlternative_renameAlternativeToNotUniqueNameThrowsException() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        alternativesDefinition.renameAlternative(alt2, "alt1");
+    }
+
+    @Test(expected = PlanningException.class)
+    public void renameAlternative_renameUnknownAlternativeThrowsException() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        Alternative unknownAlternative = new Alternative("unknown", "unkown");
+
+        alternativesDefinition.renameAlternative(unknownAlternative, "xxxx");
+    }
+
+    @Test
+    public void renameAlternative_renameAlternativeToUniqueNameSucceeds() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        alternativesDefinition.renameAlternative(alt2, "newName");
+
+        assertEquals("newName", alt2.getName());
+    }
+
 }

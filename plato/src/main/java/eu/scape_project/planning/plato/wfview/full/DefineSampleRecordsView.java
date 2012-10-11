@@ -176,7 +176,7 @@ public class DefineSampleRecordsView extends AbstractView {
      * sample sample without data.
      */
     public String newSample() {
-        SampleObject newSample = new SampleObject();
+        SampleObject newSample = new SampleObject("<add name>");
 
         plan.getSampleRecordsDefinition().addRecord(newSample);
         // this SampleRecordsDefinition has been changed

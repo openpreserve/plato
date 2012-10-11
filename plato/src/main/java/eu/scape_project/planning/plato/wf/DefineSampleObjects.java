@@ -152,9 +152,8 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
     }
 
     public SampleObject addSample(String filename, String contentType, byte[] bytestream) throws PlanningException {
-        SampleObject sample = new SampleObject();
+        SampleObject sample = new SampleObject(filename);
         sample.setFullname(filename);
-        sample.setShortName(filename);
         sample.setContentType(contentType);
 
         ByteStream bsData = new ByteStream();

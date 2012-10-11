@@ -16,35 +16,32 @@
  ******************************************************************************/
 package eu.scape_project.planning.model;
 
-
 import org.junit.Test;
 
 import eu.scape_project.planning.model.values.FloatValue;
 
-
 public class FloatValueTest {
-    
+
     @Test
     public void testFormattedValue() {
         FloatValue fv = new FloatValue();
-        
+
         double d = 1.234567890123450;
         double d2 = d;
-        
+
         for (int i = 1; i < 30; i++) {
             fv.setValue(d);
-//            System.out.println(fv.getFormattedValue());
+            // System.out.println(fv.getFormattedValue());
             fv.setValue(-d);
-//            System.out.println(fv.getFormattedValue());
+            // System.out.println(fv.getFormattedValue());
             fv.setValue(d2);
-//            System.out.println(fv.getFormattedValue());
+            // System.out.println(fv.getFormattedValue());
             fv.setValue(-d2);
-//            System.out.println(fv.getFormattedValue());
+            // System.out.println(fv.getFormattedValue());
             d = d * 10;
             d2 = d2 / 10.;
         }
-        
-        
+
     }
 
 }

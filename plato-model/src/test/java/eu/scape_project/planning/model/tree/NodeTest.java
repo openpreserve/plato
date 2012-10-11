@@ -15,6 +15,7 @@
  * limitations under the License.
  ******************************************************************************/
 package eu.scape_project.planning.model.tree;
+
 /*******************************************************************************
  * Copyright (c) 2006-2010 Vienna University of Technology, 
  * Department of Software Technology and Interactive Systems
@@ -26,7 +27,6 @@ package eu.scape_project.planning.model.tree;
  * http://www.apache.org/licenses/LICENSE-2.0 
  *******************************************************************************/
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +36,10 @@ import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.validation.ValidationError;
 
-
 public class NodeTest {
-    
+
     @Test
-    public void isCompletelySpecified(){
+    public void isCompletelySpecified() {
         Node node = new Node();
         Leaf leaf = new Leaf();
         leaf.setName("Name");
@@ -51,14 +50,14 @@ public class NodeTest {
         node.addChild(leaf2);
         node.addChild(leaf2);
         List<ValidationError> errors = new ArrayList<ValidationError>();
-        //System.out.println(node.getChildren().size());
+        // System.out.println(node.getChildren().size());
         node.isCompletelySpecified(errors);
-        //System.out.println(errors.size());
-        //for (ValidationError error : errors) {
-        //    System.out.println(error.getMessage());
-        //}
-        
-        assert(errors.size() == 2);
+        // System.out.println(errors.size());
+        // for (ValidationError error : errors) {
+        // System.out.println(error.getMessage());
+        // }
+
+        assert (errors.size() == 2);
     }
 
 }

@@ -95,13 +95,13 @@ public class Alternative implements Serializable, ITouchable {
         this.id = id;
     }
 
-    public Alternative() {
+    private Alternative() {
 
     }
 
-    public Alternative(String name, String description) {
-        setName(name);
-        setDescription(description);
+    public Alternative(final String name, final String description) {
+        this.name = name;
+        this.description = description;
     }
 
     public Experiment getExperiment() {
@@ -121,10 +121,15 @@ public class Alternative implements Serializable, ITouchable {
     }
 
     /**
-     * This method is deprecated because when you change the name of an alternative, several related objects have to be updated too.
-     * To change the name of an Alternative please use the function renameAlternative in the class Plan.
-     * @see Plan
-     * @param name New name of the Alternative
+     * Sets the name of this alternative.
+     * CAUTION:
+     * Do NOT use this, if the alternative is already part of an alternative definition:
+     * - if it is part of a stand alone alternative definition, use {@link AlternativesDefinition#renameAlternative(Alternative, String)} instead
+     * - it the alternative definition is part of a plan, use {@link Plan#renameAlternative(Alternative, String)}} instead.
+     * 
+     * This is crucial, as integrity checks have to be performed, and other objects might refer to this alternative. 
+     * 
+     * @param name new name of this alternative
      */
     @Deprecated
     public void setName(String name) {

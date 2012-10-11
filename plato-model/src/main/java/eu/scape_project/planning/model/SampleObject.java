@@ -77,6 +77,13 @@ public class SampleObject extends DigitalObject {
     @ManyToOne
     private SampleRecordsDefinition sampleRecordsDefinition;
     
+    private SampleObject(){
+    }
+    
+    public SampleObject(final String shortName) {
+        this.shortName = shortName;
+    }
+    
     public void assignValues(SampleObject source){
     	super.assignValues(source);
     	this.shortName = source.getShortName();

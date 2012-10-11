@@ -47,7 +47,7 @@ public class DefineAlternativesViewTest {
 	
 	@Test
 	public void tryRemoveAlternative_clickAlternativeOnceDoesNotRemove() {
-		Alternative clickedAlternative = new Alternative();
+		Alternative clickedAlternative = new Alternative("alt1", "alt1");
 		clickedAlternative.setId(1);
 		
 		defineAlternativesView.tryRemoveAlternative(clickedAlternative);
@@ -57,7 +57,7 @@ public class DefineAlternativesViewTest {
 
 	@Test
 	public void tryRemoveAlternative_clickAlternativeTwiceRemovesTheAlternative_notCurrentRecommendationNoMessage() {	
-		Alternative clickedAlternative = new Alternative();
+            Alternative clickedAlternative = new Alternative("alt1", "alt1");
 		clickedAlternative.setId(1);
 		
 		when(defineAlternativesView.getPlan().isGivenAlternativeTheCurrentRecommendation(clickedAlternative)).thenReturn(false);
@@ -71,7 +71,7 @@ public class DefineAlternativesViewTest {
 
 	@Test
 	public void tryRemoveAlternative_clickAlternativeTwiceRemovesTheAlternative_currentRecommendationShowMessage() {	
-		Alternative clickedAlternative = new Alternative();
+            Alternative clickedAlternative = new Alternative("alt1", "alt1");
 		clickedAlternative.setId(1);
 		
 		when(defineAlternativesView.getPlan().isGivenAlternativeTheCurrentRecommendation(clickedAlternative)).thenReturn(true);
@@ -85,9 +85,9 @@ public class DefineAlternativesViewTest {
 	
 	@Test
 	public void tryRemoveAlternative_clickTwoDifferentAlternativesDoesNotRemove() {
-		Alternative clickedAlternativeOne = new Alternative();
+		Alternative clickedAlternativeOne = new Alternative("alt1", "alt1");
 		clickedAlternativeOne.setId(1);
-		Alternative clickedAlternativeTwo = new Alternative();
+		Alternative clickedAlternativeTwo = new Alternative("alt2", "alt2");
 		clickedAlternativeTwo.setId(2);
 		
 		defineAlternativesView.tryRemoveAlternative(clickedAlternativeOne);
@@ -97,13 +97,11 @@ public class DefineAlternativesViewTest {
 		verify(defineAlternativesView.getPlan(), times(0)).removeAlternative(clickedAlternativeTwo);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void editAlternative_editExistingAlternativeChangesExistingOne() throws PlanningException {
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
+		Alternative alt1 = new Alternative("alt1", "alt1");
+		Alternative alt2 = new Alternative("alt2", "alt2");
+		
 		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
 		existingAlternatives.add(alt1);
 		existingAlternatives.add(alt2);
@@ -118,20 +116,17 @@ public class DefineAlternativesViewTest {
 		verify(defineAlternativesView.getPlan(), times(1)).renameAlternative(alt1, "newName");
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void editAlternative_editNewAlternativeAddsNewAlternativeToList() throws PlanningException {
-		Alternative alt1 = new Alternative();
-		alt1.setName("alt1");
-		Alternative alt2 = new Alternative();
-		alt2.setName("alt2");
-		List<Alternative> existingAlternatives = new ArrayList<Alternative>();
+            Alternative alt1 = new Alternative("alt1", "alt1");
+            Alternative alt2 = new Alternative("alt2", "alt2");
+
+            List<Alternative> existingAlternatives = new ArrayList<Alternative>();
 		existingAlternatives.add(alt1);
 		existingAlternatives.add(alt2);
 		defineAlternativesView.setAlternatives(existingAlternatives);
 		
-		Alternative altNew = new Alternative();
-		altNew.setName("altNew");
+                Alternative altNew = new Alternative("alt new", "altnew");
 		defineAlternativesView.setEditableAlternative(altNew);
 		defineAlternativesView.editAlternative();
 		
