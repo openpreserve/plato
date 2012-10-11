@@ -47,6 +47,13 @@ import eu.scape_project.planning.validation.ValidationError;
 public class Node extends TreeNode {
 
     private static final long serialVersionUID = -4323424291922910124L;
+    
+   
+    /**
+     * empty default constructor
+     */
+    public Node() {
+    }
 
     /**
      * adds the provided node as a child to this.
@@ -102,11 +109,6 @@ public class Node extends TreeNode {
     }
 
 
-    /**
-     * empty default constructor
-     */
-    public Node() {
-    }
 
     @Override
     /**

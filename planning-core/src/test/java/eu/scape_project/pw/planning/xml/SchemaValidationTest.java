@@ -35,68 +35,72 @@ import eu.scape_project.planning.xml.StrictDefaultHandler;
 import eu.scape_project.planning.xml.ValidatingParserFactory;
 
 public class SchemaValidationTest {
-	
-	private ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory(); 
 
+    private ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
 
-	protected SAXParser getNonValidatingParser() throws ParserConfigurationException, SAXException {
-		SAXParserFactory f = SAXParserFactory.newInstance();
-		return f.newSAXParser();
-	}
-	
-	@Test
-	public void parsePlanWithoutValidation() throws ParserConfigurationException, SAXException, IOException {
-		InputStream inPlan = getClass().getClassLoader().getResourceAsStream("plans/Archiving_Digital_Photographs.xml");
-		SAXParser parser = getNonValidatingParser();
-		parser.parse(inPlan, new DefaultHandler());
-	}
-	
-	@Test(expected=SAXException.class)
-	public void parseNonWellformedXml() throws ParserConfigurationException, SAXException, IOException {
-		SAXParser parser = getNonValidatingParser();
-		
-		parser.parse(new InputSource(new StringReader("<test><open></test>")), new DefaultHandler());
-	}
-	
-	@Test(expected=SAXException.class)
-	public void parseXmlInvalidOrder() throws ParserConfigurationException, SAXException, IOException {
-		InputStream inPlan = getClass().getClassLoader().getResourceAsStream("simple/simpleInvalidOrder.xml");
-		
-		SAXParser parser = validatingParserFactory.getValidatingParser();
-                parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/simple/V1.0.0/simple.xsd");
-		
-		parser.parse(inPlan, new StrictDefaultHandler(new SchemaResolver().addSchemaLocation("http://simple.org/simple/V1.0.0/simple.xsd", "simple/simple.xsd")));
-	}
-	
-	@Test
-	public void parseValidXml() throws ParserConfigurationException, SAXException, IOException {
-		InputStream inPlan = getClass().getClassLoader().getResourceAsStream("simple/simple.xml");
-		
-		SAXParser parser = validatingParserFactory.getValidatingParser();
-		parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/simple/V1.0.0/simple.xsd");
-		parser.parse(inPlan, new StrictDefaultHandler(new SchemaResolver().addSchemaLocation("http://simple.org/simple/V1.0.0/simple.xsd", "simple/simple.xsd")));
-	}
+    protected SAXParser getNonValidatingParser() throws ParserConfigurationException, SAXException {
+        SAXParserFactory f = SAXParserFactory.newInstance();
+        return f.newSAXParser();
+    }
 
-	/**
-	 * Parses and validates an xml which includes elements of other schemas.
-	 *  
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
-	 */
-        @Test
-	public void parseComposedXml() throws ParserConfigurationException, SAXException, IOException {
-            InputStream inPlan = getClass().getClassLoader().getResourceAsStream("plans/plan_with_pap.xml");
-            
-            SAXParser parser = validatingParserFactory.getValidatingParser();
-            parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PlanXMLConstants.PLATO_SCHEMA_URI);
-            SchemaResolver schemaResolver = new SchemaResolver()
-                .addSchemaLocation(PlanXMLConstants.PLATO_SCHEMA_URI, PlanXMLConstants.PLATO_SCHEMA_LOCATION)
-                .addSchemaLocation(PlanXMLConstants.PAP_SCHEMA_URI, PlanXMLConstants.PAP_SCHEMA_LOCATION)
-                .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
-            
-            parser.parse(inPlan, new StrictDefaultHandler(schemaResolver));
-	}
-	
+    @Test
+    public void parsePlanWithoutValidation() throws ParserConfigurationException, SAXException, IOException {
+        InputStream inPlan = getClass().getClassLoader().getResourceAsStream("plans/Archiving_Digital_Photographs.xml");
+        SAXParser parser = getNonValidatingParser();
+        parser.parse(inPlan, new DefaultHandler());
+    }
+
+    @Test(expected = SAXException.class)
+    public void parseNonWellformedXml() throws ParserConfigurationException, SAXException, IOException {
+        SAXParser parser = getNonValidatingParser();
+
+        parser.parse(new InputSource(new StringReader("<test><open></test>")), new DefaultHandler());
+    }
+
+    @Test(expected = SAXException.class)
+    public void parseXmlInvalidOrder() throws ParserConfigurationException, SAXException, IOException {
+        InputStream inPlan = getClass().getClassLoader().getResourceAsStream("simple/simpleInvalidOrder.xml");
+
+        SAXParser parser = validatingParserFactory.getValidatingParser();
+        parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/simple/V1.0.0/simple.xsd");
+
+        parser.parse(
+            inPlan,
+            new StrictDefaultHandler(new SchemaResolver().addSchemaLocation(
+                "http://simple.org/simple/V1.0.0/simple.xsd", "simple/simple.xsd")));
+    }
+
+    @Test
+    public void parseValidXml() throws ParserConfigurationException, SAXException, IOException {
+        InputStream inPlan = getClass().getClassLoader().getResourceAsStream("simple/simple.xml");
+
+        SAXParser parser = validatingParserFactory.getValidatingParser();
+        parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/simple/V1.0.0/simple.xsd");
+        parser.parse(
+            inPlan,
+            new StrictDefaultHandler(new SchemaResolver().addSchemaLocation(
+                "http://simple.org/simple/V1.0.0/simple.xsd", "simple/simple.xsd")));
+    }
+
+    /**
+     * Parses and validates an xml which includes elements of other schemas.
+     * 
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    @Test
+    public void parseComposedXml() throws ParserConfigurationException, SAXException, IOException {
+        InputStream inPlan = getClass().getClassLoader().getResourceAsStream("plans/plan_with_pap.xml");
+        
+        SAXParser parser = validatingParserFactory.getValidatingParser();
+        parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PlanXMLConstants.PLATO_SCHEMA_URI);
+        SchemaResolver schemaResolver = new SchemaResolver()
+            .addSchemaLocation(PlanXMLConstants.PLATO_SCHEMA_URI, PlanXMLConstants.PLATO_SCHEMA_LOCATION)
+            .addSchemaLocation(PlanXMLConstants.PAP_SCHEMA_URI, PlanXMLConstants.PAP_SCHEMA_LOCATION)
+            .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
+
+        parser.parse(inPlan, new StrictDefaultHandler(schemaResolver));
+    }
 
 }

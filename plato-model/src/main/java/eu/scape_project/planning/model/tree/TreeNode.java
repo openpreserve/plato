@@ -77,15 +77,6 @@ public abstract class TreeNode implements ITreeNode, Serializable, ITouchable, C
     protected String description;
 
     /**
-     * the children that are contained in this node.
-     */
-    @Valid
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "parent_fk")
-    @IndexColumn(name = "indexcol", base = 1)
-    protected List<TreeNode> children = new ArrayList<TreeNode>();
-
-    /**
      * indicates whether the weight of this node may be changed by the automatic
      * balancing of weights. If lock is true, the weight is not changed
      * automatically.
@@ -108,6 +99,15 @@ public abstract class TreeNode implements ITreeNode, Serializable, ITouchable, C
      * digits! Kevin suggests turning this into an integer (0 <= x <= 100(0))
      */
     protected double weight = 1.0;
+    
+    /**
+     * the children that are contained in this node.
+     */
+    @Valid
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_fk")
+    @IndexColumn(name = "indexcol", base = 1)
+    protected List<TreeNode> children = new ArrayList<TreeNode>();    
 
     @ManyToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();

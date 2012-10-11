@@ -95,7 +95,14 @@ public class Alternative implements Serializable, ITouchable {
         this.id = id;
     }
 
-    private Alternative() {
+    /**
+     * Creates an alternative.
+     * 
+     * This constructor is marked deprecated to emphasize that one should not create an instance without providing name and description.
+     * Still, it is required in some situations, e.g. for de-serializing via digester. 
+     */
+    @Deprecated
+    public Alternative() {
 
     }
 

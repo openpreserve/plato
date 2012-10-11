@@ -77,7 +77,14 @@ public class SampleObject extends DigitalObject {
     @ManyToOne
     private SampleRecordsDefinition sampleRecordsDefinition;
     
-    private SampleObject(){
+    /**
+     * Creates a sample object.
+     * 
+     * This constructor is marked deprecated to emphasize that one should not create an instance without providing a shortname.
+     * Still, it is required in some situations, e.g. for de-serializing via digester. 
+     */
+    @Deprecated
+    public SampleObject(){
     }
     
     public SampleObject(final String shortName) {

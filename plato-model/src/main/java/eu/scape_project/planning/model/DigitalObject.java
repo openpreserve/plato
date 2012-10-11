@@ -29,16 +29,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
 /**
- * This class represents a file, or more generally a digital object, that has been uploaded
- * by the user and shall be stored in the database.
- *
+ * This class represents a file, or more generally a digital object, that has
+ * been uploaded by the user and shall be stored in the database.
+ * 
  * @author Hannes Kulovits
  */
 @Entity
@@ -54,12 +52,13 @@ public class DigitalObject implements Serializable, ITouchable {
     protected int id;
 
     /**
-     * This is the persistent identifier of the object, 
-     * it is compliant with the syntax of Fedora persistent identifiers {@link https://wiki.duraspace.org/display/FEDORA35/Fedora+Identifiers} 
+     * This is the persistent identifier of the object, it is compliant with the
+     * syntax of Fedora persistent identifiers {@link https
+     * ://wiki.duraspace.org/display/FEDORA35/Fedora+Identifiers}
      */
-    @Pattern(regexp="^([A-Za-z0-9]|-|\\.)+:(([A-Za-z0-9])|-|\\.|~|_|(%[0-9A-F]{2}))+$")
+    @Pattern(regexp = "^([A-Za-z0-9]|-|\\.)+:(([A-Za-z0-9])|-|\\.|~|_|(%[0-9A-F]{2}))+$")
     protected String pid;
-    
+
     /**
      * Name of the object.
      */
@@ -69,20 +68,12 @@ public class DigitalObject implements Serializable, ITouchable {
      * In most cases this is the mime-type of the object.
      */
     protected String contentType = "";
-    
-    @OneToOne(cascade=CascadeType.ALL)
-    protected ChangeLog changeLog = new ChangeLog();
-    
-    @OneToOne(cascade=CascadeType.ALL)
-    protected ByteStream data = new ByteStream();
-    
-    public ByteStream getData() {
-        return data;
-    }
 
-    public void setData(ByteStream data) {
-        this.data = data;
-    }    
+    @OneToOne(cascade = CascadeType.ALL)
+    protected ChangeLog changeLog = new ChangeLog();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    protected ByteStream data = new ByteStream();
 
     @Length(max = 2000000)
     @Column(length = 2000000)
@@ -91,7 +82,29 @@ public class DigitalObject implements Serializable, ITouchable {
     @Length(max = 2000000)
     @Column(length = 2000000)
     protected String fitsXMLString;
-    
+
+    /**
+     * Real size of the upload in Bytes
+     */
+    private double sizeInBytes = 0.0;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    protected XcdlDescription xcdlDescription = null;
+
+    /**
+     * Detailed information about the sample record's format.
+     */
+    @OneToOne(cascade = CascadeType.ALL)
+    protected FormatInfo formatInfo = new FormatInfo();
+
+    public ByteStream getData() {
+        return data;
+    }
+
+    public void setData(ByteStream data) {
+        this.data = data;
+    }
+
     public String getFitsXMLString() {
         return fitsXMLString;
     }
@@ -101,32 +114,18 @@ public class DigitalObject implements Serializable, ITouchable {
     }
 
     /**
-     * Real size of the upload in Mb
-     */
-    private Double sizeInMB = 0.0;
-
-    @OneToOne(cascade=CascadeType.ALL)
-    protected XcdlDescription xcdlDescription = null;
-
-    /**
-     * Detailed information about the sample record's format.
-     */
-    @OneToOne(cascade=CascadeType.ALL)
-    protected FormatInfo formatInfo = new FormatInfo();
-    
-    /**
      * Method responsible for indicating if the DigitalObject contains data.
      * 
      * @return true if the upload contains data.
      */
     public boolean isDataExistent() {
-    	// pid indicates associated data
+        // pid indicates associated data
         if (pid != null && !pid.equals("")) {
-        	return true;
+            return true;
         }
-        
+
         // if no pid is set check the bytestream directly.
-    	return data.isDataExistent();
+        return data.isDataExistent();
     }
 
     public String getFullname() {
@@ -152,18 +151,17 @@ public class DigitalObject implements Serializable, ITouchable {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-    
-    public void assignValues(DigitalObject source){
-    	contentType = source.getContentType();
-    	fullname = source.getFullname();
-    	data = source.getData().clone();
-    	pid = source.getPid();
-    	sizeInMB = source.getSizeInMB();
-    	fitsXMLString = source.getFitsXMLString();
-    	formatInfo.assignValues(source.getFormatInfo());
+
+    public void assignValues(DigitalObject source) {
+        contentType = source.getContentType();
+        fullname = source.getFullname();
+        data = source.getData().clone();
+        pid = source.getPid();
+        sizeInBytes = source.getSizeInBytes();
+        fitsXMLString = source.getFitsXMLString();
+        formatInfo.assignValues(source.getFormatInfo());
     }
 
-    @Transient
     public DigitalObject clone() {
         DigitalObject u = new DigitalObject();
         u.assignValues(this);
@@ -178,10 +176,10 @@ public class DigitalObject implements Serializable, ITouchable {
         changeLog = value;
     }
 
-    public boolean isChanged(){
+    public boolean isChanged() {
         return changeLog.isAltered();
     }
-    
+
     public void touch() {
         changeLog.touch();
     }
@@ -192,11 +190,10 @@ public class DigitalObject implements Serializable, ITouchable {
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
         formatInfo.handleChanges(h);
-        if (xcdlDescription != null) 
+        if (xcdlDescription != null)
             xcdlDescription.handleChanges(h);
     }
 
-    
     public String getJhoveXMLString() {
         return jhoveXMLString;
     }
@@ -219,8 +216,7 @@ public class DigitalObject implements Serializable, ITouchable {
 
     public void setFormatInfo(FormatInfo value) {
         formatInfo = value;
-    }    
-    
+    }
 
     @Override
     /**
@@ -233,7 +229,7 @@ public class DigitalObject implements Serializable, ITouchable {
 
         if (o instanceof DigitalObject) {
             int id2 = ((DigitalObject) o).getId();
-            boolean result =  ((id != 0) && (id == id2));
+            boolean result = ((id != 0) && (id == id2));
             return result;
         }
 
@@ -245,19 +241,23 @@ public class DigitalObject implements Serializable, ITouchable {
         return new Long(id).hashCode();
     }
 
-	public String getPid() {
-		return pid;
-	}
+    public String getPid() {
+        return pid;
+    }
 
-	public void setPid(String pid) {
-		this.pid = pid;
-	}
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
 
-	public Double getSizeInMB() {
-		return Math.round(sizeInMB * 100.0d) / 100.0d;
-	}
+    public double getSizeInMB() {
+        return (Math.round(sizeInBytes / (1024.0d*1024.0d/100.0d)) / 100.0d);
+    }
 
-	public void setSizeInMB(Double sizeInMB) {
-		this.sizeInMB = sizeInMB;
-	}
+    public void setSizeInBytes(final double sizeInBytes) {
+        this.sizeInBytes = sizeInBytes;
+    }
+
+    public double getSizeInBytes() {
+        return sizeInBytes;
+    }
 }

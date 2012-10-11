@@ -50,7 +50,7 @@
 				<p:inputText labelText="Tool:" id="recommendation" required="false"
 					disabled="true"
 					input="#{createExecutablePlan.plan.recommendation.alternative.name}">
-					<h:outputLink
+					<h:outputLink target="_new" 
 						value="#{createExecutablePlan.plan.recommendation.alternative.action.descriptor}"
 						rendered="#{createExecutablePlan.plan.recommendation.alternative.action.actionIdentifier == 'myExperiment'}">
 						Open in myExperiments
