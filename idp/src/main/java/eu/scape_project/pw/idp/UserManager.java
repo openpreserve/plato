@@ -21,8 +21,6 @@ import java.util.Properties;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
@@ -33,12 +31,12 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 import eu.scape_project.pw.idp.utils.PropertiesLoader;
-
-import org.slf4j.Logger;
 
 /**
  * Class responsible for managing users in the identity provider.
@@ -73,15 +71,13 @@ public class UserManager {
      */
     private Properties mailProperties;
 
-    @Resource
-    private SessionContext sessionContext;
-
     /**
      * Init this class.
      */
     @PostConstruct
     public void init() {
-        mailProperties = PropertiesLoader.loadProperties(CONFIG_NAME);
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        mailProperties = propertiesLoader.load(CONFIG_NAME);
     }
 
     /**

@@ -36,13 +36,6 @@ public class PropertiesLoader {
     private static HashMap<String, Properties> buffer = new HashMap<String, Properties>();
 
     /**
-     * Avoid default constructor for utility class.
-     */
-    protected PropertiesLoader() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * The logger for this class.
      */
     private static Logger log = LoggerFactory.getLogger(PropertiesLoader.class);
@@ -75,7 +68,7 @@ public class PropertiesLoader {
      *            the properties name
      * @return the properties or null if none could be loaded
      */
-    public static Properties loadProperties(String name) {
+    public Properties load(String name) {
         Properties properties = buffer.get(name);
 
         if (properties != null) {
@@ -102,7 +95,7 @@ public class PropertiesLoader {
      *            the defaults or null
      * @return the loaded properties or null
      */
-    private static Properties loadResourceProperties(String folder, String name, Properties defaults) {
+    private Properties loadResourceProperties(String folder, String name, Properties defaults) {
 
         InputStream in = Thread.currentThread().getContextClassLoader()
             .getResourceAsStream(folder + File.separator + name);
@@ -139,7 +132,7 @@ public class PropertiesLoader {
      *            the defaults or null
      * @return the loaded properties or null
      */
-    private static Properties loadFileProperties(String folder, String name, Properties defaults) {
+    private Properties loadFileProperties(String folder, String name, Properties defaults) {
         File f = new File(folder + File.separator + name);
         try {
             InputStream in = new FileInputStream(f);

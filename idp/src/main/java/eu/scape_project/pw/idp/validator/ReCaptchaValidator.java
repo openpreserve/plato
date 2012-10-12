@@ -26,10 +26,9 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
-import eu.scape_project.pw.idp.utils.PropertiesLoader;
-
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
+import eu.scape_project.pw.idp.utils.PropertiesLoader;
 
 /**
  * Validator for ReCaptcha.
@@ -46,7 +45,8 @@ public class ReCaptchaValidator implements Validator {
      * Constructor.
      */
     public ReCaptchaValidator() {
-        idpProperties = PropertiesLoader.loadProperties("idp.properties");
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        idpProperties = propertiesLoader.load("idp.properties");
     }
 
     @Override

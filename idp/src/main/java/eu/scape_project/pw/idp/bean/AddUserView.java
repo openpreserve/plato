@@ -18,19 +18,19 @@ package eu.scape_project.pw.idp.bean;
 
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaFactory;
 import eu.scape_project.pw.idp.UserManager;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 import eu.scape_project.pw.idp.utils.PropertiesLoader;
-
-import net.tanesha.recaptcha.ReCaptcha;
-import net.tanesha.recaptcha.ReCaptchaFactory;
 
 /**
  * Viewbean to add a new user.
@@ -61,12 +61,13 @@ public class AddUserView {
     private UserManager userManager;
 
     /**
-     * Creates a new instance of this view.
+     * Initializes the instance for use.
      */
-    public AddUserView() {
+    @PostConstruct
+    public void init() {
         user = new IdpUser();
-
-        Properties idpProperties = PropertiesLoader.loadProperties("idp.properties");
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        Properties idpProperties = propertiesLoader.load("idp.properties");
 
         reCaptcha = ReCaptchaFactory.newReCaptcha(idpProperties.getProperty("recaptcha.publickey"),
             idpProperties.getProperty("recaptcha.privatekey"), false);

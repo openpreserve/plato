@@ -119,7 +119,8 @@ public class RODAConnector implements RepositoryConnectorApi {
             return this.config;
         }
 
-        Properties props = PropertiesLoader.loadProperties("connectorapi.properties");
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        Properties props = propertiesLoader.load("connectorapi.properties");
         if (props == null) {
             LOGGER.warn("An error occurred while reading the properties file {}", CONNECTOR_API_PROPERTIES);
             return new HashMap<String, String>();

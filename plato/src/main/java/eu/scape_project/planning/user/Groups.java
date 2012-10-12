@@ -93,7 +93,8 @@ public class Groups implements Serializable {
      */
     @PostConstruct
     public void init() {
-        mailProperties = PropertiesLoader.loadProperties(CONFIG_NAME);
+        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        mailProperties = propertiesLoader.load(CONFIG_NAME);
 
         changedUsers.clear();
         changedGroups.clear();
