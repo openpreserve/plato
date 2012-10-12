@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
+	<ear-subdeployments-isolated>true</ear-subdeployments-isolated>
+	<deployment>
+		<resources>
+			<resource-root path="lib/bcprov-jdk15on-1.47.jar"
+				use-physical-code-source="true" />
+			<resource-root path="lib/bcpkix-jdk15on-1.47.jar"
+				use-physical-code-source="true" />
+		</resources>
+	</deployment>
+</jboss-deployment-structure>
