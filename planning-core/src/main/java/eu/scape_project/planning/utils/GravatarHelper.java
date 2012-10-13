@@ -42,29 +42,6 @@ public class GravatarHelper implements Serializable {
      */
     public static final int DEFAULT_SIZE = 30;
 
-    @Inject
-    private User user;
-
-    /**
-     * Returns a URL to the gravatar of the current user.
-     * 
-     * @return the URL
-     */
-    public String getGravatarURL() {
-        return getGravatarURL(user.getEmail());
-    }
-
-    /**
-     * Returns a URL to the gravatar of the current user for the provided size.
-     * 
-     * @param size
-     *            the size of the gravtar
-     * @return the URL
-     */
-    public String getGravatarURL(int size) {
-        return getGravatarURL(user.getEmail(), size);
-    }
-
     /**
      * Returns a URL to the gravatar for the provided email.
      * 

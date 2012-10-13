@@ -95,7 +95,7 @@ public class PropertiesLoader {
      *            the defaults or null
      * @return the loaded properties or null
      */
-    private static Properties loadResourceProperties(String folder, String name, Properties defaults) {
+    private Properties loadResourceProperties(String folder, String name, Properties defaults) {
 
         InputStream in = Thread.currentThread().getContextClassLoader()
             .getResourceAsStream(folder + File.separator + name);
@@ -132,7 +132,7 @@ public class PropertiesLoader {
      *            the defaults or null
      * @return the loaded properties or null
      */
-    private static Properties loadFileProperties(String folder, String name, Properties defaults) {
+    private Properties loadFileProperties(String folder, String name, Properties defaults) {
         File f = new File(folder + File.separator + name);
         try {
             InputStream in = new FileInputStream(f);

@@ -8,16 +8,18 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:a4j="http://richfaces.org/a4j">
 
+
 <cc:interface>
 	<cc:attribute name="id" required="false"></cc:attribute>
 	<cc:attribute name="user" required="false"></cc:attribute>
-	<cc:attribute name="size" required="false" default="30"></cc:attribute>
+	<cc:attribute name="size" required="false" default="30"
+		type="java.lang.Integer"></cc:attribute>
 </cc:interface>
 
 <cc:implementation>
 	<div class="user" style="height: #{cc.attrs.size}px">
 		<h:graphicImage styleClass="user"
-			value="#{gravatarHelper.getGravatarURL(cc.attrs.size)}"
+			value="#{gravatarHelper.getGravatarURL(user.email, cc.attrs.size)}"
 			style="width: #{cc.attrs.size}px; height: #{cc.attrs.size}px"
 			rendered="#{cc.attrs.user == null}" />
 		<h:outputText value="#{user.username}"
