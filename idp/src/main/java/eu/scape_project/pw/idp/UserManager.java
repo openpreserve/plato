@@ -29,14 +29,13 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-
-import org.slf4j.Logger;
 
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 import eu.scape_project.pw.idp.utils.PropertiesLoader;
+
+import org.slf4j.Logger;
 
 /**
  * Class responsible for managing users in the identity provider.
@@ -64,7 +63,7 @@ public class UserManager {
     /**
      * Standard rolename for a user.
      */
-    private final String idpUserStandardRoleName = "authenticated";
+    private static final String STANDARD_ROLE_NAME = "authenticated";
 
     /**
      * Properties for activation mail.
@@ -85,25 +84,48 @@ public class UserManager {
      * 
      * @param user
      *            User to add.
-     * @throws IdpException
+     * @throws CreateUserException
+     *             if the user could not be created
      */
-    public void addUser(IdpUser user) {
+    public void addUser(IdpUser user) throws CreateUserException {
         // Set standard role
+
         IdpRole role = null;
-        try {
-            role = em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
-                .setParameter("rolename", idpUserStandardRoleName).getSingleResult();
-        } catch (NoResultException e) {
+        List<IdpRole> standardRoles = em
+            .createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)
+            .setParameter("rolename", STANDARD_ROLE_NAME).getResultList();
+        if (standardRoles.size() == 1) {
+            role = standardRoles.get(0);
+        } else {
             role = new IdpRole();
-            role.setRoleName(idpUserStandardRoleName);
+            role.setRoleName(STANDARD_ROLE_NAME);
         }
 
         List<IdpRole> roles = user.getRoles();
         roles.add(role);
-        user.setRoles(roles);
 
-        // create a user actionToken which is needed for activation
+        // Create a user actionToken which is needed for activation
         user.setActionToken(UUID.randomUUID().toString());
+        user.setStatus(IdpUserState.CREATED);
+
+        // Check if data unique
+        final List<IdpUser> usernameUsers = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username", IdpUser.class)
+            .setParameter("username", user.getUsername()).getResultList();
+        if (!usernameUsers.isEmpty()) {
+            log.info("Error creating user. Username exists {}", user.getUsername());
+            throw new CreateUserException("Error creating user. Username exists " + user.getUsername());
+        }
+
+        // Check if data unique
+        final List<IdpUser> emailUsers = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.email = :email", IdpUser.class)
+            .setParameter("email", user.getEmail()).getResultList();
+        if (!emailUsers.isEmpty()) {
+            log.info("Error creating user. Email exists {}", user.getUsername());
+            throw new CreateUserException("Error creating user. Email exists " + user.getUsername());
+        }
+
         em.persist(user);
         log.info("Added user with username " + user.getUsername());
     }
@@ -111,31 +133,22 @@ public class UserManager {
     /**
      * Method responsible for activating an already created user.
      * 
-     * @param actionToken
-     *            Unique-id (only known by the wanted user itself) used to
-     *            identify the user to activate.
-     * @return true if the user was activated
+     * @param user
+     *            the user to activate
+     * @throws UserNotFoundExeception
+     *             if the user could not be found
      */
-    public Boolean activateUser(String actionToken) {
-        List<IdpUser> matchingUser = em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.actionToken = :actionToken", IdpUser.class)
-            .setParameter("actionToken", actionToken).getResultList();
-
-        if (matchingUser.size() != 1) {
-            log.error("Activate user failed: " + matchingUser.size() + " user matching given actionToken "
-                + actionToken);
-            return false;
+    public void activateUser(IdpUser user) throws UserNotFoundExeception {
+        IdpUser foundUser = em.find(IdpUser.class, user.getId());
+        if (foundUser == null) {
+            log.error("Error activating user. User not found {}.", user.getUsername());
+            throw new UserNotFoundExeception("Error activating user. User not found " + user.getUsername());
         }
+        foundUser.setStatus(IdpUserState.ACTIVE);
+        foundUser.setActionToken("");
+        em.persist(foundUser);
 
-        // activate actionToken relating user
-        IdpUser userToActivate = matchingUser.get(0);
-        userToActivate.setStatus(IdpUserState.ACTIVE);
-        userToActivate.setActionToken("");
-        em.persist(userToActivate);
-
-        log.info("Activated user with username " + userToActivate.getUsername());
-
-        return true;
+        log.info("Activated user with username " + foundUser.getUsername());
     }
 
     /**
@@ -146,9 +159,10 @@ public class UserManager {
      *            User the activation mail should be sent to
      * @param serverString
      *            Name and port of the server the user was added.
-     * @return True if activation email was sent. False otherwise
+     * @throws CannotSendMailException
+     *             if the mail could not be sent
      */
-    public boolean sendActivationMail(IdpUser user, String serverString) {
+    public void sendActivationMail(IdpUser user, String serverString) throws CannotSendMailException {
 
         try {
             Properties props = System.getProperties();
@@ -172,13 +186,130 @@ public class UserManager {
             message.saveChanges();
 
             Transport.send(message);
-            log.debug("Activation mail sent successfully to " + user.getEmail());
-
-            return true;
+            log.debug("Activation mail sent successfully to {}", user.getEmail());
         } catch (Exception e) {
-            log.error("Error at sending activation mail to " + user.getEmail());
-            return false;
+            log.error("Error at sending activation mail to {}", user.getEmail());
+            throw new CannotSendMailException("Error at sending activation mail to " + user.getEmail(), e);
         }
+    }
+
+    /**
+     * Initiates password reset for the user.
+     * 
+     * @param userIdentifier
+     *            the identifier of the user
+     * @param serverString
+     *            host and port of the server
+     * @throws UserNotFoundExeception
+     *             if the user could not be found
+     * @throws CannotSendMailException
+     *             if the password reset mail could not be sent
+     */
+    public void initiateResetPassword(String userIdentifier, String serverString) throws UserNotFoundExeception,
+        CannotSendMailException {
+        List<IdpUser> matchingUsers = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username OR u.email = :email", IdpUser.class)
+            .setParameter("username", userIdentifier).setParameter("email", userIdentifier).getResultList();
+
+        if (matchingUsers.size() != 1) {
+            log.error("{} users matching given identifier {}", matchingUsers.size(), userIdentifier);
+            throw new UserNotFoundExeception(matchingUsers.size() + " users matching given identifier "
+                + userIdentifier);
+        }
+
+        IdpUser user = matchingUsers.get(0);
+
+        user.setActionToken(UUID.randomUUID().toString());
+        em.persist(user);
+
+        sendPasswordResetMail(user, serverString);
+
+        log.info("Sent password reset mail for identifier {}", userIdentifier);
+    }
+
+    /**
+     * Sends the user a link to reset the password.
+     * 
+     * @param user
+     *            the user
+     * @param serverString
+     *            host and port of the server
+     * @throws CannotSendMailException
+     *             if the password reset mail could not be sent
+     */
+    private void sendPasswordResetMail(IdpUser user, String serverString) throws CannotSendMailException {
+        try {
+            Properties props = System.getProperties();
+
+            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            Session session = Session.getDefaultInstance(props, null);
+
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setRecipient(RecipientType.TO, new InternetAddress(user.getEmail()));
+            message.setSubject("Planningsuite password recovery");
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("Dear " + user.getFirstName() + " " + user.getLastName() + ", \n\n");
+            builder.append("Please use the following link to reset your Planningsuite password: \n");
+            builder.append("http://" + serverString + "/idp/resetPassword.jsf?uid=" + user.getActionToken());
+            builder.append("\n\n--\n");
+            builder.append("Your Planningsuite team");
+
+            message.setText(builder.toString());
+            message.saveChanges();
+
+            Transport.send(message);
+            log.debug("Sent password reset mail to " + user.getEmail());
+
+        } catch (Exception e) {
+            log.error("Error at sending password reset mail to {}", user.getEmail());
+            throw new CannotSendMailException("Error at sending password reset mail to " + user.getEmail());
+        }
+    }
+
+    /**
+     * Resets the password of the user identified by the actionToken.
+     * 
+     * @param user
+     *            the user
+     * @throws UserNotFoundExeception
+     *             if the user could not be found
+     */
+    public void resetPassword(IdpUser user) throws UserNotFoundExeception {
+        IdpUser foundUser = em.find(IdpUser.class, user.getId());
+        if (foundUser == null) {
+            log.error("Error resetting password. User not found {}.", user.getUsername());
+            throw new UserNotFoundExeception("Error resetting password. User not found " + user.getUsername());
+        }
+        foundUser.setPlainPassword(user.getPlainPassword());
+        foundUser.setActionToken("");
+        foundUser.setStatus(IdpUserState.ACTIVE);
+        em.persist(foundUser);
+
+        log.info("Reset password for user " + user.getUsername());
+    }
+
+    /**
+     * Reads the user identified by the provided action token.
+     * 
+     * @param actionToken
+     *            the action token identifying the user
+     * @return the user
+     * @throws UserNotFoundExeception
+     *             if no user could be found
+     */
+    public IdpUser getUserByActionToken(String actionToken) throws UserNotFoundExeception {
+        List<IdpUser> matchingUsers = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.actionToken = :actionToken", IdpUser.class)
+            .setParameter("actionToken", actionToken).getResultList();
+
+        if (matchingUsers.size() != 1) {
+            log.error("{} users matching given actionToken {}", matchingUsers.size(), actionToken);
+            throw new UserNotFoundExeception(matchingUsers.size() + " users matching given actionToken " + actionToken);
+        }
+
+        return matchingUsers.get(0);
     }
 
     // ---------- getter/setter ----------

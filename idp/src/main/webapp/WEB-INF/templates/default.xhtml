@@ -8,62 +8,12 @@
 <h:head>
 	<title>The SCAPE Planning Suite</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script type="text/javascript">
-	  function getChangedflagInputs() {
-	      var changedflags = new Array();
-	      var forms = document.getElementsByTagName("form");
-	      for (var i=0; i &lt; forms.length; i++) {
-		      var changedflag = document.getElementById(forms[i].id + ':changedflag');
-		      if (changedflag != null) { changedflags.push(changedflag); }
-		  }
-	      return changedflags;
-	  }
-	  function mayExit_noClick() {
-	      var changedflags = getChangedflagInputs();
-	      for (var i=0; i &lt; changedflags.length; i++) {
-	    	  var changedflag = changedflags[i];
-		      if ((changedflag.value != null) &amp;&amp; (changedflag.value != '')) { 
-	             // there are some changes, stay
-	             alert('There are unsaved changes, please save or discard the changes first.');
-	             return false
-	          }
-	      }
-	      return true
-	  }
-	  function mayExit(target) {
-		  if (mayExit_noClick()) {
-	          var button = document.getElementById('menuform:' + target + 'Button');
-	          button.click();
-	          return true
-		  } else {
-			  return false
-		  }
-
-	  }
-	  function changed() {
-          var changedflags = getChangedflagInputs();
-          for (var i=0; i &lt; changedflags.length; i++) {
-              changedflags[i].value="T";
-          }
-	      // in some places changed() is called before other funtions, make sure they are called too
-	      return true;
-	  }
-	</script>
 	<link href="http://fonts.googleapis.com/css?family=Audiowide"
 		rel="stylesheet" type="text/css" />
 </h:head>
 <h:body>
 
-
-	<div id="header">
-		SCAPE-PW Identity provider
-		<ui:remove>
-			<!-- 
-		<a href="http://www.scape-project.eu/" target="_blank"> <h:graphicImage library="gfx" name="scape-logo.png"
-				height="60px" alt="SCAPE" /></a>
-		-->
-		</ui:remove>
-	</div>
+	<div id="header">SCAPE-PW Identity provider</div>
 
 	<div id="content">
 		<h:messages id="messages" globalOnly="true" showDetail="true"
@@ -71,7 +21,7 @@
 
 		<ui:insert name="content">
                     [Template content will be inserted here]
-            </ui:insert>
+        </ui:insert>
 	</div>
 
 	<div id="footer">
@@ -82,10 +32,6 @@
 	</div>
 
 	<h:outputStylesheet library="css" name="screen.css" target="head" />
-	<h:outputStylesheet library="css" name="menu.css" target="head" />
-	<h:outputStylesheet library="css" name="content-treetable.css"
-		target="head" />
-
 </h:body>
 </html>
 

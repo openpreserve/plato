@@ -52,15 +52,27 @@
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>All Access</web-resource-name>
-			<url-pattern>/addUser.jsf</url-pattern>
+			<url-pattern>/createAccount.jsf</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
-
-	<!-- Allow full access to activation-page -->
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>All Access</web-resource-name>
 			<url-pattern>/activateUser.jsf</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+
+	<!-- Allow full access to password-reset-page -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All Access</web-resource-name>
+			<url-pattern>/forgotPassword.jsf</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All Access</web-resource-name>
+			<url-pattern>/resetPassword.jsf</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 

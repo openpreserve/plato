@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.planning.utils.FacesMessages;
 
+/**
+ * View bean for group invitation.
+ */
 @Named("groupInvitation")
 @RequestScoped
 public class GroupInvitationView implements Serializable {
@@ -38,11 +41,8 @@ public class GroupInvitationView implements Serializable {
     @Inject
     private Groups groups;
 
-    public GroupInvitationView() {
-    }
-
     /**
-     * Initialize
+     * Initialize the object for usage.
      */
     public void init() {
         checkInvitation();
@@ -50,6 +50,8 @@ public class GroupInvitationView implements Serializable {
 
     /**
      * Accept the invitation.
+     * 
+     * @return the navigation target
      */
     public String acceptInvitation() {
 
@@ -79,6 +81,8 @@ public class GroupInvitationView implements Serializable {
 
     /**
      * Decline the invitation.
+     * 
+     * @return the navigation target
      */
     public String declineInvitation() {
 
@@ -155,7 +159,7 @@ public class GroupInvitationView implements Serializable {
             return false;
         }
     }
-    
+
     /**
      * Checks and invitation and fills facesmessages.
      */

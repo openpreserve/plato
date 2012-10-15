@@ -16,42 +16,42 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
+import static org.mockito.Mockito.when;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.internal.verification.Times;
-import org.slf4j.Logger;
 
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.slf4j.Logger;
+
 public class UserManagerTest {
     private UserManager userManager;
-    
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     public UserManagerTest() {
         this.userManager = new UserManager();
-        
+
         Logger log = mock(Logger.class);
         this.userManager.setLog(log);
     }
-    
+
     @Test
-    public void addUser_standardRoleHasToBeGenerated() {
+    public void addUser_standardRoleHasToBeGenerated() throws CreateUserException {
         // -- set up --
         EntityManager em = mock(EntityManager.class);
         TypedQuery<IdpRole> query = mock(TypedQuery.class);
@@ -60,7 +60,7 @@ public class UserManagerTest {
         when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
         when(parameterQuery.getSingleResult()).thenThrow(new NoResultException());
         userManager.setEntityManager(em);
-        
+
         // -- test --
         IdpUser submittedUser = new IdpUser();
         submittedUser.setFirstName("firstname");
@@ -69,7 +69,7 @@ public class UserManagerTest {
         submittedUser.setUsername("username");
         submittedUser.setPlainPassword("password");
         userManager.addUser(submittedUser);
-        
+
         // -- assert --
         verify(em).persist(submittedUser);
         assertTrue(submittedUser.getActionToken().length() > 1);
@@ -77,7 +77,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void addUser_standardRoleExists() {
+    public void addUser_standardRoleExists() throws CreateUserException {
         // -- set up --
         EntityManager em = mock(EntityManager.class);
         TypedQuery<IdpRole> query = mock(TypedQuery.class);
@@ -88,7 +88,7 @@ public class UserManagerTest {
         authenticatedRole.setRoleName("authenticated");
         when(parameterQuery.getSingleResult()).thenReturn(authenticatedRole);
         userManager.setEntityManager(em);
-        
+
         // -- test --
         IdpUser submittedUser = new IdpUser();
         submittedUser.setFirstName("firstname");
@@ -97,72 +97,25 @@ public class UserManagerTest {
         submittedUser.setUsername("username");
         submittedUser.setPlainPassword("password");
         userManager.addUser(submittedUser);
-        
+
         // -- assert --
         verify(em).persist(submittedUser);
         assertTrue(submittedUser.getActionToken().length() > 1);
         assertEquals("authenticated", submittedUser.getRoles().get(0).getRoleName());
     }
 
-    @Ignore("This results in a NPE") // FIXME
     @Test
-    public void activateUser_actionTokenNotMatching_fail() {
+    public void activateUser_actionTokenOK_userIsActivated_success() throws UserNotFoundExeception {
+        // -- set up --
         EntityManager em = mock(EntityManager.class);
-        Query query = mock(Query.class);
-        Query parameterQuery = mock(Query.class);
-        when(em.createQuery(anyString())).thenReturn(query);
-        when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
-        
-        // token does not exist in db
-        List<IdpUser> matchingUser = new ArrayList<IdpUser>();
-        when(parameterQuery.getResultList()).thenReturn(matchingUser);
-        userManager.setEntityManager(em);
-
-        Boolean success = userManager.activateUser("not-existing-token");
-        assertFalse(success);
-    }
-   
-    @Ignore("This results in a NPE") // FIXME
-    @Test
-    public void activateUser_actionTokenMatchingTwice_fail() {
-        EntityManager em = mock(EntityManager.class);
-        Query query = mock(Query.class);
-        Query parameterQuery = mock(Query.class);
-        when(em.createQuery(anyString())).thenReturn(query);
-        when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
-        
-        // token exist duplicate in db
-        List<IdpUser> matchingUser = new ArrayList<IdpUser>();
-        IdpUser user1 = new IdpUser();
-        IdpUser user2 = new IdpUser();
-        matchingUser.add(user1);
-        matchingUser.add(user2);
-        when(parameterQuery.getResultList()).thenReturn(matchingUser);
-        userManager.setEntityManager(em);
-
-        Boolean success = userManager.activateUser("duplicate-token");
-        assertFalse(success);        
-    }
-    
-    @Ignore("This results in a NPE") // FIXME
-    @Test 
-    public void activateUser_actionTokenOK_userIsActivated_success() {
-        EntityManager em = mock(EntityManager.class);
-        Query query = mock(Query.class);
-        Query parameterQuery = mock(Query.class);
-        when(em.createQuery(anyString())).thenReturn(query);
-        when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
-        
-        // token exists exactly once in db
-        List<IdpUser> matchingUser = new ArrayList<IdpUser>();
         IdpUser user = mock(IdpUser.class);
-        matchingUser.add(user);
-        when(parameterQuery.getResultList()).thenReturn(matchingUser);
+        when(em.find(IdpUser.class, user.getId())).thenReturn(user);
         userManager.setEntityManager(em);
 
-        Boolean success = userManager.activateUser("duplicate-token");
-        assertTrue(success);
-        
+        // -- test --
+        userManager.activateUser(user);
+
+        // -- assert --
         verify(user).setStatus(IdpUserState.ACTIVE);
         verify(user).setActionToken("");
         verify(em).persist(user);

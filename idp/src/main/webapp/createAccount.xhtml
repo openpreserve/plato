@@ -14,43 +14,51 @@
 
 		<h1>Create an account</h1>
 
-		<a4j:outputPanel layout="block" rendered="#{addUser.addUserSuccessful}">
-			Your account has been created. <br/>
-			In a few moments you will get an email including a link to activate it. <br/>
+		<a4j:outputPanel layout="block"
+			rendered="#{createAccount.addUserSuccessful}">
+			Your account has been created. <br />
+			In a few moments you will get an email including a link to activate it. <br />
 			After activation you can go to the <h:outputLink value="login.jsf">sign in</h:outputLink> page to start using your account.
 		</a4j:outputPanel>
 
-		<a4j:outputPanel layout="block" rendered="#{!addUser.addUserSuccessful}">
+		<a4j:outputPanel layout="block"
+			rendered="#{!createAccount.addUserSuccessful}">
 			<h:form>
-				<h:outputLabel for="firstname" value="Firstname:" styleClass="label-long"/>
+				<h:outputLabel for="firstname" value="Firstname:"
+					styleClass="label-long" />
 				<h:inputText id="firstname" autocomplete="off"
-					value="#{addUser.user.firstName}" required="true"
+					value="#{createAccount.user.firstName}" required="true"
 					requiredMessage="Please enter your firstname" />
 				<rich:messages for="firstname" />
 				<br />
-				<h:outputLabel for="lastname" value="Lastname:" styleClass="label-long"/>
+				<h:outputLabel for="lastname" value="Lastname:"
+					styleClass="label-long" />
 				<h:inputText id="lastname" autocomplete="off"
-					value="#{addUser.user.lastName}" required="true"
+					value="#{createAccount.user.lastName}" required="true"
 					requiredMessage="Please enter your lastname" />
 				<rich:messages for="lastname" />
 				<br />
-				<h:outputLabel for="email" value="Email:" styleClass="label-long"/>
+				<h:outputLabel for="email" value="Email:" styleClass="label-long" />
 				<h:inputText id="email" autocomplete="off"
-					value="#{addUser.user.email}" required="true"
-					requiredMessage="Please enter your Email address." />
+					value="#{createAccount.user.email}" required="true"
+					requiredMessage="Please enter your Email address.">
+					<f:validator binding="#{EmailExistsValidator}" />
+				</h:inputText>
 				<rich:messages for="email" />
 				<br />
-				<h:outputLabel for="username" value="Username:" styleClass="label-long"/>
+				<h:outputLabel for="username" value="Username:"
+					styleClass="label-long" />
 				<h:inputText id="username" autocomplete="off"
-					value="#{addUser.user.username}" required="true"
+					value="#{createAccount.user.username}" required="true"
 					requiredMessage="Please provide a username">
 					<f:validator binding="#{UsernameExistsValidator}" />
 				</h:inputText>
 				<rich:messages for="username" />
 				<br />
-				<h:outputLabel for="password" value="Password:" styleClass="label-long"/>
+				<h:outputLabel for="password" value="Password:"
+					styleClass="label-long" />
 				<h:inputSecret id="password" autocomplete="off" redisplay="true"
-					value="#{addUser.user.plainPassword}" required="true"
+					value="#{createAccount.user.plainPassword}" required="true"
 					requiredMessage="Please provide a password">
 					<f:validator validatorId="ConfirmPasswordValidator" />
 					<f:attribute name="pwConfirm"
@@ -58,28 +66,31 @@
 				</h:inputSecret>
 				<rich:messages for="password" />
 				<br />
-				<h:outputLabel for="confirmPassword" value="Password confirmation:" styleClass="label-long"/>
+				<h:outputLabel for="confirmPassword" value="Password confirmation:"
+					styleClass="label-long" />
 				<h:inputSecret id="confirmPassword" binding="#{confirmPassword}"
 					autocomplete="off" redisplay="true" required="true"
 					requiredMessage="Please provide the password confirmation" />
 				<rich:messages for="confirmPassword" />
 				<br />
-	
+
 				<h:outputText
-					value="#{addUser.reCaptcha.createRecaptchaHtml(null, null)}"
+					value="#{createAccount.reCaptcha.createRecaptchaHtml(null, null)}"
 					escape="false" />
-	
+
 				<!-- not displayed input field used to have a component to attach the recaptcha validator to -->
-				<h:inputText id="recaptchaHelper" value="#{addUser.recaptchaHelper}" style="display:none">
+				<h:inputText id="recaptchaHelper"
+					value="#{createAccount.recaptchaHelper}" style="display:none">
 					<f:validator validatorId="ReCaptchaValidator" />
 				</h:inputText>
 				<rich:messages for="recaptchaHelper" />
-				<br/>
-	
-				<h:commandButton type="submit" value="Add"
-					action="#{addUser.addUser()}" styleClass="submitButton" />
-				<h:commandButton type="submit" value="Cancel" action="login.jsf"
-					immediate="true" styleClass="submitButton" />
+				<br />
+
+				<h:commandButton type="submit" value="Create"
+					action="#{createAccount.addUser()}" styleClass="submitButton" />
+				<h:commandButton type="submit" value="Cancel"
+					action="login?faces-redirect=true" immediate="true"
+					styleClass="submitButton" />
 			</h:form>
 		</a4j:outputPanel>
 

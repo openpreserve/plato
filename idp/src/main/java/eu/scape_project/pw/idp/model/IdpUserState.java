@@ -16,7 +16,9 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.model;
 
+/**
+ * Status of the user.
+ */
 public enum IdpUserState {
-    CREATED,
-    ACTIVE;
+    CREATED, ACTIVE;
 }

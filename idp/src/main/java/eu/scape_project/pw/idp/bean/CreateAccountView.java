@@ -25,19 +25,22 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import net.tanesha.recaptcha.ReCaptcha;
-import net.tanesha.recaptcha.ReCaptchaFactory;
+import eu.scape_project.pw.idp.CannotSendMailException;
+import eu.scape_project.pw.idp.CreateUserException;
 import eu.scape_project.pw.idp.UserManager;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 import eu.scape_project.pw.idp.utils.PropertiesLoader;
 
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaFactory;
+
 /**
  * Viewbean to add a new user.
  */
-@ManagedBean(name = "addUser")
+@ManagedBean(name = "createAccount")
 @ViewScoped
-public class AddUserView {
+public class CreateAccountView {
 
     @Inject
     private FacesMessages facesMessages;
@@ -46,9 +49,7 @@ public class AddUserView {
 
     private ReCaptcha reCaptcha;
 
-    private Boolean addUserSuccessful;
-
-    private Boolean activateUserSuccessful;
+    private boolean addUserSuccessful;
 
     /**
      * Temporary (dummy) variable only required to map the recaptchaHelper
@@ -72,40 +73,28 @@ public class AddUserView {
         reCaptcha = ReCaptchaFactory.newReCaptcha(idpProperties.getProperty("recaptcha.publickey"),
             idpProperties.getProperty("recaptcha.privatekey"), false);
         addUserSuccessful = false;
-        activateUserSuccessful = false;
     }
 
     /**
      * Adds the user.
      */
     public void addUser() {
-        // create user
-        userManager.addUser(user);
-        addUserSuccessful = true;
+        try {
+            userManager.addUser(user);
 
-        // send user activation mail
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-            .getRequest();
-        String serverString = request.getServerName() + ":" + request.getServerPort();
-        if (!userManager.sendActivationMail(user, serverString)) {
-            facesMessages.addError("Could not send activation mail.");
-        }
-    }
-
-    /**
-     * Method responsible for triggering the activation of an already created
-     * user.
-     */
-    public void activateUser() {
-        // fetch the token from URL request
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-            .getRequest();
-        String actionToken = request.getParameter("uid");
-
-        if (actionToken != null) {
-            activateUserSuccessful = userManager.activateUser(actionToken);
-        } else {
-            activateUserSuccessful = false;
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+                .getRequest();
+            String serverString = request.getServerName() + ":" + request.getServerPort();
+            try {
+                userManager.sendActivationMail(user, serverString);
+                addUserSuccessful = true;
+            } catch (CannotSendMailException e) {
+                facesMessages.addError("Could not send activation mail.");
+                addUserSuccessful = false;
+            }
+        } catch (CreateUserException e) {
+            facesMessages.addError("The username or email address already exists.");
+            addUserSuccessful = false;
         }
     }
 
@@ -125,14 +114,6 @@ public class AddUserView {
 
     public void setReCaptcha(ReCaptcha reCaptcha) {
         this.reCaptcha = reCaptcha;
-    }
-
-    public Boolean getActivateUserSuccessful() {
-        return activateUserSuccessful;
-    }
-
-    public void setActivateUserSuccessful(Boolean activateUserSuccessful) {
-        this.activateUserSuccessful = activateUserSuccessful;
     }
 
     public String getRecaptchaHelper() {

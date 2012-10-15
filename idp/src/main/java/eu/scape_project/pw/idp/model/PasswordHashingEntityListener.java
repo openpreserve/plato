@@ -19,7 +19,6 @@ package eu.scape_project.pw.idp.model;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -35,8 +34,8 @@ public class PasswordHashingEntityListener {
      *            the to update
      */
     @SuppressWarnings("unused")
-    @PreUpdate
     @PrePersist
+    @PreUpdate
     private void hashPassword(IdpUser user) {
         final String password = user.getPlainPassword();
         if (password != null) {

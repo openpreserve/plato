@@ -17,30 +17,47 @@
 package eu.scape_project.pw.idp.validator;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 /**
- * Validator for password fields.
+ * Class responsible for validate if a username already exists in database or
+ * not. This cannot be done in the form of a FacesValidator class because
+ * injection (in this case the EntityManager) is needed which only works in
+ * managed beans.
  */
-@FacesValidator("ConfirmPasswordValidator")
-public class ConfirmPasswordValidator implements Validator {
+@ManagedBean(name = "EmailExistsValidator")
+@RequestScoped
+public class EmailExistsValidator implements Validator {
+
+    @Inject
+    private EntityManager em;
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        String password = (String) value;
-        String confirm = (String) component.getAttributes().get("pwConfirm");
+        String email = (String) value;
 
         // Just ignore and let required="true" do its job.
-        if (password == null || confirm == null || password.length() == 0 || confirm.length() == 0) {
+        if (email == null || email.length() == 0) {
             return;
         }
 
-        if (!password.equals(confirm)) {
-            throw new ValidatorException(new FacesMessage("Passwords are not equal."));
+        Long userUsingUsername = (Long) em.createQuery("SELECT COUNT(u) FROM IdpUser u WHERE u.email = :email")
+            .setParameter("email", email).getSingleResult();
+
+        if (userUsingUsername > 0) {
+            throw new ValidatorException(new FacesMessage("A user with this email address is already registered."));
         }
+    }
+
+    // Method used to make this class Unit-testable
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
     }
 }

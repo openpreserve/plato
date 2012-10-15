@@ -133,7 +133,7 @@ public class IdpRoleTest {
         user.setPlainPassword("mypass");
         user.setFirstName("Max");
         user.setLastName("Mustermann");
-        user.setEmail("max@mustermann.at");
+        user.setEmail(username + "@mustermann.at");
         user.setStatus(IdpUserState.CREATED);
         user.setActionToken("uid-123-uid-456");
 

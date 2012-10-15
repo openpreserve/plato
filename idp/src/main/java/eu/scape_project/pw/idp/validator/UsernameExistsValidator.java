@@ -25,7 +25,6 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 
 /**
  * Class responsible for validate if a username already exists in database or
@@ -39,28 +38,29 @@ import javax.persistence.Persistence;
 @RequestScoped
 public class UsernameExistsValidator implements Validator {
 
-  @Inject
-  private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-  @Override
-  public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-    String desiredUsername = (String) value;
+    @Override
+    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        String desiredUsername = (String) value;
 
-    // Just ignore and let required="true" do its job.
-    if (desiredUsername == null || desiredUsername.length() == 0) {
-      return;
+        // Just ignore and let required="true" do its job.
+        if (desiredUsername == null || desiredUsername.length() == 0) {
+            return;
+        }
+
+        Long userUsingUsername = (Long) em
+            .createQuery("SELECT COUNT(u) FROM IdpUser u WHERE u.username = :desiredUsername")
+            .setParameter("desiredUsername", desiredUsername).getSingleResult();
+
+        if (userUsingUsername > 0) {
+            throw new ValidatorException(new FacesMessage("The username is already taken. Please choose another one."));
+        }
     }
 
-    Long userUsingUsername = (Long) em.createQuery("SELECT COUNT(u) FROM IdpUser u WHERE u.username = :desiredUsername")
-      .setParameter("desiredUsername", desiredUsername).getSingleResult();
-
-    if (userUsingUsername > 0) {
-      throw new ValidatorException(new FacesMessage("Username already assigned. Please choose another one."));
+    // Method used to make this class Unit-testable
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
     }
-  }
-
-  // Method used to make this class Unit-testable
-  public void setEntityManager(EntityManager em) {
-    this.em = em;
-  }
 }

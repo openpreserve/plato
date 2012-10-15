@@ -12,22 +12,23 @@
 
 	<ui:define name="content">
 
-		<h1>Activate User</h1>
+		<f:event type="preRenderView" listener="#{activateUser.init()}" />
 
-		#{addUser.activateUser()}
+		<h1>Activate User</h1>
+		#{activateUser.activateUser()}
 
 		<a4j:outputPanel layout="block">
-			<a4j:outputPanel layout="inline" rendered="#{addUser.activateUserSuccessful}">
-				Your user account is now activated. <br/>
+			<a4j:outputPanel layout="inline"
+				rendered="#{activateUser.activateUserSuccessful}">
+				Your user account is now activated.
 				You can login at the <h:outputLink value="login.jsf">login page</h:outputLink>.
 			</a4j:outputPanel>
-	
-			<a4j:outputPanel layout="inline" rendered="#{!addUser.activateUserSuccessful}">
-				Activation of your user account failed. <br/>
+
+			<a4j:outputPanel layout="inline"
+				rendered="#{!activateUser.activateUserSuccessful}">
+				Activation of your user account failed.
 				If you have any questions, please write us an email on plato@ifs.tuwien.ac.at.
 			</a4j:outputPanel>
 		</a4j:outputPanel>
-		
-		
 	</ui:define>
 </ui:composition>
