@@ -44,7 +44,7 @@ public class GroupInvitationView implements Serializable {
     /**
      * Initialize the object for usage.
      */
-    public void init() {
+    public void processActionToken() {
         checkInvitation();
     }
 
