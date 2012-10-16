@@ -46,6 +46,11 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12</version>
+				<configuration>
+					<environmentVariables>
+						<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
+					</environmentVariables>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -75,10 +80,6 @@
 
 
 	<dependencies>
-
-		<!-- <dependency> <groupId>javax</groupId> <artifactId>javaee-api</artifactId> 
-			<version>6.0</version> <scope>compile</scope> </dependency> -->
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -91,8 +92,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>

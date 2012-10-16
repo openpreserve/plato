@@ -11,7 +11,7 @@
 	<modules>
 		<module>plato-model</module>
 		<module>planning-core</module>
-		<module>kbrowser</module>
+		<!-- <module>kbrowser</module> -->
 		<module>plato</module>
 		<module>minimee</module>
 		<module>minimee-view</module>

@@ -8,6 +8,8 @@
 			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %-5p [%c{1}] %m%n" />
 		</layout>
 	</appender>
+	<logger name="eu.planets_project">
+		<level value="debug" />
 	</logger>
 	<logger name="eu.scape_project">
 		<level value="debug" />

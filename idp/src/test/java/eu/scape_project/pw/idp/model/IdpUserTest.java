@@ -38,7 +38,7 @@ public class IdpUserTest {
 
     @BeforeClass
     public static void oneTimeSetUp() {
-        emFactory = Persistence.createEntityManagerFactory("platodbTest");
+        emFactory = Persistence.createEntityManagerFactory("idpdbtest");
         em = emFactory.createEntityManager();
     }
 
