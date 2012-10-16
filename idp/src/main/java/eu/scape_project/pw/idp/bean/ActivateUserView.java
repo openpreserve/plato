@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.pw.idp.UserManager;
-import eu.scape_project.pw.idp.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 
@@ -45,9 +45,9 @@ public class ActivateUserView {
     private IdpUser user;
 
     /**
-     * Initializes the instance for use.
+     * Reads the action token and processes it.
      */
-    public void init() {
+    public void processActionToken() {
         if (!activateUserSuccessful) {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
                 .getRequest();

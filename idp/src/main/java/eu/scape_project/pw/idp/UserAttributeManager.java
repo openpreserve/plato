@@ -29,10 +29,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import org.picketlink.identity.federation.core.interfaces.AttributeManager;
-
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
+
+import org.picketlink.identity.federation.core.interfaces.AttributeManager;
 
 /**
  * Attribute manager for the user.

@@ -12,7 +12,8 @@
 
 	<ui:define name="content">
 
-		<f:event type="preRenderView" listener="#{activateUser.init()}" />
+		<f:event type="preRenderView"
+			listener="#{activateUser.processActionToken()}" />
 
 		<h1>Activate User</h1>
 		#{activateUser.activateUser()}

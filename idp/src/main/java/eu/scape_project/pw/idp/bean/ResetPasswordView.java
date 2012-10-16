@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.pw.idp.UserManager;
-import eu.scape_project.pw.idp.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 
@@ -40,15 +40,15 @@ public class ResetPasswordView {
     @Inject
     private UserManager userManager;
 
-    private boolean passwordReset = false;
+    private boolean passwordResetSuccessful = false;
 
     private IdpUser user;
 
     /**
-     * Initializes the instance for use.
+     * Reads the action token and processes it.
      */
-    public void init() {
-        if (!passwordReset) {
+    public void processActionToken() {
+        if (!passwordResetSuccessful) {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
                 .getRequest();
             String actionToken = request.getParameter("uid");
@@ -69,24 +69,24 @@ public class ResetPasswordView {
         if (user != null) {
             try {
                 userManager.resetPassword(user);
-                passwordReset = true;
+                passwordResetSuccessful = true;
             } catch (UserNotFoundExeception e) {
                 facesMessages.addError("Could not find user.");
-                passwordReset = false;
+                passwordResetSuccessful = false;
             }
         } else {
-            passwordReset = false;
+            passwordResetSuccessful = false;
         }
     }
 
     // ---------- getter/setter ----------
 
-    public boolean isPasswordReset() {
-        return passwordReset;
+    public boolean isPasswordResetSuccessful() {
+        return passwordResetSuccessful;
     }
 
-    public void setPasswordReset(boolean passwordReset) {
-        this.passwordReset = passwordReset;
+    public void setPasswordResetSuccessful(boolean passwordResetSuccessful) {
+        this.passwordResetSuccessful = passwordResetSuccessful;
     }
 
     public IdpUser getUser() {

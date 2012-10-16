@@ -16,16 +16,15 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.bean;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import eu.scape_project.pw.idp.CannotSendMailException;
 import eu.scape_project.pw.idp.UserManager;
-import eu.scape_project.pw.idp.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 
 /**
@@ -42,13 +41,6 @@ public class ForgotPasswordView {
     private UserManager userManager;
 
     private String userIdentifier;
-
-    /**
-     * Initializes the instance for use.
-     */
-    @PostConstruct
-    public void init() {
-    }
 
     /**
      * Resets the password of the user identified by userIdentifier.

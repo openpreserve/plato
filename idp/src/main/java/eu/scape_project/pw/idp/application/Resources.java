@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 
 /**
  * This class uses CDI to alias Java EE resources, such as the persistence
- * context, to CDI beans
+ * context, to CDI beans.
  * 
  * <p>
  * Example injection on a managed bean field:
@@ -37,14 +37,18 @@ import org.slf4j.Logger;
  * </pre>
  */
 public class Resources {
-    // use @SuppressWarnings to tell IDE to ignore warnings about field not
-    // being
-    // referenced directly
     @SuppressWarnings("unused")
     @Produces
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Creates a logger for the provided injectionPoint.
+     * 
+     * @param injectionPoint
+     *            the class where this logger will be used
+     * @return the logger
+     */
     @Produces
     public Logger createLogger(InjectionPoint injectionPoint) {
         return org.slf4j.LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());

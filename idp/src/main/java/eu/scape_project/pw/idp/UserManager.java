@@ -30,6 +30,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 
+import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
+import eu.scape_project.pw.idp.excpetions.CreateUserException;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;

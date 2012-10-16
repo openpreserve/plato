@@ -25,9 +25,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import eu.scape_project.pw.idp.CannotSendMailException;
-import eu.scape_project.pw.idp.CreateUserException;
 import eu.scape_project.pw.idp.UserManager;
+import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
+import eu.scape_project.pw.idp.excpetions.CreateUserException;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 import eu.scape_project.pw.idp.utils.PropertiesLoader;

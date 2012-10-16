@@ -16,7 +16,7 @@
  * 
  * This work originates from the Planets project, co-funded by the European Union under the Sixth Framework Programme.
  ******************************************************************************/
-package eu.scape_project.pw.idp;
+package eu.scape_project.pw.idp.excpetions;
 
 public class CannotSendMailException extends Exception {
 

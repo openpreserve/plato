@@ -16,21 +16,21 @@
  * 
  * This work originates from the Planets project, co-funded by the European Union under the Sixth Framework Programme.
  ******************************************************************************/
-package eu.scape_project.pw.idp;
+package eu.scape_project.pw.idp.excpetions;
 
-public class UserNotFoundExeception extends Exception {
+public class CreateUserException extends Exception {
 
     private static final long serialVersionUID = 4943304257184045457L;
 
-    public UserNotFoundExeception() {
+    public CreateUserException() {
 
     }
 
-    public UserNotFoundExeception(String msg) {
+    public CreateUserException(String msg) {
         super(msg);
     }
 
-    public UserNotFoundExeception(String msg, Throwable t) {
+    public CreateUserException(String msg, Throwable t) {
         super(msg, t);
     }
 }
