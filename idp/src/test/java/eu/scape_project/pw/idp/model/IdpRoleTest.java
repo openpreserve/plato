@@ -19,30 +19,26 @@ package eu.scape_project.pw.idp.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-@Ignore("These tests fail") //FIXME
 public class IdpRoleTest {
     private static EntityManagerFactory emFactory;
     private static EntityManager em;
 
-    @BeforeClass
-    public static void oneTimeSetUp() {
+    @Before
+    public void setUp() {
         emFactory = Persistence.createEntityManagerFactory("idpdbtest");
         em = emFactory.createEntityManager();
     }
 
-    @AfterClass
-    public static void oneTimeTearDown() {
+    @After
+    public void tearDown() {
         em.close();
         emFactory.close();
     }
@@ -50,22 +46,14 @@ public class IdpRoleTest {
     @Test
     public void getUserWorksAsExpected() throws Exception {
         // ----- set-up -----
-        deleteUserIfExistent("user1");
-        deleteUserIfExistent("user2");
-        deleteRoleIfExistent("adminrole");
-        deleteRoleIfExistent("managerrole");
-
         IdpRole adminRole = new IdpRole();
         adminRole.setRoleName("adminrole");
         IdpRole managerRole = new IdpRole();
         managerRole.setRoleName("managerrole");
 
-        IdpUser user1 = createUser("user1");
-        user1.getRoles().add(managerRole);
+        IdpUser user1 = createUser("user1", managerRole);
 
-        IdpUser user2 = createUser("user2");
-        user2.getRoles().add(adminRole);
-        user2.getRoles().add(managerRole);
+        IdpUser user2 = createUser("user2", adminRole, managerRole);
 
         em.getTransaction().begin();
         em.persist(user1);
@@ -73,7 +61,6 @@ public class IdpRoleTest {
         em.getTransaction().commit();
 
         // ----- test -----
-
         em.refresh(adminRole);
         em.refresh(managerRole);
 
@@ -107,27 +94,22 @@ public class IdpRoleTest {
     @Test(expected = Exception.class)
     public void deleteAssignedRole_fails() throws Exception {
         // ----- set-up -----
-        deleteUserIfExistent("user1");
-        deleteRoleIfExistent("assignedrole");
-
         IdpRole assignedRole = new IdpRole();
         assignedRole.setRoleName("assignedrole");
 
-        IdpUser user1 = createUser("user1");
-        user1.getRoles().add(assignedRole);
+        IdpUser user1 = createUser("user1", assignedRole);
 
         em.getTransaction().begin();
         em.persist(user1);
         em.getTransaction().commit();
 
         // ----- test -----
-
         em.getTransaction().begin();
         em.remove(assignedRole);
         em.getTransaction().commit();
     }
 
-    private IdpUser createUser(String username) {
+    private IdpUser createUser(String username, IdpRole... roles) {
         IdpUser user = new IdpUser();
         user.setUsername(username);
         user.setPlainPassword("mypass");
@@ -137,36 +119,10 @@ public class IdpRoleTest {
         user.setStatus(IdpUserState.CREATED);
         user.setActionToken("uid-123-uid-456");
 
+        for (IdpRole role : roles) {
+            user.getRoles().add(role);
+        }
+
         return user;
-    }
-
-    private void deleteUserIfExistent(String username) {
-        // delete probably conflicting test-user
-        em.getTransaction().begin();
-
-        List<IdpUser> userToDelete = (List<IdpUser>) em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username").setParameter("username", username)
-            .getResultList();
-
-        for (IdpUser delUser : userToDelete) {
-            em.remove(delUser);
-        }
-
-        em.getTransaction().commit();
-    }
-
-    private void deleteRoleIfExistent(String roleName) {
-        // delete probably conflicting test-user
-        em.getTransaction().begin();
-
-        List<IdpRole> rolesToDelete = (List<IdpRole>) em
-            .createQuery("SELECT r FROM IdpRole r WHERE r.roleName = :roleName").setParameter("roleName", roleName)
-            .getResultList();
-
-        for (IdpRole delRole : rolesToDelete) {
-            em.remove(delRole);
-        }
-
-        em.getTransaction().commit();
     }
 }

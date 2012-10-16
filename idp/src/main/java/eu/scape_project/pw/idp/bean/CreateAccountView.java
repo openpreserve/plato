@@ -79,21 +79,16 @@ public class CreateAccountView {
      * Adds the user.
      */
     public void addUser() {
-        try {
-            userManager.addUser(user);
+        userManager.addUser(user);
 
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-                .getRequest();
-            String serverString = request.getServerName() + ":" + request.getServerPort();
-            try {
-                userManager.sendActivationMail(user, serverString);
-                addUserSuccessful = true;
-            } catch (CannotSendMailException e) {
-                facesMessages.addError("Could not send activation mail.");
-                addUserSuccessful = false;
-            }
-        } catch (CreateUserException e) {
-            facesMessages.addError("The username or email address already exists.");
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+            .getRequest();
+        String serverString = request.getServerName() + ":" + request.getServerPort();
+        try {
+            userManager.sendActivationMail(user, serverString);
+            addUserSuccessful = true;
+        } catch (CannotSendMailException e) {
+            facesMessages.addError("Could not send activation mail.");
             addUserSuccessful = false;
         }
     }

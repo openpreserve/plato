@@ -87,10 +87,8 @@ public class UserManager {
      * 
      * @param user
      *            User to add.
-     * @throws CreateUserException
-     *             if the user could not be created
      */
-    public void addUser(IdpUser user) throws CreateUserException {
+    public void addUser(IdpUser user) {
         // Set standard role
 
         IdpRole role = null;
@@ -110,24 +108,6 @@ public class UserManager {
         // Create a user actionToken which is needed for activation
         user.setActionToken(UUID.randomUUID().toString());
         user.setStatus(IdpUserState.CREATED);
-
-        // Check if data unique
-        final List<IdpUser> usernameUsers = em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username", IdpUser.class)
-            .setParameter("username", user.getUsername()).getResultList();
-        if (!usernameUsers.isEmpty()) {
-            log.info("Error creating user. Username exists {}", user.getUsername());
-            throw new CreateUserException("Error creating user. Username exists " + user.getUsername());
-        }
-
-        // Check if data unique
-        final List<IdpUser> emailUsers = em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.email = :email", IdpUser.class)
-            .setParameter("email", user.getEmail()).getResultList();
-        if (!emailUsers.isEmpty()) {
-            log.info("Error creating user. Email exists {}", user.getUsername());
-            throw new CreateUserException("Error creating user. Email exists " + user.getUsername());
-        }
 
         em.persist(user);
         log.info("Added user with username " + user.getUsername());

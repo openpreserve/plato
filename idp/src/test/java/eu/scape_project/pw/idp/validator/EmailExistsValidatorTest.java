@@ -28,17 +28,17 @@ import javax.persistence.Query;
 
 import org.junit.Test;
 
-public class UsernameExistsValidatorTest {
-    private UsernameExistsValidator usernameExValidator;
+public class EmailExistsValidatorTest {
+    private EmailExistsValidator emailExValidator;
 
-    public UsernameExistsValidatorTest() {
-        usernameExValidator = new UsernameExistsValidator();
+    public EmailExistsValidatorTest() {
+        emailExValidator = new EmailExistsValidator();
     }
 
     @Test
     public void validate_stopValidationIfNoUsernameIsPassed() {
-        usernameExValidator.validate(null, null, "");
-        
+        emailExValidator.validate(null, null, "");
+
         assertTrue(true);
     }
 
@@ -51,9 +51,9 @@ public class UsernameExistsValidatorTest {
         when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
         when(parameterQuery.getSingleResult()).thenReturn(0L);
 
-        usernameExValidator.setEntityManager(em);
+        emailExValidator.setEntityManager(em);
 
-        usernameExValidator.validate(null, null, "nonExistingUser");
+        emailExValidator.validate(null, null, "nonExistingUser");
 
         assertTrue(true);
     }
@@ -67,8 +67,8 @@ public class UsernameExistsValidatorTest {
         when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
         when(parameterQuery.getSingleResult()).thenReturn(1L);
 
-        usernameExValidator.setEntityManager(em);
+        emailExValidator.setEntityManager(em);
 
-        usernameExValidator.validate(null, null, "nonExistingUser");
+        emailExValidator.validate(null, null, "nonExistingUser");
     }
 }

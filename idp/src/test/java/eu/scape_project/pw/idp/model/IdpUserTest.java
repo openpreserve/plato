@@ -27,8 +27,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class IdpUserTest {
@@ -36,14 +36,14 @@ public class IdpUserTest {
     private static EntityManagerFactory emFactory;
     private static EntityManager em;
 
-    @BeforeClass
-    public static void oneTimeSetUp() {
+    @Before
+    public void setUp() {
         emFactory = Persistence.createEntityManagerFactory("idpdbtest");
         em = emFactory.createEntityManager();
     }
 
-    @AfterClass
-    public static void oneTimeTearDown() {
+    @After
+    public void tearDown() {
         em.close();
         emFactory.close();
     }
@@ -52,142 +52,129 @@ public class IdpUserTest {
     @Test
     public void persistAndRetrieveUserWithRelations() throws Exception {
         // ----- set-up -----
-        deleteUserIfExistent("testUser");
-        deleteRoleIfExistent("admin");
-        deleteRoleIfExistent("manager");
 
         // add test-user and relating objects
-        IdpRole adminRole = new IdpRole();
-        adminRole.setRoleName("admin");
+        IdpRole role0 = new IdpRole();
+        role0.setRoleName("role0");
+        IdpRole role1 = new IdpRole();
+        role1.setRoleName("role1");
+        IdpUser user = createUser("testUser", role0, role1);
 
-        IdpRole managerRole = new IdpRole();
-        managerRole.setRoleName("manager");
-
-        IdpUser user = new IdpUser();
-        user.setUsername("testUser");
-        user.setPlainPassword("mypass");
-        user.setFirstName("Max");
-        user.setLastName("Mustermann");
-        user.setEmail("max@mustermann.at");
-        user.getRoles().add(adminRole);
-        user.getRoles().add(managerRole);
-        user.setStatus(IdpUserState.CREATED);
-        user.setActionToken("uid-123-uid-456");
+        user.getRoles().add(role0);
+        user.getRoles().add(role1);
 
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
 
-        // ---- test -----
+        em.clear();
 
+        // ---- test -----
         IdpUser fetchedUser = (IdpUser) em.createQuery("SELECT u FROM IdpUser u WHERE u.username = :username")
             .setParameter("username", "testUser").getSingleResult();
 
         assertNotNull(fetchedUser);
         assertEquals(user.getUsername(), fetchedUser.getUsername());
-        assertEquals(user.getPlainPassword(), fetchedUser.getPlainPassword());
-        assertEquals(user.getPassword(), fetchedUser.getPassword());
+        assertEquals(null, fetchedUser.getPlainPassword());
+        assertEquals("a029d0df84eb5549c641e04a9ef389e5", fetchedUser.getPassword());
         assertEquals(user.getFirstName(), fetchedUser.getFirstName());
         assertEquals(user.getLastName(), fetchedUser.getLastName());
         assertEquals(user.getFullName(), fetchedUser.getFullName());
         assertEquals(user.getEmail(), fetchedUser.getEmail());
         assertEquals(user.getStatus(), fetchedUser.getStatus());
         assertEquals(user.getActionToken(), fetchedUser.getActionToken());
-        assertTrue(user.getRoles().contains(adminRole));
-        assertTrue(user.getRoles().contains(managerRole));
+        assertTrue(user.getRoles().contains(role0));
+        assertTrue(user.getRoles().contains(role1));
     }
 
     // Update
     @Test
     public void updateAndRetrieveUserWithRelations() throws Exception {
         // ----- set-up -----
-        deleteUserIfExistent("testUser");
-        deleteRoleIfExistent("admin");
-        deleteRoleIfExistent("manager");
 
         // add test-user and relating objects
-        IdpRole adminRole = new IdpRole();
-        adminRole.setRoleName("admin");
-
-        IdpRole managerRole = new IdpRole();
-        managerRole.setRoleName("manager");
-
-        IdpUser user = new IdpUser();
-        user.setUsername("testUser");
-        user.setPlainPassword("mypass");
-        user.setFirstName("Max");
-        user.setLastName("Mustermann");
-        user.setEmail("max@mustermann.at");
-        user.getRoles().add(adminRole);
-        user.getRoles().add(managerRole);
-        user.setStatus(IdpUserState.CREATED);
-        user.setActionToken("uid-123-uid-456");
+        IdpRole role0 = new IdpRole();
+        role0.setRoleName("role0");
+        IdpRole role1 = new IdpRole();
+        role1.setRoleName("role1");
+        IdpUser user = createUser("testUser", role0, role1);
 
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
-
+        em.clear();
         // ---- test -----
 
         // update user
         em.getTransaction().begin();
-        user.getRoles().remove(adminRole);
+        user.getRoles().remove(role0);
         user.setFirstName("Markus");
         user.setPlainPassword("newPassword");
-        em.persist(user);
+        em.persist(em.merge(user));
         em.getTransaction().commit();
-        
+        em.clear();
+
         // see if update was successful
         IdpUser fetchedUser = (IdpUser) em.createQuery("SELECT u FROM IdpUser u WHERE u.username = :username")
             .setParameter("username", "testUser").getSingleResult();
 
         assertNotNull(fetchedUser);
         assertEquals(user.getUsername(), fetchedUser.getUsername());
-        assertEquals(user.getPlainPassword(), fetchedUser.getPlainPassword());
-        assertEquals(user.getPassword(), fetchedUser.getPassword());
+        assertEquals(null, fetchedUser.getPlainPassword());
+        assertEquals("a029d0df84eb5549c641e04a9ef389e5", fetchedUser.getPassword());
         assertEquals(user.getFirstName(), fetchedUser.getFirstName());
         assertEquals(user.getLastName(), fetchedUser.getLastName());
         assertEquals(user.getFullName(), fetchedUser.getFullName());
         assertEquals(user.getEmail(), fetchedUser.getEmail());
         assertEquals(user.getStatus(), fetchedUser.getStatus());
         assertEquals(user.getActionToken(), fetchedUser.getActionToken());
-        assertTrue(user.getRoles().contains(managerRole));
-        assertFalse(user.getRoles().contains(adminRole));
+        assertTrue(user.getRoles().contains(role1));
+        assertFalse(user.getRoles().contains(role0));
     }
 
     // Delete
     @Test
     public void deleteUserWithAssignedRoles_shouldNotDeleteRolesAsWell() throws Exception {
         // ----- set-up -----
-        deleteUserIfExistent("testUser");
-        deleteRoleIfExistent("testAdminRole");
-        deleteRoleIfExistent("testManagerRole");
 
         // add test-user and relating objects
-        IdpRole testAdminRole = new IdpRole();
-        testAdminRole.setRoleName("testAdminRole");
-
-        IdpRole testManagerRole = new IdpRole();
-        testManagerRole.setRoleName("testManagerRole");
-
-        IdpUser user = new IdpUser();
-        user.setUsername("testUser");
-        user.getRoles().add(testAdminRole);
-        user.getRoles().add(testManagerRole);
+        IdpRole role0 = new IdpRole();
+        role0.setRoleName("role0");
+        IdpRole role1 = new IdpRole();
+        role1.setRoleName("role1");
+        IdpUser user = createUser("testUser", role0, role1);
 
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
-
+        em.clear();
         // ---- test -----
 
         deleteUserIfExistent("testUser");
 
-        IdpRole fetchedAdminRole = em.find(IdpRole.class, testAdminRole.getId());
-        IdpRole fetchedManagerRole = em.find(IdpRole.class, testManagerRole.getId());
+        IdpRole fetchedAdminRole = em.find(IdpRole.class, role0.getId());
+        IdpRole fetchedManagerRole = em.find(IdpRole.class, role1.getId());
 
         assertNotNull(fetchedAdminRole);
         assertNotNull(fetchedManagerRole);
+    }
+
+    private IdpUser createUser(String username, IdpRole... roles) {
+
+        IdpUser user = new IdpUser();
+        user.setUsername(username);
+        user.setPlainPassword("mypass");
+        user.setFirstName("Max");
+        user.setLastName("Mustermann");
+        user.setEmail(username + "@mustermann.at");
+        user.setStatus(IdpUserState.CREATED);
+        user.setActionToken("uid-123-uid-456");
+
+        for (IdpRole role : roles) {
+            user.getRoles().add(role);
+        }
+
+        return user;
     }
 
     private void deleteUserIfExistent(String username) {
