@@ -42,6 +42,8 @@ public class SchemaValidationTest {
         SAXParserFactory f = SAXParserFactory.newInstance();
         return f.newSAXParser();
     }
+    
+    
 
     @Test
     public void parsePlanWithoutValidation() throws ParserConfigurationException, SAXException, IOException {
@@ -101,6 +103,22 @@ public class SchemaValidationTest {
             .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
 
         parser.parse(inPlan, new StrictDefaultHandler(schemaResolver));
+    }
+    
+    @Test
+    public void parseXmlWithAnyContent() throws ParserConfigurationException, SAXException, IOException {
+        InputStream inPlan = getClass().getClassLoader().getResourceAsStream("simple/anyExtendedContent.xml");
+
+        SAXParser parser = validatingParserFactory.getValidatingParser();
+        parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, "http://simple.org/any/any.xsd");
+        SchemaResolver schemaResolver = new SchemaResolver()
+        .addSchemaLocation("http://simple.org/any/any.xsd", "simple/any.xsd")
+        .addSchemaLocation("http://simple.org/bla/bla.xsd", "simple/bla.xsd");
+        
+        
+        parser.parse(
+            inPlan,
+            new StrictDefaultHandler(schemaResolver));
     }
 
 }

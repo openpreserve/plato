@@ -1,0 +1,25 @@
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://simple.org/any any.xsd
+    					http://simple.org/bla http://simple.org/bla/bla.xsd"
+	xmlns="http://simple.org/any" xmlns:bla="http://simple.org/bla">
+	<one />
+	<metadata>
+		<metadata source="c3po">
+			<c3po>sdfdsf</c3po>
+		</metadata>
+		<metadata source="mix">
+			<mix>sdfsaf <sdf>sfsd</sdf></mix>
+		</metadata>
+		<metadata>
+			<bla:bla xmlns="http://simple.org/bla">
+				<bli></bli>
+				<bli></bli>
+			</bla:bla>
+		</metadata>
+		<metadata>
+			<bla:bla xmlns="http://simple.org/bla">
+				<blub></blub>
+			</bla:bla>
+		</metadata>
+	</metadata>
+</root>

@@ -1,0 +1,14 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://simple.org/bla" xmlns="http://simple.org/bla"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:element name="bla">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="bli" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="blub" minOccurs="0" maxOccurs="unbounded">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.util.CommandExecutor;
+import eu.scape_project.planning.utils.CommandExecutor;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.OS;
 
