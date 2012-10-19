@@ -18,8 +18,10 @@ package eu.scape_project.planning.taverna.parser;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,7 +39,6 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
-import org.jaxen.NamespaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -50,7 +51,9 @@ public class T2FlowParser {
 
     protected static final String SCHEMA_LOCATION = "data/schemas/";
 
-    protected static final NamespaceContext T2FLOW_NAMESPACE_CONTEXT = new T2FlowNamespaceContext();
+//    protected static final NamespaceContext T2FLOW_NAMESPACE_CONTEXT = new T2FlowNamespaceContext();
+
+    protected static final Map<String, String> T2FLOW_NAMESPACE_MAP = new HashMap<String, String>();
 
     /**
      * Component profiles.
@@ -137,6 +140,8 @@ public class T2FlowParser {
 
         log.debug("Parsing inputstream");
 
+        T2FLOW_NAMESPACE_MAP.put("t2f", "http://taverna.sf.net/2008/xml/t2flow");
+
         ValidatingParserFactory vpf = new ValidatingParserFactory();
 
         SAXParser parser = vpf.getValidatingParser();
@@ -166,7 +171,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Profile']/uri");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
 
         String profileUri = "";
@@ -191,7 +196,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.ProfileVersion']/value");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -213,7 +218,7 @@ public class T2FlowParser {
         // is implemented in Taverna
         XPath xpath = DocumentHelper.createXPath("/t2f:workflow/t2f:dataflow[@role='top']/@id");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -236,7 +241,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Version']/value");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -259,7 +264,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.DescriptiveTitle']/text");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -280,7 +285,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription']/text");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -301,7 +306,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Author']/text");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -324,7 +329,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.Owner']/text");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -347,7 +352,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.License']/text");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         Node node = xpath.selectSingleNode(doc);
         if (node == null) {
             return null;
@@ -365,7 +370,7 @@ public class T2FlowParser {
 
         XPath xpath = DocumentHelper.createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:inputPorts/t2f:port");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         @SuppressWarnings("unchecked")
         List<Element> inputPortNodes = xpath.selectNodes(doc);
 
@@ -386,7 +391,7 @@ public class T2FlowParser {
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:inputPorts/t2f:port[t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri/text()='"
                 + uri.toString() + "']");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         @SuppressWarnings("unchecked")
         List<Element> inputPortNodes = xpath.selectNodes(doc);
 
@@ -403,7 +408,7 @@ public class T2FlowParser {
 
         XPath xpath = DocumentHelper.createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:outputPorts/t2f:port");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         @SuppressWarnings("unchecked")
         List<Element> inputPortNodes = xpath.selectNodes(doc);
 
@@ -424,7 +429,7 @@ public class T2FlowParser {
             .createXPath("/t2f:workflow/t2f:dataflow[@role='top']/t2f:outputPorts/t2f:port[t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri/text()='"
                 + uri.toString() + "']");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         @SuppressWarnings("unchecked")
         List<Element> inputPortNodes = xpath.selectNodes(doc);
 
@@ -477,7 +482,7 @@ public class T2FlowParser {
         XPath xpath = DocumentHelper
             .createXPath("t2f:annotations/*/*/*/*/annotationBean[@class='net.sf.taverna.t2.annotation.annotationbeans.URI']/uri");
 
-        xpath.setNamespaceContext(T2FLOW_NAMESPACE_CONTEXT);
+        xpath.setNamespaceURIs(T2FLOW_NAMESPACE_MAP);
         @SuppressWarnings("unchecked")
         List<Element> uriElements = xpath.selectNodes(portElement);
 
