@@ -65,7 +65,7 @@ public class TargetValues implements Serializable{
      */
     public double worst() {
         if (list.isEmpty()) {
-            return -1;
+            return 0.0;
         }
         double min = Double.MAX_VALUE;
         for (TargetValue v : list) {
@@ -83,7 +83,7 @@ public class TargetValues implements Serializable{
      */
     public double average() {
         if (list.isEmpty()) {
-            return -1;
+            return 0.0;
         }
 
         double sum = 0.0;

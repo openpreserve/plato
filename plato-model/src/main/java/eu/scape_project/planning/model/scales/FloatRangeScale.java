@@ -75,7 +75,7 @@ public class FloatRangeScale extends RestrictedScale {
 
     }
 
-    public static final String floatPattern = "([-+]?(\\d)+(\\.)?(\\d)*)|(([-+]?(\\.)?(\\d)+))";
+    public static final String floatPattern = "(([-+]?(\\d)+(\\.)?(\\d)*)|(([-+]?(\\.)?(\\d)+)))";
     /**
      * regular expression pattern for matching input format strings
      * @see Pattern#compile(String)

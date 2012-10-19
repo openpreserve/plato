@@ -40,6 +40,10 @@ public class TargetValue extends Value implements Comparable<TargetValue>{
     public TargetValue() {
     }
 
+    public TargetValue(double value) {
+        this.value= value;
+    }
+
     @Column(name = "target_value")
     private double value;
 
