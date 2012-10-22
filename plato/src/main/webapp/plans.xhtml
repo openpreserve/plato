@@ -7,21 +7,28 @@
 	xmlns:rich="http://richfaces.org/rich"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-	 <h:outputStylesheet name="css/plans.css"/>
-		<a4j:outputPanel layout="inline" rendered="#{(planLister.projectSelection == 'MYPROJECTS') || (planLister.projectSelection == 'PUBLICPROJECTS')}">
-            <h1>List of plans</h1>
+		<h:outputStylesheet name="css/plans.css" />
+		<a4j:outputPanel layout="inline"
+			rendered="#{(planLister.projectSelection == 'MYPROJECTS')}">
+			<h1>Your plans</h1>
 		</a4j:outputPanel>
-        <a4j:outputPanel layout="inline" rendered="#{(planLister.projectSelection == 'FTEPROJECTS') || (planLister.projectSelection == 'PUBLICFTEPROJECTS')}">
-            <h1>Fast track results</h1>
-        </a4j:outputPanel>
-        <a4j:outputPanel layout="inline" rendered="#{planLister.projectSelection == 'ALLPROJECTS'}">
-            <h1>List of all plans and fast track results</h1>
-        </a4j:outputPanel>
-	
+		<a4j:outputPanel layout="inline"
+			rendered="#{(planLister.projectSelection == 'PUBLICPROJECTS')}">
+			<h1>Public plans</h1>
+		</a4j:outputPanel>
+		<a4j:outputPanel layout="inline"
+			rendered="#{(planLister.projectSelection == 'FTEPROJECTS') || (planLister.projectSelection == 'PUBLICFTEPROJECTS')}">
+			<h1>Fast track results</h1>
+		</a4j:outputPanel>
+		<a4j:outputPanel layout="inline"
+			rendered="#{planLister.projectSelection == 'ALLPROJECTS'}">
+			<h1>List of all plans and fast track results</h1>
+		</a4j:outputPanel>
+
 		<h:form id="listprojects">
-		
-		    <ui:remove>
-		        <!--
+
+			<ui:remove>
+				<!--
 				<fieldset id="import" class="size-full">
 					<legend class="fieldset-full-size-legend">
 						<h:outputText value="XML import" />
@@ -32,17 +39,22 @@
 						value="Import all XMLs in server directory" />
 				</fieldset>
 				-->
-			</ui:remove>			
-			
-			<h:commandButton id="list" action="#{planLister.listAll}" value="List both, my private and all public" rendered="#{user.admin}" class="margin-top"/>
-			
+			</ui:remove>
+
+			<h:commandButton id="list" action="#{planLister.listAll}"
+				value="List both, my private and all public"
+				rendered="#{user.admin}" class="margin-top" />
+
 			<a4j:outputPanel layout="block" id="planListPanel">
+				<a4j:outputPanel layout="block" rendered="#{empty planLister.list}">
+					<fieldset>There are no plans to display.</fieldset>
+				</a4j:outputPanel>
+
 				<h:dataTable value="#{planLister.list}" var="p"
-				             rendered="#{planLister.list != null}"
-					         styleClass="tableStyle margin-top" 
-              			     headerClass="tableStyle-header"
-              			     rowClasses="plans-row1, plans-row2" border="0"
-              			     columnClasses="column-type,column-id,column-name,column-description,column-author,column-action,column-report">
+					rendered="#{not empty planLister.list}"
+					styleClass="tableStyle margin-top" headerClass="tableStyle-header"
+					rowClasses="plans-row1, plans-row2"
+					columnClasses="column-type,column-id,column-name,column-description,column-author,column-action,column-report">
 					<h:column>
 						<f:facet name="header">
 						   Type
@@ -61,7 +73,7 @@
 						</f:facet>
 						#{p.name}
 					</h:column>
-					<h:column >
+					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Description" />
 						</f:facet>
@@ -73,45 +85,60 @@
 						</f:facet>
 						#{p.author}
 					</h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="State" />
-                        </f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="State" />
+						</f:facet>
                         #{p.state.name}
                     </h:column>
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Action" />
 						</f:facet>
-						<h:commandLink value="Load" action="#{viewWorkflowManager.startWorkflow(p.id)}" rendered="#{p.open}" disabled="#{p.readOnly}" />
+						<h:commandLink value="Load"
+							action="#{viewWorkflowManager.startWorkflow(p.id)}"
+							rendered="#{p.open}" disabled="#{p.readOnly}" />
 
-						<h:outputText value="locked" rendered="#{not p.open and not p.allowReload}" />
-
-                        <a4j:commandButton action="#{planLister.unlock(p.id)}" value="Unlock" rendered="#{not p.open and p.allowReload}" render="planListPanel"/>
+						<a4j:outputPanel rendered="#{not p.open}" styleClass="plan-locked">
+							<h:graphicImage library="gfx" name="icons/locked.png"
+								title="locked by #{p.openedByUser}" />
+						</a4j:outputPanel>
+						
+						<a4j:commandButton action="#{planLister.unlock(p.id)}"
+							value="Unlock" rendered="#{not p.open and p.allowReload}"
+							render="planListPanel" />
 						<br />
 					</h:column>
 				</h:dataTable>
-				<a4j:outputPanel layout="block" id="transformationInfo"  rendered="#{not empty(planLister.transformations)}">				
-				<b>The following transformations have been applied to Your plan:</b>
-			    <ul>
-			        <ui:repeat value="#{planLister.transformations}" var="transformation">
-			            <li><h:outputLink  value="data/xslt/#{transformation}" target="_blank">#{transformation}</h:outputLink> </li>
-			        </ui:repeat>
-			    </ul>
-				</a4j:outputPanel>				
-				
-		    </a4j:outputPanel>
-		    
+				<a4j:outputPanel layout="block" id="transformationInfo"
+					rendered="#{not empty(planLister.transformations)}">
+					<b>The following transformations have been applied to Your
+						plan:</b>
+					<ul>
+						<ui:repeat value="#{planLister.transformations}"
+							var="transformation">
+							<li><h:outputLink value="data/xslt/#{transformation}"
+									target="_blank">#{transformation}</h:outputLink></li>
+						</ui:repeat>
+					</ul>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+
 		</h:form>
-		
-		<rich:collapsiblePanel id="uploadPanel" header="Upload a plan" expanded="false" switchType="client" style="margin-top: 40px; width: 500px;">
-	        <div class="margin-top">
-	            <h:form enctype="multipart/form-data">
-	                 <rich:fileUpload id="upload" fileUploadListener="#{planLister.listener}" allowFlash="false" acceptedTypes="xml" autoclear="true"
-	                                  render="planListPanel messages" />
-	            </h:form>               
-	        </div>
-		</rich:collapsiblePanel>		
+
+		<rich:collapsiblePanel id="uploadPanel" header="Upload a plan"
+			expanded="false" switchType="client"
+			style="margin-top: 40px; width: 500px;">
+			<div class="margin-top">
+				<h:form enctype="multipart/form-data">
+					<rich:fileUpload id="upload"
+						fileUploadListener="#{planLister.listener}" allowFlash="false"
+						acceptedTypes="xml" autoclear="true"
+						render="planListPanel messages" />
+				</h:form>
+			</div>
+		</rich:collapsiblePanel>
 
 	</ui:define>
 </ui:composition>
