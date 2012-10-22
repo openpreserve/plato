@@ -98,10 +98,8 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 
         if (storagePath != null) {
             storagePathFile = new File(storagePath);
-            if (storagePathFile.exists()) {
-                log.info("Storage path set to {}.", storagePathFile.getAbsoluteFile());
-            } else {
-
+            log.info("Storage path set to {}.", storagePathFile.getAbsoluteFile());
+            if (!storagePathFile.exists()) {
                 storagePathFile.mkdirs();
             }
         } else {

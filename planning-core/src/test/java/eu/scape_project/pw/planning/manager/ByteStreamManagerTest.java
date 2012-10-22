@@ -21,6 +21,7 @@ import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.LoggerFactory;
 import eu.scape_project.planning.utils.OS;
+import eu.scape_project.planning.utils.PropertiesLoader;
 
 @RunWith(Arquillian.class)
 public class ByteStreamManagerTest {
@@ -30,16 +31,17 @@ public class ByteStreamManagerTest {
         WebArchive wa = ShrinkWrap
             .create(WebArchive.class)
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+            .addAsResource("config/filestorage.properties")
             .addClasses(PlanningException.class, StorageException.class, FileUtils.class, OS.class,
                 IByteStreamManager.class, IByteStreamStorage.class, FileStorage.class, ByteStreamManager.class,
-                LoggerFactory.class);
+                LoggerFactory.class, PropertiesLoader.class);
         System.out.println(wa.toString(true));
         return wa;
     }
 
     @Inject
     ByteStreamManager bm;
-
+    
     @Test
     public void testStoreLoad() throws StorageException {
         byte[] array = {1, 2, 3, 4};
