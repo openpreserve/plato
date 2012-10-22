@@ -50,7 +50,7 @@
 				<p:inputText labelText="Tool:" id="recommendation" required="false"
 					disabled="true"
 					input="#{createExecutablePlan.plan.recommendation.alternative.name}">
-					<h:outputLink target="_new" 
+					<h:outputLink target="_new"
 						value="#{createExecutablePlan.plan.recommendation.alternative.action.descriptor}"
 						rendered="#{createExecutablePlan.plan.recommendation.alternative.action.actionIdentifier == 'myExperiment'}">
 						Open in myExperiments
@@ -68,17 +68,30 @@
 					<div class="component">
 						<div class="label">Records:</div>
 						<div class="input">
-							<div class="paged-list">
-								<rich:dataScroller for="collectionProfileElementsTable"
-									maxPages="5" boundaryControls="show" fastControls="hide"
-									renderIfSinglePage="false" stepControls="show" />
-								<rich:dataGrid
-									value="#{createExecutablePlan.collectionProfileElements}"
-									var="element" id="collectionProfileElementsTable" rows="20"
-									columns="1">
-									<h:outputText value="#{element}" />
-								</rich:dataGrid>
-							</div>
+							<a4j:outputPanel id="collectionRecords">
+								<a4j:commandButton value="Show records"
+									render="collectionRecords"
+									action="#{createExecutablePlan.loadCollectionProfileElements()}"
+									rendered="#{createExecutablePlan.collectionProfileElements == null}" />
+								<a4j:outputPanel
+									rendered="#{createExecutablePlan.collectionProfileElements != null and createExecutablePlan.collectionProfileElements.size() > 0}">
+									<div class="paged-list">
+										<rich:dataScroller for="collectionProfileElementsTable"
+											maxPages="5" boundaryControls="show" fastControls="hide"
+											renderIfSinglePage="false" stepControls="show" />
+										<rich:dataGrid
+											value="#{createExecutablePlan.collectionProfileElements}"
+											var="element" id="collectionProfileElementsTable" rows="20"
+											columns="1">
+											<h:outputText value="#{element}" />
+										</rich:dataGrid>
+									</div>
+								</a4j:outputPanel>
+								<a4j:outputPanel
+									rendered="#{createExecutablePlan.collectionProfileElements != null and createExecutablePlan.collectionProfileElements.size() == 0}">
+									There are no elements specified in the collection profile.
+								</a4j:outputPanel>
+							</a4j:outputPanel>
 						</div>
 					</div>
 				</a4j:outputPanel>

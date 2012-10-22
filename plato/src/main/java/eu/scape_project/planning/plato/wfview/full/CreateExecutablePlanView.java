@@ -66,6 +66,8 @@ public class CreateExecutablePlanView extends AbstractView {
     @Inject
     private ByteStreamManager bytestreamManager;
 
+    private List<String> collectionProfileElements;
+
     /**
      * Default constructor.
      */
@@ -87,10 +89,8 @@ public class CreateExecutablePlanView extends AbstractView {
 
     /**
      * Returns the list of objects specified in the collection profile.
-     * 
-     * @return the list of objects or null
      */
-    public List<String> getCollectionProfileElements() {
+    public void loadCollectionProfileElements() {
 
         DigitalObject profile = plan.getSampleRecordsDefinition().getCollectionProfile().getProfile();
         if (profile != null && profile.isDataExistent()) {
@@ -100,8 +100,10 @@ public class CreateExecutablePlanView extends AbstractView {
                 C3POProfileParser parser = new C3POProfileParser();
                 parser.read(new ByteArrayInputStream(datafilledProfile.getData().getRealByteStream().getData()), false);
 
-                List<String> elements = parser.getObjectIdentifiers();
-                return elements;
+                collectionProfileElements = parser.getObjectIdentifiers();
+                
+                parser = null;
+                datafilledProfile = null;
             } catch (StorageException e) {
                 facesMessages.addError("Could not load collection profile.");
             } catch (ParserException e) {
@@ -110,7 +112,6 @@ public class CreateExecutablePlanView extends AbstractView {
         } else {
             log.debug("No profile defined so far.");
         }
-        return null;
     }
 
     /**
@@ -193,4 +194,10 @@ public class CreateExecutablePlanView extends AbstractView {
             && plan.getSampleRecordsDefinition().getCollectionProfile().getProfile() != null
             && plan.getSampleRecordsDefinition().getCollectionProfile().getProfile().isDataExistent();
     }
+
+    // ---------------------- getters/setters --------------------
+    public List<String> getCollectionProfileElements() {
+        return collectionProfileElements;
+    }
+
 }
