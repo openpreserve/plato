@@ -22,12 +22,15 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Provides methods to load properties.
  */
+@ApplicationScoped
 public class PropertiesLoader {
 
     /**
@@ -38,7 +41,7 @@ public class PropertiesLoader {
     /**
      * The logger for this class.
      */
-    private static Logger log = LoggerFactory.getLogger(PropertiesLoader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PropertiesLoader.class);
 
     /**
      * Name of the external configuration folder.
@@ -79,7 +82,7 @@ public class PropertiesLoader {
         properties = loadFileProperties(SYSTEM_PROPERTIES_FOLDER, name, properties);
         properties = loadFileProperties(USER_PROPERTIES_FOLDER, name, properties);
 
-        properties.put(name, properties);
+        buffer.put(name, properties);
 
         return properties;
     }
@@ -105,17 +108,17 @@ public class PropertiesLoader {
                 try {
                     Properties properties = new Properties(defaults);
                     properties.load(in);
-                    log.debug("Loaded resource properties " + folder + File.separator + name);
+                    LOG.debug("Loaded resource properties " + folder + File.separator + name);
                     return properties;
                 } finally {
                     in.close();
                 }
             } catch (IOException e) {
-                log.warn("Could not read resource properties " + folder + File.separator + name);
+                LOG.warn("Could not read resource properties " + folder + File.separator + name);
                 return defaults;
             }
         } else {
-            log.warn("Could not find resource properties " + folder + File.separator + name);
+            LOG.warn("Could not find resource properties " + folder + File.separator + name);
             return defaults;
         }
 
@@ -139,13 +142,13 @@ public class PropertiesLoader {
             try {
                 Properties properties = new Properties(defaults);
                 properties.load(in);
-                log.debug("Loaded file properties " + folder + File.separator + name);
+                LOG.debug("Loaded file properties " + folder + File.separator + name);
                 return properties;
             } finally {
                 in.close();
             }
         } catch (IOException e) {
-            log.debug("Could not read file properties " + folder + File.separator + name);
+            LOG.debug("Could not read file properties " + folder + File.separator + name);
             return defaults;
         }
     }

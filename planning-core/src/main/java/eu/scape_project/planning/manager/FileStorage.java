@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Properties;
 import java.util.UUID;
@@ -32,6 +31,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.utils.PropertiesLoader;
 
 import org.slf4j.Logger;
 
@@ -45,25 +45,28 @@ import org.slf4j.Logger;
  * one plan(which can only be accessed once at a time) and we do not have
  * multiple threads altering the same bytestream
  * 
- * 
  * @author Michael Kraxner
- * 
  */
-// @Default
 // Do not use @ConversationScoped because the ExperimentRunner is called
 // asynchronous and no ConversationScope is available then.
-// @ConversationScoped
 @Stateful
 @ApplicationScoped
 public class FileStorage implements Serializable, IByteStreamStorage {
     private static final long serialVersionUID = -2406172386311143101L;
 
+    /**
+     * Name of the configuration.
+     */
+    private static final String CONFIG_NAME = "filestorage.properties";
+
     @Inject
     private Logger log;
 
+    @Inject
+    private PropertiesLoader propertiesLoader;
+
     /**
-     * if not provided in filestorage.properties, it defaults to
-     * JBOSS_HOME/standalone/data/ps-filestore/".
+     * The stoarge path.
      */
     private String storagePath = null;
 
@@ -90,66 +93,25 @@ public class FileStorage implements Serializable, IByteStreamStorage {
     @PostConstruct
     public void init() {
 
-        // try to load storagePath from config file
-        try {
-            InputStream in = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("config/filestorage.properties");
-            if (in != null) {
-                Properties props = new Properties();
-                props.load(in);
-                storagePath = props.getProperty("storage.path");
-                /*
-                 * if (storagePath != null && !storagePath.equals("")) {
-                 * storagePath = storagePath + "/ps-filestore/"; }
-                 */
-            }
-        } catch (IOException e) {
-            log.error("error while loading filestorage.properties", e);
-            storagePath = null;
-        }
+        Properties properties = propertiesLoader.load(CONFIG_NAME);
+        storagePath = properties.getProperty("storage.path");
 
-        boolean jb = false;
-        while (!jb) {
+        if (storagePath != null) {
+            storagePathFile = new File(storagePath);
+            if (storagePathFile.exists()) {
+                log.info("Storage path set to {}.", storagePathFile.getAbsoluteFile());
+            } else {
 
-            if (storagePath == null) {
-                storagePath = System.getenv("JBOSS_HOME");
-                jb = true;
-                if (storagePath != null) {
-                    storagePath = storagePath + "/standalone/data";
-                }
+                storagePathFile.mkdirs();
             }
-
-            if (storagePath != null) {
-                storagePathFile = new File(storagePath);
-                if (storagePathFile.exists()) {
-                    storagePath = storagePath + "/ps-filestore/";
-                    storagePathFile = new File(storagePath);
-                    if (storagePathFile.exists()) {
-                        log.info("found storage directory " + storagePath);
-                        break;
-                    } else {
-                        if (storagePathFile.mkdirs()) {
-                            log.info("storage directory " + storagePath + " is created");
-                            break;
-                        } else {
-                            log.error("failed to create storage directory " + storagePath);
-                            storagePathFile = null;
-                            storagePath = null;
-                        }
-                    }
-                } else {
-                    log.warn("Storage path " + storagePath + " does not exist.");
-                    storagePath = null;
-                }
-            }
-        }
-        if (storagePathFile != null) {
-            log.info("storage directory set to " + storagePath);
         } else {
-            log.error("failed to init storage directory");
+            log.error("Storage path not set.");
         }
-        // for now we only consider one repository
-        repositoryName = "plato";
+
+        repositoryName = properties.getProperty("repository.name");
+        if (repositoryName == null) {
+            log.error("Repository name not set.");
+        }
     }
 
     @Override

@@ -36,12 +36,12 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.model.GroupInvitation;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.utils.PropertiesLoader;
+
+import org.slf4j.Logger;
 
 /**
  * Class to update the group of the current user.
@@ -50,12 +50,12 @@ import eu.scape_project.planning.utils.PropertiesLoader;
 @SessionScoped
 public class Groups implements Serializable {
     /**
-     * Serial version UID
+     * Serial version UID.
      */
     private static final long serialVersionUID = 1811189638942547758L;
 
     /**
-     * Name of the executor properties
+     * Name of the configuration.
      */
     private static final String CONFIG_NAME = "mail.properties";
 
@@ -68,23 +68,26 @@ public class Groups implements Serializable {
     @Inject
     private User user;
 
+    @Inject
+    private PropertiesLoader propertiesLoader;
+
     /**
-     * Properties for sending mails
+     * Properties for sending mails.
      */
     private Properties mailProperties;
 
     /**
-     * Users marked as changed
+     * Users marked as changed.
      */
     private Set<User> changedUsers = new HashSet<User>();
 
     /**
-     * Groups marked as changed
+     * Groups marked as changed.
      */
     private Set<UserGroup> changedGroups = new HashSet<UserGroup>();
 
     /**
-     * The current users of the group
+     * The current users of the group.
      */
     private List<User> groupUsers = new ArrayList<User>();
 
@@ -93,7 +96,7 @@ public class Groups implements Serializable {
      */
     @PostConstruct
     public void init() {
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
+        // PropertiesLoader propertiesLoader = new PropertiesLoader();
         mailProperties = propertiesLoader.load(CONFIG_NAME);
 
         changedUsers.clear();

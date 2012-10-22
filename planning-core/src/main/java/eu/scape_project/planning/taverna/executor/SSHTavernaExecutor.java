@@ -32,6 +32,19 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import eu.scape_project.planning.taverna.TavernaPort;
+import eu.scape_project.planning.utils.PropertiesLoader;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.Namespace;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.channel.direct.Session;
@@ -44,25 +57,12 @@ import net.sf.taverna.t2.baclava.DataThing;
 import net.sf.taverna.t2.baclava.factory.DataThingFactory;
 import net.sf.taverna.t2.baclava.factory.DataThingXMLFactory;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import eu.scape_project.planning.taverna.TavernaPort;
-import eu.scape_project.planning.utils.PropertiesLoader;
-
 /**
  * Class to execute Taverna workflows on a remote server via SSH.
  */
 public class SSHTavernaExecutor implements TavernaExecutor {
 
-    private static Logger log = LoggerFactory.getLogger(SSHTavernaExecutor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SSHTavernaExecutor.class);
 
     /**
      * Name of the executor properties.
@@ -315,9 +315,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
         if (file.canRead()) {
             ssh.newSCPFileTransfer().upload(new FileSystemFile(file), targetPath);
-            log.debug("Uploaded file " + file.getAbsolutePath() + " to " + targetPath);
+            LOG.debug("Uploaded file " + file.getAbsolutePath() + " to " + targetPath);
         } else {
-            log.error("Cannot load file " + file.getAbsolutePath() + " for upload");
+            LOG.error("Cannot load file " + file.getAbsolutePath() + " for upload");
             throw new TavernaExecutorException("Cannot load file " + file.getAbsolutePath() + " for upload");
         }
         return targetPath;
@@ -344,7 +344,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         }
 
         ssh.newSCPFileTransfer().upload(file, targetPath);
-        log.debug("Uploaded file " + file.getName() + " to " + targetPath);
+        LOG.debug("Uploaded file " + file.getName() + " to " + targetPath);
         return targetPath;
     }
 
@@ -371,7 +371,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
         tempFilePaths.put(file, targetPath);
 
-        log.debug("Added temporary file " + file.getName() + " to " + targetPath);
+        LOG.debug("Added temporary file " + file.getName() + " to " + targetPath);
         return targetPath;
     }
 
@@ -390,11 +390,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
             cmd.join(5, TimeUnit.SECONDS);
             if (cmd.getExitStatus().equals(0)) {
                 tempDir = tempDir.trim();
-                log.debug("Created working directory " + tempDir);
+                LOG.debug("Created working directory " + tempDir);
                 return tempDir;
             } else {
                 String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
-                log.error("Error creating working directory " + stderr);
+                LOG.error("Error creating working directory " + stderr);
                 throw new TavernaExecutorException("Error creating working directory " + stderr);
             }
         } finally {
@@ -418,11 +418,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
                 cmd.join(5, TimeUnit.SECONDS);
 
                 if (cmd.getExitStatus().equals(0)) {
-                    log.debug("Created directory " + dir);
+                    LOG.debug("Created directory " + dir);
                     createdDirsCache.add(dir);
                 } else {
                     String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
-                    log.error("Error creating directory " + dir + ": " + stderr);
+                    LOG.error("Error creating directory " + dir + ": " + stderr);
                     throw new TavernaExecutorException("Error creating directory " + dir + ": " + stderr);
                 }
 
@@ -448,11 +448,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
             if (!cmd.getExitStatus().equals(0)) {
                 String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
-                log.error("Error executing workflow: " + stderr);
+                LOG.error("Error executing workflow: " + stderr);
                 throw new TavernaExecutorException("Error executing workflow: " + stderr);
             }
 
-            log.debug("Executed workflow with command " + command);
+            LOG.debug("Executed workflow with command " + command);
         } finally {
             session.close();
         }
@@ -567,7 +567,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         String sourcePath = workingDir + File.separator + path;
 
         ssh.newSCPFileTransfer().download(sourcePath, new FileSystemFile(localFile));
-        log.debug("Downloaded file " + path + " to " + localFile.getPath());
+        LOG.debug("Downloaded file " + path + " to " + localFile.getPath());
     }
 
     /**
@@ -584,14 +584,14 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
         String tempFilePath = tempFilePaths.get(tempFile);
         if (tempFilePath == null) {
-            log.error("The temp file " + tempFile.getName() + " is not registerd.");
+            LOG.error("The temp file " + tempFile.getName() + " is not registerd.");
             throw new TavernaExecutorException("The temp file " + tempFile.getName() + " is not registerd.");
         }
 
         ByteArrayDestFile destFile = new ByteArrayDestFile();
         ssh.newSCPFileTransfer().download(tempFilePath, destFile);
         tempFile.setData(destFile.getData());
-        log.debug("Downloaded file " + tempFilePath + " to " + tempFile.getName());
+        LOG.debug("Downloaded file " + tempFilePath + " to " + tempFile.getName());
     }
 
     /**
@@ -608,11 +608,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
             if (!cmd.getExitStatus().equals(0)) {
                 String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
-                log.error("Error deleting working directory " + stderr);
+                LOG.error("Error deleting working directory " + stderr);
                 throw new TavernaExecutorException("Error deleting working directory " + stderr);
             }
 
-            log.debug("Deleted working directory " + workingDir);
+            LOG.debug("Deleted working directory " + workingDir);
         } finally {
             session.close();
         }
