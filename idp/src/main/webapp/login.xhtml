@@ -8,14 +8,12 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">SCAPE-PW Identity provider</ui:define>
-
 	<ui:define name="content">
 
 		<h1>Sign in</h1>
 
 		<a4j:outputPanel id="login">
-			<form action="j_security_check" method="post">
+			<form action="j_security_check" method="post" name="login_form" enctype="application/x-www-form-urlencoded">
 				<h:outputLabel for="j_username" value="Username:" styleClass="label" />
 				<h:inputText id="j_username" autocomplete="off" label="Username" />
 				<br />
@@ -26,7 +24,7 @@
 					styleClass="submitButton" style="width: 100%" />
 				<br />
 				<div id="forgotPassword">
-				<h:outputLink value="forgotPassword.jsf" style="text-align: center">Forgot password?</h:outputLink>
+					<h:outputLink value="forgotPassword.jsf" style="text-align: center">Forgot password?</h:outputLink>
 				</div>
 			</form>
 		</a4j:outputPanel>

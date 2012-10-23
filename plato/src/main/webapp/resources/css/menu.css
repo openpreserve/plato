@@ -139,6 +139,7 @@ div.menu-container-information {
 
 ul.actions {
 	list-style-type: none;
+	padding: 0px;
 }
 
 li.home-item {

@@ -8,8 +8,11 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-	    <h:form id="mainform">
-			
+
+		
+
+		<h:form id="mainform">
+
 
 			<x:div id="news" rendered="#{!empty allMessages.news}">
 				<h2>News:</h2>
@@ -38,116 +41,114 @@
 				</h:dataTable>
 			</x:div>
 
-            <a4j:outputPanel layout="block" rendered="#{param['sessionExpired'] == 'true'}" styleClass="warning">
-                Your session has expired because of a long inactivity period. <br/>
-                Please try again to execute your desired action. <br/>
-            </a4j:outputPanel>
+			<a4j:outputPanel layout="block"
+				rendered="#{param['sessionExpired'] == 'true'}" styleClass="warning">
+                Your session has expired because of a long inactivity period. <br />
+                Please try again to execute your desired action. <br />
+			</a4j:outputPanel>
 
 			<div class="menu-container-information">
-					<b>How to start?</b>
-					<a href="http://www.ifs.tuwien.ac.at/dp/plato/intro_documentation.html" target="_blank"> <img
-						src="/plato/help/pp-overview.png" width="250px" align="right"/> <br /> </a>
+				<b>How to start?</b> <a
+					href="http://www.ifs.tuwien.ac.at/dp/plato/intro_documentation.html"
+					target="_blank"> <img src="/plato/help/pp-overview.png"
+					width="250px" align="right" /> <br />
+				</a>
 				<ol>
 					<li>Take a look at the definition of the preservation plan at
-						the <a href="http://www.ifs.tuwien.ac.at/dp/plato/intro_documentation.html" target="_blank">documentation page</a>,</li>
+						the <a
+						href="http://www.ifs.tuwien.ac.at/dp/plato/intro_documentation.html"
+						target="_blank">documentation page</a>,
+					</li>
 					<li>Read through the description of the preservation planning
 						procedure (below), and then</li>
 					<li>Create a <em>demo plan</em> in the list of plans, and walk
 						through the steps to familiarise yourself with the procedure and
-						tool.</li>
+						tool.
+					</li>
 					<li>If you have any questions, comments, or ideas, please <a
-						href="feedback.jsf" title="Feedback form"> let us
-							know!</a>
+						href="feedback.jsf" title="Feedback form"> let us know!</a>
 					</li>
 				</ol>
 				<!--  <div
 					style=" width: 600px; text-align: justify; padding-right: 10px; float:left;">-->
-					The planning procedure is completely supported by Plato, relying on
-					a variety of information sources and services. When you load
-					a plan, you will find four menu items on the top which correspond
-					to the four planning phases:
-					<ol>
-						<li>Define requirements,</li>
-						<li>Evaluate alternatives,</li>
-						<li>Analyse results, and</li>
-						<li>Define preservation plan.</li>
-					</ol>
+				The planning procedure is completely supported by Plato, relying on
+				a variety of information sources and services. When you load a plan,
+				you will find four menu items on the top which correspond to the
+				four planning phases:
+				<ol>
+					<li>Define requirements,</li>
+					<li>Evaluate alternatives,</li>
+					<li>Analyse results, and</li>
+					<li>Define preservation plan.</li>
+				</ol>
 				<!--  </div>-->
 				<!--  <div style="width: 250px; margin-left:630px; align: right">-->
 				<!-- </div>-->
 			</div>
-			
+
 			<div class="menu-container-actions">
 
-				
+
 
 				<ul class="actions">
-				<li class="home-item">
-					<h:commandLink action="#{planLister.listMyProjects}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								List my preservation plans
+					<li class="home-item"><h:commandLink
+							action="#{planLister.listMyProjects}">
+							<div class="home-item-container">
+								<div class="home-item-text">List my preservation plans</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/editor.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-						    	<h:graphicImage value="/resources/gfx/large/editor.png" width="80px" height="80px" />
-							</div>
-						</div>
-					</h:commandLink>
-				</li>
+						</h:commandLink></li>
 
-				<li class="home-item">
-					<h:commandLink action="#{planLister.listPublicProjects}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								List public preservation plans
+					<li class="home-item"><h:commandLink
+							action="#{planLister.listPublicProjects}">
+							<div class="home-item-container">
+								<div class="home-item-text">List public preservation plans
+								</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/public.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-						    	<h:graphicImage value="/resources/gfx/large/public.png" width="80px" height="80px" />
-							</div>
-						</div>
-					</h:commandLink>
-				</li>
+						</h:commandLink></li>
 
-				<x:div rendered="#{user.admin}" styleClass="home-item">
-					<h:commandLink action="#{planLister.listAllProjects}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								List all preservation plans
+					<x:div rendered="#{user.admin}" styleClass="home-item">
+						<h:commandLink action="#{planLister.listAllProjects}">
+							<div class="home-item-container">
+								<div class="home-item-text">List all preservation plans</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/public.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-								<h:graphicImage value="/resources/gfx/large/public.png" width="80px" height="80px" />
-							</div>
-						</div>
-					</h:commandLink>
-				</x:div>
+						</h:commandLink>
+					</x:div>
 
-				<li class="home-item">
-					<h:commandLink action="#{createPlan.createPlan}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								New plan
+					<li class="home-item"><h:commandLink
+							action="#{createPlan.createPlan}">
+							<div class="home-item-container">
+								<div class="home-item-text">New plan</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/new.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-								<h:graphicImage value="/resources/gfx/large/new.png" width="80px" height="80px" />
+						</h:commandLink></li>
+
+					<li class="home-item"><h:commandLink
+							action="#{organisationalPolicies.init()}">
+							<div class="home-item-container">
+								<div class="home-item-text">Define policy</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/preferences.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-						</div>
-					</h:commandLink>
-				</li>
-				
-				<li class="home-item">
-				    <h:commandLink action="#{organisationalPolicies.init()}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								Define policy
-							</div>
-							<div>
-						    	<h:graphicImage value="/resources/gfx/large/preferences.png" width="80px" height="80px" />
-							</div>
-						</div>
-					</h:commandLink>
-				</li>
-				
-			<!--  	<li class="home-item">
+						</h:commandLink></li>
+
+					<!--  	<li class="home-item">
 						<a href="http://www.ifs.tuwien.ac.at/dp/plato/intro_documentation.html" target="_blank">
 							<div class="home-item-container">
 								<div class="home-item-text">
@@ -160,59 +161,51 @@
 						</a>
 				</li>-->
 
-				<li class="home-item">
-					<h:commandLink action="#{planLister.listFTEProjects}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								List my fast track results
+					<li class="home-item"><h:commandLink
+							action="#{planLister.listFTEProjects}">
+							<div class="home-item-container">
+								<div class="home-item-text">List my fast track results</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/fte.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-								<h:graphicImage value="/resources/gfx/large/fte.png" width="80px" height="80px" />
-							</div>
-						</div>
-					</h:commandLink>
-				</li>
+						</h:commandLink></li>
 
-				<li class="home-item">
-					<h:commandLink action="#{planLister.listPublicFTEResults}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								List public fast track results
+					<li class="home-item"><h:commandLink
+							action="#{planLister.listPublicFTEResults}">
+							<div class="home-item-container">
+								<div class="home-item-text">List public fast track results
+								</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/publicfte.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-								<h:graphicImage value="/resources/gfx/large/publicfte.png" width="80px" height="80px" />
-							</div>
-						</div>
-					</h:commandLink>
-				</li>
+						</h:commandLink></li>
 
-				<li class="home-item">
-					<h:commandLink action="#{createFTPlan.createPlan}">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								New fast track evaluation
+					<li class="home-item"><h:commandLink
+							action="#{createFTPlan.createPlan}">
+							<div class="home-item-container">
+								<div class="home-item-text">New fast track evaluation</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/new-fasttrack.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-							<div>
-                            	<h:graphicImage value="/resources/gfx/large/new-fasttrack.png" width="80px" height="80px" />
-   							</div>
-   						</div>
-					</h:commandLink>
-				</li>
+						</h:commandLink></li>
 
-				<li class="home-item">
-					<a href="/../kbrowser/index.jsf">
-						<div class="home-item-container">
-							<div class="home-item-text">
-								Knowledge browser
-							</div> 
-							<div>
-								<h:graphicImage value="/resources/gfx/large/system-search.png" width="80px" height="80px" />
+					<li class="home-item"><a href="/../kbrowser/index.jsf">
+							<div class="home-item-container">
+								<div class="home-item-text">Knowledge browser</div>
+								<div>
+									<h:graphicImage value="/resources/gfx/large/system-search.png"
+										width="80px" height="80px" />
+								</div>
 							</div>
-						</div>
-					</a>
-				</li>
+					</a></li>
 
-			<!-- 	 <li class="home-item">
+					<!-- 	 <li class="home-item">
 					<a href="/../kbrowser/criteria_hierarchy.jsf">
 						<div class="home-item-container">
 							<div class="home-item-text">
@@ -227,9 +220,9 @@
 				</ul>
 
 			</div>
-			
-			
- 		</h:form>
+
+
+		</h:form>
 
 	</ui:define>
 </ui:composition>

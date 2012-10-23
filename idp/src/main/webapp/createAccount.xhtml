@@ -8,8 +8,6 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">SCAPE-PW Identity provider</ui:define>
-
 	<ui:define name="content">
 
 		<h1>Create an account</h1>
@@ -88,9 +86,8 @@
 
 				<h:commandButton type="submit" value="Create"
 					action="#{createAccount.addUser()}" styleClass="submitButton" />
-				<h:commandButton type="submit" value="Cancel"
-					action="login?faces-redirect=true" immediate="true"
-					styleClass="submitButton" />
+				<h:commandButton type="submit" value="Cancel" action="login.jsf"
+					immediate="true" styleClass="submitButton" />
 			</h:form>
 		</a4j:outputPanel>
 
