@@ -24,7 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.pw.idp.UserManager;
 import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
-import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
+import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 
 /**
@@ -51,10 +52,12 @@ public class ForgotPasswordView {
         String serverString = request.getServerName() + ":" + request.getServerPort();
 
         try {
-            userManager.initiateResetPassword(userIdentifier, serverString);
+            IdpUser user = userManager.getUserByIdentifier(userIdentifier);
+            userManager.initiateResetPassword(user);
+            userManager.sendPasswordResetMail(user, serverString);
             facesMessages
                 .addInfo("A mail with password recovery information has been sent to the email address provided when you created the account.");
-        } catch (UserNotFoundExeception e) {
+        } catch (UserNotFoundException e) {
             facesMessages.addError("No user with this username or email address found.");
         } catch (CannotSendMailException e) {
             facesMessages.addError("Error sending the password reset mail.");

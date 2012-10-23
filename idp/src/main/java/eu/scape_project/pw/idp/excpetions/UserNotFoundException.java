@@ -18,19 +18,19 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.excpetions;
 
-public class UserNotFoundExeception extends Exception {
+public class UserNotFoundException extends Exception {
 
     private static final long serialVersionUID = 4943304257184045457L;
 
-    public UserNotFoundExeception() {
+    public UserNotFoundException() {
 
     }
 
-    public UserNotFoundExeception(String msg) {
+    public UserNotFoundException(String msg) {
         super(msg);
     }
 
-    public UserNotFoundExeception(String msg, Throwable t) {
+    public UserNotFoundException(String msg, Throwable t) {
         super(msg, t);
     }
 }

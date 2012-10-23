@@ -31,8 +31,7 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 
 import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
-import eu.scape_project.pw.idp.excpetions.CreateUserException;
-import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
@@ -118,14 +117,14 @@ public class UserManager {
      * 
      * @param user
      *            the user to activate
-     * @throws UserNotFoundExeception
+     * @throws UserNotFoundException
      *             if the user could not be found
      */
-    public void activateUser(IdpUser user) throws UserNotFoundExeception {
+    public void activateUser(IdpUser user) throws UserNotFoundException {
         IdpUser foundUser = em.find(IdpUser.class, user.getId());
         if (foundUser == null) {
             log.error("Error activating user. User not found {}.", user.getUsername());
-            throw new UserNotFoundExeception("Error activating user. User not found " + user.getUsername());
+            throw new UserNotFoundException("Error activating user. User not found " + user.getUsername());
         }
         foundUser.setStatus(IdpUserState.ACTIVE);
         foundUser.setActionToken("");
@@ -179,35 +178,14 @@ public class UserManager {
     /**
      * Initiates password reset for the user.
      * 
-     * @param userIdentifier
-     *            the identifier of the user
-     * @param serverString
-     *            host and port of the server
-     * @throws UserNotFoundExeception
-     *             if the user could not be found
-     * @throws CannotSendMailException
-     *             if the password reset mail could not be sent
+     * @param user
+     *            the user
      */
-    public void initiateResetPassword(String userIdentifier, String serverString) throws UserNotFoundExeception,
-        CannotSendMailException {
-        List<IdpUser> matchingUsers = em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username OR u.email = :email", IdpUser.class)
-            .setParameter("username", userIdentifier).setParameter("email", userIdentifier).getResultList();
-
-        if (matchingUsers.size() != 1) {
-            log.error("{} users matching given identifier {}", matchingUsers.size(), userIdentifier);
-            throw new UserNotFoundExeception(matchingUsers.size() + " users matching given identifier "
-                + userIdentifier);
-        }
-
-        IdpUser user = matchingUsers.get(0);
-
+    public void initiateResetPassword(IdpUser user) {
         user.setActionToken(UUID.randomUUID().toString());
-        em.persist(user);
+        em.persist(em.merge(user));
 
-        sendPasswordResetMail(user, serverString);
-
-        log.info("Sent password reset mail for identifier {}", userIdentifier);
+        log.info("Set action token for password reset mail for user {}", user.getUsername());
     }
 
     /**
@@ -220,7 +198,7 @@ public class UserManager {
      * @throws CannotSendMailException
      *             if the password reset mail could not be sent
      */
-    private void sendPasswordResetMail(IdpUser user, String serverString) throws CannotSendMailException {
+    public void sendPasswordResetMail(IdpUser user, String serverString) throws CannotSendMailException {
         try {
             Properties props = System.getProperties();
 
@@ -256,14 +234,17 @@ public class UserManager {
      * 
      * @param user
      *            the user
-     * @throws UserNotFoundExeception
+     * @throws UserNotFoundException
      *             if the user could not be found
      */
-    public void resetPassword(IdpUser user) throws UserNotFoundExeception {
+    public void resetPassword(IdpUser user) throws UserNotFoundException {
+
+        // We have to find the user because if we use em.merge(user)
+        // user.plainPassword will be deleted (because it is transient).
         IdpUser foundUser = em.find(IdpUser.class, user.getId());
         if (foundUser == null) {
             log.error("Error resetting password. User not found {}.", user.getUsername());
-            throw new UserNotFoundExeception("Error resetting password. User not found " + user.getUsername());
+            throw new UserNotFoundException("Error resetting password. User not found " + user.getUsername());
         }
         foundUser.setPlainPassword(user.getPlainPassword());
         foundUser.setActionToken("");
@@ -279,17 +260,39 @@ public class UserManager {
      * @param actionToken
      *            the action token identifying the user
      * @return the user
-     * @throws UserNotFoundExeception
+     * @throws UserNotFoundException
      *             if no user could be found
      */
-    public IdpUser getUserByActionToken(String actionToken) throws UserNotFoundExeception {
+    public IdpUser getUserByActionToken(String actionToken) throws UserNotFoundException {
         List<IdpUser> matchingUsers = em
             .createQuery("SELECT u FROM IdpUser u WHERE u.actionToken = :actionToken", IdpUser.class)
             .setParameter("actionToken", actionToken).getResultList();
 
         if (matchingUsers.size() != 1) {
             log.error("{} users matching given actionToken {}", matchingUsers.size(), actionToken);
-            throw new UserNotFoundExeception(matchingUsers.size() + " users matching given actionToken " + actionToken);
+            throw new UserNotFoundException(matchingUsers.size() + " users matching given actionToken " + actionToken);
+        }
+
+        return matchingUsers.get(0);
+    }
+
+    /**
+     * Reads the user identified by the provided identifier.
+     * 
+     * @param userIdentifier
+     *            the identifier identifying the user
+     * @return the user
+     * @throws UserNotFoundException
+     *             if no user could be found
+     */
+    public IdpUser getUserByIdentifier(String userIdentifier) throws UserNotFoundException {
+        List<IdpUser> matchingUsers = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :userIdentifier OR u.email = :userIdentifier",
+                IdpUser.class).setParameter("userIdentifier", userIdentifier).getResultList();
+
+        if (matchingUsers.size() != 1) {
+            log.error("{} users matching given identifier {}", matchingUsers.size(), userIdentifier);
+            throw new UserNotFoundException(matchingUsers.size() + " users matching given identifier " + userIdentifier);
         }
 
         return matchingUsers.get(0);

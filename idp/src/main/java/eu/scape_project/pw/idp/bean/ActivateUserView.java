@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.pw.idp.UserManager;
-import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 
@@ -55,7 +55,7 @@ public class ActivateUserView {
 
             try {
                 user = userManager.getUserByActionToken(actionToken);
-            } catch (UserNotFoundExeception e) {
+            } catch (UserNotFoundException e) {
                 facesMessages.addError("Action token not valid.");
                 user = null;
             }
@@ -73,7 +73,7 @@ public class ActivateUserView {
             try {
                 userManager.activateUser(user);
                 activateUserSuccessful = true;
-            } catch (UserNotFoundExeception e) {
+            } catch (UserNotFoundException e) {
                 facesMessages.addError("User could not be found.");
                 activateUserSuccessful = false;
             }

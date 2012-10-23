@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.pw.idp.UserManager;
-import eu.scape_project.pw.idp.excpetions.UserNotFoundExeception;
+import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.utils.FacesMessages;
 
@@ -55,7 +55,7 @@ public class ResetPasswordView {
 
             try {
                 user = userManager.getUserByActionToken(actionToken);
-            } catch (UserNotFoundExeception e) {
+            } catch (UserNotFoundException e) {
                 facesMessages.addError("Action token not valid.");
                 user = null;
             }
@@ -70,7 +70,7 @@ public class ResetPasswordView {
             try {
                 userManager.resetPassword(user);
                 passwordResetSuccessful = true;
-            } catch (UserNotFoundExeception e) {
+            } catch (UserNotFoundException e) {
                 facesMessages.addError("Could not find user.");
                 passwordResetSuccessful = false;
             }
