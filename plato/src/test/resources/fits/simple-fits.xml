@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd"
+	version="0.5.0" timestamp="10/24/12 3:07 PM">
+	<identification>
+		<identity format="Portable Network Graphics" mimetype="image/png">
+			<tool toolname="file utility" toolversion="5.03" />
+			<tool toolname="Exiftool" toolversion="7.74" />
+			<tool toolname="Droid" toolversion="3.0" />
+			<tool toolname="ffident" toolversion="0.2" />
+			<version toolname="Droid" toolversion="3.0">1.0</version>
+			<externalIdentifier toolname="Droid" toolversion="3.0"
+				type="puid">fmt/11</externalIdentifier>
+		</identity>
+	</identification>
+	<fileinfo>
+		<lastmodified toolname="Exiftool" toolversion="7.74"
+			status="SINGLE_RESULT">2012:10:24 15:07:22+02:00</lastmodified>
+		<filename toolname="OIS File Information" toolversion="0.1"
+			status="SINGLE_RESULT">/tmp/digitalobjects533236853778249533250078838334</filename>
+		<size toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">221825
+		</size>
+		<md5checksum toolname="OIS File Information" toolversion="0.1"
+			status="SINGLE_RESULT">a8da4f8dad4e052d7549708167b1c725</md5checksum>
+		<fslastmodified toolname="OIS File Information"
+			toolversion="0.1" status="SINGLE_RESULT">1351084042000</fslastmodified>
+	</fileinfo>
+	<filestatus />
+	<metadata>
+		<image>
+			<compressionScheme toolname="Exiftool" toolversion="7.74"
+				status="SINGLE_RESULT">Deflate/Inflate</compressionScheme>
+			<imageWidth toolname="Exiftool" toolversion="7.74"
+				status="SINGLE_RESULT">800</imageWidth>
+			<imageHeight toolname="Exiftool" toolversion="7.74"
+				status="SINGLE_RESULT">533</imageHeight>
+		</image>
+	</metadata>
+</fits>

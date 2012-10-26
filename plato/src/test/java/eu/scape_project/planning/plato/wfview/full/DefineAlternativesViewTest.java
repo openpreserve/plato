@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.pw.planning.plato.wfview.full;
+package eu.scape_project.planning.plato.wfview.full;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;

@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.plato.wf;
+package eu.scape_project.planning.plato.wf;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;

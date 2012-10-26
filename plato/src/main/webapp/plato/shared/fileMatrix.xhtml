@@ -10,9 +10,9 @@
 	     - samples : List of sample objects
 	     - consideredAlternatives: List of considered alternatives
 	     - workflowstep: backing bean providing the following functionality
-	       - downloadSampleObject(record)
-	       - downloadResultFile(altern, record)
-	       - setTreeFromRecordAltern(record,altern)
+	       - downloadSampleObject(sample)
+	       - downloadResultFile(altern, sample)
+	       - generateCharacterisationReports(sample,altern)
 	 -->
 	<table
 		class="tableStyle">
@@ -24,21 +24,21 @@
 		</tr>
 		<tr>
 			<td></td>
-			<ui:repeat var="record" value="#{samples}">
+			<ui:repeat var="sample" value="#{samples}">
 				<td align="center">
 				    <h:outputText id="sample"
-						value="#{record.sampleIndex}"
-						rendered="#{not record.dataExistent}" />
+						value="#{sample.sampleIndex}"
+						rendered="#{not sample.dataExistent}" />
 					<br /> 
-					<rich:tooltip  value="#{record.shortName}" target="sample" />
+					<rich:tooltip  value="#{sample.shortName}" target="sample" />
 					<a4j:outputPanel>
 				    <h:commandLink
 				        id="downloadSample"
-						rendered="#{record.dataExistent}"
-						action="#{workflowstep.downloadSampleObject(record)}" >
-						<h:outputText value="Sample #{record.sampleIndex}" />
+						rendered="#{sample.dataExistent}"
+						action="#{workflowstep.downloadSampleObject(sample)}" >
+						<h:outputText value="Sample #{sample.sampleIndex}" />
 					</h:commandLink>
-					<rich:tooltip target="downloadSample">Download #{record.shortName}</rich:tooltip>
+					<rich:tooltip target="downloadSample">Download #{sample.shortName}</rich:tooltip>
 					</a4j:outputPanel>
 					</td>
 					
@@ -49,21 +49,20 @@
 				style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8;">
 				<td><h:outputText value="#{altern.name}" />
 				</td>
-				<ui:repeat var="record" value="#{samples}">
+				<ui:repeat var="sample" value="#{samples}">
 					<td	style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8; text-align: center;">
 						<h:commandButton id="downloadResult" value="Download"
-							rendered="#{record!=null and altern.experiment.results[record]!=null  and altern.experiment.results[record].dataExistent}"
-							action="#{workflowstep.downloadResultFile(altern, record)}" />
-                        <rich:tooltip target="downloadResult">Download result of applying #{altern.name} to #{record.shortName}</rich:tooltip>
+							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
+							action="#{workflowstep.downloadResultFile(altern, sample)}" />
+                        <rich:tooltip target="downloadResult">Download result of applying #{altern.name} to #{sample.shortName}</rich:tooltip>
                         <ui:remove>
 						<a4j:commandButton
-							rendered="#{record!=null and altern.experiment.results[record]!=null  and altern.experiment.results[record].dataExistent}"
-							action="#{workflowstep.setTreeFromRecordAltern(record,altern)}"
+							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
+							action="#{workflowstep.generateCharacterisationReports(sample,altern)}"
 							styleClass="small" value="Compare" eventsQueue="ajaxQ"
 							ignoreDupResponses="true"
-							image="/resources/gfx/icons/small/compareView.png"
-							oncomplete="Richfaces.showModalPanel('jhovePanel', {top:'100px'});"
-							render="jhovePanel" />
+							oncomplete="Richfaces.showModalPanel('characterisationReports', {top:'100px'});"
+							render="characterisationReports" />
 						</ui:remove>
 					</td>
 				</ui:repeat>

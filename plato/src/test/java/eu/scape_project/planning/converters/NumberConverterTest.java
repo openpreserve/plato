@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.pw.planning.converters;
+package eu.scape_project.planning.converters;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

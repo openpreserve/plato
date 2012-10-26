@@ -768,3 +768,13 @@ div.rf-pp-cntr {
 	font-style: italic;
 	border: 1px solid A0A0A0;
 }
+
+div.leftcolumn {
+	float: left;
+}
+div.rightcolumn {
+	float: right;
+}
+div.clear{
+	clear:both;	
+}

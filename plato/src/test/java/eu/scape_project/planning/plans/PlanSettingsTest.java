@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.pw.planning.plans;
+package eu.scape_project.planning.plans;
 
 import java.util.ArrayList;
 import java.util.List;
