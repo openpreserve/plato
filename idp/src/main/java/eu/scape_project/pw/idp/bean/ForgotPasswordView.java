@@ -16,6 +16,8 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.bean;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -33,7 +35,9 @@ import eu.scape_project.pw.idp.utils.FacesMessages;
  */
 @ManagedBean(name = "forgotPassword")
 @ViewScoped
-public class ForgotPasswordView {
+public class ForgotPasswordView implements Serializable {
+
+    private static final long serialVersionUID = -6437185754610418284L;
 
     @Inject
     private FacesMessages facesMessages;

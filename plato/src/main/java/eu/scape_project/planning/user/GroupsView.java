@@ -56,7 +56,7 @@ public class GroupsView implements Serializable {
 
     public String init() {
         groups.init();
-        return "/user/groups.jsp";
+        return "/user/groups.jsf";
     }
 
     /**

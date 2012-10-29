@@ -7,6 +7,10 @@
 	<display-name>IDP</display-name>
 	<description>Identity provider</description>
 
+	<listener>
+		<listener-class>org.picketlink.identity.federation.web.listeners.IDPHttpSessionListener</listener-class>
+	</listener>
+
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Production</param-value>
@@ -51,13 +55,13 @@
 	<!-- Allow full access to signup-page -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>All Access</web-resource-name>
+			<web-resource-name>Create account page</web-resource-name>
 			<url-pattern>/createAccount.jsf</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>All Access</web-resource-name>
+			<web-resource-name>Activate user page</web-resource-name>
 			<url-pattern>/activateUser.jsf</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
@@ -65,13 +69,13 @@
 	<!-- Allow full access to password-reset-page -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>All Access</web-resource-name>
+			<web-resource-name>Forgot password page</web-resource-name>
 			<url-pattern>/forgotPassword.jsf</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>All Access</web-resource-name>
+			<web-resource-name>Reset password page</web-resource-name>
 			<url-pattern>/resetPassword.jsf</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
@@ -79,20 +83,14 @@
 	<!-- Define a security constraint that gives unlimited access to images -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Resources</web-resource-name>
+			<web-resource-name>Jsf resources</web-resource-name>
 			<url-pattern>/javax.faces.resource/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Resources</web-resource-name>
+			<web-resource-name>Richfaces resources</web-resource-name>
 			<url-pattern>/rfRes/*</url-pattern>
-		</web-resource-collection>
-	</security-constraint>
-		<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Resources</web-resource-name>
-			<url-pattern>/resources/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 
@@ -113,7 +111,7 @@
 		<realm-name>PicketLink IDP Application</realm-name>
 		<form-login-config>
 			<form-login-page>/login.jsf</form-login-page>
-			<form-error-page>/login.jsf</form-error-page>
+			<form-error-page>/login-error.jsf</form-error-page>
 		</form-login-config>
 	</login-config>
 
