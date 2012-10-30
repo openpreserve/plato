@@ -211,7 +211,10 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private void prepareClient() throws IOException {
         ssh = new SSHClient();
 
-        ssh.addHostKeyVerifier(sshConfig.getString("tavernaserver.ssh.fingerprint"));
+        if (sshConfig.getString("tavernaserver.ssh.fingerprint") != null
+            && !"".equals(sshConfig.getString("tavernaserver.ssh.fingerprint"))) {
+            ssh.addHostKeyVerifier(sshConfig.getString("tavernaserver.ssh.fingerprint"));
+        }
         ssh.useCompression();
     }
 
