@@ -22,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Properties;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -30,9 +29,10 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import eu.scape_project.planning.utils.ConfigurationLoader;
 import eu.scape_project.planning.utils.FileUtils;
-import eu.scape_project.planning.utils.PropertiesLoader;
 
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 
 /**
@@ -63,10 +63,10 @@ public class FileStorage implements Serializable, IByteStreamStorage {
     private Logger log;
 
     @Inject
-    private PropertiesLoader propertiesLoader;
+    private ConfigurationLoader configurationLoader;
 
     /**
-     * The stoarge path.
+     * The storage path.
      */
     private String storagePath = null;
 
@@ -93,20 +93,25 @@ public class FileStorage implements Serializable, IByteStreamStorage {
     @PostConstruct
     public void init() {
 
-        Properties properties = propertiesLoader.load(CONFIG_NAME);
-        storagePath = properties.getProperty("storage.path");
+        Configuration config = configurationLoader.load(CONFIG_NAME);
+        storagePath = config.getString("filestorage.path");
 
         if (storagePath != null) {
             storagePathFile = new File(storagePath);
-            log.info("Storage path set to {}.", storagePathFile.getAbsoluteFile());
             if (!storagePathFile.exists()) {
-                storagePathFile.mkdirs();
+                if (storagePathFile.mkdirs()) {
+                    log.info("Storage path created and set to {}.", storagePathFile.getAbsoluteFile());
+                } else {
+                    log.error("Storage path could not be created.");
+                }
+            } else {
+                log.info("Storage path set to {}.", storagePathFile.getAbsoluteFile());
             }
         } else {
             log.error("Storage path not set.");
         }
 
-        repositoryName = properties.getProperty("repository.name");
+        repositoryName = config.getString("filestorage.repository.name");
         if (repositoryName == null) {
             log.error("Repository name not set.");
         }

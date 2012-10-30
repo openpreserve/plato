@@ -28,13 +28,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import eu.scape_project.planning.taverna.TavernaPort;
-import eu.scape_project.planning.utils.PropertiesLoader;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 
+import org.apache.commons.configuration.Configuration;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -93,7 +93,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /**
      * SSH properties.
      */
-    private Properties sshProperties;
+    private Configuration sshConfig;
 
     /**
      * Timeout for remote commands.
@@ -139,9 +139,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * Initializes the Executor.
      */
     public void init() {
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
-        sshProperties = propertiesLoader.load(CONFIG_NAME);
-        commandTimeout = Integer.parseInt(sshProperties.getProperty("command.timeout"));
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
+        sshConfig = configurationLoader.load(CONFIG_NAME);
+        commandTimeout = sshConfig.getInt("command.timeout");
 
         clear();
     }
@@ -158,18 +158,19 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         prepareClient();
 
         try {
-            ssh.connect(sshProperties.getProperty("host"));
+            ssh.connect(sshConfig.getString("tavernaserver.ssh.host"));
 
-            if (sshProperties.getProperty("privatekey.location") != null
-                && !"".equals(sshProperties.getProperty("privatekey.location"))) {
-                KeyProvider kp = ssh.loadKeys(sshProperties.getProperty("privatekey.location"),
-                    sshProperties.getProperty("privatekey.password"));
-                ssh.authPublickey(sshProperties.getProperty("user"), kp);
-            } else if (sshProperties.getProperty("password") != null
-                && !"".equals(sshProperties.getProperty("password"))) {
-                ssh.authPassword(sshProperties.getProperty("user"), sshProperties.getProperty("password"));
+            if (sshConfig.getString("tavernaserver.ssh.privatekey.location") != null
+                && !"".equals(sshConfig.getString("tavernaserver.ssh.privatekey.location"))) {
+                KeyProvider kp = ssh.loadKeys(sshConfig.getString("tavernaserver.ssh.privatekey.location"),
+                    sshConfig.getString("tavernaserver.ssh.privatekey.password"));
+                ssh.authPublickey(sshConfig.getString("tavernaserver.ssh.user"), kp);
+            } else if (sshConfig.getString("tavernaserver.ssh.password") != null
+                && !"".equals(sshConfig.getString("tavernaserver.ssh.password"))) {
+                ssh.authPassword(sshConfig.getString("tavernaserver.ssh.user"),
+                    sshConfig.getString("tavernaserver.ssh.password"));
             } else {
-                ssh.authPublickey(sshProperties.getProperty("user"));
+                ssh.authPublickey(sshConfig.getString("tavernaserver.ssh.user"));
             }
 
             workingDir = createWorkingDir();
@@ -177,7 +178,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
             executeWorkflow();
             getResults();
 
-            if ("true".equals(sshProperties.getProperty("server.cleanup"))) {
+            if (sshConfig.getBoolean("tavernaserver.ssh.server.cleanup")) {
                 cleanupServer();
             }
 
@@ -210,7 +211,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private void prepareClient() throws IOException {
         ssh = new SSHClient();
 
-        ssh.addHostKeyVerifier(sshProperties.getProperty("fingerprint"));
+        ssh.addHostKeyVerifier(sshConfig.getString("tavernaserver.ssh.fingerprint"));
         ssh.useCompression();
     }
 

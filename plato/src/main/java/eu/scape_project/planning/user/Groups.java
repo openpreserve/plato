@@ -39,8 +39,9 @@ import javax.persistence.NoResultException;
 import eu.scape_project.planning.model.GroupInvitation;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.UserGroup;
-import eu.scape_project.planning.utils.PropertiesLoader;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 
 /**
@@ -69,12 +70,12 @@ public class Groups implements Serializable {
     private User user;
 
     @Inject
-    private PropertiesLoader propertiesLoader;
+    private ConfigurationLoader configurationLoader;
 
     /**
      * Properties for sending mails.
      */
-    private Properties mailProperties;
+    private Configuration config;
 
     /**
      * Users marked as changed.
@@ -96,8 +97,7 @@ public class Groups implements Serializable {
      */
     @PostConstruct
     public void init() {
-        // PropertiesLoader propertiesLoader = new PropertiesLoader();
-        mailProperties = propertiesLoader.load(CONFIG_NAME);
+        config = configurationLoader.load(CONFIG_NAME);
 
         changedUsers.clear();
         changedGroups.clear();
@@ -320,11 +320,11 @@ public class Groups implements Serializable {
         try {
             Properties props = System.getProperties();
 
-            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            props.put("mail.smtp.host", config.getString("mail.smtp.host"));
             Session session = Session.getDefaultInstance(props, null);
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(invitation.getEmail()));
             message.setSubject(user.getFullName() + " invited you to join the Plato group "
                 + user.getUserGroup().getName());
@@ -371,11 +371,11 @@ public class Groups implements Serializable {
         try {
             Properties props = System.getProperties();
 
-            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            props.put("mail.smtp.host", config.getString("mail.smtp.host"));
             Session session = Session.getDefaultInstance(props, null);
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(invitation.getEmail()));
             message.setSubject(user.getFullName() + " invited you to join the Plato group "
                 + user.getUserGroup().getName());

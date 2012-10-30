@@ -84,7 +84,7 @@
 							styleClass="plan-action">
 							<h:commandLink value="Load"
 								action="#{viewWorkflowManager.startWorkflow(p.id)}"
-								rendered="#{p.open or not p.allowReload}"
+								rendered="#{p.open or (not p.allowReload)}"
 								disabled="#{not p.open}" />
 
 							<a4j:commandButton action="#{planLister.unlock(p.id)}"

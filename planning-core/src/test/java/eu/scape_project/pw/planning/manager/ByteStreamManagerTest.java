@@ -4,44 +4,51 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.manager.FileStorage;
 import eu.scape_project.planning.manager.IByteStreamManager;
 import eu.scape_project.planning.manager.IByteStreamStorage;
 import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.LoggerFactory;
 import eu.scape_project.planning.utils.OS;
-import eu.scape_project.planning.utils.PropertiesLoader;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class ByteStreamManagerTest {
 
     @Deployment
     public static WebArchive createDeployment() {
+
+        MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom(
+            "pom.xml");
+
         WebArchive wa = ShrinkWrap
             .create(WebArchive.class)
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
             .addAsResource("config/filestorage.properties")
+            .addAsLibraries(resolver.artifact("commons-configuration:commons-configuration:1.9").resolveAsFiles())
             .addClasses(PlanningException.class, StorageException.class, FileUtils.class, OS.class,
                 IByteStreamManager.class, IByteStreamStorage.class, FileStorage.class, ByteStreamManager.class,
-                LoggerFactory.class, PropertiesLoader.class);
+                LoggerFactory.class, ConfigurationLoader.class);
         System.out.println(wa.toString(true));
         return wa;
     }
 
     @Inject
     ByteStreamManager bm;
-    
+
     @Test
     public void testStoreLoad() throws StorageException {
         byte[] array = {1, 2, 3, 4};

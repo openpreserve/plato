@@ -35,8 +35,9 @@ import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
-import eu.scape_project.pw.idp.utils.PropertiesLoader;
+import eu.scape_project.pw.idp.utils.ConfigurationLoader;
 
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 
 /**
@@ -62,6 +63,9 @@ public class UserManager {
     @Inject
     private Logger log;
 
+    @Inject
+    private ConfigurationLoader configurationLoader;
+
     /**
      * Standard rolename for a user.
      */
@@ -70,15 +74,14 @@ public class UserManager {
     /**
      * Properties for activation mail.
      */
-    private Properties mailProperties;
+    private Configuration config;
 
     /**
      * Init this class.
      */
     @PostConstruct
     public void init() {
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
-        mailProperties = propertiesLoader.load(CONFIG_NAME);
+        config = configurationLoader.load(CONFIG_NAME);
     }
 
     /**
@@ -149,11 +152,11 @@ public class UserManager {
         try {
             Properties props = System.getProperties();
 
-            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            props.put("mail.smtp.host", config.getString("mail.smtp.host"));
             Session session = Session.getDefaultInstance(props, null);
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(user.getEmail()));
             message.setSubject("Please confirm your Planningsuite user account");
 
@@ -202,11 +205,11 @@ public class UserManager {
         try {
             Properties props = System.getProperties();
 
-            props.put("mail.smtp.host", mailProperties.getProperty("server.smtp"));
+            props.put("mail.smtp.host", config.getString("mail.smtp.host"));
             Session session = Session.getDefaultInstance(props, null);
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProperties.getProperty("mail.from")));
+            message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(user.getEmail()));
             message.setSubject("Planningsuite password recovery");
 

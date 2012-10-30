@@ -29,9 +29,11 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
 import eu.scape_project.planning.utils.FacesMessages;
 
+/**
+ * View for group configuration.
+ */
 @Named("groups")
 @SessionScoped
 public class GroupsView implements Serializable {
@@ -48,19 +50,21 @@ public class GroupsView implements Serializable {
     private User user;
     private String inviteMailsString = "";
 
-    @Inject
-    private ViewWorkflowManager viewWorkflowManager;
-
     public GroupsView() {
     }
 
+    /**
+     * Initializes the view and returns the navigation path.
+     * 
+     * @return the navigation path.
+     */
     public String init() {
         groups.init();
         return "/user/groups.jsf";
     }
 
     /**
-     * Method responsible for saving the made changes
+     * Method responsible for saving the made changes.
      * 
      * @return Outcome String redirecting to start page.
      */
@@ -70,7 +74,7 @@ public class GroupsView implements Serializable {
     }
 
     /**
-     * Method responsible for discarding the made changes
+     * Method responsible for discarding the made changes.
      * 
      * @return Outcome String redirecting to start page.
      */
@@ -80,7 +84,7 @@ public class GroupsView implements Serializable {
     }
 
     /**
-     * Invite users by their email addresses
+     * Invite users by their email addresses.
      */
     public void inviteUsers() {
 
@@ -126,16 +130,17 @@ public class GroupsView implements Serializable {
     }
 
     /**
-     * Remove a user from the group
+     * Remove a user from the group.
      * 
      * @param user
+     *            the user to remove
      */
     public void removeUser(User user) {
         groups.removeUser(user);
     }
 
     /**
-     * Leave a group
+     * Leave a group.
      */
     public void leaveGroup() {
         groups.leaveGroup();
@@ -149,10 +154,6 @@ public class GroupsView implements Serializable {
     public List<User> getGroupUsers() {
         return groups.getGroupUsers();
     }
-
-    // public Groups getGroups() {
-    // return groups;
-    // }
 
     public String getInviteMailsString() {
         return inviteMailsString;

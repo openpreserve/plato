@@ -174,7 +174,7 @@
 					<artifactId>icu4j</artifactId>
 					<groupId>com.ibm.icu</groupId>
 				</exclusion>
-    		</exclusions>
+			</exclusions>
 			<scope>provided</scope>
 		</dependency>
 
@@ -183,7 +183,7 @@
 			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -205,7 +205,7 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
-		
+
 		<!-- RODA-Client dependencies -->
 		<dependency>
 			<groupId>pt.gov.dgarq.roda</groupId>
@@ -216,9 +216,13 @@
 					<artifactId>saxon</artifactId>
 					<groupId>net.sf.saxon</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>commons-configuration</artifactId>
+					<groupId>commons-configuration</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 	</dependencies>
 	<profiles>
 		<profile>

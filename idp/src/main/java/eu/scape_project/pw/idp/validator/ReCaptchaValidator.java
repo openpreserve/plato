@@ -16,8 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.validator;
 
-import java.util.Properties;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,9 +24,12 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.scape_project.pw.idp.utils.ConfigurationLoader;
+
+import org.apache.commons.configuration.Configuration;
+
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
-import eu.scape_project.pw.idp.utils.PropertiesLoader;
 
 /**
  * Validator for ReCaptcha.
@@ -36,17 +37,19 @@ import eu.scape_project.pw.idp.utils.PropertiesLoader;
 @FacesValidator("ReCaptchaValidator")
 public class ReCaptchaValidator implements Validator {
 
+    private static final String CONFIG_NAME = "idp.properties";
+
     /**
      * IDP properties.
      */
-    private Properties idpProperties;
+    private Configuration config;
 
     /**
      * Constructor.
      */
     public ReCaptchaValidator() {
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
-        idpProperties = propertiesLoader.load("idp.properties");
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
+        config = configurationLoader.load(CONFIG_NAME);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class ReCaptchaValidator implements Validator {
 
         String remoteAddr = request.getRemoteAddr();
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-        reCaptcha.setPrivateKey(idpProperties.getProperty("recaptcha.privatekey"));
+        reCaptcha.setPrivateKey(config.getString("recaptcha.privatekey"));
 
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");

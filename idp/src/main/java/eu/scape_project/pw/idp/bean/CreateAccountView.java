@@ -16,8 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.pw.idp.bean;
 
-import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -27,10 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.pw.idp.UserManager;
 import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
-import eu.scape_project.pw.idp.excpetions.CreateUserException;
 import eu.scape_project.pw.idp.model.IdpUser;
+import eu.scape_project.pw.idp.utils.ConfigurationLoader;
 import eu.scape_project.pw.idp.utils.FacesMessages;
-import eu.scape_project.pw.idp.utils.PropertiesLoader;
+
+import org.apache.commons.configuration.Configuration;
 
 import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaFactory;
@@ -42,8 +41,13 @@ import net.tanesha.recaptcha.ReCaptchaFactory;
 @ViewScoped
 public class CreateAccountView {
 
+    private static final String CONFIG_NAME = "idp.properties";
+
     @Inject
     private FacesMessages facesMessages;
+
+    @Inject
+    private ConfigurationLoader configurationLoader;
 
     private IdpUser user;
 
@@ -67,11 +71,10 @@ public class CreateAccountView {
     @PostConstruct
     public void init() {
         user = new IdpUser();
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
-        Properties idpProperties = propertiesLoader.load("idp.properties");
+        Configuration config = configurationLoader.load(CONFIG_NAME);
 
-        reCaptcha = ReCaptchaFactory.newReCaptcha(idpProperties.getProperty("recaptcha.publickey"),
-            idpProperties.getProperty("recaptcha.privatekey"), false);
+        reCaptcha = ReCaptchaFactory.newReCaptcha(config.getString("recaptcha.publickey"),
+            config.getString("recaptcha.privatekey"), false);
         addUserSuccessful = false;
     }
 

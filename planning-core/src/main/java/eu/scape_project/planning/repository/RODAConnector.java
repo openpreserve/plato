@@ -23,15 +23,16 @@ import java.net.InetAddress;
 import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.api.RepositoryConnectorApi;
-import eu.scape_project.planning.utils.PropertiesLoader;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 import eu.scape_project.planning.utils.RepositoryConnectorException;
+
+import org.apache.commons.configuration.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Petar Petrov - <me@petarpetrov.org>
@@ -119,36 +120,21 @@ public class RODAConnector implements RepositoryConnectorApi {
             return this.config;
         }
 
-        PropertiesLoader propertiesLoader = new PropertiesLoader();
-        Properties props = propertiesLoader.load("connectorapi.properties");
-        if (props == null) {
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
+        Configuration configuration = configurationLoader.load("connectorapi.properties");
+        if (configuration == null) {
             LOGGER.warn("An error occurred while reading the properties file {}", CONNECTOR_API_PROPERTIES);
             return new HashMap<String, String>();
         }
-        this.config = new HashMap<String, String>();
-        for (Object key : props.keySet()) {
-            this.config.put(key.toString(), props.getProperty(key.toString()));
+
+        Map<String, String> map = new HashMap<String, String>();
+        Iterator<String> configIt = configuration.getKeys();
+        while (configIt.hasNext()) {
+            String key = configIt.next();
+            map.put(key, configuration.getString(key));
         }
 
-        return config;
-
-        // Properties props = new Properties();
-        // try {
-        // props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(CONNECTOR_API_PROPERTIES));
-        //
-        // this.config = new HashMap<String, String>();
-        // for (Object key : props.keySet()) {
-        // this.config.put(key.toString(), props.getProperty(key.toString()));
-        // }
-        //
-        // return config;
-        //
-        // } catch (IOException e) {
-        // LOGGER.warn("An error occurred while reading the properties file {}",
-        // CONNECTOR_API_PROPERTIES);
-        // return new HashMap<String, String>();
-        // }
-
+        return map;
     }
 
     /**
