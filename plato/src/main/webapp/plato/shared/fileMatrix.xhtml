@@ -55,15 +55,13 @@
 							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
 							action="#{workflowstep.downloadResultFile(altern, sample)}" />
                         <rich:tooltip target="downloadResult">Download result of applying #{altern.name} to #{sample.shortName}</rich:tooltip>
-                        <ui:remove>
 						<a4j:commandButton
 							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
 							action="#{workflowstep.generateCharacterisationReports(sample,altern)}"
 							styleClass="small" value="Compare" eventsQueue="ajaxQ"
 							ignoreDupResponses="true"
-							oncomplete="Richfaces.showModalPanel('characterisationReports', {top:'100px'});"
+							oncomplete="#{rich:component('characterisationReports')}.show();"
 							render="characterisationReports" />
-						</ui:remove>
 					</td>
 				</ui:repeat>
 			</tr>

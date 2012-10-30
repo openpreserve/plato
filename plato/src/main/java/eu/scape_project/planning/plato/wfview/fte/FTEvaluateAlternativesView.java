@@ -40,6 +40,7 @@ import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.fte.FTEvaluateAlternatives;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.utils.CharacterisationReportGenerator;
 import eu.scape_project.planning.utils.Downloader;
 import eu.scape_project.planning.validation.ValidationError;
 
@@ -73,6 +74,10 @@ public class FTEvaluateAlternativesView extends AbstractView {
     private List<TreeNode> treeRoot;
 
     private ExperimentStatus experimentStatus;
+    
+    private String sampleCharacterisationReportAsHTML;
+    private String resultCharacterisationReportAsHTML;
+    
 
     public FTEvaluateAlternativesView() {
         currentPlanState = PlanState.TREE_DEFINED;
@@ -244,6 +249,16 @@ public class FTEvaluateAlternativesView extends AbstractView {
             leaves.add((Leaf) node);
         }
     }
+    
+    public void generateCharacterisationReports(SampleObject sample, Alternative alternative) {
+        CharacterisationReportGenerator reportGen = new CharacterisationReportGenerator();
+        
+        sampleCharacterisationReportAsHTML = reportGen.generateHTMLReport(sample);
+        
+        DigitalObject resultObject = alternative.getExperiment().getResults().get(sample);
+        resultCharacterisationReportAsHTML = reportGen.generateHTMLReport(resultObject);
+    }
+    
 
     private void initLeafLists() {
         leaves.clear();
@@ -267,6 +282,14 @@ public class FTEvaluateAlternativesView extends AbstractView {
 
     public TreeHelperBean getTreeHelper() {
         return treeHelper;
+    }
+
+    public String getSampleCharacterisationReportAsHTML() {
+        return sampleCharacterisationReportAsHTML;
+    }
+
+    public String getResultCharacterisationReportAsHTML() {
+        return resultCharacterisationReportAsHTML;
     }
 
 }

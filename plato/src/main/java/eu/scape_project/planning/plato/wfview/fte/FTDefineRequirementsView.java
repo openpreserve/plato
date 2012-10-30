@@ -39,6 +39,7 @@ import eu.scape_project.planning.plato.fte.FTDefineRequirements;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.beans.FastTrackTemplate;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.utils.CharacterisationReportGenerator;
 import eu.scape_project.planning.utils.Downloader;
 
 @Named("defineRequirementsFTE")
@@ -63,11 +64,14 @@ public class FTDefineRequirementsView extends AbstractView {
     private FastTrackTemplate selectedFTTemplate;
 
     /**
-     * Variable encapsulating the ObjectiveTree-Root in a list. This is
-     * required, because <rich:treeModelRecursiveAdaptor> root variable requires
+     * Contains the ObjectiveTree-Root in a list. 
+     * This is necessary, because <rich:treeModelRecursiveAdaptor> root variable requires
      * a list to work properly.
      */
     private List<TreeNode> treeRoots;
+    
+    private String sampleCharacterisationReportAsHTML;
+    
 
     public FTDefineRequirementsView() {
         currentPlanState = PlanState.CREATED;
@@ -169,6 +173,17 @@ public class FTDefineRequirementsView extends AbstractView {
         return ftDefineRequirements;
     }
 
+    /**
+     * Generates characterisation report for selected sample object
+     * 
+     * @param sampleObj
+     *            Sample object to select.
+     */
+    public void generateCharacterisationReport(final SampleObject sampleObj) {
+        CharacterisationReportGenerator reportGen = new CharacterisationReportGenerator();
+        this.sampleCharacterisationReportAsHTML = reportGen.generateHTMLReport(sampleObj);
+    }
+    
     // --------------- getter/setter ---------------
 
     public List<FastTrackTemplate> getFtTemplates() {
@@ -197,5 +212,9 @@ public class FTDefineRequirementsView extends AbstractView {
 
     public TreeHelperBean getTreeHelper() {
         return treeHelper;
+    }
+
+    public String getSampleCharacterisationReportAsHTML() {
+        return sampleCharacterisationReportAsHTML;
     }
 }

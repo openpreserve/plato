@@ -769,6 +769,10 @@ div.rf-pp-cntr {
 	border: 1px solid A0A0A0;
 }
 
+.toolinfo {
+	display : none;
+}
+
 div.leftcolumn {
 	float: left;
 }

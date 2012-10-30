@@ -16,14 +16,12 @@ import org.jboss.weld.context.bound.Bound;
 import org.jboss.weld.context.bound.BoundConversationContext;
 import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.plato.wfview.fte.FTCreatePlanView;
 
-@Ignore("This fails to a class loading problem related to xercesImpl") // FIXME
 @RunWith(Arquillian.class)
 public class FTEIntegrationTest {
 
@@ -59,7 +57,7 @@ public class FTEIntegrationTest {
 	// }
 
 	@Deployment
-	public static EnterpriseArchive createDeployment1() {
+	public static EnterpriseArchive createDeployment() {
 
 		File planningCore = new File(
 				"../planningsuite-ear/target/planningsuite-ear/planning-core-0.0.1-SNAPSHOT.jar");

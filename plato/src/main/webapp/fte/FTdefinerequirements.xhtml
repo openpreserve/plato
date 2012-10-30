@@ -144,6 +144,9 @@
 					         <h:outputText value="Object Format" />
 					      </f:facet>
 					      <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
+	                     <a4j:commandButton value="Characterisation Info" action="#{defineRequirementsFTE.generateCharacterisationReport(row)}"
+	                                        oncomplete="#{rich:component('characterizationPanel')}.show()" render="characterizationPanel"
+	                                        style="vertical-align: middle;" />
 					   </h:column>
 					</h:dataTable>
 				</a4j:outputPanel>
@@ -209,6 +212,33 @@
         <!-- / attach files panel -->
         </h:form>
 
+		<h:form>
+			<!-- characterisationReports -->
+			<rich:popupPanel id="characterizationPanel" autosized="true" domElementAttachment="form">
 
+				<f:facet name="header">
+					<h:outputText value="Characterisation Info" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="close"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+						onclick="#{rich:component('characterizationPanel')}.hide()" />
+				</f:facet>
+				<div class="container">
+				    <div><button type="button">Toggle Toolinfo</button></div>
+					<div class="leftcolumn">
+						<h:outputText value="#{defineRequirementsFTE.sampleCharacterisationReportAsHTML}" escape="false" />
+					</div>
+					<div class="clear"></div>
+				</div>
+				<script>
+				    $("button").click(function () {
+				      $(".toolinfo").toggle("fast");
+				    });
+				</script>
+			</rich:popupPanel>
+			<!-- / characterisationReports -->
+		</h:form>     
+		
 	</ui:define>
 </ui:composition>

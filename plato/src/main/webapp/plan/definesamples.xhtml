@@ -156,13 +156,9 @@
 	                     
 	                     <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
 	                     <div>
-		                     <a4j:commandButton value="Characterization Data" action="#{defineSampleRecords.selectSampleObject(row)}"
+		                     <a4j:commandButton value="Characterisation Info" action="#{defineSampleRecords.generateCharacterisationReport(row)}"
 		                                        oncomplete="#{rich:component('characterizationPanel')}.show()" render="characterizationPanel"
 		                                        style="vertical-align: middle;" />
-		                     <!-- <a href="http://code.google.com/p/fits/" target="_blank">
-		                          <h:graphicImage id="fits" value="/resources/gfx/logos/fits.png" style="vertical-align: middle; margin-left: 30px; width: 15%" />
-                             </a>
-                              -->
                          </div>
                           <div class="margin-top-big margin-bottom-big">
 	                        <a4j:commandButton id="cbutton#{row.id}"
@@ -238,32 +234,33 @@
             
         </h:form>
         
-        
-        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
-                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
-                        This workaround is described here: http://community.jboss.org/thread/171909
-                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
-                        the second click (on buttons, etc.).
-        -->
-        <h:form>
-        <!-- FITS xml panel -->
-            <rich:popupPanel id="characterizationPanel" width="800" height="600" domElementAttachment="form">
-                <f:facet name="header">
-                    <h:outputText value="Characterization Data" />
-                </f:facet>
-                <f:facet name="controls">
-                    <h:graphicImage id="closeMapping" 
-                        value="/resources/gfx/icons/cancel.png"
-                        title="Close" width="16" height="16"
-                        onclick="#{rich:component('characterizationPanel')}.hide()" />
-                </f:facet>            
-                <h:messages />
-                <h:outputLabel value="Fits Data" rendered="#{defineSampleRecords.selectedSampleObject.fitsXMLString != null}" />
-                <h:outputText value="#{defineSampleRecords.selectedSampleObject.fitsXMLString}"  rendered="#{defineSampleRecords.selectedSampleObject.fitsXMLString != null}"/>
-            </rich:popupPanel>
-        <!-- / FITS xml panel -->
-        </h:form>        
-        
+		<h:form>
+			<!-- characterisationReports -->
+			<rich:popupPanel id="characterizationPanel" autosized="true" domElementAttachment="form">
+
+				<f:facet name="header">
+					<h:outputText value="Characterisation Info" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="close"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+						onclick="#{rich:component('characterizationPanel')}.hide()" />
+				</f:facet>
+				<div class="container">
+				    <div><button type="button">Toggle Toolinfo</button></div>
+					<div class="leftcolumn">
+						<h:outputText value="#{defineSampleRecords.sampleCharacterisationReportAsHTML}" escape="false" />
+					</div>
+					<div class="clear"></div>
+				</div>
+				<script>
+				    $("button").click(function () {
+				      $(".toolinfo").toggle("fast");
+				    });
+				</script>
+			</rich:popupPanel>
+			<!-- / characterisationReports -->
+		</h:form>        
         
     </ui:define>
 </ui:composition>

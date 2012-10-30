@@ -292,5 +292,35 @@
         </h:form>               
       <!-- end run experiments -->         
 
+		<h:form>
+			<!-- characterisationReports -->
+			<rich:popupPanel id="characterisationReports" autosized="true" domElementAttachment="form">
+
+				<f:facet name="header">
+					<h:outputText value="Comparison of characterisation info" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="close"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+						onclick="#{rich:component('characterisationReports')}.hide()" />
+				</f:facet>
+				<div class="container">
+				    <div><button type="button">Toggle Toolinfo</button></div>
+					<div class="leftcolumn">
+						<h:outputText value="#{evalexperiments.sampleCharacterisationReportAsHTML}" escape="false" />
+					</div>
+					<div class="rightcolumn">
+						<h:outputText value="#{evalexperiments.resultCharacterisationReportAsHTML}" escape="false" />
+					</div>
+					<div class="clear"></div>
+				</div>
+				<script>
+				    $("button").click(function () {
+				      $(".toolinfo").toggle("fast");
+				    });
+				</script>
+			</rich:popupPanel>
+			<!-- / characterisationReports -->
+		</h:form>
    </ui:define>
 </ui:composition>

@@ -33,18 +33,17 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
-import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.SampleRecordsDefinition;
-import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineSampleObjects;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.utils.CharacterisationReportGenerator;
 import eu.scape_project.planning.utils.Downloader;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.utils.FileUtils;
@@ -63,16 +62,10 @@ public class DefineSampleRecordsView extends AbstractView {
     private Logger log;
 
     @Inject
-    private User user;
-
-    @Inject
     private DefineSampleObjects defineSamples;
 
     @Inject
     private ByteStreamManager bytestreamManager;
-
-    @Inject
-    private PlanManager planManager;
 
     @Inject
     private FacesMessages facesMessages;
@@ -80,11 +73,7 @@ public class DefineSampleRecordsView extends AbstractView {
     @Inject
     private Downloader downloader;
 
-    /**
-     * Currently selected sample object. It determines which object is used for
-     * fits-xml-popup, etc.
-     */
-    private SampleObject selectedSampleObject;
+    private String sampleCharacterisationReportAsHTML;
 
     /**
      * this determines the behaviour of the remove-buttons on the pag (see
@@ -97,7 +86,6 @@ public class DefineSampleRecordsView extends AbstractView {
         name = "Define Sample Objects";
         viewUrl = "/plan/definesamples.jsf";
         group = "menu.defineRequirements";
-        selectedSampleObject = null;
     }
 
     @Override
@@ -206,14 +194,14 @@ public class DefineSampleRecordsView extends AbstractView {
     }
 
     /**
-     * Method responsible for setting the selected SampleObject.
+     * Generates characterisation report for selected sample object
      * 
      * @param sampleObj
      *            Sample object to select.
      */
-    public void selectSampleObject(final SampleObject sampleObj) {
-        this.selectedSampleObject = sampleObj;
-        log.debug("Selected sample object " + sampleObj.getFullname());
+    public void generateCharacterisationReport(final SampleObject sampleObj) {
+        CharacterisationReportGenerator reportGen = new CharacterisationReportGenerator();
+        this.sampleCharacterisationReportAsHTML = reportGen.generateHTMLReport(sampleObj);
     }
 
     /**
@@ -246,7 +234,11 @@ public class DefineSampleRecordsView extends AbstractView {
      */
     public void download(final DigitalObject object) {
         File file = bytestreamManager.getTempFile(object.getPid());
-        downloader.download(object, file);
+        if (file != null) {
+            downloader.download(object, file);
+        } else {
+            log.error("Failed to retrieve object: " + object.getPid());
+        }
     }
 
     @Override
@@ -254,12 +246,7 @@ public class DefineSampleRecordsView extends AbstractView {
         return defineSamples;
     }
 
-    public SampleObject getSelectedSampleObject() {
-        return selectedSampleObject;
+    public String getSampleCharacterisationReportAsHTML() {
+        return sampleCharacterisationReportAsHTML;
     }
-
-    public void setSelectedSampleObject(final SampleObject selectedSampleObject) {
-        this.selectedSampleObject = selectedSampleObject;
-    }
-
 }

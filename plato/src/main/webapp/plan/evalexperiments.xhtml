@@ -112,7 +112,6 @@
 	     </h:form>
 	     
 		<h:form>
-
 			<!-- characterisationReports -->
 			<rich:popupPanel id="characterisationReports" autosized="true" domElementAttachment="form">
 
@@ -125,7 +124,7 @@
 						onclick="#{rich:component('characterisationReports')}.hide()" />
 				</f:facet>
 				<div class="container">
-					<button>Toggle Toolinfo</button>
+				    <div><button type="button">Toggle Toolinfo</button></div>
 					<div class="leftcolumn">
 						<h:outputText value="#{evalexperiments.sampleCharacterisationReportAsHTML}" escape="false" />
 					</div>
