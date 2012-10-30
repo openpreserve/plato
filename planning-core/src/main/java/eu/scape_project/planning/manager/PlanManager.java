@@ -17,6 +17,7 @@
 package eu.scape_project.planning.manager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -26,9 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
+import javax.persistence.TypedQuery;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.AlternativesDefinition;
@@ -45,6 +44,9 @@ import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.FacesMessages;
+
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
 
 /**
  * stateful session bean for managing plans
@@ -103,51 +105,60 @@ public class PlanManager implements Serializable {
      */
     public List<PlanProperties> list(WhichProjects whichProjects) {
 
-        Query query = null;
+        TypedQuery<PlanProperties> query = null;
+
+        // Select usernames of the users group
+        List<String> usernames = em
+            .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup", String.class)
+            .setParameter("userGroup", user.getUserGroup()).getResultList();
+
+        if (usernames.isEmpty()) {
+            return new ArrayList<PlanProperties>();
+        }
 
         if (whichProjects == WhichProjects.MYPROJECTS) {
             // load user's projects
             query = em.createQuery("select p.planProperties from Plan p where"
-                + " (p.planProperties.owner = :owner)"
+                + " (p.planProperties.owner IN (:usernames))"
                 + " and ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
-                + " order by p.planProperties.id");
-            
-            query.setParameter("owner", user.getUsername());
+                + " order by p.planProperties.id", PlanProperties.class);
+            query.setParameter("usernames", usernames);
             query.setParameter("planType", PlanType.FULL);
-        } else if ((whichProjects == WhichProjects.ALLPROJECTS || whichProjects == WhichProjects.ALLFTEPROJECTS) && (user.isAdmin())) {
+
+        } else if ((whichProjects == WhichProjects.ALLPROJECTS || whichProjects == WhichProjects.ALLFTEPROJECTS)
+            && (user.isAdmin())) {
             // load all projects, public and private,
             // but ONLY if the user is an admin
-            query = em.createQuery("select p from PlanProperties p where (p.planType = :planType) order by p.id");
+            query = em.createQuery("select p from PlanProperties p where (p.planType = :planType) order by p.id",
+                PlanProperties.class);
             if (whichProjects == WhichProjects.ALLFTEPROJECTS) {
                 query.setParameter("planType", PlanType.FTE);
             } else {
                 query.setParameter("planType", PlanType.FULL);
             }
         } else if (whichProjects == WhichProjects.FTEPROJECTS) {
-            query = em.createQuery("select p.planProperties from Plan p where" + " (p.planProperties.owner = :owner) "
-                + " and (p.planProperties.planType = :planType)"
-                + " order by p.planProperties.id");
-            query.setParameter("owner", user.getUsername());
-            query.setParameter("planType", PlanType.FTE);
-        } else if (whichProjects == WhichProjects.PUBLICFTEPROJECTS) {
-
             query = em.createQuery("select p.planProperties from Plan p where"
-                + " (p.planProperties.privateProject = false )"
-                + " and (p.planProperties.planType = :planType)" 
-                + " order by p.planProperties.id");
+                + " (p.planProperties.owner IN (:usernames)) " + " and (p.planProperties.planType = :planType)"
+                + " order by p.planProperties.id", PlanProperties.class);
+            query.setParameter("usernames", usernames);
+            query.setParameter("planType", PlanType.FTE);
+
+        } else if (whichProjects == WhichProjects.PUBLICFTEPROJECTS) {
+            query = em.createQuery("select p.planProperties from Plan p where"
+                + " (p.planProperties.privateProject = false )" + " and (p.planProperties.planType = :planType)"
+                + " order by p.planProperties.id", PlanProperties.class);
             query.setParameter("planType", PlanType.FTE);
         } else {
             // load all public projects, which includes those with published
             // reports
-            query = em.createQuery("select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
-                + " or (p.planProperties.reportPublic = true)) " 
-                + " and (p.planProperties.planType = :planType) "
-                + " order by p.planProperties.id");
+            query = em.createQuery(
+                "select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
+                    + " or (p.planProperties.reportPublic = true)) " + " and (p.planProperties.planType = :planType) "
+                    + " order by p.planProperties.id", PlanProperties.class);
             query.setParameter("planType", PlanType.FULL);
         }
 
-        @SuppressWarnings("unchecked")
-        List<PlanProperties> planList = (List<PlanProperties>)query.getResultList();
+        List<PlanProperties> planList = query.getResultList();
 
         //
         // readOnly in PlanProperties is *transient*, it is used
@@ -155,13 +166,13 @@ public class PlanManager implements Serializable {
         //
         for (PlanProperties pp : planList) {
 
-            //
             // a project may NOT be loaded when
             // ... it is set to private
             // ... AND the user currently logged in is not the administrator
             // ... AND the user currently logged in is not the owner of that
             // project
-            boolean readOnly = pp.isPrivateProject() && !user.isAdmin() && !user.getUsername().equals(pp.getOwner());
+            boolean readOnly = pp.isPrivateProject() && !user.isAdmin() && !user.getUsername().equals(pp.getOwner())
+                && !usernames.contains(pp.getOwner());
 
             boolean allowReload = pp.getOpenedByUser().equals(user.getUsername()) || user.isAdmin();
 
@@ -193,10 +204,10 @@ public class PlanManager implements Serializable {
         return reloadedPlan;
 
     }
-    
+
     /**
-     * Loads the plan with the given plan-Id from the database.
-     * - without locking the plan!
+     * Loads the plan with the given plan-Id from the database. - without
+     * locking the plan!
      * 
      * @param planId
      * @return
@@ -230,7 +241,7 @@ public class PlanManager implements Serializable {
         Object result = em.createQuery("select p.id from Plan p where p.planProperties.id = " + propertyId)
             .getSingleResult();
         if (result != null) {
-            return loadPlan((Integer)result);
+            return loadPlan((Integer) result);
         } else {
             throw new PlanningException("An unexpected error has occured while loading the plan.");
         }

@@ -10,7 +10,7 @@
 		<h:outputStylesheet name="css/plans.css" />
 		<a4j:outputPanel layout="inline"
 			rendered="#{(planLister.projectSelection == 'MYPROJECTS')}">
-			<h1>Your plans</h1>
+			<h1>My plans</h1>
 		</a4j:outputPanel>
 		<a4j:outputPanel layout="inline"
 			rendered="#{(planLister.projectSelection == 'PUBLICPROJECTS')}">
@@ -18,29 +18,14 @@
 		</a4j:outputPanel>
 		<a4j:outputPanel layout="inline"
 			rendered="#{(planLister.projectSelection == 'FTEPROJECTS') || (planLister.projectSelection == 'PUBLICFTEPROJECTS')}">
-			<h1>Fast track results</h1>
+			<h1>My fast track results</h1>
 		</a4j:outputPanel>
 		<a4j:outputPanel layout="inline"
 			rendered="#{planLister.projectSelection == 'ALLPROJECTS'}">
-			<h1>List of all plans and fast track results</h1>
+			<h1>All plans and fast track results</h1>
 		</a4j:outputPanel>
 
 		<h:form id="listprojects">
-
-			<ui:remove>
-				<!--
-				<fieldset id="import" class="size-full">
-					<legend class="fieldset-full-size-legend">
-						<h:outputText value="XML import" />
-					</legend>
-					<h:inputText id="importDir" value="#{planLister.directory}" class="input-dir"/>
-					<h:commandButton id="xmlimportDir"
-						action="#{planLister.importFromDir}"
-						value="Import all XMLs in server directory" />
-				</fieldset>
-				-->
-			</ui:remove>
-
 			<h:commandButton id="list" action="#{planLister.listAll}"
 				value="List both, my private and all public"
 				rendered="#{user.admin}" class="margin-top" />
@@ -54,7 +39,7 @@
 					rendered="#{not empty planLister.list}"
 					styleClass="tableStyle margin-top" headerClass="tableStyle-header"
 					rowClasses="plans-row1, plans-row2"
-					columnClasses="column-type,column-id,column-name,column-description,column-author,column-action,column-report">
+					columnClasses="column-type,column-id,column-name,column-description,column-author,column-state,column-action,column-locked">
 					<h:column>
 						<f:facet name="header">
 						   Type
@@ -95,19 +80,23 @@
 						<f:facet name="header">
 							<h:outputText value="Action" />
 						</f:facet>
-						<h:commandLink value="Load"
-							action="#{viewWorkflowManager.startWorkflow(p.id)}"
-							rendered="#{p.open}" disabled="#{p.readOnly}" />
+						<a4j:outputPanel rendered="#{not p.readOnly}"
+							styleClass="plan-action">
+							<h:commandLink value="Load"
+								action="#{viewWorkflowManager.startWorkflow(p.id)}"
+								rendered="#{p.open or not p.allowReload}"
+								disabled="#{not p.open}" />
 
-						<a4j:outputPanel rendered="#{not p.open}" styleClass="plan-locked">
+							<a4j:commandButton action="#{planLister.unlock(p.id)}"
+								value="Unlock" rendered="#{not p.open and p.allowReload}"
+								render="planListPanel" />
+						</a4j:outputPanel>
+					</h:column>
+					<h:column>
+						<a4j:outputPanel rendered="#{not p.open}">
 							<h:graphicImage library="gfx" name="icons/locked.png"
 								title="locked by #{p.openedByUser}" />
 						</a4j:outputPanel>
-						
-						<a4j:commandButton action="#{planLister.unlock(p.id)}"
-							value="Unlock" rendered="#{not p.open and p.allowReload}"
-							render="planListPanel" />
-						<br />
 					</h:column>
 				</h:dataTable>
 				<a4j:outputPanel layout="block" id="transformationInfo"

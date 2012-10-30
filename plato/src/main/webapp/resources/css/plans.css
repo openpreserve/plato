@@ -19,26 +19,26 @@ input.input-dir {
 }
 
 .column-type {
-	width: 4%;
+	width: 6%;
 	text-align: center;
 	border: 1px solid white;
 }
 
 .column-id {
-	width: 2%;
+	width: 6%;
 	text-align: center;
 	border: 1px solid white;
 }
 
 .column-name {
-	width: 6%;
+	min-width: 6%;
 	padding-left: 5px;
 	padding-right: 2px;
 	border: 1px solid white;
 }
 
 .column-description {
-	width: 35%;
+	width: auto;
 	padding-left: 10px;
 	border: 1px solid white;
 }
@@ -49,21 +49,26 @@ input.input-dir {
 	border: 1px solid white;
 }
 
-.column-action {
-	width: 6%;
-	text-align: center;
-	border: 1px solid white;
-}
-
-.column-report {
+.column-state {
 	width: 10%;
 	text-align: center;
 	border: 1px solid white;
 }
 
-.plan-locked {
-	float: left;
-	margin: 5px;
+.column-action {
+	width: 10%;
+	text-align: center;
+	border: 1px solid white;
+}
+
+.column-locked {
+	width: 34px;
+	text-align: center;
+	border: 1px solid white;
+}
+
+.plan-action {
+	vertical-align: inherit;
 }
 
 .plan-locked img {

@@ -53,7 +53,8 @@ public class PlanProperties implements Serializable, ITouchable {
 
     /**
      * This flag is used to be able to determine if a user is allowed to load a
-     * project. It is set in LoadPlanAction
+     * project. It is set in
+     * {@link eu.scape_project.planning.manager.PlanManager PlanManager}.
      */
     @Transient
     private boolean readOnly = false;
@@ -97,7 +98,6 @@ public class PlanProperties implements Serializable, ITouchable {
      */
     private String openedByUser = "";
 
-
     /**
      * Indicates if the project is set to private which means that only the user
      * who created it can open and edit it.
@@ -118,10 +118,9 @@ public class PlanProperties implements Serializable, ITouchable {
 
     @Enumerated(EnumType.STRING)
     private PlanState state = PlanState.CREATED;
-    
+
     @Enumerated(EnumType.STRING)
-    private PlanType planType = PlanType.FULL; 
-    
+    private PlanType planType = PlanType.FULL;
 
     /**
      * Indicates whether the project may be realoded again. As the project is
@@ -230,7 +229,7 @@ public class PlanProperties implements Serializable, ITouchable {
     /**
      * Actually, this is a "may open" or an "is closed"
      * 
-     * @return
+     * @return true if plan may be opened, false otherwise
      */
     public boolean isOpen() {
         return (openHandle == 0);
