@@ -158,13 +158,14 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * store their changes in {@link AbstractWorkflowStep#saveStepSpecific()}
      */
     public void save() {
+        // FIXME: MK: the following comment does not make sense (any more), does it? I can't see how this enforces validation.
         // set the plans' state according to this step before applying any other
         // changes
         // this way we ensure that the plan has to be validated, when changes
         // have been made.
-        plan.getPlanProperties().setState(requiredPlanState);
-        plan.getPlanProperties().touch();
-        saveEntity(plan.getPlanProperties());
+//        plan.getPlanProperties().setState(requiredPlanState);
+//        plan.getPlanProperties().touch();
+//        saveEntity(plan.getPlanProperties());
 
         // -- debug code --
         // for (Leaf l: plan.getTree().getRoot().getAllLeaves()) {

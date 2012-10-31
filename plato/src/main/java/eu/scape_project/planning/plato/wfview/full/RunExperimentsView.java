@@ -110,7 +110,7 @@ public class RunExperimentsView extends AbstractView {
 	public void startExperiments(){
 		experimentStatus.setStarted(true);
 		runExperiments.startExperiments();
-		log.error("Experiment started...");
+		log.info("Experiment started...");
 	}
 	
 	public ExperimentStatus getExperimentStatus(){

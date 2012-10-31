@@ -294,7 +294,7 @@
 
 		<h:form>
 			<!-- characterisationReports -->
-			<rich:popupPanel id="characterisationReports" autosized="true" domElementAttachment="form">
+			<rich:popupPanel id="characterisationReports" minWidth="800" minHeight="700" resizeable="true" domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Comparison of characterisation info" />
@@ -307,10 +307,12 @@
 				<div class="container">
 				    <div><button type="button">Toggle Toolinfo</button></div>
 					<div class="leftcolumn">
-						<h:outputText value="#{evalexperiments.sampleCharacterisationReportAsHTML}" escape="false" />
+					    <h1>Sample</h1>
+						<h:outputText value="#{ftEvaluateAlternatives.sampleCharacterisationReportAsHTML}" escape="false" />
 					</div>
 					<div class="rightcolumn">
-						<h:outputText value="#{evalexperiments.resultCharacterisationReportAsHTML}" escape="false" />
+					    <h1>Result</h1>
+						<h:outputText value="#{ftEvaluateAlternatives.resultCharacterisationReportAsHTML}" escape="false" />
 					</div>
 					<div class="clear"></div>
 				</div>

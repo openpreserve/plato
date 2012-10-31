@@ -4,102 +4,176 @@
 <!-- 
  Java Image I/O
  -->
- 
    <preservationActionService type="migration">
       <name>ImageIO PNG2TIF</name>
-      <description>PNG to TIF converted using ImageIO</description>
+      <description>PNG to TIF conversion using ImageIO</description>
       <externalInfo>
       </externalInfo>
       <sourceFormats>
           <format>
             <puid></puid>
             <name></name>
-            <extension>PNG</extension>
+            <extension>png</extension>
          </format>  
        </sourceFormats>
       <targetFormat>
           <puid>fmt/9</puid>
-          <name>Tiff</name>
+          <name>tiff</name>
           <extension>tif</extension>
       </targetFormat>
       <url>http://localhost:8181/minimee/png2tiff-JavaImageIO</url>
    </preservationActionService> 
 
+   <preservationActionService type="migration">
+      <name>ImageIO PNG2JPG</name>
+      <description>Conversion from PNG to JPG using JavaImageIO</description>
+      <externalInfo>
+      </externalInfo>
+      <sourceFormats>
+          <format>
+            <puid></puid>
+            <name></name>
+            <extension>png</extension>
+         </format>  
+       </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name>jpeg</name>
+          <extension>jpg</extension>
+      </targetFormat>
+      <url>http://localhost:8181/minimee/png2jpg-JavaImageIO</url>
+   </preservationActionService> 
+
 	<preservationActionService type="migration">
 		<name>GIFtoPNG (JavaImageIO)</name>
-		<description>Migration of GIF to PNG with Java Image IO
+		<description>Conversion from GIF to PNG with JavaImageIO
 		</description>
 		<externalInfo>
-			<url>http://www.imagemagick.org/</url>
-			<url>http://filext.com/file-extension/Png
-			</url>
+			<url>http://filext.com/file-extension/Png</url>
 		</externalInfo>
 		<sourceFormats>
 			<format>
 				<puid></puid>
 				<name></name>
-				<extension>GIF</extension>
+				<extension>gif</extension>
 			</format>
 		</sourceFormats>
 		<targetFormat>
 			<puid>fmt/12</puid>
 			<name></name>
-			<extension>PNG</extension>
+			<extension>png</extension>
 		</targetFormat>
-		<url>http://olymp.ifs.tuwien.ac.at:8181/minimee/gifToPNG-JavaImageIO
+		<url>http://olymp.ifs.tuwien.ac.at:8181/minimee/gif2png-JavaImageIO
 		</url>
 	</preservationActionService>
-	
+
    <preservationActionService type="migration">
       <name>GIFtoJPG (JavaImageIO)</name>
-      <description>Migration of GIF to PNG with Java Image IO
+      <description>Conversion from GIF to JPG with JavaImageIO
       <descriptor type="PCDL">ImageIO</descriptor>
       </description>
       <externalInfo>
-         <url>http://filext.com/file-extension/Png
-         </url>
       </externalInfo>
       <sourceFormats>
          <format>
             <puid></puid>
             <name></name>
-            <extension>GIF</extension>
+            <extension>gif</extension>
          </format>
       </sourceFormats>
       <targetFormat>
          <puid>fmt/43</puid>
          <name></name>
-         <extension>JPG</extension>
+         <extension>jpg</extension>
       </targetFormat>
-      <url>http://olymp.ifs.tuwien.ac.at:8181/minimee/gifToJPG-JavaImageIO
+      <url>http://olymp.ifs.tuwien.ac.at:8181/minimee/gif2jpg-JavaImageIO
       </url>
    </preservationActionService>
 
 	<preservationActionService type="migration">
 		<name>JPGtoPNG (JavaImageIO)</name>
-		<description>Migration of JPG to PNG with Java Image IO
+		<description>Conversion from JPG to PNG with JavaImageIO
 		</description>
 		<externalInfo>
-			<url>http://www.imagemagick.org/</url>
-			<url>http://filext.com/file-extension/Png
-			</url>
+			<url>http://filext.com/file-extension/Png</url>
 		</externalInfo>
 		<sourceFormats>
 			<format>
 				<puid>fmt/43</puid>
 				<name></name>
-				<extension>JPG</extension>
+				<extension>jpg</extension>
 			</format>
 		</sourceFormats>
 		<targetFormat>
 			<puid>fmt/12</puid>
 			<name>Portable Network Graphics</name>
-			<extension>PNG</extension>
+			<extension>png</extension>
 		</targetFormat>
 		<url>http://olymp.ifs.tuwien.ac.at:8181/minimee/jpg2png-JavaImageIO</url>
 	</preservationActionService>
-	<!--
-   - GIF
--->
+
+
+	<preservationActionService type="migration">
+		<name>JPG to Tiff (JavaImageIO)</name>
+		<description>Conversion from JPG to Tiff with JavaImageIO
+		</description>
+		<externalInfo>
+		</externalInfo>
+		<sourceFormats>
+			<format>
+				<puid>fmt/43</puid>
+				<name></name>
+				<extension>jpg</extension>
+			</format>
+		</sourceFormats>
+		<targetFormat>
+			<puid></puid>
+			<name>Tiff</name>
+			<extension>tif</extension>
+		</targetFormat>
+		<url>http://olymp.ifs.tuwien.ac.at:8181/minimee/jpg2tiff-JavaImageIO</url>
+	</preservationActionService>
+
+	<preservationActionService type="migration">
+		<name>JPG to Bmp (JavaImageIO)</name>
+		<description>Conversion from JPG to Bmp with JavaImageIO
+		</description>
+		<externalInfo>
+		</externalInfo>
+		<sourceFormats>
+			<format>
+				<puid>fmt/43</puid>
+				<name></name>
+				<extension>jpg</extension>
+			</format>
+		</sourceFormats>
+		<targetFormat>
+			<puid></puid>
+			<name>BMP</name>
+			<extension>bmp</extension>
+		</targetFormat>
+		<url>http://olymp.ifs.tuwien.ac.at:8181/minimee/jpg2bmp-JavaImageIO</url>
+	</preservationActionService>
+	<preservationActionService type="migration">
+		<name>JPG to greyscale JPG (JavaImageIO)</name>
+		<description>Conversion from JPG to greyscale JPG with JavaImageIO
+		</description>
+		<externalInfo>
+		</externalInfo>
+		<sourceFormats>
+			<format>
+				<puid>fmt/43</puid>
+				<name></name>
+				<extension>jpg</extension>
+			</format>
+		</sourceFormats>
+		<targetFormat>
+			<puid></puid>
+			<name>JPG</name>
+			<extension>jpg</extension>
+		</targetFormat>
+		<url>http://olymp.ifs.tuwien.ac.at:8181/minimee/jpg2greyscalejpg-JavaImageIO</url>
+	</preservationActionService>
+
 
 </preservationActionServices>

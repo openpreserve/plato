@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,9 @@ public class CharacterisationReportGenerator {
     }
 
     private void appendFITSReport(final DigitalObject object, final Writer writer) throws TransformerException, UnsupportedEncodingException {
+        if (StringUtils.isEmpty(object.getFitsXMLString())) {
+            return;
+        }
         generateReportFromXML(new StringReader(object.getFitsXMLString()), new InputStreamReader(Thread.currentThread()
             .getContextClassLoader().getResourceAsStream("fits/fits-to-html.xsl"), "UTF8"), writer);
     }

@@ -141,7 +141,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     public void init() {
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
         sshConfig = configurationLoader.load(CONFIG_NAME);
-        commandTimeout = sshConfig.getInt("command.timeout");
+        commandTimeout = sshConfig.getInt("tavernaserver.ssh.command.timeout");
 
         clear();
     }

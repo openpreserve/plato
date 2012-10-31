@@ -103,7 +103,11 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
 
     @Override
     protected void saveStepSpecific() {
-        super.saveEntity(plan);
+        defineAlternatives.save();
+        runExperiments.save();
+        evaluateExperiments.save();
+        
+        //super.saveEntity(plan);
     }
 
     /**
