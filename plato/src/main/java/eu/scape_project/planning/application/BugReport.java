@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
@@ -31,110 +32,219 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.utils.ConfigurationLoader;
+
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.model.User;
-
+/**
+ * Sends a bug report.
+ */
 @RequestScoped
 public class BugReport implements Serializable {
     private static final long serialVersionUID = -2769514045862394110L;
 
-    @Inject
-    Messages messages;
+    /**
+     * Name of the configuration.
+     */
+    private static final String CONFIG_NAME = "mail.properties";
+
+    private static final String SEPARATOR_LINE = "-------------------------------------------\n";
+
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     @Inject
     private Logger log;
 
     @Inject
-    User user;
+    private User user;
+
+    @Inject
+    private Messages messages;
+
+    @Inject
+    private ConfigurationLoader configurationLoader;
+
+    private Configuration config;
 
     /**
-     * Method responsible for adding an error-message to the messages list.
-     * 
-     * @param errorType
-     * @param errorMessage
-     * @param sessionId
-     * @param userName
-     * @param currentPage
-     * @param plan
+     * Initialises the class.
      */
-    public void addExeptionToMessages(String errorType, String errorMessage, String sessionId, String userName,
-        String currentPage) {
-        ErrorMessage em = new ErrorMessage(errorType, errorMessage, sessionId, userName, currentPage, null);
-        messages.addErrorMessage(em);
-        log.debug("Added Error to Messages array: " + errorType);
+    @PostConstruct
+    public void init() {
+        config = configurationLoader.load(CONFIG_NAME);
     }
 
     /**
      * Method responsible for sending a bug report per mail.
      * 
-     * @param exception
-     *            Exception causing the bug/error.
-     * @param userDescription
-     *            Error description given by the user.
      * @param userEmail
-     *            Email of the user.
-     * @param host
-     *            Host-name of the machine where error occurred.
-     * @return True if bug report was sent with success, false otherwise.
+     *            email address of the user.
+     * @param errorDescription
+     *            error description given by the user.
+     * @param exception
+     *            the exception causing the bug/error.
+     * @param location
+     *            the location of the application where the error occurred
+     * @throws MailException
+     *             if the bug report could not be sent
      */
-    public boolean sendBugReport(Throwable exception, String userDescription, String userEmail, String host) {
-        // EMail settings
-        // FIXME
-        final String toEmail = "plato@ifs.tuwien.ac.at";
-        final String fromEmail = "plato@ifs.tuwien.ac.at";
-        final String smtpServer = "mr.tuwien.ac.at";
+    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String location)
+        throws MailException {
+        sendBugReport(userEmail, errorDescription, exception, location, "PlanningSuite", null);
+    }
 
-        // helper constants
-        final String separatorLine = "\n-------------------------------------------\n";
+    /**
+     * Method responsible for sending a bug report per mail.
+     * 
+     * @param userEmail
+     *            email address of the user.
+     * @param errorDescription
+     *            error description given by the user.
+     * @param exception
+     *            the exception causing the bug/error.
+     * @param location
+     *            the location of the application where the error occurred
+     * @param applicationName
+     *            application name
+     * @throws MailException
+     *             if the bug report could not be sent
+     */
+    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String location,
+        String applicationName) throws MailException {
+        sendBugReport(userEmail, errorDescription, exception, location, applicationName, null);
+    }
+
+    /**
+     * Method responsible for sending a bug report per mail.
+     * 
+     * @param userEmail
+     *            email address of the user.
+     * @param errorDescription
+     *            error description given by the user.
+     * @param exception
+     *            the exception causing the bug/error.
+     * @param location
+     *            the location of the application where the error occurred
+     * @param applicationName
+     *            application name
+     * @param plan
+     *            the plan where the exception occurred
+     * @throws MailException
+     *             if the bug report could not be sent
+     */
+    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String location,
+        String applicationName, Plan plan) throws MailException {
 
         try {
             Properties props = System.getProperties();
 
-            Properties mailProps = new Properties();
-            mailProps.put("TO", toEmail);
-            mailProps.put("FROM", fromEmail);
-            mailProps.put("SMTPSERVER", smtpServer);
-
-            props.put("mail.smtp.host", mailProps.getProperty("SMTPSERVER"));
+            props.put("mail.smtp.host", config.getString("mail.smtp.host"));
             Session session = Session.getDefaultInstance(props, null);
 
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProps.getProperty("FROM")));
-            message.setRecipient(RecipientType.TO, new InternetAddress(mailProps.getProperty("TO")));
+            message.setFrom(new InternetAddress(config.getString("mail.from")));
+            message.setRecipient(RecipientType.TO, new InternetAddress(config.getString("mail.feedback")));
 
-            String exceptionType = "";
-            String exceptionMessage = "";
-            String exceptionStackTrace = "";
+            message.setSubject("[" + applicationName + "] " + " from " + location);
 
-            if (exception != null) {
-                exceptionType = exception.getClass().getCanonicalName();
-                exceptionMessage = exception.getMessage();
-                StringWriter writer = new StringWriter();
-                exception.printStackTrace(new PrintWriter(writer));
-                exceptionStackTrace = writer.toString();
+            StringBuilder builder = new StringBuilder();
+            // Date
+            builder.append("Date: ").append(DATE_FORMAT.format(new Date())).append("\n\n");
+
+            // User info
+            if (user == null) {
+                builder.append("No user available.\n\n");
+            } else {
+                builder.append("User: ").append(user.getUsername()).append("\n");
+                if (user.getUserGroup() != null) {
+                    builder.append("Group: ").append(user.getUserGroup().getName()).append("\n");
+                }
+            }
+            builder.append("UserMail: ").append(userEmail).append("\n\n");
+
+            // Plan
+            if (plan == null) {
+                builder.append("No plan available.").append("\n\n");
+            } else {
+                builder.append("Plan type: ").append(plan.getPlanProperties().getPlanType()).append("\n");
+                builder.append("Plan ID: ").append(plan.getPlanProperties().getId()).append("\n");
+                builder.append("Plan name: ").append(plan.getPlanProperties().getName()).append("\n\n");
             }
 
-            message.setSubject("[PlatoError] " + exceptionType + " at " + host);
-            StringBuilder builder = new StringBuilder();
-            builder.append("Date: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()) + "\n");
-            builder.append("User: " + ((user == null) ? "Unknown" : user.getUsername()) + "\n");
-            builder.append("ExceptionType: " + exceptionType + "\n");
-            builder.append("ExceptionMessage: " + exceptionMessage + "\n\n");
-            builder.append("UserMail:" + separatorLine + userEmail + separatorLine + "\n");
-            builder.append("User Description:" + separatorLine + userDescription + separatorLine + "\n");
-            builder.append(exceptionStackTrace);
+            // Description
+            builder.append("Description:\n");
+            builder.append(SEPARATOR_LINE);
+            builder.append(errorDescription).append("\n");
+            builder.append(SEPARATOR_LINE).append("\n");
+
+            // Exception
+            if (exception == null) {
+                builder.append("No exception available.").append("\n");
+            } else {
+                builder.append("Exception type: ").append(exception.getClass().getCanonicalName()).append("\n");
+                builder.append("Exception message: ").append(exception.getMessage()).append("\n");
+
+                StringWriter writer = new StringWriter();
+                exception.printStackTrace(new PrintWriter(writer));
+
+                builder.append("Stacktrace:\n");
+                builder.append(SEPARATOR_LINE);
+                builder.append(writer.toString());
+                builder.append(SEPARATOR_LINE);
+            }
+
             message.setText(builder.toString());
             message.saveChanges();
 
             Transport.send(message);
-            log.debug("Bugreport mail sent successfully to " + toEmail);
-
-            return true;
+            log.debug("Bug report mail sent successfully to {}", config.getString("mail.feedback"));
         } catch (Exception e) {
-            log.debug("Error at sending bugreport mail to " + toEmail);
-            return false;
+            log.error("Error sending bug report mail to {}", config.getString("mail.feedback"), e);
+            throw new MailException("Error sending bug report mail to " + config.getString("mail.feedback"), e);
         }
     }
 
+    /**
+     * Adds the provided throwable and session information to the messages list.
+     * 
+     * @param throwable
+     *            the throwable
+     * @param sessionId
+     *            the current session ID
+     * @param currentPage
+     *            the current page
+     */
+    public void addExeptionToMessages(Throwable throwable, String sessionId, String currentPage) {
+        addExeptionToMessages(throwable, sessionId, currentPage, null);
+    }
+
+    /**
+     * Adds the provided throwable and session information to the messages list.
+     * 
+     * @param throwable
+     *            the throwable
+     * @param sessionId
+     *            the current session ID
+     * @param currentPage
+     *            the current page
+     * @param currentPlan
+     *            the current plan
+     */
+    public void addExeptionToMessages(Throwable throwable, String sessionId, String currentPage, Plan currentPlan) {
+
+        String username = null;
+        if (user != null) {
+            username = user.getUsername();
+        } else {
+            username = "";
+        }
+
+        ErrorMessage em = new ErrorMessage(throwable.getClass().getCanonicalName(), throwable.getMessage(), sessionId,
+            username, currentPage, currentPlan);
+        messages.addErrorMessage(em);
+        log.debug("Added Error to Messages array: " + throwable.getClass().getCanonicalName());
+    }
 }
