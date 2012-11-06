@@ -29,6 +29,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -72,9 +73,6 @@ public class Groups implements Serializable {
     @Inject
     private ConfigurationLoader configurationLoader;
 
-    /**
-     * Properties for sending mails.
-     */
     private Configuration config;
 
     /**
@@ -349,7 +347,7 @@ public class Groups implements Serializable {
             Transport.send(message);
             log.debug("Group invitation mail sent successfully to " + invitation.getEmail());
 
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             log.error("Error sending group invitation mail to " + invitation.getEmail(), e);
             throw new InvitationMailException(e);
         }

@@ -21,75 +21,109 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.utils.ConfigurationLoader;
+
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.model.User;
-
+/**
+ * Sends feedback from the user.
+ */
 @RequestScoped
 public class Feedback implements Serializable {
-	private static final long serialVersionUID = 2140517067442736238L;
+    private static final long serialVersionUID = 2140517067442736238L;
 
-	@Inject private Logger log;
-	
-	@Inject User user;
+    private static final String SEPARATOR_LINE = "-------------------------------------------\n";
 
-	/**
-	 * Method responsible for sending feedback per mail.
-	 * 
-	 * @param userEmail Email of the user.
-	 * @param userComments Textual feedback of the user.
-	 * @param host Host-name of the machine where error occurred.
-	 * @return True if bug report was sent with success, false otherwise.
-	 */
-	public boolean sendFeedback(String userEmail, String userComments, String host) {
-		// EMail settings
-		// FIXME
-		final String toEmail = "plato@ifs.tuwien.ac.at";
-		final String fromEmail = "plato@ifs.tuwien.ac.at";
-		final String smtpServer = "mr.tuwien.ac.at";
-		
-		// helper constants
-		final String separatorLine = "\n-------------------------------------------\n";
-				
+    /**
+     * Name of the configuration.
+     */
+    private static final String CONFIG_NAME = "mail.properties";
+
+    @Inject
+    private Logger log;
+
+    @Inject
+    private User user;
+
+    @Inject
+    private ConfigurationLoader configurationLoader;
+
+    private Configuration config;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+    /**
+     * Initialises the class.
+     */
+    @PostConstruct
+    public void init() {
+        config = configurationLoader.load(CONFIG_NAME);
+    }
+
+    /**
+     * Method responsible for sending feedback per mail.
+     * 
+     * @param userEmail
+     *            Email of the user.
+     * @param userComments
+     *            Textual feedback of the user.
+     * @param host
+     *            Host-name of the machine where error occurred.
+     * @throws MailException
+     *             if the feedback could not be sent
+     */
+    public void sendFeedback(String userEmail, String userComments, String host) throws MailException {
+
         try {
             Properties props = System.getProperties();
-            
-            Properties mailProps = new Properties();
-            mailProps.put("TO", toEmail);
-            mailProps.put("FROM", fromEmail);
-            mailProps.put("SMTPSERVER", smtpServer);
-            
-            props.put("mail.smtp.host", mailProps.getProperty("SMTPSERVER"));
+
+            props.put("mail.smtp.host", config.getString("mail.smtp.host"));
             Session session = Session.getDefaultInstance(props, null);
-            
+
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mailProps.getProperty("FROM")));
-            message.setRecipient(RecipientType.TO, new InternetAddress(mailProps.getProperty("TO")));
-            
-            message.setSubject("[PlatoFeedback] " + " from " + host);
+            message.setFrom(new InternetAddress(config.getString("mail.from")));
+            message.setRecipient(RecipientType.TO, new InternetAddress(config.getString("mail.feedback")));
+
+            message.setSubject("[PlanningSuite] " + " from " + host);
+
             StringBuilder builder = new StringBuilder();
-            builder.append("Date: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()) + "\n");
-            builder.append("User: " + ((user==null)? "Unknown" : user.getUsername()) + "\n" + "\n");
-            builder.append("UserMail:" + separatorLine + userEmail + separatorLine + "\n");
-            builder.append("Comments:" + separatorLine + userComments + separatorLine + "\n");
+            builder.append("Date: ").append(dateFormat.format(new Date())).append("\n");
+
+            if (user == null) {
+                builder.append("User: unknown\n\n");
+            } else {
+                builder.append("User: ").append(user.getUsername()).append("\n");
+                if (user.getUserGroup() != null) {
+                    builder.append("Group: ").append(user.getUserGroup().getName()).append("\n");
+                }
+            }
+
+            builder.append("UserMail: ").append(userEmail).append("\n\n");
+            builder.append("Comments:\n");
+            builder.append(SEPARATOR_LINE);
+            builder.append(userComments).append("\n");
+            builder.append(SEPARATOR_LINE);
             message.setText(builder.toString());
             message.saveChanges();
-            
+
             Transport.send(message);
-            log.debug("Feedback mail sent successfully to " + toEmail);
-            
-            return true;
-        } catch (Exception e) {
-            log.debug("Error at sending feedback mail to " + toEmail);
-            return false;
+
+            log.debug("Feedback mail sent successfully to {}", config.getString("mail.feedback"));
+        } catch (MessagingException e) {
+            log.error("Error sending feedback mail to {}", config.getString("mail.feedback"), e);
+            throw new MailException("Error sending feedback mail to " + config.getString("mail.feedback"), e);
         }
-    }	
+    }
 }
