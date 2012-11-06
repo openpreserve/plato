@@ -25,11 +25,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.FacesMessages;
 
+import org.slf4j.Logger;
+
+/**
+ * View bean for feedback.
+ */
 @ManagedBean(name = "feedback")
 @ViewScoped
 public class FeedbackView implements Serializable {
@@ -51,9 +54,11 @@ public class FeedbackView implements Serializable {
 
     private String userComments;
 
+    /**
+     * Initialises the class.
+     */
     @PostConstruct
-    public void setEmail() {
-        // Prefill email
+    public void init() {
         userEmail = user.getEmail();
     }
 
@@ -61,24 +66,18 @@ public class FeedbackView implements Serializable {
      * Method responsible for sending user feedback per mail.
      */
     public void sendFeedback() {
-        String host = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+        String location = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
             .getLocalName();
+        location += ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+            .getContextPath();
 
-        boolean success = feedback.sendFeedback(userEmail, userComments, host);
-
-        if (success) {
+        try {
+            feedback.sendFeedback(userEmail, userComments, location, "KBrowser");
             log.debug("Feedback sent from user " + user.getUsername() + " with email " + userEmail);
-            facesMessages.addInfo("sendFeedback", "Thank you! Your feedback has been sent.");
-        } else {
-            log.warn("Error sending feedback from user " + user.getUsername() + " with email " + userEmail);
-            facesMessages
-                .addError(
-                    "sendFeedback",
-                    "Feedback couldn't be sent."
-                        + "Because of an internal error your feedback couldn't be sent. We apologise for this and hope you are willing to inform us about this so we can fix the problem. "
-                        + "Please send an email to plato@ifs.tuwien.ac.at with a "
-                        + "description of what you have been doing at the time of the error." + "Thank you very much!");
-
+            facesMessages.addInfo("Thank you! Your feedback has been sent.");
+        } catch (MailException e) {
+            log.error("Error sending feedback from user " + user.getUsername() + " with email " + userEmail);
+            facesMessages.addError("Sorry, there was an error sending your feedback.");
         }
     }
 

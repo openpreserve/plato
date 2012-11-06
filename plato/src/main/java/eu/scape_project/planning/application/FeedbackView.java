@@ -66,11 +66,13 @@ public class FeedbackView implements Serializable {
      * Method responsible for sending user feedback per mail.
      */
     public void sendFeedback() {
-        String host = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+        String location = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
             .getLocalName();
+        location += ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+            .getContextPath();
 
         try {
-            feedback.sendFeedback(userEmail, userComments, host);
+            feedback.sendFeedback(userEmail, userComments, location, "Plato");
             log.debug("Feedback sent from user " + user.getUsername() + " with email " + userEmail);
             facesMessages.addInfo("Thank you! Your feedback has been sent.");
         } catch (MailException e) {

@@ -76,15 +76,34 @@ public class Feedback implements Serializable {
      * Method responsible for sending feedback per mail.
      * 
      * @param userEmail
-     *            Email of the user.
+     *            email address of the user.
      * @param userComments
-     *            Textual feedback of the user.
-     * @param host
-     *            Host-name of the machine where error occurred.
+     *            comments from the user
+     * @param location
+     *            the location of the application where the error occurred
      * @throws MailException
      *             if the feedback could not be sent
      */
-    public void sendFeedback(String userEmail, String userComments, String host) throws MailException {
+    public void sendFeedback(String userEmail, String userComments, String location) throws MailException {
+        sendFeedback(userEmail, userComments, location, "PlanningSuite");
+    }
+
+    /**
+     * Method responsible for sending feedback per mail.
+     * 
+     * @param userEmail
+     *            email address of the user.
+     * @param userComments
+     *            comments from the user
+     * @param location
+     *            the location of the application where the error occurred
+     * @param applicationName
+     *            the name of the application
+     * @throws MailException
+     *             if the feedback could not be sent
+     */
+    public void sendFeedback(String userEmail, String userComments, String location, String applicationName)
+        throws MailException {
 
         try {
             Properties props = System.getProperties();
@@ -96,25 +115,27 @@ public class Feedback implements Serializable {
             message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(config.getString("mail.feedback")));
 
-            message.setSubject("[PlanningSuite] " + " from " + host);
+            message.setSubject("[" + applicationName + "] " + " from " + location);
 
             StringBuilder builder = new StringBuilder();
-            builder.append("Date: ").append(dateFormat.format(new Date())).append("\n");
+            builder.append("Date: ").append(dateFormat.format(new Date())).append("\n\n");
 
+            // User info
             if (user == null) {
-                builder.append("User: unknown\n\n");
+                builder.append("No user available.\n\n");
             } else {
                 builder.append("User: ").append(user.getUsername()).append("\n");
                 if (user.getUserGroup() != null) {
                     builder.append("Group: ").append(user.getUserGroup().getName()).append("\n");
                 }
             }
-
             builder.append("UserMail: ").append(userEmail).append("\n\n");
+
+            // Comments
             builder.append("Comments:\n");
             builder.append(SEPARATOR_LINE);
             builder.append(userComments).append("\n");
-            builder.append(SEPARATOR_LINE);
+            builder.append(SEPARATOR_LINE).append("\n");
             message.setText(builder.toString());
             message.saveChanges();
 
