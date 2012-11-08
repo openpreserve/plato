@@ -27,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -201,7 +202,7 @@ public class BugReport implements Serializable {
 
             Transport.send(message);
             log.debug("Bug report mail sent successfully to {}", config.getString("mail.feedback"));
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             log.error("Error sending bug report mail to {}", config.getString("mail.feedback"), e);
             throw new MailException("Error sending bug report mail to " + config.getString("mail.feedback"), e);
         }

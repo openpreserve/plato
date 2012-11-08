@@ -131,7 +131,7 @@ public class BugReportView implements Serializable {
                 .addInfo("Bugreport sent. Thank you for your feedback. We will try to analyse and resolve the issue as soon as possible.");
         } catch (MailException e) {
             log.error("Error sending bugreport from user " + user.getUsername() + " with email " + userEmail);
-            facesMessages.addError("Sorry, there was an error sending your feedback.");
+            facesMessages.addError("Sorry, there was an error sending your report.");
         }
     }
 

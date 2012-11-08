@@ -25,11 +25,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.FacesMessages;
 
+import org.slf4j.Logger;
+
+/**
+ * View bean for bug report.
+ */
 @ManagedBean(name = "bugReport")
 @ViewScoped
 public class BugReportView implements Serializable {
@@ -39,13 +42,13 @@ public class BugReportView implements Serializable {
     private Logger log;
 
     @Inject
-    BugReport bugReport;
+    private BugReport bugReport;
 
     @Inject
     private User user;
 
-    // Does not work because conversation is not propagated
-    // @Inject @LoadedPlan Plan plan;
+    @Inject
+    private FacesMessages facesMessages;
 
     private Throwable exception;
 
@@ -55,16 +58,8 @@ public class BugReportView implements Serializable {
 
     private String userDescription;
 
-    @Inject
-    private FacesMessages facesMessages;
-
-    public BugReportView() {
-        exception = null;
-    }
-
     /**
-     * Method called each time after the bean is created. This bean is generated
-     * based on the JSF2 ViewState scope.
+     * Initialises the class.
      */
     @PostConstruct
     public void init() {
@@ -86,14 +81,12 @@ public class BugReportView implements Serializable {
     }
 
     /**
-     * Method reponsible for adding a exception to the Plato messages array.
+     * Method responsible for adding a throwable to the Plato messages.
      * 
-     * @param e
-     *            Exception to add.
+     * @param t
+     *            Throwable to add.
      */
-    private void addExceptionToMessages(Throwable e) {
-        String errorType = e.getClass().getCanonicalName();
-        String errorMessage = e.getMessage();
+    private void addExceptionToMessages(Throwable t) {
         String sessionId = "";
         try {
             sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
@@ -102,10 +95,9 @@ public class BugReportView implements Serializable {
             log.debug("Unable to retrieve session-id");
         }
 
-        String userName = (user == null) ? "Unknown" : user.getUsername();
         String currentPage = exceptionPage;
 
-        bugReport.addExeptionToMessages(errorType, errorMessage, sessionId, userName, currentPage);
+        bugReport.addExeptionToMessages(t, sessionId, currentPage);
     }
 
     /**
@@ -113,25 +105,20 @@ public class BugReportView implements Serializable {
      * reported error.
      */
     public void sendBugReport() {
-        String host = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+        String location = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
             .getLocalName();
+        location += ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
+            .getContextPath();
 
-        boolean success = bugReport.sendBugReport(exception, userDescription, userEmail, host);
+        try {
+            bugReport.sendBugReport(userEmail, userDescription, exception, location, "KBrowser");
 
-        if (success) {
             log.debug("Bugreport sent from user " + user.getUsername() + " with email " + userEmail);
             facesMessages
-                .addInfo("sendBugReport",
-                    "Bugreport sent. Thank you for your feedback. We will try to analyse and resolve the issue as soon as possible.");
-        } else {
+                .addInfo("Bugreport sent. Thank you for your feedback. We will try to analyse and resolve the issue as soon as possible.");
+        } catch (MailException e) {
             log.error("Error sending bugreport from user " + user.getUsername() + " with email " + userEmail);
-            facesMessages
-                .addError(
-                    "sendBugReport",
-                    "Bugreport couldn't be sent."
-                        + "Because of an internal error your bug report couldn't be sent. We apologise for this and hope you are willing to inform us about this so we can fix the problem. "
-                        + "Please send an email to plato@ifs.tuwien.ac.at with a "
-                        + "description of what you have been doing at the time of the error." + "Thank you very much!");
+            facesMessages.addError("Sorry, there was an error sending your report.");
         }
     }
 
