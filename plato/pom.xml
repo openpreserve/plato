@@ -206,6 +206,12 @@
 			<artifactId>log4j</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 		<!-- RODA-Client dependencies -->
 		<dependency>
 			<groupId>pt.gov.dgarq.roda</groupId>

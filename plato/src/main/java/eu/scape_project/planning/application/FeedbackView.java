@@ -42,10 +42,10 @@ public class FeedbackView implements Serializable {
     private Logger log;
 
     @Inject
-    private Feedback feedback;
+    private FacesMessages facesMessages;
 
     @Inject
-    private FacesMessages facesMessages;
+    private Feedback feedback;
 
     @Inject
     private User user;

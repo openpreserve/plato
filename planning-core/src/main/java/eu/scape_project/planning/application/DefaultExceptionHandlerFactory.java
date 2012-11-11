@@ -19,17 +19,26 @@ package eu.scape_project.planning.application;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerFactory;
 
+/**
+ * Factory for ExceptionHandler specified in faces-config.
+ */
 public class DefaultExceptionHandlerFactory extends ExceptionHandlerFactory {
-	
-	private ExceptionHandlerFactory parent;
-	
-	public DefaultExceptionHandlerFactory(ExceptionHandlerFactory parent) {
-		this.parent = parent;
-	}
-	
-	@Override
-	public ExceptionHandler getExceptionHandler() {
-		ExceptionHandler eh = new DefaultExceptionHandler(parent.getExceptionHandler());
-		return eh;
-	}
+
+    private ExceptionHandlerFactory parent;
+
+    /**
+     * Constructs an exception handler factory for the provided parent.
+     * 
+     * @param parent
+     *            the parent
+     */
+    public DefaultExceptionHandlerFactory(ExceptionHandlerFactory parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public ExceptionHandler getExceptionHandler() {
+        ExceptionHandler eh = new DefaultExceptionHandler(parent.getExceptionHandler());
+        return eh;
+    }
 }

@@ -106,6 +106,8 @@ public class BugReport implements Serializable {
      *            error description given by the user.
      * @param exception
      *            the exception causing the bug/error.
+     * @param requestUri
+     *            request URI where the error occurred
      * @param location
      *            the location of the application where the error occurred
      * @param applicationName
@@ -113,9 +115,9 @@ public class BugReport implements Serializable {
      * @throws MailException
      *             if the bug report could not be sent
      */
-    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String location,
-        String applicationName) throws MailException {
-        sendBugReport(userEmail, errorDescription, exception, location, applicationName, null);
+    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String requestUri,
+        String location, String applicationName) throws MailException {
+        sendBugReport(userEmail, errorDescription, exception, requestUri, location, applicationName, null);
     }
 
     /**
@@ -127,6 +129,8 @@ public class BugReport implements Serializable {
      *            error description given by the user.
      * @param exception
      *            the exception causing the bug/error.
+     * @param requestUri
+     *            request URI where the error occurred
      * @param location
      *            the location of the application where the error occurred
      * @param applicationName
@@ -136,8 +140,8 @@ public class BugReport implements Serializable {
      * @throws MailException
      *             if the bug report could not be sent
      */
-    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String location,
-        String applicationName, Plan plan) throws MailException {
+    public void sendBugReport(String userEmail, String errorDescription, Throwable exception, String requestUri,
+        String location, String applicationName, Plan plan) throws MailException {
 
         try {
             Properties props = System.getProperties();
@@ -149,7 +153,7 @@ public class BugReport implements Serializable {
             message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(config.getString("mail.feedback")));
 
-            message.setSubject("[" + applicationName + "] " + " from " + location);
+            message.setSubject("[" + applicationName + "] from " + location);
 
             StringBuilder builder = new StringBuilder();
             // Date
@@ -180,6 +184,9 @@ public class BugReport implements Serializable {
             builder.append(SEPARATOR_LINE);
             builder.append(errorDescription).append("\n");
             builder.append(SEPARATOR_LINE).append("\n");
+
+            // Request URI
+            builder.append("Request URI: ").append(requestUri).append("\n\n");
 
             // Exception
             if (exception == null) {

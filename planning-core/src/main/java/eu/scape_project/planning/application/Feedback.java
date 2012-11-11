@@ -115,7 +115,7 @@ public class Feedback implements Serializable {
             message.setFrom(new InternetAddress(config.getString("mail.from")));
             message.setRecipient(RecipientType.TO, new InternetAddress(config.getString("mail.feedback")));
 
-            message.setSubject("[" + applicationName + "] " + " from " + location);
+            message.setSubject("[" + applicationName + "] from " + location);
 
             StringBuilder builder = new StringBuilder();
             builder.append("Date: ").append(dateFormat.format(new Date())).append("\n\n");

@@ -94,34 +94,6 @@
 
 		<c:if test="#{!viewWorkflowManager.active}">
 			<rich:toolbar width="100%" height="30px" itemSeparator="grid">
-				<ui:remove>
-					<!--
-        	<rich:toolbarGroup>
-	            <rich:dropDownMenu mode="ajax">
-	                <f:facet name="label"> 
-	                    <h:panelGroup>
-	                        <h:outputText value="Plan"/>
-	                    </h:panelGroup>
-	                </f:facet>
-	                
-                    <rich:menuItem submitMode="client">
-                        <h:commandLink value="List my plans" action="#{planLister.listMyProjects}" />
-                    </rich:menuItem>
-                    <rich:menuItem submitMode="client">
-                        <h:commandLink value="List public plans" action="#{planLister.listPublicProjects()}" />
-                    </rich:menuItem>
-                    <rich:menuItem submitMode="client">
-                        <h:commandLink value="List all plans" action="#{planLister.listAllProjects()}" />
-                    </rich:menuItem>
-	                <rich:menuSeparator />
-                    <rich:menuItem submitMode="client">
-                        <h:commandLink value="New plan" action="#{createPlan.createPlan}" />
-                    </rich:menuItem>
-	            </rich:dropDownMenu>
-	           </rich:toolbarGroup>
-	           -->
-				</ui:remove>
-
 				<rich:toolbarGroup location="right">
 					<rich:dropDownMenu mode="ajax">
 						<f:facet name="label">
@@ -140,7 +112,6 @@
 						</rich:menuItem>
 					</rich:dropDownMenu>
 				</rich:toolbarGroup>
-
 			</rich:toolbar>
 		</c:if>
 

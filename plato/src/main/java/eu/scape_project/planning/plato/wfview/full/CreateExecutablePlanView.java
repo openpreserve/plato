@@ -91,7 +91,6 @@ public class CreateExecutablePlanView extends AbstractView {
      * Returns the list of objects specified in the collection profile.
      */
     public void loadCollectionProfileElements() {
-
         DigitalObject profile = plan.getSampleRecordsDefinition().getCollectionProfile().getProfile();
         if (profile != null && profile.isDataExistent()) {
             try {
@@ -101,7 +100,7 @@ public class CreateExecutablePlanView extends AbstractView {
                 parser.read(new ByteArrayInputStream(datafilledProfile.getData().getRealByteStream().getData()), false);
 
                 collectionProfileElements = parser.getObjectIdentifiers();
-                
+
                 parser = null;
                 datafilledProfile = null;
             } catch (StorageException e) {
@@ -172,12 +171,11 @@ public class CreateExecutablePlanView extends AbstractView {
 
         try {
             createExecutablePlan.generatePreservationActionPlan();
+            facesMessages.addInfo("Preservation actino plan generated.");
         } catch (PlanningException e) {
             log.warn("An error occured while generating the preservation action plan: {}", e.getMessage());
             facesMessages.addError("An error occured while generating the preservation ation plan: " + e.getMessage());
         }
-
-        facesMessages.addInfo("Preservation actino plan generated.");
     }
 
     /**

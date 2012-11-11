@@ -50,9 +50,6 @@ public class GroupsView implements Serializable {
     private User user;
     private String inviteMailsString = "";
 
-    public GroupsView() {
-    }
-
     /**
      * Initializes the view and returns the navigation path.
      * 

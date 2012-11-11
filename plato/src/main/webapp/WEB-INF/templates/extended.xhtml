@@ -1,18 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
-<h:head>
-	<title>The SCAPE Planning Suite</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<h:outputStylesheet name="css/screen.css" />
-	<h:outputStylesheet name="css/menu.css" />
-	<h:outputStylesheet name="css/content-treetable.css" />
-	<script type="text/javascript">
+
+	<ui:define name="scripts">
+		<script type="text/javascript">
 	  function getChangedflagInputs() {
 	      var changedflags = new Array();
 	      var forms = document.getElementsByTagName("form");
@@ -53,29 +53,14 @@
 	      return true;
 	  }
 	</script>
-	<ui:insert name="scripts"></ui:insert>
-</h:head>
-<h:body>
-	<div id="main-div">
-		<div id="header">
-			<div id="bear">
-				<a href="#{request.contextPath}/"> <img
-					src="#{request.contextPath}/resources/gfx/plato-logo.png" alt=""
-					height="60px" />
-				</a>
-			</div>
-			<div id="scape">
-				<a href="http://www.scape-project.eu/" target="_blank"><img
-					src="#{request.contextPath}/resources/gfx/scape-logo.png" alt=""
-					height="60px" /></a>
-			</div>
-		</div>
+	</ui:define>
 
-		<div id="menu-toolbar">
-			<div id="feedback">
-				<h:link value="feedback" outcome="/feedback.jsf" />
-			</div>
-			<script type="text/javascript">
+
+	<ui:define name="menu">
+		<div id="feedback">
+			<h:link value="feedback" outcome="/feedback.jsf" />
+		</div>
+		<script type="text/javascript">
 		$(document).ready(
 			function() {
 				//add feedback animation 
@@ -98,39 +83,16 @@
 		);
 	</script>
 
+		<ui:fragment rendered="#{viewWorkflowManager.active}">
 			<ui:include src="/plato/shared/menu.xhtml">
 				<ui:param name="viewWorkflow" value="#{viewWorkflow}" />
 			</ui:include>
-			<ui:remove>
-				<ui:fragment rendered="#{viewWorkflowManager.active}">
-					<ui:include src="/plato/shared/menu.xhtml">
-						<ui:param name="viewWorkflow" value="#{viewWorkflow}" />
-					</ui:include>
-				</ui:fragment>
-				<ui:fragment rendered="#{!viewWorkflowManager.active}">
-					<ui:include src="/plato/shared/menu.xhtml">
-						<ui:param name="viewWorkflow" value="null" />
-					</ui:include>
-				</ui:fragment>
-			</ui:remove>
-		</div>
+		</ui:fragment>
+		<ui:fragment rendered="#{!viewWorkflowManager.active}">
+			<ui:include src="/plato/shared/menu.xhtml">
+				<ui:param name="viewWorkflow" value="null" />
+			</ui:include>
+		</ui:fragment>
+	</ui:define>
 
-		<div id="content">
-			<h:messages id="messages" globalOnly="true" showDetail="true"
-				errorClass="error" warnClass="warning" infoClass="info" />
-
-			<ui:insert name="content">
-                    [Template content will be inserted here]
-            </ui:insert>
-		</div>
-	</div>
-
-	<div id="footer">
-		(c) 2006-2012 Institute of Software Technology and Interactive
-		Systems: &#171; <a
-			href="mailto:plato@ifs.tuwien.ac.at?subject=[SCAPE-PlanningSuite:]">
-			off-ice bears </a> &#187;
-	</div>
-
-</h:body>
-</html>
+</ui:composition>
