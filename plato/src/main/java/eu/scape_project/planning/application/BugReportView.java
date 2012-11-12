@@ -72,7 +72,7 @@ public class BugReportView implements Serializable {
     @PostConstruct
     public void init() {
 
-        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
         errorRequestUri = (String) sessionMap.get(RequestDispatcher.ERROR_REQUEST_URI);
         sessionMap.remove(RequestDispatcher.ERROR_REQUEST_URI);
         throwable = (Throwable) sessionMap.get(RequestDispatcher.ERROR_EXCEPTION);
