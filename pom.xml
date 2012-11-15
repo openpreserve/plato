@@ -14,7 +14,7 @@
 		<!-- <module>kbrowser</module> -->
 		<module>plato</module>
 		<module>minimee</module>
-		<module>minimee-view</module>
+		<!-- <module>minimee-view</module> -->
 		<module>planningsuite-ear</module>
 		<module>idp</module>
 	</modules>
@@ -28,13 +28,6 @@
 	</licenses>
 
 	<developers>
-		<developer>
-			<id>MH</id>
-			<name>Markus Hamm</name>
-			<email>hamm@ifs.tuwien.ac.at</email>
-			<organization>IMP, IFS, UT Vienna</organization>
-			<organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
-		</developer>
 		<developer>
 			<id>MK</id>
 			<name>Michael Kraxner</name>
@@ -53,6 +46,13 @@
 			<id>CB</id>
 			<name>Christoph Becker</name>
 			<email>becker@ifs.tuwien.ac.at</email>
+			<organization>IMP, IFS, UT Vienna</organization>
+			<organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
+		</developer>
+		<developer>
+			<id>MH</id>
+			<name>Markus Hamm</name>
+			<email>hamm@ifs.tuwien.ac.at</email>
 			<organization>IMP, IFS, UT Vienna</organization>
 			<organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
 		</developer>

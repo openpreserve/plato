@@ -90,6 +90,31 @@
 					</environmentVariables>
 				</configuration>
 			</plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-failsafe-plugin</artifactId>
+			    <version>2.12</version>
+			    <configuration>
+			        <encoding>UTF-8</encoding>
+					<environmentVariables>
+						<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
+					</environmentVariables>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <id>integration-test</id>
+			            <goals>
+			                <goal>integration-test</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+			            <id>verify</id>
+			            <goals>
+			                <goal>verify</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>				
 		</plugins>
 	</build>
 	<dependencies>
@@ -193,7 +218,13 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		<dependency>
+	   <dependency>
+	        <groupId>org.seleniumhq.selenium</groupId>
+	        <artifactId>selenium-java</artifactId>
+	        <version>2.24.1</version>
+	        <scope>test</scope>
+	    </dependency>
+    		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>

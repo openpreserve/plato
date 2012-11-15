@@ -36,9 +36,9 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.Role;
 import eu.scape_project.planning.model.User;
+import eu.scape_project.planning.model.UserGroup;
 
 /**
  * Factory class responsible for producing/injecting session-scoped objects.
@@ -108,21 +108,21 @@ public class SessionScopeProducer implements Serializable {
 
         if (attributes != null) {
             // Set transient data from attributes
-            List<Object> firstNameList = (List<Object>) attributes.get("firstName");
+            List<Object> firstNameList = attributes.get("firstName");
             if (firstNameList != null) {
                 if (firstNameList.size() > 0) {
                     firstName = (String) firstNameList.get(0);
                 }
             }
 
-            List<Object> lastNameList = (List<Object>) attributes.get("lastName");
+            List<Object> lastNameList = attributes.get("lastName");
             if (lastNameList != null) {
                 if (lastNameList.size() > 0) {
                     lastName = (String) lastNameList.get(0);
                 }
             }
 
-            List<Object> emailList = (List<Object>) attributes.get("email");
+            List<Object> emailList = attributes.get("email");
             if (emailList != null) {
                 if (emailList.size() > 0) {
                     email = (String) emailList.get(0);
