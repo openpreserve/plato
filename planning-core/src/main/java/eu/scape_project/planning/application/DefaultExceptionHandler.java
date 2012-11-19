@@ -25,8 +25,10 @@ import javax.faces.FacesException;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
+import javax.faces.event.PhaseId;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,20 +70,27 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
             Throwable exception = i.next().getContext().getException();
             i.remove();
 
-            log.debug("Handling exception", exception);
-
             FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = fc.getExternalContext();
+
+            String targetLocation = null;
+
+            // Check if we're inside render response and if the response is
+            // committed.
+            if (fc.getCurrentPhaseId() != PhaseId.RENDER_RESPONSE) {
+                log.info("An exception occured during processing, redirecting.");
+            } else if (!externalContext.isResponseCommitted()) {
+                log.info("An exception occured during rendering the response, redirecting.");
+                ((HttpServletResponse) fc.getExternalContext().getResponse()).reset();
+            } else {
+                log.error("An exception occured during rendering the response. Cannot redirect as the response is already commited.");
+                wrapped.handle();
+                return;
+            }
 
             if ((exception instanceof NonexistentConversationException) || (exception instanceof ViewExpiredException)) {
                 // Redirect session/conversation-timeout error to the start-page
-
-                try {
-                    fc.getExternalContext().redirect(
-                        fc.getExternalContext().getRequestContextPath() + "/index.jsf?sessionExpired=true");
-                } catch (IOException e) {
-                    log.error("Error redirecting to start page.");
-                    throw new FacesException(e);
-                }
+                targetLocation = "/index.jsf?sessionExpired=true";
             } else {
                 // Redirect all other errors to the bug report-page
 
@@ -95,13 +104,14 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
                 sessionMap.put(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());
                 sessionMap.put(RequestDispatcher.ERROR_STATUS_CODE, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
-                try {
-                    fc.getExternalContext()
-                        .redirect(fc.getExternalContext().getRequestContextPath() + "/bugreport.jsf");
-                } catch (IOException e) {
-                    log.error("Error redirecting to error page.");
-                    throw new FacesException(e);
-                }
+                targetLocation = "/bugreport.jsf";
+            }
+
+            try {
+                fc.getExternalContext().redirect(fc.getExternalContext().getRequestContextPath() + targetLocation);
+            } catch (IOException e) {
+                log.error("Error redirecting to error page.");
+                throw new FacesException(e);
             }
 
             // Remove remaining exceptions

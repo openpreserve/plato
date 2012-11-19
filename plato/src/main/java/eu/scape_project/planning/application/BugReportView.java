@@ -58,10 +58,9 @@ public class BugReportView implements Serializable {
     @LoadedPlan
     private Plan plan;
 
-    private String errorRequestUri;
-
     private Throwable throwable;
 
+    private String errorRequestUri;
     private String userEmail;
 
     private String userDescription;
@@ -72,11 +71,14 @@ public class BugReportView implements Serializable {
     @PostConstruct
     public void init() {
 
-        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
-        errorRequestUri = (String) sessionMap.get(RequestDispatcher.ERROR_REQUEST_URI);
-        sessionMap.remove(RequestDispatcher.ERROR_REQUEST_URI);
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
         throwable = (Throwable) sessionMap.get(RequestDispatcher.ERROR_EXCEPTION);
         sessionMap.remove(RequestDispatcher.ERROR_EXCEPTION);
+        errorRequestUri = (String) sessionMap.get(RequestDispatcher.ERROR_REQUEST_URI);
+        sessionMap.remove(RequestDispatcher.ERROR_REQUEST_URI);
+        sessionMap.remove(RequestDispatcher.ERROR_STATUS_CODE);
+        sessionMap.remove(RequestDispatcher.ERROR_EXCEPTION_TYPE);
+        sessionMap.remove(RequestDispatcher.ERROR_MESSAGE);
 
         if (throwable != null) {
             addExceptionToMessages(throwable);
