@@ -33,9 +33,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.slf4j.Logger;
-import org.xml.sax.SAXException;
-
 import eu.scape_project.planning.manager.IByteStreamStorage;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
@@ -43,6 +40,9 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.tree.TemplateTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.OS;
+
+import org.slf4j.Logger;
+import org.xml.sax.SAXException;
 
 @Stateful
 @SessionScoped
@@ -62,11 +62,10 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
 
     @Inject
     private EntityManager em;
-    
+
     private List<String> appliedTransformations = new ArrayList<String>();
-    
+
     private PlanParser planParser = new PlanParser();
-    
 
     /**
      * Deserializes the plans stored in the given file.
@@ -98,7 +97,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
             OS.deleteDirectory(tempDir);
         }
     }
-    
+
     public List<Plan> importPlans(final String file) throws PlatoException {
         try {
             return importPlans(new FileInputStream(file));
@@ -106,8 +105,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
             throw new PlatoException("IMPORT FAILED: could not find file " + file, e);
         }
     }
-    
-    
+
     /**
      * Imports all plans from the given file and stores them in the database
      * 
@@ -120,7 +118,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
             storeDigitalObjects(p);
             em.persist(p);
         }
-    }    
+    }
 
     /**
      * Imports all plans in the given directory and stores them in the database
@@ -175,7 +173,6 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
         }
     }
 
-    
     @Remove
     public void destroy() {
 
