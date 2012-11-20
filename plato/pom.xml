@@ -217,7 +217,6 @@
 			<scope>test</scope>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -265,37 +264,6 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>arquillian-weld-embedded</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.spec</groupId>
-					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>1.0.0.Final</version>
-					<type>pom</type>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.container</groupId>
-					<artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-					<version>1.0.0.CR3</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.weld</groupId>
-					<artifactId>weld-core</artifactId>
-					<version>1.1.5.Final</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-					<version>1.6.4</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-
-		<profile>
 			<id>arquillian-jbossas-managed</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -319,17 +287,19 @@
 					<artifactId>arquillian-protocol-servlet</artifactId>
 					<scope>test</scope>
 				</dependency>
-				<dependency>
+<!-- 				<dependency>
 					<groupId>org.jboss.shrinkwrap.resolver</groupId>
 					<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
 					<scope>test</scope>
 				</dependency>
-				<dependency>
+ -->
+ 				<dependency>
 					<groupId>org.jboss.weld</groupId>
 					<artifactId>weld-core</artifactId>
 					<version>1.1.8.Final</version>
 					<scope>test</scope>
 				</dependency>
+<!-- 			
 				<dependency>
 					<groupId>org.jboss.shrinkwrap</groupId>
 					<artifactId>shrinkwrap-api</artifactId>
@@ -337,39 +307,17 @@
 				<dependency>
 					<groupId>org.jboss.shrinkwrap</groupId>
 					<artifactId>shrinkwrap-impl-base</artifactId>
-					<scope>test</scope> <!-- Don't rely upon internals for compilation -->
+					<scope>test</scope> Don't rely upon internals for compilation
 				</dependency>
 				<dependency>
 					<groupId>org.jboss.shrinkwrap.descriptors</groupId>
-					<artifactId>shrinkwrap-descriptors-impl</artifactId>
+					<artifa
+
+					ctId>shrinkwrap-descriptors-impl</artifactId>
 					<version>1.1.0-beta-1</version>
 				</dependency>
+ -->
 
-
-			</dependencies>
-		</profile>
-
-		<profile>
-			<id>arquillian-jbossas-remote</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.spec</groupId>
-					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>1.0.0.Final</version>
-					<type>pom</type>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.as</groupId>
-					<artifactId>jboss-as-arquillian-container-remote</artifactId>
-					<version>7.1.0.Final</version>
-					<scope>test</scope>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.arquillian.protocol</groupId>
-					<artifactId>arquillian-protocol-servlet</artifactId>
-					<scope>test</scope>
-				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>

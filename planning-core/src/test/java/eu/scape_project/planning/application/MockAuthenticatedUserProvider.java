@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
 import eu.scape_project.planning.model.User;
 
-@Mock
+@Alternative
 @SessionScoped
 @Stateful
 public class MockAuthenticatedUserProvider implements Serializable, IAuthenticatedUserProvider {

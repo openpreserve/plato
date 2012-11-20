@@ -7,7 +7,8 @@
         http://java.sun.com/xml/ns/javaee 
         http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
         <alternatives>
-        	<stereotype>eu.scape_project.planning.application.Mock</stereotype>
-        </alternatives>
+	         <class>eu.scape_project.planning.application.MockAuthenticatedUserProvider</class>
+<!--         	<stereotype>eu.scape_project.planning.application.Mock</stereotype>
+ -->        </alternatives>
         
 </beans>

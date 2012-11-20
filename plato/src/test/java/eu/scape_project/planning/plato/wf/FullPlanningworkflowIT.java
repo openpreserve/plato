@@ -56,10 +56,16 @@ public class FullPlanningworkflowIT {
         // at the moment conversations are not supported by arquillian, so we have to provide a mock
         // we also do not need user management for the tests, so we mock the session scope producer
         // we have to provide mocks for handling conversations and provide the user
-        final Class<Mock> mock = Mock.class;
         final Class<MockAuthenticatedUserProvider> mockAuthenticatedUserProvider = MockAuthenticatedUserProvider.class;
 
-
+        planningcoreArch.addClasses(mockAuthenticatedUserProvider);
+        planningcoreArch.delete("META-INF/beans.xml");
+        planningcoreArch.addAsResource("META-INF/test-beans.xml", "META-INF/beans.xml");
+        
+        Node planningcoreNode = planningsuiteEar.get("planning-core-0.0.1-SNAPSHOT.jar");
+        planningsuiteEar.delete(planningcoreNode.getPath());
+        planningsuiteEar.addAsModule(planningcoreArch);        
+        
         platoArch.delete(platoArch.get("WEB-INF/web.xml").getPath());
         platoArch.delete(platoArch.get("WEB-INF/beans.xml").getPath());
         
@@ -67,39 +73,11 @@ public class FullPlanningworkflowIT {
             .addPackage("eu.scape_project.planning.plato.mock")
             .addPackage("eu.scape_project.planning.plato.wf");
 
-//        planningcoreArch.delete("eu/scape_project/planning/application/SessionScopeProducer.class");        
-        planningcoreArch.addClasses(mock, mockAuthenticatedUserProvider);
-        planningcoreArch.delete("META-INF/beans.xml");
-        planningcoreArch.addAsResource("META-INF/test-beans.xml", "META-INF/beans.xml");
-//        ZipExporterImpl exporter = new ZipExporterImpl(planningcoreArch);
-//        try {
-//            exporter.exportTo(new FileOutputStream("../planningsuite-ear/target/_planningcore.jar"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        
-        log.debug(planningcoreArch.toString(true));
-        
-        Node planningcoreNode = planningsuiteEar.get("planning-core-0.0.1-SNAPSHOT.jar");
-        planningsuiteEar.delete(planningcoreNode.getPath());
-        planningsuiteEar.addAsModule(planningcoreArch);
-
         // now we can replace the original plato-war with the configured one
         Node node = planningsuiteEar.get("plato-0.0.1-SNAPSHOT.war");
         planningsuiteEar.delete(node.getPath());
         planningsuiteEar.addAsModule(Testable.archiveToTest(platoArch));
-
-        log.debug(platoArch.toString(true));
-        log.debug(planningsuiteEar.toString(true));
         
-//        exporter = new ZipExporterImpl(planningsuiteEar);
-//        try {
-//            exporter.exportTo(new FileOutputStream("../planningsuite-ear/target/_planningsuite.ear"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        
-
         return planningsuiteEar;
     }
     
