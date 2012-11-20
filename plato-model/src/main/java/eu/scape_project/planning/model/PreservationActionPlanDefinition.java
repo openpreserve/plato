@@ -22,16 +22,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 /**
  * Entity bean storing additional information about an Evaluation-Step.
- * 
- * @author Mark Guttenbrunner
  */
 @Entity
-public class ExecutablePlanDefinition implements Serializable, ITouchable {
+public class PreservationActionPlanDefinition implements Serializable, ITouchable {
 
     private static final long serialVersionUID = 8385664635418556928L;
 
@@ -39,30 +36,8 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     @GeneratedValue
     private int id;
 
-    private String objectPath;
-
-    @Lob
-    private String toolParameters;
-
-    @Lob
-    private String triggersConditions;
-
-    @Lob
-    private String validateQA;
-
-    @Lob
-    protected String executablePlan;
-
     @OneToOne(cascade = CascadeType.ALL)
-    protected DigitalObject t2flowExecutablePlan;
-
-    public String getExecutablePlan() {
-        return executablePlan;
-    }
-
-    public void setExecutablePlan(String executablePlan) {
-        this.executablePlan = executablePlan;
-    }
+    protected DigitalObject preservationActionPlan = new DigitalObject();;
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
@@ -75,6 +50,15 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
         this.id = id;
     }
 
+    public DigitalObject getPreservationActionPlan() {
+        return preservationActionPlan;
+    }
+
+    public void setPreservationActionPlan(DigitalObject preservationActionPlan) {
+        this.preservationActionPlan = preservationActionPlan;
+    }
+
+    @Override
     public ChangeLog getChangeLog() {
         return this.changeLog;
     }
@@ -83,10 +67,12 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
         changeLog = value;
     }
 
+    @Override
     public boolean isChanged() {
         return changeLog.isAltered();
     }
 
+    @Override
     public void touch() {
         getChangeLog().touch();
     }
@@ -94,47 +80,10 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     /**
      * @see ITouchable#handleChanges(IChangesHandler)
      */
+    @Override
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
+        preservationActionPlan.handleChanges(h);
     }
 
-    public String getObjectPath() {
-        return objectPath;
-    }
-
-    public void setObjectPath(String objectPath) {
-        this.objectPath = objectPath;
-    }
-
-    public String getTriggersConditions() {
-        return triggersConditions;
-    }
-
-    public void setTriggersConditions(String triggersConditions) {
-        this.triggersConditions = triggersConditions;
-    }
-
-    public String getValidateQA() {
-        return validateQA;
-    }
-
-    public void setValidateQA(String validateQA) {
-        this.validateQA = validateQA;
-    }
-
-    public String getToolParameters() {
-        return toolParameters;
-    }
-
-    public void setToolParameters(String toolParameters) {
-        this.toolParameters = toolParameters;
-    }
-
-    public DigitalObject getT2flowExecutablePlan() {
-        return t2flowExecutablePlan;
-    }
-
-    public void setT2flowExecutablePlan(DigitalObject t2flowExecutablePlan) {
-        this.t2flowExecutablePlan = t2flowExecutablePlan;
-    }
 }

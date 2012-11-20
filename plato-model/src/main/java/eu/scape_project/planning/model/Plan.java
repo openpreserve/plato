@@ -110,6 +110,9 @@ public class Plan implements Serializable, ITouchable {
     private ExecutablePlanDefinition executablePlanDefinition = new ExecutablePlanDefinition();
 
     @OneToOne(cascade = CascadeType.ALL)
+    private PreservationActionPlanDefinition preservationActionPlan = new PreservationActionPlanDefinition();
+
+    @OneToOne(cascade = CascadeType.ALL)
     private PlanDefinition planDefinition = new PlanDefinition();
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -178,16 +181,24 @@ public class Plan implements Serializable, ITouchable {
         return executablePlanDefinition;
     }
 
-    public void setPlanDefinition(PlanDefinition planDefinition) {
-        this.planDefinition = planDefinition;
+    public void setExecutablePlanDefinition(ExecutablePlanDefinition executablePlanDefinition) {
+        this.executablePlanDefinition = executablePlanDefinition;
+    }
+
+    public PreservationActionPlanDefinition getPreservationActionPlanDefinition() {
+        return preservationActionPlan;
+    }
+
+    public void setPreservationActionPlanDefinition(PreservationActionPlanDefinition preservationActionPlanDefinition) {
+        this.preservationActionPlan = preservationActionPlanDefinition;
     }
 
     public PlanDefinition getPlanDefinition() {
         return planDefinition;
     }
 
-    public void setExecutablePlanDefinition(ExecutablePlanDefinition executablePlanDefinition) {
-        this.executablePlanDefinition = executablePlanDefinition;
+    public void setPlanDefinition(PlanDefinition planDefinition) {
+        this.planDefinition = planDefinition;
     }
 
     public AlternativesDefinition getAlternativesDefinition() {
@@ -256,6 +267,7 @@ public class Plan implements Serializable, ITouchable {
         sampleRecordsDefinition.handleChanges(h);
         transformation.handleChanges(h);
         executablePlanDefinition.handleChanges(h);
+        preservationActionPlan.handleChanges(h);
         planDefinition.handleChanges(h);
         tree.getRoot().handleChanges(h);
     }
@@ -493,8 +505,8 @@ public class Plan implements Serializable, ITouchable {
         if (getExecutablePlanDefinition().getT2flowExecutablePlan() != null) {
             list.add(getExecutablePlanDefinition().getT2flowExecutablePlan());
         }
-        if (getExecutablePlanDefinition().getPreservationActionPlan() != null) {
-            list.add(getExecutablePlanDefinition().getPreservationActionPlan());
+        if (getPreservationActionPlanDefinition().getPreservationActionPlan() != null) {
+            list.add(getPreservationActionPlanDefinition().getPreservationActionPlan());
         }
         if (getSampleRecordsDefinition().getCollectionProfile() != null
             && getSampleRecordsDefinition().getCollectionProfile().getProfile() != null) {

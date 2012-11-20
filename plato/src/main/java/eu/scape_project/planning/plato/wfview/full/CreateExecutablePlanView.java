@@ -171,7 +171,7 @@ public class CreateExecutablePlanView extends AbstractView {
 
         try {
             createExecutablePlan.generatePreservationActionPlan();
-            facesMessages.addInfo("Preservation actino plan generated.");
+            facesMessages.addInfo("Preservation action plan generated.");
         } catch (PlanningException e) {
             log.warn("An error occured while generating the preservation action plan: {}", e.getMessage());
             facesMessages.addError("An error occured while generating the preservation ation plan: " + e.getMessage());

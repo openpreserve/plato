@@ -190,8 +190,9 @@ public class DigitalObject implements Serializable, ITouchable {
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
         formatInfo.handleChanges(h);
-        if (xcdlDescription != null)
+        if (xcdlDescription != null) {
             xcdlDescription.handleChanges(h);
+        }
     }
 
     public String getJhoveXMLString() {
@@ -250,7 +251,7 @@ public class DigitalObject implements Serializable, ITouchable {
     }
 
     public double getSizeInMB() {
-        return (Math.round(sizeInBytes / (1024.0d*1024.0d/100.0d)) / 100.0d);
+        return (Math.round(sizeInBytes / (1024.0d * 1024.0d / 100.0d)) / 100.0d);
     }
 
     public void setSizeInBytes(final double sizeInBytes) {

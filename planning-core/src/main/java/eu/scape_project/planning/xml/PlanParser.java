@@ -27,12 +27,6 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.digester3.CallMethodRule;
-import org.apache.commons.digester3.Digester;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.CollectionProfile;
@@ -53,6 +47,7 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.Policy;
 import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.PreservationActionPlanDefinition;
 import eu.scape_project.planning.model.ProjectBasis;
 import eu.scape_project.planning.model.RequirementsDefinition;
 import eu.scape_project.planning.model.ResourceDescription;
@@ -105,6 +100,14 @@ import eu.scape_project.planning.xml.plan.RecommendationWrapper;
 import eu.scape_project.planning.xml.plan.SampleAggregationModeFactory;
 import eu.scape_project.planning.xml.plan.TransformationModeFactory;
 import eu.scape_project.planning.xml.plan.TriggerFactory;
+import eu.scape_project.planning.xml.plan.XMLDataWrapper;
+
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.digester3.CallMethodRule;
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester3.NodeCreateRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Creates preservation plans and templates from their XML representations.
@@ -129,12 +132,14 @@ public class PlanParser {
     private final ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
 
     /**
-     * Deserializes the plans stored in the file. - the representation must be
-     * of the {@link PlanXMLConstants#PLATO_SCHEMA_VERSION current version}
+     * Deserialises the plans stored in the file. - the representation must be
+     * of the {@link PlanXMLConstants#PLATO_SCHEMA_VERSION current version}.
      * 
      * @param file
-     * @return
+     *            the file to parse
+     * @return a list of plans
      * @throws PlatoException
+     *             if an error occurred
      */
     public List<Plan> importProjects(final String file) throws PlatoException {
         try {
@@ -164,6 +169,7 @@ public class PlanParser {
      * Used by the digester every time a project has been parsed.
      * 
      * @param p
+     *            the plan to add to the list of processed plans
      */
     public void setProject(final Plan p) {
         plans.add(p);
@@ -173,6 +179,7 @@ public class PlanParser {
      * Used by the digester every time a template has been parsed.
      * 
      * @param t
+     *            the template tree to add to the list of templates
      */
     public void setTemplate(final TemplateTree t) {
         templates.add(t);
@@ -181,7 +188,11 @@ public class PlanParser {
     /**
      * Imports the XML representation of templates.
      * 
-     * @return list of read templates.
+     * @param in
+     *            the input stream to read from
+     * @return a list of read templates.
+     * @throws PlatoException
+     *             if the template cannot be parsed
      */
     public List<TemplateTree> importTemplates(final InputStream in) throws PlatoException {
 
@@ -226,9 +237,13 @@ public class PlanParser {
     }
 
     /**
-     * Imports the XML representation of plans from the given inputstream.
+     * Imports the XML representation of plans from the given input stream.
      * 
+     * @param in
+     *            the input stream to read from
      * @return list of read plans
+     * @throws PlatoException
+     *             if the plan cannot be parsed
      */
     public List<Plan> importProjects(final InputStream in) throws PlatoException {
         try {
@@ -325,6 +340,14 @@ public class PlanParser {
         return plans;
     }
 
+    /**
+     * Adds rules to the digester to parse the a plan XML.
+     * 
+     * @param digester
+     *            the digester
+     * @throws ParserConfigurationException
+     *             if an error occurred
+     */
     private static void addRules(Digester digester) throws ParserConfigurationException {
 
         ConvertUtils.register(new EnumConverter<PlanType>(PlanType.class), PlanType.class);
@@ -676,6 +699,12 @@ public class PlanParser {
 
         digester.addSetNext("*/plan/executablePlan", "setExecutablePlanDefinition");
 
+        // Preservation action plan
+        digester.addObjectCreate("*/plan/preservationActionPlan", PreservationActionPlanDefinition.class);
+        digester.addSetNext("*/plan/preservationActionPlan", "setPreservationActionPlanDefinition");
+        PlanParser.addCreateXMLFile(digester, "*/plan/preservationActionPlan", "setPreservationActionPlan",
+            DigitalObject.class);
+
         //
         // Import Planets executable plan if present
         //
@@ -759,11 +788,16 @@ public class PlanParser {
      * object.
      * 
      * @param digester
+     *            the digester
      * @param pattern
+     *            the location pattern
      * @param method
+     *            a method name of the parent object
+     * @param objectType
+     *            class of object to create
      */
     private static void addCreateUpload(final Digester digester, final String pattern, final String method,
-        final Class objectType) {
+        final Class<?> objectType) {
         digester.addObjectCreate(pattern, objectType);
         digester.addSetProperties(pattern);
         if ((method != null) && (!"".equals(method))) {
@@ -791,9 +825,61 @@ public class PlanParser {
     }
 
     /**
+     * Create a rule for reading an upload entry for the given location
+     * <code>pattern</code>, and use the <code>method</code> to set the upload
+     * object.
+     * 
+     * @param digester
+     *            the digester
+     * @param pattern
+     *            the location pattern
+     * @param method
+     *            a method name of the parent object
+     * @param objectType
+     *            class of object to create
+     * @throws ParserConfigurationException
+     */
+    private static void addCreateXMLFile(final Digester digester, final String pattern, final String method,
+        final Class<?> objectType) throws ParserConfigurationException {
+        digester.addObjectCreate(pattern, objectType);
+
+        // TODO: Use XML properties?
+        // digester.addSetProperties(pattern);
+
+        if ((method != null) && (!"".equals(method))) {
+            digester.addSetNext(pattern, method);
+        }
+
+        /*
+         * Note: It is not possible to read element data, process it and pass it
+         * to a function with a simple digester Rule, neither you can define a
+         * factory to read the data of an element.
+         * 
+         * So we have to do it the other way round: (remember: the function
+         * added last is executed first!)
+         */
+        // 1. Create a BinaryDataWrapper if a <data> element is encountered
+        digester.addObjectCreate(pattern, XMLDataWrapper.class);
+        // 3. Finally call setData on the BinaryDataWrapper(!) on top with the
+        // object next to top as argument
+        // The BinaryDataWrapper will call setData on to object next to top with
+        // the previously read and decoded data
+        digester.addSetTop(pattern, "setData");
+        // 2. Call setFromBase64Encoded on the BinaryDataWrapper to read the
+        // elements content
+        NodeCreateRule nodeCreateRule = new NodeCreateRule();
+        digester.addRule(pattern, nodeCreateRule);
+
+        digester.addSetNext(pattern, "setEncoded", "org.w3c.dom.Element");
+    }
+
+    /**
      * This method adds rules for name, properties, scales, modes and mappings
      * only! Rules for importing measured values of alternatives are defined
      * seperately in importProjects()! (Refactored to its own method by Kevin)
+     * 
+     * @param digester
+     *            the digester
      */
     private static void addTreeParsingRulesToDigester(final Digester digester) {
         digester.addObjectCreate("*/plan/tree", ObjectiveTree.class);
@@ -930,12 +1016,12 @@ public class PlanParser {
         digester.addSetProperties(pattern, "ID", "uri");
         digester.addBeanPropertySetter(pattern + "/name");
         digester.addBeanPropertySetter(pattern + "/description");
-        
+
         digester.addObjectCreate(pattern + "/category", CriterionCategory.class);
         digester.addSetProperties(pattern + "/category", "ID", "uri");
         digester.addSetProperties(pattern + "/category", "scope", "scope");
         digester.addBeanPropertySetter(pattern + "/category/name");
         digester.addSetNext(pattern + "/category", "setCategory");
-        
+
     }
 }

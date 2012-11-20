@@ -37,6 +37,7 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanDefinition;
 import eu.scape_project.planning.model.Policy;
 import eu.scape_project.planning.model.PolicyNode;
+import eu.scape_project.planning.model.PreservationActionPlanDefinition;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Trigger;
@@ -934,16 +935,17 @@ public class ProjectExporter implements Serializable {
 
         // add ExecutablePlanDefinition
         Element executablePlanDef = projectNode.addElement("executablePlan");
-        ExecutablePlanDefinition plan = p.getExecutablePlanDefinition();
-        addStringElement(executablePlanDef, "objectPath", plan.getObjectPath());
-        addStringElement(executablePlanDef, "toolParameters", plan.getToolParameters());
-        addStringElement(executablePlanDef, "triggersConditions", plan.getTriggersConditions());
-        addStringElement(executablePlanDef, "validateQA", plan.getValidateQA());
-        addUpload(plan.getT2flowExecutablePlan(), executablePlanDef, "workflow", encoder, addDigitalObjectData);
-        addChangeLog(plan.getChangeLog(), executablePlanDef);
+        ExecutablePlanDefinition executablePlanDefinition = p.getExecutablePlanDefinition();
+        addStringElement(executablePlanDef, "objectPath", executablePlanDefinition.getObjectPath());
+        addStringElement(executablePlanDef, "toolParameters", executablePlanDefinition.getToolParameters());
+        addStringElement(executablePlanDef, "triggersConditions", executablePlanDefinition.getTriggersConditions());
+        addStringElement(executablePlanDef, "validateQA", executablePlanDefinition.getValidateQA());
+        addUpload(executablePlanDefinition.getT2flowExecutablePlan(), executablePlanDef, "workflow", encoder,
+            addDigitalObjectData);
+        addChangeLog(executablePlanDefinition.getChangeLog(), executablePlanDef);
 
         // Export generated preservation action plan
-        exportPreservationActionPlan(plan.getPreservationActionPlan(), projectNode, addDigitalObjectData);
+        addPreservationActionPlan(p.getPreservationActionPlanDefinition(), projectNode, addDigitalObjectData);
 
         // Plan definition
         Element planDef = projectNode.addElement("planDefinition");
@@ -1133,32 +1135,50 @@ public class ProjectExporter implements Serializable {
         return scale;
     }
 
-    private Element exportPreservationActionPlan(DigitalObject preservationActionPlan, Element parent,
-        boolean addDigitalObjectData) throws PlanningException {
+    /**
+     * Adds a preservation action plan element to the provided parent if the
+     * preservation action plan is defined.
+     * 
+     * @param preservationActionPlanDefinition
+     *            the preservation action plan to add
+     * @param parent
+     *            the parent element
+     * @param addDigitalObjectData
+     *            true if the data should be written, false otherwise
+     * @return the newly created element or null
+     * @throws PlanningException
+     *             if an error occurred during creation
+     */
+    private Element addPreservationActionPlan(PreservationActionPlanDefinition preservationActionPlanDefinition,
+        Element parent, boolean addDigitalObjectData) throws PlanningException {
 
         Element preservationActionPlanElement = null;
 
-        if (preservationActionPlan != null && preservationActionPlan.isDataExistent()) {
-            if (!addDigitalObjectData) {
-                preservationActionPlanElement = parent.addElement("preservationActionPlan");
-                preservationActionPlanElement.setText(String.valueOf(preservationActionPlan.getId()));
-            } else {
-                Document doc;
-                try {
-                    doc = DocumentHelper.parseText(new String(preservationActionPlan.getData().getData(), ENCODING));
+        if (preservationActionPlanDefinition != null) {
+            DigitalObject preservationActionPlan = preservationActionPlanDefinition.getPreservationActionPlan();
+            if (preservationActionPlan != null && preservationActionPlan.isDataExistent()) {
+                if (!addDigitalObjectData) {
+                    preservationActionPlanElement = parent.addElement("preservationActionPlan");
+                    preservationActionPlanElement.setText(String.valueOf(preservationActionPlan.getId()));
+                } else {
+                    Document doc;
+                    try {
+                        doc = DocumentHelper
+                            .parseText(new String(preservationActionPlan.getData().getData(), ENCODING));
 
-                    if (doc.getRootElement().hasContent()) {
-                        preservationActionPlanElement = doc.getRootElement();
+                        if (doc.getRootElement().hasContent()) {
+                            preservationActionPlanElement = doc.getRootElement();
+                            parent.add(preservationActionPlanElement);
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        log.error("Error parsing preservation action plan {}.", e.getMessage());
+                        throw new PlanningException("Error parsing preservation action plan.", e);
+                    } catch (DocumentException e) {
+                        log.error("Error parsing preservation action plan {}.", e.getMessage());
+                        throw new PlanningException("Error parsing preservation action plan.", e);
                     }
-                } catch (UnsupportedEncodingException e) {
-                    log.error("Error parsing preservation action plan {}.", e.getMessage());
-                    throw new PlanningException("Error parsing preservation action plan.", e);
-                } catch (DocumentException e) {
-                    log.error("Error parsing preservation action plan {}.", e.getMessage());
-                    throw new PlanningException("Error parsing preservation action plan.", e);
                 }
             }
-
         }
 
         return preservationActionPlanElement;

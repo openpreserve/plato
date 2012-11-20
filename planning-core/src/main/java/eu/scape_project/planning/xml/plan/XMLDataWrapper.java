@@ -16,14 +16,19 @@
  ******************************************************************************/
 package eu.scape_project.planning.xml.plan;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import eu.scape_project.planning.model.ByteStream;
+import eu.scape_project.planning.xml.PreservationActionPlanGenerator;
 
-import sun.misc.BASE64Decoder;
+import org.dom4j.Document;
+import org.dom4j.io.DOMReader;
+import org.dom4j.io.XMLWriter;
+import org.w3c.dom.Element;
 
 /**
  * Helper class for {@link eu.scape_project.planning.xml.ProjectImporter} to
@@ -33,11 +38,10 @@ import sun.misc.BASE64Decoder;
  * @author Michael Kraxner
  * 
  */
-public class BinaryDataWrapper implements Serializable {
+public class XMLDataWrapper implements Serializable {
 
     private static final long serialVersionUID = 2080538998419720006L;
 
-    BASE64Decoder decoder = new BASE64Decoder();
     byte[] value = null;
 
     private String methodName = "setData";
@@ -56,9 +60,17 @@ public class BinaryDataWrapper implements Serializable {
      * 
      * @param value
      */
-    public void setFromBase64Encoded(String value) {
+    public void setEncoded(Element value) {
         try {
-            this.value = decoder.decodeBuffer(value.replaceAll("\\s", ""));
+
+            DOMReader reader = new DOMReader();
+            Document doc = reader.read(value.getOwnerDocument());
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            XMLWriter writer = new XMLWriter(out, PreservationActionPlanGenerator.DEFAULT_OUTPUT_FORMAT);
+            writer.write(doc);
+
+            this.value = out.toByteArray();
         } catch (IOException e) {
             this.value = null;
         }

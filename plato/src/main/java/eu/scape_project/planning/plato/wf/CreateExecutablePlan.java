@@ -83,6 +83,7 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
     @Override
     protected void saveStepSpecific() {
         saveEntity(plan.getExecutablePlanDefinition());
+        saveEntity(plan.getPreservationActionPlanDefinition());
     }
 
     /**
@@ -161,6 +162,13 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
         }
     }
 
+    /**
+     * Generates the preservation action plan other plan information and stores
+     * it in the plan.
+     * 
+     * @throws PlanningException
+     *             if an error occurred
+     */
     public void generatePreservationActionPlan() throws PlanningException {
 
         generator.setCollectionProfile(plan.getSampleRecordsDefinition().getCollectionProfile());
@@ -175,7 +183,14 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
                 + " - PreservationActionPlan"));
 
             digitalObjectManager.moveDataToStorage(object);
-            plan.getExecutablePlanDefinition().setPreservationActionPlan(object);
+
+            if (plan.getPreservationActionPlanDefinition().getPreservationActionPlan() != null
+                && plan.getPreservationActionPlanDefinition().getPreservationActionPlan().isDataExistent()) {
+                bytestreamsToRemove
+                    .add(plan.getPreservationActionPlanDefinition().getPreservationActionPlan().getPid());
+            }
+
+            plan.getPreservationActionPlanDefinition().setPreservationActionPlan(object);
             addedBytestreams.add(object.getPid());
 
         } catch (UnsupportedEncodingException e) {
@@ -186,5 +201,4 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
             throw new PlanningException("An error occurred while storing the profile", e);
         }
     }
-
 }
