@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.taverna.executor;
+package eu.scape_project.planning.taverna.executor;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.utils;
+package eu.scape_project.planning.utils;
 
 import junit.framework.Assert;
 

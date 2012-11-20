@@ -179,6 +179,14 @@
 			<scope>provided</scope>
 			<type>ejb</type>
 		</dependency>
+		<dependency> <!-- reuse src/test/java code from moduleA! -->
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>planning-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
+			<classifier>tests</classifier>
+		</dependency>		
+		
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>minimee</artifactId>

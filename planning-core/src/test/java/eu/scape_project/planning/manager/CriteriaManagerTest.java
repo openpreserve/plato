@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.manager;
+package eu.scape_project.planning.manager;
 
 import java.util.Collection;
 

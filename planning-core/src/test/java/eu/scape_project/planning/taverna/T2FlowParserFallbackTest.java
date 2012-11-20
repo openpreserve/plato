@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.taverna;
+package eu.scape_project.planning.taverna;
 
 import static org.junit.Assert.assertTrue;
 

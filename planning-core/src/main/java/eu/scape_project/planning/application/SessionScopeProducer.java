@@ -47,7 +47,7 @@ import eu.scape_project.planning.model.UserGroup;
  */
 @SessionScoped
 @Stateful
-public class SessionScopeProducer implements Serializable {
+public class SessionScopeProducer implements Serializable, IAuthenticatedUserProvider {
     private static final long serialVersionUID = -830549797293803656L;
 
     @Inject
@@ -62,6 +62,10 @@ public class SessionScopeProducer implements Serializable {
         user = null;
     }
 
+    /* (non-Javadoc)
+     * @see eu.scape_project.planning.application.IAuthenticatedUserProvider#getUser()
+     */
+    @Override
     @Produces
     @Named("user")
     public User getUser() {
@@ -72,7 +76,7 @@ public class SessionScopeProducer implements Serializable {
         }
 
         if (user == null) {
-            user = getDummyUserFromDb();
+            user = getUserAdminFromDB();
         }
 
         return user;
@@ -184,32 +188,32 @@ public class SessionScopeProducer implements Serializable {
         return user;
     }
 
-    /**
-     * Reads the current logged in user from the ServletRequest and fetches the
-     * corresponding plato specific data.
-     * 
-     * @return The current user
-     */
-    private User getUserByServletRequest() {
-        // Get user principal
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
-
-        if (principal == null) {
-            return null;
-        }
-
-        // Get user from DB
-        try {
-            User user = em.createQuery("SELECT u From User u WHERE u.username = :username", User.class)
-                .setParameter("username", principal.getName()).getSingleResult();
-
-            return user;
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
+//    /**
+//     * Reads the current logged in user from the ServletRequest and fetches the
+//     * corresponding plato specific data.
+//     * 
+//     * @return The current user
+//     */
+//    private User getUserByServletRequest() {
+//        // Get user principal
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+//        Principal principal = request.getUserPrincipal();
+//
+//        if (principal == null) {
+//            return null;
+//        }
+//
+//        // Get user from DB
+//        try {
+//            User user = em.createQuery("SELECT u From User u WHERE u.username = :username", User.class)
+//                .setParameter("username", principal.getName()).getSingleResult();
+//
+//            return user;
+//        } catch (NoResultException e) {
+//            return null;
+//        }
+//    }
 
     private User getUserFromDB(String username) {
         // Get user from DB
@@ -223,7 +227,7 @@ public class SessionScopeProducer implements Serializable {
         }
     }
 
-    private User getDummyUserFromDb() {
+    private User getUserAdminFromDB() {
         Object dbResult;
         try {
             dbResult = em.createQuery("SELECT u From User u WHERE u.username = 'admin'").getSingleResult();

@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.application;
+package eu.scape_project.planning.application;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,10 +8,10 @@ import java.lang.annotation.Target;
 import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Stereotype;
 
-@Stereotype
 @Alternative
-@Target( {ElementType.TYPE, ElementType.METHOD, ElementType.FIELD} )
+@Stereotype
+@Target( {ElementType.TYPE, ElementType.METHOD} )
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MockedUser {
+public @interface Mock {
 
 }

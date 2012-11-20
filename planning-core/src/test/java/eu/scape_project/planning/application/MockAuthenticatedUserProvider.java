@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.application;
+package eu.scape_project.planning.application;
 
 import java.io.Serializable;
 
@@ -9,15 +9,15 @@ import javax.inject.Named;
 
 import eu.scape_project.planning.model.User;
 
+@Mock
 @SessionScoped
 @Stateful
-public class MockSessionScopeProducer implements Serializable {
+public class MockAuthenticatedUserProvider implements Serializable, IAuthenticatedUserProvider {
     private static final long serialVersionUID = 1L;
 
     private User user;
 
     @Produces
-    @MockedUser
     @Named("user")
     public User getUser() {
         if (user == null) {

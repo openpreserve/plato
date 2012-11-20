@@ -1,20 +1,20 @@
 package eu.scape_project.planning.plato.wf;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 
 import javax.inject.Inject;
 
-import org.hibernate.validator.util.privilegedactions.GetClassLoader;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.Testable;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Node;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.container.LibraryContainer;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.impl.base.exporter.zip.ZipExporterImpl;
 import org.jboss.weld.context.bound.Bound;
 import org.jboss.weld.context.bound.BoundConversationContext;
 import org.jboss.weld.context.bound.MutableBoundRequest;
@@ -24,9 +24,10 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.scape_project.planning.application.Mock;
+import eu.scape_project.planning.application.MockAuthenticatedUserProvider;
+import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.plato.wfview.full.CreatePlanView;
-import eu.scape_project.pw.planning.application.MockSessionScopeProducer;
-import eu.scape_project.pw.planning.application.MockedUser;
 
 @RunWith(Arquillian.class)
 public class FullPlanningworkflowIT {
@@ -55,6 +56,9 @@ public class FullPlanningworkflowIT {
         // at the moment conversations are not supported by arquillian, so we have to provide a mock
         // we also do not need user management for the tests, so we mock the session scope producer
         // we have to provide mocks for handling conversations and provide the user
+        final Class<Mock> mock = Mock.class;
+        final Class<MockAuthenticatedUserProvider> mockAuthenticatedUserProvider = MockAuthenticatedUserProvider.class;
+
 
         platoArch.delete(platoArch.get("WEB-INF/web.xml").getPath());
         platoArch.delete(platoArch.get("WEB-INF/beans.xml").getPath());
@@ -63,10 +67,16 @@ public class FullPlanningworkflowIT {
             .addPackage("eu.scape_project.planning.plato.mock")
             .addPackage("eu.scape_project.planning.plato.wf");
 
-        planningcoreArch.addPackage("eu.scape_project.planning.plato.mock");
-        final Class<MockedUser> mockedUser = MockedUser.class;
-        final Class<MockSessionScopeProducer> mockSessionScopedProducer = MockSessionScopeProducer.class;
-        planningcoreArch.addClasses(mockedUser, mockSessionScopedProducer);
+//        planningcoreArch.delete("eu/scape_project/planning/application/SessionScopeProducer.class");        
+        planningcoreArch.addClasses(mock, mockAuthenticatedUserProvider);
+        planningcoreArch.delete("META-INF/beans.xml");
+        planningcoreArch.addAsResource("META-INF/test-beans.xml", "META-INF/beans.xml");
+//        ZipExporterImpl exporter = new ZipExporterImpl(planningcoreArch);
+//        try {
+//            exporter.exportTo(new FileOutputStream("../planningsuite-ear/target/_planningcore.jar"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         
         log.debug(planningcoreArch.toString(true));
         
@@ -78,7 +88,17 @@ public class FullPlanningworkflowIT {
         Node node = planningsuiteEar.get("plato-0.0.1-SNAPSHOT.war");
         planningsuiteEar.delete(node.getPath());
         planningsuiteEar.addAsModule(Testable.archiveToTest(platoArch));
+
+        log.debug(platoArch.toString(true));
         log.debug(planningsuiteEar.toString(true));
+        
+//        exporter = new ZipExporterImpl(planningsuiteEar);
+//        try {
+//            exporter.exportTo(new FileOutputStream("../planningsuite-ear/target/_planningsuite.ear"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        
 
         return planningsuiteEar;
     }
@@ -94,9 +114,10 @@ public class FullPlanningworkflowIT {
             
             Assert.assertNull(createPlanView.getPlan());
             createPlanView.createPlan();
-            Assert.assertNotNull(createPlanView.getPlan());
+            Plan plan = createPlanView.getPlan();
+            Assert.assertNotNull(plan);
+            plan.getPlanProperties().setName("Test Plan");
             createPlanView.savePlan();
-            
     }
     
 }

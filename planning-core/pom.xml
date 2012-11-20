@@ -81,7 +81,19 @@
 			            </goals>
 			        </execution>
 			    </executions>
-			</plugin>			
+			</plugin>
+			<!--  this create jar file of code from src/test/java so modules with tests can share code -->
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-jar-plugin</artifactId>
+			<executions>
+			  <execution>
+			    <goals>
+			       <goal>test-jar</goal>
+			    </goals>
+			  </execution>
+			</executions>
+			</plugin>
 		</plugins>
 	</build>
     <repositories>
@@ -95,15 +107,6 @@
             <url>http://www.mygrid.org.uk/maven/repository</url>
         </repository>
 
-        <repository>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots />
-            <id>mygrid-snapshot-repository</id>
-            <name>myGrid Snapshot Repository</name>
-            <url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
-        </repository>
     </repositories>
 
 

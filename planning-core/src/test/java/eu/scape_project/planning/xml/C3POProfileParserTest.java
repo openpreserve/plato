@@ -1,4 +1,4 @@
-package eu.scape_project.pw.planning.xml;
+package eu.scape_project.planning.xml;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
