@@ -5,7 +5,7 @@
   <parent>
     <artifactId>planningsuite</artifactId>
     <groupId>eu.scape-project.pw</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>minimee</artifactId>
   <name>Minimee</name>
@@ -16,13 +16,13 @@
     <dependency>
         <groupId>eu.scape-project.pw</groupId>
         <artifactId>plato-model</artifactId>
-        <version>3.2.0</version>
+        <version>${plato-model.version}</version>
         <scope>provided</scope>
     </dependency>
     <dependency>
         <groupId>eu.scape-project.pw</groupId>
         <artifactId>planning-core</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${planning-core.version}</version>
         <scope>provided</scope>
         <type>ejb</type>
     </dependency>

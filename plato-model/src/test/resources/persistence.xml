@@ -6,7 +6,6 @@
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
    <persistence-unit name="platoDatabase">
       <jta-data-source>java:jboss/datasources/platoTestDatasource</jta-data-source>
-      <jar-file>planningsuite-ear.ear/lib/plato-model-3.2.0.jar</jar-file>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create"/> 
          <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>

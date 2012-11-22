@@ -4,32 +4,34 @@
 	<parent>
 		<groupId>eu.scape-project.pw</groupId>
 		<artifactId>planningsuite</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>plato</artifactId>
 	<packaging>war</packaging>
 	<name>Planning Tool</name>
 
 	<properties>
+		<plato.url>http://${sp.domain}:8080/plato/</plato.url>
+
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
 		<arquillian.version>1.0.1.Final</arquillian.version>
 		<richfaces.version>4.1.0.Final</richfaces.version>
-		<plato.url>http://${sp.domain}:8080/plato/</plato.url>
+		<shrinkwrap.resolver.version>2.0.0-alpha-5</shrinkwrap.resolver.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.jboss.shrinkwrap.resolver</groupId>
-				<artifactId>shrinkwrap-resolver-bom</artifactId>
-				<version>2.0.0-alpha-1</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
+	        <dependency>
+	            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+	            <artifactId>shrinkwrap-resolver-bom</artifactId>
+	            <version>${shrinkwrap.resolver.version}</version>
+	            <scope>import</scope>
+	            <type>pom</type>
+	        </dependency>	
 			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
-				<version>1.0.2.Final</version>
+				<version>1.0.3.Final</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -121,9 +123,15 @@
 		<dependency>
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>1.0.0.Final</version>
+			<version>${jboss-javaee.version}</version>
 			<type>pom</type>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>xalan</artifactId>
+					<groupId>xalan</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
@@ -169,20 +177,21 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
-			<version>3.2.0</version>
+			<version>${plato-model.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>planning-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${planning-core.version}</version>
 			<scope>provided</scope>
 			<type>ejb</type>
 		</dependency>
-		<dependency> <!-- reuse src/test/java code from moduleA! -->
+		<dependency> 
+			<!-- reuse src/test/java code  -->
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>planning-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${planning-core.version}</version>
 			<scope>test</scope>
 			<classifier>tests</classifier>
 		</dependency>		
@@ -190,7 +199,7 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>minimee</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${minimee.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>dom4j</groupId>
@@ -206,6 +215,10 @@
 				<exclusion>
 					<artifactId>icu4j</artifactId>
 					<groupId>com.ibm.icu</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xalan</artifactId>
+					<groupId>xalan</groupId>
 				</exclusion>
 			</exclusions>
 			<scope>provided</scope>
@@ -272,9 +285,15 @@
 				<dependency>
 					<groupId>org.jboss.spec</groupId>
 					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>1.0.0.Final</version>
+					<version>${jboss-javaee.version}</version>
 					<type>pom</type>
 					<scope>provided</scope>
+					<exclusions>
+						<exclusion>
+							<artifactId>xalan</artifactId>
+							<groupId>xalan</groupId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 				<dependency>
 					<groupId>org.jboss.as</groupId>
@@ -287,36 +306,12 @@
 					<artifactId>arquillian-protocol-servlet</artifactId>
 					<scope>test</scope>
 				</dependency>
-<!-- 				<dependency>
-					<groupId>org.jboss.shrinkwrap.resolver</groupId>
-					<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-					<scope>test</scope>
-				</dependency>
- -->
  				<dependency>
 					<groupId>org.jboss.weld</groupId>
 					<artifactId>weld-core</artifactId>
 					<version>1.1.8.Final</version>
 					<scope>test</scope>
 				</dependency>
-<!-- 			
-				<dependency>
-					<groupId>org.jboss.shrinkwrap</groupId>
-					<artifactId>shrinkwrap-api</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.shrinkwrap</groupId>
-					<artifactId>shrinkwrap-impl-base</artifactId>
-					<scope>test</scope> Don't rely upon internals for compilation
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.shrinkwrap.descriptors</groupId>
-					<artifa
-
-					ctId>shrinkwrap-descriptors-impl</artifactId>
-					<version>1.1.0-beta-1</version>
-				</dependency>
- -->
 
 			</dependencies>
 		</profile>

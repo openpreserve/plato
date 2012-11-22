@@ -4,11 +4,11 @@
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>planningsuite</artifactId>
-        <groupId>eu.scape-project.pw</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<artifactId>planningsuite</artifactId>
+		<groupId>eu.scape-project.pw</groupId>
+		<version>4.0.0-SNAPSHOT</version>
+	</parent>
 
     <artifactId>planning-core</artifactId>
     <packaging>ejb</packaging>
@@ -148,59 +148,59 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>eu.scape-project.pw</groupId>
-            <artifactId>plato-model</artifactId>
-            <version>3.2.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-digester3</artifactId>
-            <version>3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jaxen</groupId>
-            <artifactId>jaxen</artifactId>
-            <version>1.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>icu4j</artifactId>
-                    <groupId>com.ibm.icu</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>xercesImpl</artifactId>
-                    <groupId>xerces</groupId>
-                </exclusion>
-            </exclusions>
-            <scope>provided</scope>
-        </dependency>
-
+<!--
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
+-->
+	<dependency>
+		<groupId>eu.scape-project.pw</groupId>
+		<artifactId>plato-model</artifactId>
+		<version>${plato-model.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-digester3</artifactId>
+		<version>3.2</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-beanutils</groupId>
+		<artifactId>commons-beanutils</artifactId>
+		<version>1.8.3</version>
+	</dependency>
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>jaxen</groupId>
+		<artifactId>jaxen</artifactId>
+		<version>1.1.1</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>icu4j</artifactId>
+				<groupId>com.ibm.icu</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>xercesImpl</artifactId>
+				<groupId>xerces</groupId>
+			</exclusion>
+		</exclusions>
+		<scope>provided</scope>
+	</dependency>
 
         <dependency>
             <groupId>net.schmizz</groupId>
@@ -298,7 +298,7 @@
 				<dependency>
 					<groupId>org.jboss.spec</groupId>
 					<artifactId>jboss-javaee-6.0</artifactId>
-					<version>1.0.0.Final</version>
+					<version>${jboss-javaee.version}</version>
 					<type>pom</type>
 					<scope>provided</scope>
 				</dependency>
