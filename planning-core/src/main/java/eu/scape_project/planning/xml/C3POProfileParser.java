@@ -26,6 +26,8 @@ import javax.xml.parsers.SAXParser;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,11 @@ import eu.scape_project.planning.utils.ParserException;
  * 
  */
 public class C3POProfileParser {
+
+    /**
+     * The default namespace of a c3po profile.
+     */
+    private static final String C3PO_NAMESPACE = "http://ifs.tuwien.ac.at/dp/c3po";
 
     /**
      * A template for the description of the partition.
@@ -80,6 +87,8 @@ public class C3POProfileParser {
 
     private Document profile;
 
+    private Namespace namespace;
+
     /**
      * Reads the profile out of the input stream and validates if needed. If the
      * document is faulty for some reason and exception will be thrown.
@@ -109,6 +118,11 @@ public class C3POProfileParser {
         try {
             final SAXReader reader = new SAXReader();
             this.profile = reader.read(stream);
+
+            final Namespace namespace = this.profile.getRootElement().getNamespace();
+            if (!namespace.getStringValue().equals(C3PO_NAMESPACE)) {
+                throw new ParserException("Cannot parse the profile, namespace does not match");
+            }
         } catch (final DocumentException e) {
             log.error("An error occurred while reading the profile: {}", e.getMessage());
             this.profile = null;
@@ -156,7 +170,7 @@ public class C3POProfileParser {
      * @return
      */
     public String getDescriptionOfObjects() {
-        Element samples = (Element) this.profile.getRootElement().selectSingleNode("//partition/samples");
+        Element samples = (Element) this.profile.getRootElement().element("partition").element("samples");
         String type = samples.attributeValue("type");
 
         return DESCRIPTION_OF_SAMPLES_TEMPLATE.replace("{1}", type);
@@ -173,7 +187,17 @@ public class C3POProfileParser {
      */
     public String getTypeOfObjects() {
         int count = Integer.parseInt(this.getObjectsCountInPartition());
-        List<Element> items = this.profile.getRootElement().selectNodes("//properties/property[@id='format']/*");
+        QName name = new QName("format", this.namespace);
+        List<Element> properties = this.profile.getRootElement().element("partition").element("properties")
+            .elements("property");
+
+        List<Element> items = new ArrayList<Element>();
+        for (Element e : properties) {
+            if (e.attributeValue("id").equals("format")) {
+                items.addAll(e.elements());
+                break;
+            }
+        }
 
         if (items.isEmpty()) {
             return MISSING;
@@ -244,7 +268,8 @@ public class C3POProfileParser {
     public List<String> getObjectIdentifiers() {
         List<String> uris = new ArrayList<String>();
 
-        List<Element> elements = this.profile.getRootElement().selectNodes("//elements/element");
+        List<Element> elements = this.profile.getRootElement().element("partition").element("elements")
+            .elements("element");
 
         for (Element e : elements) {
             uris.add(e.attributeValue("uid"));
@@ -258,19 +283,30 @@ public class C3POProfileParser {
         String uid = sample.attributeValue("uid");
         SampleObject object = new SampleObject(uid);
         object.setFullname(uid);
+        List<Element> mimes = new ArrayList<Element>();
+        List<Element> size = new ArrayList<Element>();
+        List<Element> records = sample.elements("record");
 
-        List nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='mimetype']");
-        if (nodes.size() > 1) {
+        for (Element rec : records) {
+            if (rec.attributeValue("name").equals("mimetype")) {
+                mimes.add(rec);
+            }
+
+            if (rec.attributeValue("name").equals("size")) {
+                size.add(rec);
+            }
+        }
+
+        if (mimes.size() > 1) {
             object.setContentType("Conflict");
-        } else if (nodes.size() == 1) {
-            Element mimetype = (Element) nodes.get(0);
+        } else if (mimes.size() == 1) {
+            Element mimetype = (Element) mimes.get(0);
             object.setContentType(mimetype.attributeValue("value"));
         }
 
-        nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='size']");
-        if (nodes.size() == 1) {
-            Element size = (Element) nodes.get(0);
-            object.setSizeInBytes(Double.parseDouble(size.attributeValue("value")));
+        if (size.size() == 1) {
+            Element s = (Element) size.get(0);
+            object.setSizeInBytes(Double.parseDouble(s.attributeValue("value")));
         }
 
         FormatInfo info = this.getFormatInfo(sample, object.getContentType());
@@ -284,28 +320,43 @@ public class C3POProfileParser {
         info.setMimeType(mime);
 
         String uid = sample.attributeValue("uid");
+        List<Element> records = sample.elements("record");
+        List<Element> formats = new ArrayList<Element>();
+        List<Element> versions = new ArrayList<Element>();
+        List<Element> puids = new ArrayList<Element>();
 
-        List nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='format']");
-        if (nodes.size() > 1) {
+        for (Element rec : records) {
+            if (rec.attributeValue("name").equals("format")) {
+                formats.add(rec);
+            }
+
+            if (rec.attributeValue("name").equals("format_version")) {
+                versions.add(rec);
+            }
+
+            if (rec.attributeValue("name").equals("puid")) {
+                puids.add(rec);
+            }
+        }
+
+        if (formats.size() > 1) {
             info.setName("Conflict");
-        } else if (nodes.size() == 1) {
-            Element format = (Element) nodes.get(0);
+        } else if (formats.size() == 1) {
+            Element format = (Element) formats.get(0);
             info.setName(format.attributeValue("value"));
         }
 
-        nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='format_version']");
-        if (nodes.size() > 1) {
+        if (versions.size() > 1) {
             info.setVersion("Conflict");
-        } else if (nodes.size() == 1) {
-            Element version = (Element) nodes.get(0);
+        } else if (versions.size() == 1) {
+            Element version = (Element) versions.get(0);
             info.setVersion(version.attributeValue("value"));
         }
 
-        nodes = sample.selectNodes("//samples/sample[@uid='" + uid + "']/record[@name='puid']");
-        if (nodes.size() > 1) {
+        if (puids.size() > 1) {
             info.setPuid("Conflict");
-        } else if (nodes.size() == 1) {
-            Element puid = (Element) nodes.get(0);
+        } else if (puids.size() == 1) {
+            Element puid = (Element) puids.get(0);
             info.setPuid(puid.attributeValue("value"));
         }
 
