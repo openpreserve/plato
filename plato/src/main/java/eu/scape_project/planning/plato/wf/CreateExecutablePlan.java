@@ -176,11 +176,7 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
         generator.setOutputFormat(OutputFormat.createPrettyPrint());
 
         try {
-            DigitalObject object = generator.generatePreservationActionPlan(FileUtils.makeFilename(plan
-                .getPlanProperties().getName()
-                + " - "
-                + plan.getRecommendation().getAlternative().getName()
-                + " - PreservationActionPlan"));
+            DigitalObject object = generator.generatePreservationActionPlan();
 
             digitalObjectManager.moveDataToStorage(object);
 

@@ -702,8 +702,15 @@ public class PlanParser {
         // Preservation action plan
         digester.addObjectCreate("*/plan/preservationActionPlan", PreservationActionPlanDefinition.class);
         digester.addSetNext("*/plan/preservationActionPlan", "setPreservationActionPlanDefinition");
-        PlanParser.addCreateXMLFile(digester, "*/plan/preservationActionPlan", "setPreservationActionPlan",
-            DigitalObject.class);
+
+        digester.addObjectCreate("*/plan/preservationActionPlan", DigitalObject.class);
+        digester.addCallMethod("*/plan/preservationActionPlan", "setContentType", 1);
+        digester.addObjectParam("*/plan/preservationActionPlan", 0, "application/xml");
+        digester.addCallMethod("*/plan/preservationActionPlan", "setFullname", 1);
+        digester.addObjectParam("*/plan/preservationActionPlan", 0, PreservationActionPlanGenerator.FULL_NAME);
+        digester.addSetNext("*/plan/preservationActionPlan", "setPreservationActionPlan");
+
+        PlanParser.addCreateXMLData(digester, "*/plan/preservationActionPlan", "setData", "setChangeLog");
 
         //
         // Import Planets executable plan if present
@@ -825,52 +832,48 @@ public class PlanParser {
     }
 
     /**
-     * Create a rule for reading an upload entry for the given location
-     * <code>pattern</code>, and use the <code>method</code> to set the upload
-     * object.
+     * Create a rule for parsing an element for the given location
+     * <code>pattern</code>, write it the XML as binary data, and use the
+     * <code>dataSetterMethod</code> to set the data in the parent.
      * 
      * @param digester
      *            the digester
      * @param pattern
      *            the location pattern
-     * @param method
-     *            a method name of the parent object
-     * @param objectType
-     *            class of object to create
+     * @param dataMethod
+     *            a method name of the parent object that will be called to set
+     *            the binary data or null to use XMLDataWrapper's default
      * @throws ParserConfigurationException
+     *             if the digester could not be configured
      */
-    private static void addCreateXMLFile(final Digester digester, final String pattern, final String method,
-        final Class<?> objectType) throws ParserConfigurationException {
-        digester.addObjectCreate(pattern, objectType);
+    private static void addCreateXMLData(final Digester digester, final String pattern, String dataMethod,
+        String changeLogMethod) throws ParserConfigurationException {
 
-        // TODO: Use XML properties?
-        // digester.addSetProperties(pattern);
+        // 1. Create a XMLDataWrapper
+        digester.addObjectCreate(pattern, XMLDataWrapper.class);
 
-        if ((method != null) && (!"".equals(method))) {
-            digester.addSetNext(pattern, method);
+        if (changeLogMethod != null) {
+            // 6. Finally call setChangeLog on the XMLDataWrapper on top with
+            // the object next to top as argument.
+            digester.addSetTop(pattern, "setChangeLog");
+            // 5. Set change log setter method on XMLDataWrapper
+            digester.addCallMethod(pattern, "setChangeLogMethodName", 1);
+            digester.addObjectParam(pattern, 0, changeLogMethod);
         }
 
-        /*
-         * Note: It is not possible to read element data, process it and pass it
-         * to a function with a simple digester Rule, neither you can define a
-         * factory to read the data of an element.
-         * 
-         * So we have to do it the other way round: (remember: the function
-         * added last is executed first!)
-         */
-        // 1. Create a BinaryDataWrapper if a <data> element is encountered
-        digester.addObjectCreate(pattern, XMLDataWrapper.class);
-        // 3. Finally call setData on the BinaryDataWrapper(!) on top with the
-        // object next to top as argument
-        // The BinaryDataWrapper will call setData on to object next to top with
-        // the previously read and decoded data
+        // 4. Finally call setData on the XMLDataWrapper on top with the
+        // object next to top as argument.
         digester.addSetTop(pattern, "setData");
-        // 2. Call setFromBase64Encoded on the BinaryDataWrapper to read the
-        // elements content
+        // 3. Set data setter method on XMLDataWrapper
+        if (dataMethod != null) {
+            digester.addCallMethod(pattern, "setMethodName", 1);
+            digester.addObjectParam(pattern, 0, dataMethod);
+        }
+        // 2. Create element from XML and set the element in the XMLDataWrapper
         NodeCreateRule nodeCreateRule = new NodeCreateRule();
         digester.addRule(pattern, nodeCreateRule);
+        digester.addSetNext(pattern, "setEncoded");
 
-        digester.addSetNext(pattern, "setEncoded", "org.w3c.dom.Element");
     }
 
     /**

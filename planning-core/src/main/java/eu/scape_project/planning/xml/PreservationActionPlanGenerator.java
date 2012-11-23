@@ -60,6 +60,11 @@ public class PreservationActionPlanGenerator implements Serializable {
     public static final OutputFormat DEFAULT_OUTPUT_FORMAT;
 
     /**
+     * Full name of the generated digital object.
+     */
+    public static final String FULL_NAME = "PreservationActionPlan.xml";
+
+    /**
      * Encoding used for writing data.
      */
     private static final String ENCODING = "UTF-8";
@@ -89,16 +94,13 @@ public class PreservationActionPlanGenerator implements Serializable {
     /**
      * Generates a preservation action plan from the data as digital object.
      * 
-     * @param name
-     *            the name of the digital object
      * @return the preservation action plan
      * @throws PlanningException
-     *             if an error occured during generation
+     *             if an error occurred during generation
      * @throws UnsupportedEncodingException
      *             if the set encoding is not supported
      */
-    public DigitalObject generatePreservationActionPlan(String name) throws PlanningException,
-        UnsupportedEncodingException {
+    public DigitalObject generatePreservationActionPlan() throws PlanningException, UnsupportedEncodingException {
         DigitalObject digitalObject = null;
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -109,7 +111,7 @@ public class PreservationActionPlanGenerator implements Serializable {
             bs.setData(out.toByteArray());
             bs.setSize(out.size());
             digitalObject = new DigitalObject();
-            digitalObject.setFullname(name);
+            digitalObject.setFullname(FULL_NAME);
             digitalObject.setContentType("application/xml");
             digitalObject.setData(bs);
         } finally {
@@ -130,7 +132,7 @@ public class PreservationActionPlanGenerator implements Serializable {
      * @param out
      *            the output stream for the preservation action plan
      * @throws PlanningException
-     *             if an error occured during generation
+     *             if an error occurred during generation
      * @throws UnsupportedEncodingException
      *             if the set encoding is not supported
      */
@@ -138,7 +140,7 @@ public class PreservationActionPlanGenerator implements Serializable {
 
         XMLWriter writer = new XMLWriter(out, outputFormat);
         try {
-            writer.write(generatePreservationActionPlan());
+            writer.write(generatePreservationActionPlanDocument());
         } catch (IOException e) {
             log.error("Error writing preservation action plan {}.", e.getMessage());
             throw new PlanningException("Error writing preservation action plan.", e);
@@ -157,9 +159,9 @@ public class PreservationActionPlanGenerator implements Serializable {
      * 
      * @return the preservation action plan
      * @throws PlanningException
-     *             if an error occured during generation
+     *             if an error occurred during generation
      */
-    public Document generatePreservationActionPlan() throws PlanningException {
+    public Document generatePreservationActionPlanDocument() throws PlanningException {
         Document doc = createPapDoc();
         Element preservationActionPlan = doc.getRootElement();
 
