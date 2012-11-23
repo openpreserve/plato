@@ -1,91 +1,87 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de">
 <head>
-  <title>PLANETS Preservation Planning Tool</title>
-  <meta name="description" content="PLANETS Preservation Planning Tool"/>
-  <link rel="shortcut icon" type="image/png" href="img/plato_icon.png"/>
-
-  <link rel="stylesheet" href="../css/content.css" type="text/css"/>
-  <link rel="stylesheet" media="screen" href="../css/plato.css" type="text/css" title="Plato"/>
-
+<title>PLANETS Preservation Planning Tool</title>
+<meta name="description" content="PLANETS Preservation Planning Tool" />
+<link rel="shortcut icon" type="image/png" href="img/plato_icon.png" />
+<link rel="stylesheet" media="screen"
+	href="/plato/resources/css/help.css" type="text/css" title="Plato" />
 </head>
-<body id="body"><a name="top"></a>
-
-<div id="header">
-  <div><a name="top"></a></div>
-  <h1 class="title1">Aggregation of Values</h1>
-  <!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
-  <div class="hnav">
-  	<div>
-		<!-- div on the top right -->
-    </div>
-  </div>
-</div>
-
-<div class="strich">
-  <div></div>
-</div>
-
-<div id="menu">&nbsp;</div>
-
-<div id="spacing-top">
-  <div></div>
-</div>
-
-<div id="content">
-		<p>This page explains how the aggregation of leaf values in Plato works.</p>
-		<hr/>
-
-<div id="menu">
-  <h2 class="title2">Why Aggregation?</h2>
- </div>
-  		<p>A single value for every alternative has to be calculated to rank the alternatives. This is done by calculating up the <b>transformed</b> values on the leaves of the requirements tree by using one of the aggregation methods listed below.</p>
-
-		<hr/>
-<div id="menu">
-	 <h2 class="title2">Aggregation Methods</h2>
-</div>
-	 The following methods for aggregation are included:
-  		<ul>
-  			<li><b>Multiplication</b>
-			<br/>Here, the first step is to raise the comparable value per leaf to the weight of that leaf. The results are then multiplied throughout the tree for the whole alternative. The final ranking is based on a rational scale. The multiplication method highlights alternatives with drop out values, as these alternatives with leaf values zero have a final root value of zero. </li>
-  			<li><b>Sum</b><br/>The comparable values are multiplied by their weights. These values are summed up to a single comparable value per alternative. The sum method offers a final ranking on a rational scale. Leaf values that score zero (drop-out value) have no decisive effect on the final root value.</li>
-  		</ul>
-  		<p>
-		The Sum shows an overall ranking of an alternative. The Multiplication considers unacceptable values (leaf value of zero) as well. The aggregated value for the containing branch and the alternative are set to zero as well.<br/>
-		Thus, we use multiplication to eliminate alternatives with unacceptable performance, and addition to rank the remaining options.
-		</p>
-<hr/>
-	<div id="menu">
-	 <h2 class="title2">Example</h2>
-	 </div>
-		<p>Below is an example of how an alternative is set to zero because of an unacceptable value with aggregation method "Multiplication". <br/>
-		<b>Aggregation using Multiplication method:</b><br/>
-		<img src="aggregation_mult.png" alt="Example Image for multiplication aggregation"/><br/>
-		<br/><b>Aggregation using Sum method:</b><br/>
-		<img src="aggregation_sum.png" alt="Example Image for sum aggregation"/><br/><br/>
-		</p>
-
-		<div id="spacing-bottom">
-		  <div></div>
+<body id="body">
+	<div id="helpheader">
+		<div id="title">
+			<h1>Plato Help Pages</h1>
 		</div>
+	</div>
+	<div id="header">
+		<h1 class="title1">Aggregation of Values</h1>
+	</div>
 
-<div id="footer-left">
+	<div class="content">
+		<p>This page explains how the aggregation of leaf values in Plato
+			works.</p>
+	</div>
 
-  <div class="strich">
-    <div></div>
-  </div>
-  <div class="contact">Plato help page. Institute of Software Technology and Interactive Systems: &#171;<a href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice bears</a>&#187;</div>
+	<div class="section">
+		<div class="sectiontitle">
+			<h2>Why Aggregation?</h2>
+		</div>
+		<p>
+			A single value for every alternative has to be calculated to rank the
+			alternatives. This is done by calculating up the <b>transformed</b>
+			values on the leaves of the requirements tree by using one of the
+			aggregation methods listed below.
+		</p>
 
-</div>
-
-<div id="footer-right">
-	<span>
-    <div>
-      <a class="toplink" href="#top" title="top" alt="top"><img src="img/go-top.png" border="0"/></a>
-    </div>
-    <!-- Span on the bottom right --></span>
-</div>
-</div>
+	</div>
+	<div class="section">
+		<div class="sectiontitle">
+			<h2 class="title2">Aggregation Methods</h2>
+		</div>
+		The following methods for aggregation are included:
+		<ul>
+			<li><b>Multiplication</b> <br />Here, the first step is to
+				raise the comparable value per leaf to the weight of that leaf. The
+				results are then multiplied throughout the tree for the whole
+				alternative. The final ranking is based on a rational scale. The
+				multiplication method highlights alternatives with drop out values,
+				as these alternatives with leaf values zero have a final root value
+				of zero.</li>
+			<li><b>Sum</b><br />The comparable values are multiplied by
+				their weights. These values are summed up to a single comparable
+				value per alternative. The sum method offers a final ranking on a
+				rational scale. Leaf values that score zero (drop-out value) have no
+				decisive effect on the final root value.</li>
+		</ul>
+		<p>
+			The Sum shows an overall ranking of an alternative. The
+			Multiplication considers unacceptable values (leaf value of zero) as
+			well. The aggregated value for the containing branch and the
+			alternative are set to zero as well.<br /> Thus, we use
+			multiplication to eliminate alternatives with unacceptable
+			performance, and addition to rank the remaining options.
+		</p>
+	</div>
+	<div class="section">
+		<div class="sectiontitle">
+			<h2 class="title2">Example</h2>
+		</div>
+		<p>
+			Below is an example of how an alternative is set to zero because of
+			an unacceptable value with aggregation method "Multiplication". <br />
+			<b>Aggregation using Multiplication method:</b><br /> <img
+				src="aggregation_mult.png"
+				alt="Example Image for multiplication aggregation" /><br /> <br />
+			<b>Aggregation using Sum method:</b><br /> <img
+				src="aggregation_sum.png" alt="Example Image for sum aggregation" /><br />
+			<br />
+		</p>
+	</div>
+	<div class="contact">
+		Plato help page. Institute of Software Technology and Interactive
+		Systems: &#171;<a
+			href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice
+			bears</a>&#187;
+	</div>
 </body>
 </html>

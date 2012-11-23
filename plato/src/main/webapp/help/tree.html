@@ -1,249 +1,269 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de">
 <head>
-  <title>PLANETS Preservation Planning Tool</title>
-  <meta name="description" content="PLANETS Preservation Planning Tool"/>
-  <link rel="shortcut icon" type="image/png" href="img/plato_icon.png"/>
+<title>PLANETS Preservation Planning Tool</title>
+<meta name="description" content="PLANETS Preservation Planning Tool" />
+<link rel="shortcut icon" type="image/png" href="img/plato_icon.png" />
 
-  <link rel="stylesheet" href="../css/content.css" type="text/css"/>
-  <link rel="stylesheet" media="screen" href="../css/plato.css" type="text/css" title="Plato"/>
+<link rel="stylesheet" media="screen"
+	href="/plato/resources/css/help.css" type="text/css" title="Plato" />
 
 </head>
-<body id="body"><a name="top"></a>
+<body id="body">
+	<a name="top"></a>
 
-<div id="header">
-  <div><a name="top"></a></div>
-  <h1 class="title1">How to specify requirements in the objective tree editor</h1>
-  <!-- <h2 class="title2">Institute of Software Technology and Interactive Systems</h2>  -->
-  <div class="hnav">
-  	<div>
-		<!-- div on the top right -->
-    </div>
-  </div>
-</div>
+	<div id="helpheader">
+		<div id="title">
+			<h1>Plato Help Pages</h1>
+		</div>
+	</div>
+	<div id="header">
+		<h1>How to specify requirements in the objective tree editor</h1>
+	</div>
 
-<div class="strich">
-  <div></div>
-</div>
+	<div class="content">
+		<p>This page explains the specification of objective trees in
+			Plato.</p>
 
-<div id="menu">&nbsp;</div>
-
-<div id="spacing-top">
-  <div></div>
-</div>
-
-<div id="content">
-		<p>This page explains the specification of objective trees in Plato.</p>
-
- <div id="anchors">
-            <ul>
-               <li>
-                  <a href="#structure">Tree structure</a>
-               </li>
-               <li>
-                  <a href="#scales">Specifying scales</a>
-               </li>
-               <li>
-                  <a href="#single">Single values</a>
-               </li>
-               <li>
-                  <a href="#restrictions">Setting restrictions</a>
-               </li>
-               <li>
-                  <a href="#units">Setting measurement units</a>
-               </li>
-               <li>
-                  <a href="#mapping">Mapping criteria to object properties</a>
-               </li>
-               <li>
-                  <a href="#example">Example</a>
-               </li>
-            </ul>
-</div>
-
-<div id="menu">  <a name="structure"/>
-  <h2 class="title2">Tree structure</h2>
-
- </div>
-  		<p>Using the tree table editor, you can add and remove inner nodes and leaf nodes.
-  		Every leaf criterion denotes a requirement that can and must be measured. It therefore has to be assigned a measurement scale.<br/>
-  		<img src="../img/icons/big/emblem-important.png"/>You can save an incomplete tree and continue working on it later. However, it is not possible to proceed in the workflow with an invalid objective tree.<br/>
-  		
-  		<img src="tree.png"/>
-  		</p>
-  		<p>There are two views of the tree: The classic view with names and scales, and a documentary view that allows you to describe each node.</p>
-  		<p>You can switch between these views with the dropdown menu on the top left corner of the tree:
-  		<img src="tree-view.png"/>
-</p>
-  		<p>Switching to the "comments" view yields the following editor:
-  		<img src="tree-comments.png"/>
-		</p>  		
-  		<p>Every node needs a name. To ensure you are entering a name for a new node, the name field is shown red until you provide a name. You cannot edit the tree while a field is red.
-  		<img src="tree-mandatory.png"/>
-  		</p>
-  		</div>
-<hr/>
-<div id="menu"><a name="scales"/>
-	 <h2 class="title2">Specifying scales</h2>
-</div>
-	 The following types of scales are supported:
-  		<ul>
-  			<li><b>Boolean</b> scales are binary yes/no decisions.</li>
-  			<li><b>Int Range</b> scales are integer numbers with lower and upper bounds that are set to 0 and 5, respectively, by default. You can change these boundaries in the <b>restrictions</b> field.</li>
-  			<li><b>Ordinal</b> scales can be used for criteria that cannot be measured automatically or that you want to judge by yourself.<br/>
-  			For example, Availability of documentation in the provided example can have one of the values
+		<div id="anchors">
 			<ul>
-				<li>public,</li>
-				<li>limited, or</li>
-				<li>none.</li>
+				<li><a href="#structure">Tree structure</a></li>
+				<li><a href="#scales">Specifying scales</a></li>
+				<li><a href="#single">Single values</a></li>
+				<li><a href="#restrictions">Setting restrictions</a></li>
+				<li><a href="#units">Setting measurement units</a></li>
+				<li><a href="#mapping">Mapping criteria to object
+						properties</a></li>
+				<li><a href="#example">Example</a></li>
 			</ul>
-		</li>
-  			<li><b>Positive numbers</b> and <b>positive integers</b> can be any number above or equal to zero. You can specify an upper bound by typing a number in the restriction field.<br/>
-  			<b>You have to specify a measurement unit for these scales.</b></li>
-  			<li><b>Yes-Acceptable-No</b> scales used to be included, but are discouraged for reasons of objectivity: The question
-  			of <em>acceptance</em> should be addressed in the transformation step, not the measurement! <br/>
-  			We are keeping the scales included for historical reasons, but recommend NOT using them. You will
-  			receive a warning if you have included them.</li>
-  		</ul>
-		<p><img src="../img/icons/big/emblem-important.png"/><b>You have to specify a scale for every leaf node</b> before you can proceed with the workflow.<br/>
-		</p>
-<hr/>
-<div id="menu"> <a name="single"/>
-	 <h2 class="title2">Single values</h2>
-	
-	 </div>
-		<p>
-          By default, every criterion is applicable to every single sample record. For example, a criterion specifying that <em>the image width has to remain unchanged</em>
-           has to be checked for fulfillment for every sample record.<br/>
-          However, there are criteria that do not need to be evaluated for every sample record again. For example,
-          a criterion saying that <em>the target format needs to be an official standard</em> applies to an alternative action as a whole,
-          not to each single object. Thus it can be marked as a <b>single</b> criterion that only has to be evaluated
-          once per alternative.<br/>
-          Note that for example the criterion <em>conforms to file format</em> should be checked for every sample
-          object, because a tool might fail to produce correct output files for specific input files.<br/>
-          <b>Single</b> criteria thus denote criteria that are to be evaluated once per alternative.
-</p>
-	<hr/>
-	<div id="menu"> <a name="restrictions"/>
-	 <h2 class="title2">Setting restrictions</h2>
-	
-	 </div>
-		<p>
-		Restrictions specify a scale more concretely and constrain the possible values.<br/>
-		<img src="../img/icons/big/emblem-important.png"/><b>For ordinal scales, the restriction specifies the list of possible values that the scale contains. <br/>
-		In this case, the specification of a restriction is obligatory.</b><br/>
-		For example, in the scale for 'availability of documentation' mentioned above, the three possible values have to specified.
-		You can do so by setting the scaletype to 'ordinal' and then specifying the restriction 'public/limited/none' in the restriction field.<br/>
-		Boolean (Yes/No) as well as Yes/Acceptable/No are special cases of ordinal scales where you cannot change the restriction settings.
-		</p>
-
-		<p>
-		For numeric values, the following rules apply.
-		</p>
-		<ul>
-		<li>For IntRange scales, i.e. integer with a specified range, the restriction specifies the <b>lower and upper boundary</b> of the values in the form <b>lower/upper</b>.<br/>
-		For example, a restriction of 1/10 specifies a value between 1 and 10.
-		</li>
-		<li>
-		For positive numbers and integers, the restriction specifies only the upper limit. Setting a restriction of '100' specifies that each evaluation value may not exceed 100.
-		</li>
-		</ul>
-<hr/>
-<div id="menu"> <a name="units"/>
-	 <h2 class="title2">Setting measurement units</h2>
-	 </div>
-
-		<p>
-		A unit is a text specifying the unit of measurement, such as
-		</p>
-		 <ul> <li>MB,</li> <li>seconds per object, or</li> <li>bits.</li></ul>
-		<p>	Units are obligatory for any numeric scale. For other scales, you may specify a unit, but you don't need to.</p>
-	<hr/>
-
-<div id="menu"><a name="mapping"/>
-	 <h2 class="title2">Mapping criteria to object properties</h2>
-	 </div>
-
-		<p>
-		Some of the criteria in the tree can be evaluated automatically - specifically, by comparing
-		properties of files e.g. before and after migration actions have taken place.<br/>
-		The righernmost column of the objective tree provides the possibility to create a mapping 
-		to object properties that can be extracted automatically from the set of sample records. 
-		<br/>
-		This characterisation relies on the <a href="http://planetarium.hki.uni-koeln.de/public/XCL/">eXtensible Characterisation Languages (XCL)</a>.
-		</p>
-		<p>
-		The screenshot below shows a tree fragment where all but one leaves are mapped to object properties that can be compared automatically.
-		The color of the paperclip on the icon shows if a property has been mapped or not.</p>
-		<img src="tree-mapping.png" alt="example tree with mapping"/>
-		<p>
-		By clicking on the icon on the right column, you can edit the mapping as shown in the following screenshots.
-		</p>
-		<ul>
-		<li> First you choose the category which the corresponding criterion belongs to. This is one of the following:
-                     	<ul>
-                     		<li><b>Outcome Object:</b> Desired properties of the object such as editability and properties of the original that need to be preserved, such as image width</li>
-                     		<li><b>Outcome Format:</b> Criteria on the format the objects will be stored in, such as standardisation</li>
-                     		<li><b>Outcome Effects:</b> Effects induced by the preservation action, such as costs</li>
-                     		<li><b>Action Runtime:</b> Runtime properties such as used time and memory</li>
-                     		<li><b>Action Static:</b> Action properties such as licensing costs and documentation quality</li>
-                     		<li><b>Action Judgement:</b>  Properties that need to be judged, such as usability</li>
-                     	</ul>
-		<img src="tree-mapping1-category.png" alt="Choosing the category"/><br/>
-		<p>
-		You confirm using the green arrow.
-		</p>
-		</li>
-		<li> Second, you choose the property that the corresponding criterion should be associated with:<br/>
-		<img src="tree-mapping2-property.png" alt="Choosing the property"/><br/>
-		<p>
-		Again, you confirm using the green arrow.
-		</p>
-		</li>
-
-		<li>
-		Finally, in some cases you need to define which comparison metric shall be used to compare original and transformed objects. <br/>
-		Please note that this metric will determine the scale to be used for measuring the leaf criterion.<br/>
-		<img src="tree-mapping3-metric.png" alt="editing the mapping"/><br/>
-		Again, confirm with the green arrow, and the popup will close.<br/>
-		</li>
-		</ul>
-		
-	<hr/>
-
-	<div id="menu"><a name="example"/>
-	 <h2 class="title2">Example</h2>
-	 </div>
-		<p>Below is an example of a tree that contains different scales, restrictions, and unit definitions.
-		</p>
-		<ul>
-		<li>The leaf deactivate-'mailto' is a boolean criterion that can be either fulfilled or not.</li>
-		<li>The leaf preserve-'menus' can have one of the values <ul><li>complete,</li><li>navigable, or</li><li>missing.</li></ul></li>
-		<li>The leaf 'tool support' is measured as the number of tools currently supporting a file format.</li>
-		</ul>
-		<br/>
-		<img src="tree-screen-4.png" alt="example tree with scales"/>
-		<br/>
-		<div id="spacing-bottom">
-		  <div></div>
 		</div>
 
-<div id="footer-left">
+	</div>
+	<div class="section" id="structure">
+		<div class="sectiontitle">
+			<h2>Tree structure</h2>
+		</div>
 
-  <div class="strich">
-    <div></div>
-  </div>
-  <div class="contact">Plato help page. Institute of Software Technology and Interactive Systems: &#171;<a href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice bears</a>&#187;</div>
+		<p>
+			Using the tree table editor, you can add and remove inner nodes and
+			leaf nodes. Every leaf criterion denotes a requirement that can and
+			must be measured. It therefore has to be assigned a measurement
+			scale.You can save an incomplete tree and continue working on it
+			later. However, it is not possible to proceed in the workflow with an
+			invalid objective tree.<br /> <img src="tree.png" />
+		</p>
+		<p>There are two views of the tree: The classic view with names
+			and scales, and a documentary view that allows you to describe each
+			node.</p>
+		<p>
+			You can switch between these views with the dropdown menu on the top
+			left corner of the tree: <img src="tree-view.png" />
+		</p>
+		<p>
+			Switching to the "comments" view yields the following editor: <img
+				src="tree-comments.png" />
+		</p>
+		<p>
+			Every node needs a name. To ensure you are entering a name for a new
+			node, the name field is shown red until you provide a name. You
+			cannot edit the tree while a field is red. <br /> <img
+				src="tree-mandatory.png" />
+		</p>
+	</div>
+	<div class="section" id="scales">
+		<div class="sectiontitle">
+			<h2>Specifying scales</h2>
+		</div>
+		The following types of scales are supported:
+		<ul>
+			<li><b>Boolean</b> scales are binary yes/no decisions.</li>
+			<li><b>Int Range</b> scales are integer numbers with lower and
+				upper bounds that are set to 0 and 5, respectively, by default. You
+				can change these boundaries in the <b>restrictions</b> field.</li>
+			<li><b>Ordinal</b> scales can be used for criteria that cannot
+				be measured automatically or that you want to judge by yourself.<br />
+				For example, Availability of documentation in the provided example
+				can have one of the values
+				<ul>
+					<li>public,</li>
+					<li>limited, or</li>
+					<li>none.</li>
+				</ul>
+			</li>
+			<li><b>Positive numbers</b> and <b>positive integers</b> can be
+				any number above or equal to zero. You can specify an upper bound by
+				typing a number in the restriction field.<br /> <b>You have to
+					specify a measurement unit for these scales.</b></li>
+			<li><b>Yes-Acceptable-No</b> scales used to be included, but are
+				discouraged for reasons of objectivity: The question of <em>acceptance</em>
+				should be addressed in the transformation step, not the measurement!
+				<br /> We are keeping the scales included for historical reasons,
+				but recommend NOT using them. You will receive a warning if you have
+				included them.</li>
+		</ul>
+		<p>
+			<b>You have to specify a scale for every leaf node</b> before you can
+			proceed with the workflow.<br />
+		</p>
+	</div>
+	<div class="section" id="single">
+		<div class="sectiontitle">
+			<h2>Single values</h2>
+		</div>
+		<p>
+			By default, every criterion is applicable to every single sample
+			record. For example, a criterion specifying that <em>the image
+				width has to remain unchanged</em> has to be checked for fulfillment for
+			every sample record.<br /> However, there are criteria that do not
+			need to be evaluated for every sample record again. For example, a
+			criterion saying that <em>the target format needs to be an
+				official standard</em> applies to an alternative action as a whole, not
+			to each single object. Thus it can be marked as a <b>single</b>
+			criterion that only has to be evaluated once per alternative.<br />
+			Note that for example the criterion <em>conforms to file format</em>
+			should be checked for every sample object, because a tool might fail
+			to produce correct output files for specific input files.<br /> <b>Single</b>
+			criteria thus denote criteria that are to be evaluated once per
+			alternative.
+		</p>
+	</div>
+	<div class="section" id="restrictions">
+		<div class="sectiontitle">
+			<h2>Setting restrictions</h2>
+		</div>
 
-</div>
+		<p>
+			Restrictions specify a scale more concretely and constrain the
+			possible values.<br /><b>For ordinal
+				scales, the restriction specifies the list of possible values that
+				the scale contains. <br /> In this case, the specification of a
+				restriction is obligatory.</b><br /> For example, in the scale for
+			'availability of documentation' mentioned above, the three possible
+			values have to specified. You can do so by setting the scaletype to
+			'ordinal' and then specifying the restriction 'public/limited/none'
+			in the restriction field.<br /> Boolean (Yes/No) as well as
+			Yes/Acceptable/No are special cases of ordinal scales where you
+			cannot change the restriction settings.
+		</p>
 
-<div id="footer-right">
-	<span>
-      <a class="toplink" href="#top" title="top">
-      	<img src="img/go-top.png" border="0"/>
-      </a>
-    <!-- Span on the bottom right --></span>
-</div>
+		<p>For numeric values, the following rules apply.</p>
+		<ul>
+			<li>For IntRange scales, i.e. integer with a specified range,
+				the restriction specifies the <b>lower and upper boundary</b> of the
+				values in the form <b>lower/upper</b>.<br /> For example, a
+				restriction of 1/10 specifies a value between 1 and 10.</li>
+			<li>For positive numbers and integers, the restriction specifies
+				only the upper limit. Setting a restriction of '100' specifies that
+				each evaluation value may not exceed 100.</li>
+		</ul>
+	</div>
+	<div class="section" id="units">
+		<div class="sectiontitle">
+			<h2>Setting measurement units</h2>
+		</div>
+
+		<p>A unit is a text specifying the unit of measurement, such as</p>
+		<ul>
+			<li>MB,</li>
+			<li>seconds per object, or</li>
+			<li>bits.</li>
+		</ul>
+		<p>Units are obligatory for any numeric scale. For other scales,
+			you may specify a unit, but you don't need to.</p>
+	</div>
+
+	<div class="section" id="mapping">
+		<div class="sectiontitle">
+			<h2>Mapping criteria to object properties</h2>
+		</div>
+
+		<p>
+			Some of the criteria in the tree can be evaluated automatically -
+			specifically, by comparing properties of files e.g. before and after
+			migration actions have taken place.<br /> The righernmost column of
+			the objective tree provides the possibility to create a mapping to
+			object properties that can be extracted automatically from the set of
+			sample records. <br /> This characterisation relies on the <a
+				href="http://planetarium.hki.uni-koeln.de/public/XCL/">eXtensible
+				Characterisation Languages (XCL)</a>.
+		</p>
+		<p>The screenshot below shows a tree fragment where all but one
+			leaves are mapped to object properties that can be compared
+			automatically. The color of the paperclip on the icon shows if a
+			property has been mapped or not.</p>
+		<img src="tree-mapping.png" alt="example tree with mapping" />
+		<p>By clicking on the icon on the right column, you can edit the
+			mapping as shown in the following screenshots.</p>
+		<ul>
+			<li>First you choose the category which the corresponding
+				criterion belongs to. This is one of the following:
+				<ul>
+					<li><b>Outcome Object:</b> Desired properties of the object
+						such as editability and properties of the original that need to be
+						preserved, such as image width</li>
+					<li><b>Outcome Format:</b> Criteria on the format the objects
+						will be stored in, such as standardisation</li>
+					<li><b>Outcome Effects:</b> Effects induced by the
+						preservation action, such as costs</li>
+					<li><b>Action Runtime:</b> Runtime properties such as used
+						time and memory</li>
+					<li><b>Action Static:</b> Action properties such as licensing
+						costs and documentation quality</li>
+					<li><b>Action Judgement:</b> Properties that need to be
+						judged, such as usability</li>
+				</ul> <img src="tree-mapping1-category.png" alt="Choosing the category" /><br />
+				<p>You confirm using the green arrow.</p>
+			</li>
+			<li>Second, you choose the property that the corresponding
+				criterion should be associated with:<br /> <img
+				src="tree-mapping2-property.png" alt="Choosing the property" /><br />
+				<p>Again, you confirm using the green arrow.</p>
+			</li>
+
+			<li>Finally, in some cases you need to define which comparison
+				metric shall be used to compare original and transformed objects. <br />
+				Please note that this metric will determine the scale to be used for
+				measuring the leaf criterion.<br /> <img
+				src="tree-mapping3-metric.png" alt="editing the mapping" /><br />
+				Again, confirm with the green arrow, and the popup will close.<br />
+			</li>
+		</ul>
+	</div>
+
+	<div class="section" id="example">
+		<div class="sectiontitle">
+			<h2>Example</h2>
+		</div>
+		<p>Below is an example of a tree that contains different scales,
+			restrictions, and unit definitions.</p>
+		<ul>
+			<li>The leaf deactivate-'mailto' is a boolean criterion that can
+				be either fulfilled or not.</li>
+			<li>The leaf preserve-'menus' can have one of the values
+				<ul>
+					<li>complete,</li>
+					<li>navigable, or</li>
+					<li>missing.</li>
+				</ul></li>
+			<li>The leaf 'tool support' is measured as the number of tools
+				currently supporting a file format.</li>
+		</ul>
+		<br /> <img src="tree-screen-4.png" alt="example tree with scales" />
+		<br />
+	</div>
+	<div class="contact">
+		Plato help page. Institute of Software Technology and Interactive
+		Systems: &#171;<a
+			href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice
+			bears</a>&#187;
+	</div>
+
+
+	<div id="footer-right">
+		<span> <a class="toplink" href="#top" title="top"> <img
+				src="img/go-top.png" border="0" /> </a> <!-- Span on the bottom right -->
+		</span>
+	</div>
 
 </body>
 </html>
