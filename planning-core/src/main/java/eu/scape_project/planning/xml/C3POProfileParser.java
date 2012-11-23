@@ -151,7 +151,7 @@ public class C3POProfileParser {
      * @return the partition filter key.
      */
     public String getPartitionFilterKey() {
-        return this.profile.getRootElement().element("partition").element("filter").attributeValue("key");
+        return this.profile.getRootElement().element("partition").element("filter").attributeValue("id");
     }
 
     /**
