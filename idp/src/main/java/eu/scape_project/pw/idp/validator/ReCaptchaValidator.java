@@ -37,8 +37,6 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 @FacesValidator("ReCaptchaValidator")
 public class ReCaptchaValidator implements Validator {
 
-    private static final String CONFIG_NAME = "idp.properties";
-
     /**
      * IDP properties.
      */
@@ -49,7 +47,7 @@ public class ReCaptchaValidator implements Validator {
      */
     public ReCaptchaValidator() {
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
-        config = configurationLoader.load(CONFIG_NAME);
+        config = configurationLoader.load();
     }
 
     @Override

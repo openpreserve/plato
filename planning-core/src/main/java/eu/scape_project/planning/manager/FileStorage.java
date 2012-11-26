@@ -54,11 +54,6 @@ import org.slf4j.Logger;
 public class FileStorage implements Serializable, IByteStreamStorage {
     private static final long serialVersionUID = -2406172386311143101L;
 
-    /**
-     * Name of the configuration.
-     */
-    private static final String CONFIG_NAME = "filestorage.properties";
-
     @Inject
     private Logger log;
 
@@ -93,7 +88,7 @@ public class FileStorage implements Serializable, IByteStreamStorage {
     @PostConstruct
     public void init() {
 
-        Configuration config = configurationLoader.load(CONFIG_NAME);
+        Configuration config = configurationLoader.load();
         storagePath = config.getString("filestorage.path");
 
         if (storagePath != null) {

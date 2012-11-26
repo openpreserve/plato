@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<configuration>
+    <override>
+        <xml fileName="configurationLocation.xml" config-name="configuration.location" />
+
+        <properties
+            fileName="${configuration.location.user}/configuration.properties"
+            config-optional="true" config-name="configuration.user" />
+        <properties
+            fileName="${configuration.location.system}/configuration.properties"
+            config-optional="true" config-name="configuration.system" />
+        <properties fileName="configuration.properties"
+            config-name="configuration.default" />
+    </override>
+</configuration>

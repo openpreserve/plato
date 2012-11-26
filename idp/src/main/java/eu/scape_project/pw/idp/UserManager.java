@@ -47,11 +47,6 @@ import org.slf4j.Logger;
 public class UserManager {
 
     /**
-     * Name of the configuration file.
-     */
-    private static final String CONFIG_NAME = "mail.properties";
-
-    /**
      * Entitymanager.
      */
     @Inject
@@ -81,7 +76,7 @@ public class UserManager {
      */
     @PostConstruct
     public void init() {
-        config = configurationLoader.load(CONFIG_NAME);
+        config = configurationLoader.load();
     }
 
     /**

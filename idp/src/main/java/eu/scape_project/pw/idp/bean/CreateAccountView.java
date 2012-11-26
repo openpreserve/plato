@@ -41,8 +41,6 @@ import net.tanesha.recaptcha.ReCaptchaFactory;
 @ViewScoped
 public class CreateAccountView {
 
-    private static final String CONFIG_NAME = "idp.properties";
-
     @Inject
     private FacesMessages facesMessages;
 
@@ -71,7 +69,7 @@ public class CreateAccountView {
     @PostConstruct
     public void init() {
         user = new IdpUser();
-        Configuration config = configurationLoader.load(CONFIG_NAME);
+        Configuration config = configurationLoader.load();
 
         reCaptcha = ReCaptchaFactory.newReCaptcha(config.getString("recaptcha.publickey"),
             config.getString("recaptcha.privatekey"), false);

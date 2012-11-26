@@ -56,11 +56,6 @@ public class Groups implements Serializable {
      */
     private static final long serialVersionUID = 1811189638942547758L;
 
-    /**
-     * Name of the configuration.
-     */
-    private static final String CONFIG_NAME = "mail.properties";
-
     @Inject
     private Logger log;
 
@@ -95,7 +90,7 @@ public class Groups implements Serializable {
      */
     @PostConstruct
     public void init() {
-        config = configurationLoader.load(CONFIG_NAME);
+        config = configurationLoader.load();
 
         changedUsers.clear();
         changedGroups.clear();

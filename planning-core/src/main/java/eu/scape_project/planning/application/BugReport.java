@@ -47,11 +47,6 @@ import org.slf4j.Logger;
 public class BugReport implements Serializable {
     private static final long serialVersionUID = -2769514045862394110L;
 
-    /**
-     * Name of the configuration.
-     */
-    private static final String CONFIG_NAME = "mail.properties";
-
     private static final String SEPARATOR_LINE = "-------------------------------------------\n";
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -75,7 +70,7 @@ public class BugReport implements Serializable {
      */
     @PostConstruct
     public void init() {
-        config = configurationLoader.load(CONFIG_NAME);
+        config = configurationLoader.load();
     }
 
     /**

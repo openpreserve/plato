@@ -37,8 +37,11 @@ public class ByteStreamManagerTest {
         WebArchive wa = ShrinkWrap
             .create(WebArchive.class)
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-            .addAsResource("config/filestorage.properties")
+            .addAsResource("config/configurationLocation.xml")
+            .addAsResource("config/configurationBuilder.xml")
+            .addAsResource("config/configuration.properties")
             .addAsLibraries(resolver.artifact("commons-configuration:commons-configuration:1.9").resolveAsFiles())
+            .addAsLibraries(resolver.artifact("commons-beanutils:commons-beanutils:1.8.3").resolveAsFiles())
             .addClasses(PlanningException.class, StorageException.class, FileUtils.class, OS.class,
                 IByteStreamManager.class, IByteStreamStorage.class, FileStorage.class, ByteStreamManager.class,
                 LoggerFactory.class, ConfigurationLoader.class);

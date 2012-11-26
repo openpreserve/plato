@@ -46,11 +46,6 @@ public class Feedback implements Serializable {
 
     private static final String SEPARATOR_LINE = "-------------------------------------------\n";
 
-    /**
-     * Name of the configuration.
-     */
-    private static final String CONFIG_NAME = "mail.properties";
-
     @Inject
     private Logger log;
 
@@ -69,7 +64,7 @@ public class Feedback implements Serializable {
      */
     @PostConstruct
     public void init() {
-        config = configurationLoader.load(CONFIG_NAME);
+        config = configurationLoader.load();
     }
 
     /**

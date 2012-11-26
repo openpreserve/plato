@@ -65,11 +65,6 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private static final Logger LOG = LoggerFactory.getLogger(SSHTavernaExecutor.class);
 
     /**
-     * Name of the executor properties.
-     */
-    private static final String CONFIG_NAME = "tavernaserverssh.properties";
-
-    /**
      * Filename of input data document.
      */
     private static final String INPUT_DOC_FILENAME = "input_data.xml";
@@ -140,7 +135,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      */
     public void init() {
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
-        sshConfig = configurationLoader.load(CONFIG_NAME);
+        sshConfig = configurationLoader.load();
         commandTimeout = sshConfig.getInt("tavernaserver.ssh.command.timeout");
 
         clear();

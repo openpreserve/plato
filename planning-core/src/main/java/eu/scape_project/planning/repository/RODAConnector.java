@@ -121,7 +121,7 @@ public class RODAConnector implements RepositoryConnectorApi {
         }
 
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
-        Configuration configuration = configurationLoader.load("connectorapi.properties");
+        Configuration configuration = configurationLoader.load();
         if (configuration == null) {
             LOGGER.warn("An error occurred while reading the properties file {}", CONNECTOR_API_PROPERTIES);
             return new HashMap<String, String>();
