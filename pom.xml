@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scape-project.pw</groupId>
 	<artifactId>planningsuite</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Planning Suite</name>
 
@@ -14,7 +14,7 @@
 		<!-- <module>kbrowser</module> -->
 		<module>plato</module>
 		<module>minimee</module>
-		<module>minimee-view</module>
+		<!-- <module>minimee-view</module> -->
 		<module>planningsuite-ear</module>
 		<module>idp</module>
 	</modules>
@@ -28,13 +28,6 @@
 	</licenses>
 
 	<developers>
-		<developer>
-			<id>MH</id>
-			<name>Markus Hamm</name>
-			<email>hamm@ifs.tuwien.ac.at</email>
-			<organization>IMP, IFS, UT Vienna</organization>
-			<organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
-		</developer>
 		<developer>
 			<id>MK</id>
 			<name>Michael Kraxner</name>
@@ -56,14 +49,28 @@
 			<organization>IMP, IFS, UT Vienna</organization>
 			<organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
 		</developer>
+		<developer>
+			<id>MH</id>
+			<name>Markus Hamm</name>
+			<email>hamm@ifs.tuwien.ac.at</email>
+			<organization>IMP, IFS, UT Vienna</organization>
+			<organizationUrl>http://ifs.tuwien.ac.at/imp</organizationUrl>
+		</developer>
 	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.version>4.8.1</junit.version>
+
 		<idp.domain>localhost</idp.domain>
 		<idp.url>http://${idp.domain}:8080/idp/</idp.url>
 		<sp.domain>localhost</sp.domain>
+		
+		<plato-model.version>4.0.0-SNAPSHOT</plato-model.version>
+		<planning-core.version>4.0.0-SNAPSHOT</planning-core.version>
+		<minimee.version>4.0.0-SNAPSHOT</minimee.version>
+		
+		<junit.version>4.8.1</junit.version>
+		<jboss-javaee.version>3.0.1.Final</jboss-javaee.version>
 	</properties>
 
 	<build>
