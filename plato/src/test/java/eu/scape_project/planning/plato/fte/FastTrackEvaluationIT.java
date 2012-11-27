@@ -94,8 +94,9 @@ public class FastTrackEvaluationIT {
         fcv.createPlan();
         Plan plan = fcv.getPlan();
         Assert.assertNotNull(plan);
+        plan.getPlanProperties().setName("Testplan");
         Assert.assertEquals("Testing Plato", plan.getPlanProperties().getAuthor());
         
-        fcv.savePlan();
+        //fcv.savePlan();
     }
 }

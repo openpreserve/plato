@@ -21,12 +21,12 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.impl.base.exporter.zip.ZipExporterImpl;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 import org.jboss.weld.context.bound.Bound;
 import org.jboss.weld.context.bound.BoundConversationContext;
 import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -39,6 +39,7 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.validation.ValidationError;
 
+@Ignore
 @RunWith(Arquillian.class)
 public class FullPlanningworkflowIT {
 
@@ -54,7 +55,6 @@ public class FullPlanningworkflowIT {
     
     @Inject private PlanManager planManager;
 
-    @Deployment
     public static WebArchive createSlimDeployment() throws ArchiveExportException, IllegalArgumentException, FileNotFoundException {
         PomEquippedResolveStage pomResolver = Maven.resolver().loadPomFromFile("../pom.xml", "pom.xml");
         
@@ -81,7 +81,7 @@ public class FullPlanningworkflowIT {
         return archive;
     }
     
-    //@Deployment
+    @Deployment
     public static EnterpriseArchive createDeployment() {
 
         EnterpriseArchive planningsuiteEar = ShrinkWrap.createFromZipFile(EnterpriseArchive.class, new File(

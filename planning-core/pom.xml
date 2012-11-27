@@ -107,6 +107,16 @@
             <url>http://www.mygrid.org.uk/maven/repository</url>
         </repository>
 
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots />
+			<id>mygrid-snapshot-repository</id>
+			<name>myGrid Snapshot Repository</name>
+			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
+		</repository>
+
     </repositories>
 
 
@@ -148,13 +158,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
--->
+	<dependency>
+	    <groupId>org.jboss.arquillian.junit</groupId>
+	    <artifactId>arquillian-junit-container</artifactId>
+	    <scope>test</scope>
+	</dependency>
 	<dependency>
 		<groupId>eu.scape-project.pw</groupId>
 		<artifactId>plato-model</artifactId>
@@ -255,38 +263,6 @@
             <version>1.9</version>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>arquillian-weld-embedded</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.spec</groupId>
-                    <artifactId>jboss-javaee-6.0</artifactId>
-                    <version>1.0.0.Final</version>
-                    <type>pom</type>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-                    <version>1.0.0.CR3</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.weld</groupId>
-                    <artifactId>weld-core</artifactId>
-                    <version>1.1.5.Final</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                    <version>1.6.4</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
 
 	<profiles>
 		<profile>
