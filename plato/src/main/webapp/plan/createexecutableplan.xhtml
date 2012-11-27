@@ -140,9 +140,9 @@
 							value="Generate preservation action plan"
 							rendered="#{createExecutablePlan.papGenerationPossible}" />
 						<h:commandButton
-							action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlanDefinition.preservationActionPlan)}"
+							action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
 							value="Download Preservation Action Plan"
-							rendered="#{createExecutablePlan.plan.preservationActionPlanDefinition.preservationActionPlan != null and createExecutablePlan.plan.preservationActionPlanDefinition.preservationActionPlan.dataExistent}" />
+							rendered="#{createExecutablePlan.plan.preservationActionPlan != null and createExecutablePlan.plan.preservationActionPlan.dataExistent}" />
 					</div>
 				</a4j:outputPanel>
 			</fieldset>

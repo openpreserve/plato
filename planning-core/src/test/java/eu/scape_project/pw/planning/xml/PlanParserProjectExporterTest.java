@@ -19,6 +19,7 @@ import eu.scape_project.planning.xml.ValidatingParserFactory;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
+import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -76,7 +77,7 @@ public class PlanParserProjectExporterTest {
         ProjectExporter exporter = new ProjectExporter();
 
         InputStream in = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream("plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileResultsPAP.xml");
+            .getResourceAsStream("plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileSamplesPAP.xml");
 
         List<Plan> plans = parser.importProjects(in);
 
@@ -85,18 +86,22 @@ public class PlanParserProjectExporterTest {
 
         // Parse original
         InputStream importedStream = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream("plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileResultsPAP.xml");
+            .getResourceAsStream("plans/PlanParserTest/PlanParserTest-PLAN_VALIDATED-ProfileSamplesPAP.xml");
         Document original = parsePlan(importedStream);
         original.normalize();
 
-        Document exported = exporter.exportToXml(plan);
+        Document exported = exporter.createProjectDoc();
+        exporter.addProject(plan, exported, true);
         exported.normalize();
 
         // Compare
         XMLUnit.setIgnoreWhitespace(true);
+        XMLUnit.setNormalizeWhitespace(true);
 
         try {
             Diff diff = new Diff(original.asXML(), exported.asXML());
+            diff.overrideElementQualifier(new ElementNameAndAttributeQualifier());
+
             DetailedDiff detailedDiff = new DetailedDiff(diff);
 
             @SuppressWarnings("unchecked")
@@ -109,6 +114,7 @@ public class PlanParserProjectExporterTest {
 
         } finally {
             XMLUnit.setIgnoreWhitespace(false);
+            XMLUnit.setNormalizeWhitespace(false);
         }
     }
 

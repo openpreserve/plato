@@ -47,7 +47,6 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.Policy;
 import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.planning.model.PreservationActionPlanDefinition;
 import eu.scape_project.planning.model.ProjectBasis;
 import eu.scape_project.planning.model.RequirementsDefinition;
 import eu.scape_project.planning.model.ResourceDescription;
@@ -700,10 +699,9 @@ public class PlanParser {
         digester.addSetNext("*/plan/executablePlan", "setExecutablePlanDefinition");
 
         // Preservation action plan
-        digester.addObjectCreate("*/plan/preservationActionPlan", PreservationActionPlanDefinition.class);
-        digester.addSetNext("*/plan/preservationActionPlan", "setPreservationActionPlanDefinition");
-
         digester.addObjectCreate("*/plan/preservationActionPlan", DigitalObject.class);
+        digester.addSetNext("*/plan/preservationActionPlan", "setPreservationActionPlan");
+
         digester.addCallMethod("*/plan/preservationActionPlan", "setContentType", 1);
         digester.addObjectParam("*/plan/preservationActionPlan", 0, "application/xml");
         digester.addCallMethod("*/plan/preservationActionPlan", "setFullname", 1);

@@ -82,8 +82,7 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
 
     @Override
     protected void saveStepSpecific() {
-        saveEntity(plan.getExecutablePlanDefinition());
-        saveEntity(plan.getPreservationActionPlanDefinition());
+        saveEntity(plan);
     }
 
     /**
@@ -92,7 +91,7 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
      * @param stream
      *            the executable plan
      * @throws PlanningException
-     *             if an error occured
+     *             if an error occurred
      * @throws TavernaParserException
      *             if the executable plan could not be parsed
      */
@@ -180,13 +179,11 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
 
             digitalObjectManager.moveDataToStorage(object);
 
-            if (plan.getPreservationActionPlanDefinition().getPreservationActionPlan() != null
-                && plan.getPreservationActionPlanDefinition().getPreservationActionPlan().isDataExistent()) {
-                bytestreamsToRemove
-                    .add(plan.getPreservationActionPlanDefinition().getPreservationActionPlan().getPid());
+            if (plan.getPreservationActionPlan() != null && plan.getPreservationActionPlan().isDataExistent()) {
+                bytestreamsToRemove.add(plan.getPreservationActionPlan().getPid());
             }
 
-            plan.getPreservationActionPlanDefinition().setPreservationActionPlan(object);
+            plan.setPreservationActionPlan(object);
             addedBytestreams.add(object.getPid());
 
         } catch (UnsupportedEncodingException e) {

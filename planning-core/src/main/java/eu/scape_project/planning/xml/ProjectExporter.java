@@ -37,7 +37,6 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanDefinition;
 import eu.scape_project.planning.model.Policy;
 import eu.scape_project.planning.model.PolicyNode;
-import eu.scape_project.planning.model.PreservationActionPlanDefinition;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Trigger;
@@ -945,7 +944,7 @@ public class ProjectExporter implements Serializable {
         addChangeLog(executablePlanDefinition.getChangeLog(), executablePlanDef);
 
         // Export generated preservation action plan
-        addPreservationActionPlan(p.getPreservationActionPlanDefinition(), projectNode, addDigitalObjectData);
+        addPreservationActionPlan(p.getPreservationActionPlan(), projectNode, addDigitalObjectData);
 
         // Plan definition
         Element planDef = projectNode.addElement("planDefinition");
@@ -1139,7 +1138,7 @@ public class ProjectExporter implements Serializable {
      * Adds a preservation action plan element to the provided parent if the
      * preservation action plan is defined.
      * 
-     * @param preservationActionPlanDefinition
+     * @param preservationActionPlan
      *            the preservation action plan to add
      * @param parent
      *            the parent element
@@ -1149,13 +1148,12 @@ public class ProjectExporter implements Serializable {
      * @throws PlanningException
      *             if an error occurred during creation
      */
-    private Element addPreservationActionPlan(PreservationActionPlanDefinition preservationActionPlanDefinition,
-        Element parent, boolean addDigitalObjectData) throws PlanningException {
+    private Element addPreservationActionPlan(DigitalObject preservationActionPlan, Element parent,
+        boolean addDigitalObjectData) throws PlanningException {
 
         Element preservationActionPlanElement = null;
 
-        if (preservationActionPlanDefinition != null) {
-            DigitalObject preservationActionPlan = preservationActionPlanDefinition.getPreservationActionPlan();
+        if (preservationActionPlan != null) {
             if (preservationActionPlan != null && preservationActionPlan.isDataExistent()) {
                 if (!addDigitalObjectData) {
                     preservationActionPlanElement = parent.addElement("preservationActionPlan");

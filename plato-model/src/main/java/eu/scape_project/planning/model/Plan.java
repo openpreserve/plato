@@ -110,7 +110,7 @@ public class Plan implements Serializable, ITouchable {
     private ExecutablePlanDefinition executablePlanDefinition = new ExecutablePlanDefinition();
 
     @OneToOne(cascade = CascadeType.ALL)
-    private PreservationActionPlanDefinition preservationActionPlan = new PreservationActionPlanDefinition();
+    private DigitalObject preservationActionPlan = new DigitalObject();
 
     @OneToOne(cascade = CascadeType.ALL)
     private PlanDefinition planDefinition = new PlanDefinition();
@@ -185,12 +185,12 @@ public class Plan implements Serializable, ITouchable {
         this.executablePlanDefinition = executablePlanDefinition;
     }
 
-    public PreservationActionPlanDefinition getPreservationActionPlanDefinition() {
+    public DigitalObject getPreservationActionPlan() {
         return preservationActionPlan;
     }
 
-    public void setPreservationActionPlanDefinition(PreservationActionPlanDefinition preservationActionPlanDefinition) {
-        this.preservationActionPlan = preservationActionPlanDefinition;
+    public void setPreservationActionPlan(DigitalObject preservationActionPlan) {
+        this.preservationActionPlan = preservationActionPlan;
     }
 
     public PlanDefinition getPlanDefinition() {
@@ -505,8 +505,8 @@ public class Plan implements Serializable, ITouchable {
         if (getExecutablePlanDefinition().getT2flowExecutablePlan() != null) {
             list.add(getExecutablePlanDefinition().getT2flowExecutablePlan());
         }
-        if (getPreservationActionPlanDefinition().getPreservationActionPlan() != null) {
-            list.add(getPreservationActionPlanDefinition().getPreservationActionPlan());
+        if (getPreservationActionPlan() != null) {
+            list.add(getPreservationActionPlan());
         }
         if (getSampleRecordsDefinition().getCollectionProfile() != null
             && getSampleRecordsDefinition().getCollectionProfile().getProfile() != null) {

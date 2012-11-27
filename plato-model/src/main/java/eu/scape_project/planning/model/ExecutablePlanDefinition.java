@@ -56,14 +56,6 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     @OneToOne(cascade = CascadeType.ALL)
     protected DigitalObject t2flowExecutablePlan;
 
-    public String getExecutablePlan() {
-        return executablePlan;
-    }
-
-    public void setExecutablePlan(String executablePlan) {
-        this.executablePlan = executablePlan;
-    }
-
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
@@ -75,6 +67,7 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
         this.id = id;
     }
 
+    @Override
     public ChangeLog getChangeLog() {
         return this.changeLog;
     }
@@ -83,10 +76,12 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
         changeLog = value;
     }
 
+    @Override
     public boolean isChanged() {
         return changeLog.isAltered();
     }
 
+    @Override
     public void touch() {
         getChangeLog().touch();
     }
@@ -94,8 +89,17 @@ public class ExecutablePlanDefinition implements Serializable, ITouchable {
     /**
      * @see ITouchable#handleChanges(IChangesHandler)
      */
+    @Override
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
+    }
+
+    public String getExecutablePlan() {
+        return executablePlan;
+    }
+
+    public void setExecutablePlan(String executablePlan) {
+        this.executablePlan = executablePlan;
     }
 
     public String getObjectPath() {
