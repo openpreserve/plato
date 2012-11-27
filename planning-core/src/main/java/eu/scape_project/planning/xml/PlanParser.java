@@ -448,9 +448,9 @@ public class PlanParser {
         digester.addCallMethod("*/fitsXML", "setMethodName", 1, new String[] {"java.lang.String"});
         digester.addObjectParam("*/fitsXML", 0, "setFitsXMLString");
 
-        digester.addObjectCreate("*/record/formatInfo", FormatInfo.class);
-        digester.addSetProperties("*/record/formatInfo");
-        digester.addSetNext("*/record/formatInfo", "setFormatInfo");
+        digester.addObjectCreate("*/formatInfo", FormatInfo.class);
+        digester.addSetProperties("*/formatInfo");
+        digester.addSetNext("*/formatInfo", "setFormatInfo");
 
         PlanParser.addCreateUpload(digester, "*/record/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
 
