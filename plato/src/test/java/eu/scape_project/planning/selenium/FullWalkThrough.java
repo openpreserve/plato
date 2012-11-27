@@ -22,8 +22,8 @@ public class FullWalkThrough {
             selenium.waitForPageToLoad("30000");
             selenium.open("/plato/index.jsf");
             selenium.waitForPageToLoad("30000");
-            selenium.type("id=j_username", "kraxner");
-            selenium.type("id=j_password", "mic5rin!");
+            selenium.type("id=j_username", "selenium");
+            selenium.type("id=j_password", "selenium");
             selenium.click("name=j_idt17");
             selenium.waitForPageToLoad("300000");
 //            selenium.open("/plato/index.jsf");
