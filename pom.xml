@@ -68,6 +68,7 @@
 		<plato-model.version>4.0.0-SNAPSHOT</plato-model.version>
 		<planning-core.version>4.0.0-SNAPSHOT</planning-core.version>
 		<minimee.version>4.0.0-SNAPSHOT</minimee.version>
+		<plato.version>4.0.0-SNAPSHOT</plato.version>
 		
 		<junit.version>4.8.1</junit.version>
 		<jboss-javaee.version>3.0.1.Final</jboss-javaee.version>

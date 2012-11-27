@@ -87,10 +87,10 @@ public class FullPlanningworkflowIT {
         EnterpriseArchive planningsuiteEar = ShrinkWrap.createFromZipFile(EnterpriseArchive.class, new File(
             "../planningsuite-ear/target/planningsuite-ear.ear"));
         WebArchive platoArch = ShrinkWrap.createFromZipFile(WebArchive.class, new File(
-            "../planningsuite-ear/target/planningsuite-ear/plato-0.0.1-SNAPSHOT.war"));
+            "../planningsuite-ear/target/planningsuite-ear/plato-4.0.0-SNAPSHOT.war"));
 
         JavaArchive planningcoreArch = ShrinkWrap.createFromZipFile(JavaArchive.class, new File(
-            "../planningsuite-ear/target/planningsuite-ear/planning-core-0.0.1-SNAPSHOT.jar"));
+            "../planningsuite-ear/target/planningsuite-ear/planning-core-4.0.0-SNAPSHOT.jar"));
         
         log.info("preparing archive");
         // at the moment conversations are not supported by arquillian, so we have to provide a mock
@@ -102,7 +102,7 @@ public class FullPlanningworkflowIT {
         planningcoreArch.delete("META-INF/beans.xml");
         planningcoreArch.addAsResource("META-INF/test-beans.xml", "META-INF/beans.xml");
         
-        Node planningcoreNode = planningsuiteEar.get("planning-core-0.0.1-SNAPSHOT.jar");
+        Node planningcoreNode = planningsuiteEar.get("planning-core-4.0.0-SNAPSHOT.jar");
         planningsuiteEar.delete(planningcoreNode.getPath());
         planningsuiteEar.addAsModule(planningcoreArch);        
         
@@ -114,7 +114,7 @@ public class FullPlanningworkflowIT {
             .addPackage("eu.scape_project.planning.plato.wf");
 
         // now we can replace the original plato-war with the configured one
-        Node node = planningsuiteEar.get("plato-0.0.1-SNAPSHOT.war");
+        Node node = planningsuiteEar.get("plato-4.0.0-SNAPSHOT.war");
         planningsuiteEar.delete(node.getPath());
         planningsuiteEar.addAsModule(Testable.archiveToTest(platoArch));
         
