@@ -572,8 +572,8 @@ public class PlanParser {
 
         // read contained measurements:
         digester.addObjectCreate("*/detailedInfo/measurements/measurement", Measurement.class);
+        digester.addSetProperties("*/detailedInfo/measurements/measurement");
         digester.addSetNext("*/detailedInfo/measurements/measurement", "put");
-        digester.addSetProperties("*/measurement");
         // values are defined with wild-cards, and therefore set
         // automatically
 
