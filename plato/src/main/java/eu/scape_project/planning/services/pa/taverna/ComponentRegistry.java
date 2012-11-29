@@ -43,7 +43,6 @@ public class ComponentRegistry implements IPreservationActionRegistry {
 	@Override
 	public void connect(String URL) throws ServiceException,
 			MalformedURLException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -51,22 +50,29 @@ public class ComponentRegistry implements IPreservationActionRegistry {
 	 * 
 	 * http://rdf.myexperiment.org/sparql
 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX mebase: <http://rdf.myexperiment.org/ontologies/base/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX meannot: <http://rdf.myexperiment.org/ontologies/annotations/>
-PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/>
-
-SELECT ?w ?wt ?wdesc
-WHERE {
+PREFIX meannot: <http://rdf.myexperiment.org/ontologies/annotations/> 
+PREFIX dcterms: <http://purl.org/dc/terms/> 
+PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/> 
+SELECT distinct ?w ?wt ?wdesc
+WHERE{ 
   ?w a mecontrib:Workflow ;
-     dcterms:title ?wt ;
-     dcterms:description ?wdesc ;
-     meannot:has-tagging ?tscape ;
-     meannot:has-tagging ?tmigration .
-  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/2681> .
-  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3108> .
-  
-  
+       dcterms:title ?wt ; 
+       dcterms:description ?wdesc ;
+       meannot:has-tagging ?tscape ;
+       meannot:has-tagging ?tmigration ;
+       meannot:has-tagging ?tcomponent ;
+       meannot:has-tagging ?mimetypeTagging ;
+       mebase:has-current-version ?wcurrentversion .
+  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/3108> .
+  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/2681> .
+  ?tcomponent meannot:uses-tag <http://www.myexperiment.org/tags/3214> .
+  ?wcurrentversion mebase:content-url ?wurl .
+  ?mimetypeTagging meannot:uses-tag ?mimeTypeTag .
+  ?mimeTypeTag dcterms:title ?title
+  FILTER regex(?title,'^image','i')               
 }
 ORDER BY ?w ?wt
 	 */
@@ -89,11 +95,15 @@ ORDER BY ?w ?wt
 			 .append("     meannot:has-tagging ?tscape ;").append("\n")
 			 .append("     meannot:has-tagging ?tmigration ;").append("\n")
 			 .append("     meannot:has-tagging ?tcomponent ;").append("\n")
+			 .append("     meannot:has-tagging ?mimetypeTagging ;").append("\n")
 			 .append("     mebase:has-current-version ?wcurrentversion .").append("\n")
-			 .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/2681> .").append("\n")
-			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
+			 .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
+			 .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/2681> .").append("\n")
 			 .append("  ?tcomponent meannot:uses-tag <http://www.myexperiment.org/tags/3214> .").append("\n")
 			 .append("  ?wcurrentversion mebase:content-url ?wurl .").append("\n")
+                         .append("  ?mimetypeTagging meannot:uses-tag ?mimeTypeTag .").append("\n")
+                         .append("  ?mimeTypeTag dcterms:title ?mimeType ").append("\n")
+                         .append("  FILTER regex('" + sourceFormat.getMimeType() + "', concat(?mimeType, '*'), 'i')").append("\n")               
 			 .append("}").append("\n")
 			 .append("ORDER BY ?w ?wt").append("\n");
 		try {
