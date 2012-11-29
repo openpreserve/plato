@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	<!-- Displays the metadata of sample objects and migration results side by side
 	     required parameters:
 	     - samples : List of sample objects
@@ -14,47 +15,40 @@
 	       - downloadResultFile(altern, sample)
 	       - generateCharacterisationReports(sample,altern)
 	 -->
-	<table
-		class="tableStyle">
+	<table class="tableStyle">
 		<tr>
-			<td class="tableStyle-header" width="30%"><b>Alternatives</b>
-			</td>
-			<td colspan="3" class="tableStyle-header" width="70%"><b>Objects</b>
-			</td>
+			<td class="tableStyle-header" width="30%"><b>Alternatives</b></td>
+			<td colspan="#{fn:length(samples)}" class="tableStyle-header"
+				width="70%"><b>Objects</b></td>
 		</tr>
 		<tr>
 			<td></td>
 			<ui:repeat var="sample" value="#{samples}">
-				<td align="center">
-				    <h:outputText id="sample"
+				<td align="center"><h:outputText id="sample"
 						value="#{sample.sampleIndex}"
-						rendered="#{not sample.dataExistent}" />
-					<br /> 
-					<rich:tooltip  value="#{sample.shortName}" target="sample" />
-					<a4j:outputPanel>
-				    <h:commandLink
-				        id="downloadSample"
-						rendered="#{sample.dataExistent}"
-						action="#{workflowstep.downloadSampleObject(sample)}" >
-						<h:outputText value="Sample #{sample.sampleIndex}" />
-					</h:commandLink>
-					<rich:tooltip target="downloadSample">Download #{sample.shortName}</rich:tooltip>
-					</a4j:outputPanel>
-					</td>
-					
+						rendered="#{not sample.dataExistent}" /> <br /> <rich:tooltip
+						value="#{sample.shortName}" target="sample" /> <a4j:outputPanel>
+						<h:commandLink id="downloadSample"
+							rendered="#{sample.dataExistent}"
+							action="#{workflowstep.downloadSampleObject(sample)}">
+							<h:outputText value="Sample #{sample.sampleIndex}" />
+						</h:commandLink>
+						<rich:tooltip target="downloadSample">Download #{sample.shortName}</rich:tooltip>
+					</a4j:outputPanel></td>
+
 			</ui:repeat>
 		</tr>
 		<ui:repeat var="altern" value="#{consideredAlternatives}">
 			<tr
 				style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8;">
-				<td><h:outputText value="#{altern.name}" />
-				</td>
+				<td><h:outputText value="#{altern.name}" /></td>
 				<ui:repeat var="sample" value="#{samples}">
-					<td	style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8; text-align: center;">
+					<td
+						style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8; text-align: center;">
 						<h:commandButton id="downloadResult" value="Download"
 							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
-							action="#{workflowstep.downloadResultFile(altern, sample)}" />
-                        <rich:tooltip target="downloadResult">Download result of applying #{altern.name} to #{sample.shortName}</rich:tooltip>
+							action="#{workflowstep.downloadResultFile(altern, sample)}" /> <rich:tooltip
+							target="downloadResult">Download result of applying #{altern.name} to #{sample.shortName}</rich:tooltip>
 						<a4j:commandButton
 							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
 							action="#{workflowstep.generateCharacterisationReports(sample,altern)}"
@@ -67,5 +61,5 @@
 			</tr>
 		</ui:repeat>
 	</table>
-	
+
 </ui:composition>
