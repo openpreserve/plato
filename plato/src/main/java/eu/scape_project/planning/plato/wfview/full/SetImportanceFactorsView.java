@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -50,7 +49,7 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 public class SetImportanceFactorsView extends AbstractView {
     private static final long serialVersionUID = 1L;
 
-    private List<WeightData> currentBalancedValues = new ArrayList<WeightData>();
+    private List<Double> currentBalancedValues = new ArrayList<Double>();
 
     /**
      * Helper class mapping alternative names to transformed and aggregated
@@ -74,41 +73,6 @@ public class SetImportanceFactorsView extends AbstractView {
         public void setResults(HashMap<String, Double> results) {
             this.results = results;
         }
-    }
-
-    public class WeightData implements Serializable {
-        private static final long serialVersionUID = 8390778358195956443L;
-
-        private double weight;
-
-        private double totalWeight;
-
-        private boolean locked;
-
-        public double getWeight() {
-            return weight;
-        }
-
-        public void setWeight(double weight) {
-            this.weight = weight;
-        }
-
-        public double getTotalWeight() {
-            return totalWeight;
-        }
-
-        public void setTotalWeight(double totalWeight) {
-            this.totalWeight = totalWeight;
-        }
-
-        public boolean isLocked() {
-            return locked;
-        }
-
-        public void setLocked(boolean locked) {
-            this.locked = locked;
-        }
-
     }
 
     @Inject
@@ -200,20 +164,16 @@ public class SetImportanceFactorsView extends AbstractView {
         node.balanceWeights();
         if (node.getParent() != null) {
             for (TreeNode child : node.getParent().getChildren()) {
-                WeightData weightData = new WeightData();
-                weightData.setWeight(child.getWeight());
-                weightData.setTotalWeight(Math.round(10000.0 * child.getTotalWeight()) / 10000.0);
-                weightData.setLocked(child.isLock());
-                currentBalancedValues.add(weightData);
+                currentBalancedValues.add(child.getWeight());
             }
         }
     }
 
-    public List<WeightData> getCurrentBalancedValues() {
+    public List<Double> getCurrentBalancedValues() {
         return currentBalancedValues;
     }
 
-    public void setCurrentBalancedValues(List<WeightData> currentBalancedValues) {
+    public void setCurrentBalancedValues(List<Double> currentBalancedValues) {
         this.currentBalancedValues = currentBalancedValues;
     }
 

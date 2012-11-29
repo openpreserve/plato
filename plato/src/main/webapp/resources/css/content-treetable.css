@@ -3,7 +3,7 @@
 
 #content div.treetable_nodeInfo { float: right;  align:right;min-width: 500px;width:600px;}
 #content div.treetable_nodeInfo_big { float: right;  width: 750px;}
-#content div.treetable_nodeInfo_imp { float: right;  width: 850px;}
+#content div.treetable_nodeInfo_imp { float: right;  width: 690px;}
 #content div.treetable_nodeInfo_imp div.treetable_cell input{width: 30px;}
 
 .treenode {

@@ -103,23 +103,28 @@
 											</rich:inputNumberSlider>
 										</div>
 
-										<div class="treetable_cell"
-											style="width: 60px; text-align: center;">
-											<!-- Total Weight -->
-											<h:outputText value="#{node.totalWeight}" id="totalWeight">
-												<f:convertNumber maxFractionDigits="2" />
-											</h:outputText>
-										</div>
+										<a4j:outputPanel ajaxRendered="true">
+											<div class="treetable_cell"
+												style="width: 60px; text-align: center;">
 
-										<div class="treetable_cell"
-											style="width: 60px; text-align: center;">
-											<!-- Lock -->
-											<h:selectBooleanCheckbox rendered="#{node!=null}"
-												value="#{node.lock}" disabled="#{!node.child}" id="locked">
-												<a4j:ajax onbeforesubmit="changed()" event="change"
-													listener="#{node.touch}" />
-											</h:selectBooleanCheckbox>
-										</div>
+												<!-- Total Weight -->
+												<h:outputText value="#{node.totalWeight}" id="totalWeight">
+													<f:convertNumber maxFractionDigits="2" />
+												</h:outputText>
+
+											</div>
+
+											<div class="treetable_cell"
+												style="width: 60px; text-align: center;">
+												<!-- Lock -->
+												<h:selectBooleanCheckbox rendered="#{node!=null}"
+													value="#{node.lock}" disabled="#{!node.child}" id="locked">
+													<a4j:ajax onbeforesubmit="changed()" event="change"
+														listener="#{node.touch}" />
+												</h:selectBooleanCheckbox>
+											</div>
+										</a4j:outputPanel>
+										
 										<div class="treetable_cell">
 											<!--  we want to display values aggregated over sample objects here.-->
 											<div class="size-xl">
