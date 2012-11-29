@@ -35,7 +35,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
 import com.google.common.io.Files;
-import com.sun.jersey.api.client.UniformInterfaceException;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
@@ -139,7 +138,7 @@ public class ValidatePlan extends AbstractWorkflowStep {
 
         try {
             planClient.uploadPlan(planFile);
-        } catch (UniformInterfaceException e) {
+        } catch (RuntimeException e) {
             throw new PlanningException("Error deploying plan", e);
         }
 
