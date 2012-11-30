@@ -158,14 +158,15 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * store their changes in {@link AbstractWorkflowStep#saveStepSpecific()}
      */
     public void save() {
-        // FIXME: MK: the following comment does not make sense (any more), does it? I can't see how this enforces validation.
+        // FIXME: MK: the following comment does not make sense (any more), does
+        // it? I can't see how this enforces validation.
         // set the plans' state according to this step before applying any other
         // changes
         // this way we ensure that the plan has to be validated, when changes
         // have been made.
-//        plan.getPlanProperties().setState(requiredPlanState);
-//        plan.getPlanProperties().touch();
-//        saveEntity(plan.getPlanProperties());
+        // plan.getPlanProperties().setState(requiredPlanState);
+        // plan.getPlanProperties().touch();
+        // saveEntity(plan.getPlanProperties());
 
         // -- debug code --
         // for (Leaf l: plan.getTree().getRoot().getAllLeaves()) {
@@ -305,10 +306,12 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * Characterizes a digital object with FITS tool.
      * 
      * @param digitalObject
-     *            Digital object to characterize.
-     * @return True if characterization was successful, false otherwise.
+     *            digital object to characterize.
+     * @param updateFormatInfo
+     *            true to update the format info, false otherwise
+     * @return true if characterization was successful, false otherwise.
      */
-    public boolean characteriseFits(DigitalObject digitalObject) {
+    public boolean characteriseFits(DigitalObject digitalObject, boolean updateFormatInfo) {
         if (fits == null) {
             log.debug("FITS is not available and needs to be reconfigured.");
             return false;
@@ -322,7 +325,10 @@ public abstract class AbstractWorkflowStep implements Serializable {
                 digitalObject.setFitsXMLString(fitsXML);
                 log.debug("FITS xml stored in digital-object " + digitalObject.getFullname());
 
-                return updateFormatInformationBasedOnFits(digitalObject);
+                if (updateFormatInfo) {
+                    return updateFormatInformationBasedOnFits(digitalObject);
+                }
+                return true;
             } catch (PlanningException e) {
                 log.error("characterisation with FITS failed.", e);
                 return false;
@@ -330,6 +336,18 @@ public abstract class AbstractWorkflowStep implements Serializable {
         }
 
         return false;
+    }
+
+    /**
+     * Characterizes a digital object with FITS tool and updates the format
+     * info.
+     * 
+     * @param digitalObject
+     *            digital object to characterize.
+     * @return true if characterization was successful, false otherwise.
+     */
+    public boolean characteriseFits(DigitalObject digitalObject) {
+        return characteriseFits(digitalObject, true);
     }
 
     /**

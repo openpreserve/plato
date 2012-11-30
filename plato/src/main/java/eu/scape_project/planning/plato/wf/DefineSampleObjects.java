@@ -151,26 +151,24 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         samplesToRemove.clear();
     }
 
-    public SampleObject addSample(String filename, String contentType, byte[] bytestream) throws PlanningException {
+    public SampleObject addSample(String filename, String contentType, byte[] data) throws PlanningException {
         SampleObject sample = new SampleObject(filename);
         sample.setFullname(filename);
         sample.setContentType(contentType);
 
         ByteStream bsData = new ByteStream();
-        bsData.setData(bytestream);
+        bsData.setData(data);
         sample.setData(bsData);
-        sample.getData().setSize(bytestream.length);
 
         digitalObjectManager.moveDataToStorage(sample);
-        plan.getSampleRecordsDefinition().addRecord(sample);
         addedBytestreams.add(sample.getPid());
+        plan.getSampleRecordsDefinition().addRecord(sample);
 
         // identify format of newly uploaded samples
         if (shouldCharacterise(sample)) {
-            // identifyFormat(sample);
-            // describeInXcdl(sample);
             characteriseFits(sample);
         }
+
         log.debug("Content-Type: " + sample.getContentType());
         log.debug("Size of samples Array: " + plan.getSampleRecordsDefinition().getRecords().size());
         log.debug("FileName: " + sample.getFullname());
@@ -300,13 +298,15 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
 
                     digitalObjectManager.moveDataToStorage(sample);
                     addedBytestreams.add(sample.getPid());
+                    plan.getSampleRecordsDefinition().addRecord(sample);
 
+                    if (shouldCharacterise(sample)) {
+                        characteriseFits(sample, false);
+                    }
                 } catch (RepositoryConnectorException e) {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
                 }
             }
-
-            this.plan.getSampleRecordsDefinition().addRecord(sample);
         }
 
     }
