@@ -158,57 +158,19 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * store their changes in {@link AbstractWorkflowStep#saveStepSpecific()}
      */
     public void save() {
-        // FIXME: MK: the following comment does not make sense (any more), does
-        // it? I can't see how this enforces validation.
-        // set the plans' state according to this step before applying any other
-        // changes
-        // this way we ensure that the plan has to be validated, when changes
-        // have been made.
-        // plan.getPlanProperties().setState(requiredPlanState);
-        // plan.getPlanProperties().touch();
-        // saveEntity(plan.getPlanProperties());
+        plan.getPlanProperties().setState(requiredPlanState);
+        plan.getPlanProperties().touch();
 
-        // -- debug code --
-        // for (Leaf l: plan.getTree().getRoot().getAllLeaves()) {
-        // log.debug(l.getName()+": "+l.getScale().getDisplayName());
-        // for (String s: l.getValueMap().keySet()) {
-        // log.debug("   value entry for "+s);
-        // }
-        // if (l.getTransformer() instanceof OrdinalTransformer) {
-        // OrdinalTransformer t =(OrdinalTransformer) l.getTransformer();
-        // for (String s: t.getMapping().keySet()) {
-        // log.debug("   transformer entry for "+s);
-        // }
-        // }
-        //
-        // }
-
-        // now the step specific changes can be saved
-        saveStepSpecific();
-
-        // added bytestreams are accepted
-        addedBytestreams.clear();
-
-        // delete bytestreams marked to remove
-        for (String pid : bytestreamsToRemove) {
-            try {
-                bytestreamManager.delete(pid);
-            } catch (StorageException e) {
-                log.error("failed to delete bytestream: " + pid);
-            }
-        }
-        bytestreamsToRemove.clear();
+        saveWithoutModifyingPlanState();
     }
 
     /**
-     * Stores all changes made in a step WITHOUT modifying the plan-state This
+     * Stores all changes made in a step WITHOUT modifying the plan-state. This
      * method is often required at re-using the business-logic of a
      * workflow-step. Steps executed: - save plan properties - save
      * step-specific changes - clean-up added/deleted bytestreams
      */
     public void saveWithoutModifyingPlanState() {
-        prepareChangesForPersist.prepare(plan.getPlanProperties());
-
         saveEntity(plan.getPlanProperties());
 
         // now the step specific changes can be saved
