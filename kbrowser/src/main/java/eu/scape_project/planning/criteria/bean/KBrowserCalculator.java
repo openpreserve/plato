@@ -25,7 +25,7 @@ import java.util.Map;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
-import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.measurement.Criterion;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.MeasurableProperty;
 import eu.scape_project.planning.model.transform.NumericTransformer;
@@ -89,7 +89,7 @@ public class KBrowserCalculator implements Serializable {
      * criterion
      * 
      */
-    public void setCriterion(Measure c) {
+    public void setCriterion(Criterion c) {
         // reset criterion lists
         criterionPlanLeaves.clear();
 
