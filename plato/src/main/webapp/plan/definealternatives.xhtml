@@ -123,13 +123,14 @@
                                    <br />
                                    <h:graphicImage value="#{registry.logo}" alt="#{registry.shortname}" height="40" width="120"/>
                                    <br />
-                                   <h:commandButton
+                                   <a4j:commandButton
                                        id="showServices" value="Show Services"
-                                       action="#{defineAlternatives.showPreservationServices(registry)}" />
+                                       onclick="toggleLoadingOverlay();this.disabled=true;" oncomplete="this.disabled=false;toggleLoadingOverlay();" 
+                                       action="#{defineAlternatives.showPreservationServices(registry)}" render="lookupResultPanel,showServices,messages"/>
                    	   		</div>
                    	   		</ui:repeat>
                    	   </div>
-                       <div>
+                       <a4j:outputPanel id="lookupResultPanel">
                            <h:commandButton
                                id="createAlternatives_2"
                                value="Create alternatives for selected services"
@@ -188,7 +189,7 @@
                                value="Create alternatives for selected services"
                                action="#{defineAlternatives.createAlternativesForPreservationActions}"
                                rendered="#{not empty defineAlternatives.availableActions}" />
-                       </div>
+                       </a4j:outputPanel>
                        <div style="clear:both;"/>
                    </div>
                    </x:div>

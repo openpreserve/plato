@@ -14,6 +14,8 @@
 	<h:outputStylesheet name="css/screen.css" />
 	<h:outputStylesheet name="css/menu.css" />
 	<h:outputStylesheet name="css/content-treetable.css" />
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
 	<script type="text/javascript">
 	  function getChangedflagInputs() {
 	      var changedflags = new Array();
@@ -54,11 +56,16 @@
 	      // in some places changed() is called before other funtions, make sure they are called too
 	      return true;
 	  }
+	  function toggleLoadingOverlay() {
+		  var div = jQuery('.div-overlay');
+		  div.fadeToggle(150);
+	  }	  
 	</script>
 
 	<ui:insert name="scripts"></ui:insert>
 </h:head>
 <h:body>
+<div class="div-overlay">Please wait ...</div>
 	<div id="main-div">
 		<div id="header">
 			<div id="bear">

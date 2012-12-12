@@ -276,7 +276,7 @@ public class DefineAlternativesView extends AbstractView {
             registrySelection.put(registry, true);
             availableActions.addAll(defineAlternatives.queryRegistry(getSampleWithFormat().getFormatInfo(), registry));
         } catch (PlatoException e) {
-            facesMessages.addError("Failed to query the registry: " + registry.getShortname());
+            facesMessages.addError("Failed to query the registry: " + registry.getShortname() + " - " + e.getMessage());
             log.error("Failed to query the registry: " + registry.getShortname(), e);
         }
     }
