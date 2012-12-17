@@ -84,8 +84,8 @@ public class CriteriaHierarchyExporter implements Serializable {
         	String leafText = "";
         	
         	// mapped leaf
-        	if (leaf.getMapped() && leaf.getCriterion() != null) {
-        		leafText = leaf.getName() + "|" + leaf.getCriterion().getUri();
+        	if (leaf.getMapped() && leaf.getMeasure() != null) {
+        		leafText = leaf.getName() + "|" + leaf.getMeasure().getUri();
         	}
         	// unmapped leaf
         	else {

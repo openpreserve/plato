@@ -113,26 +113,13 @@ th.rf-dt-hdr-c a:hover {
 	color: white;
 }
 
-td.rf-tab-hdr-act {
-	background: #017298;
-	color: white;
-}
-
 table.tableStyle-big-font td.rf-dt-c {
 	font-size: 14px;
 }
 
-table.tableStyle-big-font th.rf-dt-hdr-c,table.tableStyle-big-font th.rf-dt-shdr-c {
+table.tableStyle-big-font th.rf-dt-hdr-c,table.tableStyle-big-font th.rf-dt-shdr-c
+	{
 	font-size: 14px;
-}
-
-td.rf-tab-hdr-inact {
-	background: #1c8baf;
-	color: white;
-}
-
-div.rf-tab-hdr-brd {
-	background: #1c8baf;
 }
 
 /*
@@ -140,18 +127,17 @@ td.rf-dt-c {
 	background:#1c8baf;
 }
 */
-.rf-tab-cnt {
-	font-size: 1em;
-}
-
 .big-font .rf-trn {
 	font-size: 14px;
 }
 
-.rf-trn-ico-exp, .rf-trn-ico-colps {
-	background: url(/kbrowser/resources/gfx/icons/icon-folder.png) no-repeat center;
+.rf-trn-ico-exp,.rf-trn-ico-colps {
+	background: url(/kbrowser/resources/gfx/icons/icon-folder.png) no-repeat
+		center;
 }
 
 .rf-trn-ico-lf {
-	background: url(/kbrowser/resources/gfx/icons/icon-text-x-generic-template.png) no-repeat center;
+	background:
+		url(/kbrowser/resources/gfx/icons/icon-text-x-generic-template.png)
+		no-repeat center;
 }

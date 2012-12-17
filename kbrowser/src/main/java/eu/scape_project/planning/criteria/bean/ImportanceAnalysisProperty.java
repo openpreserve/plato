@@ -23,9 +23,9 @@ package eu.scape_project.planning.criteria.bean;
 public class ImportanceAnalysisProperty {
     private String category;
 
-    private String property;
+    private String attribute;
 
-    private String metric;
+    private String measure;
 
     private double if1;
     private double if2;
@@ -55,20 +55,20 @@ public class ImportanceAnalysisProperty {
         return category;
     }
 
-    public void setMetric(String metric) {
-        this.metric = metric;
+    public void setMeasure(String measure) {
+        this.measure = measure;
     }
 
-    public String getMetric() {
-        return metric;
+    public String getMeasure() {
+        return measure;
     }
 
-    public void setProperty(String property) {
-        this.property = property;
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 
-    public String getProperty() {
-        return property;
+    public String getAttribute() {
+        return attribute;
     }
 
     public double getIf1() {
@@ -214,6 +214,7 @@ public class ImportanceAnalysisProperty {
     public void setIf18(double if18) {
         this.if18 = if18;
     }
+
     public double getIf19() {
         return if19;
     }
@@ -221,5 +222,5 @@ public class ImportanceAnalysisProperty {
     public void setIf19(double if19) {
         this.if19 = if19;
     }
-    
+
 }

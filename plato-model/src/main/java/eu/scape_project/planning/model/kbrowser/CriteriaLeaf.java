@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -32,7 +33,7 @@ import eu.scape_project.planning.model.measurement.Measure;
 public class CriteriaLeaf extends CriteriaTreeNode {
     private static final long serialVersionUID = 7451573756065378955L;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Measure measure;
 
     private Boolean mapped;
@@ -535,7 +536,7 @@ public class CriteriaLeaf extends CriteriaTreeNode {
      * 
      * @return
      */
-    public double calculateImportanceFactorIF19()  {
+    public double calculateImportanceFactorIF19() {
         // TODO calculate robustness
         // we need the overall results for each alternatives
         for (VPlanLeaf pLeaf : planLeaves) {
@@ -544,11 +545,11 @@ public class CriteriaLeaf extends CriteriaTreeNode {
         return 0;
     }
 
-    public void setCriterion(Measure measure) {
+    public void setMeasure(Measure measure) {
         this.measure = measure;
     }
 
-    public Measure getCriterion() {
+    public Measure getMeasure() {
         return measure;
     }
 

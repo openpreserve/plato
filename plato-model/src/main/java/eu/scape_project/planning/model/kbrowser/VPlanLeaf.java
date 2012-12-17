@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -31,11 +29,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.model.SampleAggregationMode;
 import eu.scape_project.planning.model.TargetValueObject;
@@ -56,6 +49,11 @@ import eu.scape_project.planning.model.values.IOrdinalValue;
 import eu.scape_project.planning.model.values.TargetValue;
 import eu.scape_project.planning.model.values.Value;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class VPlanLeaf {
     private static final Logger log = LoggerFactory.getLogger(VPlanLeaf.class);
@@ -68,14 +66,12 @@ public class VPlanLeaf {
     /**
      * The weight of this leaf.
      */
-    @Column(name = "absoluteWeight")
     private double weight;
 
     /**
      * The aggregated weight up to the root, that means the impact of this leaf
      * on the overall result
      */
-    @Column(name = "relativeWeight")
     private double totalWeight;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -90,10 +86,10 @@ public class VPlanLeaf {
     @Enumerated
     private SampleAggregationMode aggregationMode;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    // Do we need this, as this is read only
+    // cascade = CascadeType.ALL, orphanRemoval = true
+    @OneToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    //@Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    // @IndexColumn(name="key_name")
     private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
 
     /**
@@ -112,132 +108,6 @@ public class VPlanLeaf {
         if (transformer == null) {
             return 0;
         }
-
-        // double outputLowerBound = 10;
-        // double outputUpperBound = -10;
-        //
-        // // Check OrdinalTransformer
-        // if (transformer instanceof OrdinalTransformer) {
-        // OrdinalTransformer ot = (OrdinalTransformer) transformer;
-        // Map<String, TargetValueObject> otMapping = ot.getMapping();
-        //
-        // // set upper- and lower-bound
-        // for (TargetValueObject tv : otMapping.values()) {
-        // if (tv.getValue() > outputUpperBound) {
-        // outputUpperBound = tv.getValue();
-        // }
-        // if (tv.getValue() < outputLowerBound) {
-        // outputLowerBound = tv.getValue();
-        // }
-        // }
-        // }
-        //
-        // // Check NumericTransformer
-        // if (transformer instanceof NumericTransformer) {
-        // // I have to identify the scale bounds before I can calculate the
-        // // output bounds.
-        // double scaleLowerBound = -Double.MAX_VALUE;
-        // double scaleUpperBound = Double.MAX_VALUE;
-        //
-        // // At Positive Scales lowerBound is 0, upperBound has to be fetched
-        // if (scale instanceof PositiveIntegerScale) {
-        // PositiveIntegerScale s = (PositiveIntegerScale) scale;
-        // scaleLowerBound = 0;
-        // scaleUpperBound = s.getUpperBound();
-        // }
-        // if (scale instanceof PositiveFloatScale) {
-        // PositiveFloatScale s = (PositiveFloatScale) scale;
-        // scaleLowerBound = 0;
-        // scaleUpperBound = s.getUpperBound();
-        // }
-        //
-        // // At Range Scales lowerBound and upperBound have to be fetched
-        // if (scale instanceof IntRangeScale) {
-        // IntRangeScale s = (IntRangeScale) scale;
-        // scaleLowerBound = s.getLowerBound();
-        // scaleUpperBound = s.getUpperBound();
-        // }
-        // if (scale instanceof FloatRangeScale) {
-        // FloatRangeScale s = (FloatRangeScale) scale;
-        // scaleLowerBound = s.getLowerBound();
-        // scaleUpperBound = s.getUpperBound();
-        // }
-        //
-        // // get Transformer thresholds
-        // NumericTransformer nt = (NumericTransformer) transformer;
-        // double transformerT1 = nt.getThreshold1();
-        // double transformerT2 = nt.getThreshold2();
-        // double transformerT3 = nt.getThreshold3();
-        // double transformerT4 = nt.getThreshold4();
-        // double transformerT5 = nt.getThreshold5();
-        //
-        // // calculate output bounds
-        // // increasing thresholds
-        // if (transformerT1 <= transformerT5) {
-        // // lower bound
-        // if (scaleLowerBound < transformerT1) {
-        // outputLowerBound = 0;
-        // } else if (scaleLowerBound < transformerT2) {
-        // outputLowerBound = 1;
-        // } else if (scaleLowerBound < transformerT3) {
-        // outputLowerBound = 2;
-        // } else if (scaleLowerBound < transformerT4) {
-        // outputLowerBound = 3;
-        // } else if (scaleLowerBound < transformerT5) {
-        // outputLowerBound = 4;
-        // } else {
-        // outputLowerBound = 5;
-        // }
-        //
-        // // upper bound
-        // if (scaleUpperBound < transformerT1) {
-        // outputUpperBound = 0;
-        // } else if (scaleUpperBound < transformerT2) {
-        // outputUpperBound = 1;
-        // } else if (scaleUpperBound < transformerT3) {
-        // outputUpperBound = 2;
-        // } else if (scaleUpperBound < transformerT4) {
-        // outputUpperBound = 3;
-        // } else if (scaleUpperBound < transformerT5) {
-        // outputUpperBound = 4;
-        // } else {
-        // outputUpperBound = 5;
-        // }
-        // }
-        //
-        // // decreasing thresholds
-        // if (transformerT1 > transformerT5) {
-        // // lower bound
-        // if (scaleUpperBound > transformerT1) {
-        // outputLowerBound = 0;
-        // } else if (scaleUpperBound > transformerT2) {
-        // outputLowerBound = 1;
-        // } else if (scaleUpperBound > transformerT3) {
-        // outputLowerBound = 2;
-        // } else if (scaleUpperBound > transformerT4) {
-        // outputLowerBound = 3;
-        // } else if (scaleUpperBound > transformerT5) {
-        // outputLowerBound = 4;
-        // } else {
-        // outputLowerBound = 5;
-        // }
-        //
-        // // upper bound
-        // if (scaleLowerBound > transformerT1) {
-        // outputUpperBound = 0;
-        // } else if (scaleLowerBound > transformerT2) {
-        // outputUpperBound = 1;
-        // } else if (scaleLowerBound > transformerT3) {
-        // outputUpperBound = 2;
-        // } else if (scaleLowerBound > transformerT4) {
-        // outputUpperBound = 3;
-        // } else if (scaleLowerBound > transformerT5) {
-        // outputUpperBound = 4;
-        // } else {
-        // outputUpperBound = 5;
-        // }
-        // }
-        // }
 
         return totalWeight * (getPotentialMaximum() - getPotentialMinimum());
     }
@@ -777,6 +647,16 @@ public class VPlanLeaf {
         return result;
     }
 
+    /**
+     * Checks if this leaf is mapped to a measure.
+     * 
+     * @return true if the leaf is mapped, false otherwise
+     */
+    public boolean isMapped() {
+        return (measure != null);
+    }
+
+    // ---------- getter/setter ----------
     public void setId(int id) {
         this.id = id;
     }
@@ -817,11 +697,11 @@ public class VPlanLeaf {
         return transformer;
     }
 
-    public void setCriterion(Measure measure) {
+    public void setMeasure(Measure measure) {
         this.measure = measure;
     }
 
-    public Measure getCriterion() {
+    public Measure getMeasure() {
         return measure;
     }
 

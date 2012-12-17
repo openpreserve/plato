@@ -24,22 +24,16 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
-
-import org.richfaces.component.SortOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
@@ -49,9 +43,9 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.aggregators.WeightedSum;
 import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
+import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
-import eu.scape_project.planning.model.measurement.Metric;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FloatScale;
 import eu.scape_project.planning.model.scales.IntRangeScale;
@@ -59,6 +53,10 @@ import eu.scape_project.planning.model.scales.IntegerScale;
 import eu.scape_project.planning.model.scales.PositiveFloatScale;
 import eu.scape_project.planning.model.scales.PositiveIntegerScale;
 import eu.scape_project.planning.model.scales.Scale;
+
+import org.richfaces.component.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Backing bean responsible for supporting view/kbrowser.xhtml
@@ -88,24 +86,29 @@ public class KBrowser implements Serializable {
 
     // ---- variables for selection ----
     private List<PlanInfo> selectedPlans = new ArrayList<PlanInfo>();
+
+    @Inject
+    private CriterionSelector criterionSelector = new CriterionSelector();
+
     private Collection<CriterionCategory> categories;
-    private HashMap<String, CriterionCategory> categoriesMap;
-    private CriterionCategory selectedCategory;
+    // private HashMap<String, CriterionCategory> categoriesMap;
+    // private CriterionCategory selectedCategory;
 
-    private Collection<MeasurableProperty> allMeasurableProperties;
-    private int allMeasurablePropertiesCount;
-    private Collection<MeasurableProperty> usedMeasurableProperties;
-    private int usedMeasurablePropertiesCount;
-    private Collection<MeasurableProperty> filteredMeasurableProperties;
-    private int filteredMeasurablePropertiesCount;
-    private HashMap<String, MeasurableProperty> measurablePropertiesMap;
-    private MeasurableProperty selectedMeasurableProperty;
-    private String selectedMeasurablePropertyString;
+    private Collection<Attribute> allAttributes;
+    // private int allMeasurablePropertiesCount;
+    // private Collection<MeasurableProperty> usedMeasurableProperties;
+    // private int usedMeasurablePropertiesCount;
+    // private Collection<MeasurableProperty> filteredMeasurableProperties;
+    // private int filteredMeasurablePropertiesCount;
+    // private HashMap<String, Attribute> attributeMap;
+    // private MeasurableProperty selectedMeasurableProperty;
+    // private String selectedMeasurablePropertyString;
 
-    private List<Metric> metrics;
-    private HashMap<String, Metric> metricsMap;
-    private Metric selectedMetric;
-    private String selectedMetricString;
+    private Collection<Measure> allMeasures;
+    // private List<Metric> metrics;
+    // private HashMap<String, Metric> metricsMap;
+    // private Metric selectedMetric;
+    // private String selectedMetricString;
 
     private Boolean showOnlyUsedProperties = true;
 
@@ -125,9 +128,9 @@ public class KBrowser implements Serializable {
 
     private Boolean isCategorySelected = false;
     private int nrPlanLeavesInCategory = -1;
-    private Boolean isPropertySelected = false;
-    private int nrPlanLeavesUsingProperty = -1;
-    private Boolean isMeasurableCriterionSelected = false;
+    private Boolean isAttributeSelected = false;
+    private int nrPlanLeavesUsingAttribute = -1;
+    private Boolean isMeasureSelected = false;
     private int nrCriterionPlanLeaves = -1;
     private double cplAverageWeight = -1;
     private double cplAverageTotalWeight = -1;
@@ -156,7 +159,7 @@ public class KBrowser implements Serializable {
      * Sort orders for compact criterion impact table
      */
     private SortOrder[] cifIfSortOrderCompact = {SortOrder.unsorted, SortOrder.unsorted, SortOrder.descending,
-        SortOrder.unsorted, SortOrder.unsorted};
+        SortOrder.unsorted, SortOrder.unsorted, SortOrder.unsorted};
 
     private double cplAvgPotentialOutputRangeOccurrenceBased = -1;
     private double cplMaxPotentialOutputRange = -1;
@@ -199,36 +202,48 @@ public class KBrowser implements Serializable {
     private ImportanceAnalysis importanceAnalysis;
 
     public KBrowser() {
-        categories = new ArrayList<CriterionCategory>();
-        for (CriterionCategory c : CriterionCategory.values()) {
-            categories.add(c);
-        }
-        constructCategoriesMap();
-        selectedCategory = null;
+        // categories = new ArrayList<CriterionCategory>();
+        // for (CriterionCategory c : CriterionCategory.values()) {
+        // categories.add(c);
+        // }
+        // constructCategoriesMap();
+        // selectedCategory = null;
 
-        metrics = new ArrayList<Metric>();
-        metricsMap = new HashMap<String, Metric>();
-        selectedMetric = null;
-        selectedMetricString = null;
+        // metrics = new ArrayList<Metric>();
+        // metricsMap = new HashMap<String, Metric>();
+        // selectedMetric = null;
+        // selectedMetricString = null;
     }
 
     public void initBean() {
-        // init all known properties
-        allMeasurableProperties = criteriaManager.getAllAttributes();
-        ArrayList<MeasurableProperty> allMeasurablePropertiesSortable = new ArrayList<MeasurableProperty>(
-            allMeasurableProperties);
-        Collections.sort(allMeasurablePropertiesSortable);
-        allMeasurableProperties = allMeasurablePropertiesSortable;
-        allMeasurablePropertiesCount = allMeasurableProperties.size();
-        nrOverallCriteria = criteriaManager.getAllMeasures().size();
-        constructMeasurablePropertiesMap();
-        filteredMeasurableProperties = new ArrayList<MeasurableProperty>(allMeasurableProperties);
-        filteredMeasurablePropertiesCount = filteredMeasurableProperties.size();
+
+        criterionSelector.init();
+
+        categories = criteriaManager.getAllCriterionCategories();
+        // constructCategoriesMap();
+
+        allAttributes = criteriaManager.getAllAttributes();
+        // constructMeasurablePropertiesMap();
+
+        // allMeasurableProperties = criteriaManager.getAllAttributes();
+        // ArrayList<MeasurableProperty> allMeasurablePropertiesSortable = new
+        // ArrayList<MeasurableProperty>(
+        // allMeasurableProperties);
+        // Collections.sort(allMeasurablePropertiesSortable);
+        // allMeasurableProperties = allMeasurablePropertiesSortable;
+        // allMeasurablePropertiesCount = allMeasurableProperties.size();
+        allMeasures = criteriaManager.getAllMeasures();
+        // nrOverallCriteria = criteriaManager.getAllMeasures().size();
+
+        // filteredMeasurableProperties = new
+        // ArrayList<MeasurableProperty>(allMeasurableProperties);
+        // filteredMeasurablePropertiesCount =
+        // filteredMeasurableProperties.size();
 
         // reset selection
-        selectedMeasurableProperty = null;
-        selectedMeasurablePropertyString = null;
-        selectedCategory = null;
+        // selectedMeasurableProperty = null;
+        // selectedMeasurablePropertyString = null;
+        // selectedCategory = null;
 
         // reset "display only used properties" checkbox
         showOnlyUsedProperties = true;
@@ -239,11 +254,11 @@ public class KBrowser implements Serializable {
         // Therefore we have to reset usedMeasurableProperties and its
         // corresponding variables (to sustain consistency after this
         // operation).
-        usedMeasurableProperties = new ArrayList<MeasurableProperty>();
-        usedMeasurablePropertiesCount = 0;
+        // usedMeasurableProperties = new ArrayList<MeasurableProperty>();
+        // usedMeasurablePropertiesCount = 0;
 
-        filterMeasurableProperties();
-        updateMetrics();
+        // filterMeasurableProperties();
+        // updateMetrics();
 
         // reset previous calculations
         nrPlanLeaves = 0;
@@ -269,12 +284,12 @@ public class KBrowser implements Serializable {
      * Initializes data for calculations.
      */
     public void initData() {
-        // get data
+        // Get data
         nrRelevantPlans = (long) planSelection.getSelectedPlans().size();
         List<VPlanLeaf> planLeaves = planSelection.getSelectionPlanLeaves();
 
         selectedPlans.clear();
-        // we also need the scores of the alternatives - for each selected plan
+        // We also need the scores of the alternatives - for each selected plan
         for (int pId : planSelection.getSelectedPlans()) {
             Plan plan = planManager.loadPlan(pId);
             ResultNode result = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan
@@ -284,16 +299,19 @@ public class KBrowser implements Serializable {
         // init calculation classes
         this.calculator = new KBrowserCalculator(planLeaves, nrRelevantPlans);
 
-        importanceAnalysis = new ImportanceAnalysis(allMeasurableProperties, planLeaves, selectedPlans);
+        importanceAnalysis = new ImportanceAnalysis(allMeasures, planLeaves, selectedPlans);
 
         // TODO: This is just a test to call the calculator
-        DominatedSetCalculator dominatedSetCalculator = new DominatedSetCalculator(selectedPlans, planLeaves);
-        dominatedSetCalculator.calculateDominatedPowerSet();
+        // DominatedSetCalculator dominatedSetCalculator = new
+        // DominatedSetCalculator(selectedPlans, planLeaves);
+        // dominatedSetCalculator.calculateDominatedPowerSet();
 
+        filterCriterionSelector(planLeaves);
         // update data
-        usedMeasurableProperties = identifyUsedMeasurableProperties(planLeaves);
-        usedMeasurablePropertiesCount = usedMeasurableProperties.size();
-        filterMeasurableProperties();
+        // usedMeasurableProperties =
+        // identifyUsedAttributes(planLeaves);
+        // usedMeasurablePropertiesCount = usedMeasurableProperties.size();
+        // filterMeasurableProperties();
 
         // do calculations
 
@@ -306,28 +324,29 @@ public class KBrowser implements Serializable {
     }
 
     /* ----------------- Category Setup ----------------- */
-
-    private void constructCategoriesMap() {
-        categoriesMap = new HashMap<String, CriterionCategory>();
-        for (CriterionCategory cat : CriterionCategory.values()) {
-            categoriesMap.put(cat.toString(), cat);
-        }
-    }
-
-    private void constructMetricsWithMap(List<Metric> metrics) {
-        // ATTENTION: Because of a Seam-Bug, this new creation of the
-        // metrics-list is mandatory!
-        // If you just clear the list and fill it with new values, the view
-        // (s:selectItems) does not mention a change and therefore does not
-        // update the associated selectBox.
-        // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
-        setMetrics(metrics);
-
-        metricsMap = new HashMap<String, Metric>();
-        for (Metric m : this.metrics) {
-            metricsMap.put(m.getMetricId(), m);
-        }
-    }
+    //
+    // private void constructCategoriesMap() {
+    // categoriesMap = new HashMap<String,
+    // CriterionCategory>(categories.size());
+    // for (CriterionCategory cat : categories) {
+    // categoriesMap.put(cat.getUri(), cat);
+    // }
+    // }
+    //
+    // private void constructMetricsWithMap(List<Metric> metrics) {
+    // // ATTENTION: Because of a Seam-Bug, this new creation of the
+    // // metrics-list is mandatory!
+    // // If you just clear the list and fill it with new values, the view
+    // // (s:selectItems) does not mention a change and therefore does not
+    // // update the associated selectBox.
+    // // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
+    // setMetrics(metrics);
+    //
+    // metricsMap = new HashMap<String, Metric>();
+    // for (Metric m : this.metrics) {
+    // metricsMap.put(m.getMetricId(), m);
+    // }
+    // }
 
     /**
      * Method responsible for identifying the properties used at least once.
@@ -338,36 +357,40 @@ public class KBrowser implements Serializable {
      * @return a alphabetically sorted list of all properties used at least
      *         once.
      */
-    private Collection<MeasurableProperty> identifyUsedMeasurableProperties(List<VPlanLeaf> planLeaves) {
-        HashMap<String, MeasurableProperty> mappedProperties = new HashMap<String, MeasurableProperty>();
+    // TODO: MP Use this in of CriterionSelector
+    private Collection<Attribute> identifyUsedAttributes(List<VPlanLeaf> planLeaves) {
+        HashMap<String, Attribute> usedAttributes = new HashMap<String, Attribute>();
 
-        // -1- collect used properties
-        // PlanLeaves
         for (VPlanLeaf l : planLeaves) {
-            if (l.getCriterion() != null) {
-                if (l.getCriterion().getProperty() != null) {
-                    mappedProperties
-                        .put(l.getCriterion().getProperty().getPropertyId(), l.getCriterion().getProperty());
-                }
+            if (l.isMapped()) {
+                usedAttributes.put(l.getMeasure().getAttribute().getUri(), l.getMeasure().getAttribute());
             }
         }
 
-        // -2- sort collected properties
-        ArrayList<MeasurableProperty> usedPropertiesSorted = new ArrayList<MeasurableProperty>(
-            mappedProperties.values());
-        Collections.sort(usedPropertiesSorted);
+        return usedAttributes.values();
+    }
 
-        return usedPropertiesSorted;
+    private void filterCriterionSelector(List<VPlanLeaf> planLeaves) {
+
+        HashSet<String> usedMeasureUris = new HashSet<String>();
+
+        for (VPlanLeaf l : planLeaves) {
+            if (l.isMapped()) {
+                usedMeasureUris.add(l.getMeasure().getUri());
+            }
+        }
+
+        criterionSelector.filterCriteria(usedMeasureUris);
     }
 
     /* ----------------- Property Setup ----------------- */
 
-    private void constructMeasurablePropertiesMap() {
-        measurablePropertiesMap = new HashMap<String, MeasurableProperty>();
-        for (MeasurableProperty mp : allMeasurableProperties) {
-            measurablePropertiesMap.put(mp.getName(), mp);
-        }
-    }
+    // private void constructMeasurablePropertiesMap() {
+    // attributeMap = new HashMap<String, Attribute>(allAttributes.size());
+    // for (Attribute mp : allAttributes) {
+    // attributeMap.put(mp.getName(), mp);
+    // }
+    // }
 
     /*
      * ----------------- Category UI-Helper -----------------
@@ -382,15 +405,17 @@ public class KBrowser implements Serializable {
      * selectedCategory = categoriesMap.get(selectedCategoryString); } }
      */
 
-    public void setSelectedMeasurableProperty(MeasurableProperty selectedMeasurableProperty) {
-        log.debug("setSelectedMeasurableProperty()");
-        this.selectedMeasurableProperty = selectedMeasurableProperty;
-    }
-
-    public MeasurableProperty getSelectedMeasurableProperty() {
-        log.debug("getSelectedMeasurableProperty()=" + selectedMeasurableProperty);
-        return selectedMeasurableProperty;
-    }
+    // public void setSelectedMeasurableProperty(MeasurableProperty
+    // selectedMeasurableProperty) {
+    // log.debug("setSelectedMeasurableProperty()");
+    // this.selectedMeasurableProperty = selectedMeasurableProperty;
+    // }
+    //
+    // public MeasurableProperty getSelectedMeasurableProperty() {
+    // log.debug("getSelectedMeasurableProperty()=" +
+    // selectedMeasurableProperty);
+    // return selectedMeasurableProperty;
+    // }
 
     public Collection<CriterionCategory> getCategories() {
         return categories;
@@ -401,202 +426,219 @@ public class KBrowser implements Serializable {
     }
 
     /* ----------------- Property UI-Helper ----------------- */
-
-    public void setFilteredMeasurableProperties(Collection<MeasurableProperty> filteredMeasurableProperties) {
-        // log.debug("setFilteredMeasurableProperties(): " +
-        // filteredMeasurableProperties.size());
-        this.filteredMeasurableProperties = filteredMeasurableProperties;
-    }
-
-    public Collection<MeasurableProperty> getFilteredMeasurableProperties() {
-        // log.debug("getFilteredMeasurableProperties(): " +
-        // filteredMeasurableProperties.size());
-        return filteredMeasurableProperties;
-    }
-
-    public void setSelectedMeasurablePropertyString(String selectedMeasurablePropertyString) {
-        log.debug("setSelectedMeasurablePropertyString(" + selectedMeasurablePropertyString + ")");
-
-        this.selectedMeasurablePropertyString = selectedMeasurablePropertyString;
-
-        if (selectedMeasurablePropertyString == null) {
-            selectedMeasurableProperty = null;
-        } else {
-            selectedMeasurableProperty = measurablePropertiesMap.get(selectedMeasurablePropertyString);
-        }
-    }
-
-    public String getSelectedMeasurablePropertyString() {
-        log.debug("getSelectedMeasurablePropertyString()=" + selectedMeasurablePropertyString);
-        return selectedMeasurablePropertyString;
-    }
-
-    public void setAllMeasurablePropertiesCount(int allMeasurablePropertiesCount) {
-        this.allMeasurablePropertiesCount = allMeasurablePropertiesCount;
-    }
-
-    public int getAllMeasurablePropertiesCount() {
-        return allMeasurablePropertiesCount;
-    }
-
-    public void setFilteredMeasurablePropertiesCount(int filteredMeasurablePropertiesCount) {
-        this.filteredMeasurablePropertiesCount = filteredMeasurablePropertiesCount;
-    }
-
-    public int getFilteredMeasurablePropertiesCount() {
-        return filteredMeasurablePropertiesCount;
-    }
+    //
+    // public void
+    // setFilteredMeasurableProperties(Collection<MeasurableProperty>
+    // filteredMeasurableProperties) {
+    // // log.debug("setFilteredMeasurableProperties(): " +
+    // // filteredMeasurableProperties.size());
+    // this.filteredMeasurableProperties = filteredMeasurableProperties;
+    // }
+    //
+    // public Collection<MeasurableProperty> getFilteredMeasurableProperties() {
+    // // log.debug("getFilteredMeasurableProperties(): " +
+    // // filteredMeasurableProperties.size());
+    // return filteredMeasurableProperties;
+    // }
+    //
+    // public void setSelectedMeasurablePropertyString(String
+    // selectedMeasurablePropertyString) {
+    // log.debug("setSelectedMeasurablePropertyString(" +
+    // selectedMeasurablePropertyString + ")");
+    //
+    // this.selectedMeasurablePropertyString = selectedMeasurablePropertyString;
+    //
+    // if (selectedMeasurablePropertyString == null) {
+    // selectedMeasurableProperty = null;
+    // } else {
+    // selectedMeasurableProperty =
+    // measurablePropertiesMap.get(selectedMeasurablePropertyString);
+    // }
+    // }
+    //
+    // public String getSelectedMeasurablePropertyString() {
+    // log.debug("getSelectedMeasurablePropertyString()=" +
+    // selectedMeasurablePropertyString);
+    // return selectedMeasurablePropertyString;
+    // }
+    //
+    // public void setAllMeasurablePropertiesCount(int
+    // allMeasurablePropertiesCount) {
+    // this.allMeasurablePropertiesCount = allMeasurablePropertiesCount;
+    // }
+    //
+    // public int getAllMeasurablePropertiesCount() {
+    // return allMeasurablePropertiesCount;
+    // }
+    //
+    // public void setFilteredMeasurablePropertiesCount(int
+    // filteredMeasurablePropertiesCount) {
+    // this.filteredMeasurablePropertiesCount =
+    // filteredMeasurablePropertiesCount;
+    // }
+    //
+    // public int getFilteredMeasurablePropertiesCount() {
+    // return filteredMeasurablePropertiesCount;
+    // }
 
     /* ----------------- Metric UI-Helper ----------------- */
-
-    public void setMetrics(List<Metric> metrics) {
-        this.metrics = metrics;
-    }
-
-    public List<Metric> getMetrics() {
-        return metrics;
-    }
-
-    public void setSelectedMetricString(String selectedMetricString) {
-        log.debug("setSelectedMetricString(): " + selectedMetricString);
-
-        this.selectedMetricString = selectedMetricString;
-
-        if (selectedMetricString == null) {
-            selectedMetric = null;
-        } else {
-            selectedMetric = metricsMap.get(selectedMetricString);
-        }
-    }
-
-    public String getSelectedMetricString() {
-        log.debug("getSelectedMetricString(): " + selectedMetricString);
-        return selectedMetricString;
-    }
+    //
+    // public void setMetrics(List<Metric> metrics) {
+    // this.metrics = metrics;
+    // }
+    //
+    // public List<Metric> getMetrics() {
+    // return metrics;
+    // }
+    //
+    // public void setSelectedMetricString(String selectedMetricString) {
+    // log.debug("setSelectedMetricString(): " + selectedMetricString);
+    //
+    // this.selectedMetricString = selectedMetricString;
+    //
+    // if (selectedMetricString == null) {
+    // selectedMetric = null;
+    // } else {
+    // selectedMetric = metricsMap.get(selectedMetricString);
+    // }
+    // }
+    //
+    // public String getSelectedMetricString() {
+    // log.debug("getSelectedMetricString(): " + selectedMetricString);
+    // return selectedMetricString;
+    // }
 
     /* ----------------- Category ValueChangeListener ----------------- */
-
-    /**
-     * Method responsible for handling the onchange-Events from
-     * Category-Selectbox in GUI. All model-values are updated appropriate
-     * (including dependent Selectboxes).
-     */
-    public void selectCategory() {
-        // log.info("CALL selectCategory(): "+this.getSelectedCategoryString());
-
-        // debug output
-        if (selectedCategory == null) {
-            log.info("Category: Nothing selected");
-        } else {
-            log.info("Category selected: " + selectedCategory.toString());
-        }
-
-        filterMeasurableProperties();
-
-        checkInputAndCalculateSelectiveStatistics();
-    }
+    //
+    // /**
+    // * Method responsible for handling the onchange-Events from
+    // * Category-Selectbox in GUI. All model-values are updated appropriate
+    // * (including dependent Selectboxes).
+    // */
+    // public void selectCategory() {
+    // // log.info("CALL selectCategory(): "+this.getSelectedCategoryString());
+    //
+    // // debug output
+    // if (selectedCategory == null) {
+    // log.info("Category: Nothing selected");
+    // } else {
+    // log.info("Category selected: " + selectedCategory.toString());
+    // }
+    //
+    // filterMeasurableProperties();
+    //
+    // checkInputAndCalculateSelectiveStatistics();
+    // }
 
     /* ----------------- Property ValueChangeListener ----------------- */
+    //
+    // /**
+    // * Method responsible for handling the onchange-Events from
+    // * Property-Selectbox in GUI. All model-values are updated appropriate
+    // * (including dependent Selectboxes).
+    // */
+    // public void selectProperty() {
+    // log.debug("CALL selectProperty()");
+    //
+    // // debug output
+    // if (selectedMeasurableProperty == null) {
+    // log.info("Property: Nothing selected");
+    // } else {
+    // log.info("Property selected: " + selectedMeasurableProperty.getName());
+    // }
+    //
+    // updateMetrics();
+    //
+    // checkInputAndCalculateSelectiveStatistics();
+    // }
 
-    /**
-     * Method responsible for handling the onchange-Events from
-     * Property-Selectbox in GUI. All model-values are updated appropriate
-     * (including dependent Selectboxes).
-     */
-    public void selectProperty() {
-        log.debug("CALL selectProperty()");
-
-        // debug output
-        if (selectedMeasurableProperty == null) {
-            log.info("Property: Nothing selected");
-        } else {
-            log.info("Property selected: " + selectedMeasurableProperty.getName());
-        }
-
-        updateMetrics();
-
-        checkInputAndCalculateSelectiveStatistics();
-    }
-
-    public void filterMeasurableProperties() {
-        // ATTENTION: Because of a Seam-Bug, this new creation of the
-        // filtered-measurableproperties-list is mandatory!
-        // If you just clear the list and then refill it, the view
-        // (s:selectItems) does not mention a change and therefore does not
-        // update the associated selectBox.
-        // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
-        Collection<MeasurableProperty> newFilteredMP = new ArrayList<MeasurableProperty>();
-
-        // dependent on the showOnlyUsedProperties-checkbox a different set of
-        // properties are available.
-        for (MeasurableProperty p : (showOnlyUsedProperties ? usedMeasurableProperties : allMeasurableProperties)) {
-            if (selectedCategory == null || p.getCategory() == selectedCategory) {
-                newFilteredMP.add(p);
-            }
-        }
-
-        filteredMeasurableProperties.clear();
-        filteredMeasurableProperties.addAll(newFilteredMP);
-        setFilteredMeasurablePropertiesCount(newFilteredMP.size());
-
-        // check if selected MeasurableProperty is still available in the new
-        // filtered list.
-        Boolean mpStillInFilteredList = false;
-        if (selectedMeasurableProperty != null) {
-            for (MeasurableProperty mp : filteredMeasurableProperties) {
-                if (mp.getPropertyId().equals(selectedMeasurableProperty.getPropertyId())) {
-                    mpStillInFilteredList = true;
-                    log.debug("Selected Property still available in new filtered list");
-                }
-            }
-
-            // if the previous selected MeasuableProperty is not available any
-            // more in the new filtered list
-            // set the selection to null (which also affects the metrics select)
-            if (!mpStillInFilteredList) {
-                setSelectedMeasurablePropertyString(null);
-                log.debug("Reset Selected Property to null");
-                updateMetrics();
-            }
-        }
-    }
+    // public void filterMeasurableProperties() {
+    // // ATTENTION: Because of a Seam-Bug, this new creation of the
+    // // filtered-measurableproperties-list is mandatory!
+    // // If you just clear the list and then refill it, the view
+    // // (s:selectItems) does not mention a change and therefore does not
+    // // update the associated selectBox.
+    // // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
+    // Collection<MeasurableProperty> newFilteredMP = new
+    // ArrayList<MeasurableProperty>();
+    //
+    // // dependent on the showOnlyUsedProperties-checkbox a different set of
+    // // properties are available.
+    // for (MeasurableProperty p : (showOnlyUsedProperties ?
+    // usedMeasurableProperties : allMeasurableProperties)) {
+    // if (selectedCategory == null || p.getCategory() == selectedCategory) {
+    // newFilteredMP.add(p);
+    // }
+    // }
+    //
+    // filteredMeasurableProperties.clear();
+    // filteredMeasurableProperties.addAll(newFilteredMP);
+    // setFilteredMeasurablePropertiesCount(newFilteredMP.size());
+    //
+    // // check if selected MeasurableProperty is still available in the new
+    // // filtered list.
+    // Boolean mpStillInFilteredList = false;
+    // if (selectedMeasurableProperty != null) {
+    // for (MeasurableProperty mp : filteredMeasurableProperties) {
+    // if
+    // (mp.getPropertyId().equals(selectedMeasurableProperty.getPropertyId())) {
+    // mpStillInFilteredList = true;
+    // log.debug("Selected Property still available in new filtered list");
+    // }
+    // }
+    //
+    // // if the previous selected MeasuableProperty is not available any
+    // // more in the new filtered list
+    // // set the selection to null (which also affects the metrics select)
+    // if (!mpStillInFilteredList) {
+    // setSelectedMeasurablePropertyString(null);
+    // log.debug("Reset Selected Property to null");
+    // updateMetrics();
+    // }
+    // }
+    // }
 
     /* ----------------- Metric ValueChangeListener ----------------- */
 
-    /**
-     * Method responsible for handling the onchange-Events from Metric-Selectbox
-     * in GUI. All model-values are updated appropriate.
-     */
-    public void selectMetric() {
-        log.debug("CALL selectMetric()");
+    // /**
+    // * Method responsible for handling the onchange-Events from
+    // Metric-Selectbox
+    // * in GUI. All model-values are updated appropriate.
+    // */
+    // public void selectMetric() {
+    // log.debug("CALL selectMetric()");
+    //
+    // // debug output
+    // if (selectedMetric == null) {
+    // log.debug("Metric: Nothing selected");
+    // } else {
+    // log.debug("Metric selected: " + selectedMetric.getMetricId());
+    // }
+    //
+    // checkInputAndCalculateSelectiveStatistics();
+    // }
 
-        // debug output
-        if (selectedMetric == null) {
-            log.debug("Metric: Nothing selected");
-        } else {
-            log.debug("Metric selected: " + selectedMetric.getMetricId());
-        }
+    // public void updateMetrics() {
+    // setSelectedMetricString(null);
+    //
+    // if (selectedMeasurableProperty == null) {
+    // // ATTENTION: Because of a Seam-Bug, this new creation of the
+    // // metrics-list is mandatory!
+    // // If you just clear the list, the view (s:selectItems) does not
+    // // mention a change and therefore does not update the associated
+    // // selectBox.
+    // // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
+    // setMetrics(new ArrayList<Metric>());
+    // metricsMap.clear();
+    // } else {
+    // constructMetricsWithMap(selectedMeasurableProperty.getPossibleMetrics());
+    // }
+    //
+    // log.debug("Reset Metric to null");
+    // }
 
+    public void measureChanged() {
         checkInputAndCalculateSelectiveStatistics();
-    }
-
-    public void updateMetrics() {
-        setSelectedMetricString(null);
-
-        if (selectedMeasurableProperty == null) {
-            // ATTENTION: Because of a Seam-Bug, this new creation of the
-            // metrics-list is mandatory!
-            // If you just clear the list, the view (s:selectItems) does not
-            // mention a change and therefore does not update the associated
-            // selectBox.
-            // Related bug: https://issues.jboss.org/browse/JBSEAM-4382
-            setMetrics(new ArrayList<Metric>());
-            metricsMap.clear();
-        } else {
-            constructMetricsWithMap(selectedMeasurableProperty.getPossibleMetrics());
-        }
-
-        log.debug("Reset Metric to null");
     }
 
     /*
@@ -609,13 +651,13 @@ public class KBrowser implements Serializable {
      * ShowOnlyUsedProperties-Checkbox in GUI. All model-values are updated
      * appropriate.
      */
-    public void selectShowOnlyUsedProperties() {
-        log.info("---- CHECKBOX ---- : " + showOnlyUsedProperties);
-
-        filterMeasurableProperties();
-
-        checkInputAndCalculateSelectiveStatistics();
-    }
+    // public void selectShowOnlyUsedProperties() {
+    // log.info("---- CHECKBOX ---- : " + showOnlyUsedProperties);
+    //
+    // filterMeasurableProperties();
+    //
+    // checkInputAndCalculateSelectiveStatistics();
+    // }
 
     /* ----------------- Calculator ----------------- */
 
@@ -624,11 +666,6 @@ public class KBrowser implements Serializable {
      * user selection).
      */
     public void calculateGeneralStatistics() {
-        /*
-         * nrRelevantPlans = (Long) em .createQuery(
-         * "SELECT COUNT(p) FROM PlanProperties p WHERE p.state in ('WEIGHTS_SET', 'ANALYSED', 'EXECUTEABLE_PLAN_CREATED','PLAN_DEFINED', 'PLAN_VALIDATED')  AND p.name NOT LIKE 'MY DEMO PLAN%'"
-         * ) .getSingleResult();
-         */
         nrPlanLeaves = calculator.getNrPlanLeaves();
         nrMappedPlanLeaves = calculator.getNrMappedPlanLeaves();
         nrCriteriaUsedAtLeastOnce = calculator.getNrCriteriaUsedAtLeastOnce();
@@ -641,20 +678,20 @@ public class KBrowser implements Serializable {
      */
     private void checkInputAndCalculateSelectiveStatistics() {
         // calculate category dependent values
-        if (selectedCategory != null) {
+        if (criterionSelector.getSelectedCategory() != null) {
             isCategorySelected = true;
-            nrPlanLeavesInCategory = calculator.getNrPlanLeavesInCategory(selectedCategory);
+            nrPlanLeavesInCategory = calculator.getNrPlanLeavesInCategory(criterionSelector.getSelectedCategory());
         } else {
             isCategorySelected = false;
         }
 
         // calculate property dependent values
-        if (selectedMeasurableProperty != null) {
-            isPropertySelected = true;
-            nrPlanLeavesUsingProperty = calculator.getNrPlanLeavesUsingProperty(selectedMeasurableProperty);
-            nrCriterionPlanLeaves = 0;
+        if (criterionSelector.getSelectedAttribute() != null) {
+            isAttributeSelected = true;
+            nrPlanLeavesUsingAttribute = calculator.getNrPlanLeavesUsingProperty(criterionSelector
+                .getSelectedAttribute());
         } else {
-            isPropertySelected = false;
+            isAttributeSelected = false;
         }
 
         // FIXME: a criterion is ALWAYS measurable (else it wouldn't be a
@@ -666,10 +703,12 @@ public class KBrowser implements Serializable {
         // if the property has a metric assigned it is always measurable.
         // if the property has no metric assigned it is measurable if the
         // property has a Scale assigned.
-        if ((selectedMeasurableProperty != null && selectedMetric != null)
-            || (selectedMeasurableProperty != null && selectedMeasurableProperty.getScale() != null)) {
-            isMeasurableCriterionSelected = true;
-            calculator.setCriterion(criteriaManager.getCriterion(selectedMeasurableProperty, selectedMetric));
+        // if ((selectedMeasurableProperty != null && selectedMetric != null)
+        // || (selectedMeasurableProperty != null &&
+        // selectedMeasurableProperty.getScale() != null)) {
+        if (criterionSelector.getSelectedMeasure() != null) {
+            isMeasureSelected = true;
+            calculator.filterMeasure(criterionSelector.getSelectedMeasure());
             nrCriterionPlanLeaves = calculator.getNrCriterionPlanLeaves();
             log.debug("nrCriterionPlanLeaves: " + nrCriterionPlanLeaves);
             cplAverageWeight = calculator.getCPLAverageWeight();
@@ -698,15 +737,10 @@ public class KBrowser implements Serializable {
             cplIf17 = calculator.getCPL_IF17();
             cplIf18 = calculator.getCPL_IF18() * 100;
 
-            // get scale
-            Scale scale;
-            if (selectedMetric != null) {
-                scale = selectedMetric.getScale();
-            } else {
-                scale = selectedMeasurableProperty.getScale();
-            }
+            // Get scale
+            Scale scale = criterionSelector.getSelectedMeasure().getScale();
 
-            // if scale of selected property is numeric - calculate numeric
+            // If scale of selected property is numeric - calculate numeric
             // measurement-statistics.
             if ((scale instanceof FloatRangeScale) || (scale instanceof FloatScale) || (scale instanceof IntegerScale)
                 || (scale instanceof IntRangeScale) || (scale instanceof PositiveFloatScale)
@@ -717,14 +751,14 @@ public class KBrowser implements Serializable {
                 cplNumericMeasurementsMax = calculator.getCPLNumericMeasurementsMax();
                 cplNumericMeasurementsAvg = calculator.getCPLNumericMeasurementsAvg();
             }
-            // otherwise calculate ordinal measurement-statistics.
+            // Otherwise calculate ordinal measurement-statistics.
             else {
                 hasCriterionNumericScale = false;
                 hasCriterionOrdinalScale = true;
                 cplOrdinalMeasurements = calculator.getCPLOrdinalMeasurements();
             }
 
-            // handle transformed values available
+            // Handle transformed values available
             List<Double> criterionEvaluations = calculator.getCPLEvaluations();
             if (criterionEvaluations.size() > 0) {
                 hasCriterionEvaluations = true;
@@ -733,7 +767,7 @@ public class KBrowser implements Serializable {
                 hasCriterionEvaluations = false;
             }
         } else {
-            isMeasurableCriterionSelected = false;
+            isMeasureSelected = false;
             hasCriterionEvaluations = false;
         }
     }
@@ -859,37 +893,38 @@ public class KBrowser implements Serializable {
         return nrPlanLeavesInCategory;
     }
 
-    public void setIsPropertySelected(Boolean isPropertySelected) {
-        this.isPropertySelected = isPropertySelected;
+    public void setIsAttributeSelected(Boolean isAttributeSelected) {
+        this.isAttributeSelected = isAttributeSelected;
     }
 
-    public Boolean getIsPropertySelected() {
-        return isPropertySelected;
+    public Boolean getIsAttributeSelected() {
+        return isAttributeSelected;
     }
 
-    public void setNrPlanLeavesUsingProperty(int nrPlanLeavesUsingProperty) {
-        this.nrPlanLeavesUsingProperty = nrPlanLeavesUsingProperty;
+    public void setNrPlanLeavesUsingAttribute(int nrPlanLeavesUsingAttribute) {
+        this.nrPlanLeavesUsingAttribute = nrPlanLeavesUsingAttribute;
     }
 
-    public int getNrPlanLeavesUsingProperty() {
-        return nrPlanLeavesUsingProperty;
+    public int getNrPlanLeavesUsingAttribute() {
+        return nrPlanLeavesUsingAttribute;
     }
 
-    public void setIsMeasurableCriterionSelected(Boolean isMeasurableCriterionSelected) {
-        this.isMeasurableCriterionSelected = isMeasurableCriterionSelected;
+    public void setIsMeasureSelected(Boolean isMeasureSelected) {
+        this.isMeasureSelected = isMeasureSelected;
     }
 
-    public Boolean getIsMeasurableCriterionSelected() {
-        return isMeasurableCriterionSelected;
+    public Boolean getIsMeasureSelected() {
+        return isMeasureSelected;
     }
 
-    public void setSelectedMetric(Metric selectedMetric) {
-        this.selectedMetric = selectedMetric;
-    }
-
-    public Metric getSelectedMetric() {
-        return selectedMetric;
-    }
+    //
+    // public void setSelectedMetric(Metric selectedMetric) {
+    // this.selectedMetric = selectedMetric;
+    // }
+    //
+    // public Metric getSelectedMetric() {
+    // return selectedMetric;
+    // }
 
     public void setNrCPLPotentialKO(int nrCPLPotentialKO) {
         this.nrCPLPotentialKO = nrCPLPotentialKO;
@@ -983,13 +1018,14 @@ public class KBrowser implements Serializable {
         return nrCriteriaUsedAtLeastOnce;
     }
 
-    public void setUsedMeasurablePropertiesCount(int usedMeasurablePropertiesCount) {
-        this.usedMeasurablePropertiesCount = usedMeasurablePropertiesCount;
-    }
-
-    public int getUsedMeasurablePropertiesCount() {
-        return usedMeasurablePropertiesCount;
-    }
+    // public void setUsedMeasurablePropertiesCount(int
+    // usedMeasurablePropertiesCount) {
+    // this.usedMeasurablePropertiesCount = usedMeasurablePropertiesCount;
+    // }
+    //
+    // public int getUsedMeasurablePropertiesCount() {
+    // return usedMeasurablePropertiesCount;
+    // }
 
     public void setShowOnlyUsedProperties(Boolean showOnlyUsedProperties) {
         this.showOnlyUsedProperties = showOnlyUsedProperties;
@@ -1286,14 +1322,14 @@ public class KBrowser implements Serializable {
         return nrCPLEvaluations;
     }
 
-    public CriterionCategory getSelectedCategory() {
-        log.debug("getSelectedCategory()=" + selectedCategory);
-        return selectedCategory;
-    }
-
-    public void setSelectedCategory(CriterionCategory selectedCategory) {
-        this.selectedCategory = selectedCategory;
-    }
+    // public CriterionCategory getSelectedCategory() {
+    // log.debug("getSelectedCategory()=" + selectedCategory);
+    // return selectedCategory;
+    // }
+    //
+    // public void setSelectedCategory(CriterionCategory selectedCategory) {
+    // this.selectedCategory = selectedCategory;
+    // }
 
     public SortOrder[] getCifIfSortOrder() {
         return cifIfSortOrder;
@@ -1345,7 +1381,7 @@ public class KBrowser implements Serializable {
 
         for (ImportanceAnalysisProperty p : importanceAnalysis.getTableRows()) {
             csvBuf.append(p.getCategory()).append(";");
-            csvBuf.append(p.getProperty() + " " + p.getMetric()).append(";");
+            csvBuf.append(p.getAttribute() + " " + p.getMeasure()).append(";");
             csvBuf.append(p.getIf1()).append(";");
             csvBuf.append(p.getIf2()).append(";");
             csvBuf.append(p.getIf3()).append(";");
@@ -1471,7 +1507,7 @@ public class KBrowser implements Serializable {
             maxIf10 = Math.max(maxIf10, property.getIf10());
         }
 
-        double scaleValue = Math.max(maxIf9, maxIf9) + 0.12d;
+        double scaleValue = Math.max(maxIf9, maxIf10) + 0.12d;
 
         potentialToRangeScale = new BigDecimal(scaleValue, new MathContext(2)).doubleValue();
     }
@@ -1482,6 +1518,14 @@ public class KBrowser implements Serializable {
 
     public void setSelectedPlans(List<PlanInfo> selectedPlans) {
         this.selectedPlans = selectedPlans;
+    }
+
+    public CriterionSelector getCriterionSelector() {
+        return criterionSelector;
+    }
+
+    public void setCriterionSelector(CriterionSelector criterionSelector) {
+        this.criterionSelector = criterionSelector;
     }
 
 }

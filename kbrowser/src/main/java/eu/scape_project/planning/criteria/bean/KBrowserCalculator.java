@@ -25,9 +25,9 @@ import java.util.Map;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
-import eu.scape_project.planning.model.measurement.Criterion;
+import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
-import eu.scape_project.planning.model.measurement.MeasurableProperty;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.transform.NumericTransformer;
 import eu.scape_project.planning.model.transform.OrdinalTransformer;
 import eu.scape_project.planning.model.transform.TransformationMode;
@@ -44,16 +44,20 @@ import eu.scape_project.planning.model.values.Value;
 public class KBrowserCalculator implements Serializable {
     private static final long serialVersionUID = 3798396219762966856L;
 
-    private List<VPlanLeaf> planLeaves;
     /**
-     * A list of all plan leaves which are mapped to criteria
+     * List of all plan leaves.
+     */
+    private List<VPlanLeaf> planLeaves;
+
+    /**
+     * List of plan leaves which are mapped to measures.
      */
     private List<VPlanLeaf> mappedPlanLeaves;
+
     /**
-     * When a criterion is selected, this list holds all corresponding plan
-     * leaves
+     * List of plan leaves for a specified measure.
      */
-    private List<VPlanLeaf> criterionPlanLeaves;
+    private List<VPlanLeaf> measurePlanLeaves;
 
     /**
      * variable responsible for calculating aggregated criteria impact factors.
@@ -64,7 +68,7 @@ public class KBrowserCalculator implements Serializable {
         this.planLeaves = planLeaves;
 
         // will be updated as soon as a criterion is selected
-        this.criterionPlanLeaves = new ArrayList<VPlanLeaf>();
+        this.measurePlanLeaves = new ArrayList<VPlanLeaf>();
 
         this.criteriaAggregator = new CriteriaLeaf(nrRelevantPlans);
 
@@ -72,13 +76,14 @@ public class KBrowserCalculator implements Serializable {
     }
 
     /**
-     * Method responsible for filtering mapped leaves out of all given leaves.
+     * Updates the mapped plan leaf list from all plan leaves filtering all
+     * unmapped leaves.
      */
     private void filterMappedLeaves() {
         // filter mapped PlanLeaves
-        mappedPlanLeaves = new ArrayList<VPlanLeaf>();
+        mappedPlanLeaves = new ArrayList<VPlanLeaf>(planLeaves.size());
         for (VPlanLeaf pl : planLeaves) {
-            if (pl.getCriterion() != null) {
+            if (pl.isMapped()) {
                 mappedPlanLeaves.add(pl);
             }
         }
@@ -86,88 +91,71 @@ public class KBrowserCalculator implements Serializable {
 
     /**
      * Method responsible for filtering all leaves which match the given
-     * criterion
-     * 
+     * criterion.
      */
-    public void setCriterion(Criterion c) {
-        // reset criterion lists
-        criterionPlanLeaves.clear();
+    public void filterMeasure(Measure m) {
+        // Reset criterion lists
+        measurePlanLeaves.clear();
 
-        // filter PlanLeaves
+        // Filter PlanLeaves
         for (VPlanLeaf l : mappedPlanLeaves) {
-            if (l.getCriterion().getUri().equals(c.getUri())) {
-                criterionPlanLeaves.add(l);
+            if (l.getMeasure().getUri().equals(m.getUri())) {
+                measurePlanLeaves.add(l);
             }
         }
 
-        criteriaAggregator.setPlanLeaves(criterionPlanLeaves);
-
+        criteriaAggregator.setPlanLeaves(measurePlanLeaves);
     }
 
+    /**
+     * Returns the number of plan leaves.
+     * 
+     * @return the number of plan leaves
+     */
     public int getNrPlanLeaves() {
         return planLeaves.size();
     }
 
+    /**
+     * Returns the number of mapped plan leaves.
+     * 
+     * @return the number of mapped plan leaves.
+     */
     public int getNrMappedPlanLeaves() {
         return mappedPlanLeaves.size();
     }
 
     /**
-     * Method responsible for counting the criteria which are at least used
-     * once.
+     * Returns the number of measures that are used in at least on plan leaf.
      * 
-     * @return properties count used at least once.
+     * @return number of used measures
      */
     public int getNrCriteriaUsedAtLeastOnce() {
-        HashMap<String, String> mappedCriteria = new HashMap<String, String>();
+        HashMap<String, String> mappedMeasures = new HashMap<String, String>();
 
-        // PlanLeaves
         for (VPlanLeaf l : mappedPlanLeaves) {
-            mappedCriteria.put(l.getCriterion().getUri(), l.getCriterion().getUri());
+            mappedMeasures.put(l.getMeasure().getUri(), l.getMeasure().getUri());
         }
 
-        return mappedCriteria.size();
+        return mappedMeasures.size();
     }
 
     /**
-     * Method responsible for counting the plan leaves having the given category
-     * assigned.
+     * Returns the number of plan leaves that are mapped to a measure in the
+     * provided category.
      * 
-     * @param selectedCategory
-     *            Category to filter for. A null value means: Any category.
-     * @return Count of plan leaves having the given category assigned.
+     * @param category
+     *            category to filter for or null for any category.
+     * @return the number of plan leaves having the given category assigned.
      */
-    public int getNrPlanLeavesInCategory(CriterionCategory selectedCategory) {
-        if (selectedCategory == null) {
-            return mappedPlanLeaves.size();
-        }
-
-        int nrPlanLeavesInCategory = 0;
-        for (VPlanLeaf l : mappedPlanLeaves) {
-            if (l.getCriterion().getProperty().getCategory() == selectedCategory) {
-                nrPlanLeavesInCategory++;
-            }
-        }
-
-        return nrPlanLeavesInCategory;
-    }
-
-    /**
-     * Method responsible for counting the plan leaves having the given property
-     * assigned, giving no respect to the fact if the property is measurable or
-     * not or if a metric is assigned or not.
-     * 
-     * @param property
-     *            property to filter for.
-     */
-    public int getNrPlanLeavesUsingProperty(MeasurableProperty selectedProperty) {
-        if (selectedProperty == null) {
+    public int getNrPlanLeavesInCategory(CriterionCategory category) {
+        if (category == null) {
             return mappedPlanLeaves.size();
         }
 
         int count = 0;
         for (VPlanLeaf l : mappedPlanLeaves) {
-            if (selectedProperty.getPropertyId().equals(l.getCriterion().getProperty().getPropertyId())) {
+            if (l.getMeasure().getAttribute().getCategory().getUri().equals(category.getUri())) {
                 count++;
             }
         }
@@ -176,42 +164,69 @@ public class KBrowserCalculator implements Serializable {
     }
 
     /**
-     * Method responsible for counting the plan leaves which met the set
-     * criterion (Property [+ Metric]).
+     * Method responsible for counting the plan leaves having the given property
+     * assigned, giving no respect to the fact if the property is measurable or
+     * not or if a metric is assigned or not.
      * 
-     * @return count of plan leaves which met the set criterion.
+     * @param attribute
+     *            property to filter for or null for all properties
      */
-    public int getNrCriterionPlanLeaves() {
-        return criterionPlanLeaves.size();
+    public int getNrPlanLeavesUsingProperty(Attribute attribute) {
+        if (attribute == null) {
+            return mappedPlanLeaves.size();
+        }
+
+        int count = 0;
+        for (VPlanLeaf l : mappedPlanLeaves) {
+            if (l.getMeasure().getAttribute().getUri().equals(attribute.getUri())) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
+    /**
+     * Returns the number of plan leaves that are mapped to the set measure.
+     * 
+     * @return the number of plan leaves
+     */
+    public int getNrCriterionPlanLeaves() {
+        return measurePlanLeaves.size();
+    }
+
+    /**
+     * Returns the average weight of the plan leaves that are mapped to the set
+     * measure.
+     * 
+     * @return the average weight
+     */
     public double getCPLAverageWeight() {
         double sum = 0;
         int count = 0;
 
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             sum = sum + l.getWeight();
             count++;
         }
 
-        if (count > 0)
+        if (count > 0) {
             return sum / count;
-        else
+        } else {
             return 0;
+        }
     }
 
     /**
-     * Method responsible for counting the measurements obtained for criterion
-     * plan leaves.
+     * Returns the number of measurements of the set measure.
      * 
-     * @return Count of measurements obtained for criteria plan leaves.
+     * @return the number of measurements
      */
     public int getNrCPLMeasurementsObtained() {
         int count = 0;
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             count = count + l.getMeasuredValues().size();
         }
-
         return count;
     }
 
@@ -226,7 +241,7 @@ public class KBrowserCalculator implements Serializable {
         Boolean atLeastOneMeasuredValue = false;
         double min = Double.MAX_VALUE;
 
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             for (Value val : l.getMeasuredValues()) {
                 if (val instanceof INumericValue) {
                     atLeastOneMeasuredValue = true;
@@ -256,7 +271,7 @@ public class KBrowserCalculator implements Serializable {
         Boolean atLeastOneMeasuredValue = false;
         double max = -Double.MAX_VALUE;
 
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             for (Value val : l.getMeasuredValues()) {
                 if (val instanceof INumericValue) {
                     atLeastOneMeasuredValue = true;
@@ -286,7 +301,7 @@ public class KBrowserCalculator implements Serializable {
         int count = 0;
         double sum = 0d;
 
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             for (Value val : l.getMeasuredValues()) {
                 if (val instanceof INumericValue) {
                     count++;
@@ -316,7 +331,7 @@ public class KBrowserCalculator implements Serializable {
         // collect ordinal values
         // We have to lower-case values here to get reasonable results (in plans
         // upper- and lower-case strings are used)
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             for (Value val : l.getMeasuredValues()) {
                 if (val instanceof IOrdinalValue) {
                     IOrdinalValue valOrd = (IOrdinalValue) val;
@@ -355,7 +370,7 @@ public class KBrowserCalculator implements Serializable {
     public KBrowserTransformerTable getCPSTransformerTable() {
         KBrowserTransformerTable table = new KBrowserTransformerTable();
 
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             Transformer trans = l.getTransformer();
             if (trans == null) {
                 continue;
@@ -420,7 +435,7 @@ public class KBrowserCalculator implements Serializable {
         List<Double> evaluations = new ArrayList<Double>();
 
         // for each leaf transform its measured values into transformed values
-        for (VPlanLeaf l : criterionPlanLeaves) {
+        for (VPlanLeaf l : measurePlanLeaves) {
             evaluations.addAll(l.getAlternativeResults());
         }
 

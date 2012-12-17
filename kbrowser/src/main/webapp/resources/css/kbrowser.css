@@ -1,3 +1,7 @@
+body {
+	font-size: 1em;
+}
+
 .pagePart {
 	width: 100%;
 	margin-bottom: 20px;
@@ -38,7 +42,7 @@ table.propertiesTable tr>td:first-child {
 	width: 480px;
 	margin-right: 10px;*/
 	float: left;
-	width : 48%;
+	width: 48%;
 }
 
 .layout-twocolumn-left2 { /*
@@ -47,7 +51,7 @@ table.propertiesTable tr>td:first-child {
 	margin-right: 10px;*/
 	margin-top: 10px;
 	float: left;
-	width : 90%;
+	width: 90%;
 }
 
 .layout-twocolumn-right { /*width: 49%;
@@ -56,7 +60,6 @@ table.propertiesTable tr>td:first-child {
 	float: right;
 	width: 48%;
 }
-
 
 .popup-panel-fixed-size {
 	width: 800px;
@@ -76,7 +79,6 @@ table.propertiesTable tr>td:first-child {
 	width: 100%;
 }
 
-
 .chart {
 	height: 400px;
 }
@@ -86,7 +88,7 @@ table.propertiesTable tr>td:first-child {
 	width: 300px;
 }
 
-.jqplot-target, .jqplot-xaxis-label, .jqplot-yaxis-label {
+.jqplot-target,.jqplot-xaxis-label,.jqplot-yaxis-label {
 	color: black;
 	font-size: 1.3em;
 }
@@ -96,4 +98,64 @@ table.propertiesTable tr>td:first-child {
 	padding: 10px;
 	border: 1px solid silver;
 	margin-bottom: 20px;
+}
+
+.outstanding-number {
+	height: 36px;
+	font-size: 36px;
+	float: left;
+}
+
+.outstanding-number-text {
+	height: 36px;
+	font-size: 14px;
+	float: left;
+	margin-left: 5px;
+	line-height: 18px;
+}
+
+/* Input fields */
+select {
+	border: 1px solid #155C89
+}
+
+/* Tabs */
+.rf-tab-hdr-act.rf-tab-hdr-top {
+	background: #017298;
+	color: white;
+	padding: 3px 5px 3px 5px;
+}
+
+.rf-tab-hdr-inact.rf-tab-hdr-top {
+	background: #1c8baf;
+	color: white;
+	padding: 3px 5px 3px 5px;
+}
+
+.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top {
+	background: #FFFFFF;
+	border: none;
+}
+
+.rf-tab-hdr-brd {
+	background: #1c8baf;
+	border: none;
+}
+
+.rf-tab-cnt {
+	border: 1px solid #BABABA;
+}
+
+/* Criterion selector */
+.border {
+	border: 1px solid #BABABA;
+}
+
+.criterionselector-select {
+	width: 100%;
+	height: 150px;
+}
+
+.criterionselector-desc-tab {
+	width: 100%;
 }

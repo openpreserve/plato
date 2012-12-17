@@ -7,7 +7,7 @@
     <!-- stored procedure used to calculate the relative weight of a treenode. -->
     <database-object>
         <create>
-            CREATE PROCEDURE calculateRelativeWeight(IN tnId INTEGER, OUT relWeight DOUBLE)
+            CREATE PROCEDURE calculateTotalWeight(IN tnId INTEGER, OUT relWeight DOUBLE)
             BEGIN
                 DECLARE wght DOUBLE;
                 DECLARE parentRelWeight DOUBLE;
@@ -24,14 +24,14 @@
             END;
         </create>
         <drop>
-            DROP PROCEDURE IF EXISTS calculateRelativeWeight;
+            DROP PROCEDURE IF EXISTS calculateTotalWeight;
         </drop>    
     </database-object>
     
     <!-- stored function used as a wrapper for calculateRelativeWeight(), to be used in SELECT statements. -->
     <database-object>
         <create>
-            CREATE FUNCTION relativeWeight(tnId INTEGER)
+            CREATE FUNCTION totalWeight(tnId INTEGER)
             RETURNS DOUBLE
             BEGIN
                 DECLARE relWeight DOUBLE;
@@ -42,7 +42,7 @@
             END;
         </create>
         <drop>
-            DROP FUNCTION IF EXISTS relativeWeight;
+            DROP FUNCTION IF EXISTS totalWeight;
         </drop>    
     </database-object>
     
@@ -114,7 +114,7 @@
     <!-- View which gets all plan-leaves (which belong to a relevant plan) with all necessary data for knowledgebrowser (see eu.planets_project.pp.plato.bean.KBrowser). -->
     <database-object>
         <create>
-            CREATE OR REPLACE VIEW VPlanLeaf AS SELECT t.id, weight AS absoluteWeight, relativeWeight(t.id) AS relativeWeight, t.scale_id, t.transformer_id, t.criterion_id, p.id as planId, t.aggregationMode FROM TreeNode t, ObjectiveTree o, Plan p WHERE t.nodetype='L' AND rootNode(t.id) IN (SELECT o.root_id FROM Plan p, PlanProperties pp, ObjectiveTree o WHERE (pp.state="WEIGHTS_SET" OR pp.state="ANALYSED" OR pp.state="EXECUTEABLE_PLAN_CREATED" OR pp.state="PLAN_DEFINED" OR pp.state="PLAN_VALIDATED") AND pp.name NOT LIKE 'MY DEMO PLAN%' AND p.planProperties_id=pp.id AND p.tree_id=o.id) AND rootNode(t.id)=o.root_id AND o.id=p.tree_id;
+            CREATE OR REPLACE VIEW VPlanLeaf AS SELECT t.id, weight, totalWeight(t.id) as totalWeight, t.scale_id, t.transformer_id, t.measure_id, p.id as planId, t.aggregationMode FROM TreeNode t, ObjectiveTree o, Plan p WHERE t.nodetype='L' AND rootNode(t.id) IN (SELECT o.root_id FROM Plan p, PlanProperties pp, ObjectiveTree o WHERE (pp.state="WEIGHTS_SET" OR pp.state="ANALYSED" OR pp.state="EXECUTEABLE_PLAN_CREATED" OR pp.state="PLAN_DEFINED" OR pp.state="PLAN_VALIDATED") AND pp.name NOT LIKE 'MY DEMO PLAN%' AND p.planProperties_id=pp.id AND p.tree_id=o.id) AND rootNode(t.id)=o.root_id AND o.id=p.tree_id;
         </create>
         <drop>
             DROP VIEW IF EXISTS VPlanLeaf;

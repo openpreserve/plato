@@ -1,6 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich" xmlns:c="http://java.sun.com/jsp/jstl/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
 	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
@@ -12,54 +17,74 @@
 			<h:panelGroup layout="block" id="objectivetree">
 				<fieldset id="create-hierarchy" class="size-full">
 					<legend class="fieldset-full-size-legend">
-						<h:outputText value="#{criteriaHierarchyHelper.selectedCriteriaHierarchy.name}" />
+						<h:outputText
+							value="#{criteriaHierarchyHelper.selectedCriteriaHierarchy.name}" />
 					</legend>
 
 					<h:form id="treeForm">
 						<rich:tree id="richTree" var="node">
-							<rich:treeModelRecursiveAdaptor roots="#{criteriaHierarchyHelper.selectedCriteriaHierarchyCriteriaTreeRoots}"
+							<rich:treeModelRecursiveAdaptor
+								roots="#{criteriaHierarchyHelper.selectedCriteriaHierarchyCriteriaTreeRoots}"
 								nodes="#{node.children}" leaf="#{node.leaf}">
 								<rich:treeNode iconLeaf="" icon="" expanded="#{!node.leaf}">
 									<h:inputText
 										style="border:1px solid #DDDDDD; float: left; width:270px; background-color: #{empty(node.name)? '#F08080':'white'};"
-										required="false" requiredMessage="Please provide a name." id="name" value="#{node.name}">
+										required="false" requiredMessage="Please provide a name."
+										id="name" value="#{node.name}">
 										<f:validateLength maximum="255" minimum="1" />
 									</h:inputText>
 
 									<h:panelGrid id="menuPanel" border="0" style="float: left;">
-										<rich:dropDownMenu menuitem="menuNode" mode="ajax" direction="bottomRight" jointPoint="topRight"
-											hideDelay="500" style="position: static;">
+										<rich:dropDownMenu menuitem="menuNode" mode="ajax"
+											direction="bottomRight" jointPoint="topRight" hideDelay="500"
+											style="position: static;">
 											<f:facet name="label">
-												<h:graphicImage value="resources/gfx/icons/preferences-system.png" id="addLeafpic" />
+												<h:graphicImage
+													value="resources/gfx/icons/preferences-system.png"
+													id="addLeafpic" />
 											</f:facet>
-											<rich:menuItem id="addLeaf" rendered="#{!node.leaf}" action="#{criteriaHierarchyHelper.addLeafToNode(node)}"
-												label="Add a criterion" onclick="changed();" render="richTree">
+											<rich:menuItem id="addLeaf" rendered="#{!node.leaf}"
+												action="#{criteriaHierarchyHelper.addLeafToNode(node)}"
+												label="Add a criterion" onclick="changed();"
+												render="richTree">
 												<f:facet name="icon">
-													<h:graphicImage value="resources/gfx/icons/add-leaf.png" width="16" height="16" />
+													<h:graphicImage value="resources/gfx/icons/add-leaf.png"
+														width="16" height="16" />
 												</f:facet>
 											</rich:menuItem>
-											<rich:menuItem id="addNode" rendered="#{!node.leaf}" action="#{criteriaHierarchyHelper.addNodeToNode(node)}"
-												label="Add a structural node" onclick="changed();" render="richTree">
+											<rich:menuItem id="addNode" rendered="#{!node.leaf}"
+												action="#{criteriaHierarchyHelper.addNodeToNode(node)}"
+												label="Add a structural node" onclick="changed();"
+												render="richTree">
 												<f:facet name="icon">
-													<h:graphicImage value="resources/gfx/icons/add-node.png" width="16" height="16" />
+													<h:graphicImage value="resources/gfx/icons/add-node.png"
+														width="16" height="16" />
 												</f:facet>
 											</rich:menuItem>
-											<rich:menuItem id="removeNode" rendered="#{node.parent!=null}" label="Remove"
-												action="#{criteriaHierarchyHelper.removeNode(node)}" render="richTree">
+											<rich:menuItem id="removeNode"
+												rendered="#{node.parent!=null}" label="Remove"
+												action="#{criteriaHierarchyHelper.removeNode(node)}"
+												render="richTree">
 												<f:facet name="icon">
-													<h:graphicImage value="resources/gfx/icons/trash-node.png" width="16" height="16" />
+													<h:graphicImage value="resources/gfx/icons/trash-node.png"
+														width="16" height="16" />
 												</f:facet>
 											</rich:menuItem>
 										</rich:dropDownMenu>
 									</h:panelGrid>
 
-									<a4j:commandLink rendered="#{node.leaf}" action="#{criteriaHierarchyHelper.selectLeaf(node)}"
-										oncomplete="#{rich:component('editLeafMapping')}.show()" eventsQueue="ajaxQ" render="editLeafMapping">
-										<h:graphicImage id="showMapping" value="resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
-											title="#{(node.mapped ? (node.criterion.uri):'')}" width="22" height="22" />
+									<a4j:commandLink rendered="#{node.leaf}"
+										action="#{criteriaHierarchyHelper.selectLeaf(node)}"
+										oncomplete="#{rich:component('editLeafMapping')}.show()"
+										eventsQueue="ajaxQ" render="editLeafMapping">
+										<h:graphicImage id="showMapping"
+											value="resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
+											title="#{(node.mapped ? (node.measure.uri):'')}" width="22"
+											height="22" />
 									</a4j:commandLink>
 
-									<h:panelGroup rendered="#{!node.leaf}" layout="block" style="vertical-align: top; margin-left: 80px;">
+									<h:panelGroup rendered="#{!node.leaf}" layout="block"
+										style="vertical-align: top; margin-left: 80px;">
 										<table style="border: 1px solid #DDDDDD;">
 											<tr>
 												<th class="border-dark">SIF1</th>
@@ -80,22 +105,38 @@
 												<th class="border-dark">SIF16</th>
 											</tr>
 											<tr>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF1}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF2}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF3}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF4}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF5}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF6}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF7}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF8}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF9}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF10}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF11}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF12}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF13}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF14}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF15}" /></td>
-												<td class="size-auto"><h:outputText value="#{node.stringFormattedImportanceFactorSIF16}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF1}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF2}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF3}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF4}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF5}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF6}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF7}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF8}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF9}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF10}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF11}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF12}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF13}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF14}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF15}" /></td>
+												<td class="size-auto"><h:outputText
+														value="#{node.stringFormattedImportanceFactorSIF16}" /></td>
 											</tr>
 										</table>
 									</h:panelGroup>
@@ -105,11 +146,15 @@
 						</rich:tree>
 
 						<br />
-						<a4j:commandButton id="saveButton" action="#{criteriaHierarchyHelper.saveSelectedCriteriaHierarchy}" value="SAVE"
-							onclick="this.disabled=true" render="saveButton" />
-							
-					    <br/><br/>
-					    <h:commandButton action="#{criteriaHierarchyHelper.exportCriteriaHierarchyAsFreeMindXML()}" value="Export criteria set as freemind-xml" />
+						<a4j:commandButton id="saveButton"
+							action="#{criteriaHierarchyHelper.saveSelectedCriteriaHierarchy}"
+							value="SAVE" onclick="this.disabled=true" render="saveButton" />
+
+						<br />
+						<br />
+						<h:commandButton
+							action="#{criteriaHierarchyHelper.exportCriteriaHierarchyAsFreeMindXML()}"
+							value="Export criteria set as freemind-xml" />
 					</h:form>
 				</fieldset>
 			</h:panelGroup>
@@ -127,104 +172,168 @@
 	-->
 		<h:form>
 			<!-- criteria selection -->
-			<rich:popupPanel id="editLeafMapping" width="700" height="400" domElementAttachment="form">
+
+
+			<rich:popupPanel id="editLeafMapping" width="700" height="400"
+				domElementAttachment="form">
 				<f:facet name="header">
 					<h:outputText value="Select a criteria" />
 				</f:facet>
 				<f:facet name="controls">
-					<h:graphicImage id="closeMapping" value="resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
-						onclick="#{rich:component('editLeafMapping')}.hide()" />
+					<h:graphicImage id="closeMapping"
+						value="resources/gfx/icons/cancel.png" title="Close" width="16"
+						height="16" onclick="#{rich:component('editLeafMapping')}.hide()" />
 				</f:facet>
 
 				<h:messages />
 
-				<table style="width: 60em;">
-					<tr>
-						<th></th>
-						<th>Criterion selection</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th style="width: 15em;"><i>Category</i></th>
-						<th style="width: 35em;"><i>Property</i></th>
-						<th style="width: 10em;"><i>Metric</i></th>
-					</tr>
-					<tr style="background-color: #F2F2F2;">
-						<td><h:selectOneListbox size="7" id="categories_select" value="#{criteriaHierarchyHelper.selectedCategory}"
-								required="false" style="width: 14em;">
-								<f:selectItems value="#{criteriaHierarchyHelper.categories}" var="cat" noSelectionValue="(all)"
-									itemLabel="#{cat}" itemValue="#{cat}" />
-								<a4j:ajax event="change"
-									render="properties_select, metrics_select, properties_statistics, criterion_description, savePropertyMappingButton"
-									listener="#{criteriaHierarchyHelper.selectCategory}" />
-							</h:selectOneListbox></td>
-						<td><h:selectOneListbox size="7" id="properties_select"
-								value="#{criteriaHierarchyHelper.selectedMeasurablePropertyString}" required="false" style="width: 34em;">
-								<f:selectItems value="#{criteriaHierarchyHelper.filteredMeasurableProperties}" var="prop"
-									itemLabel="#{prop.name}" itemValue="#{prop.name}" />
-								<a4j:ajax event="change" render="metrics_select, criterion_description, savePropertyMappingButton"
-									listener="#{criteriaHierarchyHelper.selectProperty}" />
-							</h:selectOneListbox></td>
-						<td><h:selectOneListbox size="7" id="metrics_select" value="#{criteriaHierarchyHelper.selectedMetricString}"
-								required="false" style="width: 10em;">
-								<f:selectItems id="metrics_select_items" value="#{criteriaHierarchyHelper.metrics}" var="met"
-									itemLabel="#{met.name}" itemValue="#{met.metricId}" noSelectionLabel="(none)" />
-								<a4j:ajax event="change" render="criterion_description, savePropertyMappingButton"
-									listener="#{criteriaHierarchyHelper.selectMetric}" />
-							</h:selectOneListbox></td>
-					</tr>
-					<tr style="background-color: #F2F2F2;">
-						<td>Properties in Category: <h:outputText id="properties_statistics"
-								value="#{criteriaHierarchyHelper.filteredMeasurablePropertiesCount}" />
-						</td>
-						<td></td>
-						<td></td>
-					</tr>
-				</table>
+				<p:criterionSelector id="criterion_selector"
+					criterionSelector="#{criteriaHierarchyHelper.criterionSelector}">
 
-				<br />
-				<br />
-				<h:panelGroup id="criterion_description">
-					<table class="size-xxl border" style="width: 60em; border: 1px solid #DDDDDD;">
+					<h:panelGroup id="savePropertyMappingButton">
+						<a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
+							rendered="#{not empty criteriaHierarchyHelper.criterionSelector.selectedMeasure}"
+							action="#{criteriaHierarchyHelper.saveCriterionMapping}"
+							oncomplete="#{rich:component('editLeafMapping')}.hide()"
+							render="richTree">
+							<h:graphicImage value="resources/gfx/icons/apply.png"
+								title="Save Criterion mapping" width="32" height="32" />
+						</a4j:commandLink>
+						<h:graphicImage
+							rendered="#{empty criteriaHierarchyHelper.criterionSelector.selectedMeasure}"
+							value="resources/gfx/icons/apply-disabled.png"
+							title="Save Criterion mapping" width="32" height="32" />
+					</h:panelGroup>
+
+				</p:criterionSelector>
+
+			</rich:popupPanel>
+
+
+
+
+			<ui:remove>
+				<rich:popupPanel id="editLeafMapping" width="700" height="400"
+					domElementAttachment="form">
+					<f:facet name="header">
+						<h:outputText value="Select a criteria" />
+					</f:facet>
+					<f:facet name="controls">
+						<h:graphicImage id="closeMapping"
+							value="resources/gfx/icons/cancel.png" title="Close" width="16"
+							height="16" onclick="#{rich:component('editLeafMapping')}.hide()" />
+					</f:facet>
+
+					<h:messages />
+
+					<table style="width: 60em;">
 						<tr>
-							<th class="align-left" style="width: 20em;">Criterion Characteristic</th>
-							<th class="align-left" style="width: 40em;">Value</th>
+							<th></th>
+							<th>Criterion selection</th>
+							<th></th>
 						</tr>
 						<tr>
-							<td>criterion description</td>
-							<c:if test="#{criteriaHierarchyHelper.selectedMeasurableProperty == null}">
-								<td>N/A</td>
-							</c:if>
-							<c:if test="#{criteriaHierarchyHelper.selectedMeasurableProperty != null}">
-								<td><h:outputText value="#{criteriaHierarchyHelper.selectedMeasurableProperty.description}" /></td>
-							</c:if>
+							<th style="width: 15em;"><i>Category</i></th>
+							<th style="width: 35em;"><i>Property</i></th>
+							<th style="width: 10em;"><i>Metric</i></th>
 						</tr>
-						<tr>
-							<td>metric</td>
-							<c:if test="#{criteriaHierarchyHelper.selectedMetric != null}">
-								<td><h:outputText value="#{criteriaHierarchyHelper.selectedMetric.description}" /></td>
-							</c:if>
-							<c:if test="#{criteriaHierarchyHelper.selectedMetric == null}">
-								<td></td>
-							</c:if>
+						<tr style="background-color: #F2F2F2;">
+							<td><h:selectOneListbox size="7" id="categories_select"
+									value="#{criteriaHierarchyHelper.selectedCategory}"
+									required="false" style="width: 14em;">
+									<f:selectItems value="#{criteriaHierarchyHelper.categories}"
+										var="cat" noSelectionValue="(all)" itemLabel="#{cat}"
+										itemValue="#{cat}" />
+									<a4j:ajax event="change"
+										render="properties_select, metrics_select, properties_statistics, criterion_description, savePropertyMappingButton"
+										listener="#{criteriaHierarchyHelper.selectCategory}" />
+								</h:selectOneListbox></td>
+							<td><h:selectOneListbox size="7" id="properties_select"
+									value="#{criteriaHierarchyHelper.selectedMeasurablePropertyString}"
+									required="false" style="width: 34em;">
+									<f:selectItems
+										value="#{criteriaHierarchyHelper.filteredMeasurableProperties}"
+										var="prop" itemLabel="#{prop.name}" itemValue="#{prop.name}" />
+									<a4j:ajax event="change"
+										render="metrics_select, criterion_description, savePropertyMappingButton"
+										listener="#{criteriaHierarchyHelper.selectProperty}" />
+								</h:selectOneListbox></td>
+							<td><h:selectOneListbox size="7" id="metrics_select"
+									value="#{criteriaHierarchyHelper.selectedMetricString}"
+									required="false" style="width: 10em;">
+									<f:selectItems id="metrics_select_items"
+										value="#{criteriaHierarchyHelper.metrics}" var="met"
+										itemLabel="#{met.name}" itemValue="#{met.metricId}"
+										noSelectionLabel="(none)" />
+									<a4j:ajax event="change"
+										render="criterion_description, savePropertyMappingButton"
+										listener="#{criteriaHierarchyHelper.selectMetric}" />
+								</h:selectOneListbox></td>
+						</tr>
+						<tr style="background-color: #F2F2F2;">
+							<td>Properties in Category: <h:outputText
+									id="properties_statistics"
+									value="#{criteriaHierarchyHelper.filteredMeasurablePropertiesCount}" />
+							</td>
+							<td></td>
+							<td></td>
 						</tr>
 					</table>
-				</h:panelGroup>
 
-				<br />
-				<br />
+					<br />
+					<br />
+					<h:panelGroup id="criterion_description">
+						<table class="size-xxl border"
+							style="width: 60em; border: 1px solid #DDDDDD;">
+							<tr>
+								<th class="align-left" style="width: 20em;">Criterion
+									Characteristic</th>
+								<th class="align-left" style="width: 40em;">Value</th>
+							</tr>
+							<tr>
+								<td>criterion description</td>
+								<c:if
+									test="#{criteriaHierarchyHelper.selectedMeasurableProperty == null}">
+									<td>N/A</td>
+								</c:if>
+								<c:if
+									test="#{criteriaHierarchyHelper.selectedMeasurableProperty != null}">
+									<td><h:outputText
+											value="#{criteriaHierarchyHelper.selectedMeasurableProperty.description}" /></td>
+								</c:if>
+							</tr>
+							<tr>
+								<td>metric</td>
+								<c:if test="#{criteriaHierarchyHelper.selectedMetric != null}">
+									<td><h:outputText
+											value="#{criteriaHierarchyHelper.selectedMetric.description}" /></td>
+								</c:if>
+								<c:if test="#{criteriaHierarchyHelper.selectedMetric == null}">
+									<td></td>
+								</c:if>
+							</tr>
+						</table>
+					</h:panelGroup>
 
-				<h:panelGroup id="savePropertyMappingButton">
-					<a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
-						rendered="#{criteriaHierarchyHelper.isMeasurableCriterionSelected}"
-						action="#{criteriaHierarchyHelper.saveCriterionMapping}" oncomplete="#{rich:component('editLeafMapping')}.hide()"
-						render="richTree">
-						<h:graphicImage value="resources/gfx/icons/apply.png" title="Save Criterion mapping" width="32" height="32" />
-					</a4j:commandLink>
-					<h:graphicImage rendered="#{!criteriaHierarchyHelper.isMeasurableCriterionSelected}"
-						value="resources/gfx/icons/apply-disabled.png" title="Save Criterion mapping" width="32" height="32" />
-				</h:panelGroup>
-			</rich:popupPanel>
+					<br />
+					<br />
+
+					<h:panelGroup id="savePropertyMappingButton">
+						<a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
+							rendered="#{criteriaHierarchyHelper.isMeasurableCriterionSelected}"
+							action="#{criteriaHierarchyHelper.saveCriterionMapping}"
+							oncomplete="#{rich:component('editLeafMapping')}.hide()"
+							render="richTree">
+							<h:graphicImage value="resources/gfx/icons/apply.png"
+								title="Save Criterion mapping" width="32" height="32" />
+						</a4j:commandLink>
+						<h:graphicImage
+							rendered="#{!criteriaHierarchyHelper.isMeasurableCriterionSelected}"
+							value="resources/gfx/icons/apply-disabled.png"
+							title="Save Criterion mapping" width="32" height="32" />
+					</h:panelGroup>
+				</rich:popupPanel>
+			</ui:remove>
 			<!-- / criterion selection -->
 		</h:form>
 

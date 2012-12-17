@@ -23,21 +23,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 
-import org.richfaces.component.SortOrder;
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeData;
 import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
 import eu.scape_project.planning.model.kbrowser.CriteriaNode;
 import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
+
+import org.richfaces.component.SortOrder;
+import org.slf4j.Logger;
 
 /**
  * View Bean responsible for CriteriaSetsSummaryView
