@@ -17,12 +17,14 @@
 package eu.scape_project.planning.application;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 import eu.scape_project.planning.model.User;
@@ -36,10 +38,13 @@ import org.slf4j.Logger;
 @ManagedBean(name = "bugReport")
 @ViewScoped
 public class BugReportView implements Serializable {
-    private static final long serialVersionUID = 2018521013047511583L;
+    private static final long serialVersionUID = -4163926008026409933L;
 
     @Inject
     private Logger log;
+
+    @Inject
+    private FacesMessages facesMessages;
 
     @Inject
     private BugReport bugReport;
@@ -47,13 +52,9 @@ public class BugReportView implements Serializable {
     @Inject
     private User user;
 
-    @Inject
-    private FacesMessages facesMessages;
+    private Throwable throwable;
 
-    private Throwable exception;
-
-    private String exceptionPage;
-
+    private String errorRequestUri;
     private String userEmail;
 
     private String userDescription;
@@ -63,20 +64,20 @@ public class BugReportView implements Serializable {
      */
     @PostConstruct
     public void init() {
-        Object passedException = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("exception");
-        Object originatingPage = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("exceptionPage");
 
-        if (passedException != null) {
-            // store excecption for further use in this scope
-            exception = (Throwable) passedException;
+        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        throwable = (Throwable) sessionMap.get(RequestDispatcher.ERROR_EXCEPTION);
+        sessionMap.remove(RequestDispatcher.ERROR_EXCEPTION);
+        errorRequestUri = (String) sessionMap.get(RequestDispatcher.ERROR_REQUEST_URI);
+        sessionMap.remove(RequestDispatcher.ERROR_REQUEST_URI);
+        sessionMap.remove(RequestDispatcher.ERROR_STATUS_CODE);
+        sessionMap.remove(RequestDispatcher.ERROR_EXCEPTION_TYPE);
+        sessionMap.remove(RequestDispatcher.ERROR_MESSAGE);
 
-            // store exceptionPage for further use in this scope
-            exceptionPage = (originatingPage == null) ? "unknown" : (String) originatingPage;
-
-            addExceptionToMessages(exception);
+        if (throwable != null) {
+            addExceptionToMessages(throwable);
         }
 
-        // Prefill email
         userEmail = user.getEmail();
     }
 
@@ -95,9 +96,8 @@ public class BugReportView implements Serializable {
             log.debug("Unable to retrieve session-id");
         }
 
-        String currentPage = exceptionPage;
+        bugReport.addExeptionToMessages(t, sessionId, errorRequestUri);
 
-        bugReport.addExeptionToMessages(t, sessionId, currentPage);
     }
 
     /**
@@ -111,7 +111,7 @@ public class BugReportView implements Serializable {
             .getContextPath();
 
         try {
-            bugReport.sendBugReport(userEmail, userDescription, exception, location, "KBrowser");
+            bugReport.sendBugReport(userEmail, userDescription, throwable, errorRequestUri, location, "KBrowser");
 
             log.debug("Bugreport sent from user " + user.getUsername() + " with email " + userEmail);
             facesMessages
