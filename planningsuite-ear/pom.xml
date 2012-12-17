@@ -44,6 +44,11 @@
 							<artifactId>plato</artifactId>
 							<contextRoot>/plato</contextRoot>
 						</webModule>
+						<webModule>
+							<groupId>eu.scape-project.pw</groupId>
+							<artifactId>kbrowser</artifactId>
+							<contextRoot>/kbrowser</contextRoot>
+						</webModule>
 					</modules>
 
 					<archive>
@@ -75,6 +80,12 @@
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato</artifactId>
 			<version>${plato.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>kbrowser</artifactId>
+			<version>${kbrowser.version}</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>
