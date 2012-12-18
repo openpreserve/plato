@@ -10,7 +10,7 @@ public class JGetTest {
 	@Test
 	public void testConnection(){
 		try {
-			String content = JGet.wget("http://www.google.com");
+			String content = JGet.wget("http://www.google.com", 4000, 4000);
 			Assert.assertFalse(content.isEmpty());
 		} catch (Exception e) {
 			e.printStackTrace();
