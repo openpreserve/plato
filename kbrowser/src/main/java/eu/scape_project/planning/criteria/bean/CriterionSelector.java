@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -115,7 +115,7 @@ public class CriterionSelector implements Serializable {
         clearSelection();
     }
 
-    public void filterCriteria(HashSet<String> measureUris) {
+    public void filterCriteria(Set<String> measureUris) {
         HashMap<String, CriterionCategory> filteredCategories = new HashMap<String, CriterionCategory>();
         HashMap<String, Attribute> filteredAttributes = new HashMap<String, Attribute>();
         HashMap<String, Measure> filteredMeasures = new HashMap<String, Measure>();
