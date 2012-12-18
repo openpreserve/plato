@@ -31,10 +31,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.IndexColumn;
 
 /**
  * This entity bean contains all information defined in the workflow step
@@ -69,19 +67,15 @@ public class SampleRecordsDefinition implements Serializable, ITouchable {
     }
 
     /**
-     * Hibernate note: Hibernate does NOT support IndexColumn properly see:
-     * http://opensource.atlassian.com/projects/hibernate/browse/HHH-3160
-     * therefore we use a sorted list instead, and sort by
-     * SampleObject.sampleIndex which we have to MAINTAIN ourselves
+     * The list of representative samples.
      * 
-     * One reason we had to use @IndexColumn was because of fetch type EAGER.
-     * This problem can be resolved by using @Fetch(FetchMode.SUBSELECT)
+     * Note: 
+     *  - retaining the order of these samples is critical, as each value in {@link Values}
+     *    correspond to the sample with the same index
+     *  - Per default Hibernate uses the id of the objects to determine the position.   
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sampleRecordsDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Fetch(value = FetchMode.SELECT)
-    // @org.hibernate.annotations.OrderBy(clause="sampleIndex asc")
-    // @IndexColumn(name="sampleIndex")
-    // FIXME UPGRADE check if this still works!
     private List<SampleObject> records = new ArrayList<SampleObject>();
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -159,12 +153,6 @@ public class SampleRecordsDefinition implements Serializable, ITouchable {
     public void addRecord(SampleObject record) {
         // to ensure referential integrity
         record.setSampleRecordsDefinition(this);
-
-        long index = 1;
-        if (records.size() > 0) {
-            index = (records.get(records.size() - 1)).getSampleIndex() + 1;
-        }
-        record.setSampleIndex(index);
         records.add(record);
     }
 

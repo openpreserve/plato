@@ -67,13 +67,6 @@ public class SampleObject extends DigitalObject {
     @Column(length = 5000)
     private String originalTechnicalEnvironment = "";
 
-    /**
-     * This is our index when he store the sampleRecords in a list.
-     * Due to a bug of hibernate http://opensource.atlassian.com/projects/hibernate/browse/HHH-3160
-     * we have to maintain the index ourselves
-     */
-    private long sampleIndex;
-    
     @ManyToOne
     private SampleRecordsDefinition sampleRecordsDefinition;
     
@@ -131,14 +124,6 @@ public class SampleObject extends DigitalObject {
 
     public void setOriginalTechnicalEnvironment(String originalTechnicalEnvironment) {
         this.originalTechnicalEnvironment = originalTechnicalEnvironment;
-    }
-
-    public long getSampleIndex() {
-        return sampleIndex;
-    }
-
-    public void setSampleIndex(long sampleIndex) {
-        this.sampleIndex = sampleIndex;
     }
 
     public boolean isFormatDefined() {

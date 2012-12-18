@@ -38,9 +38,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -135,9 +132,10 @@ public class Leaf extends TreeNode {
      * complains. The default value 'key' seems to be a keyword.
      */
 //    @IndexColumn(name = "key_name")
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-    @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN}) 
+//    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+//    @Fetch(FetchMode.SELECT)
+//    @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN}) 
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
     private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
 
     @ManyToOne(cascade=CascadeType.ALL)

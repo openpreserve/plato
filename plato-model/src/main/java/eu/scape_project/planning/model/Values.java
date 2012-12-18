@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,8 +30,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.validator.constraints.Length;
 
 import eu.scape_project.planning.model.values.Value;
@@ -53,9 +52,10 @@ public class Values implements Serializable {
 
     private static final long serialVersionUID = -5716708734333958355L;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @IndexColumn(name="indexcol",base=1)
-    @Cascade(value={org.hibernate.annotations.CascadeType.ALL,org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+//    @OneToMany(fetch = FetchType.EAGER)
+//    @IndexColumn(name="indexcol",base=1)
+//    @Cascade(value={org.hibernate.annotations.CascadeType.ALL,org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
     private List<Value> list = new ArrayList<Value>();
 
     @Id

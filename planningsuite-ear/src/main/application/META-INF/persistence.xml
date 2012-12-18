@@ -8,7 +8,7 @@
 		<jta-data-source>java:jboss/datasources/platoDatasource</jta-data-source>
 		<jar-file>planningsuite-ear.ear/lib/plato-model-4.0.0-SNAPSHOT.jar</jar-file>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="true" />
