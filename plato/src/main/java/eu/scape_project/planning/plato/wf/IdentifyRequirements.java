@@ -29,12 +29,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.policy.ControlPolicy;
@@ -60,11 +58,11 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     @Inject
     private Logger log;
 
-    @Inject
-    private User user;
+//    @Inject
+//    private User user;
 
-    @Inject
-    private ByteStreamManager bytestreamManager;
+//    @Inject
+//    private ByteStreamManager bytestreamManager;
 
     @Inject
     private TreeLoader treeLoader;
@@ -79,6 +77,11 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
      * Nodes to delete after accepting the performed changes (before save).
      */
     private List<TreeNode> nodesToDelete = new ArrayList<TreeNode>();
+    
+    /**
+     * @see Leaf  measure 
+     */
+    private List<Measure> measuresToDelete = new ArrayList<Measure>();
 
     public IdentifyRequirements() {
         this.requiredPlanState = PlanState.RECORDS_CHOSEN;
@@ -316,6 +319,9 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     public void assignMeasureToLeaf(final Measure measure, Leaf leaf) {
         Measure oldMeasure = leaf.getMeasure();
         if ((oldMeasure == null) || (!oldMeasure.getUri().equals(measure.getUri()))) {
+            // schedule removal of old measure
+            measuresToDelete.add(oldMeasure);
+            // and apply the new one
             Measure m = new Measure(measure);
             leaf.setMeasure(m);
             leaf.setScale(m.getScale());
@@ -356,7 +362,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
 
         saveEntity(plan.getRequirementsDefinition());
         saveEntity(plan.getTree());
-        deleteNodesToDelete();
+        deleteOrphanedEntities();
     }
 
     @Override
@@ -395,16 +401,23 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     }
 
     /**
-     * Method responsible for deleting the nodes deleted in this step from
-     * database.
+     * deletes orphaned entities which are not removed by persistence provider automatically, namely:
+     * - nodes
+     * - measures
      */
-    private void deleteNodesToDelete() {
+    private void deleteOrphanedEntities() {
         for (TreeNode n : nodesToDelete) {
             if (n.getId() != 0) {
                 removeEntity(n);
             }
         }
-
         nodesToDelete.clear();
+        
+        for (Measure m : measuresToDelete) {
+            if (m.getId() != 0) {
+                removeEntity(m);
+            }
+        }
+        measuresToDelete.clear();
     }
 }

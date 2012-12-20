@@ -134,6 +134,14 @@ public class Leaf extends TreeNode {
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
     private Map<String, Values> valueMap = new HashMap<String, Values>();
 
+    /**
+     * The measure this decision criterion is mapped to.
+     * 
+     * Note that orphanRemoval does not work on OneToOne relationships 
+     * if the orphan is replaced by a new entity ({@link https://hibernate.onjira.com/browse/HHH-6484}  
+     * If you want to do so, you have to take care of deleting the orphan yourself
+     * 
+     */
     @OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
     private Measure measure;
     
@@ -743,7 +751,7 @@ public class Leaf extends TreeNode {
         clone.setTransformer(newTransformer);
         clone.setAggregationMode(this.getAggregationMode());
         if (measure != null) {
-            clone.setMeasure(measure);
+            clone.setMeasure(new Measure(measure));
         }
         return clone;
     }

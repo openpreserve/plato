@@ -20,15 +20,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.model.SampleAggregationMode;
 import eu.scape_project.planning.model.TargetValueObject;
@@ -48,11 +51,6 @@ import eu.scape_project.planning.model.values.INumericValue;
 import eu.scape_project.planning.model.values.IOrdinalValue;
 import eu.scape_project.planning.model.values.TargetValue;
 import eu.scape_project.planning.model.values.Value;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Entity
 public class VPlanLeaf {
@@ -74,13 +72,13 @@ public class VPlanLeaf {
      */
     private double totalWeight;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Scale scale;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Transformer transformer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Measure measure;
 
     @Enumerated
@@ -90,7 +88,7 @@ public class VPlanLeaf {
     // cascade = CascadeType.ALL, orphanRemoval = true
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-    private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
+    private Map<String, Values> valueMap = new HashMap<String, Values>();
 
     /**
      * Method responsible for assessing the potential output range of this
@@ -185,7 +183,7 @@ public class VPlanLeaf {
 
     public double getPotentialMaximum() {
         // If the plan is not yet at a evaluation stage where potential output
-        // range can be calculated - return 0.
+        // range can be calcu)lated - return 0.
         if (transformer == null) {
             return 0;
         }

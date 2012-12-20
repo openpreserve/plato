@@ -270,7 +270,7 @@ public class Node {
     			Measure crit = criteriaManager.getMeasure(criterionUri);
     			if (crit != null) {
     				leaf.setMapped(true);
-    				leaf.setMeasure(crit);
+    				leaf.setMeasure(new Measure(crit));
     			}
     			else {
 	    			leaf.setMapped(false);

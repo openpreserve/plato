@@ -23,7 +23,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import eu.scape_project.planning.model.measurement.Measure;
@@ -33,7 +33,7 @@ import eu.scape_project.planning.model.measurement.Measure;
 public class CriteriaLeaf extends CriteriaTreeNode {
     private static final long serialVersionUID = 7451573756065378955L;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Measure measure;
 
     private Boolean mapped;
