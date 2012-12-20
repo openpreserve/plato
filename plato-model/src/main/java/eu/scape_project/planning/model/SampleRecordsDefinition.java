@@ -72,8 +72,11 @@ public class SampleRecordsDefinition implements Serializable, ITouchable {
      * Note: 
      *  - retaining the order of these samples is critical, as each value in {@link Values}
      *    correspond to the sample with the same index
-     *  - Per default Hibernate uses the id of the objects to determine the position.   
+     *  - Per default Hibernate uses the id of the objects to determine the position.
+     *  - This object owns the samples, only newly created samples are added
+     *  -> no index is required to retain the order    
      */
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sampleRecordsDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Fetch(value = FetchMode.SELECT)
     private List<SampleObject> records = new ArrayList<SampleObject>();

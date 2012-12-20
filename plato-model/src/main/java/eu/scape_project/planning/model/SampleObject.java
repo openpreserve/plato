@@ -104,8 +104,7 @@ public class SampleObject extends DigitalObject {
         return sampleRecordsDefinition;
     }
 
-    public void setSampleRecordsDefinition(
-            SampleRecordsDefinition sampleRecordsDefinition) {
+    public void setSampleRecordsDefinition(SampleRecordsDefinition sampleRecordsDefinition) {
         this.sampleRecordsDefinition = sampleRecordsDefinition;
     }
 

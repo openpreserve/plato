@@ -20,18 +20,17 @@ package eu.scape_project.planning.model.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -123,22 +122,19 @@ public class Leaf extends TreeNode {
      * We have values actually per
      * <ul>
      * <li> preservation strategy ({@link Alternative}),</li>
-     * <li> leaf node (of course), AND </li>
+     * <li> decision criteria (leaf node), AND </li>
      * <li> sample record.</li>
      * </ul>
      * So we have another encapsulation: {@link Values}
      *
-     * The key member of Map must be renamed to key_name otherwise derby
-     * complains. The default value 'key' seems to be a keyword.
+     * Note: For some databases it might be necessary to rename the key member of Map, 
+     *       as it might be a reserved keyword, e.g.: Derby
      */
 //    @IndexColumn(name = "key_name")
-//    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-//    @Fetch(FetchMode.SELECT)
-//    @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN}) 
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
-    private Map<String, Values> valueMap = new ConcurrentHashMap<String, Values>();
+    private Map<String, Values> valueMap = new HashMap<String, Values>();
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
     private Measure measure;
     
     public Map<String, Values> getValueMap() {
@@ -738,7 +734,7 @@ public class Leaf extends TreeNode {
         if (this.getScale() != null) {
             clone.setScale(this.getScale().clone());
         }
-        clone.setValueMap(new ConcurrentHashMap<String, Values>());
+        clone.setValueMap(new HashMap<String, Values>());
         
         Transformer newTransformer = null;
         if (transformer != null) {
