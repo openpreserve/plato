@@ -187,15 +187,15 @@
 			<scope>provided</scope>
 			<type>ejb</type>
 		</dependency>
-		<dependency> 
-			<!-- reuse src/test/java code  -->
+<!-- 		<dependency> 
+			reuse src/test/java code 
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>planning-core</artifactId>
 			<version>${planning-core.version}</version>
 			<scope>test</scope>
 			<classifier>tests</classifier>
 		</dependency>		
-		
+ -->		
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>minimee</artifactId>

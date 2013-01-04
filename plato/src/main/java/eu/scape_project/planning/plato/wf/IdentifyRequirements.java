@@ -320,7 +320,9 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
         Measure oldMeasure = leaf.getMeasure();
         if ((oldMeasure == null) || (!oldMeasure.getUri().equals(measure.getUri()))) {
             // schedule removal of old measure
-            measuresToDelete.add(oldMeasure);
+            if (oldMeasure != null) {
+                measuresToDelete.add(oldMeasure);
+            }
             // and apply the new one
             Measure m = new Measure(measure);
             leaf.setMeasure(m);

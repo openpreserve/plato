@@ -75,10 +75,10 @@ public class FloatScale extends Scale {
     public boolean isCorrectlySpecified(String leafName,
             List<ValidationError> errors) {
 
-        if (getUnit() == null || "".equals(getUnit())) {
-            errors.add(new ValidationError("Please enter a unit for the scale of type 'Number' at leaf '" + leafName + "'", this));
-            return false;
-        }
+//        if (getUnit() == null || "".equals(getUnit())) {
+//            errors.add(new ValidationError("Please enter a unit for the scale of type 'Number' at leaf '" + leafName + "'", this));
+//            return false;
+//        }
 
         return true;
     }

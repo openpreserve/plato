@@ -31,7 +31,6 @@
     xmlns:oldplato="http://www.planets-project.eu/plato"
     exclude-result-prefixes="java xalan oldplato oldwdt"
     >
-
 <xsl:output method="xml" indent="yes" encoding="UTF-8" />
 <xsl:preserve-space elements="*"/>
 
@@ -43,7 +42,7 @@
 </xsl:template>
 
 <!-- changes default namespace to ifs.tuwien.ac.at/dp/plato/ -->
-<!-- [namespace-uri() = 'http://www.planets-project.eu/plato'] -->
+<!-- [namespace-uri() = 'http://www.planets-project.eu/plato'] --> 
  <xsl:template match="oldplato:*">
      <xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
        <xsl:apply-templates select="@* | node()"/>
@@ -51,12 +50,18 @@
  </xsl:template>
 
 <xsl:template match="oldplato:plans">
+	<plans xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-3.9.9.xsd" version="3.9.9">
+    	<xsl:apply-templates/>
+    </plans>
+
+<!-- 
 	<xsl:element name="{local-name()}" xmlns="http://ifs.tuwien.ac.at/dp/plato" namespace="http://ifs.tuwien.ac.at/dp/plato" >
 		<xsl:attribute name="xsi:schemaLocation">http://ifs.tuwien.ac.at/dp/plato plato-3.9.9.xsd</xsl:attribute>
 		<xsl:attribute name="version">3.9.9</xsl:attribute>
     	<xsl:apply-templates/>
     	
     </xsl:element>
+-->    
 </xsl:template>
 <!--  
  <xsl:template match="@xsi:schemaLocation">
@@ -72,7 +77,7 @@
 <xsl:template match="oldplato:criterion">
 	<xsl:if test="./oldplato:property/oldplato:category/text()">
 	<xsl:element name="{local-name()}" namespace="http://ifs.tuwien.ac.at/dp/plato" >
-	    <xsl:variable name="schema" select="substring-before(./oldplato:property/oldplato:category/text(), ':')"/>
+	    <xsl:variable name="schema" select="substring-before(concat(./oldplato:property/oldplato:category/text(), ':'), ':')"/>
 	    <xsl:variable name="part">
 	       <xsl:call-template name="append_non_empty">
 	       		<xsl:with-param name="content" select="substring-after(./oldplato:property/oldplato:category/text(),':')"/>

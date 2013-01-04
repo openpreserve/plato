@@ -122,11 +122,11 @@ public class PositiveFloatScale extends RestrictedScale {
             return false;
         }
 
-        // we additionally check for the unit
-        if (getUnit() == null || "".equals(getUnit())) {
-            errors.add(new ValidationError("Please enter a unit for the scale of type 'Positive Number' at leaf '" + leafName + "'", this));
-            return false;
-        }
+//        // we additionally check for the unit
+//        if (getUnit() == null || "".equals(getUnit())) {
+//            errors.add(new ValidationError("Please enter a unit for the scale of type 'Positive Number' at leaf '" + leafName + "'", this));
+//            return false;
+//        }
 
         return true;
     }
