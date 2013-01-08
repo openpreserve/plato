@@ -371,9 +371,9 @@
 	    -->
 	    <h:form>
 	    <!-- measure selection -->
-	      <rich:popupPanel id="editLeafMapping" width="700" height="400" domElementAttachment="form">
+	      <rich:popupPanel id="editLeafMapping" width="800"  autosized="true" domElementAttachment="form">
 	        <f:facet name="header">
-	            <h:outputText value="Select a measure" />
+	            <h:outputText value="Select a Measure" />
 	        </f:facet>
 	        <f:facet name="controls">
 	            <h:graphicImage id="closeMapping" 
@@ -383,44 +383,46 @@
 	        </f:facet>
 	        
 	       <h:messages />
-	   
-	       <table style="width: 60em;">
+		   <div style="display: block; width: 33%;">	
+			<b>Search: </b><h:inputText id="searchTerm" value="#{identifyRequirements.critSelector.searchTerm}" style="width: 100%;" >
+                     <a4j:ajax event="keyup"
+                                  render="categories_select, attributes_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
+                                  listener="#{identifyRequirements.critSelector.updateSearch}" />
+			   <a4j:attachQueue requestDelay="1000" />                                    
+			</h:inputText>
+		   </div>
+	       <table style="width: 100%">
 	           <tr>
-	               <th></th>
-	               <th>Measure selection</th>
-	               <th></th>
-	           </tr>
-	           <tr>
-	               <th style="width: 20em;"><i>Category</i></th>
-	               <th style="width: 20em;"><i>Attribute</i></th>
-	               <th style="width: 20em;"><i>Measure</i></th>
+	               <th style="width: 33%;"><i>Category</i></th>
+	               <th style="width: 33%;"><i>Attribute</i></th>
+	               <th style="width: 33%;"><i>Measure</i></th>
 	           </tr>
 	           <tr style="background-color: #F2F2F2;">
 	               <td>
-	                    <h:selectOneListbox size="7" id="categories_select" value="#{identifyRequirements.critSelector.selectedCategoryName}" required="false" style="width: 20em;">
+	                    <h:selectOneListbox size="7" id="categories_select" value="#{identifyRequirements.critSelector.selectedCategoryName}" required="false" style="width:99%;">
 	                        <f:selectItems value="#{identifyRequirements.critSelector.categories}" var="cat"  noSelectionValue="(all)"
 	                                       itemLabel="#{cat.name}" itemValue="#{cat.name}" />
 	                        <a4j:ajax event="change"
 	                                     render="attributes_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
-	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
+	                                     listener="#{identifyRequirements.critSelector.categorySelected}"/>
 	                    </h:selectOneListbox>                  
 	               </td>
 	               <td>
-	                    <h:selectOneListbox size="7" id="attributes_select" value="#{identifyRequirements.critSelector.selectedAttributeName}" required="false" style="width: 20em;">
+	                    <h:selectOneListbox size="7" id="attributes_select" value="#{identifyRequirements.critSelector.selectedAttributeName}" required="false" style="width: 99%;">
 	                        <f:selectItems value="#{identifyRequirements.critSelector.filteredAttributes}" var="attr"  
 	                                       itemLabel="#{attr.name}" itemValue="#{attr.name}" noSelectionValue="(all)" />
 	                        <a4j:ajax event="change"
-	                                     render="measures_select, measure_description, saveMappingButton, removeMappingButton"
-	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
+	                                     render="categories_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.attributeSelected}"/>
 	                    </h:selectOneListbox>
 	               </td>
 	               <td>
-	                    <h:selectOneListbox size="7" id="measures_select" value="#{identifyRequirements.critSelector.selectedMeasureName}" required="false" style="width: 20em;">
+	                    <h:selectOneListbox size="7" id="measures_select" value="#{identifyRequirements.critSelector.selectedMeasureName}" required="false" style="width: 99%;">
 	                        <f:selectItems id="metrics_select_items" value="#{identifyRequirements.critSelector.filteredMeasures}" var="measure" 
 	                                       itemLabel="#{measure.name}" itemValue="#{measure.name}" noSelectionLabel="(none)" />
 	                        <a4j:ajax event="change"
-	                                     render="measure_description, saveMappingButton, removeMappingButton"
-	                                     listener="#{identifyRequirements.critSelector.applyFilter}"/>
+	                                     render="categories_select, attributes_select, measure_description, saveMappingButton, removeMappingButton"
+	                                     listener="#{identifyRequirements.critSelector.measureSelected}"/>
 	                    </h:selectOneListbox>
 	               </td>
 	           </tr>
@@ -437,10 +439,10 @@
 	        
 	        <br/><br/>
 	        <h:panelGroup id="measure_description">
-	            <table class="size-xxl border" style="width: 60em; border: 1px solid #DDDDDD;">
+	            <table class="size-xxl border" style="width: 100%; border: 1px solid #DDDDDD;">
 	                <tr>
-	                    <th class="align-left" style="width: 20em;">Measure characteristic</th>
-	                    <th class="align-left" style="width: 40em;">Value</th>
+	                    <th class="align-left" style="width: 20%;">Measure characteristic</th>
+	                    <th class="align-left" style="width: 80%;">Value</th>
 	                </tr>                
 	                <tr>
 	                    <td>category</td>
@@ -456,9 +458,7 @@
 	                </tr>
 	            </table>       
 	        </h:panelGroup>
-	        
-	        <br/><br/>
-	        
+	        <div style="margin-top: 0.5em;">
 	        <h:panelGroup id="saveMappingButton">
 	            <a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
 	                rendered="#{null != identifyRequirements.critSelector.selectedMeasureName}"
@@ -487,6 +487,7 @@
                         title="Save Criterion mapping" width="32" height="32" />
                 </a4j:commandLink>
 	        </a4j:outputPanel>
+	        </div>
 	      </rich:popupPanel>
 	      <!-- / measure selection -->
 	      </h:form>

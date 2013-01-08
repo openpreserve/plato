@@ -184,6 +184,8 @@ public class CriteriaManager implements Serializable {
     }
 
     private void resolveCriterionCategories() {
+        knownCategories.clear();
+        
         String statement = "SELECT ?c ?cn ?scope WHERE { " + "?c rdf:type pw:CriterionCategory . "
             + "?c rdfs:label ?cn . " + "?c pw:scope ?scope }";
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
@@ -217,6 +219,8 @@ public class CriteriaManager implements Serializable {
     }
 
     private void resolveAttributes() {
+        knownAttributes.clear();
+        
         String statement = "SELECT ?a ?an ?ad ?ac WHERE { " + "?a rdf:type pw:Attribute . " + "?a rdfs:label ?an . "
             + "?a pw:description ?ad . " + "?a pw:criterioncategory ?ac }";
 
@@ -245,6 +249,8 @@ public class CriteriaManager implements Serializable {
     }
 
     private void resolveMeasures() {
+        knownMeasures.clear();
+        
         String statement = "SELECT ?m ?mn ?md ?a ?s ?r WHERE { " + "?m rdf:type pw:Measure . "
             + "?m pw:attribute ?a . " + "?m rdfs:label ?mn . " + "?m pw:description ?md . " + "?m pw:scale ?s . "
             + "optional{?m pw:restriction ?r} }";
@@ -281,8 +287,11 @@ public class CriteriaManager implements Serializable {
             Attribute a = knownAttributes.get(attributeUri);
 
             m.setAttribute(a);
-
-            knownMeasures.put(m.getUri(), m);
+            
+            if ((a != null) && (s != null)) {
+                // only add completely defined measures
+                knownMeasures.put(m.getUri(), m);
+            }
         }
     }
 
