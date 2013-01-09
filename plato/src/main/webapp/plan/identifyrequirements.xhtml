@@ -96,14 +96,14 @@
 										   <h:outputText rendered="#{node.scale.restricted}" value="#{node.scale.restriction}  " />
 										   <h:outputText value="[#{node.scale.unit}]" rendered="#{not empty(node.scale.unit)}" />
 										   <br/>
-                                           <h:outputText value="#{(node.mapped ? (node.measure.uri):'')}"/>
+                                           <h:outputText value="#{(node.mapped ? (node.measure.name):'')}"/>
 									   </a4j:outputPanel>
 		                            </div>
 		                            
 		                            <div class="treetable_nodeInfo" style="width:530px;">
 			                            <a4j:outputPanel layout="block" styleClass="treetable_cell" style="width:50px;" rendered="#{not identifyRequirements.editingNodeComments}">
 			                                <h:panelGrid id="menuPanel" columns="2" border="0">			                                
-			                                    <rich:dropDownMenu mode="ajax" direction="bottomRight" jointPoint="topRight" hideDelay="500" style="position: static;">
+			                                    <rich:dropDownMenu event="onclick" mode="ajax" direction="bottomLeft" jointPoint="topLeft" hideDelay="500" style="position: static;">
 			                                        <f:facet name="label">
 			                                            <h:graphicImage
 			                                                value="/resources/gfx/icons/small/preferences-system.png"
@@ -162,7 +162,7 @@
 					                                    oncomplete="#{rich:component('editLeafMapping')}.show();" execute="@this">
 					                                    <h:graphicImage id="showMapping"
 					                                        value="/resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
-					                                        title="Edit measurement info: #{(node.mapped ? (node.measure.uri):'')}"
+					                                        title="Edit measurement info: #{(node.mapped ? (node.measure.name):'')}"
 					                                        width="22" height="22" />
 					                                </a4j:commandLink>
 				                                </a4j:outputPanel>
@@ -454,7 +454,9 @@
 	                </tr> 
 	                <tr>
 	                    <td>measure</td>
-                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedMeasure.description}" rendered="#{identifyRequirements.critSelector.selectedMeasure != null}"/></td>
+                        <td><h:outputText value="#{identifyRequirements.critSelector.selectedMeasure.description}" rendered="#{identifyRequirements.critSelector.selectedMeasure != null}"/><br/> 
+                            <h:outputText value=" Scale #{identifyRequirements.critSelector.selectedMeasure.scale.displayName}" rendered="#{identifyRequirements.critSelector.selectedMeasure != null}"/>
+                            <h:outputText value=": #{identifyRequirements.critSelector.selectedMeasure.scale.readableRestriction}" rendered="#{identifyRequirements.critSelector.selectedMeasure != null and identifyRequirements.critSelector.selectedMeasure.scale.restricted}"/></td>
 	                </tr>
 	            </table>       
 	        </h:panelGroup>

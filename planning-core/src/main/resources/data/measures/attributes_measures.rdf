@@ -472,7 +472,7 @@
   <rdfs:label>number of free tools that are not open source</rdfs:label>
   <description>Indicator for the adoption of a format, expressed as the number of free tools that are not open source that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/139">
@@ -480,7 +480,7 @@
   <rdfs:label>number of free tools that are open source</rdfs:label>
   <description>Indicator for the adoption of a format, expressed as the number of free tools that are open source  that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/140">
@@ -488,7 +488,7 @@
   <rdfs:label>number of proprietary tools</rdfs:label>
   <description>Indicator for the adoption of a format, expressed as the number of proprietary tools that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/141">
@@ -496,7 +496,7 @@
   <rdfs:label>number of tools</rdfs:label>
   <description>Indicator for the adoption of a format, expressed as the total number of all tools that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/156">
@@ -2003,7 +2003,7 @@ direction) has been retained</description>
   <rdfs:label>Number of input formats supported</rdfs:label>
   <description>Number of input formats supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/15"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/49">
@@ -2011,7 +2011,7 @@ direction) has been retained</description>
   <rdfs:label>Number of output formats supported</rdfs:label>
   <description>Number of output formats supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/15"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/133">
@@ -3090,7 +3090,7 @@ direction) has been retained</description>
   <rdfs:label>Amount of logging</rdfs:label>
   <description>Number of characters of activity log produced upon running an action on one content object</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/13"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/38">
@@ -3696,7 +3696,7 @@ direction) has been retained</description>
   <rdfs:label>image width in pixels</rdfs:label>
   <description>The horizontal width of a digital image in pixel</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/51">
@@ -3712,7 +3712,7 @@ direction) has been retained</description>
   <rdfs:label>image height in pixels</rdfs:label>
   <description>The vertical height of a digital image in pixel</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/53">
