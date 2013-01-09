@@ -35,7 +35,7 @@ import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Measure;
 
 /**
- * Class responsible as supporting class for AJAX Criterion selection.
+ * Backing bean for Measure selection.
  * 
  */
 public class CriterionSelector implements Serializable {
@@ -102,6 +102,10 @@ public class CriterionSelector implements Serializable {
         clearSelection();
     }
 
+    /**
+     * Initializes the Measure selection.
+     * Retrieves all available measures from the {@link #criteriaManager CriteriaManager}
+     */
     public void init() {
         allMeasures = new ArrayList<Measure>(criteriaManager.getAllMeasures());
 
@@ -125,6 +129,11 @@ public class CriterionSelector implements Serializable {
         clearSelection();
     }
 
+    /**
+     * Removes all measures from the list of available measures where the uris are not in the given set of uris.
+     *   
+     * @param measureUris  The uris of the measures which shall be available for selection.
+     */
     public void filterCriteria(Set<String> measureUris) {
         HashMap<String, CriterionCategory> filteredCategories = new HashMap<String, CriterionCategory>();
         HashMap<String, Attribute> filteredAttributes = new HashMap<String, Attribute>();
@@ -146,6 +155,9 @@ public class CriterionSelector implements Serializable {
         allMeasures.addAll(filteredMeasures.values());
     }
 
+    /**
+     * Clears the currently selected attribute, measure and searchTerm
+     */
     private void clearSelection() {
         filteredAttributes = new ArrayList<Attribute>();
         filteredMeasures = new ArrayList<Measure>();
@@ -237,6 +249,10 @@ public class CriterionSelector implements Serializable {
         this.searchTerm = value;
     }
     
+    /**
+     * Searches for measures which comply to the currently set {@link #searchTerm}.
+     * To be called when the search term has changed. 
+     */
     public void updateSearch() {
         String[] terms = searchTerm.split("\\s");
         String pattern = "^";
@@ -259,10 +275,6 @@ public class CriterionSelector implements Serializable {
             // search in all descriptions at once, this is more what the user expects 
             String base = m.getName() + " " + m.getDescription() + " " + m.getAttribute().getName() + " " + m.getAttribute().getDescription() + " " + m.getAttribute().getCategory().getName();
             if (searchPattern.matcher(base).matches()) {
-//                searchPattern.matcher(m.getName()).matches() ||
-//                searchPattern.matcher(m.getDescription()).matches() ||
-//                searchPattern.matcher(m.getAttribute().getName()).matches() ||
-//                searchPattern.matcher(m.getAttribute().getDescription()).matches()) {
                 filteredMeasures.add(m);
                 termFilteredAttributes.add(m.getAttribute());
             }

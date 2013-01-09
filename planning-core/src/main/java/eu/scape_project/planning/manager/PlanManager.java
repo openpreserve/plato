@@ -66,6 +66,9 @@ public class PlanManager implements Serializable {
 
     @Inject
     private EntityManager em;
+    
+    @Inject
+    private ByteStreamManager bytestreamManager;
 
     private WhichProjects lastLoadMode = WhichProjects.MYPROJECTS;
 
@@ -304,6 +307,10 @@ public class PlanManager implements Serializable {
         this.unlockQuery(-1);
     }
 
+    public void unlockPlan(int planPropertiesId) {
+        unlockQuery(planPropertiesId);
+    }
+
     /**
      * Unlocks certain projects in database (dependent on parameter)
      * 
@@ -333,9 +340,6 @@ public class PlanManager implements Serializable {
         pid = 0;
     }
 
-    public void unlockPlan(int planPropertiesId) {
-        unlockQuery(planPropertiesId);
-    }
 
     /**
      * Saves a certain entity of the preservation planning project and updates
@@ -392,7 +396,16 @@ public class PlanManager implements Serializable {
      *            Plan to delete.
      */
     public void deletePlan(Plan plan) {
-        log.info("Deleting plan with id " + plan.getId());
+        log.info("Deleting plan " + plan.getPlanProperties().getName() + " with id " + plan.getId());
+        List<DigitalObject> digitalObjects = plan.getDigitalObjects();
+        for (DigitalObject obj : digitalObjects) {
+            try {
+                bytestreamManager.delete(obj.getPid());
+            } catch (StorageException e) {
+                log.error("Plan " + plan.getPlanProperties().getName() + "Failed to delete digital object " + obj.getPid(), e);
+            }
+        }
+        
         em.remove(em.merge(plan));
     }
 }

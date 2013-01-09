@@ -997,7 +997,6 @@
 <changelog created="{$nowAsISO_8601str}" createdBy="xslt-migration" changed="{$nowAsISO_8601str}" changedBy="xslt-migration"/>
 </positiveIntegerScale>
 </measure>
-<evaluation/>
 </xsl:template>
 
 <xsl:template match="plato:criterion[@ID='action://maintainability/modifiability/customization']">

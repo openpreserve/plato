@@ -134,30 +134,31 @@ public class AdminActions implements Serializable {
         List<Plan> planList = em.createQuery("select p from Plan p").getResultList();
 
         for (Plan p : planList) {
-            log.info("deleting plan " + p.getPlanProperties().getName());
-
-            // this part does not work - but it is not needed, so it is
-            // commented-out.
-            log.debug("removing value scale linkage...");
-
-            for (Leaf l : p.getTree().getRoot().getAllLeaves()) {
-                for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
-                    Values values = l.getValues(a.getName());
-                    if (values != null) {
-                        for (Value v : values.getList()) {
-                            if (v != null) {
-                                v.setScale(null);
-                            }
-                        }
-                    }
-                }
-            }
-
-            log.debug("removing entity... ");
-
-            em.remove(p);
-
-            log.debug("plan removed");
+            planManager.deletePlan(p);
+// what bogus comment is this?
+//            
+//            // this part does not work - but it is not needed, so it is
+//            // commented-out.
+//            log.debug("removing value scale linkage...");
+//
+//            for (Leaf l : p.getTree().getRoot().getAllLeaves()) {
+//                for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
+//                    Values values = l.getValues(a.getName());
+//                    if (values != null) {
+//                        for (Value v : values.getList()) {
+//                            if (v != null) {
+//                                v.setScale(null);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            log.debug("removing entity... ");
+//
+//            em.remove(p);
+//
+//            log.debug("plan removed");
         }
 
         em.flush();
@@ -252,16 +253,13 @@ public class AdminActions implements Serializable {
      *            PlanPropertiesId of the plan to delete.
      * @return True if deletion was successful, false otherwise.
      */
-    public boolean deletePlan(Integer planPropertiesId) {
+    public boolean deletePlan(int planPropertiesId) {
         List<Plan> projectList = em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId)
             .getResultList();
 
         if (!projectList.isEmpty()) {
             Plan p = projectList.get(0);
-            log.info("Deleting project " + p.getPlanProperties().getId());
-            em.remove(p);
-            em.flush();
-
+            planManager.deletePlan(p);
             return true;
         } else {
             return false;
