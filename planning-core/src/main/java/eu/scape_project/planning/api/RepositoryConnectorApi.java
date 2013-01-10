@@ -53,7 +53,9 @@ public interface RepositoryConnectorApi {
      * 
      * @param config
      *            the configuration
+     * @param identifier
+     *            the repository specific identifier.
      * @return the input stream of the downloaded file.
      */
-    InputStream downloadFile(Map<String, String> config) throws RepositoryConnectorException;
+    InputStream downloadFile(Map<String, String> config, String identifier) throws RepositoryConnectorException;
 }

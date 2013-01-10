@@ -26,13 +26,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import eu.scape_project.planning.api.RepositoryConnectorApi;
-import eu.scape_project.planning.utils.ConfigurationLoader;
-import eu.scape_project.planning.utils.RepositoryConnectorException;
-
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import eu.scape_project.planning.api.RepositoryConnectorApi;
+import eu.scape_project.planning.utils.ConfigurationLoader;
+import eu.scape_project.planning.utils.RepositoryConnectorException;
 
 /**
  * @author Petar Petrov - <me@petarpetrov.org>
@@ -44,23 +44,25 @@ public class RODAConnector implements RepositoryConnectorApi {
 
     private static final String RODA_NAME = "RODA";
 
-    private static final String ENDPOINT_KEY = "repository.endpoint";
+    public static final String ENDPOINT_KEY = "repository.endpoint";
 
-    private static final String USER_KEY = "repository.user";
+    public static final String USER_KEY = "repository.user";
 
-    private static final String PASS_KEY = "repository.pass";
-
-    private static final String IDENTIFIER_KEY = "repository.object.id";
-
-    private static final String CONNECTOR_API_PROPERTIES = "config/connectorapi.properties";
+    public static final String PASS_KEY = "repository.pass";
 
     private Map<String, String> config;
 
     /**
-     * Loads the config file found at config/connectorapi.properties.
+     * Loads the config using the {@link ConfigurationLoader}
      */
     public RODAConnector() {
         this.config = loadConfig();
+    }
+    
+    public void updateConfig(Map<String, String> config) {
+        for (String key : config.keySet()) {
+            this.config.put(key, config.get(key));
+        }
     }
 
     /**
@@ -76,20 +78,16 @@ public class RODAConnector implements RepositoryConnectorApi {
      */
     @Override
     public InputStream downloadFile(String identifier) throws RepositoryConnectorException {
-        Map<String, String> config = this.loadConfig();
-        config.put(IDENTIFIER_KEY, identifier);
-
-        return downloadFile(config);
+        return downloadFile(config, identifier);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public InputStream downloadFile(Map<String, String> config) throws RepositoryConnectorException {
+    public InputStream downloadFile(Map<String, String> config, String identifier) throws RepositoryConnectorException {
         String user = config.get(USER_KEY);
         String pass = config.get(PASS_KEY);
-        String id = config.get(IDENTIFIER_KEY);
 
         this.isRequredConfigSet(ENDPOINT_KEY,
             "The RODA endpoint is not set. Cannot connect to " + this.getRepositoryIdentifier());
@@ -97,13 +95,11 @@ public class RODAConnector implements RepositoryConnectorApi {
             "The user config parameter was not set. Cannot connect to " + this.getRepositoryIdentifier());
         this.isRequredConfigSet(pass,
             "The pass config parameter was not set. Cannot connect to " + this.getRepositoryIdentifier());
-        this.isRequredConfigSet(id,
-            "The identifier config is not set. Cannot connect to " + this.getRepositoryIdentifier());
 
         Authenticator.setDefault(new RODAAuthenticator(user, pass));
 
         try {
-            URL url = new URL(id);
+            URL url = new URL(identifier);
             return url.openConnection().getInputStream();
         } catch (IOException e) {
             throw new RepositoryConnectorException(e);
@@ -123,7 +119,7 @@ public class RODAConnector implements RepositoryConnectorApi {
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
         Configuration configuration = configurationLoader.load();
         if (configuration == null) {
-            LOGGER.warn("An error occurred while reading the properties file {}", CONNECTOR_API_PROPERTIES);
+            LOGGER.warn("An error occurred while reading the properties file.");
             return new HashMap<String, String>();
         }
 

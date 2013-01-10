@@ -39,6 +39,7 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.SampleRecordsDefinition;
+import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineSampleObjects;
@@ -72,8 +73,14 @@ public class DefineSampleRecordsView extends AbstractView {
 
     @Inject
     private Downloader downloader;
+    
+    @Inject
+    private User user;
 
     private String sampleCharacterisationReportAsHTML;
+    
+    private String repositoryUsername;
+    private String repositoryPassword;
 
     /**
      * this determines the behaviour of the remove-buttons on the pag (see
@@ -92,6 +99,7 @@ public class DefineSampleRecordsView extends AbstractView {
     public void init(final Plan plan) {
         super.init(plan);
         allowRemove = -1;
+        repositoryUsername = user.getUserGroup().getRepository().getUsername();
     }
 
     protected boolean needsClearEm() {
@@ -145,7 +153,7 @@ public class DefineSampleRecordsView extends AbstractView {
         }
 
         try {
-            this.defineSamples.readProfile(item.getInputStream());
+            this.defineSamples.readProfile(item.getInputStream(), repositoryUsername, repositoryPassword);
 
         } catch (ParserException e) {
             log.warn("An error occurred during parsing: {}", e.getMessage());
@@ -248,5 +256,25 @@ public class DefineSampleRecordsView extends AbstractView {
 
     public String getSampleCharacterisationReportAsHTML() {
         return sampleCharacterisationReportAsHTML;
+    }
+
+    public String getRepositoryUsername() {
+        return repositoryUsername;
+    }
+
+    public void setRepositoryUsername(String repositoryUsername) {
+        this.repositoryUsername = repositoryUsername;
+    }
+
+    public String getRepositoryPassword() {
+        return repositoryPassword;
+    }
+
+    public void setRepositoryPassword(String repositoryPassword) {
+        this.repositoryPassword = repositoryPassword;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
