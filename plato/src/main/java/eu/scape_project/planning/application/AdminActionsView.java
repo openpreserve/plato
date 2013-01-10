@@ -132,9 +132,11 @@ public class AdminActionsView implements Serializable {
             return;
         }
 
-        adminActions.deleteAllPlans();
-        log.info("Admin: deleted all plans.");
-        facesMessages.addInfo("deleteAllPlans", "All plans deleted!");
+        if (adminActions.deleteAllPlans()) {
+            facesMessages.addInfo("deleteAllPlans", "All plans deleted!");
+        } else {
+            facesMessages.addInfo("deleteAllPlans", "Admin: Deletion of all plans failed, see log for more details.");
+        }
     }
 
     public void cleanUpLoosePlanValues() {
@@ -209,12 +211,10 @@ public class AdminActionsView implements Serializable {
             return;
         }
 
-        boolean success = adminActions.deletePlan(planId);
-
-        if (success) {
+        if (adminActions.deletePlan(planId)) {
             facesMessages.addInfo("deletePlan", "Plan deleted");
         } else {
-            facesMessages.addError("deletePlan", "Plan not found");
+            facesMessages.addError("deletePlan", "Failed to delete plan. See log file for details.");
         }
     }
 

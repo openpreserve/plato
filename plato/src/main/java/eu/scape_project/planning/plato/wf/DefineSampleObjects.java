@@ -32,6 +32,7 @@ import eu.scape_project.planning.api.RepositoryConnectorApi;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DigitalObject;
@@ -103,7 +104,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         /** dont forget to prepare changed entities e.g. set current user */
         prepareChangesForPersist.prepare(plan);
 
-        saveEntity(plan.getAlternativesDefinition());
+        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
 
         for (SampleObject record : plan.getSampleRecordsDefinition().getRecords()) {
 

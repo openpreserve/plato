@@ -28,7 +28,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -45,7 +47,7 @@ import org.hibernate.validator.constraints.Length;
  * services, etc. At the moment it is only a textual description, but this will
  * be complimented by (probably quite complicated ;) service description objects
  * also containing parameter settings and the like.
- *
+ * 
  * @author Christoph Becker
  */
 @Entity
@@ -58,9 +60,9 @@ public class Experiment implements Serializable, ITouchable {
     private int id;
 
     /**
-     * standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
-     * therefore allow "long" entries
+     * standard length for a string column is 255 validation is broken because
+     * we use facelet templates (issue resolved in Seam 2.0) therefore allow
+     * "long" entries
      */
     @Length(max = 2000000)
     @Column(length = 2000000)
@@ -68,31 +70,24 @@ public class Experiment implements Serializable, ITouchable {
 
     @Lob
     private String settings;
-    
 
     /**
-     * Experiment result files, e.g. migration result. Each SampleObject can have one
-     * result file.
+     * Experiment result files, e.g. migration result. Each SampleObject can
+     * have one result file.
      */
-      @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-      @Fetch(FetchMode.SUBSELECT)
-      @ForeignKey(name="FK_EXP_RESULTS")
-      @Cascade(value={org.hibernate.annotations.CascadeType.ALL} )
-//      @JoinTable(name="Exp_DO",
-//       joinColumns = @JoinColumn(name="EXPERIMENT_ID"),
-//       inverseJoinColumns = @JoinColumn(name="DIGITALOBJECT_ID"))
-      private Map<SampleObject, DigitalObject> results = new HashMap<SampleObject, DigitalObject>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinTable(name = "Experiment_Result")
+    @Fetch(FetchMode.SUBSELECT)
+    private Map<SampleObject, DigitalObject> results = new HashMap<SampleObject, DigitalObject>();
 
     /**
      * detailed experiment info
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinTable(name = "Experiment_DetailedInfo")
     @Fetch(FetchMode.SUBSELECT)
-    @ForeignKey(name="FK_EXP_DETAILEDINFO")
-    @Cascade(value=org.hibernate.annotations.CascadeType.ALL)
     private Map<SampleObject, DetailedExperimentInfo> detailedInfo = new HashMap<SampleObject, DetailedExperimentInfo>();
 
-    
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
@@ -111,48 +106,42 @@ public class Experiment implements Serializable, ITouchable {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     @Transient
     public String getDetailedRunDescription() {
-//        if(runDescription==null) {
-//            return null;
-//        }
-//        
-//        if(runDescription.length() != 0) {
-//            return runDescription;
-//        }
-        
-        StringBuffer returnCompleteOutput=new StringBuffer();
-        for(DetailedExperimentInfo info : detailedInfo.values()){
-            returnCompleteOutput.append(" - ").append(info.getProgramOutput()+"\r\n");
+        StringBuffer returnCompleteOutput = new StringBuffer();
+        for (DetailedExperimentInfo info : detailedInfo.values()) {
+            returnCompleteOutput.append(" - ").append(info.getProgramOutput() + "\r\n");
         }
-        return returnCompleteOutput.toString();       
+        return returnCompleteOutput.toString();
     }
-    
-/**
- * Get the runDescription if initialized: it means that some errors have been thrown,
- * else returns all programOutputs of all samplerecords of this experiment
- *  
- * @author riccardo
- * @return 
- */
-//    public String getRunDescription() {
-//        
-//        return runDescription;
-//    }
-//
-//    public void setRunDescription(String runDescription) {
-//        this.runDescription = runDescription;
-//    }
+
+    /**
+     * Get the runDescription if initialized: it means that some errors have
+     * been thrown, else returns all programOutputs of all samplerecords of this
+     * experiment
+     * 
+     * @author riccardo
+     * @return
+     */
+    // public String getRunDescription() {
+    //
+    // return runDescription;
+    // }
+    //
+    // public void setRunDescription(String runDescription) {
+    // this.runDescription = runDescription;
+    // }
 
     public ChangeLog getChangeLog() {
         return changeLog;
     }
+
     public void setChangeLog(ChangeLog value) {
         changeLog = value;
     }
 
-    public boolean isChanged(){
+    public boolean isChanged() {
         return changeLog.isAltered();
     }
 
@@ -165,16 +154,16 @@ public class Experiment implements Serializable, ITouchable {
      */
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
-        for (DigitalObject u : results.values()){
+        for (DigitalObject u : results.values()) {
             u.handleChanges(h);
         }
     }
 
-    public void removeRecord(int i){
+    public void removeRecord(int i) {
         this.results.remove(i);
     }
 
-    public void addRecord(SampleObject record){
+    public void addRecord(SampleObject record) {
         this.results.put(record, new DigitalObject());
     }
 
@@ -186,12 +175,13 @@ public class Experiment implements Serializable, ITouchable {
         this.results = uploads;
     }
 
-    public boolean containsUpload(SampleObject record){
+    public boolean containsUpload(SampleObject record) {
         return results.containsKey(record);
     }
 
     /**
      * Checks if any Sample Record has an upload
+     * 
      * @return true if any record has an upload
      */
     public boolean isRecordUploaded() {
@@ -209,8 +199,7 @@ public class Experiment implements Serializable, ITouchable {
         return detailedInfo;
     }
 
-    public void setDetailedInfo(
-            Map<SampleObject, DetailedExperimentInfo> detailedInfo) {
+    public void setDetailedInfo(Map<SampleObject, DetailedExperimentInfo> detailedInfo) {
         this.detailedInfo = detailedInfo;
     }
 

@@ -22,6 +22,7 @@ package eu.scape_project.planning.plato.wf;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 
+import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.PlanState;
 
 /**
@@ -51,7 +52,7 @@ public class TakeGoDecision extends AbstractWorkflowStep {
     protected void saveStepSpecific() {
         prepareChangesForPersist.prepare(plan);
         // alternatives might have been discarded
-        saveEntity(plan.getAlternativesDefinition());
+        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
         saveEntity(plan.getDecision());
     }
 

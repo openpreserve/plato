@@ -22,12 +22,16 @@ import java.util.List;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.UserTransaction;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.AlternativesDefinition;
@@ -58,7 +62,12 @@ public class PlanManager implements Serializable {
     private static final long serialVersionUID = -1L;
 
     public enum WhichProjects {
-        ALLPROJECTS, ALLFTEPROJECTS, PUBLICPROJECTS, MYPROJECTS, FTEPROJECTS, PUBLICFTEPROJECTS;
+        ALLPROJECTS,
+        ALLFTEPROJECTS,
+        PUBLICPROJECTS,
+        MYPROJECTS,
+        FTEPROJECTS,
+        PUBLICFTEPROJECTS;
     }
 
     @Inject
@@ -66,7 +75,7 @@ public class PlanManager implements Serializable {
 
     @Inject
     private EntityManager em;
-    
+
     @Inject
     private ByteStreamManager bytestreamManager;
 
@@ -77,6 +86,9 @@ public class PlanManager implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
+    
+    @Inject
+    UserTransaction userTx; 
 
     public PlanManager() {
     }
@@ -340,7 +352,6 @@ public class PlanManager implements Serializable {
         pid = 0;
     }
 
-
     /**
      * Saves a certain entity of the preservation planning project and updates
      * the project state.
@@ -395,17 +406,21 @@ public class PlanManager implements Serializable {
      * @param plan
      *            Plan to delete.
      */
-    public void deletePlan(Plan plan) {
+    public void deletePlan(Plan plan) throws PlanningException {
         log.info("Deleting plan " + plan.getPlanProperties().getName() + " with id " + plan.getId());
         List<DigitalObject> digitalObjects = plan.getDigitalObjects();
-        for (DigitalObject obj : digitalObjects) {
-            try {
+        try {
+            em.remove(em.merge(plan));
+            em.flush();
+            for (DigitalObject obj : digitalObjects) {
                 bytestreamManager.delete(obj.getPid());
-            } catch (StorageException e) {
-                log.error("Plan " + plan.getPlanProperties().getName() + "Failed to delete digital object " + obj.getPid(), e);
             }
+        } catch (StorageException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new PlanningException("Failed to delete plan: " + plan.getPlanProperties().getName() + " with id: "
+                + plan.getPlanProperties().getId(), e);
         }
-        
-        em.remove(em.merge(plan));
+
     }
 }

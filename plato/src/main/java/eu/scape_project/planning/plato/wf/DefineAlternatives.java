@@ -62,14 +62,7 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         prepareChangesForPersist.prepare(plan);
 
         saveEntity(plan.getTree());
-        AlternativesDefinition storedAltDef = (AlternativesDefinition) saveEntity(plan.getAlternativesDefinition());
-
-        for (Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
-            Alternative storedAlt = storedAltDef.alternativeByName(alt.getName());
-            if (storedAlt != null) {
-                alt.setId(storedAlt.getId());
-            }
-        }
+        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
 
         saveEntity(plan.getRecommendation());
     }

@@ -19,6 +19,7 @@ package eu.scape_project.planning.plato.wf;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 
+import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.PlanState;
 
 /**
@@ -42,7 +43,7 @@ public class DevelopExperiments extends AbstractWorkflowStep {
 
     @Override
     protected void saveStepSpecific() {
-        saveEntity(plan.getAlternativesDefinition());
+        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
     }
 
 }

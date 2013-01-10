@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Experiment;
 import eu.scape_project.planning.model.Plan;
@@ -180,7 +181,7 @@ public class RunExperiments extends AbstractWorkflowStep {
         plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(),
             plan.getSampleRecordsDefinition().getRecords().size());
 
-        saveEntity(plan.getAlternativesDefinition());
+        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
         saveEntity(plan.getTree());
     }
 }

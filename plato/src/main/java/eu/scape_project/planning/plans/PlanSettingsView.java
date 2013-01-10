@@ -34,7 +34,13 @@ import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.LoadedPlan;
+import eu.scape_project.planning.bean.PrepareChangesForPersist;
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.ByteStreamManager;
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
@@ -54,9 +60,6 @@ import eu.scape_project.planning.xml.ProjectExportAction;
 @ConversationScoped
 public class PlanSettingsView implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @Inject
-    private PlanSettings planSettings;
 
     @Inject
     private Logger log;
@@ -79,8 +82,19 @@ public class PlanSettingsView implements Serializable {
 
     @Inject
     private ProjectExportAction projectExport;
+    
+    @Inject
+    private PlanManager planManager;
+    
+    @Inject
+    private DigitalObjectManager digitalObjectManager;
+
+    @Inject
+    private ByteStreamManager byteStreamManager;
 
     private String authPassword;
+    
+    private final static int pwCode = -3425080;
 
     /**
      * Method responsible for returning if the publish report feature should be
@@ -114,13 +128,18 @@ public class PlanSettingsView implements Serializable {
      * @return Outcome of the delete action (for view redirect).
      */
     public String deletePlan() {
-        if (planSettings.isUserAllowedToModifyPlanSettings(user, plan)) {
+        if (isUserAllowedToModifyPlanSettings(user, plan)) {
             int planId = plan.getId();
-            planSettings.deletePlan(plan);
-            log.info("Plan with id " + planId + " successfully deleted.");
-            plan = null;
-
-            return viewWorkflowManager.endWorkflow();
+            try {
+                planManager.deletePlan(plan);
+                log.info("Plan with id " + planId + " successfully deleted.");
+                plan = null;
+                return viewWorkflowManager.endWorkflow();
+            } catch (PlanningException e) {
+                facesMessages.addError("Failed to delete the plan.");
+                log.error("Failed to delete the plan with id " + planId, e);
+                return null;
+            }
         } else {
             facesMessages.addError("You are not the owner of this plan and thus not allowed to delete it.");
             return null;
@@ -131,8 +150,8 @@ public class PlanSettingsView implements Serializable {
      * Method responsible for propagating the save operation.
      */
     public void save() {
-        if (planSettings.isUserAllowedToModifyPlanSettings(user, plan)) {
-            planSettings.save(plan, user);
+        if (isUserAllowedToModifyPlanSettings(user, plan)) {
+            save(plan, user);
         } else {
             facesMessages.addError("You are not the owner of this plan and thus not allowed to change it.");
         }
@@ -155,7 +174,8 @@ public class PlanSettingsView implements Serializable {
         digitalObject.setContentType(file.getContentType());
 
         try {
-            planSettings.uploadReport(digitalObject);
+            digitalObjectManager.moveDataToStorage(digitalObject);
+            plan.getPlanProperties().setReportUpload(digitalObject);
         } catch (StorageException e) {
             log.error("Exception at trying to upload report for plan with id " + plan.getId() + ": ", e);
             facesMessages.addError("Unable to upload report");
@@ -163,7 +183,7 @@ public class PlanSettingsView implements Serializable {
         }
 
         log.info("Uploaded report '" + digitalObject.getFullname() + "' for plan with id " + plan.getId());
-        planSettings.save(plan, user);
+        save(plan, user);
     }
 
     /**
@@ -171,14 +191,17 @@ public class PlanSettingsView implements Serializable {
      */
     public void removeReport() {
         try {
-            planSettings.removeReport();
+            DigitalObject report = plan.getPlanProperties().getReportUpload();
+            byteStreamManager.delete(report.getPid());
+
+            plan.getPlanProperties().setReportUpload(new DigitalObject());
         } catch (StorageException e) {
             log.error("Error at removing report from plan with id " + plan.getId(), e);
             facesMessages.addError("Unable to remove report");
             return;
         }
 
-        planSettings.save(plan, user);
+        save(plan, user);
         log.info("removed report from plan with id " + plan.getId());
     }
 
@@ -188,7 +211,8 @@ public class PlanSettingsView implements Serializable {
      */
     public void downloadReport() {
         try {
-            downloader.download(planSettings.fetchReport());
+            DigitalObject digitalObject = plan.getPlanProperties().getReportUpload();
+            downloader.download(digitalObjectManager.getCopyOfDataFilledDigitalObject(digitalObject));
         } catch (StorageException e) {
             log.error("Error at fetching report for plan with id " + plan.getId(), e);
             facesMessages.addError("Unable to fetch report");
@@ -200,9 +224,17 @@ public class PlanSettingsView implements Serializable {
      * authentication.
      */
     public void authenticate() {
-        if (planSettings.activateActionExecutionForPlan(plan, authPassword)) {
+        if (authPassword.hashCode() == pwCode) {
+            int count = 0;
+            for (Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
+                if (alt.getAction() != null && alt.getAction().getActionIdentifier().toLowerCase().contains("minimee")) {
+                    alt.getAction().setExecute(true);
+                    count++;
+                }
+            }
+            log.debug("Activated execution of " + count + " actions in plan with id " + plan.getId());
             facesMessages.addInfo("Activated action execution for plan");
-            planSettings.save(plan, user);
+            save(plan, user);
         } else {
             facesMessages.addInfo("Wrong code");
         }
@@ -213,7 +245,7 @@ public class PlanSettingsView implements Serializable {
      * plan settings.
      */
     public boolean isUserAllowedToModify() {
-        return planSettings.isUserAllowedToModifyPlanSettings(user, plan);
+        return isUserAllowedToModifyPlanSettings(user, plan);
     }
 
     /**
@@ -258,6 +290,31 @@ public class PlanSettingsView implements Serializable {
             OS.deleteDirectory(binarydataTempDir);
         }
     }
+    /**
+     * Method responsible for persisting the changes.
+     */
+    public void save(Plan plan, User user) {
+        PrepareChangesForPersist prepChanges = new PrepareChangesForPersist(user.getUsername());
+        prepChanges.prepare(plan);
+
+        planManager.saveForPlanSettings(plan.getPlanProperties(), plan.getAlternativesDefinition());
+    }
+    
+    /**
+     * Method responsible to check if a user is allowed to modify the settings
+     * of a given plan.
+     * 
+     * @param user
+     *            User who wants to modify plan settings.
+     * @param plan
+     *            Plan to check for allowance.
+     * @return true is user is allowed to modify plan settings of the given
+     *         plan. False otherwise.
+     */
+    public boolean isUserAllowedToModifyPlanSettings(User user, Plan plan) {
+        return (user != null) && (user.isAdmin() || user.getUsername().equals(plan.getPlanProperties().getOwner()));
+    }
+    
 
     // --------------- getter/setter ---------------
 

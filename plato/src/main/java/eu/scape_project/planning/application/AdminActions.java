@@ -33,15 +33,13 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.model.Values;
-import eu.scape_project.planning.model.tree.Leaf;
-import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.utils.MemoryTest;
 import eu.scape_project.planning.utils.OS;
 import eu.scape_project.planning.xml.ProjectExportAction;
@@ -130,11 +128,17 @@ public class AdminActions implements Serializable {
     /**
      * Method responsible for deleting all plans from database.
      */
-    public void deleteAllPlans() {
+    public boolean deleteAllPlans() {
         List<Plan> planList = em.createQuery("select p from Plan p").getResultList();
-
+        boolean gotError = false;
         for (Plan p : planList) {
-            planManager.deletePlan(p);
+            try {
+                planManager.deletePlan(p);
+            } catch (PlanningException e) {
+                // just log the error, and try to delete the other plans
+                gotError = true;
+                log.error(e.getMessage(), e);
+            }
 // what bogus comment is this?
 //            
 //            // this part does not work - but it is not needed, so it is
@@ -160,8 +164,8 @@ public class AdminActions implements Serializable {
 //
 //            log.debug("plan removed");
         }
-
         em.flush();
+        return !gotError;
     }
 
     /**
@@ -214,36 +218,35 @@ public class AdminActions implements Serializable {
      * @return True if cloning was successful, false otherwise.
      */
     public boolean clonePlan(Integer planPropertiesId) {
-        List<Plan> planList = em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId)
-            .getResultList();
-
-        if (planList.size() != 1) {
-            log.error("No plan found with PlanPropertiesId " + planPropertiesId);
-            return false;
-        }
-
-        Plan selectedPlan = planList.get(0);
-
-        File tempFile = new File(OS.getTmpPath() + "cloneplans_" + System.currentTimeMillis() + ".xml");
-        tempFile.deleteOnExit();
-        ProjectExporter exporter = new ProjectExporter();
-
-        boolean success = false;
-
+        Plan selectedPlan;
         try {
-            exporter.exportToFile(selectedPlan, tempFile);
-            List<Plan> plans = projectImporter.importPlans(new FileInputStream(tempFile));
+            selectedPlan = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId).getSingleResult();
+            File tempFile = new File(OS.getTmpPath() + "cloneplans_" + System.currentTimeMillis() + ".xml");
+            tempFile.deleteOnExit();
+            ProjectExporter exporter = new ProjectExporter();
+            
+            boolean success = false;
+            
+            try {
+                exporter.exportToFile(selectedPlan, tempFile);
+                List<Plan> plans = projectImporter.importPlans(new FileInputStream(tempFile));
+                // store project
+                storePlans(plans);
+                success = true;
+                log.debug("Plan '" + selectedPlan.getPlanProperties().getName() + "' successfully cloned.");
+            } catch (Exception e) {
+                log.error("Could not clone project: '" + selectedPlan.getPlanProperties().getName() + "'.", e);
+            }
+            
+            tempFile.delete();
+        
+            return success;
 
-            // store project
-            storePlans(plans);
-            success = true;
-            log.debug("Plan '" + selectedPlan.getPlanProperties().getName() + "' successfully cloned.");
-        } catch (Exception e) {
-            log.error("Could not clone project: '" + selectedPlan.getPlanProperties().getName() + "'.", e);
+        } catch (Exception e1) {
+            log.error("Failed to retrieve plan for cloning: " + planPropertiesId);
         }
+        return false;
 
-        tempFile.delete();
-        return success;
     }
 
     /**
@@ -253,15 +256,13 @@ public class AdminActions implements Serializable {
      *            PlanPropertiesId of the plan to delete.
      * @return True if deletion was successful, false otherwise.
      */
-    public boolean deletePlan(int planPropertiesId) {
-        List<Plan> projectList = em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId)
-            .getResultList();
-
-        if (!projectList.isEmpty()) {
-            Plan p = projectList.get(0);
-            planManager.deletePlan(p);
+    public boolean deletePlan(int planPropertiesId)  {
+        try {
+            Plan plan = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId).getSingleResult();
+            planManager.deletePlan(plan);
             return true;
-        } else {
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
             return false;
         }
     }
@@ -402,35 +403,28 @@ public class AdminActions implements Serializable {
      * @return Number of cleanedUp/removed Values objects.
      */
     private int cleanupProject(int pid) {
-        List<Plan> list = em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getResultList();
-
-        if (list.size() != 1) {
-            log.error("An unexpected error has occured while loading the plan with properties" + pid);
+        try {
+            Plan p = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
+            List<String> alternativeNames = new ArrayList<String>();
+            
+            for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
+                alternativeNames.add(a.getName());
+            }
+            
+            int number = p.getTree()
+                .removeLooseValues(alternativeNames, p.getSampleRecordsDefinition().getRecords().size());
+            log.info("cleaned up values for plan " + p.getPlanProperties().getName() + " - removed " + number + " Value(s) instances.");
+            
+            if (number > 0) {
+                em.persist(p.getTree());
+            }
+            em.clear();
+            
+            return number;
+        } catch (Exception e) {
+            log.error("Failed to retrieve plan for clean-up. id: " + pid, e);
             return 0;
         }
-
-        Plan p = list.get(0);
-        List<String> alternativeNames = new ArrayList<String>();
-
-        for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
-            alternativeNames.add(a.getName());
-        }
-
-        int number = p.getTree()
-            .removeLooseValues(alternativeNames, p.getSampleRecordsDefinition().getRecords().size());
-        log.info("cleaned up values for plan " + p.getPlanProperties().getName() + ":");
-        log.info("removed " + number + " Value(s) instances from this project");
-
-        if (number > 0) {
-            em.persist(p.getTree());
-        }
-
-        em.clear();
-        p = null;
-        list.clear();
-        list = null;
-
-        return number;
     }
 
     /**

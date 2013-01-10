@@ -9,7 +9,7 @@
      - detailedExperimentInfo : bean of type DetailedExperimentInfo 
  -->
    <h:form id="experimentReportForm">
-        <rich:popupPanel id="reportPanel" width="700" height="450" domElementAttachment="form" >
+        <rich:popupPanel id="reportPanel" width="700" autosized="true" domElementAttachment="form" >
             <f:facet name="header">
                 <h:outputText value="Report Information" />
             </f:facet>
@@ -28,14 +28,10 @@
                 <h:inputTextarea id="programOutputInputField" 
                     escape="false" style="width:95%;height:300px" 
                     value="#{detailedExperimentInfo.programOutput}" />
-                <br/>
-                    
-                <a4j:commandLink id="saveDetailedExperimentInfo" action="#{detailedExperimentInfo.touch}"
-                                 render="alternativesTablePanel" oncomplete="#{rich:component('reportPanel')}.hide()" onclick="changed()">
-                     <h:graphicImage
-                         value="/resources/gfx/icons/big/apply.png"
-                         title="Save" width="32" height="32" />
-                </a4j:commandLink>
+                <div style="display: block;">
+                <a4j:commandButton value="Save" id="saveDetailedExperimentInfo" action="#{detailedExperimentInfo.touch}" 
+                	render="alternativesTablePanel" oncomplete="#{rich:component('reportPanel')}.hide()" onclick="changed()"></a4j:commandButton>
+				</div>
              </a4j:outputPanel>                
          </rich:popupPanel>
 	</h:form>
