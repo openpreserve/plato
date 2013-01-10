@@ -219,11 +219,45 @@
 		        </script>
 		        <div id="sampleforms">
 		        	<div id="uploadSample" class="sampleform">
+		        	    <h3>Upload Sample</h3>
 				        <rich:fileUpload fileUploadListener="#{defineSampleRecords.listener}" allowFlash="false">
 				             <a4j:ajax event="uploadcomplete" execute="@none" render="sampleRecordsList"  />             
 				        </rich:fileUpload>
 			        </div>
 			        <div id="uploadProfile" class="sampleform">
+			            <div>
+		        	    <h3>Upload Profile</h3>
+			        	<p>
+   						Please provide username and password if you want to create samples from the representatives in the profile.
+   						</p>
+   						<p>
+   						Objects are downloaded from repository: #{defineSampleRecords.user.userGroup.repository.url}
+   						</p>
+						<div class="component">
+							<div class="label">
+								<h:outputText value="Username" class="label-text" />
+							</div>
+							<div class="input">
+								<h:inputText id="repositoryUsername_input"
+									value="#{defineSampleRecords.repositoryUsername}" class="p-input-text" label="Username">
+							    	<a4j:ajax event="change" />									
+								</h:inputText>
+							</div>
+						</div>
+	
+						<div class="component">
+							<div class="label">
+								<h:outputText value="Password" class="label-text" />
+							</div>
+							<div class="input">
+								<h:inputSecret id="repositoryPassword_input"
+									value="#{defineSampleRecords.repositoryPassword}" class="p-input-text" label="Password">
+							    	<a4j:ajax event="change" />									
+								</h:inputSecret>
+							</div>
+						</div>
+					    </div>
+			        
 				        <rich:fileUpload id="uploadProfile" fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}" acceptedTypes="xml" allowFlash="false">
 				             <a4j:ajax event="uploadcomplete" execute="@none" render="profile samplesDescription sampleRecordsList"  />             
 				        </rich:fileUpload>

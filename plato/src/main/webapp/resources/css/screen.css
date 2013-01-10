@@ -801,3 +801,7 @@ div.clear{
     opacity: 0.5;
     z-index: 10000;
 }
+
+.rf-fu-lst {
+	height: 100px;	
+}

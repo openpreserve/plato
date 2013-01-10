@@ -20,8 +20,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -189,7 +191,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
      * @throws ParserException
      *             if the profile cannot be read for some reason.
      */
-    public void readProfile(InputStream stream) throws ParserException, PlanningException {
+    public void readProfile(InputStream stream, final String repositoryUser, final String repositoryPassword) throws ParserException, PlanningException {
         log.info("Pre-processing profile information");
 
         ByteStream bsData = this.convertToByteStream(stream);
@@ -215,7 +217,13 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         this.storeProfile(name, bsData);
 
         log.info("processing sample objects information");
-        RepositoryConnectorApi roda = new RODAConnector();
+        RODAConnector roda = new RODAConnector();
+        Map<String,String> config = new HashMap<String,String>() {{
+            put(RODAConnector.ENDPOINT_KEY , user.getUserGroup().getRepository().getUrl());
+            put(RODAConnector.USER_KEY , repositoryUser);
+            put(RODAConnector.PASS_KEY , repositoryPassword);
+        }};        
+        roda.updateConfig(config);
         this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
         this.processSamples(roda, samples);
 
@@ -299,7 +307,6 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
 
                     digitalObjectManager.moveDataToStorage(sample);
                     addedBytestreams.add(sample.getPid());
-                    plan.getSampleRecordsDefinition().addRecord(sample);
 
                     if (shouldCharacterise(sample)) {
                         characteriseFits(sample, false);
@@ -307,6 +314,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
                 } catch (RepositoryConnectorException e) {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
                 }
+                plan.getSampleRecordsDefinition().addRecord(sample);
             }
         }
 
