@@ -21,9 +21,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EventListener;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -33,12 +36,21 @@ import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Measure;
 
 /**
- * Class responsible as supporting class for AJAX Criterion selection.
+ * Backing bean for Measure selection.
  * 
- * @author Markus Hamm
  */
 public class CriterionSelector implements Serializable {
     private static final long serialVersionUID = -4868553688311289177L;
+
+    /**
+     * Listener for change events of the selector.
+     */
+    public interface ChangeListener extends EventListener {
+        /**
+         * Called when a category, attribute or measure is selected.
+         */
+        void selected();
+    }
 
     @Inject
     private CriteriaManager criteriaManager;
@@ -46,20 +58,21 @@ public class CriterionSelector implements Serializable {
     private List<CriterionCategory> categories;
 
     private List<Attribute> allAttributes;
-    private Collection<Attribute> filteredAttributes;
+    private List<Attribute> filteredAttributes;
 
     private List<Measure> allMeasures;
-    private Collection<Measure> filteredMeasures;
+    private List<Measure> filteredMeasures;
 
     private CriterionCategory selectedCategory;
     private Attribute selectedAttribute;
     private Measure selectedMeasure;
 
+    private String searchTerm;
+
+    private List<ChangeListener> changeListeners = new ArrayList<ChangeListener>(1);
+
     /**
      * Compares two Attribute instances regarding their name
-     * 
-     * @author kraxner
-     * 
      */
     class AttributeNameComparator implements Comparator<Attribute> {
         @Override
@@ -102,19 +115,43 @@ public class CriterionSelector implements Serializable {
         clearSelection();
     }
 
+    /**
+     * Initializes the Measure selection. Retrieves all available measures from
+     * the {@link #criteriaManager CriteriaManager}
+     */
     public void init() {
-        categories = new ArrayList<CriterionCategory>(criteriaManager.getAllCriterionCategories());
+        allMeasures = new ArrayList<Measure>(criteriaManager.getAllMeasures());
+
+        allAttributes = new ArrayList<Attribute>();
+        categories = new ArrayList<CriterionCategory>();
+        // show only attributes and categories for which measures exist
+        for (Measure m : allMeasures) {
+            if (!allAttributes.contains(m.getAttribute())) {
+                allAttributes.add(m.getAttribute());
+            }
+        }
+        for (Attribute a : allAttributes) {
+            if (!categories.contains(a.getCategory())) {
+                categories.add(a.getCategory());
+            }
+        }
+        Collections.sort(allMeasures, new MeasureNameComparator());
+        Collections.sort(allAttributes, new AttributeNameComparator());
         Collections.sort(categories, new CategoryNameComparator());
 
-        allAttributes = new ArrayList<Attribute>(criteriaManager.getAllAttributes());
-        Collections.sort(allAttributes, new AttributeNameComparator());
-
-        allMeasures = new ArrayList<Measure>(criteriaManager.getAllMeasures());
-        Collections.sort(allMeasures, new MeasureNameComparator());
+        changeListeners.clear();
 
         clearSelection();
     }
 
+    /**
+     * Removes all measures from the list of available measures where the uris
+     * are not in the given set of uris.
+     * 
+     * @param measureUris
+     *            The uris of the measures which shall be available for
+     *            selection.
+     */
     public void filterCriteria(Set<String> measureUris) {
         HashMap<String, CriterionCategory> filteredCategories = new HashMap<String, CriterionCategory>();
         HashMap<String, Attribute> filteredAttributes = new HashMap<String, Attribute>();
@@ -136,6 +173,9 @@ public class CriterionSelector implements Serializable {
         allMeasures.addAll(filteredMeasures.values());
     }
 
+    /**
+     * Clears the currently selected attribute, measure and searchTerm
+     */
     private void clearSelection() {
         filteredAttributes = new ArrayList<Attribute>();
         filteredMeasures = new ArrayList<Measure>();
@@ -143,6 +183,8 @@ public class CriterionSelector implements Serializable {
         selectedCategory = null;
         selectedAttribute = null;
         selectedMeasure = null;
+
+        searchTerm = "";
     }
 
     public String getSelectedCategoryName() {
@@ -217,68 +259,142 @@ public class CriterionSelector implements Serializable {
         }
     }
 
-    public void applyFilter() {
-        filteredAttributes.clear();
-        filteredMeasures.clear();
+    public String getSearchTerm() {
+        return searchTerm;
+    }
 
+    public void setSearchTerm(String value) {
+        this.searchTerm = value;
+    }
+
+    /**
+     * Searches for measures which comply to the currently set
+     * {@link #searchTerm}. To be called when the search term has changed.
+     */
+    public void updateSearch() {
+        String[] terms = searchTerm.split("\\s");
+        String pattern = "^";
+        for (int i = 0; i < terms.length; i++) {
+            // we use
+            pattern += "(?=.*" + terms[i] + ")";
+        }
+        pattern += ".*";
+        Pattern searchPattern;
+        try {
+            searchPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+        } catch (IllegalArgumentException e) {
+            searchPattern = Pattern.compile(".*", Pattern.CASE_INSENSITIVE);
+        }
+
+        Set<Attribute> termFilteredAttributes = new HashSet<Attribute>();
+
+        filteredMeasures.clear();
+        for (Measure m : allMeasures) {
+            // search in all descriptions at once, this is more what the user
+            // expects
+            String base = m.getName() + " " + m.getDescription() + " " + m.getAttribute().getName() + " "
+                + m.getAttribute().getDescription() + " " + m.getAttribute().getCategory().getName();
+            if (searchPattern.matcher(base).matches()) {
+                filteredMeasures.add(m);
+                termFilteredAttributes.add(m.getAttribute());
+            }
+        }
+        filteredAttributes.clear();
+        filteredAttributes.addAll(termFilteredAttributes);
+        Collections.sort(filteredMeasures, new MeasureNameComparator());
+        Collections.sort(filteredAttributes, new AttributeNameComparator());
+    }
+
+    public void categorySelected() {
+        filteredAttributes.clear();
         if (selectedCategory == null) {
-            selectedAttribute = null;
+            // TODO: Is this correct? Why show all attributes if no category
+            // selected?
             filteredAttributes.addAll(allAttributes);
         } else {
-            boolean isSelectedAttributeInList = false;
             for (Attribute attr : allAttributes) {
                 if (attr.getCategory().getUri().equals(selectedCategory.getUri())) {
                     filteredAttributes.add(attr);
-
-                    // try to restore previous attribute selection
-                    if ((selectedAttribute != null) && attr.getUri().equals(selectedAttribute.getUri())) {
-                        isSelectedAttributeInList = true;
-                    }
                 }
             }
-            // a different category was chosen, the selected attribute has to
-            // change
-            if (!isSelectedAttributeInList) {
-                selectedAttribute = null;
-            }
+        }
+        if (!filteredAttributes.contains(selectedAttribute)) {
+            selectedAttribute = null;
         }
         // if there is only one attribute, preselect it
         if (filteredAttributes.size() == 1) {
             selectedAttribute = filteredAttributes.iterator().next();
         }
+        // propagate the new selection
+        attributeSelected();
+    }
 
-        // filter measures
-        Measure oldSelectedMeasure = selectedMeasure;
-        selectedMeasure = null;
-        if ((selectedCategory == null) && (selectedAttribute == null)) {
-            filteredMeasures.addAll(allMeasures);
-        } else if (selectedAttribute != null) {
-            for (Measure meas : allMeasures) {
-                if (meas.getAttribute().getUri().equals(selectedAttribute.getUri())) {
-                    filteredMeasures.add(meas);
-                    if ((oldSelectedMeasure != null) && meas.getUri().equals(oldSelectedMeasure.getUri())) {
-                        selectedMeasure = oldSelectedMeasure;
-                    }
+    public void attributeSelected() {
+        filteredMeasures.clear();
+        if (selectedAttribute == null) {
+            // filteredMeasures.addAll(allMeasures);
+        } else {
+            for (Measure m : allMeasures) {
+                if (m.getAttribute().getUri().equals(selectedAttribute.getUri())) {
+                    filteredMeasures.add(m);
                 }
             }
+            // and also adjust the category, in case the textual filter was used
+            if ((selectedCategory == null)
+                || (!selectedCategory.getUri().equals(selectedAttribute.getCategory().getUri()))) {
+                selectedCategory = selectedAttribute.getCategory();
+            }
+        }
+        if (!filteredMeasures.contains(selectedMeasure)) {
+            selectedMeasure = null;
         }
         // if there is only one measure, preselect it
         if (filteredMeasures.size() == 1) {
             selectedMeasure = filteredMeasures.iterator().next();
+        }
+
+        callChangeListeners();
+    }
+
+    public void measureSelected() {
+        if (selectedMeasure != null) {
+            if ((selectedAttribute == null)
+                || (!selectedAttribute.getUri().equals(selectedMeasure.getAttribute().getUri()))) {
+                selectedAttribute = findAttributeByName(selectedMeasure.getAttribute().getName());
+                selectedCategory = findCategoryByName(selectedAttribute.getCategory().getName());
+            }
+        }
+
+        callChangeListeners();
+    }
+
+    /**
+     * Calls registered listeners.
+     */
+    private void callChangeListeners() {
+        for (ChangeListener c : changeListeners) {
+            c.selected();
         }
     }
 
     public void selectMeasure(Measure measure) {
         if (measure != null) {
             selectedMeasure = measure;
-            selectedAttribute = measure.getAttribute();
-            selectedCategory = selectedAttribute.getCategory();
-
-            applyFilter();
+            measureSelected();
+            categorySelected();
+            selectedMeasure = measure;
         } else {
             clearSelection();
         }
 
+    }
+
+    public void addChangeListener(ChangeListener changeListener) {
+        changeListeners.add(changeListener);
+    }
+
+    public void removeChangeListener(ChangeListener changeListener) {
+        changeListeners.remove(changeListener);
     }
 
     public Measure getSelectedMeasure() {
@@ -304,4 +420,5 @@ public class CriterionSelector implements Serializable {
     public CriterionCategory getSelectedCategory() {
         return selectedCategory;
     }
+
 }
