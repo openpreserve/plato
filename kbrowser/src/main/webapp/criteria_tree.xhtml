@@ -11,158 +11,144 @@
 	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
 
 	<ui:define name="content">
-		<div id="content">
-			<h1>Manage criteria set</h1>
+		<h1>Manage criteria set</h1>
 
-			<h:panelGroup layout="block" id="objectivetree">
-				<fieldset id="create-hierarchy" class="size-full">
-					<legend class="fieldset-full-size-legend">
-						<h:outputText
-							value="#{criteriaHierarchyHelper.selectedCriteriaHierarchy.name}" />
-					</legend>
+		<h:form id="treeForm">
+			<fieldset id="create-hierarchy" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<h:outputText
+						value="#{criteriaHierarchyHelper.selectedCriteriaHierarchy.name}" />
+				</legend>
 
-					<h:form id="treeForm">
-						<rich:tree id="richTree" var="node">
-							<rich:treeModelRecursiveAdaptor
-								roots="#{criteriaHierarchyHelper.selectedCriteriaHierarchyCriteriaTreeRoots}"
-								nodes="#{node.children}" leaf="#{node.leaf}">
-								<rich:treeNode iconLeaf="" icon="" expanded="#{!node.leaf}">
-									<h:inputText
-										style="border:1px solid #DDDDDD; float: left; width:270px; background-color: #{empty(node.name)? '#F08080':'white'};"
-										required="false" requiredMessage="Please provide a name."
-										id="name" value="#{node.name}">
-										<f:validateLength maximum="255" minimum="1" />
-									</h:inputText>
 
-									<h:panelGrid id="menuPanel" border="0" style="float: left;">
-										<rich:dropDownMenu menuitem="menuNode" mode="ajax"
-											direction="bottomRight" jointPoint="topRight" hideDelay="500"
-											style="position: static;">
-											<f:facet name="label">
-												<h:graphicImage
-													value="resources/gfx/icons/preferences-system.png"
-													id="addLeafpic" />
-											</f:facet>
-											<rich:menuItem id="addLeaf" rendered="#{!node.leaf}"
-												action="#{criteriaHierarchyHelper.addLeafToNode(node)}"
-												label="Add a criterion" onclick="changed();"
-												render="richTree">
-												<f:facet name="icon">
-													<h:graphicImage value="resources/gfx/icons/add-leaf.png"
-														width="16" height="16" />
-												</f:facet>
-											</rich:menuItem>
-											<rich:menuItem id="addNode" rendered="#{!node.leaf}"
-												action="#{criteriaHierarchyHelper.addNodeToNode(node)}"
-												label="Add a structural node" onclick="changed();"
-												render="richTree">
-												<f:facet name="icon">
-													<h:graphicImage value="resources/gfx/icons/add-node.png"
-														width="16" height="16" />
-												</f:facet>
-											</rich:menuItem>
-											<rich:menuItem id="removeNode"
-												rendered="#{node.parent!=null}" label="Remove"
-												action="#{criteriaHierarchyHelper.removeNode(node)}"
-												render="richTree">
-												<f:facet name="icon">
-													<h:graphicImage value="resources/gfx/icons/trash-node.png"
-														width="16" height="16" />
-												</f:facet>
-											</rich:menuItem>
-										</rich:dropDownMenu>
-									</h:panelGrid>
+				<rich:tree id="richTree" var="node">
+					<rich:treeModelRecursiveAdaptor
+						roots="#{criteriaHierarchyHelper.selectedCriteriaHierarchyCriteriaTreeRoots}"
+						nodes="#{node.children}" leaf="#{node.leaf}">
+						<rich:treeNode iconLeaf="" icon="" expanded="#{!node.leaf}">
+							<h:inputText
+								style="border:1px solid #DDDDDD; float: left; width:270px; background-color: #{empty(node.name)? '#F08080':'white'};"
+								required="false" requiredMessage="Please provide a name."
+								id="name" value="#{node.name}">
+								<f:validateLength maximum="255" minimum="1" />
+							</h:inputText>
 
-									<a4j:commandLink rendered="#{node.leaf}"
-										action="#{criteriaHierarchyHelper.selectLeaf(node)}"
-										oncomplete="#{rich:component('editLeafMapping')}.show()"
-										eventsQueue="ajaxQ" render="editLeafMapping">
-										<h:graphicImage id="showMapping"
-											value="resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
-											title="#{(node.mapped ? (node.measure.uri):'')}" width="22"
-											height="22" />
-									</a4j:commandLink>
+							<h:panelGrid id="menuPanel" border="0" style="float: left;">
+								<rich:dropDownMenu menuitem="menuNode" mode="ajax"
+									direction="bottomRight" jointPoint="topRight" hideDelay="500"
+									style="position: static;">
+									<f:facet name="label">
+										<h:graphicImage
+											value="resources/gfx/icons/preferences-system.png"
+											id="addLeafpic" />
+									</f:facet>
+									<rich:menuItem id="addLeaf" rendered="#{!node.leaf}"
+										action="#{criteriaHierarchyHelper.addLeafToNode(node)}"
+										label="Add a criterion" onclick="changed();" render="richTree">
+										<f:facet name="icon">
+											<h:graphicImage value="resources/gfx/icons/add-leaf.png"
+												width="16" height="16" />
+										</f:facet>
+									</rich:menuItem>
+									<rich:menuItem id="addNode" rendered="#{!node.leaf}"
+										action="#{criteriaHierarchyHelper.addNodeToNode(node)}"
+										label="Add a structural node" onclick="changed();"
+										render="richTree">
+										<f:facet name="icon">
+											<h:graphicImage value="resources/gfx/icons/add-node.png"
+												width="16" height="16" />
+										</f:facet>
+									</rich:menuItem>
+									<rich:menuItem id="removeNode" rendered="#{node.parent!=null}"
+										label="Remove"
+										action="#{criteriaHierarchyHelper.removeNode(node)}"
+										render="richTree">
+										<f:facet name="icon">
+											<h:graphicImage value="resources/gfx/icons/trash-node.png"
+												width="16" height="16" />
+										</f:facet>
+									</rich:menuItem>
+								</rich:dropDownMenu>
+							</h:panelGrid>
 
-									<h:panelGroup rendered="#{!node.leaf}" layout="block"
-										style="vertical-align: top; margin-left: 80px;">
-										<table style="border: 1px solid #DDDDDD;">
-											<tr>
-												<th class="border-dark">SIF1</th>
-												<th class="border-dark">SIF2</th>
-												<th class="border-dark">SIF3</th>
-												<th class="border-dark">SIF4</th>
-												<th class="border-dark">SIF5</th>
-												<th class="border-dark">SIF6</th>
-												<th class="border-dark">SIF7</th>
-												<th class="border-dark">SIF8</th>
-												<th class="border-dark">SIF9</th>
-												<th class="border-dark">SIF10</th>
-												<th class="border-dark">SIF11</th>
-												<th class="border-dark">SIF12</th>
-												<th class="border-dark">SIF13</th>
-												<th class="border-dark">SIF14</th>
-												<th class="border-dark">SIF15</th>
-												<th class="border-dark">SIF16</th>
-											</tr>
-											<tr>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF1}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF2}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF3}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF4}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF5}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF6}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF7}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF8}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF9}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF10}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF11}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF12}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF13}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF14}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF15}" /></td>
-												<td class="size-auto"><h:outputText
-														value="#{node.stringFormattedImportanceFactorSIF16}" /></td>
-											</tr>
-										</table>
-									</h:panelGroup>
+							<a4j:commandLink rendered="#{node.leaf}"
+								action="#{criteriaHierarchyHelper.selectLeaf(node)}"
+								oncomplete="#{rich:component('editLeafMapping')}.show()"
+								eventsQueue="ajaxQ" render="editLeafMapping">
+								<h:graphicImage id="showMapping"
+									value="resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
+									title="#{(node.mapped ? (node.measure.uri):'')}" width="22"
+									height="22" />
+							</a4j:commandLink>
 
-								</rich:treeNode>
-							</rich:treeModelRecursiveAdaptor>
-						</rich:tree>
+							<h:panelGroup rendered="#{!node.leaf}" layout="block"
+								style="vertical-align: top; margin-left: 80px;">
+								<table style="border: 1px solid #DDDDDD;">
+									<tr>
+										<th class="border-dark">SIF1</th>
+										<th class="border-dark">SIF2</th>
+										<th class="border-dark">SIF3</th>
+										<th class="border-dark">SIF4</th>
+										<th class="border-dark">SIF5</th>
+										<th class="border-dark">SIF6</th>
+										<th class="border-dark">SIF7</th>
+										<th class="border-dark">SIF8</th>
+										<th class="border-dark">SIF9</th>
+										<th class="border-dark">SIF10</th>
+										<th class="border-dark">SIF11</th>
+										<th class="border-dark">SIF12</th>
+										<th class="border-dark">SIF13</th>
+										<th class="border-dark">SIF14</th>
+										<th class="border-dark">SIF15</th>
+										<th class="border-dark">SIF16</th>
+									</tr>
+									<tr>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF1}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF2}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF3}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF4}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF5}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF6}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF7}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF8}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF9}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF10}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF11}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF12}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF13}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF14}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF15}" /></td>
+										<td class="size-auto"><h:outputText
+												value="#{node.stringFormattedImportanceFactorSIF16}" /></td>
+									</tr>
+								</table>
+							</h:panelGroup>
 
-						<br />
-						<a4j:commandButton id="saveButton"
-							action="#{criteriaHierarchyHelper.saveSelectedCriteriaHierarchy}"
-							value="SAVE" onclick="this.disabled=true" render="saveButton" />
+						</rich:treeNode>
+					</rich:treeModelRecursiveAdaptor>
+				</rich:tree>
 
-						<br />
-						<br />
-						<h:commandButton
-							action="#{criteriaHierarchyHelper.exportCriteriaHierarchyAsFreeMindXML()}"
-							value="Export criteria set as freemind-xml" />
-					</h:form>
-				</fieldset>
-			</h:panelGroup>
-
-			<br /> <br /> <a href="criteria_hierarchy.jsf">CLOSE</a>
-
-		</div>
-
+				<h:commandButton
+					action="#{criteriaHierarchyHelper.exportCriteriaHierarchyAsFreeMindXML()}"
+					value="Export criteria set as freemind-xml" />
+			</fieldset>
+			<p:savediscard bean="#{criteriaHierarchyHelper}" />
+		</h:form>
 
 		<!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
 	                outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).

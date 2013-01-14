@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<cc:interface>
+	<cc:attribute name="bean" required="true"></cc:attribute>
+</cc:interface>
+
+<cc:implementation>
+	<div class="save-discard-proceed-buttons">
+		<h:commandButton id="discardButton" value="Discard changes"
+			action="#{cc.attrs.bean.discard}" immediate="true"
+			styleClass="discard-button" style="min-width: 150px;" />
+		<div class="save-placeholder" style="min-width: 150px"></div>
+		<h:commandButton id="saveButton" value="Save"
+			action="#{cc.attrs.bean.save}" styleClass="proceed-button"
+			style="min-width: 150px;" />
+	</div>
+</cc:implementation>
+</html>

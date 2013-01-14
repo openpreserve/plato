@@ -16,9 +16,7 @@
  ******************************************************************************/
 package eu.scape_project.planning.criteria.bean;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,17 +34,16 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 
 import eu.scape_project.planning.criteria.xml.CriteriaHierarchyExporter;
+import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.kbrowser.CriteriaHierarchy;
 import eu.scape_project.planning.model.kbrowser.CriteriaLeaf;
 import eu.scape_project.planning.model.kbrowser.CriteriaNode;
 import eu.scape_project.planning.model.kbrowser.CriteriaTreeNode;
-import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.utils.Downloader;
 import eu.scape_project.planning.utils.FacesMessages;
-import eu.scape_project.planning.xml.TreeLoader;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -56,7 +53,6 @@ import org.richfaces.component.UITree;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class responsible for supporting the view criteria_hierarchy.xhtml, at
@@ -70,16 +66,23 @@ import org.slf4j.LoggerFactory;
 public class CriteriaHierarchyHelperBean implements Serializable {
     private static final long serialVersionUID = 4589982063027782730L;
 
-    private static final Logger log = LoggerFactory.getLogger(CriteriaHierarchyHelperBean.class);
+    @Inject
+    private Logger log;
 
     @PersistenceContext
     EntityManager em;
 
     @Inject
+    private FacesMessages facesMessages;
+
+    @Inject
+    private PlanSelection planSelection;
+
+    @Inject
     private CriteriaManager criteriaManager;
 
     @Inject
-    private TreeLoader treeLoader;
+    private ManageCriteriaSets manageCriteriaSets;
 
     @Inject
     private CriteriaHierarchyExporter criteriaHierarchyExporter;
@@ -88,33 +91,22 @@ public class CriteriaHierarchyHelperBean implements Serializable {
     private Downloader downloader;
 
     @Inject
-    private FacesMessages facesMessages;
-
-    @Inject
-    private CriteriaSetsSummaryView criteriaSetsSummaryView;
-
-    private DigitalObject importFile;
-
-    @Inject
-    private PlanSelection planSelection;
-
-    private List<CriteriaHierarchy> allCriteriaHierarchies;
-    private CriteriaHierarchy selectedCriteriaHierarchy;
-    private List<CriteriaHierarchy> allCriteriaHierarchiesForSummary;
-    private String newHierarchyName;
-    private CriteriaLeaf selectedLeaf;
-
-    // --- variables for property selection ----
-
-    @Inject
     private CriterionSelector criterionSelector;
 
-    private Boolean isMeasurableCriterionSelected;
+    /**
+     * Currently selected criteria set
+     */
+    private CriteriaHierarchy selectedCriteriaHierarchy;
 
-    public CriteriaHierarchyHelperBean() {
-        allCriteriaHierarchiesForSummary = new ArrayList<CriteriaHierarchy>();
-        isMeasurableCriterionSelected = false;
-    }
+    /**
+     * Name for a new criteria set
+     */
+    private String newHierarchyName;
+
+    /**
+     * Currently selected leaf in the tree
+     */
+    private CriteriaLeaf selectedLeaf;
 
     @PostConstruct
     public void initBean() {
@@ -127,144 +119,56 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      * @return outcome string ("criteria_tree.jsf" on success).
      */
     public String loadHierarchy() {
-        // get the criteriaHierarchyId passed per request-parameter
+        // Get the criteriaHierarchyId passed per request-parameter
         FacesContext context = FacesContext.getCurrentInstance();
         int clickedCriteriaHierarchyId = Integer.parseInt(context.getExternalContext().getRequestParameterMap()
             .get("criteriaHierarchyId"));
 
-        for (CriteriaHierarchy hierarchy : allCriteriaHierarchies) {
-            if (hierarchy.getId() == clickedCriteriaHierarchyId) {
-                selectedCriteriaHierarchy = hierarchy;
-                log.debug("Loaded CriteriaHierarchy with id: " + hierarchy.getId());
+        selectedCriteriaHierarchy = manageCriteriaSets.getCriteriaHierarchy(clickedCriteriaHierarchyId);
 
-                // assign relevant data to criteria root node
-                selectedCriteriaHierarchy.getCriteriaTreeRoot().setNrOfRelevantPlans(
-                    planSelection.getSelectedPlans().size());
-
-                for (CriteriaTreeNode criteriaTreeNode : selectedCriteriaHierarchy.getCriteriaTreeRoot()
-                    .getAllSuccessiveTreeNodes()) {
-                    // assign relevant data to criteria nodes
-                    if (criteriaTreeNode instanceof CriteriaNode) {
-                        CriteriaNode criteriaNode = (CriteriaNode) criteriaTreeNode;
-                        criteriaNode.setNrOfRelevantPlans(planSelection.getSelectedPlans().size());
-                    }
-                    // assign relevant data to criteria leaves
-                    if (criteriaTreeNode instanceof CriteriaLeaf) {
-                        CriteriaLeaf criteriaLeaf = (CriteriaLeaf) criteriaTreeNode;
-                        criteriaLeaf.setNrOfRelevantPlans(planSelection.getSelectedPlans().size());
-                        if (criteriaLeaf.getMapped()) {
-                            criteriaLeaf.setPlanLeaves(getPlanLeavesMatchingCriterion(criteriaLeaf.getMeasure()));
-                        }
-                    }
-                }
-                log.debug("assigned relevant data to all Hierarchy tree nodes");
-
-                return "criteria_tree.jsf";
-            }
+        if (selectedCriteriaHierarchy == null) {
+            log.warn("Could not find a criteria hierarchy with the id [{}].", clickedCriteriaHierarchyId);
+            facesMessages.addError("Could not find the selected criteria hierarchy.");
+            return "";
         }
-
-        return "";
+        return "criteria_tree.jsf";
     }
 
     /**
      * Delete the user selected hierarchy.
      */
     public void deleteHierarchy() {
-        // get the criteriaHierarchyId passed per request-parameter
+        // Get the criteriaHierarchyId passed per request-parameter
         FacesContext context = FacesContext.getCurrentInstance();
-        int clickedCriteriaHierarchyId = Integer.parseInt(context.getExternalContext().getRequestParameterMap()
+        int hierarchyId = Integer.parseInt(context.getExternalContext().getRequestParameterMap()
             .get("criteriaHierarchyId"));
 
-        CriteriaHierarchy clickedCriteriaHierarchy = em.find(CriteriaHierarchy.class, clickedCriteriaHierarchyId);
-        if (clickedCriteriaHierarchy != null) {
-            em.remove(clickedCriteriaHierarchy);
-            log.info("deleted CriteriaHierarchy with id=" + clickedCriteriaHierarchyId);
+        try {
+            manageCriteriaSets.deleteCriteriaHierarchy(hierarchyId);
+            facesMessages.addInfo("Criteria hierarchy deleted.");
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not delete criteria hierarchy.");
         }
     }
 
     /**
-     * Method responsible for loading dependent data of all hierarchies.
+     * Saves changes in the currently selected criteria set.
      * 
-     * @return outcome string ("success" on success).
+     * @return the navigation target
      */
-    public String loadAllHierarchiesDataForSummary() {
-        allCriteriaHierarchiesForSummary = new ArrayList<CriteriaHierarchy>();
-
-        // FIXME: to use getAllCriteriaHierarchies here is a bad hack to don't
-        // get a NullPointerException here when calling from index-page.
-        // Making a db-select in a getter (getAllCriteriaHierarchies) is bad
-        // practice - and has to be changed!!
-        for (CriteriaHierarchy hierarchy : getAllCriteriaHierarchies()) {
-            // assign relevant data to criteria root node
-            hierarchy.getCriteriaTreeRoot().setNrOfRelevantPlans(planSelection.getSelectedPlans().size());
-
-            for (CriteriaTreeNode criteriaTreeNode : hierarchy.getCriteriaTreeRoot().getAllSuccessiveTreeNodes()) {
-                // assign relevant data to criteria nodes
-                if (criteriaTreeNode instanceof CriteriaNode) {
-                    CriteriaNode criteriaNode = (CriteriaNode) criteriaTreeNode;
-                    criteriaNode.setNrOfRelevantPlans(planSelection.getSelectedPlans().size());
-                }
-                // assign relevant data to criteria leaves
-                if (criteriaTreeNode instanceof CriteriaLeaf) {
-                    CriteriaLeaf criteriaLeaf = (CriteriaLeaf) criteriaTreeNode;
-                    criteriaLeaf.setNrOfRelevantPlans(planSelection.getSelectedPlans().size());
-                    if (criteriaLeaf.getMapped()) {
-                        criteriaLeaf.setPlanLeaves(getPlanLeavesMatchingCriterion(criteriaLeaf.getMeasure()));
-                    }
-                }
-            }
-
-            allCriteriaHierarchiesForSummary.add(hierarchy);
-        }
-
-        log.debug("assigned relevant data to tree nodes of all hierarchies");
-        log.debug("Stored all hierarchies in hierarchy summary array");
-
-        criteriaSetsSummaryView.init();
-
-        return "criteria_sets_summary.jsf";
+    public String save() {
+        manageCriteriaSets.saveCriteriaHierarchy(selectedCriteriaHierarchy);
+        facesMessages.addInfo("Criteria hierarchy saved.");
+        return "criteria_hierarchy.jsf";
     }
 
     /**
-     * Method responsible for returning all plan leaves matching the given
-     * criterion
+     * Discards changes in the currently selected criteria set.
      * 
-     * @param property
-     *            property criterion
-     * @param metric
-     *            metric criterion
-     * @return a list of all plan leaves matching the given criterion.
+     * @return the navigation target
      */
-    private List<VPlanLeaf> getPlanLeavesMatchingCriterion(Measure measure) {
-        List<VPlanLeaf> matchingLeaves = new ArrayList<VPlanLeaf>();
-
-        // test which leaves match
-        for (VPlanLeaf leaf : planSelection.getSelectionPlanLeaves()) {
-            if (leaf.getMeasure() != null) {
-                if (leaf.getMeasure().getUri().equals(measure.getUri())) {
-                    matchingLeaves.add(leaf);
-                }
-            }
-        }
-
-        return matchingLeaves;
-    }
-
-    /**
-     * Method responsible for persisting the currently selected property
-     * hierarchy.
-     */
-    public void saveSelectedCriteriaHierarchy() {
-        /*
-         * ATTENTION: The EntityManger is injected by seam, which injects a new
-         * instance at every method call. For this reason also the persistence
-         * context changes every time a method is called. For this reason you
-         * cannot use em.persist() here and have to use em.merge(). (The object
-         * is not associated with the passed em-persistence-context but still
-         * exists in database).
-         */
-        selectedCriteriaHierarchy = em.merge(selectedCriteriaHierarchy);
-        log.debug("saved critierahierarchy with id=" + selectedCriteriaHierarchy.getId());
+    public String discard() {
+        return "criteria_hierarchy.jsf";
     }
 
     /**
@@ -274,22 +178,7 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      * @return outcome string ("criteria_tree.jsf" on success).
      */
     public String createNewHierarchy() {
-        // create a new hierarchy with a new root tree node and persist it.
-        CriteriaHierarchy hierarchy = new CriteriaHierarchy();
-        hierarchy.setName(newHierarchyName);
-
-        // assign relevant data to criteria root node
-        CriteriaNode rootNode = new CriteriaNode(planSelection.getSelectedPlans().size());
-        rootNode.setName(newHierarchyName);
-        rootNode.setNrOfRelevantPlans(planSelection.getSelectedPlans().size());
-
-        hierarchy.setCriteriaTreeRoot(rootNode);
-        em.persist(hierarchy);
-
-        log.debug("Created CriteriaHierarchy with name: " + newHierarchyName);
-
-        // set selected hierarchy and reset input field
-        selectedCriteriaHierarchy = hierarchy;
+        selectedCriteriaHierarchy = manageCriteriaSets.createCriteriaHierarchy(newHierarchyName);
         newHierarchyName = "";
 
         return "criteria_tree.jsf";
@@ -347,7 +236,7 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      * displayed open or closed. In this case true is returned constantly,
      * because the tree should be displayed open all the time.
      * 
-     * @param interesting
+     * @param tree
      *            part of the tree
      * @return true if the node should be displayed open, false if the node
      *         should be displayed closed.
@@ -363,110 +252,71 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      *            Selected leaf
      */
     public void selectLeaf(Object leaf) {
-        if (!(leaf instanceof CriteriaLeaf))
+        if (!(leaf instanceof CriteriaLeaf)) {
             return;
+        }
         selectedLeaf = (CriteriaLeaf) leaf;
         log.debug("Selected leaf with id=" + selectedLeaf.getId());
     }
 
     /**
-     * Method responsible for attaching the user selected criterion to the
+     * Method responsible for attaching the user-selected criterion to the
      * selected leaf.
      */
     public void saveCriterionMapping() {
-        selectedLeaf.setMeasure(criterionSelector.getSelectedMeasure());
-
-        // align name of the selected leaf with the selected property name
-        selectedLeaf.setName(criterionSelector.getSelectedMeasure().getName());
-
-        selectedLeaf.setMapped(true);
-
-        // add association plan leaves to the property leaf
-        List<VPlanLeaf> associatedPlanLeaves = getPlanLeavesMatchingCriterion(selectedLeaf.getMeasure());
-        selectedLeaf.setPlanLeaves(associatedPlanLeaves);
-
-        log.debug("Saved criterion mapping.");
+        manageCriteriaSets.assignMeasureToLeaf(criterionSelector.getSelectedMeasure(), selectedLeaf);
     }
 
     /**
-     * Method responsible for selecting/setting a file for a later import. (View
-     * related code)
+     * Method responsible for importing the selected FreeMind file as
+     * CriteriaHierarchy.
      * 
      * @param event
-     *            Richfaces FileUploadEvent data.
+     *            the file upload event
      */
-    public void selectImportFile(FileUploadEvent event) {
+    public void uploadCriteriaHierarchy(FileUploadEvent event) {
         UploadedFile file = event.getUploadedFile();
+        String filename = file.getName();
 
         // Do some input checks
-        if (!file.getName().endsWith("mm")) {
-            facesMessages.addError("importPanel", "Please select a FreeMind file.");
-            importFile = null;
+        if (!filename.endsWith("mm")) {
+            log.warn("The uploaded file [{}] is not a Freemind file.", filename);
+            facesMessages.addError("The uploaded file is not a Freemind file.");
             return;
         }
 
         // Put file-data into a digital object
-        importFile = new DigitalObject();
-        importFile.setFullname(file.getName());
+        DigitalObject importFile = new DigitalObject();
+        importFile.setFullname(filename);
         importFile.getData().setData(file.getData());
         importFile.setContentType(file.getContentType());
-    }
 
-    /**
-     * Method responsible for importing the selected FreeMind File as
-     * CriteriaHierarchy. (View related code)
-     */
-    public void importCriteriaHierarchy() {
-        boolean importSuccessful = importCriteriaHierarchyFromFreemind(importFile);
+        boolean importSuccessful = manageCriteriaSets.importCriteriaHierarchyFromFreemind(importFile);
 
         if (importSuccessful) {
-            facesMessages.addInfo("importPanel", "Policy tree imported successfully");
+            facesMessages.addInfo("Criteria set imported successfully");
             importFile = null;
             init();
         } else {
-            facesMessages.addError("importPanel",
-                "The uploaded file is not a valid Freemind mindmap. Maybe it is corrupted?");
+            facesMessages.addError("The uploaded file is not a valid Freemind mindmap.");
         }
     }
 
     /**
-     * Method responsible for importing a criteria hierarchy from a a given
-     * FreeMind file.
-     * 
-     * @param file
-     *            FreeMind file to import the criteria hierarchy from.
-     * @return True if the import was successful. False otherwise.
+     * Initiates the download of the currently selected criteria hierarchy as
+     * Freemind XML file.
      */
-    public boolean importCriteriaHierarchyFromFreemind(DigitalObject file) {
-        CriteriaHierarchy criteriaHierarchy = null;
-
-        try {
-            InputStream istream = new ByteArrayInputStream(file.getData().getData());
-            criteriaHierarchy = treeLoader.loadFreeMindCriteriaHierarchy(istream, criteriaManager);
-        } catch (Exception e) {
-            log.info("CriteriaHierarchy import from file " + file.getFullname() + " FAILED");
-            log.error(e.getMessage(), e);
-            return false;
-        }
-
-        if (criteriaHierarchy == null) {
-            return false;
-        }
-
-        em.persist(criteriaHierarchy);
-        log.info("CriteriaHierarchy import from file " + file.getFullname() + " successful");
-
-        return true;
-    }
-
     public void exportCriteriaHierarchyAsFreeMindXML() {
         String freeMindXML = criteriaHierarchyExporter.exportToFreemindXml(selectedCriteriaHierarchy);
         downloader.downloadMM(freeMindXML, selectedCriteriaHierarchy.getName() + ".mm");
     }
 
     /**
-     * A function which exports all current criteria into a freemind-xml. Used
-     * to ease creation of criteria-hierarchies (manual this is a hard job).
+     * A function which exports all current criteria into a freemind xml string.
+     * Used to ease creation of criteria-hierarchies (manual this is a hard
+     * job).
+     * 
+     * @return the criteria as XML string
      */
     private String exportAllCriteriaToFreeMindXml() {
         Document doc = DocumentHelper.createDocument();
@@ -503,18 +353,10 @@ public class CriteriaHierarchyHelperBean implements Serializable {
     }
 
     /**
-     * Download all criteria as freemind xml.
+     * Download all criteria as Freemind XML file.
      */
     public void downloadAllCriteriaAsFreeMindXml() {
         downloader.downloadMM(exportAllCriteriaToFreeMindXml(), "allCriteria.mm");
-    }
-
-    public void setIsMeasurableCriterionSelected(Boolean isMeasurableCriterionSelected) {
-        this.isMeasurableCriterionSelected = isMeasurableCriterionSelected;
-    }
-
-    public Boolean getIsMeasurableCriterionSelected() {
-        return isMeasurableCriterionSelected;
     }
 
     public void exportCriteriaHierarchiesSummaryToCSV() {
@@ -522,8 +364,10 @@ public class CriteriaHierarchyHelperBean implements Serializable {
         // header
         csvString += "Name;size;SIF1;SIF2;SIF3;SIF4;SIF5;SIF6;SIF7;SIF8;SIF9;SIF10;SIF11;SIF12;SIF13;SIF14;SIF15;SIF16\n";
 
+        manageCriteriaSets.loadCriteriaHierarchyDependentData();
+
         // assemble csv-data
-        for (CriteriaHierarchy criteriaHierarchy : allCriteriaHierarchiesForSummary) {
+        for (CriteriaHierarchy criteriaHierarchy : manageCriteriaSets.getAllCriteriaHierarchies()) {
             csvString += criteriaHierarchy.getName() + ";";
             csvString += criteriaHierarchy.getCriteriaTreeRoot().getAllSuccessiveLeaves().size() + ";";
             csvString += criteriaHierarchy.getCriteriaTreeRoot().getStringFormattedImportanceFactorSIF1() + ";";
@@ -574,24 +418,19 @@ public class CriteriaHierarchyHelperBean implements Serializable {
     public List<CriteriaNode> getSelectedCriteriaHierarchyCriteriaTreeRoots() {
         List<CriteriaNode> result = new ArrayList<CriteriaNode>();
         result.add(selectedCriteriaHierarchy.getCriteriaTreeRoot());
-
         return result;
     }
 
-    // // ---------------------- general getter/setter ----------------------
-
-    public void setAllCritereaHierarchies(List<CriteriaHierarchy> allCriteriaHierarchies) {
-        this.allCriteriaHierarchies = allCriteriaHierarchies;
-    }
-
+    /**
+     * Returns all criteria hierarchies.
+     * 
+     * @return a list of criteria hierarchies
+     */
     public List<CriteriaHierarchy> getAllCriteriaHierarchies() {
-        // FIXME: That looks really strange : query for the hierarchies each
-        // time, but still cache it in the property
-        allCriteriaHierarchies = (List<CriteriaHierarchy>) em.createQuery("SELECT h from CriteriaHierarchy h")
-            .getResultList();
-        return allCriteriaHierarchies;
+        return manageCriteriaSets.getAllCriteriaHierarchies();
     }
 
+    // ---------------------- getter/setter ----------------------
     public void setNewHierarchyName(String newHierarchyName) {
         this.newHierarchyName = newHierarchyName;
     }
@@ -616,22 +455,6 @@ public class CriteriaHierarchyHelperBean implements Serializable {
         return selectedCriteriaHierarchy;
     }
 
-    public void setAllCriteriaHierarchiesForSummary(List<CriteriaHierarchy> allCriteriaHierarchiesForSummary) {
-        this.allCriteriaHierarchiesForSummary = allCriteriaHierarchiesForSummary;
-    }
-
-    public List<CriteriaHierarchy> getAllCriteriaHierarchiesForSummary() {
-        return allCriteriaHierarchiesForSummary;
-    }
-
-    public DigitalObject getImportFile() {
-        return importFile;
-    }
-
-    public void setImportFile(DigitalObject importFile) {
-        this.importFile = importFile;
-    }
-
     public CriterionSelector getCriterionSelector() {
         return criterionSelector;
     }
@@ -642,7 +465,6 @@ public class CriteriaHierarchyHelperBean implements Serializable {
 
     // ---------------------- init ----------------------
     public String init() {
-        log.debug("init finally called");
         return "criteria_hierarchy.jsf";
     }
 }
