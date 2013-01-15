@@ -1,4 +1,4 @@
-package eu.scape_project.planning.plato.mock;
+package eu.scape_project.planning.application;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;

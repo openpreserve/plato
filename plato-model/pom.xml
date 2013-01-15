@@ -28,6 +28,7 @@
 
 						</manifestEntries>
 					</archive>
+						<excludes><exclude>META-INF/persistence.xml</exclude></excludes> 
 				</configuration>
 				<executions>
 				  <execution>
@@ -38,6 +39,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+<!-- 		
         <resources>
             <resource>
                 <directory>src/main/resources/META-INF</directory>
@@ -46,7 +48,8 @@
                 </excludes>
                 <filtering>false</filtering>
             </resource>
-        </resources>		
+        </resources>
+-->
 	</build>
 	<repositories>
 		<repository>

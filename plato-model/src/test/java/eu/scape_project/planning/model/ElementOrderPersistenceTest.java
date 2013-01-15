@@ -36,7 +36,6 @@ public class ElementOrderPersistenceTest {
         em.close();
     }
 
-    @Ignore
     @Test
     public void checkRelationSampleRecordsDefinitionToSampleObjects() {
         SampleRecordsDefinition samplesDef = new SampleRecordsDefinition();
@@ -260,7 +259,7 @@ public class ElementOrderPersistenceTest {
         lStored.setMeasure(m2);
         
         em.persist(lStored);
-        Assert.assertEquals("Measure should be persisted together with leaf", 1, 
+        Assert.assertEquals("Measure should be persisted together with leaf", 2, 
             ((Long)em.createQuery("select count(*) from Measure").getSingleResult()).longValue());
         
         

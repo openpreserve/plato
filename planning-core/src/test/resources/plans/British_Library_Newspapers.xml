@@ -1,0 +1,3251 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.planets-project.eu/plato" xmlns:wdt="http://www.planets-project.eu/wdt" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://www.planets-project.eu/plato plato-3.0.xsd" version="3.0.1">
+<plan>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-08T16:19:16" changedBy="wilson"/>
+<properties author="Carl Wilson &amp; Paul Wheatley" organization="The British Library" name="British Library Newspapers" privateProject="false" reportPublic="false">
+<state value="11"/>
+<description>Assessment of preservation options for the JISC1 newspaper collection master TIFF images, prior to ingest into the BL Digital Library System for long term preservation.</description>
+<owner>wilson</owner>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-08T16:20:27" changedBy="wilson"/>
+</properties>
+<basis identificationCode="">
+<documentTypes>2 million TIFF master copies of A3 newspaper pages.</documentTypes>
+<applyingPolicies>British Library Digital Preservation Strategy.</applyingPolicies>
+<designatedCommunity>MASTERS
+The British Library Digital Preservation Team (digital preservation expertise).
+The British Library Newspaper Programme (curatorial expertise for newspaper collection).
+The British Library Digital Library Programme (development of preservation level digital object store).
+DERIVED ACCESS COPIES
+Academic and independent researchers, and genealogists.</designatedCommunity>
+<mandate>To preserve and provide long term access to digital material.</mandate>
+<organisationalProcedures>British Library Digital Preservation Principles.</organisationalProcedures>
+<planningPurpose>To consider options for reducing the total cost of ownership for the collection, whilst minimising preservation risk.</planningPurpose>
+<triggers>
+<trigger type="NEW_COLLECTION" active="false" description=""/>
+<trigger type="PERIODIC_REVIEW" active="true" description="The collection has been held on LTO tape for 2 years.  Worries about suitability of the tapes for long term preservation led to the material been taken from tape onto Hard Drive storage on a SAN to review the state of the material.  This move highlighted difficulties reading the content of some of the tapes.  The decision was made to move the master files into the BL's Digital Library System.  Before the ingest into DLS was performed, it was decided to review the format of the current master files to see if the current TIFF format was the most suitable for long term preservation."/>
+<trigger type="CHANGED_ENVIRONMENT" active="false" description=""/>
+<trigger type="CHANGED_OBJECTIVE" active="false" description=""/>
+<trigger type="CHANGED_COLLECTION_PROFILE" active="false" description=""/>
+</triggers>
+<policyTree>
+<policyNode name="PP/2 Policy requirements">
+<policyNode name="Environment component">
+<policyNode name="Content/self">
+<policyNode name="Format">
+<policy name="Target format shall be OPEN, unless impossible" value="Y"/>
+<policy name="Target format must have open specification" value="Y"/>
+<policy name="Target format specification must be available" value="Y"/>
+<policy name="File formats of output manifestations must be supported by existing hard- and software" value="Y"/>
+<policyNode name="Image format">
+<policy name="Compression must be lossless" value="Y"/>
+</policyNode>
+<policy name="Target format must not have encryption" value="Y"/>
+</policyNode>
+<policyNode name="Realisation">
+<policy name="Target size must not be larger than source (0 being not applicable)" value="4"/>
+<policy name="Metadata have to be preserved unaltered" value="3"/>
+<policy name="All metadata as described in institutional set of metadata have to be preserved" value="Y"/>
+<policy name="Content has to be preserved unaltered" value="5"/>
+<policy name="At least 2 digital copies for digitised materials have to be created" value="Y"/>
+<policy name="Original copies must never be deleted" value="N"/>
+<policy name="Derivate copies which can be derived from others shall not be archived" value="Y"/>
+<policy name="With every preservation action old derived files shall be retained" value="N"/>
+<policy name="Preservation action must be validated for authenticity of the substantive content" value="N"/>
+<policy name="Preservation action must be documented with target object to be able to trace changes" value="Y"/>
+<policy name="Metadata about original hard- and software has to be preserved" value="Y"/>
+<policy name="Metadata about hard- and software at this moment has to be preserved" value="Y"/>
+</policyNode>
+<policy name="Target content must be reliable" value="Y"/>
+<policy name="Target content must maintain quality" value="Y"/>
+</policyNode>
+<policyNode name="Community">
+<policyNode name="Policy factor">
+<policyNode name="Internal influence">
+<policyNode name="Personnel">
+<policy name="There shall be expertise for the preservation action" value="Y"/>
+</policyNode>
+<policyNode name="Budget">
+<policy name="Cost of chosen preservation action must not exceed estimated value of items" value="Y"/>
+<policy name="Cost of preservartion action must not exceed preservation budget" value="Y"/>
+</policyNode>
+</policyNode>
+<policyNode name="External influence">
+<policyNode name="Library and archival sciences">
+<policy name="Best practice in active preservation management shall be followed" value="Y"/>
+</policyNode>
+<policyNode name="Metadata standard">
+<policy name="Standard must be compliant with METS" value="Y"/>
+<policy name="Standard must be compliant with MODS" value="N"/>
+<policy name="Standard must be compliant with Premis" value="Y"/>
+<policy name="Standard must be compliant with MIX" value="N"/>
+</policyNode>
+</policyNode>
+</policyNode>
+</policyNode>
+<policyNode name="Software">
+<policy name="Preservation action tool shall be OPEN SOURCE" value="Y"/>
+<policy name="Preservation action tool shall be FREE OF COST" value="N"/>
+<policy name="Tools for digital preservation shall be built and written by employees of the organisation" value="N"/>
+<policy name="Digital preservation programming shall be done according programming best practices" value="Y"/>
+</policyNode>
+<policyNode name="Hardware">
+<policyNode name="Computer Hardware">
+<policy name="Servers must be protected by power surge protection systems" value="Y"/>
+<policy name="Disaster recovery procedures must be in place" value="Y"/>
+</policyNode>
+<policyNode name="Storage Medium">
+<policy name="Adequate storage capacity must be maintained for all holdings" value="Y"/>
+<policy name="Two physical systems, on which the documents are stored, shall be in two different buildings" value="Y"/>
+<policy name="Preservation system shall consist of on-site, near-site and off-site storage" value="Y"/>
+</policyNode>
+<policy name="Adequate connectivity shall be provided" value="Y"/>
+</policyNode>
+</policyNode>
+<policyNode name="Preservation action">
+<policyNode name="Reconstruction">
+<policy name="Preservation action must be emulation" value="N"/>
+</policyNode>
+<policyNode name="Replacement">
+<policy name="Preservation action must be migration" value="N"/>
+</policyNode>
+<policy name="Preservation action must create platform independent objects" value="Y"/>
+<policy name="Preservation actions shall be accompanied with formal documentation specified in the preservation strategy procedures" value="Y"/>
+<policy name="Preservation action must be without compression unless no information loss occurs" value="Y"/>
+<policy name="Prefer preservation actions which are more stable" value="Y"/>
+<policy name="Prefer preservation actions which are better supported" value="Y"/>
+<policy name="Prefer preservation actions which produce target outputs which satisfy the main user needs" value="Y"/>
+<policy name="Preservation action shall optimise the use of space for storage purposes" value="Y"/>
+</policyNode>
+</policyNode>
+</policyTree>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-17T15:50:10" changedBy="wilson"/>
+</basis>
+<sampleRecords>
+<samplesDescription>The samples were chosen by newspaper curators to represent typical image quality, poor quality images, non-text images, and small text images.</samplesDescription>
+<collectionProfile>
+<collectionID>JISC1 Newspapers</collectionID>
+<description>Master copies of digitised 19th century newspaper collection.</description>
+<expectedGrowthRate>No growth expected.</expectedGrowthRate>
+<numberOfObjects>Approximately 2 million.</numberOfObjects>
+<typeOfObjects>TIFF image files.</typeOfObjects>
+</collectionProfile>
+<record shortName="Poor Quality" fullname="WO1_ANJO_1884_07_17-0001.tif" contentType="image/tiff">
+<data hasData="false"/>
+<formatInfo puid="fmt/7" name="Tagged Image File Format" version="5" mimeType="image/tiff" defaultExtension="tif">
+<changelog created="2009-07-08T16:33:38" createdBy="wilson" changed="2009-07-08T16:33:38"/>
+</formatInfo>
+<changelog created="2009-07-08T16:33:38" createdBy="wilson" changed="2009-07-17T14:15:49" changedBy="wilson"/>
+<description>Aberdeen Journal front page 17/07/1884.  Poor quality image.</description>
+<originalTechnicalEnvironment/>
+</record>
+<record shortName="Small Text" fullname="WO1_FRJO_1882_08_19-0002.tif" contentType="image/tiff">
+<data hasData="false"/>
+<formatInfo puid="fmt/7" name="Tagged Image File Format" version="5" mimeType="image/tiff" defaultExtension="tif">
+<changelog created="2009-07-09T15:02:59" createdBy="wilson" changed="2009-07-09T15:02:59"/>
+</formatInfo>
+<changelog created="2009-07-09T15:02:59" createdBy="wilson" changed="2009-07-17T14:15:51" changedBy="wilson"/>
+<description>The Freemans Journal, 19/08/1882, second page.  A small text image.</description>
+<originalTechnicalEnvironment/>
+</record>
+<record shortName="Good Quality" fullname="WO1_LEMR_1807_02_07-0001.tif" contentType="image/tiff">
+<data hasData="false"/>
+<formatInfo puid="fmt/7" name="Tagged Image File Format" version="5" mimeType="image/tiff" defaultExtension="tif">
+<changelog created="2009-07-10T18:07:54" createdBy="wilson" changed="2009-07-10T18:07:54"/>
+</formatInfo>
+<changelog created="2009-07-10T18:07:54" createdBy="wilson" changed="2009-07-17T14:15:53" changedBy="wilson"/>
+<description>The Leeds mercury, 07/02/1807 front page.  A typical good quality image, representative of the majority of the collection.</description>
+<originalTechnicalEnvironment/>
+</record>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-16T18:45:53" changedBy="wilson"/>
+</sampleRecords>
+<requirementsDefinition>
+<description/>
+<uploads/>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-15T13:34:31" changedBy="wilson"/>
+</requirementsDefinition>
+<alternatives>
+<description/>
+<alternative discarded="false" name="Do Nothing">
+<description>Do not migrate the master files to an alternative format and retain them as TIFF v5 files.</description>
+<resourceDescription>
+<necessaryResources>Preservation storage for 2 million TIFF master files.  Time and network resources to move the originals from there current location.</necessaryResources>
+<configSettings>None</configSettings>
+<reasonForConsidering>Eliminates the preservation risks introduced by format migration.  Removes process costs incurred by the mass migration of 2 million image files.</reasonForConsidering>
+<changelog created="2009-07-10T13:26:55" createdBy="wilson" changed="2009-07-10T13:50:58" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description>No action taken, simply retain the master image as a TIFF v5 file.</description>
+<settings>None</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-10T13:26:55" createdBy="wilson" changed="2009-07-15T13:36:46" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-10T13:26:55" createdBy="wilson" changed="2009-07-10T13:50:59" changedBy="wilson"/>
+</alternative>
+<alternative discarded="false" name="TIFF to PNG">
+<description>Convert TIFF v5 masters to PNG using service at http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl.</description>
+<action shortname="TIFF to PNG" url="http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl" actionIdentifier="Planets-local" info="planets:fmt/ext/tif&gt;planets:fmt/ext/png" targetFormat="planets:fmt/ext/png" executable="true">
+<params/>
+<changelog created="2009-07-19T18:50:55" createdBy="wilson" changed="2009-07-19T18:50:55"/>
+</action>
+<resourceDescription>
+<configSettings>compressionType = 0-10
+compressionQuality = 0-100</configSettings>
+<reasonForConsidering>PNG is a well documented and open standard that may be suitable for long term preservation and will be considered as an alternative.</reasonForConsidering>
+<changelog created="2009-07-10T15:21:36" createdBy="wilson" changed="2009-07-10T15:23:04" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description>Convert to PNG using ImageMagick: convert master.tif master.png</description>
+<settings>compressionType = 0&#13;
+compressionQuality = 100</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-10T15:21:36" createdBy="wilson" changed="2009-07-16T19:07:22" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-10T15:21:36" createdBy="wilson" changed="2009-07-10T15:23:08" changedBy="wilson"/>
+</alternative>
+<alternative discarded="true" name="TIFF to BMP">
+<description>Convert TIFF v5 masters to Windows Bitmap format.</description>
+<resourceDescription>
+<reasonForConsidering>Windows BMP is an uncompressed format that will be reviewed as a candidate for long term preservation of the newspaper masters.</reasonForConsidering>
+<changelog created="2009-07-10T15:23:18" createdBy="wilson" changed="2009-07-10T15:24:53" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description/>
+<settings/>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-10T15:23:18" createdBy="wilson" changed="2009-07-10T15:23:18"/>
+</experiment>
+<changelog created="2009-07-10T15:23:18" createdBy="wilson" changed="2009-07-10T17:25:21" changedBy="wilson"/>
+</alternative>
+<alternative discarded="true" name="TIFF to GIF">
+<description>Convert the TIFF v5 masters to the Graphic Interchange Format.</description>
+<resourceDescription>
+<reasonForConsidering>The GIF format uses lossless compression, the patents covering the compression routines that initiated the development of the PNG standard in the 1990s have since expired.</reasonForConsidering>
+<changelog created="2009-07-10T15:24:57" createdBy="wilson" changed="2009-07-10T15:48:32" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description/>
+<settings/>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-10T15:24:57" createdBy="wilson" changed="2009-07-10T15:24:57"/>
+</experiment>
+<changelog created="2009-07-10T15:24:57" createdBy="wilson" changed="2009-07-10T17:25:21" changedBy="wilson"/>
+</alternative>
+<alternative discarded="false" name="TIFF to JPEG">
+<description>Convert the TIFF v5 masters to the JPEG format using service at http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl.</description>
+<action shortname="TIFF to JPEG" url="http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl" actionIdentifier="Planets-local" info="planets:fmt/ext/tif&gt;planets:fmt/ext/jpg" targetFormat="planets:fmt/ext/jpg" executable="true">
+<params/>
+<changelog created="2009-07-19T18:50:55" createdBy="wilson" changed="2009-07-19T18:50:55"/>
+</action>
+<resourceDescription>
+<configSettings>compressionType = 0-10
+compressionQuality = 0-100</configSettings>
+<reasonForConsidering>JPEG is an open and ubiquitous standard with strong support.  JPEG compression will be used to save space by cutting down the size of the master images.</reasonForConsidering>
+<changelog created="2009-07-10T16:20:38" createdBy="wilson" changed="2009-07-10T16:22:06" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description>Convert to JPEG using ImageMagick: convert master.tif master.jpg</description>
+<settings>compressionType = 0&#13;
+compressionQuality = 100</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-10T16:20:38" createdBy="wilson" changed="2009-07-16T19:07:24" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-10T16:20:38" createdBy="wilson" changed="2009-07-10T16:25:35" changedBy="wilson"/>
+</alternative>
+<alternative discarded="false" name="TIFF to JPEG 2000">
+<description>Convert TIFF v5 masters to JPEG 2000 format using service at http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl.</description>
+<action shortname="TIFF to JPEG 2000" url="http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl" actionIdentifier="Planets-local" info="planets:fmt/ext/tif&gt;planets:fmt/ext/jp2" targetFormat="planets:fmt/ext/jp2" executable="true">
+<params/>
+<changelog created="2009-07-19T18:50:55" createdBy="wilson" changed="2009-07-19T18:50:55"/>
+</action>
+<resourceDescription>
+<configSettings>compressionType = 0-10
+compressionQuality = 0-100</configSettings>
+<changelog created="2009-07-10T17:24:05" createdBy="wilson" changed="2009-07-10T17:24:05"/>
+</resourceDescription>
+<experiment>
+<description>Convert to JPEG 2000 using ImageMagick: convert master.tif master.jp2</description>
+<settings>compressionType = 0&#13;
+compressionQuality = 100</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-10T17:24:05" createdBy="wilson" changed="2009-07-16T19:07:26" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-10T17:24:05" createdBy="wilson" changed="2009-07-10T17:24:52" changedBy="wilson"/>
+</alternative>
+<alternative discarded="false" name="TIFF to JP2 95">
+<description>Convert to JP2 at 95 compression using service at http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl.</description>
+<action shortname="TIFF to JP2 95" url="http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl" actionIdentifier="Planets-local" info="planets:fmt/ext/tif&gt;planets:fmt/ext/jp2" targetFormat="planets:fmt/ext/jp2" executable="true">
+<params/>
+<changelog created="2009-07-19T18:50:55" createdBy="wilson" changed="2009-07-19T18:50:55"/>
+</action>
+<resourceDescription>
+<configSettings>compressionType = 0-10
+compressionQuality = 0-100</configSettings>
+<reasonForConsidering>To investigate the space saving benefits of JP2K lossy compression versus the affect on image quality.</reasonForConsidering>
+<changelog created="2009-07-16T11:28:02" createdBy="wilson" changed="2009-07-16T11:44:39" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description>Convert to JPEG 2000 using ImageMagick: convert -quality 95 master.tif master.jp2</description>
+<settings>compressionType = 0&#13;
+compressionQuality = 95</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-16T11:28:02" createdBy="wilson" changed="2009-07-16T19:07:31" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-16T11:28:02" createdBy="wilson" changed="2009-07-16T11:44:39" changedBy="wilson"/>
+</alternative>
+<alternative discarded="false" name="TIFF to JP2 90">
+<description>Convert to JP2 at 90 compression using service at http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl.</description>
+<action shortname="TIFF to JP2 90" url="http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl" actionIdentifier="Planets-local" info="planets:fmt/ext/tif&gt;planets:fmt/ext/jp2" targetFormat="planets:fmt/ext/jp2" executable="true">
+<params/>
+<changelog created="2009-07-19T18:50:55" createdBy="wilson" changed="2009-07-19T18:50:55"/>
+</action>
+<resourceDescription>
+<configSettings>compressionType = 0-10
+compressionQuality = 0-100</configSettings>
+<reasonForConsidering>To investigate the space saving benefits of JP2K lossy compression versus the affect on image quality.</reasonForConsidering>
+<changelog created="2009-07-16T11:43:37" createdBy="wilson" changed="2009-07-16T11:44:21" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description>Convert to JPEG 2000 using ImageMagick: convert -quality 90 master.tif master.jp2</description>
+<settings>compressionType = 0&#13;
+compressionQuality = 90</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-16T11:43:37" createdBy="wilson" changed="2009-07-16T19:07:32" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-16T11:43:37" createdBy="wilson" changed="2009-07-16T11:44:21" changedBy="wilson"/>
+</alternative>
+<alternative discarded="false" name="TIFF to JP2 80">
+<description>Convert to JP2 at 80 compression using service at http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl.</description>
+<action shortname="TIFF to JP2 80" url="http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl" actionIdentifier="Planets-local" info="planets:fmt/ext/tif&gt;planets:fmt/ext/jp2" targetFormat="planets:fmt/ext/jp2" executable="true">
+<params/>
+<changelog created="2009-07-19T18:50:55" createdBy="wilson" changed="2009-07-19T18:50:55"/>
+</action>
+<resourceDescription>
+<configSettings>compressionType = 0-10
+compressionQuality = 0-100</configSettings>
+<reasonForConsidering>To investigate the space saving benefits of JP2K lossy compression versus the affect on image quality.</reasonForConsidering>
+<changelog created="2009-07-16T11:45:03" createdBy="wilson" changed="2009-07-16T11:45:41" changedBy="wilson"/>
+</resourceDescription>
+<experiment>
+<description>Convert to JPEG 2000 using ImageMagick: convert -quality 80 master.tif master.jp2</description>
+<settings>compressionType = 0&#13;
+compressionQuality = 80</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="Good Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Poor Quality" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+<detailedInfo key="Small Text" successful="true">
+<programOutput>Service http://localhost:8080/pserv-pa-imagemagick/ImageMagickMigrate?wsdl successfully migrated object.</programOutput>
+<cpr/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2009-07-16T11:45:03" createdBy="wilson" changed="2009-07-16T19:07:34" changedBy="wilson"/>
+</experiment>
+<changelog created="2009-07-16T11:45:03" createdBy="wilson" changed="2009-07-16T11:45:41" changedBy="wilson"/>
+</alternative>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-16T11:45:41" changedBy="wilson"/>
+</alternatives>
+<decision>
+<reason>TIF v5, PNG, JPG and JPG 2000 are all potentially viable formats for long term preservation of the BL's newspaper master images.  GIF and BMP were ruled out, GIF due to the palette size limitations (only 256 colours), and BMPs due to the large file sizes and lack of compression options.</reason>
+<actionNeeded>Perform some test migrations and investigate the properties of the formats and the conversions tools.</actionNeeded>
+<goDecision value="GO"/>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-10T12:44:34" changedBy="wilson"/>
+</decision>
+<evaluation>
+<comment/>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-08T16:17:24"/>
+</evaluation>
+<importanceWeighting>
+<comment/>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-08T16:17:24"/>
+</importanceWeighting>
+<recommendation alternativeName="TIFF to JPEG 2000">
+<reasoning>Although little to choose between TIFF and JPEG 2000, the smaller JPEG 2000 files will reduce the long term preservation costs.  TIFF is not a recognized ISO standard either.</reasoning>
+<effects>There is a one off cost of migration of the TIFF masters to JPEG 2000.  The ingest and long term storage costs for the Digital Library System should be reduced.</effects>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-08T16:17:24"/>
+</recommendation>
+<transformation>
+<comment/>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-08T16:17:24"/>
+</transformation>
+<tree weightsInitialized="true">
+<node name="BL Newspapers" weight="1.0" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-08T16:39:56"/>
+<node name="Object characteristic" weight="0.2" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-17T16:38:30" changedBy="wilson"/>
+<node name="Content" weight="1.0" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-15T17:31:04" changedBy="wilson"/>
+<node name="Pixel Data" weight="0.9" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-17T14:48:35" changedBy="wilson"/>
+<leaf name="Image Quality" weight="0.2" single="false" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T07:13:05" changedBy="admin"/>
+<aggregationMode value="AVERAGE"/>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2011-06-30T06:25:37" createdBy="admin" changed="2011-06-30T06:25:37"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="3.0"/>
+<mapping ordinal="poor" target="1.0"/>
+<mapping ordinal="good" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:25:37" createdBy="admin" changed="2011-06-30T07:13:07" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/quality</propertyId>
+<name>image: image quality</name>
+<description>Judged quality of the whole image.</description>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:23" createdBy="admin" changed="2012-02-24T09:44:23"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Text Quality" weight="0.2" single="false" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T07:13:13" changedBy="admin"/>
+<aggregationMode value="AVERAGE"/>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2011-06-30T06:25:48" createdBy="admin" changed="2011-06-30T06:25:48"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="3.0"/>
+<mapping ordinal="poor" target="1.0"/>
+<mapping ordinal="good" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:25:48" createdBy="admin" changed="2011-06-30T07:13:19" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/textQuality</propertyId>
+<name>image: text quality</name>
+<description>Judged text quality in the given image.</description>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:43:59" createdBy="admin" changed="2012-02-24T09:43:59"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+<ordinalResult>
+<value>poor</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Image Width Match" weight="0.2" single="false" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T06:25:52" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="equality" restriction="Yes/No">
+<changelog created="2011-06-30T06:26:10" createdBy="admin" changed="2011-06-30T06:26:10"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2011-06-30T06:26:10" createdBy="admin" changed="2011-06-30T07:13:38" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/width</propertyId>
+<name>image: width</name>
+<description>Width of an image, measured in number of pixels on the x-axis.</description>
+<positiveIntegerScale unit="pixel" restriction="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</positiveIntegerScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<metric>
+<metricId>equal</metricId>
+<name>equal</name>
+<description>Comparison of two values for equality</description>
+<booleanScale unit="equality" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</metric>
+<changelog created="2012-02-24T09:44:09" createdBy="admin" changed="2012-02-24T09:44:09"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Image Height Match" weight="0.2" single="false" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T06:25:54" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="equality" restriction="Yes/No">
+<changelog created="2011-06-30T06:26:23" createdBy="admin" changed="2011-06-30T06:26:23"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2011-06-30T06:26:23" createdBy="admin" changed="2011-06-30T07:13:46" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/height</propertyId>
+<name>image: height</name>
+<description>Height of an image, measured in number of pixels on the y-axis.</description>
+<positiveIntegerScale unit="pixel" restriction="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</positiveIntegerScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<metric>
+<metricId>equal</metricId>
+<name>equal</name>
+<description>Comparison of two values for equality</description>
+<booleanScale unit="equality" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</metric>
+<changelog created="2012-02-24T09:44:21" createdBy="admin" changed="2012-02-24T09:44:21"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Image Colour Space Match" weight="0.2" single="false" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T06:25:55" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="equality" restriction="Yes/No">
+<changelog created="2011-06-30T06:26:42" createdBy="admin" changed="2011-06-30T06:26:42"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2011-06-30T06:26:42" createdBy="admin" changed="2011-06-30T07:13:55" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/colourSpace</propertyId>
+<name>image: colour space</name>
+<description>Colour model of the decompressed image data.</description>
+<freeStringScale unit="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</freeStringScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<metric>
+<metricId>equal</metricId>
+<name>equal</name>
+<description>Comparison of two values for equality</description>
+<booleanScale unit="equality" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</metric>
+<changelog created="2012-02-24T09:44:30" createdBy="admin" changed="2012-02-24T09:44:30"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<comment>Colour distribution altered by compression</comment>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<comment>Colour distribution altered by compression</comment>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-13T13:06:27" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<comment>Colour distribution altered by compression</comment>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<comment>Colour distribution altered by compression</comment>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="Metadata" weight="0.1" lock="false">
+<description/>
+<changelog created="2009-07-15T15:53:48" createdBy="wilson" changed="2009-07-17T14:48:35" changedBy="wilson"/>
+<leaf name="TIFF properties retained" weight="0.33" single="false" lock="false">
+<description/>
+<changelog created="2009-07-15T15:53:54" createdBy="wilson" changed="2011-06-30T06:26:54" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="retained" restriction="Yes/No">
+<changelog created="2011-06-30T06:28:33" createdBy="admin" changed="2011-06-30T06:28:33"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="4.0"/>
+</mappings>
+<changelog created="2011-06-30T06:28:33" createdBy="admin" changed="2011-06-30T07:14:09" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/metadata/tiff/data</propertyId>
+<name>image metadata: tiff properties</name>
+<description>Tiff properties data</description>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<metric>
+<metricId>retained</metricId>
+<name>retained</name>
+<description>Indicator if all values in source measurement do exist in result measurement</description>
+<booleanScale unit="retained" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</metric>
+<changelog created="2012-02-24T09:43:55" createdBy="admin" changed="2012-02-24T09:43:55"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<comment>TIFF properties to be retained in metadata file</comment>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<comment>TIFF properties to be retained in metadata file</comment>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<comment>TIFF properties to be retained in metadata file</comment>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<comment>TIFF properties to be retained in metadata file</comment>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<comment>TIFF properties to be retained in metadata file</comment>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Resolution retained" weight="0.34" single="false" lock="false">
+<description/>
+<changelog created="2009-07-15T15:54:42" createdBy="wilson" changed="2011-06-30T06:26:56" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="retained" restriction="Yes/No">
+<changelog created="2011-06-30T06:29:02" createdBy="admin" changed="2011-06-30T06:29:02"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="4.0"/>
+</mappings>
+<changelog created="2011-06-30T06:29:02" createdBy="admin" changed="2011-06-30T07:14:15" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/metadata/imageResolution</propertyId>
+<name>image metadata: image resolution</name>
+<description>Image resoluion represented as string.</description>
+<freeStringScale unit="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</freeStringScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<metric>
+<metricId>retained</metricId>
+<name>retained</name>
+<description>Indicator if all values in source measurement do exist in result measurement</description>
+<booleanScale unit="retained" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</metric>
+<changelog created="2012-02-24T09:44:07" createdBy="admin" changed="2012-02-24T09:44:07"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Resolution Units retained" weight="0.33" single="false" lock="false">
+<description/>
+<changelog created="2009-07-15T15:54:57" createdBy="wilson" changed="2011-06-30T06:26:58" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="retained" restriction="Yes/No">
+<changelog created="2011-06-30T06:29:16" createdBy="admin" changed="2011-06-30T06:29:16"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="4.0"/>
+</mappings>
+<changelog created="2011-06-30T06:29:16" createdBy="admin" changed="2011-06-30T07:14:24" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>image/metadata/resolutionUnit</propertyId>
+<name>image metadata: resolution unit</name>
+<description>Defines the unit of measure used to determine image height and image width.</description>
+<freeStringScale unit="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</freeStringScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<metric>
+<metricId>retained</metricId>
+<name>retained</name>
+<description>Indicator if all values in source measurement do exist in result measurement</description>
+<booleanScale unit="retained" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</metric>
+<changelog created="2012-02-24T09:44:05" createdBy="admin" changed="2012-02-24T09:44:05"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T15:57:02" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+</node>
+<node name="Costs" weight="0.4" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-17T16:38:18" changedBy="wilson"/>
+<leaf name="Bit-stream Preservation" weight="0.9" single="true" lock="true">
+<description/>
+<changelog created="2009-07-15T16:17:48" createdBy="wilson" changed="2012-02-24T09:54:46" changedBy="admin"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="Euro/object/10 years" restriction="">
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:54:46" changedBy="admin"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="LINEAR"/>
+<thresholds>
+<threshold1>0.24</threshold1>
+<threshold2>0.18</threshold2>
+<threshold3>0.12</threshold3>
+<threshold4>0.06</threshold4>
+<threshold5>0.0</threshold5>
+</thresholds>
+<changelog created="2012-02-24T09:56:08" createdBy="admin" changed="2012-02-24T10:40:32" changedBy="admin"/>
+</numericTransformer>
+<criterion>
+<property>
+<category>outcome:effect</category>
+<propertyId>costs/archivalStorageQuantitative</propertyId>
+<name>quantitative archival storage costs</name>
+<description>Quantitative archival storage costs per object over a time period of 10 years.</description>
+<positiveFloatScale unit="Euro/object/10 years" restriction="">
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:54:46" changedBy="admin"/>
+</positiveFloatScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:14" createdBy="admin" changed="2012-02-24T09:44:14"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<positiveFloatResult>
+<value>0.09</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<positiveFloatResult>
+<value>0.21</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="Do Nothing">
+<positiveFloatResult>
+<value>0.18</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<positiveFloatResult>
+<value>0.14</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<positiveFloatResult>
+<value>0.02</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<positiveFloatResult>
+<value>0.06</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<positiveFloatResult>
+<value>0.04</value>
+<comment/>
+<changelog created="2012-02-24T09:56:19" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Process" weight="0.1" single="true" lock="false">
+<description/>
+<changelog created="2009-07-15T16:17:26" createdBy="wilson" changed="2012-02-24T09:55:12" changedBy="admin"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="Euro/object" restriction="">
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:55:12" changedBy="admin"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="LINEAR"/>
+<thresholds>
+<threshold1>0.002354</threshold1>
+<threshold2>0.001765</threshold2>
+<threshold3>0.001177</threshold3>
+<threshold4>0.000588</threshold4>
+<threshold5>0.0</threshold5>
+</thresholds>
+<changelog created="2012-02-24T09:56:08" createdBy="admin" changed="2012-02-24T10:40:41" changedBy="admin"/>
+</numericTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>business/costs/execution/totalPerObject</propertyId>
+<name>business: costs: execution: total per object</name>
+<description>Total action-tool execution costs incurring per object.</description>
+<positiveFloatScale unit="Euro/object" restriction="">
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:55:12" changedBy="admin"/>
+</positiveFloatScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:06" createdBy="admin" changed="2012-02-24T09:44:06"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<positiveFloatResult>
+<value>0.000824</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<positiveFloatResult>
+<value>0.002354</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="Do Nothing">
+<positiveFloatResult>
+<value>0.0</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<positiveFloatResult>
+<value>0.001177</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<positiveFloatResult>
+<value>0.000118</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<positiveFloatResult>
+<value>0.000824</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<positiveFloatResult>
+<value>0.000824</value>
+<comment/>
+<changelog created="2009-07-16T12:26:37" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="Characteristics of Complete Process" weight="0.1" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-17T16:38:40" changedBy="wilson"/>
+<leaf name="Automated QA Possible" weight="0.8" single="true" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-07-14T22:36:21" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2011-07-14T22:38:15" createdBy="admin" changed="2011-07-14T22:38:15"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2011-07-14T22:38:15" createdBy="admin" changed="2011-07-14T22:39:29" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:effect</category>
+<propertyId>automatedQAPossible</propertyId>
+<name>automated quality assurance possible</name>
+<description>Indicates if the outcome supports automated quality assurance.</description>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</booleanScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:36" createdBy="admin" changed="2012-02-24T09:44:36"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="Do Nothing">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<booleanResult>
+<value>No</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Performance" weight="0.2" single="false" lock="false">
+<description/>
+<changelog created="2009-07-08T16:54:08" createdBy="wilson" changed="2011-06-30T06:36:25" changedBy="wilson"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="ms/MB" restriction="">
+<changelog created="2011-06-30T06:36:39" createdBy="admin" changed="2011-06-30T06:36:39"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="LINEAR"/>
+<thresholds>
+<threshold1>2000.0</threshold1>
+<threshold2>1500.0</threshold2>
+<threshold3>1000.0</threshold3>
+<threshold4>500.0</threshold4>
+<threshold5>0.0</threshold5>
+</thresholds>
+<changelog created="2011-06-30T06:36:39" createdBy="admin" changed="2011-06-30T07:16:36" changedBy="admin"/>
+</numericTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>performanceEfficiency/timeBehaviour/timePerMB</propertyId>
+<name>performance efficiency: time per MB</name>
+<description>Elapsed processing time used per MB, measured in milliseconds.</description>
+<positiveFloatScale unit="ms/MB" restriction="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</positiveFloatScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:43:53" createdBy="admin" changed="2012-02-24T09:43:53"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<positiveFloatResult>
+<value>2000.0</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>2000.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>2000.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="Do Nothing">
+<positiveFloatResult>
+<value>2000.0</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<positiveFloatResult>
+<value>1000.0</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>1000.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>1000.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<positiveFloatResult>
+<value>100.0</value>
+<comment/>
+<changelog created="2009-07-15T12:44:12" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>100.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>100.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2009-07-16T12:19:17" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>700.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="File Format" weight="0.2" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2009-07-17T16:38:37" changedBy="wilson"/>
+<leaf name="Tool Support" weight="0.08" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:57:53" createdBy="wilson" changed="2009-07-17T14:50:33" changedBy="wilson"/>
+<aggregationMode value="AVERAGE"/>
+<positiveIntegerScale unit="# tools" restriction="">
+<changelog created="2011-06-30T06:37:39" createdBy="admin" changed="2011-06-30T06:37:39"/>
+</positiveIntegerScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>1.0</threshold1>
+<threshold2>2.0</threshold2>
+<threshold3>3.0</threshold3>
+<threshold4>5.0</threshold4>
+<threshold5>10.0</threshold5>
+</thresholds>
+<changelog created="2011-06-30T06:37:39" createdBy="admin" changed="2011-06-30T07:24:58" changedBy="admin"/>
+</numericTransformer>
+<criterion>
+<property>
+<category>outcome:format</category>
+<propertyId>sustainability/adaption/toolSupport/nrOfTools</propertyId>
+<name># of tools</name>
+<description>Number of all tools which support the outcome format.</description>
+<positiveIntegerScale unit="# tools" restriction="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</positiveIntegerScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:33" createdBy="admin" changed="2012-02-24T09:44:33"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<positiveIntegerResult>
+<value>3</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<positiveIntegerResult>
+<value>10</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+<alternative key="Do Nothing">
+<positiveIntegerResult>
+<value>10</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<positiveIntegerResult>
+<value>3</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<positiveIntegerResult>
+<value>10</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<positiveIntegerResult>
+<value>3</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<positiveIntegerResult>
+<value>3</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveIntegerResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Open specification" weight="0.09" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:58:02" createdBy="wilson" changed="2011-06-30T06:38:47" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="yes-free/yes-pay/no">
+<changelog created="2011-06-30T06:39:07" createdBy="admin" changed="2011-06-30T06:39:07"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="yes-free" target="5.0"/>
+<mapping ordinal="no" target="1.0"/>
+<mapping ordinal="yes-pay" target="4.0"/>
+</mappings>
+<changelog created="2011-06-30T06:39:07" createdBy="admin" changed="2011-06-30T07:17:51" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:format</category>
+<propertyId>sustainability/disclosure/documentation/availability</propertyId>
+<name>documentation availibility</name>
+<description>Availability of the outcome format documentation.</description>
+<ordinalScale unit="" restriction="yes-free/yes-pay/no">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:01" createdBy="admin" changed="2012-02-24T09:44:01"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="ISO standard" weight="0.25" single="true" lock="true">
+<description/>
+<changelog created="2009-07-08T16:58:11" createdBy="wilson" changed="2011-06-30T06:38:51" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="international standard/de facto standard/none">
+<changelog created="2011-06-30T06:39:15" createdBy="admin" changed="2011-06-30T06:39:15"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="de facto standard" target="4.0"/>
+<mapping ordinal="international standard" target="5.0"/>
+<mapping ordinal="none" target="1.0"/>
+</mappings>
+<changelog created="2011-06-30T06:39:15" createdBy="admin" changed="2011-06-30T07:18:03" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:format</category>
+<propertyId>sustainability/stability/standardization</propertyId>
+<name>standardization</name>
+<description>Standardization of the outcome format.</description>
+<ordinalScale unit="" restriction="international standard/de facto standard/none">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:04" createdBy="admin" changed="2012-02-24T09:44:04"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>none</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Compression" weight="0.2" single="true" lock="true">
+<description/>
+<changelog created="2009-07-16T18:56:56" createdBy="wilson" changed="2011-06-30T06:38:52" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="none/lossless/lossy">
+<changelog created="2011-06-30T06:39:22" createdBy="admin" changed="2011-06-30T06:39:22"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="lossless" target="5.0"/>
+<mapping ordinal="lossy" target="0.0"/>
+<mapping ordinal="none" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:39:22" createdBy="admin" changed="2011-06-30T07:18:19" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:format</category>
+<propertyId>sustainability/transparency/compression</propertyId>
+<name>compression</name>
+<description>Compression used in outcome format.</description>
+<ordinalScale unit="" restriction="none/lossless/lossy">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:31" createdBy="admin" changed="2012-02-24T09:44:31"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>lossy</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>lossless</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>lossless</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>lossless</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>lossy</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>lossy</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>lossy</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Ease of Identification" weight="0.08" single="true" lock="false">
+<description/>
+<changelog created="2009-07-16T18:57:57" createdBy="wilson" changed="2011-06-30T06:38:53" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="automatic_specific/automatic_generic/automatic_tentative/manual/none">
+<changelog created="2011-06-30T06:39:34" createdBy="admin" changed="2011-06-30T06:39:34"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="manual" target="2.0"/>
+<mapping ordinal="automatic_specific" target="5.0"/>
+<mapping ordinal="automatic_generic" target="5.0"/>
+<mapping ordinal="none" target="0.0"/>
+<mapping ordinal="automatic_tentative" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:39:34" createdBy="admin" changed="2011-06-30T07:18:38" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:format</category>
+<propertyId>sustainability/disclosure/identificationPossibilities</propertyId>
+<name>identification possibilities</name>
+<description>Possibilies to identify the outcome format.</description>
+<ordinalScale unit="" restriction="automatic_specific/automatic_generic/automatic_tentative/manual/none">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:25" createdBy="admin" changed="2012-02-24T09:44:25"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<comment>Cannot easily obtain TIFF version number</comment>
+<ordinalResult>
+<value>manual</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Complexity" weight="0.25" single="true" lock="true">
+<description/>
+<changelog created="2009-07-16T18:58:58" createdBy="wilson" changed="2011-06-30T06:38:55" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="high/medium/low">
+<changelog created="2011-06-30T06:39:41" createdBy="admin" changed="2011-06-30T06:39:41"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="high" target="1.0"/>
+<mapping ordinal="low" target="5.0"/>
+<mapping ordinal="medium" target="3.0"/>
+</mappings>
+<changelog created="2011-06-30T06:39:41" createdBy="admin" changed="2011-06-30T07:18:49" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>outcome:format</category>
+<propertyId>sustainability/transparency/complexity</propertyId>
+<name>complexity</name>
+<description>Complexity of the outcome format.</description>
+<ordinalScale unit="" restriction="high/medium/low">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:02" createdBy="admin" changed="2012-02-24T09:44:02"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>high</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>medium</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>high</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>high</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>medium</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>high</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>high</value>
+<comment/>
+<changelog created="2009-07-16T19:07:45" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Comparative Size" weight="0.05" single="false" lock="true">
+<description/>
+<changelog created="2009-07-16T18:59:39" createdBy="wilson" changed="2011-06-30T06:38:56" changedBy="wilson"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="output/input ratio" restriction="">
+<changelog created="2011-06-30T06:39:51" createdBy="admin" changed="2011-06-30T06:39:51"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>10.0</threshold1>
+<threshold2>1.5</threshold2>
+<threshold3>1.0</threshold3>
+<threshold4>0.8</threshold4>
+<threshold5>0.2</threshold5>
+</thresholds>
+<changelog created="2011-06-30T06:39:51" createdBy="admin" changed="2011-06-30T07:20:52" changedBy="admin"/>
+</numericTransformer>
+<criterion>
+<property>
+<category>outcome:object</category>
+<propertyId>relativeFileSize</propertyId>
+<name>relative filesize</name>
+<description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
+<positiveFloatScale unit="output/input ratio" restriction="">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</positiveFloatScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:43:59" createdBy="admin" changed="2012-02-24T09:43:59"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<positiveFloatResult>
+<value>2.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>2.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>2.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="Do Nothing">
+<positiveFloatResult>
+<value>1.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>1.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>1.0</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<positiveFloatResult>
+<value>0.6</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.6</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.6</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+<positiveFloatResult>
+<value>0.1</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="Tool" weight="0.1" lock="true">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2012-02-24T09:53:55" changedBy="admin"/>
+<leaf name="Actvity Logging" weight="0.2" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:58:50" createdBy="wilson" changed="2011-06-30T06:45:00" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="good/acceptable/poor/no">
+<changelog created="2011-06-30T06:45:13" createdBy="admin" changed="2011-06-30T06:45:13"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="4.0"/>
+<mapping ordinal="no" target="0.0"/>
+<mapping ordinal="poor" target="3.0"/>
+<mapping ordinal="good" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:45:13" createdBy="admin" changed="2011-06-30T07:22:03" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>functionalSuitability/functionalCompleteness/generic/activityTraceability</propertyId>
+<name>functional suitability: activity traceability</name>
+<description>Indicates to which degree the activities performed by the action-tool are traceable.</description>
+<ordinalScale unit="" restriction="good/acceptable/poor/no">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:37" createdBy="admin" changed="2012-02-24T09:44:37"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Stability" weight="0.2" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:59:33" createdBy="wilson" changed="2011-06-30T06:45:02" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="stable/largely stable/unstable">
+<changelog created="2011-06-30T06:45:33" createdBy="admin" changed="2011-06-30T06:45:33"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="unstable" target="1.0"/>
+<mapping ordinal="largely stable" target="3.0"/>
+<mapping ordinal="stable" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:45:33" createdBy="admin" changed="2011-06-30T07:22:41" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>reliability/maturity/stability</propertyId>
+<name>reliability: runtime stability</name>
+<description>Runtime stability of the action-tool.</description>
+<ordinalScale unit="" restriction="stable/largely stable/unstable">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:15" createdBy="admin" changed="2012-02-24T09:44:15"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>largely stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>largely stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>largely stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>largely stable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Ease of Planets IF integration" weight="0.2" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:59:41" createdBy="wilson" changed="2011-06-30T06:45:04" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="good/acceptable/poor/not possible">
+<changelog created="2011-06-30T06:45:52" createdBy="admin" changed="2011-06-30T06:45:52"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="3.0"/>
+<mapping ordinal="poor" target="1.0"/>
+<mapping ordinal="good" target="5.0"/>
+<mapping ordinal="not possible" target="0.0"/>
+</mappings>
+<changelog created="2011-06-30T06:45:52" createdBy="admin" changed="2011-06-30T07:22:53" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>portability/installability/easeOfIntegrationInCurrentEnvironment</propertyId>
+<name>portability: ease of integration in current environment</name>
+<description>Assessment of how easy it is to integrate the action-tool into the current used server environment.</description>
+<ordinalScale unit="" restriction="good/acceptable/poor/not possible">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:00" createdBy="admin" changed="2012-02-24T09:44:00"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>acceptable</value>
+<comment/>
+<changelog created="2011-06-30T06:47:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Open Source" weight="0.2" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T06:45:06" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="openSource/closedSource">
+<changelog created="2011-06-30T06:46:08" createdBy="admin" changed="2011-06-30T06:46:08"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="openSource" target="5.0"/>
+<mapping ordinal="closedSource" target="0.0"/>
+</mappings>
+<changelog created="2011-06-30T06:46:08" createdBy="admin" changed="2011-06-30T07:23:07" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>business/licencingSchema</propertyId>
+<name>business: licencing schema</name>
+<description>Licence applying to the action-tool.</description>
+<ordinalScale unit="" restriction="openSource/closedSource">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:44:30" createdBy="admin" changed="2012-02-24T09:44:30"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="Usability" weight="0.2" single="true" lock="false">
+<description/>
+<changelog created="2009-07-08T16:39:56" createdBy="wilson" changed="2011-06-30T06:45:08" changedBy="wilson"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2011-06-30T06:46:21" createdBy="admin" changed="2011-06-30T06:46:21"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="3.0"/>
+<mapping ordinal="poor" target="1.0"/>
+<mapping ordinal="good" target="5.0"/>
+</mappings>
+<changelog created="2011-06-30T06:46:21" createdBy="admin" changed="2011-06-30T07:23:18" changedBy="admin"/>
+</ordinalTransformer>
+<criterion>
+<property>
+<category>action</category>
+<propertyId>usability/operability/easeOfUse</propertyId>
+<name>usability: ease of use</name>
+<description>Assessment of how easy it is to use the action-tool.</description>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2012-02-24T09:43:39" changed="2012-02-24T09:43:39"/>
+</ordinalScale>
+<changelog created="2012-02-24T09:43:39" createdBy="admin" changed="2012-02-24T09:43:39"/>
+</property>
+<changelog created="2012-02-24T09:43:59" createdBy="admin" changed="2012-02-24T09:43:59"/>
+</criterion>
+<evaluation>
+<alternative key="TIFF to JP2 95">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to PNG">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="Do Nothing">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG 2000">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JPEG">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 90">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+<alternative key="TIFF to JP2 80">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2009-07-17T14:33:41" changed="2012-02-24T10:12:47"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+</tree>
+<executablePlan>
+<changelog created="2012-02-24T09:48:08" createdBy="admin" changed="2012-02-24T09:48:08"/>
+</executablePlan>
+<planDefinition currency="EUR">
+<responsibleExecution>Paul Wheatley</responsibleExecution>
+<responsibleMonitoring>Digital Preservation Team</responsibleMonitoring>
+<triggers>
+<trigger type="NEW_COLLECTION" active="false"/>
+<trigger type="PERIODIC_REVIEW" active="false"/>
+<trigger type="CHANGED_ENVIRONMENT" active="false"/>
+<trigger type="CHANGED_OBJECTIVE" active="false"/>
+<trigger type="CHANGED_COLLECTION_PROFILE" active="false"/>
+</triggers>
+<changelog created="2009-07-08T16:17:24" createdBy="wilson" changed="2009-07-20T22:16:44" changedBy="admin"/>
+</planDefinition>
+</plan>
+</plans>

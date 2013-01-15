@@ -44,7 +44,7 @@ public class CriteriaManagerTest {
 	
 	@Test
 	public void testRetriveSingleMeasureBasic() {
-		Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/31");
+		Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/3");
 		Assert.assertNotNull(m);
 	}
 
