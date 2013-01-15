@@ -18,7 +18,7 @@
                 IF parent IS NULL THEN
                     SET relWeight = wght;
                 ELSE 
-                    CALL calculateRelativeWeight(parent, parentRelWeight);
+                    CALL calculateTotalWeight(parent, parentRelWeight);
                     SET relWeight = wght * parentRelWeight;
                 END IF;
             END;
@@ -28,7 +28,7 @@
         </drop>    
     </database-object>
     
-    <!-- stored function used as a wrapper for calculateRelativeWeight(), to be used in SELECT statements. -->
+    <!-- stored function used as a wrapper for calculateTotalWeight(), to be used in SELECT statements. -->
     <database-object>
         <create>
             CREATE FUNCTION totalWeight(tnId INTEGER)
@@ -36,7 +36,7 @@
             BEGIN
                 DECLARE relWeight DOUBLE;
                 
-                CALL calculateRelativeWeight(tnId, relWeight);
+                CALL calculateTotalWeight(tnId, relWeight);
                 
                 RETURN relWeight;
             END;

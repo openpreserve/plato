@@ -12,15 +12,19 @@
 <cc:interface>
 	<cc:attribute name="id" required="false" />
 	<cc:attribute name="criterionSelector" />
-	<cc:attribute name="changeListener" required="false" />
 	<cc:attribute name="renderOnCategoryChanged" required="false" />
 	<cc:attribute name="renderOnAttributeChanged" required="false" />
 	<cc:attribute name="renderOnMeasureChanged" required="false" />
 </cc:interface>
 
 <cc:implementation>
+
+	<h:outputStylesheet library="css" name="criterionselector.css"
+		target="head" />
+
 	<div class="component">
-		<table>
+
+		<table class="criterionselector-table">
 			<tr>
 				<th></th>
 				<th>Measure selection</th>
@@ -40,8 +44,8 @@
 							var="cat" noSelectionValue="(all)" itemLabel="#{cat.name}"
 							itemValue="#{cat.name}" />
 						<a4j:ajax event="change"
-							render="#{cc.attrs.id}_attributes_select #{cc.attrs.id}_measures_select #{cc.attrs.id}_measure_description #{cc.attrs.id}_children #{cc.attrs.renderOnMeasureChanged}"
-							listener="#{cc.attrs.criterionSelector.applyFilter}" />
+							render="#{cc.attrs.id}_attributes_select #{cc.attrs.id}_measures_select #{cc.attrs.id}_measure_description #{cc.attrs.id}_children #{cc.attrs.renderOnCategoryChanged} #{cc.attrs.renderOnAttributeChanged} #{cc.attrs.renderOnMeasureChanged}"
+							listener="#{cc.attrs.criterionSelector.categorySelected}" />
 					</h:selectOneListbox></td>
 				<td><h:selectOneListbox size="7"
 						id="#{cc.attrs.id}_attributes_select"
@@ -52,8 +56,8 @@
 							var="attr" itemLabel="#{attr.name}" itemValue="#{attr.name}"
 							noSelectionValue="(all)" />
 						<a4j:ajax event="change"
-							render="#{cc.attrs.id}_measures_select #{cc.attrs.id}_measure_description #{cc.attrs.id}_children #{cc.attrs.renderOnMeasureChanged}"
-							listener="#{cc.attrs.criterionSelector.applyFilter}" />
+							render="#{cc.attrs.id}_measures_select #{cc.attrs.id}_measure_description #{cc.attrs.id}_children #{cc.attrs.renderOnAttributeChanged} #{cc.attrs.renderOnMeasureChanged}"
+							listener="#{cc.attrs.criterionSelector.attributeSelected}" />
 					</h:selectOneListbox></td>
 				<td><h:selectOneListbox size="7"
 						id="#{cc.attrs.id}_measures_select"
@@ -64,11 +68,8 @@
 							var="measure" itemLabel="#{measure.name}"
 							itemValue="#{measure.name}" noSelectionLabel="(none)" />
 						<a4j:ajax event="change"
-							render="#{cc.attrs.id}_measure_description, #{cc.attrs.id}_children #{cc.attrs.renderOnMeasureChanged}"
-							listener="#{cc.attrs.criterionSelector.applyFilter}" />
-						<a4j:ajax event="change"
-							disabled="#{empty cc.attrs.changeListener}"
-							listener="#{cc.attrs.changeListener.measureChanged}" />
+							render="#{cc.attrs.id}_measure_description #{cc.attrs.id}_children #{cc.attrs.renderOnMeasureChanged}"
+							listener="#{cc.attrs.criterionSelector.measureSelected}" />
 					</h:selectOneListbox></td>
 			</tr>
 		</table>

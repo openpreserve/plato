@@ -62,32 +62,32 @@ body {
 }
 
 #feedback {
-    position: fixed;
-    top: 50%;
-    right: -70px;
-    width: 150px;
-    height: 30px;
-    border: 3px solid white;
-    background-color: #0D709E;
-    color: white;
-    -webkit-transform:rotate(270deg);
-    -moz-transform:rotate(270deg);
-    -o-transform: rotate(270deg);
-	-ms-transform:rotate(270deg);
-    transform: rotate(270deg);
-    text-align: center;
-    vertical-align: center;
-    padding-top: 5px;
-    padding-bottom: 20px;
-    font-weight: bold;
-    letter-spacing:2px
+	position: fixed;
+	top: 50%;
+	right: -70px;
+	width: 150px;
+	height: 30px;
+	border: 3px solid white;
+	background-color: #0D709E;
+	color: white;
+	-webkit-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	-ms-transform: rotate(270deg);
+	transform: rotate(270deg);
+	text-align: center;
+	vertical-align: center;
+	padding-top: 5px;
+	padding-bottom: 20px;
+	font-weight: bold;
+	letter-spacing: 2px
 }
 
-#feedback a{
+#feedback a {
 	color: white;
 	font-size: 22px;
-    font-family: "Courier New", Courier, monospace;
-    cursor: pointer;
+	font-family: "Courier New", Courier, monospace;
+	cursor: pointer;
 }
 
 #content {
@@ -176,7 +176,8 @@ a.anchors {
 
 .wfdescription {
 	padding-top: 10px;
-	margin-right: 50px; vertical-align : center;
+	margin-right: 50px;
+	vertical-align: center;
 	font-size: 13px;
 	font-family: Helvetica;
 	font-style: italic;
@@ -189,7 +190,8 @@ a.anchors {
 }
 
 fieldset.size-full {
-	clear: both; background : #F2F2F2;
+	clear: both;
+	background: #F2F2F2;
 	text-align: left;
 	/*width:95%;*/
 	/*margin-left: 2%;*/
@@ -551,7 +553,8 @@ input.discard-button:hover {
 
 input.proceed-button {
 	float: right;
-	margin-right: 50px; -moz-box-shadow : inset 0px 1px 0px 0px #caefab;
+	margin-right: 50px;
+	-moz-box-shadow: inset 0px 1px 0px 0px #caefab;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #caefab;
 	box-shadow: inset 0px 1px 0px 0px #caefab;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77d42a
@@ -573,6 +576,12 @@ input.proceed-button {
 	text-shadow: 1px 1px 0px #aade7c;
 	padding: 10px;
 	-moz-box-shadow: inset 0px 1px 0px 0px #caefab;
+}
+
+div.save-placeholder {
+	display: inline-block;
+	padding: 10px;
+	height: 12px;
 }
 
 input.proceed-button:hover {
@@ -686,10 +695,10 @@ ul#messages {
 	margin-top: 10px;
 	margin-right: 10px;
 	position: relative;
-	float:left;
+	float: left;
 }
 
-#sampleactions input[type="submit"], input[type="button"] {
+#sampleactions input[type="submit"],input[type="button"] {
 	margin-right: 10px;
 }
 

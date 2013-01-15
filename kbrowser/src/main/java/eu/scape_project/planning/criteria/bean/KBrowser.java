@@ -33,6 +33,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 
+import eu.scape_project.planning.criteria.bean.CriterionSelector.ChangeListener;
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
 import eu.scape_project.planning.manager.PlanManager;
@@ -67,6 +68,7 @@ import org.slf4j.LoggerFactory;
 @SessionScoped
 @Named("kBrowser")
 public class KBrowser implements Serializable {
+
     private static final long serialVersionUID = 4713056518876377374L;
     private static final Logger log = LoggerFactory.getLogger(KBrowser.class);
 
@@ -86,6 +88,7 @@ public class KBrowser implements Serializable {
     private KBrowserCalculator calculator;
 
     private Boolean isGeneralPartCalculated = false;
+
     /**
      * relevant plans are plans with planstate>=11(EXPERIMENT_DEFINED) AND name
      * NOT LIKE "MY DEMO PLAN%"
@@ -176,6 +179,12 @@ public class KBrowser implements Serializable {
 
     public void initBean() {
         criterionSelector.init();
+        criterionSelector.addChangeListener(new ChangeListener() {
+            @Override
+            public void selected() {
+                checkInputAndCalculateSelectiveStatistics();
+            }
+        });
 
         nrPlanLeaves = 0;
         nrMappedPlanLeaves = 0;

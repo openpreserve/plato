@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich" template="/WEB-INF/templates/default.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
 
@@ -10,112 +14,97 @@
 
 		<h:panelGroup layout="block" styleClass="pagePart">
 			<h:form id="selectHierarchy">
-			    <a4j:outputPanel layout="block" id="hierarchyList">
-				<h:dataTable value="#{criteriaHierarchyHelper.allCriteriaHierarchies}" var="h" styleClass="tableStyle"
-					headerClass="tableStyle-header" rowClass="tableStyle-row">
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="ID" />
-						</f:facet>
-						<h:outputText value="#{h.id}" />
-					</h:column>
-					<h:column class="size-m">
-						<f:facet name="header">
-							<h:outputText value="Name" />
-						</f:facet>
-						<h:outputText value="#{h.name}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Load" />
-						</f:facet>
-						<h:commandLink value="load" action="#{criteriaHierarchyHelper.loadHierarchy}">
-							<f:param name="criteriaHierarchyId" value="#{h.id}" />
-						</h:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Delete" />
-						</f:facet>
-						<h:commandLink value="delete" action="#{criteriaHierarchyHelper.deleteHierarchy}">
-							<f:param name="criteriaHierarchyId" value="#{h.id}" />
-						</h:commandLink>
-					</h:column>
-				</h:dataTable>
+				<a4j:outputPanel layout="block" id="hierarchyList">
+					<h:dataTable
+						value="#{criteriaHierarchyHelper.allCriteriaHierarchies}" var="h"
+						styleClass="tableStyle" headerClass="tableStyle-header"
+						rowClass="tableStyle-row">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="ID" />
+							</f:facet>
+							<h:outputText value="#{h.id}" />
+						</h:column>
+						<h:column class="size-m">
+							<f:facet name="header">
+								<h:outputText value="Name" />
+							</f:facet>
+							<h:outputText value="#{h.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Load" />
+							</f:facet>
+							<h:commandLink value="load"
+								action="#{criteriaHierarchyHelper.loadHierarchy}">
+								<f:param name="criteriaHierarchyId" value="#{h.id}" />
+							</h:commandLink>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Delete" />
+							</f:facet>
+							<h:commandLink value="delete"
+								action="#{criteriaHierarchyHelper.deleteHierarchy}">
+								<f:param name="criteriaHierarchyId" value="#{h.id}" />
+							</h:commandLink>
+						</h:column>
+					</h:dataTable>
 				</a4j:outputPanel>
 			</h:form>
 
 
 			<ui:remove>
 				<h:form>
-					<h:commandLink action="#{criteriaHierarchyHelper.loadAllHierarchiesDataForSummary}">>> SHOW HIERARCHIES SUMMARY</h:commandLink>
+					<h:commandLink
+						action="#{criteriaHierarchyHelper.loadAllHierarchiesDataForSummary}">>> SHOW HIERARCHIES SUMMARY</h:commandLink>
 				</h:form>
 			</ui:remove>
 		</h:panelGroup>
-		
+
 		<h:panelGroup layout="block" styleClass="pagePart">
 			<fieldset id="create-hierarchy" class="size-full">
-				<legend class="fieldset-full-size-legend">
-					Create new critera set
-				</legend>
+				<legend class="fieldset-full-size-legend"> Create new
+					critera set </legend>
 
 				<h:form id="createHierarchy">
 					Name:
 					<h:inputText value="#{criteriaHierarchyHelper.newHierarchyName}" />
-					<h:commandButton action="#{criteriaHierarchyHelper.createNewHierarchy}" value="create" />
+					<h:commandButton
+						action="#{criteriaHierarchyHelper.createNewHierarchy}"
+						value="create" />
 				</h:form>
 			</fieldset>
 		</h:panelGroup>
-		
-	    <h:form>
-		    <a4j:outputPanel layout="block" id="importPanel">
-                <fieldset id="create-hierarchy" class="size-full">
-                 <legend class="fieldset-full-size-legend">Import criteria set</legend>
-                 
-                 <rich:messages for="importPanel" id="importErrors"/>
-                 <a4j:commandButton value="Select File" oncomplete="#{rich:component('selectImportPanel')}.show()" />
-                 <a4j:outputPanel layout="inline" rendered="#{criteriaHierarchyHelper.importFile != null}">
-                    #{criteriaHierarchyHelper.importFile.fullname}
-                    <a4j:commandButton value="Import criteria set" action="#{criteriaHierarchyHelper.importCriteriaHierarchy}" render="importPanel, hierarchyList" />
-                 </a4j:outputPanel>
-                </fieldset>
-            </a4j:outputPanel>
-        </h:form>
-           
-        <ui:remove>
-        <!--
+
+		<h:form>
+			<a4j:outputPanel layout="block" id="importPanel">
+				<fieldset id="create-hierarchy" class="size-full">
+					<legend class="fieldset-full-size-legend">Import criteria
+						set</legend>
+
+					<div id="actions">
+						<input onclick="$('#uploadHierachy').toggle('normal');"
+							type="button" value="Upload Criteria Hierarchy" />
+					</div>
+
+					<div id="uploadHierachy" class="sampleform">
+						<rich:fileUpload id="uploadHierarchy"
+							fileUploadListener="#{criteriaHierarchyHelper.uploadCriteriaHierarchy}"
+							acceptedTypes="mm" render="hierarchyList messages">
+						</rich:fileUpload>
+					</div>
+				</fieldset>
+			</a4j:outputPanel>
+		</h:form>
+
+		<ui:remove>
+			<!--
         <h:form>
             <h:commandButton value="Download all Criteria as MindMap" action="#{criteriaHierarchyHelper.downloadAllCriteriaAsFreeMindXml()}" />
         </h:form>
         -->
-        </ui:remove>
-		
-		
-        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
-                        outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
-                        This workaround is described here: http://community.jboss.org/thread/171909
-                        If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
-                        the second click (on buttons, etc.).
-        -->
-        <h:form>
-        <!-- select import panel -->
-            <rich:popupPanel id="selectImportPanel" width="500" height="450" domElementAttachment="form">
-                <f:facet name="header">
-                    <h:outputText value="Select file" />
-                </f:facet>
-                <f:facet name="controls">
-                    <h:graphicImage id="closeMapping" 
-                        value="/resources/gfx/icons/cancel.png"
-                        title="Close" width="16" height="16"
-                        onclick="#{rich:component('selectImportPanel')}.hide()" />
-                </f:facet>            
-                <h:messages />
-              
-                <rich:fileUpload id="selectImportFile" fileUploadListener="#{criteriaHierarchyHelper.selectImportFile}" addLabel="Select" uploadLabel="Done"
-                                 render="importPanel" onuploadcomplete="#{rich:component('selectImportPanel')}.hide()" />
-            </rich:popupPanel>
-        <!-- / select import panel -->
-        </h:form>
-        
+		</ui:remove>
+
 	</ui:define>
 </ui:composition>

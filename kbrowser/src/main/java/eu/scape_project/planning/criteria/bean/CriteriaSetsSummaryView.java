@@ -51,7 +51,7 @@ public class CriteriaSetsSummaryView implements Serializable {
     private Logger log;
 
     @Inject
-    private CriteriaHierarchyHelperBean criteriaHierarchyHelperBean;
+    private ManageCriteriaSets manageCriteriaSets;
 
     /**
      * Sort order for summary table
@@ -59,19 +59,26 @@ public class CriteriaSetsSummaryView implements Serializable {
     private SortOrder[] summaryTableSortOrder = {SortOrder.unsorted, SortOrder.unsorted, SortOrder.unsorted,
         SortOrder.unsorted, SortOrder.unsorted, SortOrder.unsorted};
 
-    private List<CriteriaHierarchy> allCriteriaSetsForSummary;
-
     /**
      * The currently selected criteria set.
      */
     private CriteriaHierarchy selectedCriteriaSet;
 
     /**
+     * Prepares the view bean for display.
+     * 
+     * @return the navigation target
+     */
+    public String init() {
+        initBean();
+        return "criteria_sets_summary.xhtml";
+    }
+
+    /**
      * Method responsible for data initialization before displaying the page.
      */
-    public void init() {
-        this.allCriteriaSetsForSummary = new ArrayList<CriteriaHierarchy>(
-            criteriaHierarchyHelperBean.getAllCriteriaHierarchiesForSummary());
+    public void initBean() {
+        manageCriteriaSets.loadCriteriaHierarchyDependentData();
     }
 
     /**
@@ -184,16 +191,16 @@ public class CriteriaSetsSummaryView implements Serializable {
      */
     public DiagramData getSummaryPotentialToRangeData() {
 
-        // Get data
-        List<CriteriaHierarchy> criteriaSets = criteriaHierarchyHelperBean.getAllCriteriaHierarchiesForSummary();
-
-        if (criteriaSets == null) {
+        if (manageCriteriaSets.getAllCriteriaHierarchies() == null) {
             return null;
         }
 
+        // Get data
+        List<CriteriaHierarchy> criteriaSets = new ArrayList<CriteriaHierarchy>(
+            manageCriteriaSets.getAllCriteriaHierarchies());
+
         // Sort by SIF4
         Collections.sort(criteriaSets, Collections.reverseOrder(new Comparator<CriteriaHierarchy>() {
-
             @Override
             public int compare(CriteriaHierarchy set1, CriteriaHierarchy set2) {
 
@@ -254,7 +261,7 @@ public class CriteriaSetsSummaryView implements Serializable {
      * @return The criteria sets
      */
     public List<CriteriaHierarchy> getAllCriteriaSetsForSummary() {
-        return allCriteriaSetsForSummary;
+        return manageCriteriaSets.getAllCriteriaHierarchies();
     }
 
     /**
@@ -325,7 +332,7 @@ public class CriteriaSetsSummaryView implements Serializable {
         csvString += "Name;Size;SIF2;SIF6;SIF16\n";
 
         // Assemble CSV-data
-        for (CriteriaHierarchy criteriaHierarchy : criteriaHierarchyHelperBean.getAllCriteriaHierarchiesForSummary()) {
+        for (CriteriaHierarchy criteriaHierarchy : manageCriteriaSets.getAllCriteriaHierarchies()) {
             csvString += criteriaHierarchy.getName() + ";";
             csvString += criteriaHierarchy.getCriteriaTreeRoot().getAllSuccessiveLeaves().size() + ";";
             csvString += criteriaHierarchy.getCriteriaTreeRoot().getStringFormattedImportanceFactorSIF2() + ";";
@@ -351,9 +358,5 @@ public class CriteriaSetsSummaryView implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setAllCriteriaSetsForSummary(List<CriteriaHierarchy> allCriteriaSetsForSummary) {
-        this.allCriteriaSetsForSummary = allCriteriaSetsForSummary;
     }
 }
