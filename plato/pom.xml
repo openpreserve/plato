@@ -63,7 +63,7 @@
 					</archive>
 					<webResources>
 						<resource>
-							<directory>${basedir}/../planning-core/src/main/resources/data</directory>
+							<directory>${parent.basedir}/planning-core/src/main/resources/data</directory>
 							<filtering>false</filtering>
 							<targetPath>data</targetPath>
 							<includes>

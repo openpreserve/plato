@@ -77,6 +77,7 @@ public class Experiment implements Serializable, ITouchable {
      */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinTable(name = "Experiment_Result")
+    @ForeignKey(name="FK_EXP_RESULTS")    
     @Fetch(FetchMode.SUBSELECT)
     private Map<SampleObject, DigitalObject> results = new HashMap<SampleObject, DigitalObject>();
 
@@ -85,6 +86,7 @@ public class Experiment implements Serializable, ITouchable {
      */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinTable(name = "Experiment_DetailedInfo")
+    @ForeignKey(name="FK_EXP_DETAILEDINFOS")    
     @Fetch(FetchMode.SUBSELECT)
     private Map<SampleObject, DetailedExperimentInfo> detailedInfo = new HashMap<SampleObject, DetailedExperimentInfo>();
 

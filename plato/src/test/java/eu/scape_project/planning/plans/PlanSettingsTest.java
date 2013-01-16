@@ -16,21 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.planning.plans;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.faces.application.FacesMessage;
-
-import eu.scape_project.planning.model.Alternative;
-import eu.scape_project.planning.model.AlternativesDefinition;
-import eu.scape_project.planning.model.Plan;
-import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.planning.utils.FacesMessages;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class PlanSettingsTest {
 //
