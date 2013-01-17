@@ -24,51 +24,61 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class RDFPolicy implements Serializable {
 
-	private static final long serialVersionUID = 61731856550176987L;
+    private static final long serialVersionUID = 61731856550176987L;
 
-	@Id
-	@GeneratedValue
-	private int id;
+    @Id
+    @GeneratedValue
+    private int id;
 
-	@Length(max = 2000000)
-	@Column(length = 2000000)
-	private String policy;
+    @Length(max = 2000000)
+    @Column(length = 2000000)
+    private String policy;
 
-	private Date dateCreated;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated;
+    
+    public RDFPolicy(){
+    }
+    
+    public RDFPolicy(final String policy) {
+        this.policy = policy;
+    }
 
-	/**
-	 * Fills the date created before persisting the object.
-	 */
-	@SuppressWarnings("unused")
-	@PrePersist
-	private void fillDateCreated() {
-		dateCreated = new Date();
-	}
+    /**
+     * Fills the date created before persisting the object.
+     */
+    @SuppressWarnings("unused")
+    @PrePersist
+    private void fillDateCreated() {
+        dateCreated = new Date();
+    }
 
-	// ---------- getter/setter ----------
-	public int getId() {
-		return id;
-	}
+    // ---------- getter/setter ----------
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getPolicy() {
-		return policy;
-	}
+    public String getPolicy() {
+        return policy;
+    }
 
-	public void setPolicy(String policy) {
-		this.policy = policy;
-	}
+    public void setPolicy(String policy) {
+        this.policy = policy;
+    }
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
+    public Date getDateCreated() {
+        return dateCreated;
+    }
 }

@@ -36,6 +36,7 @@ public class DefineBasis extends AbstractWorkflowStep {
 
     @Inject
     private Logger log;
+    
 
     public DefineBasis() {
         this.requiredPlanState = PlanState.INITIALISED;
@@ -48,12 +49,4 @@ public class DefineBasis extends AbstractWorkflowStep {
 
         saveEntity(plan.getProjectBasis());
     }
-
-    // /**
-    // * Method responsible for removing a policy-tree from a plan.
-    // */
-    // public void removePolicyTree() {
-    // plan.getProjectBasis().getPolicyTree().setRoot(null);
-    // plan.getProjectBasis().touch();
-    // }
 }

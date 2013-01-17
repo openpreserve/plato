@@ -75,7 +75,7 @@ public class ProjectBasis implements Serializable, ITouchable {
     @Lob
     private String designatedCommunity;
 
-    /**
+    /**definintion
      * Hibernate note: standard length for a string column is 255
      * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
      * therefore allow "long" entries
@@ -134,6 +134,11 @@ public class ProjectBasis implements Serializable, ITouchable {
     @Valid
     @OneToOne(cascade = CascadeType.ALL)
     private PolicyTree policyTree = new PolicyTree();
+    
+    /**
+     * Reference to selected scenario, that is the URI of the scenario from the policy definition
+     */
+    private String selectedScenarioURI;
 
     public String getDocumentTypes() {
         return documentTypes;
@@ -262,5 +267,13 @@ public class ProjectBasis implements Serializable, ITouchable {
 
     public void setTriggers(TriggerDefinition triggers) {
         this.triggers = triggers;
+    }
+
+    public String getSelectedScenarioURI() {
+        return selectedScenarioURI;
+    }
+
+    public void setSelectedScenarioURI(String selectedScenario) {
+        this.selectedScenarioURI = selectedScenario;
     }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Scenario pulls togehter user community and content set.
+ * A Scenario pulls together user community and content set.
  * 
  * @author hku
  *

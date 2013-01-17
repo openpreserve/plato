@@ -76,9 +76,6 @@ public class IdentifyRequirementsView extends AbstractView {
     @Inject
     private Downloader downloader;
 
-    @Inject
-    private OrganisationalPolicies policies;
-
     /**
      * Supporting class for AJAX Criterion selection. This selection is used for
      * requirement - criterion mapping.
@@ -86,10 +83,12 @@ public class IdentifyRequirementsView extends AbstractView {
     @Inject
     private CriterionSelector critSelector;
 
-    private Scenario selectedScenario;
 
     @Inject
     private TreeHelperBean requirementstreeHelper;
+    
+    @Inject
+    private OrganisationalPolicies policies;
 
     /**
      * Indicates whether the nodes comments are edited or scale,restriction,
@@ -115,6 +114,8 @@ public class IdentifyRequirementsView extends AbstractView {
      * Leaf selected (last clicked) in the requirements-tree.
      */
     private Leaf selectedLeaf;
+    
+    private Scenario selectedScenario;
 
     public IdentifyRequirementsView() {
         currentPlanState = PlanState.RECORDS_CHOSEN;
@@ -135,7 +136,12 @@ public class IdentifyRequirementsView extends AbstractView {
         critSelector.init();
         
         policies.init();
-
+        selectedScenario = policies.getScenario(plan.getProjectBasis().getSelectedScenarioURI());
+        
+        if (plan.getTree().getRoot().getChildren().size() == 0) {
+            generateTreeFromPolicies();
+        }
+        
         requirementstreeHelper.expandAll(plan.getTree().getRoot());
     }
     
@@ -211,7 +217,7 @@ public class IdentifyRequirementsView extends AbstractView {
         } catch (StorageException e) {
             log.error("Exception at trying to fetch attached file with pid " + object.getPid() + ": " + e.getMessage(),
                 e);
-            facesMessages.addError("Unable to fetch attached file");
+            facesMessages.addError("importPanel", "Unable to fetch attached file");
             return;
         }
 
@@ -237,7 +243,7 @@ public class IdentifyRequirementsView extends AbstractView {
             identifyRequirements.attachFile(digitalObject);
         } catch (StorageException e) {
             log.error("Exception at trying to attach file. ", e);
-            facesMessages.addError("Unable to attach file");
+            facesMessages.addError("importPanel", "Unable to attach file");
         }
     }
 
@@ -292,24 +298,6 @@ public class IdentifyRequirementsView extends AbstractView {
             facesMessages.addError("importPanel", "Error at importing FreeMind file. Maybe it is currupted. "
                 + "Please make sure you added at least one level of nodes to the midmap.");
         }
-    }
-
-    public void generateTreeFromPolicies() {
-
-        if (selectedScenario == null) {
-            return;
-        }
-
-        boolean success = identifyRequirements.createTreeFromScenario(selectedScenario);
-
-        if (success) {
-            facesMessages.addInfo("importPanel", "Tree created successfully");
-
-            treeRoots.clear();
-            treeRoots.add(plan.getTree().getRoot());
-            requirementstreeHelper.expandAll(plan.getTree().getRoot());
-        }
-
     }
 
     /**
@@ -395,6 +383,22 @@ public class IdentifyRequirementsView extends AbstractView {
     public void detachCriterionMapping() {
         identifyRequirements.detachCriterionFromLeaf(selectedLeaf);
     }
+    
+    public void generateTreeFromPolicies() {
+        if (selectedScenario == null) {
+            return;
+        }
+
+        boolean success = identifyRequirements.createTreeFromScenario(selectedScenario);
+
+        if (success) {
+            facesMessages.addInfo("Tree successfully created from selected scenario.");
+            treeRoots.clear();
+            treeRoots.add(plan.getTree().getRoot());
+            requirementstreeHelper.expandAll(plan.getTree().getRoot());
+        }
+
+    }    
 
     @Override
     protected AbstractWorkflowStep getWfStep() {
@@ -403,35 +407,6 @@ public class IdentifyRequirementsView extends AbstractView {
 
     // --------------- getter/setter ---------------
     
-    public OrganisationalPolicies getPolicies() {
-        return policies;
-    }
-
-    public void setPolicies(OrganisationalPolicies policies) {
-        this.policies = policies;
-    }
-    
-    public Scenario getSelectedScenario() {
-        return selectedScenario;
-    }
-    
-    public String getSelectedScenarioName(){
-        if (selectedScenario == null) {
-            return null;
-        } else {
-            return selectedScenario.getName();
-        }
-    }
-    
-    public void setSelectedScenarioName(String name) {
-        selectedScenario = null;
-        for (Scenario scenario : policies.getScenarios()) {
-            if (scenario.getName().equals(name)) {
-                selectedScenario = scenario;
-            }
-        }
-    }
-
     public boolean isEditingNodeComments() {
         return editingNodeComments;
     }
@@ -474,5 +449,9 @@ public class IdentifyRequirementsView extends AbstractView {
 
     public TreeHelperBean getRequirementstreeHelper() {
         return requirementstreeHelper;
+    }
+
+    public Scenario getSelectedScenario() {
+        return selectedScenario;
     }
 }

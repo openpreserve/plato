@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
+import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.RDFPolicy;
 import eu.scape_project.planning.model.User;
@@ -39,6 +40,9 @@ import eu.scape_project.planning.utils.FacesMessages;
 @SessionScoped
 public class OrganisationalPoliciesView implements Serializable {
     private static final long serialVersionUID = 1949891454912441259L;
+
+    @Inject
+    private Logger log;
 
     @Inject
     private FacesMessages facesMessages;
@@ -72,12 +76,15 @@ public class OrganisationalPoliciesView implements Serializable {
         importFile = event.getUploadedFile();
 
         try {
-            policies.importPolicy(importFile.getInputStream());
-            facesMessages.addInfo("Policy imported successfully");
-
-            importFile = null;
+            if (policies.importPolicy(importFile.getInputStream())) {
+                facesMessages.addInfo("Policy imported successfully");
+                importFile = null;
+            } else {
+                facesMessages.addError("The uploaded policy file is not valid");
+            }
         } catch (IOException e) {
-            facesMessages.addError("The uploaded policy file is not valid");
+            facesMessages.addError("An error occured during uploading the file, please try again.");
+            log.error("Policy upload faild.", e);
         }
 
     }
@@ -193,9 +200,5 @@ public class OrganisationalPoliciesView implements Serializable {
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

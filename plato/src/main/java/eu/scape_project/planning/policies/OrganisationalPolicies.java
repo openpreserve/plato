@@ -16,11 +16,12 @@
  ******************************************************************************/
 package eu.scape_project.planning.policies;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import com.hp.hpl.jena.query.Query;
@@ -71,7 +73,7 @@ public class OrganisationalPolicies implements Serializable {
 
     @Inject
     private User user;
-
+    
     private List<Scenario> scenarios = new ArrayList<Scenario>();
 
     public List<Scenario> getScenarios() {
@@ -83,13 +85,18 @@ public class OrganisationalPolicies implements Serializable {
     }
 
     public void init() {
+        scenarios.clear();
         RDFPolicy policy = user.getUserGroup().getLatestPolicy();
 
         if (policy == null) {
             return;
         }
 
-        resolveScenarios(policy.getPolicy());
+        try {
+            resolveScenarios(policy.getPolicy());
+        } catch (Exception e) {
+            log.error("Failed to load policy scenarios.", e);
+        }
     }
 
     /**
@@ -100,36 +107,27 @@ public class OrganisationalPolicies implements Serializable {
      * @throws IOException
      *             if the polify could not be read
      */
-    public void importPolicy(InputStream input) throws IOException {
+    public boolean importPolicy(InputStream input){
+        try {
+            String content = IOUtils.toString(input, "UTF-8");
+            input.close();
 
-        scenarios = new ArrayList<Scenario>();
-
-        String content = IOUtils.toString(input, "UTF-8");
-        input.close();
-
-        RDFPolicy policy = new RDFPolicy();
-        policy.setPolicy(content);
-
-        user.getUserGroup().getPolicies().add(policy);
-
-        resolveScenarios(content);
-
-        log.info("Imported new policies for user " + user.getUsername());
+            resolveScenarios(content);
+            user.getUserGroup().getPolicies().add(new RDFPolicy(content));
+            log.info("Imported new policies for user " + user.getUsername());
+            return true;
+        } catch (Exception e) {
+            log.error("Failed to import policies for user " + user.getUsername(), e);
+        }
+        return false;
     }
 
-    private void resolveScenarios(String rdfPolicies) {
-
+    private void resolveScenarios(String rdfPolicies) throws Exception{
         scenarios.clear();
-
         Model model = ModelFactory.createMemModelMaker().createDefaultModel();
-
-        InputStream in = new ByteArrayInputStream(rdfPolicies.getBytes());
-        model = model.read(in, null);
-
-        try {
-            in.close();
-        } catch (IOException e) {
-        }
+        Reader reader = new StringReader(rdfPolicies);
+        model = model.read(reader, null);
+        reader.close();
 
         String cpModelFile = POLICY_ONTOLOGY_DIR + File.separator + CONTROL_POLICY_FILE;
         Model cpModel = FileManager.get().loadModel(cpModelFile);
@@ -215,23 +213,20 @@ public class OrganisationalPolicies implements Serializable {
                 }
 
                 s.getControlPolicies().add(cp);
-
             }
-        } catch (Exception e) {
-
         } finally {
             qe.close();
         }
     }
 
     public Scenario getScenario(String scenarioUri) {
-
-        for (Scenario s : scenarios) {
-            if (scenarioUri.equalsIgnoreCase(s.getUri())) {
-                return s;
+        if (!StringUtils.isEmpty(scenarioUri)) {
+            for (Scenario s : scenarios) {
+                if (scenarioUri.equalsIgnoreCase(s.getUri())) {
+                    return s;
+                }
             }
         }
-
         return null;
     }
 
@@ -241,6 +236,7 @@ public class OrganisationalPolicies implements Serializable {
     public void clearPolicies() {
         user.getUserGroup().getPolicies().clear();
         log.info("Cleared policies of user " + user.getUsername());
+        init();
     }
 
     /**

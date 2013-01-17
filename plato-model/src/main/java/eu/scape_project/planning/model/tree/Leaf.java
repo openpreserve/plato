@@ -37,6 +37,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +48,7 @@ import eu.scape_project.planning.model.ITouchable;
 import eu.scape_project.planning.model.SampleAggregationMode;
 import eu.scape_project.planning.model.TargetValueObject;
 import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FreeStringScale;
@@ -396,6 +398,22 @@ public class Leaf extends TreeNode {
                 }
             }
         }
+    }
+    
+    /**
+     * Applies the given measure to this leaf, and adjusts scale and single properly
+     *  
+     * @param m
+     */
+    public void applyMeasure(final Measure m) {
+        adjustScale(m.getScale());
+        setMeasure(new Measure(m));
+        setSingle(m.getAttribute().getCategory().getScope() == EvaluationScope.ALTERNATIVE_ACTION);
+        if (StringUtils.isEmpty(name)) {
+            setName(m.getName());
+        }
+        touchIncludingScale();
+        
     }
 
     /**

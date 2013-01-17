@@ -1,133 +1,51 @@
-package eu.scape_project.planning.model;
+package eu.scape_project.planning.model.tree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import junit.framework.Assert;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.PersistenceTest;
+import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.measurement.Attribute;
+import eu.scape_project.planning.model.measurement.CriterionCategory;
+import eu.scape_project.planning.model.measurement.EvaluationScope;
 import eu.scape_project.planning.model.measurement.Measure;
+import eu.scape_project.planning.model.scales.FloatScale;
 import eu.scape_project.planning.model.scales.PositiveIntegerScale;
-import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.values.PositiveIntegerValue;
 import eu.scape_project.planning.model.values.Value;
 
-public class ElementOrderPersistenceTest {
-
-    private EntityManager em;
-
-    @Before
-    public void setUp() {
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("testing-platoDatabase");
-        em = emFactory.createEntityManager();
-    }
-
-    @After
-    public void tearDown() {
-        em.close();
-    }
-
+public class LeafPersistenceTest extends PersistenceTest{
+    
     @Test
-    public void checkRelationSampleRecordsDefinitionToSampleObjects() {
-        SampleRecordsDefinition samplesDef = new SampleRecordsDefinition();
-        SampleObject s1 = new SampleObject("s1");
-        SampleObject s2 = new SampleObject("s2");
-        SampleObject s3 = new SampleObject("s3");
-
-        samplesDef.addRecord(s1);
-        samplesDef.addRecord(s2);
-        samplesDef.addRecord(s3);
+    public void testRemovingScale(){
+        Leaf l = new Leaf();
+        l.setScale(new FloatScale());
+        l.setName("a float scale");
 
         em.getTransaction().begin();
-
-        em.persist(samplesDef);
-
+        em.persist(l);
         em.getTransaction().commit();
-        em.refresh(samplesDef);
+        em.refresh(l);
+        
+        Assert.assertEquals(1,  ((Long)em.createQuery("select count(*) from Scale").getSingleResult()).longValue());
 
-        // check overall existing samples
-        List samples = em.createQuery("select s from SampleObject s").getResultList();
-        Assert.assertNotNull(samples);
-        Assert.assertEquals(3, samples.size());
-
-        // reload and check persisted samplerecordsdefinition
-        SampleRecordsDefinition sDef2 = em.find(SampleRecordsDefinition.class, samplesDef.getId());
-        // check proper order of samples
-        Assert.assertEquals(s1.getShortName(), sDef2.getRecords().get(0).getShortName());
-        Assert.assertEquals(s2.getShortName(), sDef2.getRecords().get(1).getShortName());
-        Assert.assertEquals(s3.getShortName(), sDef2.getRecords().get(2).getShortName());
-
-        // now remove the sample in between
-        em.getTransaction().begin();
-        sDef2.removeRecord(s2);
-        // and add a new one
-        SampleObject s4 = new SampleObject("s4");
-        sDef2.addRecord(s4);
-        em.persist(sDef2);
-
-        // check overall existing samples
-        samples = em.createQuery("select s from SampleObject s").getResultList();
-        Assert.assertNotNull(samples);
-        Assert.assertEquals("orphanRemoval should take care of removing sample s2.", 3, samples.size());
-
-        // reload and check proper order of samples
-        sDef2 = em.find(SampleRecordsDefinition.class, samplesDef.getId());
-        Assert.assertEquals(s1.getShortName(), sDef2.getRecords().get(0).getShortName());
-        Assert.assertEquals(s3.getShortName(), sDef2.getRecords().get(1).getShortName());
-        Assert.assertEquals(s4.getShortName(), sDef2.getRecords().get(2).getShortName());
-
-        em.getTransaction().commit();
-        // test rollback
-        em.getTransaction().begin();
-        sDef2.removeRecord(s1);
-        sDef2.addRecord(new SampleObject("s5"));
-        em.persist(sDef2);
-        em.getTransaction().rollback();
-
-        // reload and check proper order of samples
-        em.getTransaction().begin();
-        sDef2 = em.find(SampleRecordsDefinition.class, samplesDef.getId());
-        em.refresh(sDef2);
-        Assert.assertEquals(s1.getShortName(), sDef2.getRecords().get(0).getShortName());
-        Assert.assertEquals(s3.getShortName(), sDef2.getRecords().get(1).getShortName());
-        Assert.assertEquals(s4.getShortName(), sDef2.getRecords().get(2).getShortName());
-
-        // remove and add some records
-        sDef2.removeRecord(s1);
-        sDef2.addRecord(new SampleObject("a"));
-        sDef2.removeRecord(s3);
-        sDef2.addRecord(new SampleObject("b"));
-
-        sDef2 = em.merge(sDef2);
-        em.getTransaction().commit();
-
-        sDef2 = em.find(SampleRecordsDefinition.class, samplesDef.getId());
-
-        Assert.assertEquals(s4.getShortName(), sDef2.getRecords().get(0).getShortName());
-        Assert.assertEquals("a", sDef2.getRecords().get(1).getShortName());
-        Assert.assertEquals("b", sDef2.getRecords().get(2).getShortName());
-
-        em.close();
-        // check order with new connection, this time don't recreate schema
-        em = newConnection();
-
-        SampleRecordsDefinition sDef = (SampleRecordsDefinition) em
-            .createQuery("select d from SampleRecordsDefinition d").getResultList().get(0);
-        Assert.assertEquals("s4", sDef.getRecords().get(0).getShortName());
-        Assert.assertEquals("a", sDef.getRecords().get(1).getShortName());
-        Assert.assertEquals("b", sDef.getRecords().get(2).getShortName());
-
+        Measure meas = new Measure();
+        Attribute attr = new Attribute();
+        CriterionCategory cat = new CriterionCategory("test://category/1", "testcategory", EvaluationScope.ALTERNATIVE_ACTION);
+        attr.setCategory(cat);
+        attr.setName("test attr");
+        attr.setUri("test://attribute/1");
+        meas.setAttribute(attr);
+        meas.setName("test measure");
+        meas.setUri("test://measure/1");
+        
     }
-
+    
     /**
      * Checks relations of {@link Leaf}
      * 
@@ -261,18 +179,7 @@ public class ElementOrderPersistenceTest {
         em.persist(lStored);
         Assert.assertEquals("Measure should be persisted together with leaf", 2, 
             ((Long)em.createQuery("select count(*) from Measure").getSingleResult()).longValue());
-        
-        
-        
-        
     }
 
-    private EntityManager newConnection() {
-        // check order with new connection, this time don't recreate schema
-        Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("hibernate.hbm2ddl.auto", "update");
 
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("testing-platoDatabase", properties);
-        return emFactory.createEntityManager();
-    }
 }

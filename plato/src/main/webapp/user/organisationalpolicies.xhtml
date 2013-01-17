@@ -20,18 +20,13 @@
 		
 			<a4j:outputPanel id="policyPanel" layout="block">
 				<c:forEach items="#{organisationalPolicies.policies.scenarios}" var="s">
-				    <h2>
-						<h:outputText value="#{s.name}"></h:outputText>			
-				    </h2>
+				    <h2>#{s.name}</h2>
 				    
 				    <ul>
 				    <c:forEach items="#{s.controlPolicies}" var="p">
-				    	<li>
-				    		<h:outputText value="#{organisationalPolicies.controlPolicyToString(p)}"></h:outputText>
-				    	</li>
+				    	<li>#{organisationalPolicies.controlPolicyToString(p)}</li>
 				    </c:forEach>
 				    </ul>
-                	
 	        	</c:forEach>
 	        </a4j:outputPanel>
 		
@@ -48,9 +43,10 @@
 					<rich:fileUpload
 						fileUploadListener="#{organisationalPolicies.importPolicy}"
 						addLabel="Select" uploadLabel="Import policy" maxFilesQuantity="1"
-						listHeight="62px" render="policyPanel"
+						listHeight="62px" render="policyPanel, messages"
 						onuploadcomplete="#{rich:component('policyPanel')}.switchToItem('@first')" />
 				</a4j:outputPanel>
+				<h:commandButton value="Remove all policies" action="#{organisationalPolicies.clearPolicies()}" rendered="#{organisationalPolicies.user.admin}"/>
 			</fieldset>
 		</h:form>
 		<h:form>

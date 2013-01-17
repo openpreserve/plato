@@ -77,10 +77,12 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
             // Check if we're inside render response and if the response is
             // committed.
+            String message = ""; 
             if (fc.getCurrentPhaseId() != PhaseId.RENDER_RESPONSE) {
-                log.info("An exception occured during processing, redirecting.");
+                message = "An exception occured during processing, redirecting.";
             } else if (!externalContext.isResponseCommitted()) {
-                log.info("An exception occured during rendering the response, redirecting.");
+                message = "An exception occured during rendering the response, redirecting.";
+                // we generate a new response, clean up the old one first 
                 ((HttpServletResponse) fc.getExternalContext().getResponse()).reset();
             } else {
                 log.error("An exception occured during rendering the response. Cannot redirect as the response is already commited.");
@@ -92,6 +94,9 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
                 // Redirect session/conversation-timeout error to the start-page
                 targetLocation = "/index.jsf?sessionExpired=true";
             } else {
+                // we want to know about the cause of this error
+                log.error(message, exception);
+                
                 // Redirect all other errors to the bug report-page
 
                 // Set the request attributes
@@ -110,8 +115,7 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
             try {
                 fc.getExternalContext().redirect(fc.getExternalContext().getRequestContextPath() + targetLocation);
             } catch (IOException e) {
-                log.error("Error redirecting to error page.");
-                throw new FacesException(e);
+                throw new FacesException("Error redirecting to error page.", e);
             }
 
             // Remove remaining exceptions

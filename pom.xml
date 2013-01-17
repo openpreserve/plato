@@ -69,7 +69,7 @@
 		<planning-core.version>4.0.0-SNAPSHOT</planning-core.version>
 		<minimee.version>4.0.0-SNAPSHOT</minimee.version>
 		<plato.version>4.0.0-SNAPSHOT</plato.version>
-		<kbrowser.version>4.0.0-SNAPSHOT</kbrowser.version>		
+		<kbrowser.version>4.0.0-SNAPSHOT</kbrowser.version>
 		<junit.version>4.8.1</junit.version>
 		<jboss-javaee.version>3.0.1.Final</jboss-javaee.version>
 	</properties>
@@ -200,6 +200,11 @@
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.14</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>1.9</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

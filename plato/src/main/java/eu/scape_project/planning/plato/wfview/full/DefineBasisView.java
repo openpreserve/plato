@@ -27,10 +27,12 @@ import javax.inject.Named;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
+import eu.scape_project.planning.model.policy.Scenario;
 import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineBasis;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.policies.OrganisationalPolicies;
 
 /**
  * Bean for the viewWorkflow step 'Define Basis'.
@@ -45,6 +47,14 @@ public class DefineBasisView extends AbstractView implements Serializable {
 
     @Inject
     private TreeHelperBean treeHelper;
+    
+    @Inject
+    private OrganisationalPolicies policies;
+
+    private Scenario selectedScenario;
+    
+    private List<Scenario> scenarios;
+    
 
     public DefineBasisView() {
         currentPlanState = PlanState.INITIALISED;
@@ -61,6 +71,10 @@ public class DefineBasisView extends AbstractView implements Serializable {
      */
     public void init(Plan plan) {
         super.init(plan);
+        
+        policies.init();
+        scenarios = policies.getScenarios();
+        selectedScenario = policies.getScenario(plan.getProjectBasis().getSelectedScenarioURI());
 
         // expand all nodes of the displayed policy-tree (if existent)
         treeHelper.expandAll(plan.getProjectBasis().getPolicyTree().getRoot());
@@ -71,13 +85,7 @@ public class DefineBasisView extends AbstractView implements Serializable {
         return defineBasis;
     }
 
-    // /**
-    // * Method responsible for triggering removal of the current assigned
-    // * policy-tree.
-    // */
-    // public void removePolicyTree() {
-    // defineBasis.removePolicyTree();
-    // }
+
 
     /**
      * Method responsible for returning the policy-tree appropriate for
@@ -97,7 +105,46 @@ public class DefineBasisView extends AbstractView implements Serializable {
 
     // ---------- getter/setter ----------
 
+    public OrganisationalPolicies getPolicies() {
+        return policies;
+    }
+
+    public void setPolicies(OrganisationalPolicies policies) {
+        this.policies = policies;
+    }
+    
+    public String getSelectedScenarioName(){
+        if (selectedScenario == null) {
+            return null;
+        } else {
+            return selectedScenario.getName();
+        }
+    }
+    
+    public void setSelectedScenarioName(String name) {
+        selectedScenario = null;
+        for (Scenario scenario : scenarios) {
+            if (scenario.getName().equals(name)) {
+                selectedScenario = scenario;
+            }
+        }
+    }
+    
+    public void useSelectedScenario(){
+        if (selectedScenario != null) {
+            plan.getProjectBasis().setSelectedScenarioURI(selectedScenario.getUri());
+        }
+    }
+    
     public TreeHelperBean getTreeHelper() {
         return treeHelper;
+    }
+
+    public List<Scenario> getScenarios() {
+        return scenarios;
+    }
+
+    public Scenario getSelectedScenario() {
+        return selectedScenario;
     }
 }
