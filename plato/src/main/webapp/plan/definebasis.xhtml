@@ -28,6 +28,13 @@
 					class="anchors">Policies</a></li>
 			</ul>
 		</div>
+		<div class="wfdescription">
+			In the first step, the preservation scenario is described in a
+			semi-structured way including the collection to be considered.
+			<div class="more">
+				<a href="../help/workflow.html#define_basis" target="_blank">more</a>
+			</div>
+		</div>
 
 		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{defineBasis.changed}"
@@ -36,23 +43,31 @@
 				onchange="changed()" style="display:none" />
 			<h:commandLink action="#{defineBasis.discard}" value="Test Changed"
 				onclick="return mayExit_noClick();" style="display:none" />
-				
-				
+
+
 			<fieldset id="scenarios_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					<h:outputText value="Preservation scenario" />
 				</legend>
-			<h:panelGroup id="no_policies_panel" rendered="#{empty(defineBasis.scenarios)}">
-				<p>Do you have defined your control policies? Upload them for your group to use this information for your plan.</p>
-            </h:panelGroup>				
-			<h:panelGroup id="policies_panel" rendered="#{not empty(defineBasis.scenarios)}">
-				<p>
-				   You have defined control policies for your group or organization. You can select the scenario for which you want to create this preservation plan. 
-				</p>
-				<p><h:outputText value="Chosen scenario: #{defineBasis.selectedScenario.name}" rendered="#{not empty(defineBasis.selectedScenario)}"/></p>	   
-				<a4j:commandButton value="Select scenario" oncomplete="#{rich:component('scenarioSelectionPopupPanel')}.show()" />
-			</h:panelGroup>	
+				<h:panelGroup id="no_policies_panel"
+					rendered="#{empty(defineBasis.scenarios)}">
+					<p>Do you have defined your control policies? Upload them for
+						your group to use this information for your plan.</p>
+				</h:panelGroup>
+				<h:panelGroup id="policies_panel"
+					rendered="#{not empty(defineBasis.scenarios)}">
+					<p>You have defined control policies for your group or
+						organization. You can select the scenario for which you want to
+						create this preservation plan.</p>
+					<p>
+						<h:outputText
+							value="Chosen scenario: #{defineBasis.selectedScenario.name}"
+							rendered="#{not empty(defineBasis.selectedScenario)}" />
+					</p>
+					<a4j:commandButton value="Select scenario"
+						oncomplete="#{rich:component('scenarioSelectionPopupPanel')}.show()" />
+				</h:panelGroup>
 			</fieldset>
 			<fieldset id="identification_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
@@ -197,26 +212,30 @@
 
 		<h:form>
 			<!-- scenario selection-->
-			<rich:popupPanel id="scenarioSelectionPopupPanel" autosized="true" domElementAttachment="form">
+			<rich:popupPanel id="scenarioSelectionPopupPanel" autosized="true"
+				domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Select a scenario" />
 				</f:facet>
 				<f:facet name="controls">
 					<h:graphicImage id="closeScenarioSelection"
-						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16"
+						height="16"
 						onclick="#{rich:component('scenarioSelectionPopupPanel')}.hide()" />
 				</f:facet>
 
-				<h:selectOneListbox size="7" id="scenarioSelectionListBox"  
-					value="#{defineBasis.selectedScenarioName}" required="false" style="width: 30em;">
-					<f:selectItems value="#{defineBasis.scenarios}"
-						var="s" itemLabel="#{s.name}" itemValue="#{s.name}" />
-                    <a4j:ajax event="change" render="confirmScenarioPanel" />
+				<h:selectOneListbox size="7" id="scenarioSelectionListBox"
+					value="#{defineBasis.selectedScenarioName}" required="false"
+					style="width: 30em;">
+					<f:selectItems value="#{defineBasis.scenarios}" var="s"
+						itemLabel="#{s.name}" itemValue="#{s.name}" />
+					<a4j:ajax event="change" render="confirmScenarioPanel" />
 				</h:selectOneListbox>
-				<br/>
-				<h:panelGroup id="confirmScenarioPanel" >
-					<a4j:commandLink id="confirmScenarioLink" rendered="#{not empty(defineBasis.selectedScenarioName)}"
+				<br />
+				<h:panelGroup id="confirmScenarioPanel">
+					<a4j:commandLink id="confirmScenarioLink"
+						rendered="#{not empty(defineBasis.selectedScenarioName)}"
 						style="color: #FFFFFF;"
 						action="#{defineBasis.useSelectedScenario()}"
 						oncomplete="#{rich:component('scenarioSelectionPopupPanel')}.hide()"
@@ -227,6 +246,6 @@
 				</h:panelGroup>
 			</rich:popupPanel>
 			<!-- / scenario selection -->
-		</h:form>		
+		</h:form>
 	</ui:define>
 </ui:composition>

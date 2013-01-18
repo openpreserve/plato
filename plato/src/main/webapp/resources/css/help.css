@@ -130,7 +130,7 @@ a:active {
 	/* IE10+ */
 	background: linear-gradient(to bottom, #5AABF3 0%, #4686BE 100%);
 	/* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#5AABF3',
+	filter: progid:DXImageTransform.Microsoft.gradient(     startColorstr='#5AABF3',
 		endColorstr='#4686BE', GradientType=0 ); /* IE6-9 */
 	text-shadow: #41569B 0px 1px 0px;
 }

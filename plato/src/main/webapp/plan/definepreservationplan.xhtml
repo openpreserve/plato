@@ -1,153 +1,171 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
-                    xmlns:h="http://java.sun.com/jsf/html"
-                    xmlns:f="http://java.sun.com/jsf/core"
-                    xmlns:ui="http://java.sun.com/jsf/facelets"
-                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
-                    xmlns:c="http://java.sun.com/jsp/jstl/core"
-                    xmlns:p="http://java.sun.com/jsf/composite/plato"
-                    template="/WEB-INF/templates/default.xhtml"
-                    xmlns:a4j="http://richfaces.org/a4j"
-                    xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
-    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
-    <ui:define name="content">
-    <h:outputStylesheet name="css/workflow.css"/>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+	<ui:define name="content">
+		<h:outputStylesheet name="css/workflow.css" />
 
-        <h1>Define preservation plan</h1>
-        
-        <p:help text="What exactly is a preservation plan?" url="/plato/help/plan-template.pdf" />
+		<h1>Define preservation plan</h1>
+		<div id="anchors">
+			<ul>
+				<li><a href="#costmodel">Estimate of costs</a></li>
+				<li><a href="#monitoring">Monitoring</a></li>
+			</ul>
+		</div>
+		<div class="wfdescription">
+			While most parts of the preservation planning workflow take care of
+			the technical aspects of the preservation plan, this step mainly
+			defines the organisational details.
+			<div class="more">
+				<a href="../help/workflow.html#define_preservation_plan"
+					target="_blank">more</a>
+			</div>
+		</div>
 
-        <div id="anchors">
-            <ul>
-                <li><a href="#costmodel">Estimate of costs</a></li>
-                <li><a href="#monitoring">Monitoring</a></li>
-            </ul>
-        </div>
+		<p:help text="What exactly is a preservation plan?"
+			url="/plato/help/plan-template.pdf" />
 
-        <h:form id="mainform">
-            <h:inputText id="changedflag" value="#{createExecutablePlan.changed}" style="display:none" />
+		<h:form id="mainform">
+			<h:inputText id="changedflag" value="#{createExecutablePlan.changed}"
+				style="display:none" />
 
-            <fieldset id="costmodel" class="size-full">
-                <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> Estimate of costs </legend>
+			<fieldset id="costmodel" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					Estimate of costs
+				</legend>
 
 				<table width="100%" border="1" rules="cols">
-				    <tr>
-				        <th width="50%"></th>
-				        <th width="50%"></th>
-				    </tr>
-				    <tr>
-				        <td wrap="true" style="padding-top:10px"><center><b>Life Costmodel</b></center></td>
-				        <td wrap="true" style="padding-top:10px"><center><b>TCO (Total Cost of Ownership) Model</b></center></td>
-				    </tr>
-				    <tr>
-				        <td wrap="true">
-				            <p:inputText labelText="CIG (Integrate new solution):" id="cig" required="false"
-				                      input="#{definePreservationPlan.plan.planDefinition.costsIG}"
-				                      touchable="#{definePreservationPlan.plan.planDefinition}" />                
-				        </td>
-				        <td wrap="true">
-				            <p:inputText labelText="TCO:" id="tco" required="false"
-				                         input="#{definePreservationPlan.plan.planDefinition.costsTCO}"
-				                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-				        </td>                
-				    </tr>
-				    <tr>
-				        <td wrap="true">
-				            <p:inputText labelText="CPE (Perform preservation action):" id="cpe" required="false"
-				                         input="#{definePreservationPlan.plan.planDefinition.costsPE}"
-				                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-				
-				        </td>
-				        <td></td>
-				    </tr>
-				    <tr>
-				        <td wrap="true">
-				            <p:inputText labelText="CQA (Quality assure action):" id="cqa" required="false"
-				                         input="#{definePreservationPlan.plan.planDefinition.costsQA}"
-				                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-				        </td>
-				        <td></td>
-				    </tr>
-				    <tr>
-				        <td wrap="true">
-				            <p:inputText labelText="CRM (Record preservation action metadata):" id="crm" required="false"
-				                         input="#{definePreservationPlan.plan.planDefinition.costsRM}"
-				                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-				        </td>
-				        <td></td>
-				    </tr>
-				    <tr>
-				        <td wrap="true">
-				            <p:inputText labelText="Preservation action total (CIG+CPE+CQA+CRM):" id="cpa" required="false"
-				                         input="#{definePreservationPlan.plan.planDefinition.costsPA}"
-				                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-				        </td>
-				        <td></td>
-				    </tr>
-				    <tr>
-				        <td wrap="true">
-				            <p:inputText labelText="Reingest:" id="rei" required="false"
-				                         input="#{definePreservationPlan.plan.planDefinition.costsREI}"
-				                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-				        </td>
-				        <td></td>
-				    </tr>
+					<tr>
+						<th width="50%"></th>
+						<th width="50%"></th>
+					</tr>
+					<tr>
+						<td wrap="true" style="padding-top: 10px"><center> <b>Life
+								Costmodel</b></center></td>
+						<td wrap="true" style="padding-top: 10px"><center> <b>TCO
+								(Total Cost of Ownership) Model</b></center></td>
+					</tr>
+					<tr>
+						<td wrap="true"><p:inputText
+								labelText="CIG (Integrate new solution):" id="cig"
+								required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsIG}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+						<td wrap="true"><p:inputText labelText="TCO:" id="tco"
+								required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsTCO}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+					</tr>
+					<tr>
+						<td wrap="true"><p:inputText
+								labelText="CPE (Perform preservation action):" id="cpe"
+								required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsPE}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td wrap="true"><p:inputText
+								labelText="CQA (Quality assure action):" id="cqa"
+								required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsQA}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td wrap="true"><p:inputText
+								labelText="CRM (Record preservation action metadata):" id="crm"
+								required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsRM}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td wrap="true"><p:inputText
+								labelText="Preservation action total (CIG+CPE+CQA+CRM):"
+								id="cpa" required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsPA}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td wrap="true"><p:inputText labelText="Reingest:" id="rei"
+								required="false"
+								input="#{definePreservationPlan.plan.planDefinition.costsREI}"
+								touchable="#{definePreservationPlan.plan.planDefinition}" /></td>
+						<td></td>
+					</tr>
 				</table>
-		
-		        <hr/>
-		
+
+				<hr />
+
 				<p:inputText labelText="Currency:" id="currency" required="false"
-				             input="#{definePreservationPlan.plan.planDefinition.currency}"
-				             touchable="#{definePreservationPlan.plan.planDefinition}" />
-		        <p:inputTextArea labelText="Remarks:" id="costsremarks" required="false"
-		                         input="#{definePreservationPlan.plan.planDefinition.costsRemarks}"
-		                         touchable="#{definePreservationPlan.plan.planDefinition}" />
-            </fieldset>
+					input="#{definePreservationPlan.plan.planDefinition.currency}"
+					touchable="#{definePreservationPlan.plan.planDefinition}" />
+				<p:inputTextArea labelText="Remarks:" id="costsremarks"
+					required="false"
+					input="#{definePreservationPlan.plan.planDefinition.costsRemarks}"
+					touchable="#{definePreservationPlan.plan.planDefinition}" />
+			</fieldset>
 
-            <fieldset id="monitoring" class="size-full">
-                <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> Monitoring </legend>
+			<fieldset id="monitoring" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					Monitoring
+				</legend>
 
-                <p:inputText labelText="Person responsible for execution:" id="responsibleexecution" required="false"
-                             input="#{definePreservationPlan.plan.planDefinition.responsibleExecution}"
-                             touchable="#{definePreservationPlan.plan.planDefinition}" />
+				<p:inputText labelText="Person responsible for execution:"
+					id="responsibleexecution" required="false"
+					input="#{definePreservationPlan.plan.planDefinition.responsibleExecution}"
+					touchable="#{definePreservationPlan.plan.planDefinition}" />
 
-                <p:inputText labelText="Person responsible for monitoring:" id="responsiblemonitoring" required="false"
-                             input="#{definePreservationPlan.plan.planDefinition.responsibleMonitoring}"
-                             touchable="#{definePreservationPlan.plan.planDefinition}" />
+				<p:inputText labelText="Person responsible for monitoring:"
+					id="responsiblemonitoring" required="false"
+					input="#{definePreservationPlan.plan.planDefinition.responsibleMonitoring}"
+					touchable="#{definePreservationPlan.plan.planDefinition}" />
 
-                <table class="tableStyle">
-                   <tr>
-	                		<th width="5%" class="tableStyle-header">Active&nbsp;&nbsp;</th>
-	                    	<th width="10%" class="tableStyle-header">Trigger</th>
-	                    	<th width="80%" class="tableStyle-header">Description</th>
-	                	</tr>
-                    
-                    <p:inputTrigger id="periodicReview" 
-                                    trigger="#{definePreservationPlan.plan.planDefinition.triggers.periodicReview}"
-                                    helpid="retriggerComment"
-                                    touchable="#{definePreservationPlan.plan.planDefinition}" />
-                                    
-                    <p:inputTrigger id="changedEnvironment" 
-                                    trigger="#{definePreservationPlan.plan.planDefinition.triggers.changedEnvironment}"
-                                    helpid="retriggerComment"
-                                    touchable="#{definePreservationPlan.plan.planDefinition}" />
+				<table class="tableStyle">
+					<tr>
+						<th width="5%" class="tableStyle-header">Active&nbsp;&nbsp;</th>
+						<th width="10%" class="tableStyle-header">Trigger</th>
+						<th width="80%" class="tableStyle-header">Description</th>
+					</tr>
 
-                    <p:inputTrigger id="changedObjective" 
-                                    trigger="#{definePreservationPlan.plan.planDefinition.triggers.changedObjective}"
-                                    touchable="#{definePreservationPlan.plan.planDefinition}"
-                                    helpid="retriggerComment" />
+					<p:inputTrigger id="periodicReview"
+						trigger="#{definePreservationPlan.plan.planDefinition.triggers.periodicReview}"
+						helpid="retriggerComment"
+						touchable="#{definePreservationPlan.plan.planDefinition}" />
 
-                    <p:inputTrigger id="changedCollectionProfile" 
-                                    trigger="#{definePreservationPlan.plan.planDefinition.triggers.changedCollectionProfile}"
-                                    touchable="#{definePreservationPlan.plan.planDefinition}"
-                                    helpid="retriggerComment" />                 
-                  </table>
-            </fieldset>
+					<p:inputTrigger id="changedEnvironment"
+						trigger="#{definePreservationPlan.plan.planDefinition.triggers.changedEnvironment}"
+						helpid="retriggerComment"
+						touchable="#{definePreservationPlan.plan.planDefinition}" />
 
-            <p:savediscardproceed bean="#{viewWorkflow}" />            
-         </h:form>
+					<p:inputTrigger id="changedObjective"
+						trigger="#{definePreservationPlan.plan.planDefinition.triggers.changedObjective}"
+						touchable="#{definePreservationPlan.plan.planDefinition}"
+						helpid="retriggerComment" />
 
-    </ui:define>
+					<p:inputTrigger id="changedCollectionProfile"
+						trigger="#{definePreservationPlan.plan.planDefinition.triggers.changedCollectionProfile}"
+						touchable="#{definePreservationPlan.plan.planDefinition}"
+						helpid="retriggerComment" />
+				</table>
+			</fieldset>
+
+			<p:savediscardproceed bean="#{viewWorkflow}" />
+		</h:form>
+
+	</ui:define>
 </ui:composition>

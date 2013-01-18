@@ -175,18 +175,33 @@ a.anchors {
 }
 
 .wfdescription {
-	padding-top: 10px;
-	margin-right: 50px;
-	vertical-align: center;
+	padding: 10px;
+	margin-right: 40px;
+	vertical-align: middle;
 	font-size: 13px;
 	font-family: Helvetica;
 	font-style: italic;
 	color: #888;
-	vertical-align: center;
+	
+}
+
+.wfdescription .more {
+	float: right;
+}
+
+.wfdescription .more a {
+	font-size: 13px;
 }
 
 .wfstepinfo {
 	margin-bottom: 25px;
+}
+
+div.size-full {
+	clear: both;
+	text-align: left;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 fieldset.size-full {
@@ -199,7 +214,6 @@ fieldset.size-full {
 	margin-bottom: 20px;
 	padding-right: 10px;
 	font-family: Helvetica;
-	background: #F2F2F2;
 }
 
 .fieldset-full-size-legend {
@@ -770,38 +784,40 @@ div.rf-pp-cntr {
 }
 
 .toolinfo {
-	display : none;
+	display: none;
 }
 
 div.leftcolumn {
 	float: left;
 }
+
 div.rightcolumn {
 	float: right;
 }
-div.clear{
-	clear:both;	
+
+div.clear {
+	clear: both;
 }
 
 .div-overlay {
-	display:none;
+	display: none;
 	font-size: 3em;
-	text-align:center;
+	text-align: center;
 	padding-top: 0.2em;
-	color: white; 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    filter:alpha(opacity=50);
-    -moz-opacity:0.5;
-    -khtml-opacity: 0.5;
-    opacity: 0.5;
-    z-index: 10000;
+	color: white;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	filter: alpha(opacity =             50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	z-index: 10000;
 }
 
 .rf-fu-lst {
-	height: 100px;	
+	height: 100px;
 }

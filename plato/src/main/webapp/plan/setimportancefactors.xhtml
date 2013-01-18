@@ -15,24 +15,38 @@
 	</ui:define>
 	<ui:define name="content">
 		<h1>Set Importance Factors</h1>
+		<div class="wfdescription">
+			Not all of the identified objectives are equally important and
+			different degrees of conformance of a solution are accepted in
+			different objectives. This step assigns importance factors to each
+			objective depending on the specific preferences and requirements in
+			the scenario.
+			<div class="more">
+				<a href="../help/workflow.html#set_importance_factors"
+					target="_blank">more</a>
+			</div>
+		</div>
 
 		<h:form id="mainform">
 			<a4j:queue ignoreDupResponses="true" requestDelay="100" />
 			<h:inputText id="changedflag" value="#{setImportanceFactors.changed}"
 				style="display:none" />
 
-			<h:panelGrid columns="2" border="0">
-				<h:outputText value="Balance weights automatically" />
-				<h:selectBooleanCheckbox id="balanceAutomatically"
-					value="#{setImportanceFactors.autoBalancingEnabled}">
-					<a4j:ajax event="change" render="@form" />
-				</h:selectBooleanCheckbox>
-			</h:panelGrid>
-
 			<p:help url="/plato/help/weights.html"
 				text="How does the automatic balancing work?" />
 
-			<div>
+			<div class="full-size">
+				<h:panelGrid columns="2" border="0">
+					<h:outputText value="Balance weights automatically" />
+					<h:selectBooleanCheckbox id="balanceAutomatically"
+						value="#{setImportanceFactors.autoBalancingEnabled}">
+						<a4j:ajax event="change" render="@form" />
+					</h:selectBooleanCheckbox>
+				</h:panelGrid>
+			</div>
+
+
+			<div class="full-size">
 				<h:graphicImage
 					value="/resources/gfx/icons/big/emblem-important.png" />
 				<h:outputText
@@ -124,7 +138,7 @@
 												</h:selectBooleanCheckbox>
 											</div>
 										</a4j:outputPanel>
-										
+
 										<div class="treetable_cell">
 											<!--  we want to display values aggregated over sample objects here.-->
 											<div class="size-xl">

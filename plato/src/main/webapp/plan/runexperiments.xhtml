@@ -13,12 +13,22 @@
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
 	<ui:define name="content">
 		<h1>Run Experiments</h1>
+		<div class="wfdescription">
+			Experiments are designed to test one or more aspects of a specific
+			preservation alternative when applied to the previously defined
+			sample records. Running an experiment produces results, for example
+			converted computer files, revised metadata, and measured workload of
+			the hardware. The results are evaluated in the next step.
+			<div class="more">
+				<a href="../help/workflow.html#run_experiments" target="_blank">more</a>
+			</div>
+		</div>
 
 		<h:form id="mainForm">
 			<h:inputText id="changedflag" value="#{runExperiments.changed}"
 				style="display:none" />
 
-			<a4j:outputPanel layout="block" id="alternativesTablePanel">
+			<div class="full-size">
 				<h:dataTable id="alternativesTable"
 					value="#{runExperiments.plan.alternativesDefinition.consideredAlternatives}"
 					var="alt" styleClass="tableStyle" headerClass="tableStyle-header"
@@ -94,7 +104,7 @@
 						</rich:tabPanel>
 					</h:column>
 				</h:dataTable>
-			</a4j:outputPanel>
+			</div>
 
 			<a4j:commandButton id="runAllExperiments"
 				value="             Run all experiments"

@@ -1,48 +1,63 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
-                    xmlns:h="http://java.sun.com/jsf/html"
-                    xmlns:f="http://java.sun.com/jsf/core"
-                    xmlns:ui="http://java.sun.com/jsf/facelets"
-                    xmlns:x="http://java.sun.com/jsf/composite/htmlx"  
-                    xmlns:p="http://java.sun.com/jsf/composite/plato"    
-                    template="/WEB-INF/templates/default.xhtml"
-                    xmlns:a4j="http://richfaces.org/a4j"
-                    xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
-    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
-    <ui:define name="content">
-        <h1>Develop Experiments</h1>
-             
-        <h:form id="developexperiments_form">
-            <h:dataTable value="#{developExperiments.alternatives}" var="alternative" id="alternativesTable"
-                styleClass="tableStyle" 
-                headerClass="tableStyle-header"
-                rowClasses="tableStyle-row" >
-                <h:column>
-                   <f:facet name="header">Registry</f:facet>
-                   <h:graphicImage value="/resources/gfx/icons/registries/#{alternative.action.actionIdentifier}.png"
-                                   rendered="#{alternative.action != null}" 
-                                   height="40" width="120"/>
-                </h:column>             
-                <h:column>
-                   <f:facet name="header">Alternative</f:facet>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+	<ui:define name="content">
+		<h1>Develop Experiments</h1>
+		<div class="wfdescription">
+			In the experiments, the preservation alternatives are applied to the
+			previous defined sample records. The results of the experiments are
+			later evaluated against the goals and requirements of the objective
+			tree.
+			<div class="more">
+				<a href="../help/workflow.html#develop_experiments" target="_blank">more</a>
+			</div>
+		</div>
+
+		<h:form id="developexperiments_form">
+			<div class="full-size">
+				<h:dataTable value="#{developExperiments.alternatives}"
+					var="alternative" id="alternativesTable" styleClass="tableStyle"
+					headerClass="tableStyle-header" rowClasses="tableStyle-row">
+					<h:column>
+						<f:facet name="header">Registry</f:facet>
+						<h:graphicImage
+							value="/resources/gfx/icons/registries/#{alternative.action.actionIdentifier}.png"
+							rendered="#{alternative.action != null}" height="40" width="120" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Alternative</f:facet>
                    #{alternative.name}
                 </h:column>
-                <h:column>
-                   <f:facet name="header">Description</f:facet>
-                   <p:inputTextArea labelText="Description:" input="#{alternative.experiment.description}" required="false"/> <br/>
-                   <p:inputTextArea labelText="Settings:" input="#{alternative.experiment.settings}" required="false"/>
-                   
-		            <h:panelGroup rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}" layout="block">
+					<h:column>
+						<f:facet name="header">Description</f:facet>
+						<p:inputTextArea labelText="Description:"
+							input="#{alternative.experiment.description}" required="false" />
+						<br />
+						<p:inputTextArea labelText="Settings:"
+							input="#{alternative.experiment.settings}" required="false" />
+
+						<h:panelGroup
+							rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}"
+							layout="block">
 		                Information about parameters:              
-		                <pre class="overflow-s" style="width:58%;"> #{alernative.action.parameterInfo}" </pre>            
-		            </h:panelGroup>
-                </h:column>
-            </h:dataTable>
+		                <pre class="overflow-s" style="width: 58%;"> #{alernative.action.parameterInfo}" </pre>
+						</h:panelGroup>
+					</h:column>
+				</h:dataTable>
+			</div>
 
-            <p:savediscardproceed bean="#{viewWorkflow}" />
-        </h:form>
+			<p:savediscardproceed bean="#{viewWorkflow}" />
+		</h:form>
 
-    </ui:define>
+	</ui:define>
 </ui:composition>
