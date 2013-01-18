@@ -1,66 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-    xmlns:a4j="http://richfaces.org/a4j"
-    xmlns:rich="http://richfaces.org/rich"
-    template="/WEB-INF/templates/default.xhtml">
-    
-    <ui:define name="application-title">Knowledge Browser - Plan Selection</ui:define>
-    <ui:define name="page-title"></ui:define>
-    
-    <ui:define name="content">
-    <h:outputStylesheet name="css/plans-kb.css"/>
-        <h1>Select Plans to analyse</h1>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/WEB-INF/templates/default.xhtml">
 
-        <h:form>
-	        <h:dataTable value="#{planSelector.selectablePlanProperties}" var="p"
-	                     rendered="#{!empty planSelector.selectablePlanProperties}"
-	                     styleClass="tableStyle" 
-	                     headerClass="tableStyle-header"
-	                     rowClasses="plans-row1, plans-row2" border="0"
-	                     columnClasses="column-ps-select,column-ps-name,column-ps-description,column-ps-author,column-ps-state">
-	            <h:column>
-	                <f:facet name="header">
-	                    <h:outputText value="Select" />
-	                </f:facet>
-	                <h:selectBooleanCheckbox value="#{planSelector.checkedPlanProperties[p.id]}" />
-	            </h:column>
-	            <h:column>
-	                <f:facet name="header">
-	                    <h:outputText value="Name" />
-	                </f:facet>
+	<ui:define name="application-title">Knowledge Browser - Plan Selection</ui:define>
+	<ui:define name="page-title"></ui:define>
+
+	<ui:define name="content">
+		<h:outputStylesheet name="css/plans-kb.css" />
+		<h1>Select Plans to analyse</h1>
+
+		<h:form>
+			<a4j:outputPanel id="planlist">
+				<h:dataTable value="#{planSelector.selectablePlanProperties}"
+					var="p" rendered="#{!empty planSelector.selectablePlanProperties}"
+					styleClass="tableStyle" headerClass="tableStyle-header"
+					rowClasses="plans-row1, plans-row2" border="0"
+					columnClasses="column-ps-select,column-ps-name,column-ps-description,column-ps-author,column-ps-state">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Select" />
+						</f:facet>
+						<h:selectBooleanCheckbox
+							value="#{planSelector.checkedPlanProperties[p.id]}">
+							<a4j:ajax event="click"
+								listener="#{planSelector.planSelectionChanged()}"
+								render="planlist" />
+						</h:selectBooleanCheckbox>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Name" />
+						</f:facet>
 	                #{p.name}
 	            </h:column>
-	            <h:column >
-	                <f:facet name="header">
-	                    <h:outputText value="Description" />
-	                </f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Description" />
+						</f:facet>
 	                #{p.description}
 	            </h:column>
-	            <h:column>
-	                <f:facet name="header">
-	                    <h:outputText value="Author" />
-	                </f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Author" />
+						</f:facet>
 	                #{p.author}
 	            </h:column>
-	            <h:column>
-	                <f:facet name="header">
-	                    <h:outputText value="State" />
-	                </f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="State" />
+						</f:facet>
 	                #{p.state.name}
 	            </h:column>
-	        </h:dataTable>
-	        
-	        <br/>
-	        
-	        <h:commandButton action="#{planSelector.applySelection()}" value="Apply"  />
-        </h:form>
+				</h:dataTable>
+				<h:selectBooleanCheckbox value="#{planSelector.selectAll}"
+					immediate="true">
+					<a4j:ajax event="click"
+						listener="#{planSelector.selectAllChanged()}" render="planlist" />
+				</h:selectBooleanCheckbox>
+				Select all
+			</a4j:outputPanel>
 
-        <br/>
-        <h:outputLink value="index.jsf">[BACK to Knowledge Browser Actions]</h:outputLink>
+			<br />
+			<h:commandButton action="#{planSelector.applySelection()}"
+				value="Apply" />
 
-    </ui:define>
+		</h:form>
+
+		<br />
+		<h:outputLink value="index.jsf">[BACK to Knowledge Browser Actions]</h:outputLink>
+
+	</ui:define>
 </ui:composition>
