@@ -18,6 +18,7 @@ package eu.scape_project.planning.criteria.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PlanType;
+import eu.scape_project.planning.model.User;
 
 /**
  * Class responsible for selecting and setting the plans to analyse.
@@ -45,6 +50,11 @@ public class PlanSelector implements Serializable {
 
     @Inject
     PlanSelection planSelection;
+    @Inject
+    private User user;
+
+    private static final List<PlanState> CONSIDERED_PLAN_STATES = Arrays.asList(PlanState.WEIGHTS_SET,
+        PlanState.ANALYSED, PlanState.EXECUTEABLE_PLAN_CREATED, PlanState.PLAN_DEFINED, PlanState.PLAN_VALIDATED);
 
     private List<PlanProperties> selectablePlanProperties;
 
@@ -62,15 +72,39 @@ public class PlanSelector implements Serializable {
      * 
      * @return Outcome-string of the planselector-page.
      */
-    @SuppressWarnings("unchecked")
     public String init() {
-        // TODO: Display only public plans (this was deactivated for
-        // all-staff/review presentations)
-        // Add to WHERE clause: WHERE pp.privateProject=false AND ...
-        selectablePlanProperties = (List<PlanProperties>) em
-            .createQuery(
-                "SELECT pp FROM PlanProperties pp WHERE pp.state in ('WEIGHTS_SET', 'ANALYSED', 'EXECUTEABLE_PLAN_CREATED','PLAN_DEFINED', 'PLAN_VALIDATED')  AND pp.name NOT LIKE 'MY DEMO PLAN%'")
-            .getResultList();
+
+        TypedQuery<PlanProperties> query = null;
+
+        if (user.isAdmin()) {
+            query = em.createQuery("select p.planProperties from Plan p where"
+                + " ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+                + " AND p.planProperties.state IN (:planStates)"
+                + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" + " order by p.planProperties.id",
+                PlanProperties.class);
+        } else {
+            List<String> usernames = em
+                .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup", String.class)
+                .setParameter("userGroup", user.getUserGroup()).getResultList();
+
+            if (usernames.isEmpty()) {
+                return "planselector.jsf";
+            }
+
+            query = em.createQuery("select p.planProperties from Plan p where"
+                + " (p.planProperties.privateProject = false OR p.planProperties.owner IN (:usernames))"
+                + " AND ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+                + " AND p.planProperties.state IN (:planStates)"
+                + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" + " order by p.planProperties.id",
+                PlanProperties.class);
+
+            query.setParameter("usernames", usernames);
+        }
+
+        query.setParameter("planType", PlanType.FULL);
+        query.setParameter("planStates", CONSIDERED_PLAN_STATES);
+
+        selectablePlanProperties = query.getResultList();
 
         // make sure that for each PlanProperties entry exists a HashMap entry
         for (PlanProperties pp : selectablePlanProperties) {
@@ -139,7 +173,6 @@ public class PlanSelector implements Serializable {
     }
 
     // --------------- getter/setter ---------------
-
     public List<PlanProperties> getSelectablePlanProperties() {
         return selectablePlanProperties;
     }
