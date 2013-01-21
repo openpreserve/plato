@@ -145,7 +145,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
             fileExtension = filename.substring(bodyEnd);
         }
 
-        String tempFileName = tempDir.getAbsolutePath() + System.nanoTime() + fileExtension;
+        String tempFileName = tempDir.getAbsolutePath()  + File.separator + System.nanoTime() + fileExtension;
         File tempFile = new File(tempFileName);
 
         OutputStream fileStream;

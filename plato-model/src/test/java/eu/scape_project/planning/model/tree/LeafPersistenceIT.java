@@ -19,7 +19,7 @@ import eu.scape_project.planning.model.scales.PositiveIntegerScale;
 import eu.scape_project.planning.model.values.PositiveIntegerValue;
 import eu.scape_project.planning.model.values.Value;
 
-public class LeafPersistenceTest extends PersistenceTest{
+public class LeafPersistenceIT extends PersistenceTest{
     
     @Test
     public void testRemovingScale(){

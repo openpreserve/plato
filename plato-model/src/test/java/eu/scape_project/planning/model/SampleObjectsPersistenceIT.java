@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SampleObjectsPersistenceTest extends PersistenceTest{
+public class SampleObjectsPersistenceIT extends PersistenceTest{
 
 
     @Test

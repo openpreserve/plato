@@ -3,7 +3,7 @@ package eu.scape_project.planning.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SampleRecordsDefinitionTest {
+public class SampleRecordsDefinitionIT {
     
     @Test
     public void testAddRemoveRecord() {
