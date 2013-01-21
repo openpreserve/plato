@@ -22,9 +22,6 @@ import java.util.List;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,6 +29,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
+
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.AlternativesDefinition;
@@ -48,9 +48,6 @@ import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.FacesMessages;
-
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
 
 /**
  * stateful session bean for managing plans
