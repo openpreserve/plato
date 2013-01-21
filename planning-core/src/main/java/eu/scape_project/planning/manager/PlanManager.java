@@ -122,11 +122,7 @@ public class PlanManager implements Serializable {
                 subquery.select(fromUser.<User> get("username"));
                 subquery.where(builder.equal(fromUser.get("userGroup"), user.getUserGroup()));
 
-                Predicate owner = fromPP.get("owner").in(subquery);
-                Predicate type = builder.or(builder.equal(fromPP.get("planType"), PlanType.FULL),
-                    fromPlan.get("projectBasis").get("identificationCode").isNull());
-
-                visibilityPredicates.add(builder.and(owner, type));
+                visibilityPredicates.add(fromPP.get("owner").in(subquery));
             } else if (whichProjects == WhichProjects.PUBLICPROJECTS) {
                 visibilityPredicates.add(builder.or(builder.isFalse(fromPP.<Boolean> get("privateProject")),
                     builder.isTrue(fromPP.<Boolean> get("reportPublic"))));
