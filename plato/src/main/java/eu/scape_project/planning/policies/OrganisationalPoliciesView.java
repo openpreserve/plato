@@ -156,9 +156,14 @@ public class OrganisationalPoliciesView implements Serializable {
 
     public String controlPolicyToString(ControlPolicy controlPolicy) {
         String text = "The control policy identified by URI " + controlPolicy.getUri() + " ";
-
+        
+        String modality = "";
+        if (controlPolicy.getModality() != null) {
+            modality = controlPolicy.getModality().toString(); 
+        }
+        
         text += "indicates that measure " + controlPolicy.getMeasure().getName() + " ";
-        text += controlPolicy.getModality().toString() + " have a value " + controlPolicy.getQualifier().toString()
+        text += modality + " have a value " + controlPolicy.getQualifier().toString()
             + " " + controlPolicy.getValue();
 
         return text;
