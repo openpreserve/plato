@@ -56,9 +56,12 @@ input.input-dir {
 }
 
 .column-action {
-	width: 10%;
+	width: 12%;
 	text-align: center;
 	border: 1px solid white;
+}
+.column-action img{
+	margin-bottom: -8px;
 }
 
 .column-locked {

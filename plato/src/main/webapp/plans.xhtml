@@ -39,7 +39,7 @@
 					rendered="#{not empty planLister.list}"
 					styleClass="tableStyle margin-top" headerClass="tableStyle-header"
 					rowClasses="plans-row1, plans-row2"
-					columnClasses="column-type,column-id,column-name,column-description,column-author,column-state,column-action,column-locked">
+					columnClasses="column-type,column-id,column-name,column-description,column-author,column-state,column-action">
 					<h:column>
 						<f:facet name="header">
 						   Type
@@ -82,20 +82,16 @@
 						</f:facet>
 						<a4j:outputPanel rendered="#{not p.readOnly}"
 							styleClass="plan-action">
-							<h:commandLink value="Load"
+							<h:commandButton value="Load"
 								action="#{viewWorkflowManager.startWorkflow(p.id)}"
 								rendered="#{p.open or (not p.allowReload)}"
 								disabled="#{not p.open}" />
 
+							<h:graphicImage library="gfx" name="icons/locked.png"
+								title="locked by #{p.openedByUser}" rendered="#{not p.open}"/>
 							<a4j:commandButton action="#{planLister.unlock(p.id)}"
 								value="Unlock" rendered="#{not p.open and p.allowReload}"
 								render="planListPanel" />
-						</a4j:outputPanel>
-					</h:column>
-					<h:column>
-						<a4j:outputPanel rendered="#{not p.open}">
-							<h:graphicImage library="gfx" name="icons/locked.png"
-								title="locked by #{p.openedByUser}" />
 						</a4j:outputPanel>
 					</h:column>
 				</h:dataTable>
