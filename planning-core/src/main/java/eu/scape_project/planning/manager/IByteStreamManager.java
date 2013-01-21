@@ -18,8 +18,6 @@ package eu.scape_project.planning.manager;
 
 import java.io.File;
 
-import eu.scape_project.planning.model.DigitalObject;
-
 /**
  * Interface for bytestream managers.
  * 
