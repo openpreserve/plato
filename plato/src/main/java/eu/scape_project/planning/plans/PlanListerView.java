@@ -25,20 +25,22 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.manager.PlanManager;
+import eu.scape_project.planning.manager.PlanManager.PlanQuery;
 import eu.scape_project.planning.manager.PlanManager.WhichProjects;
 import eu.scape_project.planning.model.PlanProperties;
+import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.xml.ProjectImporter;
 
+import org.richfaces.event.FileUploadEvent;
+import org.richfaces.model.UploadedFile;
+import org.slf4j.Logger;
+
 /**
- * controller for listing plans
+ * Controller for listing plans.
  * 
  * @author cb
  * @see {@link PlanManager}
@@ -59,7 +61,7 @@ public class PlanListerView implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
-    
+
     private List<String> transformations;
 
     /**
@@ -68,89 +70,125 @@ public class PlanListerView implements Serializable {
      */
     private WhichProjects projectSelection = WhichProjects.ALLPROJECTS;
 
-    /*
-     * private String directory = "";
-     * 
-     * public String importFromDir() { try {
-     * projectImporter.importFromDir(directory); } catch (PlatoException e) {
-     * log.debug(e); } return listAll();
-     * 
-     * }
-     * 
-     * public String getDirectory() { return directory; }
-     * 
-     * public void setDirectory(String directory) { directory = directory; }
-     */
+    private PlanType planType = PlanType.FULL;
 
     private List<PlanProperties> list;
 
-    public List<PlanProperties> getList() {
-        return list;
-    }
+    private PlanQuery planQuery;
 
+    /**
+     * Lists all available projects for the current user.
+     * 
+     * @return the navigation target
+     */
     public String listAll() {
         resetTransformations();
-        if (projectSelection == WhichProjects.FTEPROJECTS || projectSelection == WhichProjects.PUBLICFTEPROJECTS || projectSelection == WhichProjects.ALLFTEPROJECTS) {
-            projectSelection = WhichProjects.ALLFTEPROJECTS;
-        } else { 
-            projectSelection = WhichProjects.ALLPROJECTS;
-        }
-        list = planManager.list(projectSelection);
+
+        projectSelection = WhichProjects.ALLPROJECTS;
+        createPlanQuery();
+        list = planManager.list(planQuery);
+
         log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
-    public String listFTEProjects() {
-        resetTransformations();
-        projectSelection = WhichProjects.FTEPROJECTS;
-        list = planManager.list(projectSelection);
-        log.debug("listing " + list.size() + " plans");
-        return "/plans.jsf";
-    }
-
-    public String listAllProjects() {
-        resetTransformations();
-        if (projectSelection == WhichProjects.FTEPROJECTS || projectSelection == WhichProjects.PUBLICFTEPROJECTS) {
-            projectSelection = WhichProjects.ALLFTEPROJECTS;
-        } else { 
-            projectSelection = WhichProjects.ALLPROJECTS;
-        }
-        list = planManager.list(projectSelection);
-        log.debug("listing " + list.size() + " plans");
-        return "/plans.jsf";
-    }
-
+    /**
+     * Lists full plans of the current user.
+     * 
+     * @return the navigation target
+     */
     public String listMyProjects() {
         resetTransformations();
+
         projectSelection = WhichProjects.MYPROJECTS;
-        list = planManager.list(projectSelection);
+        planType = PlanType.FULL;
+        createPlanQuery();
+        list = planManager.list(planQuery);
+
         log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
+    /**
+     * Lists public projects.
+     * 
+     * @return the navigation target
+     */
     public String listPublicProjects() {
         resetTransformations();
+
         projectSelection = WhichProjects.PUBLICPROJECTS;
-        list = planManager.list(projectSelection);
+        planType = PlanType.FULL;
+        createPlanQuery();
+        list = planManager.list(planQuery);
+
         log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
+    /**
+     * Lists fast track plans of the current user.
+     * 
+     * @return the navigation target
+     */
+    public String listFTEProjects() {
+        resetTransformations();
+
+        projectSelection = WhichProjects.MYPROJECTS;
+        planType = PlanType.FTE;
+        createPlanQuery();
+        list = planManager.list(planQuery);
+
+        log.debug("listing " + list.size() + " plans");
+        return "/plans.jsf";
+    }
+
+    /**
+     * Lists public fast track plans.
+     * 
+     * @return the navigation target
+     */
     public String listPublicFTEResults() {
         resetTransformations();
-        projectSelection = WhichProjects.PUBLICFTEPROJECTS;
-        list = planManager.list(projectSelection);
+
+        projectSelection = WhichProjects.PUBLICPROJECTS;
+        planType = PlanType.FTE;
+        createPlanQuery();
+        list = planManager.list(planQuery);
+
         log.debug("listing " + list.size() + " plans");
         return "/plans.jsf";
     }
 
+    /**
+     * Reads plans according to the plan selection.
+     */
+    private void createPlanQuery() {
+        planQuery = planManager.createQuery();
+        planQuery.addVisibility(projectSelection).addType(planType);
+    }
+
+    /**
+     * Unlocks the plan with the provided plan id.
+     * 
+     * @param pid
+     *            the plan id
+     * @return the navigation target
+     */
     public String unlock(final int pid) {
         resetTransformations();
         planManager.unlockPlan(pid);
-        list = planManager.list(projectSelection);
+        list = planManager.list(planQuery);
         return null;
     }
 
+    /**
+     * File upload listener to import plans.
+     * 
+     * @param event
+     *            event of the uploaded file
+     * @throws Exception
+     */
     public void listener(final FileUploadEvent event) throws Exception {
         UploadedFile item = event.getUploadedFile();
 
@@ -165,29 +203,37 @@ public class PlanListerView implements Serializable {
             List<String> appliedTransformations = projectImporter.getAppliedTransformations();
             transformations = appliedTransformations;
             if (!appliedTransformations.isEmpty()) {
-                facesMessages.addInfo(null, 
+                facesMessages.addInfo(null,
                     "Your XML file was outdated, therefore it had to be migrated to the current Plato Schema.");
             }
 
-            list = planManager.list(projectSelection);
+            list = planManager.list(planQuery);
         } catch (PlatoException e) {
             log.error("Failed to upload plan: " + item.getName(), e);
 
             facesMessages.addError("Failed to upload plan: " + item.getName());
         }
     }
-    
-    private void resetTransformations(){
+
+    private void resetTransformations() {
         transformations = null;
-    }
-    
-    public List<String> getTransformations() {
-        return transformations;
     }
 
     // --------------- getter/setter ---------------
 
     public WhichProjects getProjectSelection() {
         return projectSelection;
+    }
+
+    public PlanType getPlanType() {
+        return planType;
+    }
+
+    public List<PlanProperties> getList() {
+        return list;
+    }
+
+    public List<String> getTransformations() {
+        return transformations;
     }
 }

@@ -88,8 +88,6 @@
 
 			<div class="menu-container-actions">
 
-
-
 				<ul class="actions">
 					<li class="home-item"><h:commandLink
 							action="#{planLister.listMyProjects}">
@@ -113,18 +111,6 @@
 								</div>
 							</div>
 						</h:commandLink></li>
-
-					<x:div rendered="#{user.admin}" styleClass="home-item">
-						<h:commandLink action="#{planLister.listAllProjects}">
-							<div class="home-item-container">
-								<div class="home-item-text">List all preservation plans</div>
-								<div>
-									<h:graphicImage value="/resources/gfx/large/public.png"
-										width="80px" height="80px" />
-								</div>
-							</div>
-						</h:commandLink>
-					</x:div>
 
 					<li class="home-item"><h:commandLink
 							action="#{createPlan.createPlan}">

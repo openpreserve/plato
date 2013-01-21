@@ -8,27 +8,22 @@
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 		<h:outputStylesheet name="css/plans.css" />
-		<a4j:outputPanel layout="inline"
-			rendered="#{(planLister.projectSelection == 'MYPROJECTS')}">
-			<h1>My plans</h1>
-		</a4j:outputPanel>
-		<a4j:outputPanel layout="inline"
-			rendered="#{(planLister.projectSelection == 'PUBLICPROJECTS')}">
-			<h1>Public plans</h1>
-		</a4j:outputPanel>
-		<a4j:outputPanel layout="inline"
-			rendered="#{(planLister.projectSelection == 'FTEPROJECTS') || (planLister.projectSelection == 'PUBLICFTEPROJECTS')}">
-			<h1>My fast track results</h1>
-		</a4j:outputPanel>
-		<a4j:outputPanel layout="inline"
-			rendered="#{planLister.projectSelection == 'ALLPROJECTS'}">
-			<h1>All plans and fast track results</h1>
-		</a4j:outputPanel>
+		<h1>
+			<h:outputText value="My "
+				rendered="#{planLister.projectSelection == 'MYPROJECTS'}" />
+			<h:outputText value="Public "
+				rendered="#{planLister.projectSelection == 'PUBLICPROJECTS'}" />
+			<h:outputText value="All "
+				rendered="#{planLister.projectSelection == 'ALLPROJECTS'}" />
+			<h:outputText value="plans"
+				rendered="#{planLister.planType == 'FULL'}" />
+			<h:outputText value="fast track results"
+				rendered="#{planLister.planType == 'FTE'}" />
+		</h1>
 
 		<h:form id="listprojects">
 			<h:commandButton id="list" action="#{planLister.listAll}"
-				value="List both, my private and all public"
-				rendered="#{user.admin}" class="margin-top" />
+				value="List all plans" rendered="#{user.admin}" class="margin-top" />
 
 			<a4j:outputPanel layout="block" id="planListPanel">
 				<a4j:outputPanel layout="block" rendered="#{empty planLister.list}">

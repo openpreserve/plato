@@ -36,9 +36,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import javax.transaction.UserTransaction;
 
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.DigitalObject;
@@ -55,6 +52,9 @@ import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.FacesMessages;
 
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+
 /**
  * stateful session bean for managing plans
  */
@@ -65,7 +65,7 @@ public class PlanManager implements Serializable {
     private static final long serialVersionUID = -1L;
 
     public enum WhichProjects {
-        ALLPROJECTS, ALLFTEPROJECTS, PUBLICPROJECTS, MYPROJECTS, FTEPROJECTS, PUBLICFTEPROJECTS;
+        ALLPROJECTS, PUBLICPROJECTS, MYPROJECTS;
     }
 
     /**
@@ -284,98 +284,109 @@ public class PlanManager implements Serializable {
         this.lastLoadMode = lastLoadMode;
     }
 
-    // FIXME @Observer("projectListChanged")
-    public List<PlanProperties> relist() {
-        List<PlanProperties> planList = list(lastLoadMode);
-        log.debug("reloading  in " + lastLoadMode + ": number of projects loaded: " + planList.size());
-        return planList;
-    }
+    // // FIXME @Observer("projectListChanged")
+    // public List<PlanProperties> relist() {
+    // List<PlanProperties> planList = list(lastLoadMode);
+    // log.debug("reloading  in " + lastLoadMode +
+    // ": number of projects loaded: " + planList.size());
+    // return planList;
+    // }
 
-    /**
-     * Furthermore, checks if project is locked by the current user, who may
-     * thus be allowed to unlock the project. In this case the
-     * {@link PlanProperties#isAllowReload()} is set. In the user interface this
-     * flag means that an 'Unlock' button is displayed.
-     */
-    public List<PlanProperties> list(WhichProjects whichProjects) {
-
-        TypedQuery<PlanProperties> query = null;
-
-        // Select usernames of the users group
-        List<String> usernames = em
-            .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup", String.class)
-            .setParameter("userGroup", user.getUserGroup()).getResultList();
-
-        if (usernames.isEmpty()) {
-            return new ArrayList<PlanProperties>();
-        }
-
-        if (whichProjects == WhichProjects.MYPROJECTS) {
-            // load user's projects
-            query = em.createQuery("select p.planProperties from Plan p where"
-                + " (p.planProperties.owner IN (:usernames))"
-                + " and (p.planProperties.planType = :planType)"
-                + " order by p.planProperties.id", PlanProperties.class);
-            query.setParameter("usernames", usernames);
-            query.setParameter("planType", PlanType.FULL);
-
-        } else if ((whichProjects == WhichProjects.ALLPROJECTS || whichProjects == WhichProjects.ALLFTEPROJECTS)
-            && (user.isAdmin())) {
-            // load all projects, public and private,
-            // but ONLY if the user is an admin
-            query = em.createQuery("select p from PlanProperties p where (p.planType = :planType) order by p.id",
-                PlanProperties.class);
-            if (whichProjects == WhichProjects.ALLFTEPROJECTS) {
-                query.setParameter("planType", PlanType.FTE);
-            } else {
-                query.setParameter("planType", PlanType.FULL);
-            }
-        } else if (whichProjects == WhichProjects.FTEPROJECTS) {
-            query = em.createQuery("select p.planProperties from Plan p where"
-                + " (p.planProperties.owner IN (:usernames)) " + " and (p.planProperties.planType = :planType)"
-                + " order by p.planProperties.id", PlanProperties.class);
-            query.setParameter("usernames", usernames);
-            query.setParameter("planType", PlanType.FTE);
-
-        } else if (whichProjects == WhichProjects.PUBLICFTEPROJECTS) {
-            query = em.createQuery("select p.planProperties from Plan p where"
-                + " (p.planProperties.privateProject = false )" + " and (p.planProperties.planType = :planType)"
-                + " order by p.planProperties.id", PlanProperties.class);
-            query.setParameter("planType", PlanType.FTE);
-        } else {
-            // load all public projects, which includes those with published
-            // reports
-            query = em.createQuery(
-                "select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
-                    + " or (p.planProperties.reportPublic = true)) " + " and (p.planProperties.planType = :planType) "
-                    + " order by p.planProperties.id", PlanProperties.class);
-            query.setParameter("planType", PlanType.FULL);
-        }
-
-        List<PlanProperties> planList = query.getResultList();
-
-        //
-        // readOnly in PlanProperties is *transient*, it is used
-        // to determine if a user is allowed to load a project
-        //
-        for (PlanProperties pp : planList) {
-
-            // a project may NOT be loaded when
-            // ... it is set to private
-            // ... AND the user currently logged in is not the administrator
-            // ... AND the user currently logged in is not the owner of that
-            // project
-            boolean readOnly = pp.isPrivateProject() && !user.isAdmin() && !user.getUsername().equals(pp.getOwner())
-                && !usernames.contains(pp.getOwner());
-
-            boolean allowReload = pp.getOpenedByUser().equals(user.getUsername()) || user.isAdmin();
-
-            pp.setReadOnly(readOnly);
-            pp.setAllowReload(allowReload);
-        }
-        setLastLoadMode(whichProjects);
-        return planList;
-    }
+    // /**
+    // * Furthermore, checks if project is locked by the current user, who may
+    // * thus be allowed to unlock the project. In this case the
+    // * {@link PlanProperties#isAllowReload()} is set. In the user interface
+    // this
+    // * flag means that an 'Unlock' button is displayed.
+    // */
+    // public List<PlanProperties> list(WhichProjects whichProjects) {
+    //
+    // TypedQuery<PlanProperties> query = null;
+    //
+    // // Select usernames of the users group
+    // List<String> usernames = em
+    // .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup",
+    // String.class)
+    // .setParameter("userGroup", user.getUserGroup()).getResultList();
+    //
+    // if (usernames.isEmpty()) {
+    // return new ArrayList<PlanProperties>();
+    // }
+    //
+    // if (whichProjects == WhichProjects.MYPROJECTS) {
+    // // load user's projects
+    // query = em.createQuery("select p.planProperties from Plan p where"
+    // + " (p.planProperties.owner IN (:usernames))"
+    // +
+    // " and ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+    // + " order by p.planProperties.id", PlanProperties.class);
+    // query.setParameter("usernames", usernames);
+    // query.setParameter("planType", PlanType.FULL);
+    //
+    // } else if ((whichProjects == WhichProjects.ALLPROJECTS || whichProjects
+    // == WhichProjects.ALLFTEPROJECTS)
+    // && (user.isAdmin())) {
+    // // load all projects, public and private,
+    // // but ONLY if the user is an admin
+    // query =
+    // em.createQuery("select p from PlanProperties p where (p.planType = :planType) order by p.id",
+    // PlanProperties.class);
+    // if (whichProjects == WhichProjects.ALLFTEPROJECTS) {
+    // query.setParameter("planType", PlanType.FTE);
+    // } else {
+    // query.setParameter("planType", PlanType.FULL);
+    // }
+    // } else if (whichProjects == WhichProjects.FTEPROJECTS) {
+    // query = em.createQuery("select p.planProperties from Plan p where"
+    // + " (p.planProperties.owner IN (:usernames)) " +
+    // " and (p.planProperties.planType = :planType)"
+    // + " order by p.planProperties.id", PlanProperties.class);
+    // query.setParameter("usernames", usernames);
+    // query.setParameter("planType", PlanType.FTE);
+    //
+    // } else if (whichProjects == WhichProjects.PUBLICFTEPROJECTS) {
+    // query = em.createQuery("select p.planProperties from Plan p where"
+    // + " (p.planProperties.privateProject = false )" +
+    // " and (p.planProperties.planType = :planType)"
+    // + " order by p.planProperties.id", PlanProperties.class);
+    // query.setParameter("planType", PlanType.FTE);
+    // } else {
+    // // load all public projects, which includes those with published
+    // // reports
+    // query = em.createQuery(
+    // "select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
+    // + " or (p.planProperties.reportPublic = true)) " +
+    // " and (p.planProperties.planType = :planType) "
+    // + " order by p.planProperties.id", PlanProperties.class);
+    // query.setParameter("planType", PlanType.FULL);
+    // }
+    //
+    // List<PlanProperties> planList = query.getResultList();
+    //
+    // //
+    // // readOnly in PlanProperties is *transient*, it is used
+    // // to determine if a user is allowed to load a project
+    // //
+    // for (PlanProperties pp : planList) {
+    //
+    // // a project may NOT be loaded when
+    // // ... it is set to private
+    // // ... AND the user currently logged in is not the administrator
+    // // ... AND the user currently logged in is not the owner of that
+    // // project
+    // boolean readOnly = pp.isPrivateProject() && !user.isAdmin() &&
+    // !user.getUsername().equals(pp.getOwner())
+    // && !usernames.contains(pp.getOwner());
+    //
+    // boolean allowReload = pp.getOpenedByUser().equals(user.getUsername()) ||
+    // user.isAdmin();
+    //
+    // pp.setReadOnly(readOnly);
+    // pp.setAllowReload(allowReload);
+    // }
+    // setLastLoadMode(whichProjects);
+    // return planList;
+    // }
 
     /**
      * Creates a new plan query.
@@ -400,6 +411,29 @@ public class PlanManager implements Serializable {
 
         TypedQuery<PlanProperties> query = em.createQuery(planQuery.cq);
         List<PlanProperties> planProperties = query.getResultList();
+
+        // Set transient fields readOnly and allowReload
+        List<String> usernames = em
+            .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup", String.class)
+            .setParameter("userGroup", user.getUserGroup()).getResultList();
+
+        for (PlanProperties pp : planProperties) {
+
+            // A project may NOT be loaded when
+            // ... it is set to private
+            // ... AND the user currently logged in is not the administrator
+            // ... AND the user currently logged in is not the owner of that
+            // ... AND the user currently logged in is not in the group of the
+            // owner of that
+            // project
+            boolean readOnly = pp.isPrivateProject() && !user.isAdmin() && !user.getUsername().equals(pp.getOwner())
+                && !usernames.contains(pp.getOwner());
+
+            boolean allowReload = pp.getOpenedByUser().equals(user.getUsername()) || user.isAdmin();
+
+            pp.setReadOnly(readOnly);
+            pp.setAllowReload(allowReload);
+        }
 
         return planProperties;
     }
