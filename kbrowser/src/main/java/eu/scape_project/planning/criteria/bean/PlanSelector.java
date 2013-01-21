@@ -28,8 +28,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
+import eu.scape_project.planning.manager.PlanManager;
+import eu.scape_project.planning.manager.PlanManager.WhichProjects;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlanType;
@@ -50,8 +51,12 @@ public class PlanSelector implements Serializable {
 
     @Inject
     PlanSelection planSelection;
+
     @Inject
     private User user;
+
+    @Inject
+    PlanManager planManager;
 
     private static final List<PlanState> CONSIDERED_PLAN_STATES = Arrays.asList(PlanState.WEIGHTS_SET,
         PlanState.ANALYSED, PlanState.EXECUTEABLE_PLAN_CREATED, PlanState.PLAN_DEFINED, PlanState.PLAN_VALIDATED);
@@ -74,37 +79,54 @@ public class PlanSelector implements Serializable {
      */
     public String init() {
 
-        TypedQuery<PlanProperties> query = null;
+        PlanManager.PlanQuery pq = planManager.createQuery();
+        pq.addType(PlanType.FULL).filterMinState(PlanState.WEIGHTS_SET).filterNameUnlike("MY DEMO PLAN%");
 
         if (user.isAdmin()) {
-            query = em.createQuery("select p.planProperties from Plan p where"
-                + " ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
-                + " AND p.planProperties.state IN (:planStates)"
-                + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" + " order by p.planProperties.id",
-                PlanProperties.class);
+            pq.addVisibility(WhichProjects.ALLPROJECTS);
         } else {
-            List<String> usernames = em
-                .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup", String.class)
-                .setParameter("userGroup", user.getUserGroup()).getResultList();
-
-            if (usernames.isEmpty()) {
-                return "planselector.jsf";
-            }
-
-            query = em.createQuery("select p.planProperties from Plan p where"
-                + " (p.planProperties.privateProject = false OR p.planProperties.owner IN (:usernames))"
-                + " AND ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
-                + " AND p.planProperties.state IN (:planStates)"
-                + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" + " order by p.planProperties.id",
-                PlanProperties.class);
-
-            query.setParameter("usernames", usernames);
+            pq.addVisibility(WhichProjects.MYPROJECTS).addVisibility(WhichProjects.PUBLICPROJECTS);
         }
 
-        query.setParameter("planType", PlanType.FULL);
-        query.setParameter("planStates", CONSIDERED_PLAN_STATES);
+        selectablePlanProperties = planManager.list(pq);
 
-        selectablePlanProperties = query.getResultList();
+        // TypedQuery<PlanProperties> query = null;
+        //
+        // if (user.isAdmin()) {
+        // query = em.createQuery("select p.planProperties from Plan p where"
+        // +
+        // " ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+        // + " AND p.planProperties.state IN (:planStates)"
+        // + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" +
+        // " order by p.planProperties.id",
+        // PlanProperties.class);
+        // } else {
+        // List<String> usernames = em
+        // .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup",
+        // String.class)
+        // .setParameter("userGroup", user.getUserGroup()).getResultList();
+        //
+        // if (usernames.isEmpty()) {
+        // return "planselector.jsf";
+        // }
+        //
+        // query = em.createQuery("select p.planProperties from Plan p where"
+        // +
+        // " (p.planProperties.privateProject = false OR p.planProperties.owner IN (:usernames))"
+        // +
+        // " AND ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+        // + " AND p.planProperties.state IN (:planStates)"
+        // + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" +
+        // " order by p.planProperties.id",
+        // PlanProperties.class);
+        //
+        // query.setParameter("usernames", usernames);
+        // }
+        //
+        // query.setParameter("planType", PlanType.FULL);
+        // query.setParameter("planStates", CONSIDERED_PLAN_STATES);
+        //
+        // selectablePlanProperties = query.getResultList();
 
         // make sure that for each PlanProperties entry exists a HashMap entry
         for (PlanProperties pp : selectablePlanProperties) {

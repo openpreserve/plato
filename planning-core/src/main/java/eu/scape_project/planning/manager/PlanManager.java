@@ -28,6 +28,12 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import javax.transaction.UserTransaction;
 
 import org.hibernate.Hibernate;
@@ -59,12 +65,188 @@ public class PlanManager implements Serializable {
     private static final long serialVersionUID = -1L;
 
     public enum WhichProjects {
-        ALLPROJECTS,
-        ALLFTEPROJECTS,
-        PUBLICPROJECTS,
-        MYPROJECTS,
-        FTEPROJECTS,
-        PUBLICFTEPROJECTS;
+        ALLPROJECTS, ALLFTEPROJECTS, PUBLICPROJECTS, MYPROJECTS, FTEPROJECTS, PUBLICFTEPROJECTS;
+    }
+
+    /**
+     * Query to get PlanProperties.
+     */
+    public class PlanQuery {
+
+        private CriteriaBuilder builder;
+
+        private CriteriaQuery<PlanProperties> cq;
+
+        private Root<Plan> fromPlan;
+
+        private Path<PlanProperties> fromPP;
+
+        private List<Predicate> visibilityPredicates;
+        private List<Predicate> planTypePredicates;
+        private List<Predicate> stateFilterPredicates;
+        private List<Predicate> nameFilterPredicates;
+
+        /**
+         * Initializes the query.
+         */
+        private void init() {
+            builder = em.getCriteriaBuilder();
+
+            cq = builder.createQuery(PlanProperties.class);
+
+            // From
+            fromPlan = cq.from(Plan.class);
+            fromPP = fromPlan.<PlanProperties> get("planProperties");
+
+            // Select
+            cq.select(fromPlan.<PlanProperties> get("planProperties"));
+
+            visibilityPredicates = new ArrayList<Predicate>(2);
+            planTypePredicates = new ArrayList<Predicate>(2);
+            stateFilterPredicates = new ArrayList<Predicate>();
+            nameFilterPredicates = new ArrayList<Predicate>();
+        }
+
+        /**
+         * Adds a visibility criteria to the query.
+         * 
+         * @param whichProjects
+         *            criteria to add
+         * @return this planquery
+         */
+        public PlanQuery addVisibility(WhichProjects whichProjects) {
+            // Select usernames of the users group
+            if (whichProjects == WhichProjects.MYPROJECTS) {
+                Subquery<User> subquery = cq.subquery(User.class);
+                Root<User> fromUser = subquery.from(User.class);
+                subquery.select(fromUser.<User> get("username"));
+                subquery.where(builder.equal(fromUser.get("userGroup"), user.getUserGroup()));
+
+                Predicate owner = fromPP.get("owner").in(subquery);
+                Predicate type = builder.or(builder.equal(fromPP.get("planType"), PlanType.FULL),
+                    fromPlan.get("projectBasis").get("identificationCode").isNull());
+
+                visibilityPredicates.add(builder.and(owner, type));
+            } else if (whichProjects == WhichProjects.PUBLICPROJECTS) {
+                visibilityPredicates.add(builder.or(builder.isFalse(fromPP.<Boolean> get("privateProject")),
+                    builder.isTrue(fromPP.<Boolean> get("reportPublic"))));
+            } else if (whichProjects == WhichProjects.ALLPROJECTS) {
+                if (user.isAdmin()) {
+                    // Always true
+                    visibilityPredicates.add(builder.conjunction());
+                }
+            }
+
+            return this;
+        }
+
+        /**
+         * Adds a plan type criteria to the query.
+         * 
+         * @param planType
+         *            the criteria to add
+         * @return this query
+         */
+        public PlanQuery addType(PlanType planType) {
+            if (planType == PlanType.FULL) {
+                planTypePredicates.add(builder.equal(fromPP.get("planType"), PlanType.FULL));
+            } else if (planType == PlanType.FTE) {
+                planTypePredicates.add(builder.equal(fromPP.get("planType"), PlanType.FTE));
+            }
+
+            return this;
+        }
+
+        /**
+         * Adds plan states as criteria to the query.
+         * 
+         * @param planStates
+         *            the plan states to add
+         * @return this query
+         */
+        public PlanQuery filterState(PlanState... planStates) {
+            if (planStates.length == 0) {
+                return this;
+            }
+
+            stateFilterPredicates.add(fromPP.<PlanState> get("state").in((Object[]) planStates));
+
+            return this;
+        }
+
+        /**
+         * Adds a minimum plan state to the query. Plans will have at least the
+         * state provided.
+         * 
+         * @param planState
+         *            the plan state
+         * @return this query
+         */
+        public PlanQuery filterMinState(PlanState planState) {
+            PlanState[] planStates = new PlanState[PlanState.values().length - planState.ordinal()];
+
+            int i = 0;
+            for (PlanState p : PlanState.values()) {
+                if (p.compareTo(planState) >= 0) {
+                    planStates[i] = p;
+                    i++;
+                }
+            }
+
+            return filterState(planStates);
+        }
+
+        /**
+         * Adds a filter for the plan name. The query matches plans with a name
+         * like the filter string.
+         * 
+         * If no filter was added to the query, plans with any name matches.
+         * 
+         * @param filter
+         *            the filter string
+         * @return this query
+         */
+        public PlanQuery filterNameLike(String filter) {
+            nameFilterPredicates.add(builder.like(fromPP.<String> get("name"), filter));
+            return this;
+        }
+
+        /**
+         * Adds a filter for the plan name. The query matches plans witha a name
+         * unlike the filter string.
+         * 
+         * If no filter was added to the query, plans with any name matches.
+         * 
+         * @param filter
+         *            the filter string
+         * @return this query
+         */
+        public PlanQuery filterNameUnlike(String filter) {
+            nameFilterPredicates.add(builder.notLike(fromPP.<String> get("name"), filter));
+            return this;
+        }
+
+        /**
+         * Finishes the query.
+         */
+        private void finishQuery() {
+
+            List<Predicate> predicates = new ArrayList<Predicate>(4);
+
+            // Where
+            predicates.add(builder.or(visibilityPredicates.toArray(new Predicate[visibilityPredicates.size()])));
+            predicates.add(builder.or(planTypePredicates.toArray(new Predicate[planTypePredicates.size()])));
+            if (stateFilterPredicates.size() > 0) {
+                predicates.add(builder.or(stateFilterPredicates.toArray(new Predicate[stateFilterPredicates.size()])));
+            }
+            if (nameFilterPredicates.size() > 0) {
+                predicates.add(builder.or(nameFilterPredicates.toArray(new Predicate[nameFilterPredicates.size()])));
+            }
+            cq.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+
+            // Order by
+            cq.orderBy(builder.asc(fromPP.get("id")));
+        }
     }
 
     @Inject
@@ -83,9 +265,9 @@ public class PlanManager implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
-    
+
     @Inject
-    UserTransaction userTx; 
+    UserTransaction userTx;
 
     public PlanManager() {
     }
@@ -193,6 +375,33 @@ public class PlanManager implements Serializable {
         }
         setLastLoadMode(whichProjects);
         return planList;
+    }
+
+    /**
+     * Creates a new plan query.
+     * 
+     * @return the plan query
+     */
+    public PlanQuery createQuery() {
+        PlanQuery ps = new PlanQuery();
+        ps.init();
+        return ps;
+    }
+
+    /**
+     * Returns all plans that fit the plan query.
+     * 
+     * @param planQuery
+     *            the plan query
+     * @return the plans
+     */
+    public List<PlanProperties> list(PlanManager.PlanQuery planQuery) {
+        planQuery.finishQuery();
+
+        TypedQuery<PlanProperties> query = em.createQuery(planQuery.cq);
+        List<PlanProperties> planProperties = query.getResultList();
+
+        return planProperties;
     }
 
     public Plan reloadPlan(Plan plan) throws PlanningException {
