@@ -135,7 +135,7 @@ public class PlanManager implements Serializable {
             // load user's projects
             query = em.createQuery("select p.planProperties from Plan p where"
                 + " (p.planProperties.owner IN (:usernames))"
-                + " and ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
+                + " and (p.planProperties.planType = :planType)"
                 + " order by p.planProperties.id", PlanProperties.class);
             query.setParameter("usernames", usernames);
             query.setParameter("planType", PlanType.FULL);
