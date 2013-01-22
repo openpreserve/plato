@@ -82,7 +82,7 @@
 						</f:facet>
 						<a4j:outputPanel rendered="#{not p.readOnly}"
 							styleClass="plan-action">
-							<h:commandButton value="Load"
+							<h:commandButton id="loadPlan" value="Load"
 								action="#{viewWorkflowManager.startWorkflow(p.id)}"
 								rendered="#{p.open or (not p.allowReload)}"
 								disabled="#{not p.open}" />

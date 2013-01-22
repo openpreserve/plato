@@ -40,8 +40,10 @@
 				<executions>
 					<execution>
 						<id>add-test-persistence.xml</id>
-						<phase>process-test-resources</phase>
-						<goals>
+						
+						<phase>pre-integration-test</phase>
+<!-- 						<phase>process-test-resources</phase>
+ -->						<goals>
 							<goal>copy</goal>
 						</goals>
 						<configuration>
@@ -59,8 +61,9 @@
 					</execution>
 					<execution>
 						<id>remove-test-persistence.xml</id>
-						<phase>prepare-package</phase>
-						<goals>
+						<phase>post-integration-test</phase>
+<!-- 						<phase>prepare-package</phase>
+ -->						<goals>
 							<goal>copy</goal>
 						</goals>
 						<configuration>

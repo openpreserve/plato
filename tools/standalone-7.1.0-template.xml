@@ -102,7 +102,7 @@
                     </security>
                 </datasource>
                 <datasource jta="true" jndi-name="java:jboss/datasources/platoDatasource" pool-name="platoDatasource" enabled="true" use-java-context="true" use-ccm="true">
-                    <connection-url>jdbc:mysql://localhost:3306/platodb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
+                    <connection-url>jdbc:mysql://{DB_URL}:3306/platodb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
                     <driver>mysql</driver>
                     <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
                     <pool>
@@ -127,7 +127,7 @@
                     </statement>
                 </datasource>
                 <datasource jta="true" jndi-name="java:jboss/datasources/idpDatasource" pool-name="idpDatasource" enabled="true" use-java-context="true" use-ccm="true">
-                    <connection-url>jdbc:mysql://localhost:3306/idpdb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
+                    <connection-url>jdbc:mysql://{DB_URL}:3306/idpdb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
                     <driver>mysql</driver>
                     <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
                     <pool>
@@ -160,7 +160,7 @@
             </datasources>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:deployment-scanner:1.1">
-            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000"/>
+            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000" deployment-timeout="300"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:ee:1.0"/>
         <subsystem xmlns="urn:jboss:domain:ejb3:1.2">
@@ -302,7 +302,7 @@
                         <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="required">
                             <module-option name="unauthenticatedIdentity" value="guest"/>
                             <module-option name="dsJndiName" value="java:jboss/datasources/idpDatasource"/>
-                            <module-option name="principalsQuery" value="SELECT password FROM IdpUser WHERE username=?"/>
+                            <module-option name="principalsQuery" value="SELECT password FROM IdpUser WHERE username=? AND status='ACTIVE'"/>
                             <module-option name="rolesQuery" value="SELECT r.rolename as Role, 'Roles' as RoleGroup FROM IdpUser u, IdpUser_IdpRole ur, IdpRole r WHERE u.username=? and ur.user_id = u.id and ur.roles_id = r.id order by r.rolename"/>
                             <module-option name="hashAlgorithm" value="MD5"/>
                             <module-option name="hashEncoding" value="hex"/>
@@ -324,7 +324,7 @@
                 </process-id>
             </core-environment>
             <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
-            <coordinator-environment default-timeout="300"/>
+            <coordinator-environment default-timeout="1200"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:web:1.1" native="false" default-virtual-server="default-host">
             <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http"/>

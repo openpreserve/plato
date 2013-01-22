@@ -106,7 +106,7 @@
                     </security>
                 </datasource>
                 <datasource jta="true" jndi-name="java:jboss/datasources/platoDatasource" pool-name="platoDatasource" enabled="true" use-java-context="true" use-ccm="true">
-                    <connection-url>jdbc:mysql://{PLATO_DOMAIN}:3306/platodb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
+                    <connection-url>jdbc:mysql://localhost:3306/platodbtest?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
                     <driver>mysql</driver>
                     <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
                     <pool>
@@ -117,8 +117,8 @@
                         <flush-strategy>FailingConnectionOnly</flush-strategy>
                     </pool>
                     <security>
-                        <user-name>plato</user-name>
-                        <password>{PLATO_PWD}</password>
+                        <user-name>platotest</user-name>
+                        <password>platotest</password>
                     </security>
                     <validation>
                         <validate-on-match>false</validate-on-match>
@@ -131,7 +131,7 @@
                     </statement>
                 </datasource>
                 <datasource jta="true" jndi-name="java:jboss/datasources/idpDatasource" pool-name="idpDatasource" enabled="true" use-java-context="true" use-ccm="true">
-                    <connection-url>jdbc:mysql://{IDP_DOMAIN}:3306/idpdb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
+                    <connection-url>jdbc:mysql://localhost:3306/idpdb?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=UTF-8</connection-url>
                     <driver>mysql</driver>
                     <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
                     <pool>
@@ -142,8 +142,8 @@
                         <flush-strategy>FailingConnectionOnly</flush-strategy>
                     </pool>
                     <security>
-                        <user-name>idp</user-name>
-                        <password>{IDP_PWD}</password>
+                        <user-name>idptest</user-name>
+                        <password>idptest</password>
                     </security>
                     <validation>
                         <validate-on-match>false</validate-on-match>

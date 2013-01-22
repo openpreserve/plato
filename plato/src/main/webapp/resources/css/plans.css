@@ -57,11 +57,14 @@ input.input-dir {
 
 .column-action {
 	width: 12%;
-	text-align: center;
+	text-align: right;
 	border: 1px solid white;
 }
 .column-action img{
 	margin-bottom: -8px;
+}
+.column-action input.loadPlan{
+	width: 100%;
 }
 
 .column-locked {
