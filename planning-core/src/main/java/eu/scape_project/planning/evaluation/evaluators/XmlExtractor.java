@@ -30,6 +30,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -67,11 +68,15 @@ public class XmlExtractor implements Serializable {
         try {
             Document pcdlDoc = xml;
             String text = extractTextInternal(pcdlDoc, xpath);
-            Value v = scale.createValue();
-            v.parse(text);
-            if (commentXPath != null) {
-                String comment = extractTextInternal(pcdlDoc, commentXPath);
-                v.setComment(comment);
+            Value v = null;
+            // if the query provides no result, we cannot extract a value
+            if (!StringUtils.isEmpty(text)) {
+                v = scale.createValue();
+                v.parse(text);
+                if (commentXPath != null) {
+                    String comment = extractTextInternal(pcdlDoc, commentXPath);
+                    v.setComment(comment);
+                }
             }
             return v;
 

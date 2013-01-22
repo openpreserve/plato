@@ -16,7 +16,7 @@ MPASSOPT="-p"$MPASS
 
 if [ $# -lt 3 ]
 then
-	echo "Usage: $0 {MySQL-Root Pwd} {Plato DB Pwd} {IDP DB Pwd} {DB URL}]"
+	echo "Usage: $0 {MySQL-Root Pwd} {Plato DB Pwd} {IDP DB Pwd} [{DB URL}]"
 	echo " Creates users and databases for Plato and IDP"
 	echo " - if no DB URL is provided 'localhost' is used "
 	exit 1
