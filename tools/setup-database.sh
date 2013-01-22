@@ -29,8 +29,13 @@ fi
 
 echo  "Generating configuration file for JBoss AS 7-$VERSION: standalone.xml"
 
-cat standalone-$VERSION-template.xml | \
-sed -e 's/{PLATO_PWD}/'$PLATO_PASS'/g' -e's/{IDP_PWD}/'$IDP_PASS'/g' -e's/{DB_URL}/'$DB_URL'/g' > standalone.xml
+cat standalone-7.1.0-template.xml | \
+sed -e 's/{PLATO_PWD}/'$PLATO_PASS'/g' -e's/{IDP_PWD}/'$IDP_PASS'/g' -e's/{DB_URL}/'$DB_URL'/g' > standalone-7.1.0.xml
+
+cat standalone-7.1.1-template.xml | \
+sed -e 's/{PLATO_PWD}/'$PLATO_PASS'/g' -e's/{IDP_PWD}/'$IDP_PASS'/g' -e's/{DB_URL}/'$DB_URL'/g' > standalone-7.1.1.xml
+
+cp standalone-$VERSION.xml standalone.xml
 
 echo "Creating databases and users..."
 $MYSQL -u root -p$MPASS -e "create user 'plato'@'localhost' identified by '"$PLATO_PASS"';"
