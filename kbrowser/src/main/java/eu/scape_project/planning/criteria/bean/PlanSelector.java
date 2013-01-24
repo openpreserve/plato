@@ -18,7 +18,6 @@ package eu.scape_project.planning.criteria.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,9 +57,6 @@ public class PlanSelector implements Serializable {
     @Inject
     PlanManager planManager;
 
-    private static final List<PlanState> CONSIDERED_PLAN_STATES = Arrays.asList(PlanState.WEIGHTS_SET,
-        PlanState.ANALYSED, PlanState.EXECUTEABLE_PLAN_CREATED, PlanState.PLAN_DEFINED, PlanState.PLAN_VALIDATED);
-
     private List<PlanProperties> selectablePlanProperties;
 
     private Map<Integer, Boolean> checkedPlanProperties;
@@ -89,44 +85,6 @@ public class PlanSelector implements Serializable {
         }
 
         selectablePlanProperties = planManager.list(pq);
-
-        // TypedQuery<PlanProperties> query = null;
-        //
-        // if (user.isAdmin()) {
-        // query = em.createQuery("select p.planProperties from Plan p where"
-        // +
-        // " ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
-        // + " AND p.planProperties.state IN (:planStates)"
-        // + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" +
-        // " order by p.planProperties.id",
-        // PlanProperties.class);
-        // } else {
-        // List<String> usernames = em
-        // .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup",
-        // String.class)
-        // .setParameter("userGroup", user.getUserGroup()).getResultList();
-        //
-        // if (usernames.isEmpty()) {
-        // return "planselector.jsf";
-        // }
-        //
-        // query = em.createQuery("select p.planProperties from Plan p where"
-        // +
-        // " (p.planProperties.privateProject = false OR p.planProperties.owner IN (:usernames))"
-        // +
-        // " AND ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
-        // + " AND p.planProperties.state IN (:planStates)"
-        // + " AND p.planProperties.name NOT LIKE 'MY DEMO PLAN%'" +
-        // " order by p.planProperties.id",
-        // PlanProperties.class);
-        //
-        // query.setParameter("usernames", usernames);
-        // }
-        //
-        // query.setParameter("planType", PlanType.FULL);
-        // query.setParameter("planStates", CONSIDERED_PLAN_STATES);
-        //
-        // selectablePlanProperties = query.getResultList();
 
         // make sure that for each PlanProperties entry exists a HashMap entry
         for (PlanProperties pp : selectablePlanProperties) {
