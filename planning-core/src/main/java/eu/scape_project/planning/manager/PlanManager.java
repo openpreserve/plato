@@ -45,10 +45,12 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.Values;
+import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.transform.OrdinalTransformer;
 import eu.scape_project.planning.model.transform.Transformer;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
+import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.FacesMessages;
 
@@ -85,6 +87,7 @@ public class PlanManager implements Serializable {
         private List<Predicate> planTypePredicates;
         private List<Predicate> stateFilterPredicates;
         private List<Predicate> nameFilterPredicates;
+        private Predicate mappedFilterPredicate;
 
         /**
          * Initializes the query.
@@ -208,7 +211,7 @@ public class PlanManager implements Serializable {
         }
 
         /**
-         * Adds a filter for the plan name. The query matches plans witha a name
+         * Adds a filter for the plan name. The query matches plans with a name
          * unlike the filter string.
          * 
          * If no filter was added to the query, plans with any name matches.
@@ -223,11 +226,29 @@ public class PlanManager implements Serializable {
         }
 
         /**
+         * Adds a filter to query only for plans with mapped measures.
+         * 
+         * @return this query
+         */
+        public PlanQuery filterMapped() {
+            Subquery<Integer> subquery = cq.subquery(Integer.class);
+            Root<Leaf> fromTreeNode = subquery.from(Leaf.class);
+            subquery.select(fromTreeNode.<Integer> get("id"));
+            subquery.where(builder.and(
+                fromTreeNode.<Measure> get("measure").isNotNull(),
+                builder.equal(builder.function("rootNode", Integer.class, fromTreeNode.<Integer> get("id")), fromPlan
+                    .<ObjectiveTree> get("tree").<TreeNode> get("root").<Integer> get("id"))));
+
+            mappedFilterPredicate = builder.exists(subquery);
+            return this;
+        }
+
+        /**
          * Finishes the query.
          */
         private void finishQuery() {
 
-            List<Predicate> predicates = new ArrayList<Predicate>(4);
+            List<Predicate> predicates = new ArrayList<Predicate>(5);
 
             // Where
             predicates.add(builder.or(visibilityPredicates.toArray(new Predicate[visibilityPredicates.size()])));
@@ -237,6 +258,9 @@ public class PlanManager implements Serializable {
             }
             if (nameFilterPredicates.size() > 0) {
                 predicates.add(builder.or(nameFilterPredicates.toArray(new Predicate[nameFilterPredicates.size()])));
+            }
+            if (mappedFilterPredicate != null) {
+                predicates.add(mappedFilterPredicate);
             }
             cq.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 
