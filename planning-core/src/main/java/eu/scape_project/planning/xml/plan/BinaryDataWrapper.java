@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import eu.scape_project.planning.model.ByteStream;
+import java.nio.charset.Charset;
 
 import sun.misc.BASE64Decoder;
+import eu.scape_project.planning.model.ByteStream;
 
 /**
  * Helper class for {@link eu.scape_project.planning.xml.ProjectImporter} to
@@ -36,6 +36,7 @@ import sun.misc.BASE64Decoder;
 public class BinaryDataWrapper implements Serializable {
 
     private static final long serialVersionUID = 2080538998419720006L;
+    private final Charset UTF8_CHARSET = Charset.forName("UTF-8");    
 
     BASE64Decoder decoder = new BASE64Decoder();
     byte[] value = null;
@@ -100,7 +101,7 @@ public class BinaryDataWrapper implements Serializable {
             ByteStream data = new ByteStream();
             data.setData(value);
             Method setData = object.getClass().getMethod(methodName, String.class);
-            String dataString = new String(value);
+            String dataString =  new String(value, UTF8_CHARSET).replaceAll("\uFFFD", "");
             setData.invoke(object, new Object[] {dataString});
         } catch (SecurityException e) {
             e.printStackTrace();
