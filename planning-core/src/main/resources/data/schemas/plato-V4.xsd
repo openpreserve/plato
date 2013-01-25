@@ -8,6 +8,9 @@
  Further information:
  www.planets-project.eu
  www.ifs.tuwien.ac.at/dp 
+
+ Changes in V4.0.1:
+  * added freeStringResultType, corrected reference to intRangeResultType, intRangeValueType
  
  Changes in V4.0.0:
  
@@ -202,9 +205,10 @@
 				<xs:element name="floatResult" type="floatResultType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="positiveFloatResult" type="positiveFloatResultType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="floatRangeResult" type="floatResultType" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="intRangeResult" type="integerResultType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="intRangeResult" type="intRangeResultType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="integerResult" type="integerResultType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="positiveIntegerResult" type="positiveIntegerResultType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="freeStringResult" type="freeStringResultType" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="key" type="xs:string">
@@ -607,7 +611,7 @@
 				<xs:element name="floatValue" type="floatValueType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="positiveFloatValue" type="positiveFloatValueType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="floatRangeValue" type="floatValueType" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="intRangeValue" type="integerValueType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="intRangeValue" type="intRangeValueType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="integerValue" type="integerValueType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="positiveIntegerValue" type="positiveIntegerValueType" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="freeStringValue" type="freeStringValueType" minOccurs="0" maxOccurs="unbounded"/>
@@ -983,6 +987,13 @@
 			<xs:enumeration value="OBJECT"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="freeStringResultType">
+		<xs:sequence>
+			<xs:element name="value" type="hugeString" minOccurs="0"/>
+			<xs:element name="comment" type="hugeString" minOccurs="0"/>
+			<xs:element name="changelog" type="changeLogType"/>
+		</xs:sequence>
+	</xs:complexType>
 	<!-- basic types -->
 	<xs:simpleType name="longString">
 		<xs:restriction base="xs:string">
