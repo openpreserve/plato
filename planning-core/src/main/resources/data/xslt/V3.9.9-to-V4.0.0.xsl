@@ -110,6 +110,14 @@
     <xsl:variable name="nowAsISO_8601str"
         select="concat(substring($timestampstr,1,10), 'T', substring($timestampstr,11,18))"/>
 
+<xsl:template match="plato:measurement">
+<xsl:element name="measurement">
+	<xsl:attribute name="measureId">
+		<xsl:value-of select="plato:property/@name"></xsl:value-of>
+	</xsl:attribute>
+	<xsl:apply-templates select="*[local-name() != 'property' ]"/>
+</xsl:element>
+</xsl:template>
 
 <xsl:template match="plato:criterion[@ID='outcome://object/image/similarity#equal']">
 <measure ID="http://scape-project.eu/pw/vocab/measures/2">
