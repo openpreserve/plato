@@ -28,7 +28,6 @@ import java.io.File;
  * @author Michael Kraxner
  *
  */
-//FIXME: remove methods with DigitalObject
 public interface IByteStreamManager{
 	
 	/**

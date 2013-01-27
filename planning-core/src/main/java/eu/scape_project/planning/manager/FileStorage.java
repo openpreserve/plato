@@ -29,11 +29,11 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import eu.scape_project.planning.utils.ConfigurationLoader;
-import eu.scape_project.planning.utils.FileUtils;
-
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
+
+import eu.scape_project.planning.utils.ConfigurationLoader;
+import eu.scape_project.planning.utils.FileUtils;
 
 /**
  * A {@link IByteStreamStorage} which stores the data in the file system. The
@@ -56,9 +56,6 @@ public class FileStorage implements Serializable, IByteStreamStorage {
 
     @Inject
     private Logger log;
-
-    @Inject
-    private ConfigurationLoader configurationLoader;
 
     /**
      * The storage path.
@@ -87,6 +84,7 @@ public class FileStorage implements Serializable, IByteStreamStorage {
      */
     @PostConstruct
     public void init() {
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
 
         Configuration config = configurationLoader.load();
         storagePath = config.getString("filestorage.path");

@@ -18,14 +18,15 @@ package at.tuwien.minimee.registry;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.digester3.Digester;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +45,7 @@ import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.measurement.Measurement;
 import eu.scape_project.planning.model.measurement.ToolExperience;
 import eu.scape_project.planning.model.values.INumericValue;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 
 /**
  * This is the internal side of MiniMEE - it contains all tools and
@@ -54,6 +56,9 @@ import eu.scape_project.planning.model.values.INumericValue;
  */
 public class ToolRegistry {
     private static Logger log = LoggerFactory.getLogger(ToolRegistry.class);
+    
+    private static final String MINIMEE_HOME = "minimee.home"; 
+    private static final String TOOL_CONFIG = "tool-config.xml";
 
     private HashMap<String, ToolConfig> allToolConfigs = new HashMap<String, ToolConfig>();
     private HashMap<String, IMigrationEngine> allEngines = new HashMap<String, IMigrationEngine>();
@@ -72,20 +77,14 @@ public class ToolRegistry {
     private static ToolRegistry me;
 
 
-    private ToolRegistry(String configFile, boolean useAbsoluteLoader) {
-        load(configFile, useAbsoluteLoader);
+    private ToolRegistry() {
     }
-
-    private ToolRegistry(String configFile) throws IllegalArgumentException {
-        load(configFile, true);
-    }
-
 
     public static ToolRegistry getInstance() {
         // me = null;
         if (me == null) {
-            me = new ToolRegistry("data/services/default-tool-config.xml");
-            me.init();
+            me = new ToolRegistry();
+            me.reload();
         }
         return me;
     }
@@ -116,41 +115,37 @@ public class ToolRegistry {
 
     }
 
-    public static void reload() {
-        reload("data/services/default-tool-config.xml", true);
-    }
-
-    public static void reload(String absolutePath) {
-        reload(absolutePath, false);
-    }
-
-    public static void reload(String localPath, boolean loadFromResources) {
-        me = new ToolRegistry(localPath, loadFromResources);
-        me.init();
-    }
-
-
     public void addTool(Tool t) {
         tools.add(t);
     }
 
-    private void load(String configFile, boolean loadFromResources) throws IllegalArgumentException {
-        if (loadFromResources) {
-            load(Thread.currentThread().getContextClassLoader().getResourceAsStream(configFile));
+    private void reload() {
+        clear();
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
+        Configuration configuration = configurationLoader.load();
+        if (configuration == null) {
+            log.error("An error occurred while reading the properties file.");
+            return;
+        }
+        String home = configuration.getString(MINIMEE_HOME);
+        if (StringUtils.isEmpty(home)) {
+            log.error("minimee.home is not defined. cannot initialize ToolRegistry.");
+            return;
+        }
+        File configFile = new File(home + File.separator + TOOL_CONFIG);
+        if (!configFile.exists()) {
+            log.error("Could not find " + configFile.getAbsolutePath() + ". Cannot initialize ToolRegistry.");
         } else {
-            InputStream in;
             try {
-                in = new FileInputStream(new File(configFile));
-                load(in);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                throw new IllegalArgumentException(e.getMessage() + " - maybe caused by wrong filename? check: "
-                    + configFile);
+                parseConfig(new FileInputStream(configFile));
+                init();
+            } catch (Exception e) {
+                log.error("Failed to reload minimee-config.", e);
             }
         }
     }
-
-    private void load(InputStream config) throws IllegalArgumentException {
+    
+    private void parseConfig(InputStream config) throws IllegalArgumentException {
         Digester digester = new Digester();
         digester.setValidating(true);
         digester.setErrorHandler(new StrictErrorHandler());
@@ -337,5 +332,16 @@ public class ToolRegistry {
             }
         }
         return score / benchmarkConfigs.size() / 4000;
-    }    
+    }
+    private void clear(){
+        allToolConfigs.clear();
+        allEngines.clear();
+        allMachines.clear();
+        allEvaluators.clear();
+        benchmarkConfigs.clear();
+        timepads.clear();
+        tools.clear();
+        eb = new ExperienceBase();
+    }
+    
 }

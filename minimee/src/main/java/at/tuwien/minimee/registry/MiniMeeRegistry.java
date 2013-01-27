@@ -16,12 +16,19 @@
  ******************************************************************************/
 package at.tuwien.minimee.registry;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.digester3.Digester;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import at.tuwien.minimee.MiniMeeException;
@@ -29,6 +36,7 @@ import at.tuwien.minimee.model.ToolConfig;
 import at.tuwien.minimee.registry.xml.PreservationActionServiceFactory;
 import at.tuwien.minimee.util.StrictErrorHandler;
 import eu.scape_project.planning.model.FormatInfo;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 
 /**
  * This class is the external entry point for MiniMEE - it contains all
@@ -40,8 +48,13 @@ import eu.scape_project.planning.model.FormatInfo;
  * 
  */
 public class MiniMeeRegistry {
+    private static Logger log = LoggerFactory.getLogger(MiniMeeRegistry.class);
+    
     private List<PreservationActionService> services = new ArrayList<PreservationActionService>();
 
+    private static final String MINIMEE_HOME = "minimee.home"; 
+    private static final String ACTIONS_CONFIG = "actions-config.xml";
+    
     public MiniMeeRegistry() {
     }
 
@@ -110,7 +123,7 @@ public class MiniMeeRegistry {
      * @throws MiniMeeException
      *             if the stream can't be parsed.
      */
-    public void reloadFrom(String configFile) throws MiniMeeException {
+    public void reloadFrom(InputStream config) throws MiniMeeException {
         Digester d = new Digester();
         d.setValidating(false);
         StrictErrorHandler errorHandler = new StrictErrorHandler();
@@ -148,8 +161,6 @@ public class MiniMeeRegistry {
         d.addCallMethod("*/preservationActionService/externalInfo/url", "add", 0);
 
         try {
-            InputStream config = Thread.currentThread().getContextClassLoader().getResourceAsStream(configFile);
-
             d.parse(config);
         } catch (IOException e) {
             throw new MiniMeeException("Could not read registry data.", e);
@@ -162,10 +173,23 @@ public class MiniMeeRegistry {
      * Reloads registry data, at the moment from an XML file
      */
     public void reload() throws MiniMeeException {
-        String configFile = "data/services/default-actions-config.xml";
-
-        reloadFrom(configFile);
-
+        ConfigurationLoader configurationLoader = new ConfigurationLoader();
+        Configuration configuration = configurationLoader.load();
+        if (configuration == null) {
+            log.error("An error occurred while reading the properties file.");
+            return;
+        }
+        String home = configuration.getString(MINIMEE_HOME);
+        if (StringUtils.isEmpty(home)) {
+            log.error("minimee.home is not defined. cannot initialize minimee-registry.");
+            return;
+        }
+        File configFile = new File(home + File.separator + ACTIONS_CONFIG);
+        try {
+            reloadFrom(new FileInputStream(configFile));
+        } catch (FileNotFoundException e) {
+            log.error("Could not find " + configFile.getAbsolutePath() + ". Cannot initialize minimee-registry.");
+        }
     }
 
     public String getToolIdentifier(String url) {
@@ -199,7 +223,7 @@ public class MiniMeeRegistry {
     public static void main(String[] args) {
         try {
             MiniMeeRegistry registry = new MiniMeeRegistry();
-            registry.reloadFrom(args[0]);
+            registry.reloadFrom(new FileInputStream(args[0]));
 
             List<PreservationActionService> services = registry.findServices(null, null);
 
@@ -207,6 +231,8 @@ public class MiniMeeRegistry {
                 System.out.println(service.getName());
             }
         } catch (MiniMeeException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

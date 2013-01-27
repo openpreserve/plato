@@ -30,7 +30,7 @@
                     value="#{detailedExperimentInfo.programOutput}" />
                 <div style="display: block;">
                 <a4j:commandButton value="Save" id="saveDetailedExperimentInfo" action="#{detailedExperimentInfo.touch}" 
-                	render="alternativesTablePanel" oncomplete="#{rich:component('reportPanel')}.hide()" onclick="changed()"></a4j:commandButton>
+                	render="alternativesTable" oncomplete="#{rich:component('reportPanel')}.hide()" onclick="changed()"></a4j:commandButton>
 				</div>
              </a4j:outputPanel>                
          </rich:popupPanel>

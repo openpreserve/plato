@@ -98,6 +98,28 @@
       </targetFormat>
       <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/png2tiff-ImageMagick</url>
    </preservationActionService>   
+   
+   <preservationActionService type="migration">
+      <name>JPGtoTIF (ImageMagick)</name>
+      <description>Migration of JPG to TIF with ImageMagick</description>
+      <externalInfo>
+         <url>http://www.imagemagick.org/</url>
+         <url>http://filext.com/file-extension/TIF</url>
+      </externalInfo>
+      <sourceFormats>
+         <format>
+            <puid></puid>
+            <name></name>
+            <extension>JPG</extension>
+         </format>
+      </sourceFormats>
+      <targetFormat>
+          <puid></puid>
+          <name></name>
+          <extension>TIF</extension>
+      </targetFormat>
+      <url>http://dionysos.ifs.tuwien.ac.at:8181/minimee/jpg2tiff-ImageMagick</url>
+   </preservationActionService>      
 
    <preservationActionService type="migration">
       <name>GIFtoPNG (ImageMagick)</name>

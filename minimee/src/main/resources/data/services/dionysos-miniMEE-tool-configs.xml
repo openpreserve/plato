@@ -383,37 +383,37 @@
 				</evaluators>
 			</config>
 		</tool>
-		
-	    <tool name="ImageMagick" executablePath="convert -verbose">
-           <config url="gif2png-ImageMagick"  benchmark="true">
-		         <name>PNG to TIFF</name>
-	             <params></params>
-	             <inEnding>gif</inEnding>
-	             <outEnding>png</outEnding>
-	             <engineName>default</engineName>
-           </config> 
-           <config url="png2tiff-ImageMagick"  benchmark="true">
-		         <name>PNG to TIFF</name>
-	             <params></params>
-	             <inEnding>png</inEnding>
-	             <outEnding>tiff</outEnding>
-	             <engineName>default</engineName>
-           </config> 
-           <config url="jpg2png-ImageMagick"  benchmark="true">
-	            <name>JPG to PNG</name>
-	            <params></params>
-	            <inEnding>jpg</inEnding>
-	            <outEnding>png</outEnding>
-	            <engineName>default</engineName>
-           </config> 
-           <config url="jpg2tiff-ImageMagick"  benchmark="true">
-	            <name>JPG to TIFF</name>
-	            <params></params>
-	            <inEnding>jpg</inEnding>
-	            <outEnding>tiff</outEnding>
-	            <engineName>default</engineName>
-           </config> 
-       </tool>  
+
+	<tool name="ImageMagick" executablePath="convert -verbose">
+		<config url="gif2png-ImageMagick" benchmark="true">
+			<name>Gif to PNG</name>
+			<params></params>
+			<inEnding>gif</inEnding>
+			<outEnding>png</outEnding>
+			<engineName>default</engineName>
+		</config>
+		<config url="png2tiff-ImageMagick" benchmark="true">
+			<name>PNG to TIFF</name>
+			<params></params>
+			<inEnding>png</inEnding>
+			<outEnding>tiff</outEnding>
+			<engineName>default</engineName>
+		</config>
+		<config url="jpg2png-ImageMagick" benchmark="true">
+			<name>JPG to PNG</name>
+			<params></params>
+			<inEnding>jpg</inEnding>
+			<outEnding>png</outEnding>
+			<engineName>default</engineName>
+		</config>
+		<config url="jpg2tiff-ImageMagick" benchmark="true">
+			<name>JPG to TIFF</name>
+			<params></params>
+			<inEnding>jpg</inEnding>
+			<outEnding>tiff</outEnding>
+			<engineName>default</engineName>
+		</config>
+	</tool>  
 
 <!-- my private actions - under development -->
 

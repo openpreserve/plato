@@ -28,7 +28,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -49,7 +48,9 @@ import eu.scape_project.planning.utils.OS;
  * @author Michael Kraxner
  * 
  */
-@ConversationScoped
+
+// FIXME: It would be nice to use one instance for the whole conversation, but that is not possible due to ExperimentRunner's async call
+//@ConversationScoped 
 public class ByteStreamManager implements Serializable, IByteStreamManager {
 
     private static final long serialVersionUID = 7205715730617180554L;
