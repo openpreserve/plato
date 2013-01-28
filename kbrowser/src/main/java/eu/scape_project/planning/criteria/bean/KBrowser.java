@@ -223,7 +223,6 @@ public class KBrowser implements Serializable {
         importanceAnalysis = new ImportanceAnalysis(usedMeasures.values(), planLeaves, selectedPlans);
 
         dominatedSetCalculator = new DominatedSetCalculator(selectedPlans, planLeaves);
-        // dominatedSetCalculator.calculateDominatedPowerSet();
 
         // Do calculations
         // Calculate maximum scale for potential-to-range diagram
@@ -1097,14 +1096,6 @@ public class KBrowser implements Serializable {
 
     public void setCriterionSelector(CriterionSelector criterionSelector) {
         this.criterionSelector = criterionSelector;
-    }
-
-    public DominatedSetCalculator getDominatedSetCalculator() {
-        return dominatedSetCalculator;
-    }
-
-    public void setDominatedSetCalculator(DominatedSetCalculator dominatedSetCalculator) {
-        this.dominatedSetCalculator = dominatedSetCalculator;
     }
 
 }

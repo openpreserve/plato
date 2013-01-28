@@ -30,6 +30,11 @@ import eu.scape_project.planning.model.measurement.Measure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Calculator for dominates measures and sets of measures.
+ * 
+ * @see "Improving decision support for software component selection throughsystematic cross-referencing and analysis of multiple decision criteria, Christoph Becker et al."
+ */
 public class DominatedSetCalculator {
 
     private static final Logger log = LoggerFactory.getLogger(DominatedSetCalculator.class);
@@ -37,6 +42,14 @@ public class DominatedSetCalculator {
     private List<PlanInfo> selectedPlans = new ArrayList<PlanInfo>();
     private HashMap<String, Set<VPlanLeaf>> leavesOfMeasures = new HashMap<String, Set<VPlanLeaf>>();
 
+    /**
+     * Creates a new DominatedSetCalculator.
+     * 
+     * @param selectedPlans
+     *            PlanInfos to use
+     * @param selectedLeaves
+     *            leaves to use
+     */
     public DominatedSetCalculator(List<PlanInfo> selectedPlans, List<VPlanLeaf> selectedLeaves) {
         this.selectedPlans = selectedPlans;
         fillCriterionVPlanLeaves(selectedLeaves);
@@ -59,40 +72,43 @@ public class DominatedSetCalculator {
         }
     }
 
-    // public void calculateDominatedPowerSet() {
-    // isSubsetDominated(new
-    // ArrayList<Criterion>(criterionVPlanLeaves.keySet()), new
-    // ArrayList<Criterion>(), 0);
-    // }
-
-    public boolean isSubsetDominated(List<Measure> allMeasures, List<Measure> measures, int index) {
-
-        boolean isSubsetDominated = false;
-
-        for (int i = index; i < allMeasures.size(); i++) {
-            Set<Measure> tmp = new HashSet<Measure>(measures);
-            tmp.add(allMeasures.get(i));
-
-            if (isCriterionSetDominated(tmp)) {
-                isSubsetDominated = true;
-                List<Measure> tmp2 = new ArrayList<Measure>(tmp);
-                if (!isSubsetDominated(allMeasures, tmp2, i + 1)) {
-
-                    logDominated(tmp);
-
-                }
-            }
-        }
-
-        return isSubsetDominated;
+    /**
+     * Calculates a set of dominated sets of measures.
+     * 
+     * @return a set of dominated sets
+     */
+    public Set<Set<String>> calculateDominatedPowerSet() {
+        return isSubsetDominated(new ArrayList<String>(leavesOfMeasures.keySet()), new ArrayList<String>(), 0);
     }
 
-    private void logDominated(Set<Measure> measures) {
-        String logString = "Set [";
-        for (Measure measure : measures) {
-            logString += measure.getUri() + ", ";
+    /**
+     * Starting from the provided list of measures, recursively appends measures
+     * beginning from position index of allMeasureUris. If a list is dominated,
+     * creates a new Set and adds it to the return set.
+     * 
+     * @param allMeasureUris
+     *            all measure URIs that should be considered
+     * @param measures
+     *            the current list of measures used as starting point
+     * @param index
+     *            the beginning index of the all measures URIs list that should
+     *            be considered
+     * @return a set of dominated sets
+     */
+    private Set<Set<String>> isSubsetDominated(final List<String> allMeasureUris, List<String> measures, final int index) {
+        Set<Set<String>> dominatedSets = new HashSet<Set<String>>();
+
+        for (int i = index; i < allMeasureUris.size(); i++) {
+            measures.add(allMeasureUris.get(i));
+            if (isMeasureUriListDominated(measures)) {
+                dominatedSets.add(new HashSet<String>(measures));
+                dominatedSets.addAll(isSubsetDominated(allMeasureUris, measures, i + 1));
+            }
+
+            measures.remove(measures.size() - 1);
         }
-        log.info(logString + "]: dominated");
+
+        return dominatedSets;
     }
 
     /**
@@ -122,22 +138,34 @@ public class DominatedSetCalculator {
     public boolean isCriterionSetDominated(Set<Measure> measures) {
         Set<VPlanLeaf> allLeaves = new HashSet<VPlanLeaf>();
 
-        String logString = "Set [";
         for (Measure measure : measures) {
-            logString += measure.getUri() + ", ";
             Set<VPlanLeaf> leaves = leavesOfMeasures.get(measure.getUri());
             if (leaves != null) {
                 allLeaves.addAll(leaves);
             }
         }
 
-        boolean isCriterionSetDominated = isLeafSetDominated(allLeaves);
+        return isLeafSetDominated(allLeaves);
+    }
 
-        if (isCriterionSetDominated) {
-            log.info(logString + "]: dominated");
+    /**
+     * Checks if this set of measures is dominated.
+     * 
+     * @param measures
+     *            measure to check
+     * @return true if it is dominated, false otherwise
+     */
+    private boolean isMeasureUriListDominated(List<String> measureUris) {
+        Set<VPlanLeaf> allLeaves = new HashSet<VPlanLeaf>();
+
+        for (String measureUri : measureUris) {
+            Set<VPlanLeaf> leaves = leavesOfMeasures.get(measureUri);
+            if (leaves != null) {
+                allLeaves.addAll(leaves);
+            }
         }
 
-        return isCriterionSetDominated;
+        return isLeafSetDominated(allLeaves);
     }
 
     /**
