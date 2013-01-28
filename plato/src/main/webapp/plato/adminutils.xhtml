@@ -169,13 +169,27 @@
 						</fieldset>
 						
 				</rich:tab>
-				<rich:tab header="Manage Criteria">
+				<rich:tab header="Manage Registries">
 						<fieldset id="manageCriteria">
-							<legend>Manage Criteria</legend>
+							<legend>Decision Criteria</legend>
 							<a4j:commandButton action="#{criteriaManager.reload()}"
 								value="Reload Criteria from XML" status="reloadCriteriaStatus" />
 			
 							<a4j:status name="reloadCriteriaStatus">
+								<f:facet name="start">
+									<h:graphicImage value="/resources/gfx/processing.gif"
+										alt="Processing, please wait...." />
+								</f:facet>
+								<f:facet name="stop">
+								</f:facet>
+							</a4j:status>
+						</fieldset>
+						<fieldset id="manageMinimee">
+							<legend>Minimee</legend>
+							<a4j:commandButton action="#{admin.reloadMinimee()}"
+								value="Reload Minimee actions and tool registries" status="reloadMinimeeStatus" />
+			
+							<a4j:status name="reloadMinimeeStatus">
 								<f:facet name="start">
 									<h:graphicImage value="/resources/gfx/processing.gif"
 										alt="Processing, please wait...." />

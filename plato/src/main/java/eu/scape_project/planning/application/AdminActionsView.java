@@ -23,10 +23,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.directory.InvalidAttributesException;
 
-import eu.scape_project.planning.utils.FacesMessages;
-
 import org.richfaces.event.FileUploadEvent;
 import org.slf4j.Logger;
+
+import at.tuwien.minimee.registry.ToolRegistry;
+import eu.scape_project.planning.utils.FacesMessages;
 
 /**
  * Class used as backing-bean for the admin-utils view.
@@ -404,6 +405,9 @@ public class AdminActionsView implements Serializable {
         return true;
     }
 
+    public void reloadMinimee(){
+        ToolRegistry.getInstance().reload();
+    }
     // --------------- getter/setter ---------------
 
     public Integer getExportPlanRangeFromId() {

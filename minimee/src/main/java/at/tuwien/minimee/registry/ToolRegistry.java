@@ -119,7 +119,7 @@ public class ToolRegistry {
         tools.add(t);
     }
 
-    private void reload() {
+    public void reload() {
         clear();
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
         Configuration configuration = configurationLoader.load();

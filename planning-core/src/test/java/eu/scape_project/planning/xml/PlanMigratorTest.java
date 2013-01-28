@@ -13,18 +13,17 @@ import javax.xml.parsers.SAXParser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.utils.OS;
-import eu.scape_project.planning.xml.PlanMigrator;
-import eu.scape_project.planning.xml.PlanXMLConstants;
-import eu.scape_project.planning.xml.SchemaResolver;
-import eu.scape_project.planning.xml.StrictDefaultHandler;
-import eu.scape_project.planning.xml.ValidatingParserFactory;
 
 public class PlanMigratorTest {
+    private static final Logger log = LoggerFactory.getLogger(PlanMigratorTest.class);
     
     private File tempDir;
     private String tempPath;
@@ -83,6 +82,28 @@ public class PlanMigratorTest {
             .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
         
         parser.parse(new FileInputStream(currentVersionData), new StrictDefaultHandler(schemaResolver));
+    }
+    
+    @Ignore
+    @Test
+    public void migrateDirectory() throws PlatoException, FileNotFoundException{
+        PlanMigrator migrator = new PlanMigrator();
+        
+        File dir = new File("d://plans");
+        
+        File plans[] = dir.listFiles();
+        for (File plan : plans) {
+            if (plan.isFile() && plan.getName().endsWith(".xml")) {
+                List<String> appliedTransformations = new ArrayList<String>();
+                String currentVersionData = migrator.getCurrentVersionData(new FileInputStream(plan), tempPath, appliedTransformations);
+                File migratedFile = new File(currentVersionData);
+                File outFile = new File("d://plans//out//" + migratedFile.getName());
+                if (!migratedFile.renameTo(outFile)) {
+                    log.error("Failed to move file : " + currentVersionData);
+                }
+            }
+        }
+        
     }
 
 }
