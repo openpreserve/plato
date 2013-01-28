@@ -545,86 +545,85 @@
 																<td class="rf-dt-c">#{kBrowser.criterionSelector.selectedMeasure.scale.unit}</td>
 															</tr>
 														</c:if>
-														<c:if test="#{kBrowser.isCategorySelected}">
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Leaves in category</td>
+															<td class="rf-dt-c"><h:outputText
+																	value="#{kBrowser.nrPlanLeavesInCategory}" /></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Leaves using attribute</td>
+															<td class="rf-dt-c">#{kBrowser.nrPlanLeavesUsingAttribute}</td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Leaves using measure</td>
+															<td class="rf-dt-c">#{kBrowser.nrCriterionPlanLeaves}</td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Average weight</td>
+															<td class="rf-dt-c"><h:outputText
+																	value="#{kBrowser.cplAverageWeight}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Average total weight</td>
+															<td class="rf-dt-c"><h:outputText
+																	value="#{kBrowser.cplIf3}">
+																	<f:convertNumber type="number" maxFractionDigits="4" />
+																</h:outputText></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Measurements obtained</td>
+															<td class="rf-dt-c"><h:outputText
+																	value="#{kBrowser.nrCPLMeasurementsObtained}" /></td>
+														</tr>
+														<c:if test="#{kBrowser.hasCriterionNumericScale}">
 															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Leaves in category</td>
+																<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Minimum
+																	measurement</td>
 																<td class="rf-dt-c"><h:outputText
-																		value="#{kBrowser.nrPlanLeavesInCategory}" /></td>
-															</tr>
-														</c:if>
-														<c:if test="#{kBrowser.isAttributeSelected}">
-															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Leaves using attribute</td>
-																<td class="rf-dt-c">#{kBrowser.nrPlanLeavesUsingAttribute}</td>
-															</tr>
-															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Leaves using measure</td>
-																<td class="rf-dt-c">#{kBrowser.nrCriterionPlanLeaves}</td>
-															</tr>
-														</c:if>
-														<c:if test="#{kBrowser.isMeasureSelected}">
-															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Average weight</td>
-																<td class="rf-dt-c"><h:outputText
-																		value="#{kBrowser.cplAverageWeight}">
-																		<f:convertNumber type="number" maxFractionDigits="4" />
+																		value="#{kBrowser.cplNumericMeasurementsMin}">
+																		<f:convertNumber type="number" maxFractionDigits="2" />
 																	</h:outputText></td>
 															</tr>
 															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Average total weight</td>
+																<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Maximum
+																	measurement</td>
 																<td class="rf-dt-c"><h:outputText
-																		value="#{kBrowser.cplIf3}">
-																		<f:convertNumber type="number" maxFractionDigits="4" />
+																		value="#{kBrowser.cplNumericMeasurementsMax}">
+																		<f:convertNumber type="number" maxFractionDigits="2" />
 																	</h:outputText></td>
 															</tr>
 															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Measurements obtained</td>
+																<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Average
+																	measurement</td>
 																<td class="rf-dt-c"><h:outputText
-																		value="#{kBrowser.nrCPLMeasurementsObtained}" /></td>
-															</tr>
-															<c:if test="#{kBrowser.hasCriterionNumericScale}">
-																<tr class="tableStyle-row rf-dt-r">
-																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Minimum
-																		measurement</td>
-																	<td class="rf-dt-c"><h:outputText
-																			value="#{kBrowser.cplNumericMeasurementsMin}">
-																			<f:convertNumber type="number" maxFractionDigits="2" />
-																		</h:outputText></td>
-																</tr>
-																<tr class="tableStyle-row rf-dt-r">
-																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Maximum
-																		measurement</td>
-																	<td class="rf-dt-c"><h:outputText
-																			value="#{kBrowser.cplNumericMeasurementsMax}">
-																			<f:convertNumber type="number" maxFractionDigits="2" />
-																		</h:outputText></td>
-																</tr>
-																<tr class="tableStyle-row rf-dt-r">
-																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;Average
-																		measurement</td>
-																	<td class="rf-dt-c"><h:outputText
-																			value="#{kBrowser.cplNumericMeasurementsAvg}">
-																			<f:convertNumber type="number" maxFractionDigits="2" />
-																		</h:outputText></td>
-																</tr>
-															</c:if>
-															<c:if test="#{kBrowser.hasCriterionOrdinalScale}">
-																<ui:repeat var="measurement"
-																	value="#{kBrowser.cplOrdinalMeasurementsList}">
-																	<tr class="tableStyle-row rf-dt-r">
-																		<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;<h:outputText
-																				value="#{measurement.key}" /></td>
-																		<td class="rf-dt-c"><h:outputText
-																				value="#{measurement.value}" /></td>
-																	</tr>
-																</ui:repeat>
-															</c:if>
-															<tr class="tableStyle-row rf-dt-r">
-																<td class="rf-dt-c">Evaluations</td>
-																<td class="rf-dt-c"><h:outputText
-																		value="#{kBrowser.nrCPLEvaluations}" /></td>
+																		value="#{kBrowser.cplNumericMeasurementsAvg}">
+																		<f:convertNumber type="number" maxFractionDigits="2" />
+																	</h:outputText></td>
 															</tr>
 														</c:if>
+														<c:if test="#{kBrowser.hasCriterionOrdinalScale}">
+															<ui:repeat var="measurement"
+																value="#{kBrowser.cplOrdinalMeasurementsList}">
+																<tr class="tableStyle-row rf-dt-r">
+																	<td class="rf-dt-c">&nbsp;&nbsp;&nbsp;&nbsp;<h:outputText
+																			value="#{measurement.key}" /></td>
+																	<td class="rf-dt-c"><h:outputText
+																			value="#{measurement.value}" /></td>
+																</tr>
+															</ui:repeat>
+														</c:if>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Evaluations</td>
+															<td class="rf-dt-c"><h:outputText
+																	value="#{kBrowser.nrCPLEvaluations}" /></td>
+														</tr>
+														<tr class="tableStyle-row rf-dt-r">
+															<td class="rf-dt-c">Dominated</td>
+															<td class="rf-dt-c"><h:outputText
+																	value="#{kBrowser.measureDominated}" /></td>
+														</tr>
 													</tbody>
 												</table>
 											</h:panelGroup>

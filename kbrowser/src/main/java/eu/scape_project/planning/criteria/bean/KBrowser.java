@@ -160,6 +160,8 @@ public class KBrowser implements Serializable {
     private double cplIf17;
     private double cplIf18;
 
+    private boolean measureDominated;
+
     // ---- chart ----
     private Boolean hasCriterionEvaluations = false;
     private int evaluatedValuesZero = 0;
@@ -173,6 +175,8 @@ public class KBrowser implements Serializable {
 
     // ---- importance analysis ----
     private ImportanceAnalysis importanceAnalysis;
+
+    private DominatedSetCalculator dominatedSetCalculator;
 
     public KBrowser() {
     }
@@ -218,9 +222,7 @@ public class KBrowser implements Serializable {
 
         importanceAnalysis = new ImportanceAnalysis(usedMeasures.values(), planLeaves, selectedPlans);
 
-        // TODO: This is just a test to call the calculator
-        // DominatedSetCalculator dominatedSetCalculator = new
-        // DominatedSetCalculator(selectedPlans, planLeaves);
+        dominatedSetCalculator = new DominatedSetCalculator(selectedPlans, planLeaves);
         // dominatedSetCalculator.calculateDominatedPowerSet();
 
         // Do calculations
@@ -363,6 +365,9 @@ public class KBrowser implements Serializable {
             } else {
                 hasCriterionEvaluations = false;
             }
+
+            // Dominated
+            measureDominated = dominatedSetCalculator.isCriterionDominated(criterionSelector.getSelectedMeasure());
         } else {
             isMeasureSelected = false;
             hasCriterionEvaluations = false;
@@ -822,6 +827,14 @@ public class KBrowser implements Serializable {
         return cplIf18;
     }
 
+    public boolean isMeasureDominated() {
+        return measureDominated;
+    }
+
+    public void setMeasureDominated(boolean measureDominated) {
+        this.measureDominated = measureDominated;
+    }
+
     public void setEvaluatedValuesZero(int evaluatedValuesZero) {
         this.evaluatedValuesZero = evaluatedValuesZero;
     }
@@ -1084,6 +1097,14 @@ public class KBrowser implements Serializable {
 
     public void setCriterionSelector(CriterionSelector criterionSelector) {
         this.criterionSelector = criterionSelector;
+    }
+
+    public DominatedSetCalculator getDominatedSetCalculator() {
+        return dominatedSetCalculator;
+    }
+
+    public void setDominatedSetCalculator(DominatedSetCalculator dominatedSetCalculator) {
+        this.dominatedSetCalculator = dominatedSetCalculator;
     }
 
 }
