@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -33,6 +35,9 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.slf4j.Logger;
+import org.xml.sax.SAXException;
+
 import eu.scape_project.planning.manager.IByteStreamStorage;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
@@ -40,9 +45,6 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.tree.TemplateTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.OS;
-
-import org.slf4j.Logger;
-import org.xml.sax.SAXException;
 
 @Stateful
 @SessionScoped
@@ -137,19 +139,27 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
         if (files == null) {
             throw new PlatoException("Directory is empty: " + dir);
         }
-        for (String s : files) {
-            log.debug("importing file: " + s);
+        List<String> sortedFiles = Arrays.asList(files);
+        Collections.sort(sortedFiles);
+        for (String s : sortedFiles) {
             String file = f.getAbsolutePath() + File.separator + s;
-            log.info("Importing file: " + file);
-            for (Plan p : importPlans(file)) {
-                storeDigitalObjects(p);
-                em.persist(p);
-                count++;
+            File source = new File(file);
+            if (source.isFile() && s.endsWith(".xml")) {
+                log.info("Importing file: " + file);
+                List<Plan> plans = importPlans(file);
+                for (Plan p : plans) {
+                    try {
+                        em.persist(p);
+                        storeDigitalObjects(p);
+                        count++;
+                    } catch (Exception e) {
+                        log.error("failed to import plan: " + p.getPlanProperties().getId() + "-"
+                            + p.getPlanProperties().getName(),e );
+                    }
+                }
             }
-            // FIXME: if persisting to the database fails, the
-            // DigitalObjects stored
-            // to the filesystem have to be removed!
         }
+        log.info("finished import");
         return count;
     }
 
@@ -166,6 +176,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
                 if (o.getData().getSize() > 0) {
                     String pid = storage.store(null, o.getData().getRealByteStream().getData());
                     o.setPid(pid);
+                    o.getData().releaseData();
                 }
             }
         } catch (Exception e) {

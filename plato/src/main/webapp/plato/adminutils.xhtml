@@ -22,99 +22,203 @@
             Admin commands need passcode:
             <h:inputSecret value="#{admin.password}" id="passwordField" />
 			<hr />
+			<rich:tabPanel switchType="client">
+				<rich:tab header="Export">
+						<fieldset id="exportimport">
+							<legend> export </legend>
+			
+							<rich:messages for="exportAllPlansToZip" />
+							<a4j:commandButton id="exportAllPlansToZip"
+								action="#{admin.exportAllPlansToZip}"
+								value="Export all plans to a ZIP containing all XML files" />
+							<br /> <br />
+							<rich:messages for="exportSomePlansToZip" />
+							<a4j:commandButton id="exportSomePlansToZip"
+								action="#{admin.exportSomePlansToZip}"
+								value="Export the following plans to a ZIP containing all XML files" />
+							<br />
+							<h:outputLabel for="fromIDField" value="from planID:" />
+							<h:inputText value="#{admin.exportPlanRangeFromId}" id="fromIDField" />
+							<h:outputLabel for="toIDField" value="to planID:" />
+							<h:inputText value="#{admin.exportPlanRangeToId}" id="toIDField" />
+							<br />
+						</fieldset>
+				</rich:tab>
+				<rich:tab header="Import Plans">
+						<fieldset id="import">
+							<legend> XML import </legend>
+			
+							Path:
+							<rich:messages for="importDir" />
+							<h:inputText id="importDir" value="#{admin.xmlImportDirectory}"
+								class="size-max" />
+							<br />
+							<a4j:commandButton id="directoryImport"
+								action="#{admin.importPlansFromDirectory()}"
+								value="Import all XMLs in server directory"
+								status="directoryImportStatus" />
+							<rich:messages for="directoryImport" />
+			
+							<a4j:status name="directoryImportStatus">
+								<f:facet name="start">
+									<h:graphicImage value="/resources/gfx/processing.gif"
+										alt="Processing, please wait...." />
+								</f:facet>
+								<f:facet name="stop">
+								</f:facet>
+							</a4j:status>
+			
+							<br /> <br />
+			
+							<rich:messages for="importXml" />
+							<h:inputTextarea id="importXml" value="#{admin.xmlStringToImport}"
+								class="size-max" />
+							<br />
+							<a4j:commandButton id="xmlImport" action="#{admin.importFromXml()}"
+								value="Import XML string" status="xmlImportStatus"
+								render="importXml" />
+							<rich:messages for="xmlImport" />
+			
+							<a4j:status name="xmlImportStatus">
+								<f:facet name="start">
+									<h:graphicImage value="/resources/gfx/processing.gif"
+										alt="Processing, please wait...." />
+								</f:facet>
+								<f:facet name="stop">
+								</f:facet>
+							</a4j:status>
+						</fieldset>	
+						
+						<a4j:outputPanel layout="block" id="importFromFilePanel">
+							<fieldset id="importFromFile">
+								<legend>XML import from file</legend>
+			
+								<rich:messages for="file" />
+								<a4j:commandButton id="file" value="Choose File"
+									oncomplete="#{rich:component('selectImportPanel')}.show()" />
+								<h:outputText value="#{admin.importFileName}"
+									rendered="#{admin.importFileData != null}" />
+								<br /> <br />
+			
+								<rich:messages for="importFile" />
+								<a4j:commandButton id="importFile" value="Import plans"
+									action="#{admin.importFromFile()}" status="fileImportStatus"
+									render="importFromFilePanel" />
+								<rich:messages for="importFileForMyself" />
+								<a4j:commandButton id="importFileForMyself"
+									value="Import plans for myself"
+									action="#{admin.importFromFileForMyself()}"
+									status="fileImportStatus" render="importFromFilePanel" />
+			
+								<a4j:status name="fileImportStatus">
+									<f:facet name="start">
+										<h:graphicImage value="/resources/gfx/processing.gif"
+											alt="Processing, please wait...." />
+									</f:facet>
+									<f:facet name="stop">
+									</f:facet>
+								</a4j:status>
+							</fieldset>
+						</a4j:outputPanel>
+						
+				</rich:tab>
+				<rich:tab header="Cleanup">
+						<fieldset id="cleanup">
+							<legend> cleanup </legend>
+			
+							<rich:messages for="deleteAllPlans" />
+							<a4j:commandButton id="deleteAllPlans"
+								action="#{admin.deleteAllPlans()}"
+								value="Delete all plans from database"
+								onclick="if (!confirm('Are you sure you want to delete all the plans?')) return false;"
+								render="" />
+							<br />
+			
+							<rich:messages for="cleanUpLoosePlanValues" />
+							<a4j:commandButton id="cleanUpLoosePlanValues"
+								action="#{admin.cleanUpLoosePlanValues()}"
+								value="Clean up loose values of all plans" />
+							<br />
+			
+							<rich:messages for="unlockAllPlans" />
+							<h:commandButton id="unlockAllPlans"
+								action="#{admin.unlockAllPlans()}" value="Unlock all plans" />
+							<br />
+						</fieldset>
+			
+						<fieldset id="unlock">
+							<legend> unlock/delete single plan </legend>
+			
+							<rich:messages for="planId" />
+							<h:outputLabel for="planId" value="planID:" />
+							<h:inputText value="#{admin.planId}" id="planId" />
+							<br />
+			
+							<rich:messages for="unlockPlan" />
+							<a4j:commandButton id="unlockPlan" action="#{admin.unlockPlan()}"
+								value="Unlock plan using id" />
+							<br />
+							<rich:messages for="clonePlan" />
+							<a4j:commandButton id="clonePlan" action="#{admin.clonePlan()}"
+								value="Clone plan using id" />
+							<br />
+							<rich:messages for="deletePlan" />
+							<a4j:commandButton id="deletePlan" action="#{admin.deletePlan()}"
+								value="Delete plan using id"
+								onclick="if (!confirm('Are you sure you want to delete this plan?')) return false" />
+						</fieldset>
+						
+				</rich:tab>
+				<rich:tab header="Manage Criteria">
+						<fieldset id="manageCriteria">
+							<legend>Manage Criteria</legend>
+							<a4j:commandButton action="#{criteriaManager.reload()}"
+								value="Reload Criteria from XML" status="reloadCriteriaStatus" />
+			
+							<a4j:status name="reloadCriteriaStatus">
+								<f:facet name="start">
+									<h:graphicImage value="/resources/gfx/processing.gif"
+										alt="Processing, please wait...." />
+								</f:facet>
+								<f:facet name="stop">
+								</f:facet>
+							</a4j:status>
+						</fieldset>
+				
+				</rich:tab>	
+				<rich:tab header="Testing">
+						<fieldset id="exceptions">
+							<legend>Exceptions</legend>
+			
+							<h:commandButton id="exception"
+								action="#{admin.throwRuntimeException()}"
+								value="Throw Runtime Exception" />
+							<h:commandButton id="ajaxException"
+								action="#{admin.throwRuntimeException()}"
+								value="Throw Runtime Exception via AJAX">
+								<f:ajax />
+							</h:commandButton>
+						</fieldset>
+						<fieldset id="memory">
+							<legend> Memory Tests </legend>
+							Attention: Munching too much memory will result in an
+							OutOfMemoryError <br />
+							<rich:messages for="memtestAdd" />
+							<a4j:commandButton id="memtestAdd"
+								action="#{admin.munch500MBofMemory()}"
+								value="Munch 500MB of memory" />
+							<br />
+							<rich:messages for="memtestRelease" />
+							<a4j:commandButton id="memtestRelease"
+								action="#{admin.releaseMemory()}" value="Release memory" />
+						</fieldset>
+						
+				</rich:tab>	
+			</rich:tabPanel>
 
-			<fieldset id="exportimport">
-				<legend> export </legend>
 
-				<rich:messages for="exportAllPlansToZip" />
-				<a4j:commandButton id="exportAllPlansToZip"
-					action="#{admin.exportAllPlansToZip}"
-					value="Export all plans to a ZIP containing all XML files" />
-				<br /> <br />
-				<rich:messages for="exportSomePlansToZip" />
-				<a4j:commandButton id="exportSomePlansToZip"
-					action="#{admin.exportSomePlansToZip}"
-					value="Export the following plans to a ZIP containing all XML files" />
-				<br />
-				<h:outputLabel for="fromIDField" value="from planID:" />
-				<h:inputText value="#{admin.exportPlanRangeFromId}" id="fromIDField" />
-				<h:outputLabel for="toIDField" value="to planID:" />
-				<h:inputText value="#{admin.exportPlanRangeToId}" id="toIDField" />
-				<br />
-			</fieldset>
 
-			<fieldset id="cleanup">
-				<legend> cleanup </legend>
-
-				<rich:messages for="deleteAllPlans" />
-				<a4j:commandButton id="deleteAllPlans"
-					action="#{admin.deleteAllPlans()}"
-					value="Delete all plans from database"
-					onclick="if (!confirm('Are you sure you want to delete all the plans?')) return false;"
-					render="" />
-				<br />
-
-				<rich:messages for="cleanUpLoosePlanValues" />
-				<a4j:commandButton id="cleanUpLoosePlanValues"
-					action="#{admin.cleanUpLoosePlanValues()}"
-					value="Clean up loose values of all plans" />
-				<br />
-
-				<rich:messages for="unlockAllPlans" />
-				<h:commandButton id="unlockAllPlans"
-					action="#{admin.unlockAllPlans()}" value="Unlock all plans" />
-				<br />
-			</fieldset>
-
-			<fieldset id="manageCriteria">
-				<legend>Manage Criteria</legend>
-				<a4j:commandButton action="#{criteriaManager.reload()}"
-					value="Reload Criteria from XML" status="reloadCriteriaStatus" />
-
-				<a4j:status name="reloadCriteriaStatus">
-					<f:facet name="start">
-						<h:graphicImage value="/resources/gfx/processing.gif"
-							alt="Processing, please wait...." />
-					</f:facet>
-					<f:facet name="stop">
-					</f:facet>
-				</a4j:status>
-			</fieldset>
-
-			<fieldset id="unlock">
-				<legend> unlock/delete one plan </legend>
-
-				<rich:messages for="planId" />
-				<h:outputLabel for="planId" value="planID:" />
-				<h:inputText value="#{admin.planId}" id="planId" />
-				<br />
-
-				<rich:messages for="unlockPlan" />
-				<a4j:commandButton id="unlockPlan" action="#{admin.unlockPlan()}"
-					value="Unlock plan using id" />
-				<br />
-				<rich:messages for="clonePlan" />
-				<a4j:commandButton id="clonePlan" action="#{admin.clonePlan()}"
-					value="Clone plan using id" />
-				<br />
-				<rich:messages for="deletePlan" />
-				<a4j:commandButton id="deletePlan" action="#{admin.deletePlan()}"
-					value="Delete plan using id"
-					onclick="if (!confirm('Are you sure you want to delete this plan?')) return false" />
-			</fieldset>
-
-			<fieldset id="exceptions">
-				<legend>Exceptions</legend>
-
-				<h:commandButton id="exception"
-					action="#{admin.throwRuntimeException()}"
-					value="Throw Runtime Exception" />
-				<h:commandButton id="ajaxException"
-					action="#{admin.throwRuntimeException()}"
-					value="Throw Runtime Exception via AJAX">
-					<f:ajax />
-				</h:commandButton>
-			</fieldset>
+			<br/>
 
 			<fieldset id="errors">
 				<legend>Error Messages</legend>
@@ -239,100 +343,10 @@
 				</a4j:outputPanel>
 			</fieldset>
 
-			<fieldset id="memory">
-				<legend> Memory Tests </legend>
-				Attention: Munching too much memory will result in an
-				OutOfMemoryError <br />
-				<rich:messages for="memtestAdd" />
-				<a4j:commandButton id="memtestAdd"
-					action="#{admin.munch500MBofMemory()}"
-					value="Munch 500MB of memory" />
-				<br />
-				<rich:messages for="memtestRelease" />
-				<a4j:commandButton id="memtestRelease"
-					action="#{admin.releaseMemory()}" value="Release memory" />
-			</fieldset>
 
-			<fieldset id="import">
-				<legend> XML import </legend>
 
-				Path:
-				<rich:messages for="importDir" />
-				<h:inputText id="importDir" value="#{admin.xmlImportDirectory}"
-					class="size-max" />
-				<br />
-				<a4j:commandButton id="directoryImport"
-					action="#{admin.importPlansFromDirectory()}"
-					value="Import all XMLs in server directory"
-					status="directoryImportStatus" />
-				<rich:messages for="directoryImport" />
-
-				<a4j:status name="directoryImportStatus">
-					<f:facet name="start">
-						<h:graphicImage value="/resources/gfx/processing.gif"
-							alt="Processing, please wait...." />
-					</f:facet>
-					<f:facet name="stop">
-					</f:facet>
-				</a4j:status>
-
-				<br /> <br />
-
-				<rich:messages for="importXml" />
-				<h:inputTextarea id="importXml" value="#{admin.xmlStringToImport}"
-					class="size-max" />
-				<br />
-				<a4j:commandButton id="xmlImport" action="#{admin.importFromXml()}"
-					value="Import XML string" status="xmlImportStatus"
-					render="importXml" />
-				<rich:messages for="xmlImport" />
-
-				<a4j:status name="xmlImportStatus">
-					<f:facet name="start">
-						<h:graphicImage value="/resources/gfx/processing.gif"
-							alt="Processing, please wait...." />
-					</f:facet>
-					<f:facet name="stop">
-					</f:facet>
-				</a4j:status>
-			</fieldset>
 
 		</h:form>
-
-		<h:form id="uploadForm" enctype="multipart/form-data">
-			<a4j:outputPanel layout="block" id="importFromFilePanel">
-				<fieldset id="importFromFile">
-					<legend>XML import from file</legend>
-
-					<rich:messages for="file" />
-					<a4j:commandButton id="file" value="Choose File"
-						oncomplete="#{rich:component('selectImportPanel')}.show()" />
-					<h:outputText value="#{admin.importFileName}"
-						rendered="#{admin.importFileData != null}" />
-					<br /> <br />
-
-					<rich:messages for="importFile" />
-					<a4j:commandButton id="importFile" value="Import plans"
-						action="#{admin.importFromFile()}" status="fileImportStatus"
-						render="importFromFilePanel" />
-					<rich:messages for="importFileForMyself" />
-					<a4j:commandButton id="importFileForMyself"
-						value="Import plans for myself"
-						action="#{admin.importFromFileForMyself()}"
-						status="fileImportStatus" render="importFromFilePanel" />
-
-					<a4j:status name="fileImportStatus">
-						<f:facet name="start">
-							<h:graphicImage value="/resources/gfx/processing.gif"
-								alt="Processing, please wait...." />
-						</f:facet>
-						<f:facet name="stop">
-						</f:facet>
-					</a4j:status>
-				</fieldset>
-			</a4j:outputPanel>
-		</h:form>
-
 
 		<!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
                         outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).

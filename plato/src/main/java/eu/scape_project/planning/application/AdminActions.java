@@ -128,6 +128,7 @@ public class AdminActions implements Serializable {
     /**
      * Method responsible for deleting all plans from database.
      */
+    
     public boolean deleteAllPlans() {
         List<Plan> planList = em.createQuery("select p from Plan p").getResultList();
         boolean gotError = false;

@@ -87,6 +87,10 @@ public class ByteStream implements Serializable {
     public byte[] getData() {
         return realByteStream.getData();
     }
+    
+    public void releaseData(){
+        setData(null);
+    }
 
     public void setData(byte[] data) {
         realByteStream.setData(data);

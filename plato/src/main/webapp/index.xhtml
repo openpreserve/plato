@@ -13,34 +13,19 @@
 
 		<h:form id="mainform">
 
-
-			<x:div id="news" rendered="#{!empty allMessages.news}">
+			<a4j:outputPanel layout="block" id="newsTable" rendered="#{!empty allMessages.news}">
+			<div class="menu-container-information">			
 				<h2>News:</h2>
-				<h:dataTable value="#{allMessages.news}" var="news"
-					columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xxl, margin-top-small margin-bottom-small margin-left-big margin-right-big border, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-l, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs"
-					headerClass="margin-left-big margin-right-big border nowrap"
-					rowClasses="border" styleClass="size-max">
-					<h:column>
-						<f:facet name="header">
-                            Timestamp
-                        </f:facet>
-                        #{news.timestamp}
-                    </h:column>
-					<h:column>
-						<f:facet name="header">
-                            Author
-                        </f:facet>
-                        #{news.author}
-                    </h:column>
-					<h:column>
-						<f:facet name="header">
-                            News
-                        </f:facet>
-                        #{news.news}
-                    </h:column>
-				</h:dataTable>
-			</x:div>
+				<ul>
+				<ui:repeat var="news" value="#{allMessages.news}">
+					<li>#{news.news} <I>(#{news.author} #{news.timestamp})</I>
+					</li>
+				</ui:repeat>
+				</ul>
 
+			</div>
+			</a4j:outputPanel>
+			
 			<a4j:outputPanel layout="block"
 				rendered="#{param['sessionExpired'] == 'true'}" styleClass="warning">
                 Your session has expired because of a long inactivity period. <br />

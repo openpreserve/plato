@@ -56,9 +56,7 @@ public class DigitalObjectManager implements Serializable {
         // remove the file data - and set the pid and filesize instead
         object.setPid(pid);
         object.setSizeInBytes(object.getData().getSize());
-        // we must not use Bytestream.setData directly, as it also resets
-        // ByteStream.size
-        object.getData().getRealByteStream().setData(null);
+        object.getData().releaseData();
     }
 
     /**

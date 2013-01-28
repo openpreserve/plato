@@ -197,7 +197,7 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
                         }
                     } finally {
                         // free the bytestream data
-                        sample.getData().getRealByteStream().setData(null);
+                        sample.getData().releaseData();
                     }
                 }
             }
