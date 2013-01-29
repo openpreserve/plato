@@ -26,14 +26,13 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-
-import eu.scape_project.planning.utils.ConfigurationLoader;
-import eu.scape_project.planning.utils.FileUtils;
 
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
+
+import eu.scape_project.planning.utils.ConfigurationLoader;
+import eu.scape_project.planning.utils.FileUtils;
 
 /**
  * A {@link IByteStreamStorage} which stores the data in the file system. The
@@ -50,7 +49,7 @@ import org.slf4j.Logger;
 // Do not use @ConversationScoped because the ExperimentRunner is called
 // asynchronous and no ConversationScope is available then.
 @Stateful
-@SessionScoped
+//@SessionScoped
 public class FileStorage implements Serializable, IByteStreamStorage {
     private static final long serialVersionUID = -2406172386311143101L;
 
