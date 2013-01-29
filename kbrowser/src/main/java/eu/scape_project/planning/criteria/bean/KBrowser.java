@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import eu.scape_project.planning.criteria.bean.CriterionSelector.ChangeListener;
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
+import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.aggregators.WeightedSum;
@@ -78,6 +80,9 @@ public class KBrowser implements Serializable {
     @Inject
     private PlanSelection planSelection;
 
+    @Inject
+    private CriteriaManager criteriaManager;
+
     // ---- variables for selection ----
     private List<PlanInfo> selectedPlans = new ArrayList<PlanInfo>();
 
@@ -118,6 +123,8 @@ public class KBrowser implements Serializable {
     private Boolean hasCriterionOrdinalScale = false;
     private Map<String, Integer> cplOrdinalMeasurements = new HashMap<String, Integer>();
     private KBrowserTransformerTable transformerTable;
+
+    List<List<Measure>> dominatedSets = new ArrayList<List<Measure>>(0);
 
     /**
      * Sort orders for big criterion impact table
@@ -223,6 +230,17 @@ public class KBrowser implements Serializable {
         importanceAnalysis = new ImportanceAnalysis(usedMeasures.values(), planLeaves, selectedPlans);
 
         dominatedSetCalculator = new DominatedSetCalculator(selectedPlans, planLeaves);
+        Set<Set<String>> dominatedUriSets = dominatedSetCalculator.getDominatedPowerSet();
+        List<List<String>> changingUriSets = dominatedSetCalculator.getRankingChangedPowerSet();
+
+        dominatedSets = new ArrayList<List<Measure>>(dominatedUriSets.size());
+        for (List<String> dominatedUriSet : changingUriSets) {
+            ArrayList<Measure> dominatedSet = new ArrayList<Measure>(dominatedUriSet.size());
+            for (String measureUri : dominatedUriSet) {
+                dominatedSet.add(criteriaManager.getMeasure(measureUri));
+            }
+            dominatedSets.add(dominatedSet);
+        }
 
         // Do calculations
         // Calculate maximum scale for potential-to-range diagram
@@ -366,7 +384,8 @@ public class KBrowser implements Serializable {
             }
 
             // Dominated
-            measureDominated = dominatedSetCalculator.isCriterionDominated(criterionSelector.getSelectedMeasure());
+            measureDominated = dominatedSetCalculator.isCriterionDominated(criterionSelector.getSelectedMeasure()
+                .getUri());
         } else {
             isMeasureSelected = false;
             hasCriterionEvaluations = false;
@@ -1096,6 +1115,10 @@ public class KBrowser implements Serializable {
 
     public void setCriterionSelector(CriterionSelector criterionSelector) {
         this.criterionSelector = criterionSelector;
+    }
+
+    public List<List<Measure>> getDominatedSets() {
+        return dominatedSets;
     }
 
 }

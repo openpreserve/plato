@@ -19,6 +19,7 @@ package eu.scape_project.planning.criteria.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -141,7 +142,7 @@ public class ImportanceAnalysis implements Serializable {
                     break;
                 }
             }
-            Set<String> competitors = planInfo.getOverallResults().getResults().keySet();
+            Set<String> competitors = new HashSet<String>(planInfo.getOverallResults().getResults().keySet());
             competitors.remove(planInfo.getWinningAlternative());
             if (competitors.isEmpty()) {
                 // sum += leafFactor;
