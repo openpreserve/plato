@@ -1,4 +1,4 @@
-Plato: the preservation planning tool
+Plato: The Preservation Planning Tool
 =====================================
 
 Plato is a preservation planning tool, it originates from the [Planets Project](http://planets-project.eu/) and is now further developed within the [SCAPE project](http://www.scape-project.eu). 
