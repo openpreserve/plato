@@ -84,22 +84,30 @@ public class PlanMigratorTest {
         parser.parse(new FileInputStream(currentVersionData), new StrictDefaultHandler(schemaResolver));
     }
     
-    @Ignore
     @Test
     public void migrateDirectory() throws PlatoException, FileNotFoundException{
         PlanMigrator migrator = new PlanMigrator();
         
-        File dir = new File("d://plans");
+        File dir = new File("/home/kraxner/Documents/SCAPE/plan-problems");
         
         File plans[] = dir.listFiles();
         for (File plan : plans) {
             if (plan.isFile() && plan.getName().endsWith(".xml")) {
+                String tempPath = dir.getAbsolutePath() + File.separator + plan.getName().substring(0, plan.getName().length()-4) + File.separator;
+                File tempDir = new File(tempPath);
+                tempDir.mkdirs();
+
                 List<String> appliedTransformations = new ArrayList<String>();
-                String currentVersionData = migrator.getCurrentVersionData(new FileInputStream(plan), tempPath, appliedTransformations);
-                File migratedFile = new File(currentVersionData);
-                File outFile = new File("d://plans//out//" + migratedFile.getName());
-                if (!migratedFile.renameTo(outFile)) {
-                    log.error("Failed to move file : " + currentVersionData);
+                String currentVersionData;
+                try {
+                    currentVersionData = migrator.getCurrentVersionData(new FileInputStream(plan), tempPath, appliedTransformations);
+                    File migratedFile = new File(currentVersionData);
+                    File outFile = new File("d://plans//out//" + migratedFile.getName());
+                    if (!migratedFile.renameTo(outFile)) {
+                        log.error("Failed to move file : " + currentVersionData);
+                    }
+                } catch (Exception e) {
+                    log.error("failed to migrate file: " + plan.getName(), e);
                 }
             }
         }
