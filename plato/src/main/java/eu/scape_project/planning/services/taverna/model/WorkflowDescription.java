@@ -1,4 +1,4 @@
-package eu.scape_project.planning.services.pa.taverna.model;
+package eu.scape_project.planning.services.taverna.model;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
+
 
 /**
  * Description of a workflow.

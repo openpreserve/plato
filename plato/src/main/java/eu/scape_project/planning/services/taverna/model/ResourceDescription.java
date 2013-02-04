@@ -1,4 +1,6 @@
-package eu.scape_project.planning.services.pa.taverna.model;
+package eu.scape_project.planning.services.taverna.model;
+
+import java.net.URI;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,28 +12,32 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ResourceDescription {
 
     @XmlAttribute
-    private String uri;
+    private URI uri;
     @XmlAttribute
-    private String resource;
+    private URI resource;
 
     public ResourceDescription() {
         super();
     }
 
-    public String getUri() {
+    public URI getUri() {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public void setUri(URI uri) {
         this.uri = uri;
     }
 
-    public String getResource() {
+    public URI getResource() {
         return resource;
     }
 
-    public void setResource(String resource) {
+    public void setResource(URI resource) {
         this.resource = resource;
+    }
+
+    public String getId() {
+        return uri.toString().substring(uri.toString().indexOf("id=") + 3);
     }
 
 }
