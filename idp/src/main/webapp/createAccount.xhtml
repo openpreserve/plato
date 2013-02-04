@@ -16,7 +16,7 @@
 			rendered="#{createAccount.addUserSuccessful}">
 			Your account has been created. <br />
 			In a few moments you will get an email including a link to activate it. <br />
-			After activation you can go to the <h:outputLink value="login.jsf">sign in</h:outputLink> page to start using your account.
+			After activation you can go to the <h:outputLink value="index.jsf">sign in</h:outputLink> page to start using your account.
 		</a4j:outputPanel>
 
 		<a4j:outputPanel layout="block"
@@ -86,8 +86,8 @@
 
 				<h:commandButton type="submit" value="Create"
 					action="#{createAccount.addUser()}" styleClass="submitButton" />
-				<h:commandButton type="submit" value="Cancel" action="login.jsf"
-					immediate="true" styleClass="submitButton" />
+				<h:button value="Cancel" outcome="index.jsf"
+					styleClass="submitButton" />
 			</h:form>
 		</a4j:outputPanel>
 
