@@ -136,6 +136,21 @@ public class ViewWorkflowManager implements Serializable {
     }
 
     /**
+     * Logs the user out.
+     * - closes the plan and ends the conversation
+     * - does a global logout
+     * 
+     * @return
+     */
+    public String logout() {
+        planManager.unlockPlan(viewWorkflow.getPlan().getPlanProperties().getId());
+        plan = null;
+        conversation.end();
+        log.info("Ended viewWorkflow conversation - logging out");
+        return "/index.jsf" + "?faces-redirect=true&GLO=true";
+    }
+
+    /**
      * Method responsible for indicating if a viewWorkflow currently
      * started/running.
      * 

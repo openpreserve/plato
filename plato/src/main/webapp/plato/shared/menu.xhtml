@@ -81,10 +81,8 @@
 								action="#{groups.init()}" />
 						</rich:menuItem>
 						<rich:menuItem>
-							<h:outputLink>
-								<h:outputText value="Logout" />
-								<f:param name="GLO" value="true" />
-							</h:outputLink>
+							<h:commandLink value="Logout" action="#{viewWorkflowManager.logout}">
+							</h:commandLink>
 						</rich:menuItem>
 					</rich:dropDownMenu>
 				</rich:toolbarGroup>
