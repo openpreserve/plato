@@ -19,7 +19,7 @@
 		<h1>Criteria Sets Summary</h1>
 
 		<h:form>
-			<h:panelGroup layout="block" styleClass="pagePart" id="summaryTable">
+			<h:panelGroup layout="block" styleClass="page-part" id="summaryTable">
 				<rich:dataTable value="#{criteriaSetsSummary.allCriteriaSetsForSummary}" var="set" styleClass="tableStyle-big-font"
 					headerClass="tableStyle-header" rowClass="tableStyle-row">
 					<rich:column sortBy="#{set.name}" sortOrder="#{criteriaSetsSummary.summaryTableSortOrder[0]}">
@@ -126,12 +126,12 @@
 				</rich:dataTable>
 			</h:panelGroup>
 
-			<h:panelGroup layout="block" styleClass="pagePart">
+			<h:panelGroup layout="block" styleClass="page-part">
 				<h:commandButton action="#{criteriaSetsSummary.exportCriteriaSetsSummaryToCSV}" value="Export table to CSV" />
 				<h:outputLink value="criteria_sets_full.jsf" target="_blank">Show full table</h:outputLink>
 			</h:panelGroup>
 			
-            <h:panelGroup layout="block" styleClass="pagePart">
+            <h:panelGroup layout="block" styleClass="page-part">
                 <div class="panel big-font" style="text-align: center;">
 	                <b>Maximum Impact:</b> Maximum effect the criteria set has on plan scores.<br/>
 	                <b>Average Impact:</b> Average effect the criteria set has on plan scores.

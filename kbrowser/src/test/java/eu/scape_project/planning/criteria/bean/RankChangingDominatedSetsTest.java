@@ -26,13 +26,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.scape_project.planning.criteria.bean.DominatedSets.Aggregation;
 import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.kbrowser.VPlanLeaf;
 import eu.scape_project.planning.model.measurement.Measure;
 
 import org.junit.Test;
 
-public class DominatedSetCalculatorTest {
+public class RankChangingDominatedSetsTest {
 
     @Test
     public void getRankingChangedPowerSetTest_M1M2M3_Dominated() throws Exception {
@@ -111,9 +112,9 @@ public class DominatedSetCalculatorTest {
         leaves.add(leaf2);
         leaves.add(leaf3);
 
-        DominatedSetCalculator c = new DominatedSetCalculator(plans, leaves);
+        DominatedSets c = new RankChangingDominatedSets(plans, leaves);
 
-        List<List<String>> rangeChangingSets = c.getRankingChangedPowerSet();
+        List<List<String>> rangeChangingSets = c.getDominatedSets(Aggregation.ALL);
 
         // Assert
         assertEquals(rangeChangingSets.size(), 1);
@@ -183,9 +184,9 @@ public class DominatedSetCalculatorTest {
         leaves.add(leaf1);
         leaves.add(leaf2);
 
-        DominatedSetCalculator c = new DominatedSetCalculator(plans, leaves);
+        DominatedSets c = new RankChangingDominatedSets(plans, leaves);
 
-        List<List<String>> rangeChangingSets = c.getRankingChangedPowerSet();
+        List<List<String>> rangeChangingSets = c.getDominatedSets(Aggregation.ALL);
 
         // Assert
         assertEquals(rangeChangingSets.size(), 1);
@@ -205,7 +206,7 @@ public class DominatedSetCalculatorTest {
         ResultNode plan1ResultNode = mock(ResultNode.class);
         HashMap<String, Double> plan1Results = new HashMap<String, Double>();
         plan1Results.put("alternative1", 1d);
-        plan1Results.put("alternative2", 3d);
+        plan1Results.put("alternative2", 2.5d);
         plan1Results.put("alternative3", 3.8d);
         when(plan1ResultNode.getResults()).thenReturn(plan1Results);
         when(plan1.getOverallResults()).thenReturn(plan1ResultNode);
@@ -271,9 +272,9 @@ public class DominatedSetCalculatorTest {
         leaves.add(leaf2);
         leaves.add(leaf3);
 
-        DominatedSetCalculator c = new DominatedSetCalculator(plans, leaves);
+        DominatedSets c = new RankChangingDominatedSets(plans, leaves);
 
-        List<List<String>> rangeChangingSets = c.getRankingChangedPowerSet();
+        List<List<String>> rangeChangingSets = c.getDominatedSets(Aggregation.ALL);
 
         // Assert
         assertEquals(rangeChangingSets.size(), 1);
@@ -360,16 +361,17 @@ public class DominatedSetCalculatorTest {
         leaves.add(leaf2);
         leaves.add(leaf3);
 
-        DominatedSetCalculator c = new DominatedSetCalculator(plans, leaves);
+        DominatedSets c = new RankChangingDominatedSets(plans, leaves);
 
-        List<List<String>> rangeChangingSets = c.getRankingChangedPowerSet();
+        List<List<String>> rangeChangingSets = c.getDominatedSets(Aggregation.ALL);
 
         // Assert
-        assertEquals(rangeChangingSets.size(), 1);
-        List<String> set1 = rangeChangingSets.get(0);
-        assertEquals(set1.size(), 2);
-        assertTrue(set1.contains(m1.getUri()));
-        assertTrue(set1.contains(m2.getUri()));
+        assertEquals(rangeChangingSets.size(), 3);
+        assertEquals(rangeChangingSets.get(0).size(), 1);
+        assertEquals(rangeChangingSets.get(1).size(), 1);
+        assertEquals(rangeChangingSets.get(2).size(), 1);
+        assertTrue(!rangeChangingSets.get(0).get(0).equals(rangeChangingSets.get(1).get(0))
+            && !rangeChangingSets.get(1).get(0).equals(rangeChangingSets.get(2).get(0)));
     }
 
     @Test
@@ -415,9 +417,9 @@ public class DominatedSetCalculatorTest {
         leaves.add(leaf1);
         leaves.add(leaf1);
 
-        DominatedSetCalculator c = new DominatedSetCalculator(plans, leaves);
+        DominatedSets c = new RankChangingDominatedSets(plans, leaves);
 
-        List<List<String>> rangeChangingSets = c.getRankingChangedPowerSet();
+        List<List<String>> rangeChangingSets = c.getDominatedSets(Aggregation.ALL);
 
         // Assert
         assertEquals(rangeChangingSets.size(), 1);

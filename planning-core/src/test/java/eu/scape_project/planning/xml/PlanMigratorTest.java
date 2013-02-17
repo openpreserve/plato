@@ -10,6 +10,9 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
+import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.utils.OS;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,9 +21,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
-
-import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.utils.OS;
 
 public class PlanMigratorTest {
     private static final Logger log = LoggerFactory.getLogger(PlanMigratorTest.class);
@@ -85,6 +85,7 @@ public class PlanMigratorTest {
     }
     
     @Test
+    @Ignore
     public void migrateDirectory() throws PlatoException, FileNotFoundException{
         PlanMigrator migrator = new PlanMigrator();
         
