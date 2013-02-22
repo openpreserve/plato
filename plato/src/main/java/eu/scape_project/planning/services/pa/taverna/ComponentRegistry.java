@@ -34,7 +34,7 @@ import eu.scape_project.planning.model.interfaces.actions.IPreservationActionReg
 import eu.scape_project.planning.utils.JGet;
 
 public class ComponentRegistry implements IPreservationActionRegistry {
-    private static final int CONNECT_TIMEOUT = 10 * 1000;
+    private static final int CONNECT_TIMEOUT = 15 * 1000;
     private static final int READ_TIMEOUT = 10 * 1000;
 
     private static Logger log = Logger.getLogger(ComponentRegistry.class);

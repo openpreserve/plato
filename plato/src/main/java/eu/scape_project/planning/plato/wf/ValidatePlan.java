@@ -102,6 +102,7 @@ public class ValidatePlan extends AbstractWorkflowStep {
 
     public void uploadPlanToRODA(String url, String username, String password) throws PlanningException {
 
+        url = url + "/roda-core/";
         PlanClient planClient;
         try {
             planClient = new PlanClient(new URL(url), username, password);
