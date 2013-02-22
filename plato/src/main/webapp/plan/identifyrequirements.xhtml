@@ -214,7 +214,7 @@
 															execute="@this">
 															<h:graphicImage id="showMapping"
 																value="/resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
-																title="Edit measurement info: #{(node.mapped ? (node.measure.name):'')}"
+																title="#{(node.mapped ? ('Edit measure: '.concat(node.measure.name)):'Select measure')}"
 																width="22" height="22" />
 														</a4j:commandLink>
 													</a4j:outputPanel>

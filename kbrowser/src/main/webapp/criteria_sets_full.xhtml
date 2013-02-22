@@ -20,7 +20,7 @@
 		<h1>Criteria Sets Full</h1>
 
 		<h:form>
-			<h:panelGroup layout="block" styleClass="pagePart">
+			<h:panelGroup layout="block" styleClass="page-part">
 				<table class="rf-dt">
 					<thead class="rf-dt-thd">
 						<tr>
@@ -58,7 +58,7 @@
 				</table>
 			</h:panelGroup>
 
-            <h:panelGroup layout="block" styleClass="pagePart" id="summaryTable">
+            <h:panelGroup layout="block" styleClass="page-part" id="summaryTable">
 				<rich:dataTable value="#{criteriaSetsFull.allCriteriaSetsForSummary}" var="set" styleClass="tableStyle"
 					headerClass="tableStyle-header" rowClass="tableStyle-row" style="margin-top: ">
 					<rich:column sortBy="#{set.name}" sortOrder="#{criteriaSetsFull.summaryTableSortOrder[0]}">
@@ -266,7 +266,7 @@
 
 
 
-			<h:panelGroup layout="block" styleClass="pagePart">
+			<h:panelGroup layout="block" styleClass="page-part">
 				<h:commandButton action="#{criteriaSetsFull.exportCriteriaSetsFullToCSV}" value="Export table to CSV" />
 			</h:panelGroup>
 		</h:form>

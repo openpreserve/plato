@@ -62,7 +62,7 @@
 				<rich:tabPanel switchType="ajax">
 					<rich:tab header="Browse">
 						<a4j:outputPanel id="general_results">
-							<h:panelGroup layout="block" styleClass="pagePart">
+							<h:panelGroup layout="block" styleClass="page-part">
 								<div class="outstanding-number">#{kBrowser.nrRelevantPlans}</div>
 								<div class="outstanding-number-text">
 									selected <br /> plans
@@ -163,7 +163,7 @@
 
 								<rich:tab header="Details">
 									<a4j:outputPanel id="criteria_details">
-										<h:panelGroup styleClass="pagePart">
+										<h:panelGroup styleClass="page-part">
 											<h:panelGroup layout="block"
 												styleClass="layout-twocolumn-left">
 												<table class="tableStyle-big-font propertiesTable rf-dt">
@@ -337,7 +337,7 @@
 												</h:outputScript>
 											</h:panelGroup>
 										</h:panelGroup>
-										<h:panelGroup styleClass="pagePart">
+										<h:panelGroup styleClass="page-part">
 											<h:panelGroup layout="block"
 												styleClass="layout-twocolumn-left2">
 												<table class="rf-dt">
@@ -447,7 +447,7 @@
 									<a4j:outputPanel id="criteria_scores">
 										<h:panelGroup layout="block"
 											rendered="#{kBrowser.hasCriterionEvaluations}"
-											styleClass="pagePart">
+											styleClass="page-part">
 											<div id="scores_scoredistribution_piechart"
 												class="layout-twocolumn-left chart" />
 											<div id="scores_scoredistribution_barchart"
@@ -466,7 +466,7 @@
 											</h:outputScript>
 
 										</h:panelGroup>
-										<h:panelGroup layout="block" styleClass="pagePart"
+										<h:panelGroup layout="block" styleClass="page-part"
 											rendered="#{fn:length(kBrowser.transformerTable.chartDataPoints) > 0}">
 											<div id="transformerChart" class="chart" />
 
@@ -481,7 +481,7 @@
 			                                </h:outputScript>
 										</h:panelGroup>
 
-										<h:panelGroup layout="block" styleClass="pagePart">
+										<h:panelGroup layout="block" styleClass="page-part">
 											<h:panelGroup styleClass="layout-twocolumn-left"
 												layout="block">
 												<rich:dataTable
@@ -521,7 +521,7 @@
 
 								<rich:tab header="Characteristics">
 									<a4j:outputPanel id="criteria_characteristics">
-										<h:panelGroup layout="block" styleClass="pagePart">
+										<h:panelGroup layout="block" styleClass="page-part">
 											<h:panelGroup layout="block"
 												rendered="#{kBrowser.isCategorySelected or kBrowser.isAttributeSelected or kBrowser.isMeasureSelected}"
 												styleClass="layout-twocolumn-left propertiesTable">
@@ -637,7 +637,7 @@
 
 					<rich:tab header="Rank">
 						<a4j:outputPanel id="impact_factors_table">
-							<h:panelGroup layout="block" styleClass="pagePart">
+							<h:panelGroup layout="block" styleClass="page-part">
 								<rich:dataTable value="#{kBrowser.importanceAnalysis.tableRows}"
 									var="row" styleClass="tableStyle-big-font"
 									headerClass="tableStyle-header" rowClass="tableStyle-row">
@@ -767,7 +767,7 @@
 								</rich:dataTable>
 							</h:panelGroup>
 
-							<h:panelGroup layout="block" styleClass="pagePart">
+							<h:panelGroup layout="block" styleClass="page-part">
 								<table class="rf-dt">
 									<thead class="rf-dt-thd">
 										<tr>
@@ -796,11 +796,65 @@
 								</table>
 							</h:panelGroup>
 
-							<h:panelGroup layout="block" styleClass="pagePart">
+							<h:panelGroup layout="block" styleClass="page-part">
 								<h:commandButton value="Show full table"
 									action="detailed_criterion_impact.jsf" />
 							</h:panelGroup>
 						</a4j:outputPanel>
+					</rich:tab>
+
+					<rich:tab header="Dominated Sets">
+
+						<h:panelGroup layout="block" styleClass="page-part"
+							rendered="#{empty kBrowser.dominatedSets}">
+							No dominated sets found
+						</h:panelGroup>
+
+						<h:panelGroup layout="block" styleClass="page-part"
+							rendered="#{not empty kBrowser.dominatedSets}">
+							<div class="full-list">
+								<rich:dataGrid value="#{kBrowser.dominatedSets}" var="set"
+									id="dominatedSets2" rowKeyVar="dominatedSetIndex">
+
+									<rich:collapsiblePanel switchType="ajax" expanded="false"
+										toggleListener="#{kBrowser.loadDominatedSetPlans(dominatedSetIndex)}"
+										styleClass="collapsible-panel page-part"
+										headerClass="collapsible-header" bodyClass="collapsible-body">
+										<f:facet name="headerCollapsed">
+											<div class="setoutput">
+												<ul>
+													<a4j:repeat value="#{set}" var="measure">
+														<li><h:outputText value="#{measure.name}" /></li>
+														<li><h:outputText value="#{measure.name}" /></li>
+														<li><h:outputText value="#{measure.name}" /></li>
+													</a4j:repeat>
+												</ul>
+											</div>
+										</f:facet>
+										<f:facet name="headerExpanded">
+											<div class="setoutput">
+												<ul>
+													<a4j:repeat value="#{set}" var="measure">
+														<li><h:outputText value="#{measure.name}" /></li>
+														<li><h:outputText value="#{measure.name}" /></li>
+														<li><h:outputText value="#{measure.name}" /></li>
+													</a4j:repeat>
+												</ul>
+											</div>
+										</f:facet>
+
+										<ul>
+											<a4j:repeat
+												value="#{kBrowser.getDominatedSetPlans(dominatedSetIndex).toArray()}"
+												var="plan" rowKeyVar="planIndex">
+												<li><h:outputText value="#{plan.planProperties.name}" /></li>
+											</a4j:repeat>
+										</ul>
+									</rich:collapsiblePanel>
+								</rich:dataGrid>
+							</div>
+						</h:panelGroup>
+
 					</rich:tab>
 				</rich:tabPanel>
 			</h:form>

@@ -7,7 +7,7 @@ body {
 	font-size: 1em;
 }
 
-.pagePart {
+.page-part {
 	width: 100%;
 	margin-bottom: 20px;
 }
@@ -106,13 +106,11 @@ table.propertiesTable tr>td:first-child {
 }
 
 .outstanding-number {
-	height: 36px;
 	font-size: 36px;
 	float: left;
 }
 
 .outstanding-number-text {
-	height: 36px;
 	font-size: 14px;
 	float: left;
 	margin-left: 5px;
@@ -150,4 +148,68 @@ select {
 .rf-tab-cnt {
 	border: 1px solid #BABABA;
 	font-size: 1em;
+}
+
+.full-list .rf-dg {
+	width: 100%;
+	border: none;
+}
+
+.full-list .rf-dg-c {
+	font-weight: normal;
+	font-size: 1em;
+	border: none;
+	padding: 0px;
+}
+
+/* Collapsible Panel */
+.collapsible-panel {
+	border: 1px solid #999898;
+}
+
+.collapsible-header {
+	font-size: 14px;
+	background-color: #f0f0f0;
+	border: none;
+	background-image: none;
+}
+
+.collapsible-body {
+	
+}
+
+.select-item {
+	border: 1px solid #f0f0f0;
+	font-size: 14px;
+	background-color: #f0f0f0;
+}
+
+/* Sets */
+.setoutput {
+	padding: 5px 10px 5px 12px;
+	background-image:
+		url(#{request.contextPath}/javax.faces.resource/brace-left.svg.jsf?ln=gfx),
+		url(#{request.contextPath}/javax.faces.resource/brace-right.svg.jsf?ln=gfx);
+	background-position: left, right;
+	background-repeat: no-repeat;
+	background-size: 10px 100%;
+	text-align: justify;
+}
+
+.setoutput ul {
+	padding: 0px;
+	margin: 0px;
+}
+
+.setoutput li {
+	display: inline;
+}
+
+.setoutput li:before {
+	content: ", ";
+	margin-left: -2px;
+}
+
+.setoutput li:first-child:before {
+	content: "";
 }

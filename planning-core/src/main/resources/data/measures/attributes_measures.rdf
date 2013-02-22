@@ -385,7 +385,6 @@
   <description>Indicates whether a data dictionary is present in the database.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/236">
@@ -403,7 +402,6 @@
   <description>Indicates whether a data model is present in the database.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/238">
@@ -430,7 +428,6 @@
   <description>Indicates whether the original database product is documented.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/242">
@@ -439,7 +436,6 @@
   <description>Indicates whether metadata for each element exists.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/243">
@@ -448,7 +444,6 @@
   <description>Indicates whether the (external) data dictionary is present.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/244">
@@ -457,7 +452,6 @@
   <description>Indicates whether metadata is present for each element. This means that either the element metadata or the (external) data dictionary must be present.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/83"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/48">
@@ -479,7 +473,6 @@
   <description>Indicator for the adoption of a format, expressed as the number of free tools that are not open source that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/139">
@@ -488,7 +481,6 @@
   <description>Indicator for the adoption of a format, expressed as the number of free tools that are open source  that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/140">
@@ -497,7 +489,6 @@
   <description>Indicator for the adoption of a format, expressed as the number of proprietary tools that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/141">
@@ -506,7 +497,6 @@
   <description>Indicator for the adoption of a format, expressed as the total number of all tools that support a format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/156">
@@ -515,7 +505,6 @@
   <description>Indicates whether the format can be natively displayed by browsers.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/48"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/162">
@@ -575,7 +564,6 @@
   <description>Indicates whether results of an action support automated QA with current means</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/45"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/20">
@@ -602,7 +590,6 @@
   <description>Indicates whether the colour model has been preserved.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/20"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/65">
@@ -629,7 +616,6 @@
   <description>Indicates whether the bibliography used in the document has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/341">
@@ -638,7 +624,6 @@
   <description>Indicates whether footers used in the document have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/342">
@@ -647,7 +632,6 @@
   <description>Indicates whether headers used in the document have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/343">
@@ -656,7 +640,6 @@
   <description>Indicates whether intendations used in the document have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/344">
@@ -665,7 +648,6 @@
   <description>Indicates whether line spacings used in the document have been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/345">
@@ -674,7 +656,6 @@
   <description>Indicates whether the documents page count is equal</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/346">
@@ -683,7 +664,6 @@
   <description>Indicates whether page numberings used in the document have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/347">
@@ -692,7 +672,6 @@
   <description>Indicates whether paragraphs used in the document have been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/348">
@@ -701,7 +680,6 @@
   <description>Indicates whether table of contents used in the document have been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/349">
@@ -710,7 +688,6 @@
   <description>Indicates whether text paging (how text is distributed on pages) of the document has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/350">
@@ -719,7 +696,6 @@
   <description>Indicates whether titles and headlines used in the document have been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/65"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/88">
@@ -736,7 +712,6 @@
   <description>Identifier of the (file) format, e.g. PRONOM identifier</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/88"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#FREETEXT" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/49">
@@ -755,7 +730,6 @@
   <description>Indicates whether a format is backwards compatible to previous versions.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/49"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/160">
@@ -826,352 +800,313 @@
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/250">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: all gps data retained</rdfs:label>
-  <description>Indicates whether EXIF metadata has been retained</description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/251">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: all tiff data retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/252">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: aperture value retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/253">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: artist retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/254">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: bits per sample retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/255">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: brightness value retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/256">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: cfa pattern retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/257">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: compression retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/258">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: contrast retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/259">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: exposure bias value retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/260">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: exposure index retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/261">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: exposure mode retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/262">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: exposure program retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/263">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: exposure time retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/264">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: f number retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/265">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: flash retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/266">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: focal lenght in 35mm film retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/267">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: focal length retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/268">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: image description retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/269">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: image height retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/270">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: image width retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/271">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: iso-speed value retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/272">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: light source retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/273">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: make retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/274">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: metering mode retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/275">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: model retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/276">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: oECF retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/277">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: photometric interpretation retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/278">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: resolution unit retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/279">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: samples per pixel retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/280">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: saturation retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/281">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: sensing method retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/282">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: sharpness retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/283">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: shutter speed value retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/284">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: software retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/285">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: spectral sensivity retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/286">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: subject distance retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/287">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: version retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/288">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>EXIF: white balance retained</rdfs:label>
-  <description></description>
+  <description>Indicates whether the specific type of EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/289">
@@ -1180,7 +1115,6 @@
   <description>Indicates whether all EXIF metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/2"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/87">
@@ -1199,7 +1133,6 @@
   <description>The width of the video track</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/87"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/391">
@@ -1208,7 +1141,6 @@
   <description>The height of the video track</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/87"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/392">
@@ -1217,7 +1149,6 @@
   <description>The bitrate of a video stream measures in kbit/sec</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/87"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/57">
@@ -1237,7 +1168,6 @@
   <description>Indicates where the format provides specific support for zooming</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/57"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/157">
@@ -1246,7 +1176,6 @@
   <description>Indicates whether tools exists which can apply optical character recognition directly to the outcome format</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/57"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/163">
@@ -1255,7 +1184,6 @@
   <description>Indicates whether usage restrictions can be applied to the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/57"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/167">
@@ -1264,7 +1192,6 @@
   <description>Indicates whether it is commonly easy to create a pdf from the format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/57"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/23">
@@ -1291,7 +1218,6 @@
   <description>Indicates whether orientation of the image has been preserved</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/23"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/1">
@@ -1316,7 +1242,6 @@
   <description>Distance between two images measured using SSIM. See ....</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#NUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/2">
@@ -1325,7 +1250,6 @@
   <description>true iff two images are identical, false otherwise</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/3">
@@ -1334,52 +1258,46 @@
   <description>Distance between two images measured using RMSE. See ...</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/4">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
-  <rdfs:label>absolute error AE</rdfs:label>
+  <rdfs:label>image distance absolute error AE</rdfs:label>
   <description>number of different pixels</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/5">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
-  <rdfs:label>mean absolute error MAE</rdfs:label>
+  <rdfs:label>image distance mean absolute error MAE</rdfs:label>
   <description>average channel error distance</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/6">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
-  <rdfs:label>mean error squared MES</rdfs:label>
+  <rdfs:label>image distance mean error squared MSE</rdfs:label>
   <description>average of the channel error squared</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/7">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
-  <rdfs:label>peak absolute error PAE</rdfs:label>
+  <rdfs:label>image distance peak absolute error PAE</rdfs:label>
   <description>The highest difference of any single pixel</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/8">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
-  <rdfs:label>peak signal to noise ratio PSNR</rdfs:label>
+  <rdfs:label>image peak signal to noise ratio PSNR</rdfs:label>
   <description>The ratio of mean square difference to the maximum mean square that can exist between any two images</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/9">
@@ -1388,7 +1306,6 @@
   <description>Indicates whether the aspect ratio of an image has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/1"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/5">
@@ -1413,7 +1330,6 @@
   <description>Device used to create the image data has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/292">
@@ -1422,7 +1338,6 @@
   <description>Date and time of creation of image has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/293">
@@ -1431,7 +1346,6 @@
   <description>Image width metadata element has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/294">
@@ -1440,7 +1354,6 @@
   <description>Image height metadata element has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/295">
@@ -1449,7 +1362,6 @@
   <description>Orientation metadata element has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/296">
@@ -1458,7 +1370,6 @@
   <description>Producer metadata element has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/297">
@@ -1467,7 +1378,6 @@
   <description>Metadata element on software used to write the image has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/298">
@@ -1476,7 +1386,6 @@
   <description>Metadata element X resolution (image resolution in width direction) has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/299">
@@ -1485,7 +1394,6 @@
   <description>Metadata element Y resolution (image resolution in height direction) has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/5"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/17">
@@ -1502,7 +1410,6 @@
   <description>Indicates if the action validates the input-object before processing.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/17"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/29">
@@ -1552,7 +1459,6 @@
   <description>Execution costs of an action which do not fit to a regular running cost category, measured in €/year</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/15">
@@ -1561,7 +1467,6 @@
   <description>Running hardware costs arising when using an action, measured in €/year (e.g. server rental costs).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/17">
@@ -1570,7 +1475,6 @@
   <description>Running software licence costs of an action in € per year.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/18">
@@ -1579,7 +1483,6 @@
   <description>Software licence costs for running an action on one object (in € per object)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/19">
@@ -1588,7 +1491,6 @@
   <description>Running costs for operating an action per year (in €)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/20">
@@ -1597,7 +1499,6 @@
   <description>Total sum of costs of operating an action (in €)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/21">
@@ -1606,7 +1507,6 @@
   <description>Running operational costs of an action in € per object.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/9"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/39">
@@ -1634,16 +1534,14 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/39"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#FREETEXT" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/119">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>compression algorithm covered by patent</rdfs:label>
-  <description>Indicates whether the compression algorithm is covered by a patent and thus license fee might occurr</description>
+  <description>Indicates whether the compression algorithm is covered by a patent and thus licence fee might occurr</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/39"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/26">
@@ -1660,7 +1558,6 @@
   <description>Indicates if an action is able to retain the filename of the input-file for the output-file.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/26"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/12">
@@ -1681,7 +1578,6 @@
   <description>Is a .Net API natively supported?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/12"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/33">
@@ -1690,7 +1586,6 @@
   <description>Is there support for batch processing?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/12"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/34">
@@ -1699,7 +1594,6 @@
   <description>Is directory watch supported, i.e. can the software automatically monitor the content of a certain folder in the file system and automatically process anything appearing there?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/12"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/35">
@@ -1708,7 +1602,6 @@
   <description>Is a Java native API supported?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/12"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/36">
@@ -1717,7 +1610,6 @@
   <description>Are any other APIs supported?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/12"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/14">
@@ -1902,7 +1794,6 @@
   <description>Is this format a published ISO standard?</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/7"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/22">
@@ -1921,7 +1812,6 @@
   <description>Indicates whether X sampling frequency has been preserved.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/22"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/60">
@@ -1930,7 +1820,6 @@
   <description>Indicates whether Y sampling frequency has been preserved.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/22"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/61">
@@ -1956,7 +1845,6 @@
   <description>Indicates if the action validates the output-object after processing.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/24"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/32">
@@ -1986,7 +1874,6 @@
   <description>Indicates if an action is capable of running on different platforms</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/32"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/101">
@@ -1995,7 +1882,6 @@
   <description>Indicates if an action is capable of running on Linux</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/32"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/102">
@@ -2004,7 +1890,6 @@
   <description>Indicates if an action is capable of running on MacOS</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/32"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/103">
@@ -2013,7 +1898,6 @@
   <description>Indicates if an action is capable of running on Windows</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/32"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/53">
@@ -2032,7 +1916,6 @@
   <description>Indicates whether additionaly metadata can be embedded in the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/53"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/150">
@@ -2041,7 +1924,6 @@
   <description>Indicates whether image metadata can be embedded in the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/53"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/151">
@@ -2050,7 +1932,6 @@
   <description>Indicate whether a preview image can be embedded in the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/53"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/38">
@@ -2094,7 +1975,6 @@
   <description>Effects of a preservation action on archival storage costs, expressed as archival storage costs per object over a time period of 10 years, measured in  €.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/46"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/69">
@@ -2113,7 +1993,6 @@
   <description>Indicates whether the game is playable.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/69"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/182">
@@ -2122,7 +2001,6 @@
   <description>Indicates whether the game starts. A game starts successfully if the start screen of the game shows up. A black screen after a start attempt is not enough to evaluate this property to true.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/69"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/183">
@@ -2131,7 +2009,6 @@
   <description>Indicates whether the speed performance of the game has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/69"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/10">
@@ -2148,7 +2025,6 @@
   <description>Total costs of setting up and operating an action (in €)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/10"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/15">
@@ -2168,7 +2044,6 @@
   <description>Objects supported by the action as percentage of overall objects of this content that need to be supported</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/15"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/48">
@@ -2177,7 +2052,6 @@
   <description>Number of input formats supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/15"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/49">
@@ -2186,7 +2060,6 @@
   <description>Number of output formats supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/15"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/133">
@@ -2195,7 +2068,6 @@
   <description>Total number of objects supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/15"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/61">
@@ -2213,7 +2085,6 @@
   <description>Bits per component (channel) for each pixel</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/61"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/170">
@@ -2222,7 +2093,6 @@
   <description>Number of bits per component (channel) equal or higher compared with original.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/61"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/50">
@@ -2249,7 +2119,6 @@
   <description>Indicates whether the outcome format is human readable as plain text.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/50"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/63">
@@ -2269,7 +2138,6 @@
   <description>Character encoding used in given database representation.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/63"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#FREETEXT" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/172">
@@ -2278,7 +2146,6 @@
   <description>Time encoding used in given database representation.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/63"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#FREETEXT" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/173">
@@ -2287,7 +2154,6 @@
   <description>Precision of number representation retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/63"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/174">
@@ -2296,7 +2162,6 @@
   <description>Encoding of strings have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/63"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/75">
@@ -2399,7 +2264,6 @@
   <description>Indicates whether the format of the object is valid.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/40"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/121">
@@ -2408,7 +2272,6 @@
   <description>Indicates whether the format of the object is well formed.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/40"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/122">
@@ -2417,7 +2280,6 @@
   <description>Indicates whether the format of the result conforms to the output format specified by the action.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/40"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/42">
@@ -2444,7 +2306,6 @@
   <description>Indicates whether it is possible to determine the text position in the output representation</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/42"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/58">
@@ -2461,7 +2322,6 @@
   <description>Indicates whether licence costs occur at using the outcome format.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/58"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/27">
@@ -2511,7 +2371,6 @@
   <description>Indicates whether an action is able to access and use the cd-rom drive.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/70">
@@ -2520,7 +2379,6 @@
   <description>Indicates whether an action is capable of displaying the box artwork.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/71">
@@ -2529,7 +2387,6 @@
   <description>Indicates whether an action is capable of displaying the context details.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/72">
@@ -2538,7 +2395,6 @@
   <description>Indicates whether an action is capable of displaying the description of the original media.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/73">
@@ -2547,7 +2403,6 @@
   <description>Indicates whether an action is capable of displaying the manual</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/74">
@@ -2556,7 +2411,6 @@
   <description>Indicates whether an action is capable of displaying the necessary system configuration.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/75">
@@ -2565,7 +2419,6 @@
   <description>Indicates whether an action is capable of displaying the original media.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/76">
@@ -2574,7 +2427,6 @@
   <description>Indicates whether an action is capable of displaying the originally suplied additional items (like special controllers, accessories, etc.).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/77">
@@ -2583,7 +2435,6 @@
   <description>Indicates whether an action is capable of displaying the reference to the console video game system.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/78">
@@ -2601,7 +2452,6 @@
   <description>Indicates whether an action is capable of displaying the region lock-out information.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/80">
@@ -2610,7 +2460,6 @@
   <description>Indicates whether an action is capable of displaying the TV standard information.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/81">
@@ -2619,7 +2468,6 @@
   <description>Indicates whether an action is capable of displaying the display frequency information.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/82">
@@ -2637,7 +2485,6 @@
   <description>Indicates whether an action is able to access and use the keyboard.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/84">
@@ -2646,7 +2493,6 @@
   <description>Indicates whether an action is able to access and use the mouse.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/85">
@@ -2691,7 +2537,6 @@
   <description>Indicates whether there is an OS preinstalled in an action (in an emulator)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/90">
@@ -2709,7 +2554,6 @@
   <description>Indicates whether sound output is supported by an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/27"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/92">
@@ -2743,7 +2587,6 @@
   <description>Costs for developing new features which are not available in the software but required for successful operations (€)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/22">
@@ -2752,7 +2595,6 @@
   <description>Initial hardware costs arising when deploying an action (e.g. new hardware needs to be acquired to get software running) measured in €</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/23">
@@ -2761,7 +2603,6 @@
   <description>Setup costs of an action which do not fit to any other given setup costs, in €</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/24">
@@ -2770,7 +2611,6 @@
   <description>Costs for customizing an action (e.g. performance-tuning), in €</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/25">
@@ -2779,7 +2619,6 @@
   <description>Costs for integrating an action in the current environment, in €</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/26">
@@ -2788,7 +2627,6 @@
   <description>Initial software licence costs of an action, in €</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/27">
@@ -2797,7 +2635,6 @@
   <description>Cost for any external expertise required to setup an action (in €)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/28">
@@ -2806,7 +2643,6 @@
   <description>Costs for training staff in operating an action (in €)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/29">
@@ -2815,7 +2651,6 @@
   <description>Total sum of costs needed to setup an action (in €)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/8"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/72">
@@ -2888,7 +2723,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/185">
@@ -2897,7 +2731,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/186">
@@ -2912,7 +2745,7 @@
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/187">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>quality of 2d object layer placement</rdfs:label>
-  <description>Indicates how good 2D object loayer placement is working.</description>
+  <description>Indicates how good 2D object layer placement is working.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
   <restriction>no 2D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
@@ -2969,7 +2802,6 @@
   <description>Indicates whether all graphics colour characteristics have been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/71"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/81">
@@ -2993,7 +2825,6 @@
   <description>Indicates whether the OCR text extracted from an image has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/60"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/52">
@@ -3037,7 +2868,6 @@
   <description>Indicates if the action supports macros.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/18"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/25">
@@ -3057,7 +2887,6 @@
   <description>Indicate whether reported error contain a handling advice/suggestion.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/25"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/67">
@@ -3075,7 +2904,6 @@
   <description>Indicates whether the action-tools is able to correct errors in content</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/25"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/106">
@@ -3084,7 +2912,6 @@
   <description>Indicates whether the action-tool is able to tolerate errors in content</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/25"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/31">
@@ -3102,7 +2929,6 @@
   <description>Memory used per megabyte of input, measured in megabyte.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/31"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/98">
@@ -3111,7 +2937,6 @@
   <description>Maximum of the peak memory used in processing, measured in megabytes.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/31"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/21">
@@ -3129,7 +2954,6 @@
   <description>ICC profile data</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/21"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#FREETEXT" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/58">
@@ -3138,7 +2962,6 @@
   <description>Indicates whether the colour profile has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/21"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/73">
@@ -3204,7 +3027,6 @@
   <description>Indicates whether the music quality of the video game has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/70"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/195">
@@ -3213,7 +3035,6 @@
   <description>Indicates whether the sound quality of the video game has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/70"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/196">
@@ -3222,7 +3043,6 @@
   <description>Indicates whether the speech quality of the video game has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/70"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/66">
@@ -3244,7 +3064,6 @@
   <description>Indicates whether the date the document was created has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/66"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/352">
@@ -3253,7 +3072,6 @@
   <description>Indicates whether the author who created the document has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/66"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/353">
@@ -3262,7 +3080,6 @@
   <description>Indicates whether the description of the document has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/66"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/354">
@@ -3271,7 +3088,6 @@
   <description>Indicates whether the language the document is written in has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/66"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/355">
@@ -3280,7 +3096,6 @@
   <description>Indicates whether the document's subject has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/66"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/356">
@@ -3289,7 +3104,6 @@
   <description>Indicates whether the document's title has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/66"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/35">
@@ -3325,7 +3139,6 @@
   <description>Number of characters of activity log produced upon running an action on one content object</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/13"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/38">
@@ -3343,7 +3156,6 @@
   <description>Indicates whether errors at action execution are reported.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/13"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/74">
@@ -3419,7 +3231,6 @@
   <description>Indicates if  METS-metadata contains valid DC/MODS data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/43"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/127">
@@ -3428,7 +3239,6 @@
   <description>Indicates if  METS-metadata contains valid MIX data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/43"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/129">
@@ -3437,7 +3247,6 @@
   <description>Indicates if  METS-metadata contains valid PREMIS data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/43"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/67">
@@ -3458,7 +3267,6 @@
   <description>Percentage of comments preserved in documents.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/67"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/383">
@@ -3467,7 +3275,6 @@
   <description>Percentage of forms entirely preserved in documents.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/67"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/384">
@@ -3476,7 +3283,6 @@
   <description>Percentage of references entirely preserved in documents.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/67"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/385">
@@ -3485,7 +3291,6 @@
   <description>Percentage of scripts entirely preserved in documents.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/67"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/386">
@@ -3494,7 +3299,6 @@
   <description>Percentage of URLs entirely preserved in documents.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/67"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/16">
@@ -3511,7 +3315,6 @@
   <description>Indicates if the action is able to handle XMP sidecar files.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/16"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/41">
@@ -3528,7 +3331,6 @@
   <description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/41"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/84">
@@ -3549,7 +3351,6 @@
   <description>Indicates whether documentation of the client machine which executed the archival process is present.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/84"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/246">
@@ -3558,7 +3359,6 @@
   <description>Indicates whether the connection-url used to connect to the database for executing the archival process is documented.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/84"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/247">
@@ -3567,16 +3367,14 @@
   <description>Indicates whether the executing user of the archival process is documented.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/84"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/248">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>archival process execution location present</rdfs:label>
-  <description>Indicates whether the executing user of the archival process is documented.</description>
+  <description>Indicates whether the execution location of the archival process is documented.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/84"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/249">
@@ -3585,7 +3383,6 @@
   <description>Indicates whether the start of the archival process is documented.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/84"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/55">
@@ -3646,7 +3443,6 @@
   <description>Owner of the data in the database</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/323">
@@ -3655,7 +3451,6 @@
   <description>Name of the database</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/324">
@@ -3664,7 +3459,6 @@
   <description>Purpose of the database</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/325">
@@ -3673,7 +3467,6 @@
   <description>Indicates whether database descriptive metadata for foreign keys have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/326">
@@ -3682,7 +3475,6 @@
   <description>Indicates whether database descriptive metadata for indexes have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/327">
@@ -3691,7 +3483,6 @@
   <description>Indicates whether database descriptive metadata for primary keys have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/328">
@@ -3700,7 +3491,6 @@
   <description>Indicates whether database descriptive metadata for privileges have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/329">
@@ -3709,7 +3499,6 @@
   <description>Indicates whether database descriptive metadata for roles have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/330">
@@ -3718,7 +3507,6 @@
   <description>Indicates whether database descriptive metadata for routines have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/331">
@@ -3727,7 +3515,6 @@
   <description>Indicates whether database descriptive metadata for schemas have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/332">
@@ -3736,7 +3523,6 @@
   <description>Indicates whether database descriptive metadata for sequences have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/333">
@@ -3745,7 +3531,6 @@
   <description>Indicates whether database descriptive metadata for tables have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/334">
@@ -3754,7 +3539,6 @@
   <description>Indicates whether database change history and changelog have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/335">
@@ -3763,7 +3547,6 @@
   <description>Indicates whether database explicit audit trail has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/336">
@@ -3772,7 +3555,6 @@
   <description>Indicates whether database implicit audit trail has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/337">
@@ -3781,7 +3563,6 @@
   <description>Indicates whether database descriptive metadata for triggers have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/338">
@@ -3790,7 +3571,6 @@
   <description>Indicates whether database descriptive metadata for users have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/339">
@@ -3799,7 +3579,6 @@
   <description>Indicates whether database descriptive metadata for views have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/62"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/51">
@@ -3818,7 +3597,6 @@
   <description>Indicates whether the outcome format supports the database column type DateTime.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/51"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/145">
@@ -3827,7 +3605,6 @@
   <description>Indicates whether the outcome format supports the database column type Number.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/51"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/146">
@@ -3836,7 +3613,6 @@
   <description>Indicates whether the outcome format supports the database column type String.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/51"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/56">
@@ -3854,7 +3630,6 @@
   <description>Indicates whether the format contains interpreted data (as opposed to original raw data plus interpretation instructions)</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/56"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/166">
@@ -3880,7 +3655,6 @@
   <description>Indicates whether all DC metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/4"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/78">
@@ -3951,7 +3725,6 @@
   <description>Maximum number of files supported at one batch run.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/30"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/19">
@@ -3972,7 +3745,6 @@
   <description>The horizontal width of a digital image in pixel</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/51">
@@ -3981,7 +3753,6 @@
   <description>true iff image width has been preserved.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/52">
@@ -3990,7 +3761,6 @@
   <description>The vertical height of a digital image in pixel</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/53">
@@ -3999,7 +3769,6 @@
   <description>true iff image height has been preserved.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/54">
@@ -4008,7 +3777,6 @@
   <description>Width and height of an image in number of pixels represented as string (e.g. 1024x768).</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/19"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#FREETEXT" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/64">
@@ -4049,7 +3817,6 @@
   <description>Character set used in the document.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/358">
@@ -4058,7 +3825,6 @@
   <description>Font encoding used in the document.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/359">
@@ -4067,7 +3833,6 @@
   <description>Indicates if font text marks exist in the document.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/360">
@@ -4076,7 +3841,6 @@
   <description>Number of characters the document consists of.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/361">
@@ -4085,7 +3849,6 @@
   <description>Percentage of retained diacritics</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/362">
@@ -4094,7 +3857,6 @@
   <description>Percentage of retained equation captions</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/363">
@@ -4103,7 +3865,6 @@
   <description>Percentage of retained equation positions</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/364">
@@ -4112,7 +3873,6 @@
   <description>Percentage of retained equation sizes</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/365">
@@ -4121,7 +3881,6 @@
   <description>Percentage of retained equation structures</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/366">
@@ -4129,8 +3888,7 @@
   <rdfs:label>number of equations in document</rdfs:label>
   <description>Total number of equations in document</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/367">
@@ -4139,7 +3897,6 @@
   <description>Percentage of retained figure captions in document</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/368">
@@ -4148,7 +3905,6 @@
   <description>Percentage of figures with retained colour depth</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/369">
@@ -4157,7 +3913,6 @@
   <description>Percentage of figures with their position retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/370">
@@ -4166,7 +3921,6 @@
   <description>Percentage of retained with their resolution retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/371">
@@ -4175,7 +3929,6 @@
   <description>Percentage of figures with their size retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/372">
@@ -4183,8 +3936,7 @@
   <rdfs:label>number of figures in document</rdfs:label>
   <description>Total number of figures in document.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/373">
@@ -4193,7 +3945,6 @@
   <description>Indicates whether the colour of the font has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/374">
@@ -4202,7 +3953,6 @@
   <description>Indicates whether the size of the font has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/375">
@@ -4211,7 +3961,6 @@
   <description>Indicates whether the style of the font has been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/376">
@@ -4220,7 +3969,6 @@
   <description>Indicates whether umlauts have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/377">
@@ -4229,7 +3977,6 @@
   <description>Percentage of pages with orientation (landscape, portrait) retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/378">
@@ -4238,7 +3985,6 @@
   <description>Percentage of pages with size (A4, letter, ...) retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/379">
@@ -4247,7 +3993,6 @@
   <description>Indicates whether the watermark embedded into document has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/380">
@@ -4256,7 +4001,6 @@
   <description>Percentage of pages with their background (colour, image, ...) preserved</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/381">
@@ -4265,7 +4009,6 @@
   <description>Indicates whether the document represented as one string is equal</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/64"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/36">
@@ -4330,7 +4073,6 @@
   <description>Indicates whether input overlay is supported</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/77"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/202">
@@ -4356,7 +4098,6 @@
   <description>Indicates whether all IPTC metadata has been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/3"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/79">
@@ -4376,7 +4117,6 @@
   <description>Indicates whether box artwork is available.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/79"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/229">
@@ -4385,7 +4125,6 @@
   <description>Indicates whether the manual is available.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/79"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/230">
@@ -4394,7 +4133,6 @@
   <description>Indicates whether information about the original game media is available.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/79"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/231">
@@ -4403,7 +4141,6 @@
   <description>Indicates whether an actual systems requirements specification is available.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/79"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/33">
@@ -4422,7 +4159,6 @@
   <description>Indicates if an action is used and supported by an active community</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/33"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/109">
@@ -4431,7 +4167,6 @@
   <description>Indicates whether community support is available for an action</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/33"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/110">
@@ -4440,7 +4175,6 @@
   <description>Indicates whether the action-tool is still being further developed by an active community</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/33"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/11">
@@ -4449,15 +4183,24 @@
   <description>These are the licence agreements of a preservation action</description>
   <criterioncategory rdf:resource="http://scape-project.eu/pw/vocab/categories/action_licensing"/>
   <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/31" />
+  <measure rdf:resource="http://scape-project.eu/pw/vocab/measures/175" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/31">
   <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
   <rdfs:label>licencing schema</rdfs:label>
-  <description>This denotes the licencing schema of an action - TBD! more than one measure? e.g. open/closed, redistribute or not, etc. also possible: list of known licenses</description>
+  <description>This denotes the licencing schema of an action - TBD! more than one measure? e.g. open/closed, redistribute or not, etc. also possible: list of known licences</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/11"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#" />
+</rdf:Description>
 
+<rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/175">
+  <rdf:type rdf:resource="http://scape-project.eu/pw/vocab/Measure"/>
+  <rdfs:label>software licence source code</rdfs:label>
+  <description>Indicates if and in which way the source code of the software is accessible.</description>
+  <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/11"/>
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#ORDINAL" />
+  <restriction>openSource/closedSource</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/68">
@@ -4475,7 +4218,6 @@
   <description>Indicates whether it is necessary to install the game, before being able to play it.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/68"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/180">
@@ -4503,7 +4245,6 @@
   <description>Indicates if XMP-metadata contains valid EXIF data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/44"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/130">
@@ -4512,7 +4253,6 @@
   <description>Indicates if  XMP-metadata contains valid IPTC data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/44"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/131">
@@ -4521,7 +4261,6 @@
   <description>Indicates if XMP-metadata contains valid Dublin Core data.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/44"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/6">
@@ -4540,7 +4279,6 @@
   <description>elapsed processing time per Megabyte of input data, measured in milliseconds</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/6"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/11">
@@ -4549,7 +4287,6 @@
   <description>elapsed processing time per object processed, measured in milliseconds</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/6"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/12">
@@ -4558,7 +4295,6 @@
   <description>time of the CPU consumed by the process for each MB of input data, measured in milliseconds</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/6"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/82">
@@ -4575,7 +4311,6 @@
   <description>Indicates if datetime representations accord to SQL-99 standard.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/82"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/37">
@@ -4626,8 +4361,7 @@
   <rdfs:label>audio sampling frequency</rdfs:label>
   <description>Number of samples per second measured in hz/sec</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
-  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
+  <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVENUMBER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/388">
@@ -4636,7 +4370,6 @@
   <description>Number of channels in an audio file</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/389">
@@ -4645,7 +4378,6 @@
   <description>The bitrate of an audio stream measured in kbit/sec</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#POSITIVEINTEGER" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/394">
@@ -4654,7 +4386,6 @@
   <description>Indicates whether the length of the audio file is identical</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/395">
@@ -4663,7 +4394,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/396">
@@ -4672,7 +4402,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/397">
@@ -4681,7 +4410,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/398">
@@ -4690,7 +4418,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/399">
@@ -4699,7 +4426,6 @@
   <description></description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/86"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/attributes/85">
@@ -4736,7 +4462,6 @@
   <description>Indicates whether bitstreams of database binary large objects (blobs) have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/302">
@@ -4745,7 +4470,6 @@
   <description>Indicates whether content of database binary large objects (blobs) have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/303">
@@ -4754,7 +4478,6 @@
   <description>Indicates whether format metadata of database binary large objects (blobs) have been retained.</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/304">
@@ -4763,7 +4486,6 @@
   <description>Indicates whether candidate keys (indexes) have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/305">
@@ -4772,7 +4494,6 @@
   <description>Indicates whether database check constraints have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/306">
@@ -4781,7 +4502,6 @@
   <description>Indicates whether datatypes of database columns have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/307">
@@ -4790,7 +4510,6 @@
   <description>Indicates whether database foreign keys have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/308">
@@ -4799,7 +4518,6 @@
   <description>Indicates whether database primary keys have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/309">
@@ -4808,7 +4526,6 @@
   <description>Indicates whether database privileges have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/310">
@@ -4817,7 +4534,6 @@
   <description>Indicates whether database roles have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/311">
@@ -4826,7 +4542,6 @@
   <description>Indicates whether database routines have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/312">
@@ -4835,7 +4550,6 @@
   <description>Indicates whether database schemas have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/313">
@@ -4844,7 +4558,6 @@
   <description>Indicates whether database sequences have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/314">
@@ -4853,7 +4566,6 @@
   <description>Indicates whether database strings have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/315">
@@ -4862,7 +4574,6 @@
   <description>Indicates whether database system tables have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/316">
@@ -4871,7 +4582,6 @@
   <description>Indicates whether the total number of columns of all tables is the same</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/317">
@@ -4880,7 +4590,6 @@
   <description>Indicates whether the total number of rows of all tables is the same</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/318">
@@ -4889,7 +4598,6 @@
   <description>Indicates whether database triggers have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/319">
@@ -4898,7 +4606,6 @@
   <description>Indicates whether database user defined datatypes (UDT) have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/320">
@@ -4907,7 +4614,6 @@
   <description>Indicates whether database users have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <rdf:Description rdf:about="http://scape-project.eu/pw/vocab/measures/321">
@@ -4916,7 +4622,6 @@
   <description>Indicates whether database views have been retained</description>
   <attribute rdf:resource="http://scape-project.eu/pw/vocab/attributes/85"/>
   <scale rdf:resource="http://scape-project.eu/pw/vocab/scales#BOOLEAN" />
-
 </rdf:Description>
 
 <!-- Generated with csvmod2rdf 0.3.1  -->
