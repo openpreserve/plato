@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+<head>
+<title>PLANETS Preservation Planning Tool</title>
+<meta name="description" content="PLANETS Preservation Planning Tool" />
+<link rel="shortcut icon" type="image/png" href="../img/plato_icon.png" />
+<link rel="stylesheet" media="screen"
+	href="/plato/resources/css/help.css" type="text/css" title="Plato" />
+
+</head>
+<body id="body">
+	<a name="top"></a>
+	<div id="helpheader">
+		<div id="title">
+			<h1>Plato Help Pages</h1>
+		</div>
+	</div>
+
+	<div id="header">
+		<div>
+			<a name="top"></a>
+		</div>
+		<h1>How to specify control policies.</h1>
+	</div>
+	<div class="content">
+		<p>
+			This page explains the semantic model that shall be used when specifying
+		    control policies.
+		</p>
+		</div>
+		<div class="section">
+			<div class="sectiontitle">
+				<h2>What are control policies?</h2>
+			</div>
+			<p>
+			The current version of Plato supports a first, simple but effective way of policy-driven
+			planning. A preservation plan can be based on a <i>preservation scenario</i> which links
+			the <i>content set</i> that should be preserved to the <i>user community</i> it should
+			be preserved for. Plato then, automatically, builds the requirements tree based on the
+			control policies defined for this scenario.
+			</p>
+		</div>
+	<div class="section">
+		<div class="sectiontitle">
+			<h2 class="title2">Writing control policies</h2>
+		</div>
+		<p>
+		Control policies have the general form <tt>policy(measure, value, qualifier, modality)</tt>
+		</p>
+		<ul>
+			<li><tt>measure</tt> A measure that the objective pertains to. Measures are standardised
+			and  currently curated by the Plato development team. Please contact us at <tt>plato@ifs.tuwien.ac.at</tt>
+			to obtain a the current list.</li>
+			<li><tt>value</tt> A value associated with the measure.</li>
+			<li><tt>qualifier</tt> A qualifier (equals, greater than, less than, greater equal, lower equal). 
+			Equality by default.</li>
+			<li><tt>modality</tt> A modality that describes whether the particular 
+			property-value pair is present or not. (MUST, SHOULD, SHOULD NOT, MUST NOT, MAY)</li>
+		</ul>
+	</div>
+	<div class="section">
+		<div class="sectiontitle">
+			<h2 class="title2">Example policy</h2>
+		</div>
+		
+		<p>
+		<tt>
+		    &lt;owl:NamedIndividual rdf:about=&quot;FormatDocumentationMustBeFreelyAvailable&quot;&gt;<br/>
+        &nbsp;&nbsp;&nbsp;&lt;rdf:type rdf:resource=&quot;&amp;control-policy;FormatObjective&quot;/&gt;<br/>
+        &nbsp;&nbsp;&nbsp;&lt;control-policy:value rdf:datatype=&quot;&xsd;string&quot;&gt;yes-free&lt;/control-policy:value&gt;<br/>
+        &nbsp;&nbsp;&nbsp;&lt;control-policy:property rdf:resource=&quot;&measures;147&quot;/&gt;<br/>
+        &nbsp;&nbsp;&nbsp;&lt;pw:organizationScope rdf:resource=&quot;austrian_state_archives&quot;/&gt;<br/>
+        &nbsp;&nbsp;&nbsp;&lt;control-policy:modality rdf:resource=&quot;&amp;modalities;MUST&quot;/&gt;<br/>
+    	&lt;/owl:NamedIndividual&gt;
+		
+		</tt>
+		</p>
+	</div>
+	<div id="spacing-bottom">
+			<div></div>
+		</div>
+	<div id="footer-left">
+
+		<div class="strich"></div>
+		<div class="contact">
+			Plato help page. Institute of Software Technology and Interactive
+			Systems: &#171;<a
+				href="mailto:plato@ifs.tuwien.ac.at?subject=[Planets-Plato:]">off-ice
+				bears</a>&#187;
+		</div>
+	</div>
+
+
+	<div id="footer-right">
+		<span> <a class="toplink" href="#top" title="top"> <img
+				src="../../img/go-top.png" border="0" /> </a> <!-- Span on the bottom right -->
+		</span>
+	</div>
+
+</body>
+</html>
