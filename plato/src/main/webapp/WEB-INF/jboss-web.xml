@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
-	<security-domain>sp</security-domain>
-	<valve>
-		<class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator
-		</class-name>
-	</valve>
+    <valve>
+        <class-name>eu.scape_project.planning.jboss.util.UTF8EncodingValve
+        </class-name>
+    </valve>
+    <security-domain>sp</security-domain>
+    <valve>
+        <class-name>org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator
+        </class-name>
+    </valve>
 </jboss-web>
