@@ -210,7 +210,12 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         String count = parser.getObjectsCountInPartition();
         String typeOfObjects = parser.getTypeOfObjects();
         String description = parser.getDescriptionOfObjects();
+        
+        final String repositoryURL = user.getUserGroup().getRepository().getUrl();
         List<SampleObject> samples = parser.getSampleObjects();
+        for (SampleObject sample : samples) {
+            sample.setFullname(sample.getFullname().replace("http://localhost:8080", repositoryURL));
+        }
         String name = id + "_" + key + ".xml";
 
         log.info("Storing profile");
@@ -219,7 +224,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         log.info("processing sample objects information");
         RODAConnector roda = new RODAConnector();
         Map<String,String> config = new HashMap<String,String>() {{
-            put(RODAConnector.ENDPOINT_KEY , user.getUserGroup().getRepository().getUrl());
+            put(RODAConnector.ENDPOINT_KEY , repositoryURL);
             put(RODAConnector.USER_KEY , repositoryUser);
             put(RODAConnector.PASS_KEY , repositoryPassword);
         }};        
