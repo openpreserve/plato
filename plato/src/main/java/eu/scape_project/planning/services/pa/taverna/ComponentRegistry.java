@@ -98,7 +98,7 @@ public class ComponentRegistry implements IPreservationActionRegistry {
             .append("}").append("\n").append("ORDER BY ?w ?wt").append("\n");
         try {
             String url = ME_SPARQL_ENDPOINT + "?query=" + URLEncoder.encode(query.toString(), ENCODING_UTF8)
-                + "&formatting=XML&reasoning=1";
+                + "&formatting=XML";
             String response = JGet.wget(url, CONNECT_TIMEOUT, READ_TIMEOUT);
             log.debug(response);
 
