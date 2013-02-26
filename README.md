@@ -72,6 +72,10 @@ If you run Planning Suite and IDP on the same domain, you can use a predefined s
 &lt;/module&gt;
   </pre>
 
+### Install UTF8EncodingValve
+
+Please refer to the [readme of jboss-utils] (https://github.com/openplanets/plato/blob/integration/jboss-util/README.md)
+
 ***
 
 ## Install required programs 
