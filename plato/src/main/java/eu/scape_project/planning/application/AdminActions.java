@@ -110,7 +110,7 @@ public class AdminActions implements Serializable {
      *            End of the id range to export.
      * @return True if export was successful, false otherwise.
      */
-    public boolean exportSomePlansToZip(Integer fromPlanPropertiesId, Integer toPlanProperitesId) {
+    public boolean exportSomePlansToZip(int fromPlanPropertiesId, int toPlanProperitesId) {
         return projectExportAction.exportSomeProjectsToZip(fromPlanPropertiesId, toPlanProperitesId);
     }
 
@@ -199,7 +199,7 @@ public class AdminActions implements Serializable {
      *            PlanProperties-id of the plan to unlock.
      * @return True if unlocking was successful, false otherwise.
      */
-    public boolean unlockPlan(Integer planPropertiesId) {
+    public boolean unlockPlan(int planPropertiesId) {
         Query q = em.createQuery("update PlanProperties pp set pp.openHandle = 0 where pp.id = " + planPropertiesId);
 
         if (q.executeUpdate() < 1) {

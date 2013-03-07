@@ -16,13 +16,12 @@
  ******************************************************************************/
 package eu.scape_project.planning.xml.plan;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 
-import sun.misc.BASE64Decoder;
+import org.apache.commons.codec.binary.Base64;
+
 import eu.scape_project.planning.model.ByteStream;
 
 /**
@@ -38,7 +37,7 @@ public class BinaryDataWrapper implements Serializable {
     private static final long serialVersionUID = 2080538998419720006L;
     private final Charset UTF8_CHARSET = Charset.forName("UTF-8");    
 
-    BASE64Decoder decoder = new BASE64Decoder();
+    Base64 decoder = new Base64(76);
     byte[] value = null;
 
     private String methodName = "setData";
@@ -58,11 +57,7 @@ public class BinaryDataWrapper implements Serializable {
      * @param value
      */
     public void setFromBase64Encoded(String value) {
-        try {
-            this.value = decoder.decodeBuffer(value.replaceAll("\\s", ""));
-        } catch (IOException e) {
-            this.value = null;
-        }
+        this.value = decoder.decode(value.replaceAll("\\s", ""));
     }
 
     /**
@@ -77,17 +72,9 @@ public class BinaryDataWrapper implements Serializable {
             data.setData(value);
             Method setData = object.getClass().getMethod(methodName, ByteStream.class);
             setData.invoke(object, new Object[] {data});
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        } 
     }
 
     /**
@@ -103,15 +90,7 @@ public class BinaryDataWrapper implements Serializable {
             Method setData = object.getClass().getMethod(methodName, String.class);
             String dataString =  new String(value, UTF8_CHARSET).replaceAll("\uFFFD", "");
             setData.invoke(object, new Object[] {dataString});
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

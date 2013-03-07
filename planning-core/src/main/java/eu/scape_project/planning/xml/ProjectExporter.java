@@ -25,6 +25,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.codec.binary.Base64;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Namespace;
+import org.dom4j.QName;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.ChangeLog;
@@ -56,19 +68,6 @@ import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.model.util.FloatFormatter;
 import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.xml.plan.TimestampFormatter;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * Static methods providing means to export projects to XML using dom4j.
@@ -539,7 +538,7 @@ public class ProjectExporter implements Serializable {
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addUpload(DigitalObject upload, Element parent, String elementName, BASE64Encoder encoder,
+    private Element addUpload(DigitalObject upload, Element parent, String elementName, Base64 encoder,
         boolean addDigitalObjectData) throws PlanningException {
         Element xmlNode = null;
         if (upload != null && upload.isDataExistent()) {
@@ -567,7 +566,7 @@ public class ProjectExporter implements Serializable {
      *             if an error occured during export
      */
     private Element addEncodedDigitalObject(DigitalObject upload, Element parent, String elementName,
-        BASE64Encoder encoder, boolean addDigitalObjectData) throws PlanningException {
+        Base64 encoder, boolean addDigitalObjectData) throws PlanningException {
 
         Element xmlNode = null;
         if (upload != null) {
@@ -583,7 +582,7 @@ public class ProjectExporter implements Serializable {
                     data.setText(String.valueOf(upload.getId()));
                 } else {
                     // Add encoded data
-                    data.setText(encoder.encode(upload.getData().getData()));
+                    data.setText(encoder.encodeAsString(upload.getData().getData()));
                 }
             } else {
                 data.addAttribute("hasData", "false");
@@ -618,7 +617,7 @@ public class ProjectExporter implements Serializable {
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addJhoveInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent)
+    private Element addJhoveInfo(DigitalObject digitalObject, Base64 encoder, Element parent)
         throws PlanningException {
         Element jhoveElement = null;
         String jhoveXML = digitalObject.getJhoveXMLString();
@@ -626,7 +625,7 @@ public class ProjectExporter implements Serializable {
             jhoveElement = parent.addElement("jhoveXML");
             jhoveElement.addAttribute("encoding", "base64");
             try {
-                jhoveElement.setText(encoder.encode(jhoveXML.getBytes(ENCODING)));
+                jhoveElement.setText(encoder.encodeAsString(jhoveXML.getBytes(ENCODING)));
             } catch (UnsupportedEncodingException e) {
                 log.error("Error writing JHOVE info {}.", e.getMessage());
                 throw new PlanningException("Error writing JHOVE info.", e);
@@ -649,7 +648,7 @@ public class ProjectExporter implements Serializable {
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addFitsInfo(DigitalObject digitalObject, BASE64Encoder encoder, Element parent)
+    private Element addFitsInfo(DigitalObject digitalObject, Base64 encoder, Element parent)
         throws PlanningException {
         Element fitsElement = null;
         String fitsInfo = digitalObject.getFitsXMLString();
@@ -657,7 +656,7 @@ public class ProjectExporter implements Serializable {
             fitsElement = parent.addElement("fitsXML");
             fitsElement.addAttribute("encoding", "base64");
             try {
-                fitsElement.setText(encoder.encode(fitsInfo.getBytes(ENCODING)));
+                fitsElement.setText(encoder.encodeAsString(fitsInfo.getBytes(ENCODING)));
             } catch (UnsupportedEncodingException e) {
                 log.error("Error writing fits info {}.", e.getMessage());
                 throw new PlanningException("Error writing fits info.", e);
@@ -696,7 +695,7 @@ public class ProjectExporter implements Serializable {
     public void addProject(Plan p, Document projectsDoc, boolean addDigitalObjectData) throws PlanningException {
 
         // Base64 encoder for binary data
-        BASE64Encoder encoder = new BASE64Encoder();
+        Base64 encoder = new Base64(76);
 
         Element projectNode = projectsDoc.getRootElement().addElement(new QName("plan", PLATO_NAMESPACE));
 

@@ -96,10 +96,6 @@ public class DigitalObjectManager implements Serializable {
 
     // ---------------- getter / setter ----------------
 
-    public ByteStreamManager getByteStreamManager() {
-        return byteStreamManager;
-    }
-
     public void setByteStreamManager(ByteStreamManager byteStreamManager) {
         this.byteStreamManager = byteStreamManager;
     }

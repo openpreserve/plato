@@ -8,7 +8,7 @@
  * 
  *   http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed to in writing, softwareBecker
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -17,7 +17,7 @@
 package eu.scape_project.planning.xml;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -35,6 +35,9 @@ import java.util.zip.ZipOutputStream;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -43,19 +46,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.codec.binary.Base64OutputStream;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.WriterOutputStream;
 import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.XPath;
 import org.dom4j.io.DocumentSource;
-import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 
-import sun.misc.BASE64Encoder;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.DigitalObjectManager;
 import eu.scape_project.planning.manager.StorageException;
-import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
@@ -63,8 +65,7 @@ import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.OS;
 
 /**
- * This class inserts test data into the persistence layer, including import of
- * objective trees from case studies.
+ * This class provides methods to export plans from the database to their XML representation. 
  * 
  * @author Christoph Becker
  */
@@ -104,7 +105,8 @@ public class ProjectExportAction implements Serializable {
     }
 
     /**
-     * UNTESTED, NOT SURE IF EVEN THE QUERY CODE WORKS!
+     * Exports all plans where the {@link PlanProperties#getId()} is in the given range [fromID, toID] (inclusive)
+     * and adds them to a zip archive
      * 
      * @param fromID
      *            from-ID in table PlanProperties, which is used to filter
@@ -114,10 +116,14 @@ public class ProjectExportAction implements Serializable {
      *            PlanProperties
      * @return True if export was successful, false otherwise.
      */
-    public boolean exportSomeProjectsToZip(Integer fromID, Integer toID) {
+    public boolean exportSomeProjectsToZip(int fromID, int toID) {
+        @SuppressWarnings("unchecked")
         List<PlanProperties> ppList = em.createQuery(
-            "select p.planProperties from Plan p where " + " p.planProperties.id >= " + fromID
-                + " and p.planProperties.id <= " + toID + " order by p.planProperties.id").getResultList();
+            "select p.planProperties from Plan p where " + " p.planProperties.id >= :fromID " 
+                + " and p.planProperties.id <= :toID order by p.planProperties.id")
+                .setParameter("fromID", fromID)
+                .setParameter("toID", toID)
+                .getResultList();
 
         return exportPPListToZip(ppList);
     }
@@ -136,17 +142,17 @@ public class ProjectExportAction implements Serializable {
      * @return True if export was successful, false otherwise.
      */
     public boolean exportComplete(int ppid, OutputStream out, String baseTempPath) {
-        BASE64Encoder encoder = new BASE64Encoder();
         ProjectExporter exporter = new ProjectExporter();
         Document doc = exporter.createProjectDoc();
 
         Plan plan = null;
         try {
-            plan = em.createQuery("select p from Plan p where p.planProperties.id = " + ppid, Plan.class)
+            plan = em.createQuery("select p from Plan p where p.planProperties.id = :ppid ", Plan.class)
+                .setParameter("ppid", ppid)
                 .getSingleResult();
         } catch (Exception e) {
             log.error("Could not load planProperties: ", e);
-            log.debug("Skipping the export of the plan with properties" + ppid + ": Couldnt load.");
+            log.debug("Skipping the export of the plan with properties " + ppid + ": Couldnt load.");
             return false;
         }
         try {
@@ -160,7 +166,7 @@ public class ProjectExportAction implements Serializable {
                 // Perform XSLT transformation to get the DATA into the PLANS
                 // Prepare base 64 encoded binary data
                 List<Integer> binaryObjectIds = getBinaryObjectIds(doc);
-                writeBinaryObjects(binaryObjectIds, tempPath, encoder);
+                writeBinaryObjects(binaryObjectIds, tempPath);
                 // Prepare preservation action plan
                 List<Integer> preservationActionPlanIDs = getPreservationActionPlanIds(doc);
                 writeDigitalObjects(preservationActionPlanIDs, tempPath);
@@ -395,11 +401,11 @@ public class ProjectExportAction implements Serializable {
      * @throws IOException
      * @throws StorageException
      */
-    private void writeBinaryObjects(List<Integer> objectIds, String aTempDir, BASE64Encoder encoder)
+    private void writeBinaryObjects(List<Integer> objectIds, String aTempDir)
         throws IOException, StorageException {
         int counter = 0;
         int skip = 0;
-        log.info("writing XMLs for bytestreams of digital objects. Size = " + objectIds.size());
+        log.info("writing XMLs for bytestreams of digital objects. count = " + objectIds.size());
         for (Integer id : objectIds) {
             if (counter > LOADED_DATA_SIZE_BOUNDARY) { // Call GC if unused data
                                                        // exceeds boundary
@@ -411,7 +417,7 @@ public class ProjectExportAction implements Serializable {
                 counter += object.getData().getSize();
                 File f = new File(aTempDir + object.getId() + ".xml");
                 DigitalObject dataFilledObject = digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
-                writeBinaryData(id, dataFilledObject.getData(), f, encoder);
+                writeBinaryData(id, new ByteArrayInputStream(dataFilledObject.getData().getData()), f);
                 dataFilledObject = null;
             } else {
                 skip++;
@@ -433,15 +439,34 @@ public class ProjectExportAction implements Serializable {
      * @param encoder
      * @throws IOException
      */
-    private static void writeBinaryData(int id, ByteStream data, File f, BASE64Encoder encoder) throws IOException {
-        Document streamDoc = DocumentHelper.createDocument();
-        Element d = streamDoc.addElement("data");
-        d.addAttribute("id", "" + id);
-        d.setText(encoder.encode(data.getData()));
-        XMLWriter writer = new XMLWriter(new BufferedWriter(new FileWriter(f)), ProjectExporter.prettyFormat);
-        writer.write(streamDoc);
-        writer.flush();
-        writer.close();
+    private static void writeBinaryData(int id, InputStream data, File f) throws IOException {
+        
+        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        try {
+            XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(f));
+
+            writer.writeStartDocument("UTF-8","1.0");
+            writer.writeStartElement("data");
+            writer.writeAttribute("id", "" + id);
+
+            // create an encoding output stream which writes to the XMLStreamWriter-content
+            Base64OutputStream base64EncodingOut = new Base64OutputStream(new WriterOutputStream(new XMLStreamContentWriter(writer) , "UTF-8"));
+            
+            // read the binary data and write it encoded to the stream
+            IOUtils.copy(data, base64EncodingOut);
+            
+            // all data is written - end 
+            writer.writeEndElement();
+            writer.writeEndDocument();
+
+            writer.flush();
+            writer.close();
+
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }        
     }
 
     // -------- getter/setter --------

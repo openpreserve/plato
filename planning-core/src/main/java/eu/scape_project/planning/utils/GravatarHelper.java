@@ -19,10 +19,7 @@ package eu.scape_project.planning.utils;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
-
-import eu.scape_project.planning.model.User;
 
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
