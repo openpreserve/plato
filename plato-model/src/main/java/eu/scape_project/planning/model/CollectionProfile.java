@@ -17,7 +17,6 @@
 package eu.scape_project.planning.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,7 +27,7 @@ import javax.persistence.OneToOne;
 
 /**
  * Gives information on the collection in question for the preservation plan.
- *
+ * 
  * @author Hannes Kulovits
  */
 @Entity
@@ -40,60 +39,61 @@ public class CollectionProfile implements Serializable {
 
     }
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
     private String collectionID;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
     private String description;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
     private String typeOfObjects;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
     private String numberOfObjects;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
     private String expectedGrowthRate;
 
     /**
-     * Hibernate note: standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
+     * Hibernate note: standard length for a string column is 255 validation is
+     * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
      */
     @Lob
     private String retentionPeriod;
-    
+
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private DigitalObject profileDigitalObject;
-    
+
     public String getRetentionPeriod() {
         return retentionPeriod;
     }
@@ -150,24 +150,18 @@ public class CollectionProfile implements Serializable {
         this.id = id;
     }
 
-	/**
+    /**
      * @return the profile
      */
     public DigitalObject getProfile() {
-	    return profileDigitalObject;
+        return profileDigitalObject;
     }
 
-	/**
-     * @param profile the profile to set
+    /**
+     * @param profile
+     *            the profile to set
      */
     public void setProfile(DigitalObject profile) {
-	    this.profileDigitalObject = profile;
-    }
-    
-    public List<String> getObjectIdentifiers() {
-        String pid = this.profileDigitalObject.getPid();
-        
-        
-        return null;
+        this.profileDigitalObject = profile;
     }
 }

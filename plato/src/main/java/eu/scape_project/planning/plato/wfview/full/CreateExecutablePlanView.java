@@ -84,7 +84,8 @@ public class CreateExecutablePlanView extends AbstractView {
     }
 
     public boolean isCollectionProfileDefined() {
-        return plan.getSampleRecordsDefinition().getCollectionProfile() != null;
+        return plan.getSampleRecordsDefinition().getCollectionProfile().getProfile() != null
+            && plan.getSampleRecordsDefinition().getCollectionProfile().getProfile().isDataExistent();
     }
 
     /**
