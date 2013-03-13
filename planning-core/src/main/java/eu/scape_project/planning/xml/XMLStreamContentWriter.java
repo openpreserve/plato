@@ -7,7 +7,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 /**
- * A simple {@link Writer} which outputs the content to a given {@link XMLStreamWriter} 
+ * A simple {@link Writer} which outputs the content to the given {@link XMLStreamWriter} 
  * 
  * @author Michael Kraxner
  *
@@ -22,10 +22,20 @@ public class XMLStreamContentWriter extends Writer {
 
     @Override
     public void close() throws IOException {
+        try {
+            streamWriter.close();
+        } catch (XMLStreamException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override
     public void flush() throws IOException {
+        try {
+            streamWriter.flush();
+        } catch (XMLStreamException e) {
+            throw new IOException(e);
+        }
     }
 
     @Override

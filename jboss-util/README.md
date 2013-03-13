@@ -1,6 +1,8 @@
 # JBoss utils
 Contains utility functions specific to jboss.
 
+* UTF8EncodingValve: Ensures that UTF-8 is used as default encoding for requests.
+
 ## Installation
 1. Package the source
 
@@ -26,7 +28,7 @@ Contains utility functions specific to jboss.
     &lt;/module&gt;
   </pre>
 
-4. Add the module dependency to your deployment
+4. Add the module dependency to your deployment in file jboss-deployment-structure.xml
 
   <pre>
     &lt;jboss-deployment-structure&gt;
@@ -38,7 +40,7 @@ Contains utility functions specific to jboss.
   </pre>
 
 ### UTF8EncodingValve
-This jboss valve sets the encoding of requests to UTF-8. To use it in your deployment, add the following to your jboss-web.xml. Note that the valve should be at the top to ensure that it is called before other valves.
+This JBoss valve ensures that UTF-8 is used as default encoding for requests. To use it in your deployment, add the following to your jboss-web.xml. Note that the valve should be at the top to ensure that it is called before other valves. (This is a must if the application uses PicketLink which sets the encoding to ISO-8859-1)
 
 <pre>
     &lt;?xml version="1.0" encoding="UTF-8"?&gt;

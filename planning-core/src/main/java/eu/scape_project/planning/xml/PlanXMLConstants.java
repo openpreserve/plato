@@ -15,14 +15,23 @@
  ******************************************************************************/
 package eu.scape_project.planning.xml;
 
+import java.nio.charset.Charset;
+
 /**
- * Provides constants for namespaces, schemas, and schema locations for XML representations of preservation plans.
+ * Provides constants for encoding, namespaces, schemas, and schema locations for XML representations of preservation plans.
  *  
  * @author Michael Kraxner
  *
  */
 public class PlanXMLConstants {
 
+    public static final String ENCODING = "UTF-8";
+    public static final Charset ENCODING_CHARSET = Charset.forName(ENCODING);
+    
+    public static final int BASE64_LINE_LENGTH = 76;
+    public static final byte[] BASE64_LINE_BREAK = {'\n'};
+
+    
     private static final String SCHEMA_LOCATION = "data/schemas/";
     
     public static final String PLATO_NS = "http://ifs.tuwien.ac.at/dp/plato";
@@ -41,5 +50,7 @@ public class PlanXMLConstants {
     public static final String TAVERNA_SCHEMA_URI = PLATO_NS + "/" + TAVERNA_SCHEMA;
     
     public static final String[] PLAN_SCHEMAS = {ProjectImporter.PLATO_SCHEMA_URI};
+    
+
     
 }

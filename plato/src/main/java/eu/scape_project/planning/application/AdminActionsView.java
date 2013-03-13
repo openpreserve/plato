@@ -398,8 +398,8 @@ public class AdminActionsView implements Serializable {
      */
     private boolean isAdminPasswordCorrect() {
         if (!adminActions.isAdminPasswordCorrect(password)) {
-            facesMessages.addError("Invalid password provided, no admin actions available.");
-            log.error("Invalid password provided, no admin actions available.");
+            facesMessages.addError("This is not valid, no admin actions available.");
+            log.error("This is not valid, no admin actions available.");
             return false;
         }
         return true;

@@ -99,6 +99,7 @@ public class ProjectExportAction implements Serializable {
      * @return True if export was successful, false otherwise.
      */
     public boolean exportAllProjectsToZip() {
+        @SuppressWarnings("unchecked")
         List<PlanProperties> ppList = em.createQuery("select p from PlanProperties p order by p.id").getResultList();
 
         return exportPPListToZip(ppList);
@@ -445,15 +446,16 @@ public class ProjectExportAction implements Serializable {
         try {
             XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter(f));
 
-            writer.writeStartDocument("UTF-8","1.0");
+            writer.writeStartDocument(PlanXMLConstants.ENCODING,"1.0");
             writer.writeStartElement("data");
             writer.writeAttribute("id", "" + id);
 
             // create an encoding output stream which writes to the XMLStreamWriter-content
-            Base64OutputStream base64EncodingOut = new Base64OutputStream(new WriterOutputStream(new XMLStreamContentWriter(writer) , "UTF-8"));
+            Base64OutputStream base64EncodingOut = new Base64OutputStream(new WriterOutputStream(new XMLStreamContentWriter(writer) , PlanXMLConstants.ENCODING), true, PlanXMLConstants.BASE64_LINE_LENGTH, PlanXMLConstants.BASE64_LINE_BREAK);
             
             // read the binary data and write it encoded to the stream
             IOUtils.copy(data, base64EncodingOut);
+            base64EncodingOut.flush();
             
             // all data is written - end 
             writer.writeEndElement();

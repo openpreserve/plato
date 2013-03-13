@@ -18,11 +18,11 @@ package eu.scape_project.planning.xml.plan;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
 
 import org.apache.commons.codec.binary.Base64;
 
 import eu.scape_project.planning.model.ByteStream;
+import eu.scape_project.planning.xml.PlanXMLConstants;
 
 /**
  * Helper class for {@link eu.scape_project.planning.xml.ProjectImporter} to
@@ -35,9 +35,9 @@ import eu.scape_project.planning.model.ByteStream;
 public class BinaryDataWrapper implements Serializable {
 
     private static final long serialVersionUID = 2080538998419720006L;
-    private final Charset UTF8_CHARSET = Charset.forName("UTF-8");    
-
-    Base64 decoder = new Base64(76);
+    
+    private static final Base64 decoder = new Base64(PlanXMLConstants.BASE64_LINE_LENGTH, PlanXMLConstants.BASE64_LINE_BREAK);
+    
     byte[] value = null;
 
     private String methodName = "setData";
@@ -57,7 +57,7 @@ public class BinaryDataWrapper implements Serializable {
      * @param value
      */
     public void setFromBase64Encoded(String value) {
-        this.value = decoder.decode(value.replaceAll("\\s", ""));
+        this.value = decoder.decode(value); //decoder.encodeBase64(binaryData, isChunked)decode(value.replaceAll("\\s", ""));
     }
 
     /**
@@ -88,7 +88,7 @@ public class BinaryDataWrapper implements Serializable {
             ByteStream data = new ByteStream();
             data.setData(value);
             Method setData = object.getClass().getMethod(methodName, String.class);
-            String dataString =  new String(value, UTF8_CHARSET).replaceAll("\uFFFD", "");
+            String dataString =  new String(value, PlanXMLConstants.ENCODING_CHARSET).replaceAll("\uFFFD", "");
             setData.invoke(object, new Object[] {dataString});
         } catch (Exception e) {
             e.printStackTrace();

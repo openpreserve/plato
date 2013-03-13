@@ -77,18 +77,15 @@ import eu.scape_project.planning.xml.plan.TimestampFormatter;
 public class ProjectExporter implements Serializable {
     private static final long serialVersionUID = 7538933914251415135L;
 
-    /**
-     * Encoding used for writing data.
-     */
-    private static final String ENCODING = "UTF-8";
+    private static final Base64 encoder = new Base64(PlanXMLConstants.BASE64_LINE_LENGTH, PlanXMLConstants.BASE64_LINE_BREAK);
 
     private Logger log = LoggerFactory.getLogger(ProjectExporter.class);;
 
     private TimestampFormatter formatter = new TimestampFormatter();
     private FloatFormatter floatFormatter = new FloatFormatter();
 
-    public static OutputFormat prettyFormat = new OutputFormat(" ", true, ENCODING); // OutputFormat.createPrettyPrint();
-    public static OutputFormat compactFormat = new OutputFormat(null, false, ENCODING); // OutputFormat.createPrettyPrint();
+    public static OutputFormat prettyFormat = new OutputFormat(" ", true, PlanXMLConstants.ENCODING); // OutputFormat.createPrettyPrint();
+    public static OutputFormat compactFormat = new OutputFormat(null, false, PlanXMLConstants.ENCODING); // OutputFormat.createPrettyPrint();
 
     private static final Namespace XSI_NAMESPACE = new Namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     private static final Namespace PLATO_NAMESPACE = new Namespace("", PlanXMLConstants.PLATO_NS);
@@ -146,7 +143,7 @@ public class ProjectExporter implements Serializable {
         root.add(new Namespace("fits", "http://hul.harvard.edu/ois/xml/ns/fits/fits_output"));
 
         // set version of corresponding schema
-        root.addAttribute("version", "4.0.0");
+        root.addAttribute("version", PlanXMLConstants.PLATO_SCHEMA_VERSION);
 
         return doc;
     }
@@ -530,19 +527,16 @@ public class ProjectExporter implements Serializable {
      *            the parent element of the element to create
      * @param elementName
      *            the name of the element to create
-     * @param encoder
-     *            encoder to use for writing data
      * @param addDigitalObjectData
      *            true if the data should be written, false otherwise
      * @return the newly created element or null if none was created
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addUpload(DigitalObject upload, Element parent, String elementName, Base64 encoder,
-        boolean addDigitalObjectData) throws PlanningException {
+    private Element addUpload(DigitalObject upload, Element parent, String elementName, boolean addDigitalObjectData) throws PlanningException {
         Element xmlNode = null;
         if (upload != null && upload.isDataExistent()) {
-            xmlNode = addEncodedDigitalObject(upload, parent, elementName, encoder, addDigitalObjectData);
+            xmlNode = addEncodedDigitalObject(upload, parent, elementName, addDigitalObjectData);
         }
         return xmlNode;
     }
@@ -557,16 +551,13 @@ public class ProjectExporter implements Serializable {
      *            the parent element of the element to create
      * @param elementName
      *            the name of the element to create
-     * @param encoder
-     *            encoder to use for writing data
      * @param addDigitalObjectData
      *            true if the data should be written, false otherwise
      * @return the newly created element or null if none was created
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addEncodedDigitalObject(DigitalObject upload, Element parent, String elementName,
-        Base64 encoder, boolean addDigitalObjectData) throws PlanningException {
+    private Element addEncodedDigitalObject(DigitalObject upload, Element parent, String elementName, boolean addDigitalObjectData) throws PlanningException {
 
         Element xmlNode = null;
         if (upload != null) {
@@ -582,15 +573,15 @@ public class ProjectExporter implements Serializable {
                     data.setText(String.valueOf(upload.getId()));
                 } else {
                     // Add encoded data
-                    data.setText(encoder.encodeAsString(upload.getData().getData()));
+                    data.setText(encodeBase64(upload.getData().getData()));
                 }
             } else {
                 data.addAttribute("hasData", "false");
             }
 
-            addUpload(upload.getXcdlDescription(), xmlNode, "xcdlDescription", encoder, addDigitalObjectData);
-            addJhoveInfo(upload, encoder, xmlNode);
-            addFitsInfo(upload, encoder, xmlNode);
+            addUpload(upload.getXcdlDescription(), xmlNode, "xcdlDescription", addDigitalObjectData);
+            addJhoveInfo(upload, xmlNode);
+            addFitsInfo(upload, xmlNode);
             Element formatInfo = xmlNode.addElement("formatInfo")
                 .addAttribute("puid", upload.getFormatInfo().getPuid())
                 .addAttribute("name", upload.getFormatInfo().getName())
@@ -609,15 +600,13 @@ public class ProjectExporter implements Serializable {
      * 
      * @param digitalObject
      *            the digital object
-     * @param encoder
-     *            encoder to use for writing data
      * @param parent
      *            the parent element of the element to create
      * @return the newly created element or null if none was created
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addJhoveInfo(DigitalObject digitalObject, Base64 encoder, Element parent)
+    private Element addJhoveInfo(DigitalObject digitalObject, Element parent)
         throws PlanningException {
         Element jhoveElement = null;
         String jhoveXML = digitalObject.getJhoveXMLString();
@@ -625,7 +614,7 @@ public class ProjectExporter implements Serializable {
             jhoveElement = parent.addElement("jhoveXML");
             jhoveElement.addAttribute("encoding", "base64");
             try {
-                jhoveElement.setText(encoder.encodeAsString(jhoveXML.getBytes(ENCODING)));
+                jhoveElement.setText(encodeBase64(jhoveXML.getBytes(PlanXMLConstants.ENCODING)));
             } catch (UnsupportedEncodingException e) {
                 log.error("Error writing JHOVE info {}.", e.getMessage());
                 throw new PlanningException("Error writing JHOVE info.", e);
@@ -640,15 +629,13 @@ public class ProjectExporter implements Serializable {
      * 
      * @param digitalObject
      *            the digital object
-     * @param encoder
-     *            encoder to use for writing data
      * @param parent
      *            the parent element of the element to create
      * @return the newly created element or null if none was created
      * @throws PlanningException
      *             if an error occured during export
      */
-    private Element addFitsInfo(DigitalObject digitalObject, Base64 encoder, Element parent)
+    private Element addFitsInfo(DigitalObject digitalObject, Element parent)
         throws PlanningException {
         Element fitsElement = null;
         String fitsInfo = digitalObject.getFitsXMLString();
@@ -656,7 +643,7 @@ public class ProjectExporter implements Serializable {
             fitsElement = parent.addElement("fitsXML");
             fitsElement.addAttribute("encoding", "base64");
             try {
-                fitsElement.setText(encoder.encodeAsString(fitsInfo.getBytes(ENCODING)));
+                fitsElement.setText(encodeBase64(fitsInfo.getBytes(PlanXMLConstants.ENCODING)));
             } catch (UnsupportedEncodingException e) {
                 log.error("Error writing fits info {}.", e.getMessage());
                 throw new PlanningException("Error writing fits info.", e);
@@ -694,15 +681,12 @@ public class ProjectExporter implements Serializable {
      */
     public void addProject(Plan p, Document projectsDoc, boolean addDigitalObjectData) throws PlanningException {
 
-        // Base64 encoder for binary data
-        Base64 encoder = new Base64(76);
-
         Element projectNode = projectsDoc.getRootElement().addElement(new QName("plan", PLATO_NAMESPACE));
 
         addChangeLog(p.getChangeLog(), projectNode);
 
         Element properties = projectNode.addElement("properties");
-        addUpload(p.getPlanProperties().getReportUpload(), properties, "report", encoder, addDigitalObjectData);
+        addUpload(p.getPlanProperties().getReportUpload(), properties, "report", addDigitalObjectData);
 
         // Plan state
         properties.addElement("state").addAttribute("value",
@@ -767,11 +751,11 @@ public class ProjectExporter implements Serializable {
             addStringElement(collectionProfile, "retentionPeriod", p.getSampleRecordsDefinition()
                 .getCollectionProfile().getRetentionPeriod());
             addUpload(p.getSampleRecordsDefinition().getCollectionProfile().getProfile(), collectionProfile, "profile",
-                encoder, addDigitalObjectData);
+                addDigitalObjectData);
         }
 
         for (SampleObject rec : p.getSampleRecordsDefinition().getRecords()) {
-            Element sampleRecord = addEncodedDigitalObject(rec, samplerecords, "record", encoder, addDigitalObjectData);
+            Element sampleRecord = addEncodedDigitalObject(rec, samplerecords, "record", addDigitalObjectData);
 
             if (sampleRecord != null) {
                 sampleRecord.addAttribute("shortName", rec.getShortName());
@@ -786,7 +770,7 @@ public class ProjectExporter implements Serializable {
         addStringElement(rdef, "description", p.getRequirementsDefinition().getDescription());
         Element uploads = rdef.addElement("uploads");
         for (DigitalObject upload : p.getRequirementsDefinition().getUploads()) {
-            addUpload(upload, uploads, "upload", encoder, addDigitalObjectData);
+            addUpload(upload, uploads, "upload", addDigitalObjectData);
         }
         addChangeLog(p.getRequirementsDefinition().getChangeLog(), rdef);
 
@@ -838,7 +822,7 @@ public class ProjectExporter implements Serializable {
             addStringElement(experiment, "settings", exp.getSettings());
             Element results = experiment.addElement("results");
             for (Entry<SampleObject, DigitalObject> entry : exp.getResults().entrySet()) {
-                Element result = addUpload(entry.getValue(), results, "result", encoder, addDigitalObjectData);
+                Element result = addUpload(entry.getValue(), results, "result",  addDigitalObjectData);
                 if (result != null) {
                     result.addAttribute("key", entry.getKey().getShortName());
                 }
@@ -938,8 +922,7 @@ public class ProjectExporter implements Serializable {
         addStringElement(executablePlanDef, "toolParameters", executablePlanDefinition.getToolParameters());
         addStringElement(executablePlanDef, "triggersConditions", executablePlanDefinition.getTriggersConditions());
         addStringElement(executablePlanDef, "validateQA", executablePlanDefinition.getValidateQA());
-        addUpload(executablePlanDefinition.getT2flowExecutablePlan(), executablePlanDef, "workflow", encoder,
-            addDigitalObjectData);
+        addUpload(executablePlanDefinition.getT2flowExecutablePlan(), executablePlanDef, "workflow", addDigitalObjectData);
         addChangeLog(executablePlanDefinition.getChangeLog(), executablePlanDef);
 
         // Export generated preservation action plan
@@ -1161,7 +1144,7 @@ public class ProjectExporter implements Serializable {
                     Document doc;
                     try {
                         doc = DocumentHelper
-                            .parseText(new String(preservationActionPlan.getData().getData(), ENCODING));
+                            .parseText(new String(preservationActionPlan.getData().getData(), PlanXMLConstants.ENCODING));
 
                         if (doc.getRootElement().hasContent()) {
                             preservationActionPlanElement = doc.getRootElement();
@@ -1179,5 +1162,9 @@ public class ProjectExporter implements Serializable {
         }
 
         return preservationActionPlanElement;
+    }
+    
+    private String encodeBase64(byte[] data) {
+        return encoder.encodeAsString(data);
     }
 }

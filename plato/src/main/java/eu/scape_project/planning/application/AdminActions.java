@@ -20,9 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +71,7 @@ public class AdminActions implements Serializable {
     /**
      * Predefined hash coded passcode computed by SHA-1
      */
-    private String adminPasscode = "d1f686a6914ac3925ba26732abc96d8878465746";
+    private String adminPasscode = "responsibility";
 
     /**
      * Method responsible for checking if the given admin-password is correct.
@@ -84,11 +81,7 @@ public class AdminActions implements Serializable {
      * @return True if the password is correct, false otherwise.
      */
     public boolean isAdminPasswordCorrect(String password) {
-        if (password != null && computeSHAPasscode(password).equals(adminPasscode)) {
-            return true;
-        }
-
-        return false;
+        return adminPasscode.equals(password);
     }
 
     /**
@@ -130,6 +123,7 @@ public class AdminActions implements Serializable {
      */
     
     public boolean deleteAllPlans() {
+        @SuppressWarnings("unchecked")
         List<Plan> planList = em.createQuery("select p from Plan p").getResultList();
         boolean gotError = false;
         for (Plan p : planList) {
@@ -140,30 +134,6 @@ public class AdminActions implements Serializable {
                 gotError = true;
                 log.error(e.getMessage(), e);
             }
-// what bogus comment is this?
-//            
-//            // this part does not work - but it is not needed, so it is
-//            // commented-out.
-//            log.debug("removing value scale linkage...");
-//
-//            for (Leaf l : p.getTree().getRoot().getAllLeaves()) {
-//                for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
-//                    Values values = l.getValues(a.getName());
-//                    if (values != null) {
-//                        for (Value v : values.getList()) {
-//                            if (v != null) {
-//                                v.setScale(null);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            log.debug("removing entity... ");
-//
-//            em.remove(p);
-//
-//            log.debug("plan removed");
         }
         em.flush();
         return !gotError;
@@ -175,6 +145,7 @@ public class AdminActions implements Serializable {
      * @return Number of cleaned-up/removed Values objects.
      */
     public int cleanUpLoosePlanValues() {
+        @SuppressWarnings("unchecked")
         List<PlanProperties> ppList = em.createQuery("select p from PlanProperties p").getResultList();
         int total = 0;
         int i = 0;
@@ -426,47 +397,6 @@ public class AdminActions implements Serializable {
             log.error("Failed to retrieve plan for clean-up. id: " + pid, e);
             return 0;
         }
-    }
-
-    /**
-     * Method responsible for computing an passcode (SHA encoded/encrypted
-     * password) out of the given password.
-     * 
-     * @param password
-     *            Password to compute the encoded passcode for.
-     * @return Password relating Passcode.
-     */
-    private String computeSHAPasscode(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(password.getBytes("UTF-8"));
-            byte[] code = md.digest();
-            return convertToHex(code);
-        } catch (NoSuchAlgorithmException e) {
-            log.error("Algorithm SHA-1 not found!", e);
-            e.printStackTrace();
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            log.error("Encoding problem: UTF-8 not supported!", e);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private String convertToHex(byte[] data) {
-        StringBuffer buf = new StringBuffer();
-        for (int i = 0; i < data.length; i++) {
-            int halfbyte = (data[i] >>> 4) & 0x0F;
-            int two_halfs = 0;
-            do {
-                if ((0 <= halfbyte) && (halfbyte <= 9))
-                    buf.append((char) ('0' + halfbyte));
-                else
-                    buf.append((char) ('a' + (halfbyte - 10)));
-                halfbyte = data[i] & 0x0F;
-            } while (two_halfs++ < 1);
-        }
-        return buf.toString();
     }
 
     /**
