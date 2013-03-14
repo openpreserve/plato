@@ -39,6 +39,7 @@ public class RealByteStream implements Serializable {
     private int id;    
 
     /**
+     * the binary data
      * shall be nullable, as a sample record could also be something without a
      * of a data stream (e.g. a record set somewhere)
      */

@@ -88,8 +88,14 @@ public class ByteStream implements Serializable {
         return realByteStream.getData();
     }
     
+    /**
+     * Releases the data in the bytestream so memory can be freed
+     * - does not reset the size  
+     */
     public void releaseData(){
+        long realSize = this.size;
         setData(null);
+        this.size = realSize;
     }
 
     public void setData(byte[] data) {
@@ -97,11 +103,6 @@ public class ByteStream implements Serializable {
         setSize((data==null)? 0 : data.length);
     }
 
-    public double getDataInMB(){
-        double dataInMB = ((double)size)/(1024*1024);
-        return dataInMB;
-    }
-    
     public ByteStream clone() {
         ByteStream clone = new ByteStream();
         clone.setRealByteStream(realByteStream.clone());

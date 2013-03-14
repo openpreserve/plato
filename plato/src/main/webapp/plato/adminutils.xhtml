@@ -17,7 +17,7 @@
 		<h1>Administration Utilities</h1>
 
 		<h:form id="adminform">
-			<rich:messages globalOnly="true" ajaxRendered="true" />
+			<rich:messages globalOnly="false" ajaxRendered="true" />
 			<hr />
             With great power comes great ...
             <h:inputSecret value="#{admin.password}" id="passwordField" />
@@ -27,15 +27,19 @@
 						<fieldset id="exportimport">
 							<legend> export </legend>
 			
-							<rich:messages for="exportAllPlansToZip" />
 							<a4j:commandButton id="exportAllPlansToZip"
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"							
 								action="#{admin.exportAllPlansToZip}"
-								value="Export all plans to a ZIP containing all XML files" />
+								value="Export all plans to a ZIP containing all XML files" 
+								render="exportAllPlansToZip"/>
 							<br /> <br />
-							<rich:messages for="exportSomePlansToZip" />
 							<a4j:commandButton id="exportSomePlansToZip"
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"							
 								action="#{admin.exportSomePlansToZip}"
-								value="Export the following plans to a ZIP containing all XML files" />
+								value="Export the following plans to a ZIP containing all XML files" 
+								render="exportSomePlansToZip"/>
 							<br />
 							<h:outputLabel for="fromIDField" value="from planID:" />
 							<h:inputText value="#{admin.exportPlanRangeFromId}" id="fromIDField" />
@@ -49,75 +53,51 @@
 							<legend> XML import </legend>
 			
 							Path:
-							<rich:messages for="importDir" />
 							<h:inputText id="importDir" value="#{admin.xmlImportDirectory}"
 								class="size-max" />
 							<br />
 							<a4j:commandButton id="directoryImport"
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"							
 								action="#{admin.importPlansFromDirectory()}"
 								value="Import all XMLs in server directory"
-								status="directoryImportStatus" />
-							<rich:messages for="directoryImport" />
-			
-							<a4j:status name="directoryImportStatus">
-								<f:facet name="start">
-									<h:graphicImage value="/resources/gfx/processing.gif"
-										alt="Processing, please wait...." />
-								</f:facet>
-								<f:facet name="stop">
-								</f:facet>
-							</a4j:status>
-			
+								render="directoryImport"/>
 							<br /> <br />
 			
-							<rich:messages for="importXml" />
 							<h:inputTextarea id="importXml" value="#{admin.xmlStringToImport}"
 								class="size-max" />
 							<br />
 							<a4j:commandButton id="xmlImport" action="#{admin.importFromXml()}"
-								value="Import XML string" status="xmlImportStatus"
-								render="importXml" />
-							<rich:messages for="xmlImport" />
-			
-							<a4j:status name="xmlImportStatus">
-								<f:facet name="start">
-									<h:graphicImage value="/resources/gfx/processing.gif"
-										alt="Processing, please wait...." />
-								</f:facet>
-								<f:facet name="stop">
-								</f:facet>
-							</a4j:status>
+								value="Import XML string" 
+								render="importXml"
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
+								/>
 						</fieldset>	
 						
 						<a4j:outputPanel layout="block" id="importFromFilePanel">
 							<fieldset id="importFromFile">
 								<legend>XML import from file</legend>
 			
-								<rich:messages for="file" />
 								<a4j:commandButton id="file" value="Choose File"
 									oncomplete="#{rich:component('selectImportPanel')}.show()" />
 								<h:outputText value="#{admin.importFileName}"
 									rendered="#{admin.importFileData != null}" />
 								<br /> <br />
 			
-								<rich:messages for="importFile" />
 								<a4j:commandButton id="importFile" value="Import plans"
-									action="#{admin.importFromFile()}" status="fileImportStatus"
-									render="importFromFilePanel" />
-								<rich:messages for="importFileForMyself" />
+									action="#{admin.importFromFile()}"
+									render="importFromFilePanel"
+									onclick="toggleLoadingOverlay();this.disabled=true;"
+									oncomplete="this.disabled=false;toggleLoadingOverlay();"							
+									/>
 								<a4j:commandButton id="importFileForMyself"
 									value="Import plans for myself"
 									action="#{admin.importFromFileForMyself()}"
-									status="fileImportStatus" render="importFromFilePanel" />
+									render="importFromFilePanel"
+									onclick="toggleLoadingOverlay();this.disabled=true;"
+								    oncomplete="this.disabled=false;toggleLoadingOverlay();"/>
 			
-								<a4j:status name="fileImportStatus">
-									<f:facet name="start">
-										<h:graphicImage value="/resources/gfx/processing.gif"
-											alt="Processing, please wait...." />
-									</f:facet>
-									<f:facet name="stop">
-									</f:facet>
-								</a4j:status>
 							</fieldset>
 						</a4j:outputPanel>
 						
@@ -126,77 +106,77 @@
 						<fieldset id="cleanup">
 							<legend> cleanup </legend>
 			
-							<rich:messages for="deleteAllPlans" />
 							<a4j:commandButton id="deleteAllPlans"
-								action="#{admin.deleteAllPlans()}"
 								value="Delete all plans from database"
-								onclick="if (!confirm('Are you sure you want to delete all the plans?')) return false;"
-								render="" />
+								action="#{admin.deleteAllPlans()}"
+								onclick="if (!confirm('Are you sure you want to delete all the plans?')) return false; else toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"							
+								render="deleteAllPlans" />
 							<br />
 			
-							<rich:messages for="cleanUpLoosePlanValues" />
+			
+							<a4j:commandButton id="unlockAllPlans"
+							    value="Unlock all plans" 
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"							
+								action="#{admin.unlockAllPlans()}" render="unlockAllPlans" 
+								/>
+							<br />
 							<a4j:commandButton id="cleanUpLoosePlanValues"
+								value="Clean up loose values of all plans"
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
 								action="#{admin.cleanUpLoosePlanValues()}"
-								value="Clean up loose values of all plans" />
-							<br />
-			
-							<rich:messages for="unlockAllPlans" />
-							<h:commandButton id="unlockAllPlans"
-								action="#{admin.unlockAllPlans()}" value="Unlock all plans" />
-							<br />
+								render="cleanUpLoosePlanValues"/>
+							
 						</fieldset>
 			
 						<fieldset id="unlock">
 							<legend> unlock/delete single plan </legend>
 			
-							<rich:messages for="planId" />
 							<h:outputLabel for="planId" value="planID:" />
 							<h:inputText value="#{admin.planId}" id="planId" />
 							<br />
 			
-							<rich:messages for="unlockPlan" />
 							<a4j:commandButton id="unlockPlan" action="#{admin.unlockPlan()}"
-								value="Unlock plan using id" />
+								value="Unlock plan using id" 
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
+								render="unlockPlan"/>
 							<br />
-							<rich:messages for="clonePlan" />
 							<a4j:commandButton id="clonePlan" action="#{admin.clonePlan()}"
-								value="Clone plan using id" />
+								value="Clone plan using id" 
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
+								render="clonePlan"/>
 							<br />
-							<rich:messages for="deletePlan" />
 							<a4j:commandButton id="deletePlan" action="#{admin.deletePlan()}"
 								value="Delete plan using id"
-								onclick="if (!confirm('Are you sure you want to delete this plan?')) return false" />
+								onclick="if (!confirm('Are you sure you want to delete this plan?')) return false; else toggleLoadingOverlay();this.disabled=true;" 
+							    oncomplete="this.disabled=false;toggleLoadingOverlay();"
+							    render="deletePlan"
+								/>
 						</fieldset>
 						
 				</rich:tab>
 				<rich:tab header="Manage Registries">
 						<fieldset id="manageCriteria">
 							<legend>Decision Criteria</legend>
-							<a4j:commandButton action="#{criteriaManager.reload()}"
-								value="Reload Criteria from XML" status="reloadCriteriaStatus" />
-			
-							<a4j:status name="reloadCriteriaStatus">
-								<f:facet name="start">
-									<h:graphicImage value="/resources/gfx/processing.gif"
-										alt="Processing, please wait...." />
-								</f:facet>
-								<f:facet name="stop">
-								</f:facet>
-							</a4j:status>
+							<a4j:commandButton id="reloadCriteria" action="#{criteriaManager.reload()}"
+								value="Reload Criteria from XML" 
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
+								render="reloadCriteria"/>
 						</fieldset>
 						<fieldset id="manageMinimee">
 							<legend>Minimee</legend>
-							<a4j:commandButton action="#{admin.reloadMinimee()}"
-								value="Reload Minimee actions and tool registries" status="reloadMinimeeStatus" />
+							<a4j:commandButton id="reloadMinimee" action="#{admin.reloadMinimee()}"
+								value="Reload Minimee actions and tool registries" 
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
+								render="reloadMinimee"
+								/>
 			
-							<a4j:status name="reloadMinimeeStatus">
-								<f:facet name="start">
-									<h:graphicImage value="/resources/gfx/processing.gif"
-										alt="Processing, please wait...." />
-								</f:facet>
-								<f:facet name="stop">
-								</f:facet>
-							</a4j:status>
 						</fieldset>
 				
 				</rich:tab>	
@@ -217,14 +197,18 @@
 							<legend> Memory Tests </legend>
 							Attention: Munching too much memory will result in an
 							OutOfMemoryError <br />
-							<rich:messages for="memtestAdd" />
 							<a4j:commandButton id="memtestAdd"
 								action="#{admin.munch500MBofMemory()}"
-								value="Munch 500MB of memory" />
+								value="Munch 500MB of memory"
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+								oncomplete="this.disabled=false;toggleLoadingOverlay();"
+								render="memtestAdd"/>
 							<br />
-							<rich:messages for="memtestRelease" />
 							<a4j:commandButton id="memtestRelease"
-								action="#{admin.releaseMemory()}" value="Release memory" />
+								action="#{admin.releaseMemory()}" value="Release memory" 
+								onclick="toggleLoadingOverlay();this.disabled=true;"
+							    oncomplete="this.disabled=false;toggleLoadingOverlay();"
+							    render="memtestRelease"/>
 						</fieldset>
 						
 				</rich:tab>	
@@ -381,7 +365,6 @@
 						height="16"
 						onclick="#{rich:component('selectImportPanel')}.hide()" />
 				</f:facet>
-				<h:messages />
 
 				<rich:fileUpload id="selectImportFile"
 					fileUploadListener="#{admin.selectImportFile}" addLabel="Select"

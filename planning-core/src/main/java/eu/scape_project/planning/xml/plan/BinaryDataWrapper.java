@@ -37,9 +37,13 @@ public class BinaryDataWrapper implements Serializable {
     private static final long serialVersionUID = 2080538998419720006L;
     
     private static final Base64 decoder = new Base64(PlanXMLConstants.BASE64_LINE_LENGTH, PlanXMLConstants.BASE64_LINE_BREAK);
-    
+
     byte[] value = null;
 
+    /**
+     * The methodName used to set the data to the object on the stack.
+     * By default the method "setData" is used.
+     */
     private String methodName = "setData";
 
     public String getMethodName() {
@@ -70,6 +74,7 @@ public class BinaryDataWrapper implements Serializable {
         try {
             ByteStream data = new ByteStream();
             data.setData(value);
+            data.setSize(value.length);
             Method setData = object.getClass().getMethod(methodName, ByteStream.class);
             setData.invoke(object, new Object[] {data});
         } catch (Exception e) {
@@ -85,8 +90,6 @@ public class BinaryDataWrapper implements Serializable {
      */
     public void setString(Object object) {
         try {
-            ByteStream data = new ByteStream();
-            data.setData(value);
             Method setData = object.getClass().getMethod(methodName, String.class);
             String dataString =  new String(value, PlanXMLConstants.ENCODING_CHARSET).replaceAll("\uFFFD", "");
             setData.invoke(object, new Object[] {dataString});

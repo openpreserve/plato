@@ -39,6 +39,7 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.MemoryTest;
 import eu.scape_project.planning.utils.OS;
+import eu.scape_project.planning.xml.PlanXMLConstants;
 import eu.scape_project.planning.xml.ProjectExportAction;
 import eu.scape_project.planning.xml.ProjectExporter;
 import eu.scape_project.planning.xml.ProjectImporter;
@@ -354,7 +355,7 @@ public class AdminActions implements Serializable {
         List<Plan> plansToImport = new ArrayList<Plan>();
 
         try {
-            plansToImport = projectImporter.importPlans(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+            plansToImport = projectImporter.importPlans(new ByteArrayInputStream(xml.getBytes(PlanXMLConstants.ENCODING)));
         } catch (Exception e) {
             log.error("failed to import plans from xml.", e);
             return 0;

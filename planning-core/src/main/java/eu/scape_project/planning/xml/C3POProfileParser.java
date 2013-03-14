@@ -281,8 +281,8 @@ public class C3POProfileParser {
     private SampleObject parseSample(Element sample) {
 
         String uid = sample.attributeValue("uid");
-        SampleObject object = new SampleObject(uid);
-        object.setFullname(uid);
+        SampleObject sampleObject = new SampleObject(uid);
+        sampleObject.setFullname(uid);
         List<Element> mimes = new ArrayList<Element>();
         List<Element> size = new ArrayList<Element>();
         List<Element> records = sample.elements("record");
@@ -298,21 +298,21 @@ public class C3POProfileParser {
         }
 
         if (mimes.size() > 1) {
-            object.setContentType("Conflict");
+            sampleObject.setContentType("Conflict");
         } else if (mimes.size() == 1) {
             Element mimetype = (Element) mimes.get(0);
-            object.setContentType(mimetype.attributeValue("value"));
+            sampleObject.setContentType(mimetype.attributeValue("value"));
         }
 
         if (size.size() == 1) {
             Element s = (Element) size.get(0);
-            object.setSizeInBytes(Double.parseDouble(s.attributeValue("value")));
+            sampleObject.setSizeInBytes(Long.parseLong(s.attributeValue("value")));
         }
 
-        FormatInfo info = this.getFormatInfo(sample, object.getContentType());
-        object.setFormatInfo(info);
+        FormatInfo info = this.getFormatInfo(sample, sampleObject.getContentType());
+        sampleObject.setFormatInfo(info);
 
-        return object;
+        return sampleObject;
     }
 
     private FormatInfo getFormatInfo(Element sample, String mime) {

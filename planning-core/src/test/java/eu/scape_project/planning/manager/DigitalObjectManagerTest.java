@@ -79,7 +79,7 @@ public class DigitalObjectManagerTest {
         object.setPid("pid");
         object.setFullname("test.txt");
         object.setContentType("text");
-        object.setSizeInBytes(10.5 * 1024 * 1024);
+        object.setSizeInBytes(Math.round(10.5 * 1024 * 1024));
 
         // mock ByteStreamManager
         String content = "This is a test content";

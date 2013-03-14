@@ -83,10 +83,10 @@ public class DigitalObject implements Serializable, ITouchable {
     @Column(length = 2000000)
     protected String fitsXMLString;
 
-    /**
-     * Real size of the upload in Bytes
-     */
-    private double sizeInBytes = 0.0;
+//    /**
+//     * Size of the digital object in bytes.
+//     */
+//    private double sizeInBytes = 0.0;
 
     @OneToOne(cascade = CascadeType.ALL)
     protected XcdlDescription xcdlDescription = null;
@@ -157,7 +157,6 @@ public class DigitalObject implements Serializable, ITouchable {
         fullname = source.getFullname();
         data = source.getData().clone();
         pid = source.getPid();
-        sizeInBytes = source.getSizeInBytes();
         fitsXMLString = source.getFitsXMLString();
         formatInfo.assignValues(source.getFormatInfo());
     }
@@ -251,14 +250,14 @@ public class DigitalObject implements Serializable, ITouchable {
     }
 
     public double getSizeInMB() {
-        return (Math.round(sizeInBytes / (1024.0d * 1024.0d / 100.0d)) / 100.0d);
+        return (Math.round(getSizeInBytes() / (1024.0d * 1024.0d / 100.0d)) / 100.0d);
     }
 
-    public void setSizeInBytes(final double sizeInBytes) {
-        this.sizeInBytes = sizeInBytes;
+    public void setSizeInBytes(final long sizeInBytes) {
+        this.data.setSize(sizeInBytes);
     }
 
-    public double getSizeInBytes() {
-        return sizeInBytes;
+    public long getSizeInBytes() {
+        return data.getSize();
     }
 }
