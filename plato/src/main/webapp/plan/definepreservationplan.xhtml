@@ -11,11 +11,11 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h:outputStylesheet name="css/workflow.css" />
 
-		<h1>Define preservation plan</h1>
+		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div id="anchors">
 			<ul>
 				<li><a href="#costmodel">Estimate of costs</a></li>

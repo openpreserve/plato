@@ -10,10 +10,10 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<ui:define name="title"> SCAPE Planning Suite - Transform Measured Values </ui:define>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 
 	<ui:define name="content">
-		<h1>Transform Measured Values</h1>
+		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div class="wfdescription">
 			The measurements taken in the experiments might all be measured on
 			different scales. In order to make these comparable, they are

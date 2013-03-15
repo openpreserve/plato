@@ -11,12 +11,10 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<ui:define name="title">
-		SCAPE Planning Suite - Define Basis
-	</ui:define>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h:outputStylesheet name="css/workflow.css" />
-		<h1>Define Basis</h1>
+		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div id="anchors">
 			<ul class="anchors">
 				<li class="anchors"><a href="#identification_fieldset"
@@ -90,7 +88,7 @@
 				<p:inputTextArea labelText="Plan description:" id="planDescription"
 					input="#{defineBasis.plan.planProperties.description}"
 					touchable="#{defineBasis.plan.planProperties}" required="true" />
-					
+
 				<p:inputText labelText="Responsible planners:"
 					id="responsiblePlanner"
 					input="#{defineBasis.plan.planProperties.author}"

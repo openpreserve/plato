@@ -11,10 +11,10 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 
-		<h1>Create executable plan</h1>
+		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div class="wfdescription">
 			This step of the workflow defines the triggers for the execution and
 			under what conditions the preservation action will be carried out.
