@@ -13,23 +13,27 @@
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h1>#{viewWorkflow.currentView.name}</h1>
-		<div class="wfdescription">
-			The results of the experiments are evaluated to determine the degree
-			to which the requirements defined in the objective tree were met.
-			Therefore, the leaf objectives defined in the objective tree are
-			evaluated with the defined measurement unit. For each alternative,
-			the outcomes of this stage are measured performance values for each
-			leaf in the objective tree.
-			<div class="more">
-				<a href="../help/workflow.html#evaluate_experiments" target="_blank">more</a>
+		<div class="wfstepinfo">
+			<div class="wfdescription">
+				The results of the experiments are evaluated to determine the degree
+				to which the requirements defined in the objective tree were met.
+				Therefore, the leaf objectives defined in the objective tree are
+				evaluated with the defined measurement unit. For each alternative,
+				the outcomes of this stage are measured performance values for each
+				leaf in the objective tree.
+				<div class="more">
+					<a href="../help/workflow.html#evaluate_experiments"
+						target="_blank">more</a>
+				</div>
 			</div>
+			<p:help url="/plato/help/evaluate.html" text="What is the task here?" />
 		</div>
 
 		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{evalexperiments.changed}"
 				style="display:none" />
 
-			<p:help url="/plato/help/evaluate.html" text="What is the task here?" />
+
 
 			<div class="full-size">
 				<div style="float: right;">

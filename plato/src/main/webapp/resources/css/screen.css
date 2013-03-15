@@ -182,7 +182,6 @@ a.anchors {
 	font-family: Helvetica;
 	font-style: italic;
 	color: #888;
-	
 }
 
 .wfdescription .more {
@@ -195,6 +194,9 @@ a.anchors {
 
 .wfstepinfo {
 	margin-bottom: 25px;
+	/* Force container to size of flow element */
+	overflow: auto;
+	width: 100%
 }
 
 div.size-full {
@@ -811,7 +813,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =             50);
+	filter: alpha(opacity =               50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;

@@ -13,23 +13,23 @@
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
-
 		<h1>#{viewWorkflow.currentView.name}</h1>
-		<div class="wfdescription">
-			This step of the workflow defines the triggers for the execution and
-			under what conditions the preservation action will be carried out.
-			Hard- and software requirements as well as dependencies to other
-			systems are documented. For execution of the preservation plan tool
-			settings and details about the location of the collection on which
-			the action is to be performed are defined.
-			<div class="more">
-				<a href="../help/workflow.html#create_executable_plan"
-					target="_blank">more</a>
+		<div class="wfstepinfo">
+			<div class="wfdescription">
+				This step of the workflow defines the triggers for the execution and
+				under what conditions the preservation action will be carried out.
+				Hard- and software requirements as well as dependencies to other
+				systems are documented. For execution of the preservation plan tool
+				settings and details about the location of the collection on which
+				the action is to be performed are defined.
+				<div class="more">
+					<a href="../help/workflow.html#create_executable_plan"
+						target="_blank">more</a>
+				</div>
 			</div>
+			<p:help text="What exactly is a preservation plan?"
+				url="/plato/help/plan-template.pdf" />
 		</div>
-
-		<p:help text="What exactly is a preservation plan?"
-			url="/plato/help/plan-template.pdf" />
 
 		<h:form id="mainform">
 

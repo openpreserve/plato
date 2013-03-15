@@ -13,25 +13,26 @@
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h1>#{viewWorkflow.currentView.name}</h1>
-		<div class="wfdescription">
-			Not all of the identified objectives are equally important and
-			different degrees of conformance of a solution are accepted in
-			different objectives. This step assigns importance factors to each
-			objective depending on the specific preferences and requirements in
-			the scenario.
-			<div class="more">
-				<a href="../help/workflow.html#set_importance_factors"
-					target="_blank">more</a>
+		<div class="wfstepinfo">
+			<div class="wfdescription">
+				Not all of the identified objectives are equally important and
+				different degrees of conformance of a solution are accepted in
+				different objectives. This step assigns importance factors to each
+				objective depending on the specific preferences and requirements in
+				the scenario.
+				<div class="more">
+					<a href="../help/workflow.html#set_importance_factors"
+						target="_blank">more</a>
+				</div>
 			</div>
+			<p:help url="/plato/help/weights.html"
+				text="How does the automatic balancing work?" />
 		</div>
 
 		<h:form id="mainform">
 			<a4j:queue ignoreDupResponses="true" requestDelay="100" />
 			<h:inputText id="changedflag" value="#{setImportanceFactors.changed}"
 				style="display:none" />
-
-			<p:help url="/plato/help/weights.html"
-				text="How does the automatic balancing work?" />
 
 			<div class="full-size">
 				<h:panelGrid columns="2" border="0">

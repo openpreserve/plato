@@ -14,18 +14,19 @@
 
 	<ui:define name="content">
 		<h1>#{viewWorkflow.currentView.name}</h1>
-		<div class="wfdescription">
-			The measurements taken in the experiments might all be measured on
-			different scales. In order to make these comparable, they are
-			transformed to a uniform scale using transformation functions.
-			<div class="more">
-				<a href="../help/workflow.html#transform_measured_values"
-					target="_blank">more</a>
+		<div class="wfstepinfo">
+			<div class="wfdescription">
+				The measurements taken in the experiments might all be measured on
+				different scales. In order to make these comparable, they are
+				transformed to a uniform scale using transformation functions.
+				<div class="more">
+					<a href="../help/workflow.html#transform_measured_values"
+						target="_blank">more</a>
+				</div>
 			</div>
+			<p:help url="/plato/help/transform.html"
+				text="What is this transformation and how does it work?" />
 		</div>
-
-		<p:help url="/plato/help/transform.html"
-			text="What is this transformation and how does it work?" />
 
 		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{transform.changed}"
