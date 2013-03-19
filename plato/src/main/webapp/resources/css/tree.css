@@ -1,0 +1,82 @@
+.tree-node {
+	clear: both;
+	border: 1px solid #DDDDDD;
+	margin: -1px;
+	text-decoration: none;
+}
+
+.tree-cell {
+	float: left;
+	vertical-align: middle;
+	height: 100%;
+}
+
+.tree-cell input {
+	margin: 0px;
+	width: 95%;
+}
+
+.tree-nodename {
+	width: 42%;
+}
+
+.tree-header .tree-nodename {
+	font-weight: bold;
+}
+
+.tree-nodeinfo {
+	float: right;
+	width: 500px;
+}
+
+.tree-header .tree-nodeinfo {
+	font-weight: bold;
+}
+
+.resultdiag-bar {
+	border: 1px solid #DDDDDD;
+	width: 250px;
+	height: 10px;
+}
+
+.resultdiag-bar img {
+	height: 10px;
+}
+
+.resultdiag-name {
+	width: 80%;
+}
+
+.resultdiag-value {
+	min-width: 30px;
+}
+
+.resultdiag-graph {
+	width: 253px;
+}
+
+#content div.treetable_nodeInfo_imp {
+	float: right;
+	width: 690px;
+}
+
+#content div.treetable_nodeInfo_imp div.treetable_cell input {
+	width: 30px;
+}
+
+.tree-nodedesc {
+	white-space: normal;
+	width: 90%;
+}
+
+.tree-node.sensitiveNode {
+	background-color: #FFCC66;
+}
+
+.tree-node.sensitiveNodeChildren {
+	background-color: #FFFFCC;
+}
+
+div.rf-trn,div.rf-tr-nd {
+	background: none;
+}

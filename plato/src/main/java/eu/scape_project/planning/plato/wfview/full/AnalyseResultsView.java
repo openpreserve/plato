@@ -26,8 +26,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
@@ -45,20 +43,27 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 import eu.scape_project.planning.utils.Downloader;
 
+import org.slf4j.Logger;
+
+/**
+ * View bean for the workflow step analyse results.
+ */
 @Named("analyseResults")
 @ConversationScoped
 public class AnalyseResultsView extends AbstractView {
     private static final long serialVersionUID = 1L;
 
-    @Inject private Logger log;
+    @Inject
+    private Logger log;
 
-    @Inject private AnalyseResults analyseResults;
+    @Inject
+    private AnalyseResults analyseResults;
 
-    @Inject private Downloader downloader;
+    @Inject
+    private Downloader downloader;
 
-    @Inject  private ByteStreamManager bytestreamManager;
-    
-
+    @Inject
+    private ByteStreamManager bytestreamManager;
 
     @Inject
     private TreeHelperBean policytreeHelper;
@@ -66,7 +71,6 @@ public class AnalyseResultsView extends AbstractView {
     private TreeHelperBean requirementstreeHelper;
     @Inject
     private TreeHelperBean resultstreeHelper;
-
 
     /**
      * Variable encapsulating the PolicyTree-Root in a list. This is required,
@@ -83,13 +87,13 @@ public class AnalyseResultsView extends AbstractView {
     private List<TreeNode> requirementsRoots;
 
     /**
-     * List of leaves containing result- and transformed-values
+     * List of leaves containing result- and transformed-values.
      */
     private List<ReportLeaf> leafBeans;
 
     /**
      * Alternatives which did not produce a knock-out(=evaluate to 0) and
-     * therefore can be choosen as recommened one.
+     * therefore can be chosen as recommended one.
      */
     private List<Alternative> acceptableAlternatives;
 
@@ -106,6 +110,11 @@ public class AnalyseResultsView extends AbstractView {
      * variable requires a list to work properly.
      */
     private List<ResultNode> aggMultResultNodes;
+
+    /**
+     * Indicates whether there are knocked out alternatives present.
+     */
+    private boolean knockedoutAlternativePresent;
 
     /**
      * Indicates if all considered alternatives should be shown in the weighted
@@ -125,6 +134,9 @@ public class AnalyseResultsView extends AbstractView {
      */
     private String recommendedAlternativeAsString;
 
+    /**
+     * Creates a new object.
+     */
     public AnalyseResultsView() {
         currentPlanState = PlanState.WEIGHTS_SET;
         name = "Analyse Results";
@@ -137,11 +149,18 @@ public class AnalyseResultsView extends AbstractView {
         acceptableAlternatives = new ArrayList<Alternative>();
         aggSumResultNodes = new ArrayList<ResultNode>();
         aggMultResultNodes = new ArrayList<ResultNode>();
+        knockedoutAlternativePresent = true;
         showAllConsideredAlternativesForWeightedSum = false;
         weightedSumResultTreeShownAlternatives = new ArrayList<Alternative>();
         recommendedAlternativeAsString = "";
     }
 
+    /**
+     * Initialises this object with data from the provided plan.
+     * 
+     * @param plan
+     *            the plan to initialise with
+     */
     public void init(Plan plan) {
         super.init(plan);
 
@@ -168,14 +187,17 @@ public class AnalyseResultsView extends AbstractView {
         acceptableAlternatives = plan.getAcceptableAlternatives();
 
         aggMultResultNodes.clear();
-        aggMultResultNodes.add(
-            new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives()));
+        aggMultResultNodes.add(new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan
+            .getAlternativesDefinition().getConsideredAlternatives()));
 
         aggSumResultNodes.clear();
         // calculate result nodes for all considered alternatives
-        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan
+            .getAlternativesDefinition().getConsideredAlternatives());
         aggSumResultNodes.add(sumResultNode);
 
+        knockedoutAlternativePresent = acceptableAlternatives.size() != plan.getAlternativesDefinition()
+            .getConsideredAlternatives().size();
         showAllConsideredAlternativesForWeightedSum = false;
         weightedSumResultTreeShownAlternatives = acceptableAlternatives;
 
@@ -200,7 +222,7 @@ public class AnalyseResultsView extends AbstractView {
         } else {
             log.error("Failed to retrieve object: " + object.getPid());
         }
-    }    
+    }
 
     /**
      * Method responsible for turning changelog-display on/off.
@@ -215,11 +237,9 @@ public class AnalyseResultsView extends AbstractView {
      */
     public void switchShowAllConsideredAlternativesForWeightedSum() {
         if (showAllConsideredAlternativesForWeightedSum) {
-            showAllConsideredAlternativesForWeightedSum = false;
-            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
-        } else {
-            showAllConsideredAlternativesForWeightedSum = true;
             weightedSumResultTreeShownAlternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
+        } else {
+            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
         }
     }
 
@@ -287,6 +307,10 @@ public class AnalyseResultsView extends AbstractView {
         return aggMultResultNodes;
     }
 
+    public boolean isKnockedoutAlternativePresent() {
+        return knockedoutAlternativePresent;
+    }
+
     public boolean isShowAllConsideredAlternativesForWeightedSum() {
         return showAllConsideredAlternativesForWeightedSum;
     }
@@ -319,4 +343,5 @@ public class AnalyseResultsView extends AbstractView {
     public TreeHelperBean getResultstreeHelper() {
         return resultstreeHelper;
     }
+
 }

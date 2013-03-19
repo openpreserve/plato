@@ -1,0 +1,75 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<cc:interface>
+	<cc:attribute name="id" default="resulttree" />
+	<cc:attribute name="treeHelper" required="true" />
+	<cc:attribute name="rootNode" required="true" />
+	<cc:attribute name="alternatives" required="true" />
+	<cc:attribute name="toggleType" default="ajax" />
+	<cc:attribute name="nodestyle" />
+	<cc:facet name="panel" />
+	<cc:facet name="nodedesc" />
+</cc:interface>
+
+<cc:implementation>
+	<div class="margin-bottom-huge">
+		<h:form id="#{cc.attrs.id}_form">
+			<div id="#{cc.attrs.id}_panel" class="tree-panel">
+				<cc:renderFacet name="panel" />
+			</div>
+			<div id="#{cc.attrs.id}_treeheader" class="tree-header">
+				<div class="tree-cell tree-nodename">Node</div>
+				<div class="tree-cell tree-nodeinfo">Results</div>
+			</div>
+			<div id="#{cc.attrs.id}_treecontent" class="tree-content">
+				<rich:tree var="node" toggleType="#{cc.attrs.toogleType}">
+					<rich:treeModelRecursiveAdaptor roots="#{cc.attrs.rootNode}"
+						nodes="#{node.children}" leaf="#{node.leaf}">
+						<rich:treeNode
+							expanded="#{cc.attrs.treeHelper.expandedNodes[node]}"
+							styleClass="tree-node #{cc.attrs.usenodestyle ? node.style : ''}">
+							<div class="tree-cell tree-nodename">
+								<a4j:outputPanel layout="block" rendered="#{node.leaf}">
+									<a href="#results#{node.id}"><h:outputText
+											value="#{node.name}" /></a>
+								</a4j:outputPanel>
+								<h:outputText value="#{node.name}" rendered="#{not node.leaf}" />
+
+								<a4j:outputPanel styleClass="tree-nodedesc" layout="block"
+									rendered="#{not empty cc.facets.nodedesc}">
+									<cc:renderFacet name="nodedesc" />
+								</a4j:outputPanel>
+							</div>
+							<div class="tree-cell tree-nodeinfo">
+								<table class="resultdiag-table">
+									<a4j:repeat value="#{cc.attrs.alternatives}" var="a"
+										rowKeyVar="i">
+										<tr>
+											<td class="resultdiag-name"><h:outputText
+													value="#{a.name}" /></td>
+											<td class="resultdiag-value"><h:outputText
+													value="#{node.resultStrings[a.name]}" /></td>
+											<td class="resultdiag-graph"><div class="resultdiag-bar">
+													<h:graphicImage library="gfx"
+														name="chart/chart-bar#{i}.jpg"
+														width="#{50 * node.results[a.name]}"
+														alt="#{node.results[a.name]}" />
+												</div></td>
+										</tr>
+									</a4j:repeat>
+								</table>
+							</div>
+						</rich:treeNode>
+					</rich:treeModelRecursiveAdaptor>
+				</rich:tree>
+			</div>
+		</h:form>
+	</div>
+</cc:implementation>
+</html>
