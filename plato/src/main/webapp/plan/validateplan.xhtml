@@ -14,6 +14,7 @@
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h:outputStylesheet name="css/workflow.css" />
+		<h:outputStylesheet name="css/tree.css" />
 		<h1>
 			<h:outputText
 				value="Validate plan for #{validatePlan.plan.planProperties.name}" />
@@ -41,7 +42,7 @@
 
 			<h:form>
 				<div id="future_in_menu_bar"></div>
-				<h:commandButton 
+				<h:commandButton
 					value="#{validatePlan.displayChangelogs? 'Hide' : 'Show' } Changelogs"
 					action="#{validatePlan.switchDisplayChangelogs}" />
 			</h:form>
@@ -94,27 +95,27 @@
 		<a4j:outputPanel layout="inline" id="planChangelog">
 			<a4j:outputPanel layout="block"
 				rendered="#{validatePlan.displayChangelogs}">
-			<table class="table-small">
-				<tr>
-					<th width="80px" class="tableStyle-header"></th>
-					<th width="160px" class="tableStyle-header">Date</th>
-					<th width="160px" class="tableStyle-header">User</th>
-				</tr>
-				<tr>
-					<td>Created</td>
-					<td><h:outputText
-							value="#{validatePlan.plan.planProperties.changeLog.createdString}" /></td>
-					<td><h:outputText
-							value="#{validatePlan.plan.planProperties.changeLog.createdBy}" /></td>
-				</tr>
-				<tr>
-					<td>Changed</td>
-					<td><h:outputText
-							value="#{validatePlan.plan.planProperties.changeLog.changedString}" /></td>
-					<td><h:outputText
-							value="#{validatePlan.plan.planProperties.changeLog.changedBy}" /></td>
-				</tr>
-			</table>
+				<table class="table-small">
+					<tr>
+						<th width="80px" class="tableStyle-header"></th>
+						<th width="160px" class="tableStyle-header">Date</th>
+						<th width="160px" class="tableStyle-header">User</th>
+					</tr>
+					<tr>
+						<td>Created</td>
+						<td><h:outputText
+								value="#{validatePlan.plan.planProperties.changeLog.createdString}" /></td>
+						<td><h:outputText
+								value="#{validatePlan.plan.planProperties.changeLog.createdBy}" /></td>
+					</tr>
+					<tr>
+						<td>Changed</td>
+						<td><h:outputText
+								value="#{validatePlan.plan.planProperties.changeLog.changedString}" /></td>
+						<td><h:outputText
+								value="#{validatePlan.plan.planProperties.changeLog.changedBy}" /></td>
+					</tr>
+				</table>
 			</a4j:outputPanel>
 		</a4j:outputPanel>
 
@@ -122,8 +123,8 @@
 		<ul class="anchors">
 			<li class="anchors"><a href="#identification" class="anchors">Identification
 					and Status</a></li>
-			<li class="anchors"><a href="#institutionalsetting" class="anchors">Institutional
-					Setting</a></li>
+			<li class="anchors"><a href="#institutionalsetting"
+				class="anchors">Institutional Setting</a></li>
 			<li class="anchors"><a href="#samplerecords" class="anchors">Collection
 					and Sample Records</a></li>
 
@@ -208,8 +209,7 @@
 
 		<h:form id="policytreeform">
 			<ui:include src="/plato/shared/policytree.xhtml">
-				<ui:param name="treeHelper"
-					value="#{validatePlan.policytreeHelper}" />
+				<ui:param name="treeHelper" value="#{validatePlan.policytreeHelper}" />
 				<ui:param name="policyTree"
 					value="#{validatePlan.plan.projectBasis.policyTree}" />
 				<ui:param name="policyRoot" value="#{validatePlan.policyRoots}" />
@@ -218,27 +218,27 @@
 		<a4j:outputPanel layout="inline" id="basisChangelog">
 			<a4j:outputPanel layout="block"
 				rendered="#{validatePlan.displayChangelogs}">
-			<table class="table-small">
-				<tr>
-					<th width="80px" class="tableStyle-header"></th>
-					<th width="160px" class="tableStyle-header">Date</th>
-					<th width="160px" class="tableStyle-header">User</th>
-				</tr>
-				<tr>
-					<td>Created</td>
-					<td><h:outputText
-							value="#{validatePlan.plan.projectBasis.changeLog.createdString}" /></td>
-					<td><h:outputText
-							value="#{validatePlan.plan.projectBasis.changeLog.createdBy}" /></td>
-				</tr>
-				<tr>
-					<td>Changed</td>
-					<td><h:outputText
-							value="#{validatePlan.plan.projectBasis.changeLog.changedString}" /></td>
-					<td><h:outputText
-							value="#{validatePlan.plan.projectBasis.changeLog.changedBy}" /></td>
-				</tr>
-			</table>
+				<table class="table-small">
+					<tr>
+						<th width="80px" class="tableStyle-header"></th>
+						<th width="160px" class="tableStyle-header">Date</th>
+						<th width="160px" class="tableStyle-header">User</th>
+					</tr>
+					<tr>
+						<td>Created</td>
+						<td><h:outputText
+								value="#{validatePlan.plan.projectBasis.changeLog.createdString}" /></td>
+						<td><h:outputText
+								value="#{validatePlan.plan.projectBasis.changeLog.createdBy}" /></td>
+					</tr>
+					<tr>
+						<td>Changed</td>
+						<td><h:outputText
+								value="#{validatePlan.plan.projectBasis.changeLog.changedString}" /></td>
+						<td><h:outputText
+								value="#{validatePlan.plan.projectBasis.changeLog.changedBy}" /></td>
+					</tr>
+				</table>
 			</a4j:outputPanel>
 		</a4j:outputPanel>
 
@@ -345,32 +345,32 @@
 			<a4j:outputPanel layout="inline" id="collectionChangelog">
 				<a4j:outputPanel layout="block"
 					rendered="#{validatePlan.displayChangelogs}">
-				<tr>
-					<td><strong>Changelog:</strong></td>
-					<td>
-						<table class="table-small">
-							<tr>
-								<th width="80px" class="tableStyle-header"></th>
-								<th width="160px" class="tableStyle-header">Date</th>
-								<th width="160px" class="tableStyle-header">User</th>
-							</tr>
-							<tr>
-								<td>Created</td>
-								<td><h:outputText
-										value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.createdString}" /></td>
-								<td><h:outputText
-										value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.createdBy}" /></td>
-							</tr>
-							<tr>
-								<td>Changed</td>
-								<td><h:outputText
-										value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.changedString}" /></td>
-								<td><h:outputText
-										value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.changedBy}" /></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
+					<tr>
+						<td><strong>Changelog:</strong></td>
+						<td>
+							<table class="table-small">
+								<tr>
+									<th width="80px" class="tableStyle-header"></th>
+									<th width="160px" class="tableStyle-header">Date</th>
+									<th width="160px" class="tableStyle-header">User</th>
+								</tr>
+								<tr>
+									<td>Created</td>
+									<td><h:outputText
+											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.createdString}" /></td>
+									<td><h:outputText
+											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.createdBy}" /></td>
+								</tr>
+								<tr>
+									<td>Changed</td>
+									<td><h:outputText
+											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.changedString}" /></td>
+									<td><h:outputText
+											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.changedBy}" /></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
 				</a4j:outputPanel>
 			</a4j:outputPanel>
 		</fieldset>
@@ -421,7 +421,8 @@
 						<f:facet name="header">
 							<h:outputText value="Data" />
 						</f:facet>
-						<h:outputText value="No data" rendered="#{not sample.dataExistent}" />
+						<h:outputText value="No data"
+							rendered="#{not sample.dataExistent}" />
 						<h:outputText value="Data existent (#{sample.data.size}B)"
 							rendered="#{sample.dataExistent}" />
 					</h:column>
@@ -484,14 +485,14 @@
 		<div id="menu" class="menu-step">
 			<h2>Requirements &amp; Weighting</h2>
 		</div>
-		<a4j:outputPanel layout="block" styleClass="center-position" id="requirements">
+		<a4j:outputPanel layout="block" styleClass="center-position"
+			id="requirements">
 			<ui:include src="/plato/shared/treeSummary.xhtml">
 				<ui:param name="treeHelper"
 					value="#{validatePlan.requirementstreeHelper}" />
-				<ui:param name="rootNode"
-					value="#{validatePlan.requirementsRoots}" />
+				<ui:param name="rootNode" value="#{validatePlan.requirementsRoots}" />
 				<ui:param name="displayChangelogs"
-					value="#{analyseResults.displayChangelogs}" />
+					value="#{validatePlan.displayChangelogs}" />
 			</ui:include>
 		</a4j:outputPanel>
 
@@ -686,20 +687,22 @@
 		<div id="menu" class="menu-step">
 			<h2>Evaluation &amp; Transformation</h2>
 		</div>
-		
+
 		<div class="center-position">
 			<h:form id="evalTransformForm">
 
-				<a4j:commandButton 
+				<a4j:commandButton
 					value="#{validatePlan.displayEvalTransform? 'Hide' : 'Show'} Evaluation &amp; Transformation"
-					action="#{validatePlan.switchDisplayEvalTransform}" render="evalTransformForm"/>
+					action="#{validatePlan.switchDisplayEvalTransform}"
+					render="evalTransformForm" />
 
 				<ui:fragment rendered="#{validatePlan.displayEvalTransform}">
-				
+
 					<ui:repeat value="#{validatePlan.leafBeans}" var="bean">
 						<a name="results#{bean.leaf.id}" />
 						<h3>
-							<h:outputText value="#{bean.leaf.parent.name} > #{bean.leaf.name}" />
+							<h:outputText
+								value="#{bean.leaf.parent.name} > #{bean.leaf.name}" />
 						</h3>
 
 						<!-- TABLE LAYOUT! -->
@@ -907,83 +910,85 @@
 			</h:form>
 
 			<!-- ********** results weighted multiplication ********** -->
-	
+
 			<a name="resultsMult" />
-	
-	
-			<p:help text="How do the aggregation mechanisms work?"	url="/plato/help/aggregation.html" />
+			<p:help text="How do the aggregation mechanisms work?"
+				url="/plato/help/aggregation.html" />
 			<div id="menu" class="menu-step">
 				<h2>Results: Weighted multiplication</h2>
 			</div>
+
 			<div class="center-position">
-				<small>Result-Tree with all Alternatives, Aggregation method: Weighted multiplication</small>
+				<p:resultTree id="weightedMultResultsTree"
+					treeHelper="#{validatePlan.resultstreeHelper}"
+					rootNode="#{validatePlan.aggMultResultNodes}"
+					alternatives="#{validatePlan.plan.alternativesDefinition.consideredAlternatives}"
+					toggleType="client">
+					<f:facet name="panel">
+						<small>Result-Tree with all Alternatives, Aggregation
+							method: Weighted multiplication</small>
+					</f:facet>
+				</p:resultTree>
 			</div>
-	
-			<div class="center-position">
-				<ui:include src="/plato/shared/resultTree.xhtml">
-					<ui:param name="treeHelper"
-						value="#{validatePlan.resultstreeHelper}" />
-					<ui:param name="rootNode"
-						value="#{validatePlan.aggMultResultNodes}" />
-					<ui:param name="alternatives"
-						value="#{validatePlan.plan.alternativesDefinition.consideredAlternatives}" />
-				</ui:include>
-			</div>
-	
-			
-			<!-- ********** results weighted multiplication ********** -->
-	
+
+
+			<!-- ********** results weighted sum ********** -->
 			<a name="resultsSum" />
-	
 			<div id="menu" class="menu-step">
 				<h2>Results: Weighted sum</h2>
 			</div>
-	
-			<a4j:outputPanel layout="block" id="weightedSumResults"	styleClass="center-position">
-				<small> Result-Tree with all Alternatives, Aggregation method: Weighted sum <h:form>
-						<a4j:commandButton value="Hide rejected alternatives"
-							action="#{validatePlan.switchShowAllConsideredAlternativesForWeightedSum()}"
-							rendered="#{validatePlan.showAllConsideredAlternativesForWeightedSum}"
-							render="weightedSumResults" />
-						<a4j:outputPanel layout="block"
-							rendered="#{!validatePlan.showAllConsideredAlternativesForWeightedSum}">
-							<b>Only strategies that do not have knock-out evaluation criteria are shown; see above</b>
-							<br />
-							<a4j:commandButton value="Show all alternatives"
-								action="#{validatePlan.switchShowAllConsideredAlternativesForWeightedSum()}"
-								render="weightedSumResults" />
-						</a4j:outputPanel>
-					</h:form>
-				</small>
-	
+
+			<a4j:outputPanel layout="block" id="weightedSumResults"
+				styleClass="center-position">
 				<a4j:outputPanel layout="block"
 					rendered="#{empty validatePlan.acceptableAlternatives}"
 					styleClass="requiredIndicator">
-		            None of the considered
-		            alternatives have achieved acceptable values - all of them exhibit an
-		            unacceptable performance for at least one aspect of the requirements
-		            tree. However, to create a preservation plan, a feasible course of
-		            action is needed. You may want to reconsider your acceptable
-		            threshold settings in the Transformation step. You can do so by
-		            returning to that step and changing your settings, and then continue
-		            with the workflow.
-			    </a4j:outputPanel>
-	
+	            None of the considered
+	            alternatives have achieved acceptable values - all of them exhibit an
+	            unacceptable performance for at least one aspect of the requirements
+	            tree. However, to create a preservation plan, a feasible course of
+	            action is needed. You may want to reconsider your acceptable
+	            threshold settings in the Transformation step. You can do so by
+	            returning to that step and changing your settings, and then continue
+	            with the workflow.
+		    </a4j:outputPanel>
+
 				<a4j:outputPanel layout="block"
 					rendered="#{validatePlan.showAllConsideredAlternativesForWeightedSum or not empty validatePlan.acceptableAlternatives}">
-					<ui:include src="/plato/shared/resultTree.xhtml">
-						<ui:param name="treeHelper"
-							value="#{validatePlan.resultstreeHelper}" />
-						<ui:param name="rootNode"
-							value="#{validatePlan.aggSumResultNodes}" />
-						<ui:param name="alternatives"
-							value="#{validatePlan.weightedSumResultTreeShownAlternatives}" />
-					</ui:include>
+					<p:resultTree id="weightedSumResultsTree"
+						treeHelper="#{validatePlan.resultstreeHelper}"
+						rootNode="#{validatePlan.aggSumResultNodes}"
+						alternatives="#{validatePlan.weightedSumResultTreeShownAlternatives}">
+						<f:facet name="panel">
+							<div>
+								<small> <a4j:outputPanel layout="block"
+										rendered="#{!validatePlan.knockedoutAlternativePresent or validatePlan.showAllConsideredAlternativesForWeightedSum}">
+								Result-Tree with all alternatives, Aggregation
+									method: Weighted sum
+								</a4j:outputPanel> <a4j:outputPanel layout="block"
+										rendered="#{validatePlan.knockedoutAlternativePresent and !validatePlan.showAllConsideredAlternativesForWeightedSum}">
+								Result-Tree with alternatives without knock-out
+									evaluation criteria, Aggregation method: Weighted sum
+							</a4j:outputPanel> <a4j:outputPanel layout="block"
+										rendered="#{validatePlan.knockedoutAlternativePresent}">
+										<h:selectBooleanCheckbox
+											value="#{validatePlan.showAllConsideredAlternativesForWeightedSum}">
+											<a4j:ajax event="click"
+												listener="#{validatePlan.switchShowAllConsideredAlternativesForWeightedSum()}"
+												render="weightedSumResults" />
+										</h:selectBooleanCheckbox>
+								Show all alternatives
+							</a4j:outputPanel>
+								</small>
+							</div>
+						</f:facet>
+					</p:resultTree>
 				</a4j:outputPanel>
-			</a4j:outputPanel>		
+			</a4j:outputPanel>
 
 		</div>
-		
+
+
 		<a name="conclusion" />
 		<div id="menu" class="menu-step">
 			<h2>Conclusion and Decision for Preservation Strategy</h2>

@@ -898,17 +898,18 @@
 		<div id="menu" class="menu-step">
 			<h2>Results: Weighted multiplication</h2>
 		</div>
-		<div class="center-position">
-			<small>Result-Tree with all Alternatives, Aggregation method:
-				Weighted multiplication</small>
-		</div>
 
 		<div class="center-position">
 			<p:resultTree id="weightedMultResultsTree"
 				treeHelper="#{analyseResults.resultstreeHelper}"
 				rootNode="#{analyseResults.aggMultResultNodes}"
 				alternatives="#{analyseResults.plan.alternativesDefinition.consideredAlternatives}"
-				toggleType="client" />
+				toggleType="client">
+				<f:facet name="panel">
+					<small>Result-Tree with all Alternatives, Aggregation
+						method: Weighted multiplication</small>
+				</f:facet>
+			</p:resultTree>
 		</div>
 
 		<!-- ********** results weighted sum ********** -->

@@ -29,13 +29,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Alternative;
@@ -57,67 +50,88 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 import eu.scape_project.planning.utils.Downloader;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+
 @Named("validatePlan")
 @ConversationScoped
 public class ValidatePlanView extends AbstractView {
     private static final long serialVersionUID = 8505584799409203390L;
 
-    @Inject private Logger log;
+    @Inject
+    private Logger log;
 
-    @Inject private User user;
-    @Inject private ValidatePlan validatePlan;
+    @Inject
+    private User user;
+    @Inject
+    private ValidatePlan validatePlan;
 
-    @Inject private Downloader downloader;
-    @Inject  private ByteStreamManager bytestreamManager;
-    
-    @Inject private TreeHelperBean policytreeHelper;
-    @Inject private TreeHelperBean requirementstreeHelper;
-    @Inject private TreeHelperBean resultstreeHelper;
-    
-    
-    
+    @Inject
+    private Downloader downloader;
+    @Inject
+    private ByteStreamManager bytestreamManager;
+
+    @Inject
+    private TreeHelperBean policytreeHelper;
+    @Inject
+    private TreeHelperBean requirementstreeHelper;
+    @Inject
+    private TreeHelperBean resultstreeHelper;
+
     /**
-     * Variable encapsulating the PolicyTree-Root in a list.
-     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
+     * Variable encapsulating the PolicyTree-Root in a list. This is required,
+     * because <rich:treeModelRecursiveAdaptor> root variable requires a list to
+     * work properly.
      */
     private List<PolicyNode> policyRoots;
-    
-    /**
-     * Variable encapsulating the RequirementsTree-Root in a list.
-     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
-     */
-    private List<TreeNode> requirementsRoots;    
 
+    /**
+     * Variable encapsulating the RequirementsTree-Root in a list. This is
+     * required, because <rich:treeModelRecursiveAdaptor> root variable requires
+     * a list to work properly.
+     */
+    private List<TreeNode> requirementsRoots;
 
     private String repositoryUsername;
     private String repositoryPassword;
 
     private boolean displayChangelogs;
     private boolean displayEvalTransform;
-    private boolean showAllAlternatives;
+    // private boolean showAllAlternatives;
     /**
      * for display on the page.
      */
     private String planetsExecutablePlanPrettyFormat = "";
-    
+
     private Map<Trigger, String> selectedTriggers;
-    
+
     private Map<Trigger, String> reevalSelectedTriggers;
-    
+
     private List<ReportLeaf> leafBeans;
-    
+
     /**
      * Variable encapsulating the aggregated sum result tree-Root in a list.
-     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly.
+     * This is required, because <rich:treeModelRecursiveAdaptor> root variable
+     * requires a list to work properly.
      */
     private List<ResultNode> aggSumResultNodes;
-    
+
     /**
-     * Variable encapsulating the aggregated multiplication result tree-Root in a list.
-     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly.
+     * Variable encapsulating the aggregated multiplication result tree-Root in
+     * a list. This is required, because <rich:treeModelRecursiveAdaptor> root
+     * variable requires a list to work properly.
      */
     private List<ResultNode> aggMultResultNodes;
-    
+
+    /**
+     * Indicates whether there are knocked out alternatives present.
+     */
+    private boolean knockedoutAlternativePresent;
+
     /**
      * Indicates if all considered alternatives should be shown in the weighted
      * sum result tree.
@@ -128,7 +142,6 @@ public class ValidatePlanView extends AbstractView {
      * Alternatives showed in weighted sum result tree.
      */
     private List<Alternative> weightedSumResultTreeShownAlternatives;
-    
 
     public ValidatePlanView() {
         currentPlanState = PlanState.PLAN_DEFINED;
@@ -141,6 +154,7 @@ public class ValidatePlanView extends AbstractView {
         acceptableAlternatives = new ArrayList<Alternative>();
         aggSumResultNodes = new ArrayList<ResultNode>();
         aggMultResultNodes = new ArrayList<ResultNode>();
+        knockedoutAlternativePresent = true;
         showAllConsideredAlternativesForWeightedSum = false;
         weightedSumResultTreeShownAlternatives = new ArrayList<Alternative>();
     }
@@ -177,18 +191,20 @@ public class ValidatePlanView extends AbstractView {
         acceptableAlternatives = plan.getAcceptableAlternatives();
 
         aggMultResultNodes.clear();
-        aggMultResultNodes.add(
-            new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives()));
-        
+        aggMultResultNodes.add(new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan
+            .getAlternativesDefinition().getConsideredAlternatives()));
+
+        knockedoutAlternativePresent = acceptableAlternatives.size() != plan.getAlternativesDefinition()
+            .getConsideredAlternatives().size();
         showAllConsideredAlternativesForWeightedSum = false;
         weightedSumResultTreeShownAlternatives = acceptableAlternatives;
 
         aggSumResultNodes.clear();
         // calculate result nodes for all considered alternatives
-        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
-        aggSumResultNodes.add(sumResultNode);        
+        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan
+            .getAlternativesDefinition().getConsideredAlternatives());
+        aggSumResultNodes.add(sumResultNode);
 
-        
         planetsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition().getExecutablePlan());
 
         if (user.getUserGroup().getRepository() != null) {
@@ -208,9 +224,9 @@ public class ValidatePlanView extends AbstractView {
         displayChangelogs = !displayChangelogs;
     }
 
-    public void switchShowAllAlternatives() {
-        showAllAlternatives = !showAllAlternatives;
-    }
+    // public void switchShowAllAlternatives() {
+    // showAllAlternatives = !showAllAlternatives;
+    // }
 
     public void switchDisplayEvalTransform() {
         displayEvalTransform = !displayEvalTransform;
@@ -249,7 +265,7 @@ public class ValidatePlanView extends AbstractView {
 
             return sw.toString();
 
-        } catch (DocumentException e) { 
+        } catch (DocumentException e) {
             return "";
         } catch (IOException e) {
             return "";
@@ -258,10 +274,9 @@ public class ValidatePlanView extends AbstractView {
 
     private List<Alternative> acceptableAlternatives = new ArrayList<Alternative>();
 
-
-    public boolean isShowAllAlternatives() {
-        return showAllAlternatives;
-    }
+    // public boolean isShowAllAlternatives() {
+    // return showAllAlternatives;
+    // }
 
     public List<ReportLeaf> getLeafBeans() {
         return leafBeans;
@@ -316,9 +331,8 @@ public class ValidatePlanView extends AbstractView {
         } else {
             log.error("Failed to retrieve object: " + object.getPid());
         }
-    }    
-    
-    
+    }
+
     @Override
     protected AbstractWorkflowStep getWfStep() {
         return validatePlan;
@@ -351,17 +365,16 @@ public class ValidatePlanView extends AbstractView {
     public void setUser(User user) {
         this.user = user;
     }
+
     /**
-     * Switches listed weighted sum alternatives between
-     * all considered and all acceptable.
+     * Switches listed weighted sum alternatives between all considered and all
+     * acceptable.
      */
     public void switchShowAllConsideredAlternativesForWeightedSum() {
         if (showAllConsideredAlternativesForWeightedSum) {
-            showAllConsideredAlternativesForWeightedSum = false;
-            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
-        } else {
-            showAllConsideredAlternativesForWeightedSum = true;
             weightedSumResultTreeShownAlternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
+        } else {
+            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
         }
     }
 
@@ -376,11 +389,11 @@ public class ValidatePlanView extends AbstractView {
     public List<TreeNode> getRequirementsRoots() {
         return requirementsRoots;
     }
-    
+
     public List<PolicyNode> getPolicyRoots() {
         return policyRoots;
     }
-    
+
     public List<ResultNode> getAggSumResultNodes() {
         return aggSumResultNodes;
     }
@@ -389,11 +402,20 @@ public class ValidatePlanView extends AbstractView {
         return aggMultResultNodes;
     }
 
+    public boolean isKnockedoutAlternativePresent() {
+        return knockedoutAlternativePresent;
+    }
+
     public boolean isShowAllConsideredAlternativesForWeightedSum() {
         return showAllConsideredAlternativesForWeightedSum;
     }
+
+    public void setShowAllConsideredAlternativesForWeightedSum(boolean showAllConsideredAlternativesForWeightedSum) {
+        this.showAllConsideredAlternativesForWeightedSum = showAllConsideredAlternativesForWeightedSum;
+    }
+
     public List<Alternative> getWeightedSumResultTreeShownAlternatives() {
         return weightedSumResultTreeShownAlternatives;
     }
-    
+
 }
