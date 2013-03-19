@@ -74,15 +74,16 @@ public class DigitalObjectManagerTest {
 
     @Test
     public void getCopyOfDataFilledDigitalObject_worksAsExpected() throws StorageException {
+        String content = "This is a test content";
+
         // input object
         DigitalObject object = new DigitalObject();
         object.setPid("pid");
         object.setFullname("test.txt");
         object.setContentType("text");
-        object.setSizeInBytes(Math.round(10.5 * 1024 * 1024));
+        object.getData().setData(content.getBytes());
 
         // mock ByteStreamManager
-        String content = "This is a test content";
         ByteStreamManager byteStreamManager = mock(ByteStreamManager.class);
         when(byteStreamManager.load("pid")).thenReturn(content.getBytes());
 
@@ -97,6 +98,6 @@ public class DigitalObjectManagerTest {
         assertEquals("pid", resultObject.getPid());
         assertEquals("test.txt", resultObject.getFullname());
         assertEquals("text", resultObject.getContentType());
-        assertTrue(resultObject.getSizeInMB() == 10.5);
+        assertEquals(content.length(), resultObject.getSizeInBytes());
     }
 }
