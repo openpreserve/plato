@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.AnalyseResults;
@@ -72,28 +71,10 @@ public class FTAnalyseResults extends AbstractWorkflowStep {
     /**
      * Method delegating the BL execution to AnalyseResults.
      * 
-     * @see AnalyseResults#getAggregatedMultiplicationResultNode()
-     */
-    public ResultNode getAggregatedMultiplicationResultNode() {
-        return analyseResults.getAggregatedMultiplicationResultNode();
-    }
-
-    /**
-     * Method delegating the BL execution to AnalyseResults.
-     * 
-     * @see AnalyseResults#getAggregatedSumResultNode()
-     */
-    public ResultNode getAggregatedSumResultNode() {
-        return analyseResults.getAggregatedSumResultNode();
-    }
-
-    /**
-     * Method delegating the BL execution to AnalyseResults.
-     * 
      * @see AnalyseResults#getAcceptableAlternatives()
      */
     public List<Alternative> getAcceptableAlternatives() {
-        return analyseResults.getAcceptableAlternatives();
+        return plan.getAcceptableAlternatives();
     }
 
     /**

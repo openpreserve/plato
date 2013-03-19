@@ -33,7 +33,6 @@ import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
-import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
 import eu.scape_project.planning.model.aggregators.WeightedSum;
 import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.sensitivity.OrderChangeCountTest;
@@ -92,51 +91,6 @@ public class AnalyseResults extends AbstractWorkflowStep {
         }
         
         return leafBeans;
-	}
-	
-	/**
-	 * Method responsible for building a result node for aggregated-sum aggregation.
-	 * 
-	 * @return Aggregated-sum result-node.
-	 */
-	public ResultNode getAggregatedSumResultNode() {
-		ResultNode result = 
-				new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
-		
-		return result;
-	}
-
-	/**
-	 * Method responsible for building a result node for aggregated-multiplication aggregation.
-	 * 
-	 * @return Aggregated-multiplication result-node.
-	 */
-	public ResultNode getAggregatedMultiplicationResultNode() {
-		ResultNode result = 
-				new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives());
-		
-		return result;		
-	}	
-	
-	/**
-	 * Method responsible for returning the acceptable alternatives of a plan.
-	 * Acceptable alternatives are alternatives which contain no knock-out(0 evaluation).
-	 * 
-	 * @return List of acceptable alternatives.
-	 */
-	public List<Alternative> getAcceptableAlternatives() {
-		List<Alternative> acceptableAlternatives = new ArrayList<Alternative>();		
-		ResultNode aggregatedMultiplication =
-				new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives());
-		
-		for (Alternative a : plan.getAlternativesDefinition().getConsideredAlternatives()) {
-			Double alternativeResult = aggregatedMultiplication.getResults().get(a.getName());
-			if (alternativeResult > 0.0) {
-				acceptableAlternatives.add(a);
-			}
-		}
-		
-		return acceptableAlternatives;
 	}
 	
 	/**

@@ -470,14 +470,20 @@ public class Plan implements Serializable, ITouchable {
         }
     }
 
+    /**
+     * Returns the acceptable alternatives of a plan.
+     * Acceptable alternatives are alternatives which contain no knock-out(0 evaluation).
+     * 
+     * @return List of acceptable alternatives.
+     */
     public List<Alternative> getAcceptableAlternatives() {
         List<Alternative> acceptableAlternatives = new ArrayList<Alternative>();
         ResultNode multNode = new ResultNode(getTree().getRoot(), new WeightedMultiplication(),
             getAlternativesDefinition().getConsideredAlternatives());
 
         for (Alternative a : getAlternativesDefinition().getConsideredAlternatives()) {
-            Double d = multNode.getResults().get(a.getName());
-            if (d > 0.0) {
+            Double alternativeResult = multNode.getResults().get(a.getName());
+            if (alternativeResult > 0.0) {
                 acceptableAlternatives.add(a);
             }
         }

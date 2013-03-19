@@ -30,6 +30,8 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.api.RepositoryConnectorApi;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.StorageException;
@@ -48,8 +50,6 @@ import eu.scape_project.planning.utils.Helper;
 import eu.scape_project.planning.utils.ParserException;
 import eu.scape_project.planning.utils.RepositoryConnectorException;
 import eu.scape_project.planning.xml.C3POProfileParser;
-
-import org.slf4j.Logger;
 
 /**
  * Business logic for workflow step Define Sample Objects

@@ -16,6 +16,7 @@
  ******************************************************************************/
 package eu.scape_project.planning.plato.wfview.full;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
@@ -36,13 +37,14 @@ import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
 import eu.scape_project.planning.model.Trigger;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.model.aggregators.IAggregator;
 import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
 import eu.scape_project.planning.model.aggregators.WeightedSum;
 import eu.scape_project.planning.model.beans.ResultNode;
@@ -53,37 +55,94 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.ValidatePlan;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
+import eu.scape_project.planning.utils.Downloader;
 
 @Named("validatePlan")
 @ConversationScoped
 public class ValidatePlanView extends AbstractView {
     private static final long serialVersionUID = 8505584799409203390L;
 
-    @Inject
-    private Logger log;
+    @Inject private Logger log;
 
-    private boolean displayChangeLogs = false;
-    private boolean displayEvalTransform = false;
-    private boolean showAllAlternatives = false;
+    @Inject private User user;
+    @Inject private ValidatePlan validatePlan;
 
-    @Inject
-    private ValidatePlan validatePlan;
-    @Inject
-    private TreeHelperBean policytreeHelper;
-    @Inject
-    private TreeHelperBean treeHelper;
+    @Inject private Downloader downloader;
+    @Inject  private ByteStreamManager bytestreamManager;
+    
+    @Inject private TreeHelperBean policytreeHelper;
+    @Inject private TreeHelperBean requirementstreeHelper;
+    @Inject private TreeHelperBean resultstreeHelper;
+    
+    
+    
+    /**
+     * Variable encapsulating the PolicyTree-Root in a list.
+     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
+     */
+    private List<PolicyNode> policyRoots;
+    
+    /**
+     * Variable encapsulating the RequirementsTree-Root in a list.
+     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
+     */
+    private List<TreeNode> requirementsRoots;    
 
-    @Inject
-    private User user;
 
     private String repositoryUsername;
     private String repositoryPassword;
+
+    private boolean displayChangelogs;
+    private boolean displayEvalTransform;
+    private boolean showAllAlternatives;
+    /**
+     * for display on the page.
+     */
+    private String planetsExecutablePlanPrettyFormat = "";
+    
+    private Map<Trigger, String> selectedTriggers;
+    
+    private Map<Trigger, String> reevalSelectedTriggers;
+    
+    private List<ReportLeaf> leafBeans;
+    
+    /**
+     * Variable encapsulating the aggregated sum result tree-Root in a list.
+     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly.
+     */
+    private List<ResultNode> aggSumResultNodes;
+    
+    /**
+     * Variable encapsulating the aggregated multiplication result tree-Root in a list.
+     * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly.
+     */
+    private List<ResultNode> aggMultResultNodes;
+    
+    /**
+     * Indicates if all considered alternatives should be shown in the weighted
+     * sum result tree.
+     */
+    private boolean showAllConsideredAlternativesForWeightedSum;
+
+    /**
+     * Alternatives showed in weighted sum result tree.
+     */
+    private List<Alternative> weightedSumResultTreeShownAlternatives;
+    
 
     public ValidatePlanView() {
         currentPlanState = PlanState.PLAN_DEFINED;
         name = "Validate Plan";
         viewUrl = "/plan/validateplan.jsf";
         group = "menu.buildPreservationPlan";
+        policyRoots = new ArrayList<PolicyNode>();
+        requirementsRoots = new ArrayList<TreeNode>();
+        leafBeans = new ArrayList<ReportLeaf>();
+        acceptableAlternatives = new ArrayList<Alternative>();
+        aggSumResultNodes = new ArrayList<ResultNode>();
+        aggMultResultNodes = new ArrayList<ResultNode>();
+        showAllConsideredAlternativesForWeightedSum = false;
+        weightedSumResultTreeShownAlternatives = new ArrayList<Alternative>();
     }
 
     public void init(Plan plan) {
@@ -93,48 +152,60 @@ public class ValidatePlanView extends AbstractView {
 
         planetsExecutablePlanPrettyFormat = "";
 
-        this.acceptableAlternatives.clear();
-
-        policytreeHelper.expandAll(plan.getTree().getRoot());
-        treeHelper.expandAll(plan.getTree().getRoot());
-
-        if (leafBeans == null) {
-            leafBeans = new ArrayList<ReportLeaf>();
-        } else {
-            leafBeans.clear();
-        }
-
+        leafBeans.clear();
         for (Leaf l : this.plan.getTree().getRoot().getAllLeaves()) {
             leafBeans.add(new ReportLeaf(l, plan.getAlternativesDefinition().getConsideredAlternatives()));
         }
 
-        /*
-         * Set roots and fill result-beans of the Multiplication- and Sum-Trees.
-         */
-        if (this.plan.getPlanProperties().getState().getValue() >= PlanState.TRANSFORMATION_DEFINED.getValue()) {
-            multNode = new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan
-                .getAlternativesDefinition().getConsideredAlternatives());
-
-            acceptableAlternatives = plan.getAcceptableAlternatives();
-
-            sumNode = new ResultNode(plan.getTree().getRoot(), sumAggregator, acceptableAlternatives);
+        policyRoots.clear();
+        if (plan.getProjectBasis().getPolicyTree() != null) {
+            PolicyNode policyRoot = plan.getProjectBasis().getPolicyTree().getRoot();
+            if (policyRoot != null) {
+                policyRoots.add(policyRoot);
+                policytreeHelper.expandAll(policyRoot);
+            }
         }
 
+        requirementsRoots.clear();
+        if (plan.getTree() != null) {
+            TreeNode requirementsRoot = plan.getTree().getRoot();
+            if (requirementsRoot != null) {
+                requirementsRoots.add(requirementsRoot);
+                requirementstreeHelper.expandAll(requirementsRoot);
+            }
+        }
+        acceptableAlternatives = plan.getAcceptableAlternatives();
+
+        aggMultResultNodes.clear();
+        aggMultResultNodes.add(
+            new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives()));
+        
+        showAllConsideredAlternativesForWeightedSum = false;
+        weightedSumResultTreeShownAlternatives = acceptableAlternatives;
+
+        aggSumResultNodes.clear();
+        // calculate result nodes for all considered alternatives
+        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+        aggSumResultNodes.add(sumResultNode);        
+
+        
         planetsExecutablePlanPrettyFormat = formatExecutablePlan(plan.getExecutablePlanDefinition().getExecutablePlan());
 
-        repositoryUsername = user.getUserGroup().getRepository().getUsername();
+        if (user.getUserGroup().getRepository() != null) {
+            repositoryUsername = user.getUserGroup().getRepository().getUsername();
+        }
     }
 
     public String getCurrentDate() {
         return SimpleDateFormat.getDateTimeInstance().format(new Date());
     }
 
-    public boolean isDisplayChangeLogs() {
-        return displayChangeLogs;
+    public boolean isDisplayChangelogs() {
+        return displayChangelogs;
     }
 
-    public void switchDisplayChangeLogs() {
-        displayChangeLogs = !displayChangeLogs;
+    public void switchDisplayChangelogs() {
+        displayChangelogs = !displayChangelogs;
     }
 
     public void switchShowAllAlternatives() {
@@ -178,7 +249,7 @@ public class ValidatePlanView extends AbstractView {
 
             return sw.toString();
 
-        } catch (DocumentException e) {
+        } catch (DocumentException e) { 
             return "";
         } catch (IOException e) {
             return "";
@@ -187,22 +258,6 @@ public class ValidatePlanView extends AbstractView {
 
     private List<Alternative> acceptableAlternatives = new ArrayList<Alternative>();
 
-    /**
-     * for display on the page.
-     */
-    private String planetsExecutablePlanPrettyFormat = "";
-
-    private IAggregator sumAggregator = new WeightedSum();
-
-    private Map<Trigger, String> selectedTriggers;
-
-    private Map<Trigger, String> reevalSelectedTriggers;
-
-    private List<ReportLeaf> leafBeans = new ArrayList<ReportLeaf>();
-
-    private ResultNode sumNode;
-
-    private ResultNode multNode;
 
     public boolean isShowAllAlternatives() {
         return showAllAlternatives;
@@ -220,42 +275,12 @@ public class ValidatePlanView extends AbstractView {
         return planetsExecutablePlanPrettyFormat;
     }
 
-    public IAggregator getSumAggregator() {
-        return sumAggregator;
-    }
-
     public Map<Trigger, String> getSelectedTriggers() {
         return selectedTriggers;
     }
 
     public Map<Trigger, String> getReevalSelectedTriggers() {
         return reevalSelectedTriggers;
-    }
-
-    public List<TreeNode> getRootNode() {
-        List<TreeNode> l = new ArrayList<TreeNode>();
-        l.add(plan.getTree().getRoot());
-        return l;
-    }
-
-    public List<PolicyNode> getPolicyRoot() {
-        List<PolicyNode> l = new ArrayList<PolicyNode>();
-        if (plan.getProjectBasis().getPolicyTree() != null) {
-            l.add(plan.getProjectBasis().getPolicyTree().getRoot());
-        }
-        return l;
-    }
-
-    public List<ResultNode> getSumNode() {
-        List<ResultNode> l = new ArrayList<ResultNode>();
-        l.add(sumNode);
-        return l;
-    }
-
-    public List<ResultNode> getMultNode() {
-        List<ResultNode> l = new ArrayList<ResultNode>();
-        l.add(multNode);
-        return l;
     }
 
     public void approvePlan() {
@@ -279,6 +304,21 @@ public class ValidatePlanView extends AbstractView {
         }
     }
 
+    /**
+     * Starts a download for the given digital object. Uses
+     * {@link eu.scape_project.planning.util.Downloader} to perform the
+     * download.
+     */
+    public void download(final DigitalObject object) {
+        File file = bytestreamManager.getTempFile(object.getPid());
+        if (file != null) {
+            downloader.download(object, file);
+        } else {
+            log.error("Failed to retrieve object: " + object.getPid());
+        }
+    }    
+    
+    
     @Override
     protected AbstractWorkflowStep getWfStep() {
         return validatePlan;
@@ -286,10 +326,6 @@ public class ValidatePlanView extends AbstractView {
 
     public TreeHelperBean getPolicytreeHelper() {
         return policytreeHelper;
-    }
-
-    public TreeHelperBean getTreeHelper() {
-        return treeHelper;
     }
 
     public String getRepositoryUsername() {
@@ -315,5 +351,49 @@ public class ValidatePlanView extends AbstractView {
     public void setUser(User user) {
         this.user = user;
     }
+    /**
+     * Switches listed weighted sum alternatives between
+     * all considered and all acceptable.
+     */
+    public void switchShowAllConsideredAlternativesForWeightedSum() {
+        if (showAllConsideredAlternativesForWeightedSum) {
+            showAllConsideredAlternativesForWeightedSum = false;
+            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
+        } else {
+            showAllConsideredAlternativesForWeightedSum = true;
+            weightedSumResultTreeShownAlternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
+        }
+    }
 
+    public TreeHelperBean getRequirementstreeHelper() {
+        return requirementstreeHelper;
+    }
+
+    public TreeHelperBean getResultstreeHelper() {
+        return resultstreeHelper;
+    }
+
+    public List<TreeNode> getRequirementsRoots() {
+        return requirementsRoots;
+    }
+    
+    public List<PolicyNode> getPolicyRoots() {
+        return policyRoots;
+    }
+    
+    public List<ResultNode> getAggSumResultNodes() {
+        return aggSumResultNodes;
+    }
+
+    public List<ResultNode> getAggMultResultNodes() {
+        return aggMultResultNodes;
+    }
+
+    public boolean isShowAllConsideredAlternativesForWeightedSum() {
+        return showAllConsideredAlternativesForWeightedSum;
+    }
+    public List<Alternative> getWeightedSumResultTreeShownAlternatives() {
+        return weightedSumResultTreeShownAlternatives;
+    }
+    
 }

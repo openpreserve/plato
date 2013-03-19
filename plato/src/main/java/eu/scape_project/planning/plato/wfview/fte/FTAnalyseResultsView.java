@@ -32,6 +32,8 @@ import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
+import eu.scape_project.planning.model.aggregators.WeightedSum;
 import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.plato.bean.TreeHelperBean;
@@ -137,9 +139,13 @@ public class FTAnalyseResultsView extends AbstractView {
         leafBeans = ftAnalyseResults.constructPlanReportLeaves();
 
         aggMultResultNodes.clear();
-        aggMultResultNodes.add(ftAnalyseResults.getAggregatedMultiplicationResultNode());
+        aggMultResultNodes.add(
+            new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives()));
+
         aggSumResultNodes.clear();
-        aggSumResultNodes.add(ftAnalyseResults.getAggregatedSumResultNode());
+        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+        aggSumResultNodes.add(sumResultNode);
+        
 
         acceptableAlternatives = ftAnalyseResults.getAcceptableAlternatives();
 

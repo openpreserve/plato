@@ -127,7 +127,7 @@
 		<!-- ********** navigation ********** -->
 
 		<ul class="anchors">
-			<li class="anchors"><a href="#identstatus" class="anchors">Identification
+			<li class="anchors"><a href="#identification" class="anchors">Identification
 					and Status</a></li>
 			<li class="anchors"><a href="#institutionalsetting"
 				class="anchors">Institutional Setting</a></li>
@@ -150,7 +150,7 @@
 
 		<!-- ********** identification and status ********** -->
 
-		<a name="identstatus" />
+		<a name="identification" />
 
 		<div id="menu" class="menu-step">
 			<h2>Identification and Status</h2>
@@ -376,18 +376,18 @@
 			<div>
 				<h:dataTable
 					value="#{analyseResults.plan.sampleRecordsDefinition.records}"
-					var="sampleRecord" styleClass="tableStyle table-small"
+					var="sample" styleClass="tableStyle table-small"
 					headerClass="tableStyle-header">
 
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Name" />
 						</f:facet>
-						<h:outputText rendered="#{not sampleRecord.dataExistent}"
-							value="#{sampleRecord.fullname}" />
-						<h:commandLink rendered="#{sampleRecord.dataExistent}"
-							action="#{analyseResults.downloadSample(sampleRecord)}">
-							<h:outputText value="#{sampleRecord.fullname}" />
+						<h:outputText rendered="#{not sample.dataExistent}"
+							value="#{sample.fullname}" />
+						<h:commandLink rendered="#{sample.dataExistent}"
+							action="#{analyseResults.download(sample)}">
+							<h:outputText value="#{sample.fullname}" />
 						</h:commandLink>
 					</h:column>
 
@@ -395,21 +395,21 @@
 						<f:facet name="header">
 							<h:outputText value="Short name" />
 						</f:facet>
-						<h:outputText value="#{sampleRecord.shortName}" />
+						<h:outputText value="#{sample.shortName}" />
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Description" />
 						</f:facet>
-						<h:outputText value="#{sampleRecord.description}" />
+						<h:outputText value="#{sample.description}" />
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Original environment" />
 						</f:facet>
-						<h:outputText value="#{sampleRecord.originalTechnicalEnvironment}" />
+						<h:outputText value="#{sample.originalTechnicalEnvironment}" />
 					</h:column>
 
 					<h:column>
@@ -417,9 +417,9 @@
 							<h:outputText value="Data" />
 						</f:facet>
 						<h:outputText value="No data"
-							rendered="#{not sampleRecord.dataExistent}" />
-						<h:outputText value="Data existent (#{sampleRecord.data.size}B)"
-							rendered="#{sampleRecord.dataExistent}" />
+							rendered="#{not sample.dataExistent}" />
+						<h:outputText value="Data existent (#{sample.data.size}B)"
+							rendered="#{sample.dataExistent}" />
 					</h:column>
 
 					<h:column>
@@ -429,21 +429,21 @@
 						<table class="margin-bottom-huge">
 							<tr>
 								<td width="100px"><strong>PUID:</strong></td>
-								<td><h:outputText value="#{sampleRecord.formatInfo.puid}" /></td>
+								<td><h:outputText value="#{sample.formatInfo.puid}" /></td>
 							</tr>
 							<tr>
 								<td><strong>Name:</strong></td>
-								<td><h:outputText value="#{sampleRecord.formatInfo.name}" /></td>
+								<td><h:outputText value="#{sample.formatInfo.name}" /></td>
 							</tr>
 							<tr>
 								<td><strong>Version:</strong></td>
 								<td><h:outputText
-										value="#{sampleRecord.formatInfo.version}" /></td>
+										value="#{sample.formatInfo.version}" /></td>
 							</tr>
 							<tr>
 								<td><strong>mime-type:</strong></td>
 								<td><h:outputText
-										value="#{sampleRecord.formatInfo.mimeType}" /></td>
+										value="#{sample.formatInfo.mimeType}" /></td>
 							</tr>
 						</table>
 					</h:column>
@@ -461,16 +461,16 @@
 							<tr>
 								<td>Created</td>
 								<td><h:outputText
-										value="#{sampleRecord.changeLog.createdString}" /></td>
+										value="#{sample.changeLog.createdString}" /></td>
 								<td><h:outputText
-										value="#{sampleRecord.changeLog.createdBy}" /></td>
+										value="#{sample.changeLog.createdBy}" /></td>
 							</tr>
 							<tr>
 								<td>Changed</td>
 								<td><h:outputText
-										value="#{sampleRecord.changeLog.changedString}" /></td>
+										value="#{sample.changeLog.changedString}" /></td>
 								<td><h:outputText
-										value="#{sampleRecord.changeLog.changedBy}" /></td>
+										value="#{sample.changeLog.changedBy}" /></td>
 							</tr>
 						</table>
 					</h:column>
@@ -692,8 +692,8 @@
 			<h2>Evaluation &amp; Transformation</h2>
 		</div>
 
-		<a4j:outputPanel layout="block" styleClass="center-position"
-			id="evaluationTable">
+		<a4j:outputPanel layout="block" styleClass="center-position" id="evaluationTable">
+		
 			<ui:repeat value="#{analyseResults.leafBeans}" var="bean">
 				<a name="results#{bean.leaf.id}" />
 				<h3>
@@ -937,8 +937,7 @@
 						render="weightedSumResults" />
 					<a4j:outputPanel layout="block"
 						rendered="#{!analyseResults.showAllConsideredAlternativesForWeightedSum}">
-						<b>This tree contains only strategies that do not have
-							knock-out evaluation criteria; see above</b>
+						<b>Only strategies that do not have knock-out evaluation criteria are shown; see above</b>
 						<br />
 						<a4j:commandButton value="Show all alternatives"
 							action="#{analyseResults.switchShowAllConsideredAlternativesForWeightedSum()}"

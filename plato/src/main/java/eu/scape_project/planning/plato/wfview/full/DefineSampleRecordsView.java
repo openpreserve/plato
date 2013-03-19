@@ -65,8 +65,7 @@ public class DefineSampleRecordsView extends AbstractView {
     @Inject
     private DefineSampleObjects defineSamples;
 
-    @Inject
-    private ByteStreamManager bytestreamManager;
+    @Inject  private ByteStreamManager bytestreamManager;
 
     @Inject
     private FacesMessages facesMessages;

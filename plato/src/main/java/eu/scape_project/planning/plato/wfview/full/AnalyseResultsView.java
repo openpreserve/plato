@@ -16,6 +16,7 @@
  ******************************************************************************/
 package eu.scape_project.planning.plato.wfview.full;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,12 +28,14 @@ import javax.inject.Named;
 
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
-import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.aggregators.WeightedMultiplication;
+import eu.scape_project.planning.model.aggregators.WeightedSum;
 import eu.scape_project.planning.model.beans.ResultNode;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.plato.bean.TreeHelperBean;
@@ -45,296 +48,275 @@ import eu.scape_project.planning.utils.Downloader;
 @Named("analyseResults")
 @ConversationScoped
 public class AnalyseResultsView extends AbstractView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject	private AnalyseResults analyseResults;
+    @Inject private Logger log;
 
-	@Inject private Downloader downloader;
-	
-	@Inject private Logger log;
-	
-	@Inject private TreeHelperBean policytreeHelper;
-	@Inject private TreeHelperBean requirementstreeHelper;
-	@Inject private TreeHelperBean resultstreeHelper;
-	
-	private boolean displayChangelogs;
-	
-	/**
-	 * Variable encapsulating the PolicyTree-Root in a list.
-	 * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
-	 */
-	private List<PolicyNode> policyRoots;
-	
-	/**
-	 * Variable encapsulating the RequirementsTree-Root in a list.
-	 * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly. 
-	 */
-	private List<TreeNode> requirementsRoots;
-	
-	/**
-	 * List of leaves containing result- and transformed-values
-	 */
-	private List<ReportLeaf> leafBeans;
-		
-	/**
-	 * Alternatives which did not produce a knock-out(=evaluate to 0) and therefore can be choosen as recommened one. 
-	 */
-	private List<Alternative> acceptableAlternatives;
-	
-	/**
-	 * Variable encapsulating the aggregated sum result tree-Root in a list.
-	 * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly.
-	 */
-	private List<ResultNode> aggSumResultNodes;
-	
-	/**
-	 * Variable encapsulating the aggregated multiplication result tree-Root in a list.
-	 * This is required, because <rich:treeModelRecursiveAdaptor> root variable requires a list to work properly.
-	 */
-	private List<ResultNode> aggMultResultNodes;
-	
-	/**
-	 * Indicates if all considered alternatives should be shown in the weighted sum result tree.
-	 */
-	private boolean showAllConsideredAlternativesForWeightedSum;
-	
-	/**
-	 * Alternatives showed in weighted sum result tree.
-	 */
-	private List<Alternative> weightedSumResultTreeShownAlternatives;
-	
-	/**
-	 * Recommended alternative selected by the user represented as String (Because JSF-SelectOneMenu cannot handle Strings appropriately).
-	 */
-	private String recommendedAlternativeAsString;
+    @Inject private AnalyseResults analyseResults;
+
+    @Inject private Downloader downloader;
+
+    @Inject  private ByteStreamManager bytestreamManager;
+    
 
 
-	public AnalyseResultsView() {
-		currentPlanState = PlanState.WEIGHTS_SET;
-		name = "Analyse Results";
-		viewUrl = "/plan/analyseresults.jsf";
-		group = "menu.analyseResults";
-		displayChangelogs = false;
-		policyRoots = new ArrayList<PolicyNode>();
-		requirementsRoots = new ArrayList<TreeNode>();
-		leafBeans = new ArrayList<ReportLeaf>();
-		acceptableAlternatives = new ArrayList<Alternative>();
-		aggSumResultNodes = new ArrayList<ResultNode>();
-		aggMultResultNodes = new ArrayList<ResultNode>();
-		showAllConsideredAlternativesForWeightedSum = false;
-		weightedSumResultTreeShownAlternatives = new ArrayList<Alternative>();
-		recommendedAlternativeAsString = "";
-	}
+    @Inject
+    private TreeHelperBean policytreeHelper;
+    @Inject
+    private TreeHelperBean requirementstreeHelper;
+    @Inject
+    private TreeHelperBean resultstreeHelper;
 
-	public void init(Plan plan) {
-    	super.init(plan);
-    	
-    	policyRoots.clear();    	
-    	if (plan.getProjectBasis().getPolicyTree() != null) {
-    		PolicyNode policyRoot = plan.getProjectBasis().getPolicyTree().getRoot();
-    		if (policyRoot != null) {
-    			policyRoots.add(policyRoot);
-    			policytreeHelper.expandAll(policyRoot);
-    		}
-    	}
-    	
-    	requirementsRoots.clear();
-    	if (plan.getTree() != null) {
-    		TreeNode requirementsRoot = plan.getTree().getRoot();
-    		if (requirementsRoot != null) {
-	    		requirementsRoots.add(requirementsRoot);
-	        	requirementstreeHelper.expandAll(requirementsRoot);
-    		}
-    	}
-    	
-    	leafBeans = analyseResults.constructPlanReportLeaves();
-    	
-    	acceptableAlternatives = analyseResults.getAcceptableAlternatives();
-    	
-    	aggMultResultNodes.clear();
-    	aggMultResultNodes.add(analyseResults.getAggregatedMultiplicationResultNode());
-    	
-    	aggSumResultNodes.clear();
-    	ResultNode sumResultNode = analyseResults.getAggregatedSumResultNode();
-    	aggSumResultNodes.add(sumResultNode);
-    	
-    	showAllConsideredAlternativesForWeightedSum = false;
-    	weightedSumResultTreeShownAlternatives = acceptableAlternatives;
-    	
-    	analyseResults.analyseSensitivity(sumResultNode, acceptableAlternatives);
-    	
-    	if (plan.getRecommendation().getAlternative() != null) {
-    		recommendedAlternativeAsString = plan.getRecommendation().getAlternative().getName();
-    	}
-    	else {
-    		recommendedAlternativeAsString = "";
-    	}
-	}
-	
-	/**
-	 * Method responsible for starting the download for the given sample object.
-	 * 
-	 * @param sample SampleObject to download.
-	 */
-	public void downloadSample(Object object) {
-		SampleObject sample = (SampleObject) object;
-		try {
-			downloader.download(analyseResults.fetchSampleObject(sample));
-		} catch (StorageException e) {
-			log.error("Exception at trying to fetch sample file with pid " + sample.getPid(), e);
-			facesMessages.addError("Unable to fetch attached file");
-			return;
-		}
-	}
-	
-	/**
-	 * Method responsible for turning changelog-display on/off.
-	 */
-	public void switchDisplayChangelogs() {
-		displayChangelogs = !displayChangelogs;
-	}
-	
-	/**
-	 * Method responsible for switching listed weighted sum alternatives between all considered and all acceptable.
-	 */
-	public void switchShowAllConsideredAlternativesForWeightedSum() {
-		if (showAllConsideredAlternativesForWeightedSum) {
-			showAllConsideredAlternativesForWeightedSum = false;
-			weightedSumResultTreeShownAlternatives = acceptableAlternatives;
-		}
-		else {
-			showAllConsideredAlternativesForWeightedSum = true;
-			weightedSumResultTreeShownAlternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
-		}
-	}
 
-	/**
-	 * Method responsible for returning the current time as String.
-	 * 
-	 * @return Current time as String.
-	 */
-	public String getCurrentDate() {
-		return SimpleDateFormat.getDateTimeInstance().format(new Date());
-	}
+    /**
+     * Variable encapsulating the PolicyTree-Root in a list. This is required,
+     * because <rich:treeModelRecursiveAdaptor> root variable requires a list to
+     * work properly.
+     */
+    private List<PolicyNode> policyRoots;
 
-	@Override
-	protected AbstractWorkflowStep getWfStep() {
-		return analyseResults;
-	}
-	
-	/**
-	 * Method responsible for updating the recommended alternative in the model based on the given alternative-name. 
-	 * 
-	 * @param alternativeName Alternative name of the recommended alternative
-	 */
-	private void updateAlternativeRecommendation(String alternativeName) {
-		Alternative recommendedAlternative = null;
-		
-		for (Alternative a : plan.getAlternativesDefinition().getAlternatives()) {
-			if (a.getName().equals(alternativeName)) {
-				recommendedAlternative = a;
-				break;
-			}
-		}
-		
-		analyseResults.recommendAlternative(recommendedAlternative);
-	}
+    /**
+     * Variable encapsulating the RequirementsTree-Root in a list. This is
+     * required, because <rich:treeModelRecursiveAdaptor> root variable requires
+     * a list to work properly.
+     */
+    private List<TreeNode> requirementsRoots;
 
-	// --------------- getter/setter ---------------
+    /**
+     * List of leaves containing result- and transformed-values
+     */
+    private List<ReportLeaf> leafBeans;
 
-	public boolean isDisplayChangelogs() {
-		return displayChangelogs;
-	}
+    /**
+     * Alternatives which did not produce a knock-out(=evaluate to 0) and
+     * therefore can be choosen as recommened one.
+     */
+    private List<Alternative> acceptableAlternatives;
 
-	public void setDisplayChangelogs(boolean displayChangelogs) {
-		this.displayChangelogs = displayChangelogs;
-	}
+    /**
+     * Variable encapsulating the aggregated sum result tree-Root in a list.
+     * This is required, because <rich:treeModelRecursiveAdaptor> root variable
+     * requires a list to work properly.
+     */
+    private List<ResultNode> aggSumResultNodes;
 
-	public List<PolicyNode> getPolicyRoots() {
-		return policyRoots;
-	}
+    /**
+     * Variable encapsulating the aggregated multiplication result tree-Root in
+     * a list. This is required, because <rich:treeModelRecursiveAdaptor> root
+     * variable requires a list to work properly.
+     */
+    private List<ResultNode> aggMultResultNodes;
 
-	public void setPolicyRoots(List<PolicyNode> policyRoots) {
-		this.policyRoots = policyRoots;
-	}
+    /**
+     * Indicates if all considered alternatives should be shown in the weighted
+     * sum result tree.
+     */
+    private boolean showAllConsideredAlternativesForWeightedSum;
 
-	public List<TreeNode> getRequirementsRoots() {
-		return requirementsRoots;
-	}
+    private boolean displayChangelogs;
+    /**
+     * Alternatives showed in weighted sum result tree.
+     */
+    private List<Alternative> weightedSumResultTreeShownAlternatives;
 
-	public void setRequirementsRoots(List<TreeNode> requirementsRoots) {
-		this.requirementsRoots = requirementsRoots;
-	}
+    /**
+     * Recommended alternative selected by the user represented as String
+     * (Because JSF-SelectOneMenu cannot handle Strings appropriately).
+     */
+    private String recommendedAlternativeAsString;
 
-	public List<ReportLeaf> getLeafBeans() {
-		return leafBeans;
-	}
+    public AnalyseResultsView() {
+        currentPlanState = PlanState.WEIGHTS_SET;
+        name = "Analyse Results";
+        viewUrl = "/plan/analyseresults.jsf";
+        group = "menu.analyseResults";
+        displayChangelogs = false;
+        policyRoots = new ArrayList<PolicyNode>();
+        requirementsRoots = new ArrayList<TreeNode>();
+        leafBeans = new ArrayList<ReportLeaf>();
+        acceptableAlternatives = new ArrayList<Alternative>();
+        aggSumResultNodes = new ArrayList<ResultNode>();
+        aggMultResultNodes = new ArrayList<ResultNode>();
+        showAllConsideredAlternativesForWeightedSum = false;
+        weightedSumResultTreeShownAlternatives = new ArrayList<Alternative>();
+        recommendedAlternativeAsString = "";
+    }
 
-	public void setLeafBeans(List<ReportLeaf> leafBeans) {
-		this.leafBeans = leafBeans;
-	}
+    public void init(Plan plan) {
+        super.init(plan);
 
-	public List<Alternative> getAcceptableAlternatives() {
-		return acceptableAlternatives;
-	}
+        policyRoots.clear();
+        if (plan.getProjectBasis().getPolicyTree() != null) {
+            PolicyNode policyRoot = plan.getProjectBasis().getPolicyTree().getRoot();
+            if (policyRoot != null) {
+                policyRoots.add(policyRoot);
+                policytreeHelper.expandAll(policyRoot);
+            }
+        }
 
-	public void setAcceptableAlternatives(List<Alternative> acceptableAlternatives) {
-		this.acceptableAlternatives = acceptableAlternatives;
-	}
+        requirementsRoots.clear();
+        if (plan.getTree() != null) {
+            TreeNode requirementsRoot = plan.getTree().getRoot();
+            if (requirementsRoot != null) {
+                requirementsRoots.add(requirementsRoot);
+                requirementstreeHelper.expandAll(requirementsRoot);
+            }
+        }
 
-	public List<ResultNode> getAggSumResultNodes() {
-		return aggSumResultNodes;
-	}
+        leafBeans = analyseResults.constructPlanReportLeaves();
 
-	public void setAggSumResultNodes(List<ResultNode> aggSumResultNodes) {
-		this.aggSumResultNodes = aggSumResultNodes;
-	}
+        acceptableAlternatives = plan.getAcceptableAlternatives();
 
-	public List<ResultNode> getAggMultResultNodes() {
-		return aggMultResultNodes;
-	}
+        aggMultResultNodes.clear();
+        aggMultResultNodes.add(
+            new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives()));
 
-	public void setAggMultResultNodes(List<ResultNode> aggMultResultNodes) {
-		this.aggMultResultNodes = aggMultResultNodes;
-	}
+        aggSumResultNodes.clear();
+        // calculate result nodes for all considered alternatives
+        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+        aggSumResultNodes.add(sumResultNode);
 
-	public boolean isShowAllConsideredAlternativesForWeightedSum() {
-		return showAllConsideredAlternativesForWeightedSum;
-	}
+        showAllConsideredAlternativesForWeightedSum = false;
+        weightedSumResultTreeShownAlternatives = acceptableAlternatives;
 
-	public void setShowAllConsideredAlternativesForWeightedSum(
-			boolean showAllConsideredAlternativesForWeightedSum) {
-		this.showAllConsideredAlternativesForWeightedSum = showAllConsideredAlternativesForWeightedSum;
-	}
+        analyseResults.analyseSensitivity(sumResultNode, acceptableAlternatives);
 
-	public List<Alternative> getWeightedSumResultTreeShownAlternatives() {
-		return weightedSumResultTreeShownAlternatives;
-	}
+        if (plan.getRecommendation().getAlternative() != null) {
+            recommendedAlternativeAsString = plan.getRecommendation().getAlternative().getName();
+        } else {
+            recommendedAlternativeAsString = "";
+        }
+    }
 
-	public void setWeightedSumResultTreeShownAlternatives(
-			List<Alternative> weightedSumResultTreeShownAlternatives) {
-		this.weightedSumResultTreeShownAlternatives = weightedSumResultTreeShownAlternatives;
-	}
+    /**
+     * Starts a download for the given digital object. Uses
+     * {@link eu.scape_project.planning.util.Downloader} to perform the
+     * download.
+     */
+    public void download(final DigitalObject object) {
+        File file = bytestreamManager.getTempFile(object.getPid());
+        if (file != null) {
+            downloader.download(object, file);
+        } else {
+            log.error("Failed to retrieve object: " + object.getPid());
+        }
+    }    
 
-	public String getRecommendedAlternativeAsString() {
-		return recommendedAlternativeAsString;
-	}
+    /**
+     * Method responsible for turning changelog-display on/off.
+     */
+    public void switchDisplayChangelogs() {
+        displayChangelogs = !displayChangelogs;
+    }
 
-	public void setRecommendedAlternativeAsString(
-			String recommendedAlternativeAsString) {
-		this.recommendedAlternativeAsString = recommendedAlternativeAsString;
-		updateAlternativeRecommendation(recommendedAlternativeAsString);
-	}
+    /**
+     * Method responsible for switching listed weighted sum alternatives between
+     * all considered and all acceptable.
+     */
+    public void switchShowAllConsideredAlternativesForWeightedSum() {
+        if (showAllConsideredAlternativesForWeightedSum) {
+            showAllConsideredAlternativesForWeightedSum = false;
+            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
+        } else {
+            showAllConsideredAlternativesForWeightedSum = true;
+            weightedSumResultTreeShownAlternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
+        }
+    }
 
-	public TreeHelperBean getPolicytreeHelper() {
-		return policytreeHelper;
-	}
+    /**
+     * Method responsible for returning the current time as String.
+     * 
+     * @return Current time as String.
+     */
+    public String getCurrentDate() {
+        return SimpleDateFormat.getDateTimeInstance().format(new Date());
+    }
 
-	public TreeHelperBean getRequirementstreeHelper() {
-		return requirementstreeHelper;
-	}
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return analyseResults;
+    }
 
-	public TreeHelperBean getResultstreeHelper() {
-		return resultstreeHelper;
-	}
+    /**
+     * Method responsible for updating the recommended alternative in the model
+     * based on the given alternative-name.
+     * 
+     * @param alternativeName
+     *            Alternative name of the recommended alternative
+     */
+    private void updateAlternativeRecommendation(String alternativeName) {
+        Alternative recommendedAlternative = null;
+
+        for (Alternative a : plan.getAlternativesDefinition().getAlternatives()) {
+            if (a.getName().equals(alternativeName)) {
+                recommendedAlternative = a;
+                break;
+            }
+        }
+
+        analyseResults.recommendAlternative(recommendedAlternative);
+    }
+
+    // --------------- getter/setter ---------------
+
+    public boolean isDisplayChangelogs() {
+        return displayChangelogs;
+    }
+
+    public List<PolicyNode> getPolicyRoots() {
+        return policyRoots;
+    }
+
+    public List<TreeNode> getRequirementsRoots() {
+        return requirementsRoots;
+    }
+
+    public List<ReportLeaf> getLeafBeans() {
+        return leafBeans;
+    }
+
+    public List<Alternative> getAcceptableAlternatives() {
+        return acceptableAlternatives;
+    }
+
+    public List<ResultNode> getAggSumResultNodes() {
+        return aggSumResultNodes;
+    }
+
+    public List<ResultNode> getAggMultResultNodes() {
+        return aggMultResultNodes;
+    }
+
+    public boolean isShowAllConsideredAlternativesForWeightedSum() {
+        return showAllConsideredAlternativesForWeightedSum;
+    }
+
+    public void setShowAllConsideredAlternativesForWeightedSum(boolean showAllConsideredAlternativesForWeightedSum) {
+        this.showAllConsideredAlternativesForWeightedSum = showAllConsideredAlternativesForWeightedSum;
+    }
+
+    public List<Alternative> getWeightedSumResultTreeShownAlternatives() {
+        return weightedSumResultTreeShownAlternatives;
+    }
+
+    public String getRecommendedAlternativeAsString() {
+        return recommendedAlternativeAsString;
+    }
+
+    public void setRecommendedAlternativeAsString(String recommendedAlternativeAsString) {
+        this.recommendedAlternativeAsString = recommendedAlternativeAsString;
+        updateAlternativeRecommendation(recommendedAlternativeAsString);
+    }
+
+    public TreeHelperBean getPolicytreeHelper() {
+        return policytreeHelper;
+    }
+
+    public TreeHelperBean getRequirementstreeHelper() {
+        return requirementstreeHelper;
+    }
+
+    public TreeHelperBean getResultstreeHelper() {
+        return resultstreeHelper;
+    }
 }

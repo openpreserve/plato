@@ -29,17 +29,15 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
+import pt.gov.dgarq.roda.core.PlanClient;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.validation.ValidationError;
-import eu.scape_project.planning.xml.ProjectExportAction;
-
-import org.slf4j.Logger;
-
-import pt.gov.dgarq.roda.core.PlanClient;
 
 /**
  * @author Michael Kraxner
@@ -55,9 +53,6 @@ public class ValidatePlan extends AbstractWorkflowStep {
 
     @Inject
     private ByteStreamManager byteStreamManager;
-
-    @Inject
-    private ProjectExportAction projectExport;
 
     public ValidatePlan() {
         requiredPlanState = PlanState.PLAN_DEFINED;
