@@ -38,6 +38,9 @@ public class T2FlowParserFallback extends T2FlowParser {
     public static final String TO_OBJECT_PATH_URI = "http://scape-project.eu/components/ToObject";
     public static final String TO_OBJECT_PATH_NAME = "path_to";
 
+    public static final String PARAMETER_URI = "http://scape-project.eu/components/Parameter";
+    public static final String PARAMETER_NAME = "parameter";
+
     private static final String MEASURES_URI_PREFIX = "http://scape-project.eu/pw/vocab/measures/";
 
     /**
@@ -261,6 +264,12 @@ public class T2FlowParserFallback extends T2FlowParser {
         } else if (uriString.equals(TO_OBJECT_PATH_URI)) {
             // Path to port
             foundPort = findPortByName(ports, TO_OBJECT_PATH_NAME);
+            if (foundPort != null) {
+                foundPort.getUris().add(uri);
+            }
+        } else if (uriString.equals(PARAMETER_URI)) {
+            // Path to port
+            foundPort = findPortByName(ports, PARAMETER_NAME);
             if (foundPort != null) {
                 foundPort.getUris().add(uri);
             }

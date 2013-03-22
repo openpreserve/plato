@@ -15,7 +15,6 @@
  ******************************************************************************/
 package eu.scape_project.planning.taverna.migrationaction;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -73,14 +72,6 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
 
         MigrationResult result = new MigrationResult();
 
-        String targetExtension = action.getParamByName("settings");
-
-        if (targetExtension == null || targetExtension.equals("")) {
-            result.setSuccessful(false);
-            result.setReport("Target extension not specified in settings.");
-            return result;
-        }
-
         try {
             URL url = new URL(action.getUrl());
             InputStream is = url.openStream();
@@ -121,16 +112,31 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 SSHInMemoryTempFile tempFile = new SSHInMemoryTempFile();
-                tempFile.setName("result." + FileUtils.makeFilename(digitalObject.getFullname()) + "."
-                    + targetExtension);
+                tempFile.setName("result." + FileUtils.makeFilename(digitalObject.getFullname()));
                 for (TavernaPort inputToPort : inputToPorts) {
                     inputData.put(inputToPort, tempFile);
+                }
+
+                // Parameter
+                Set<TavernaPort> parameterPorts = t2flowParser
+                    .getInputPorts(new URI(T2FlowParserFallback.PARAMETER_URI));
+                if (parameterPorts.size() > 1) {
+                    result.setSuccessful(false);
+                    result.setReport("The number of to ports of workflow " + action.getUrl() + " is "
+                        + inputToPorts.size() + ".");
+                    return result;
+                }
+
+                if (parameterPorts.size() == 1) {
+                    for (TavernaPort parameterPort : parameterPorts) {
+                        inputData.put(parameterPort, action.getParamByName("settings"));
+                    }
                 }
 
                 tavernaExecutor.setInputData(inputData);
                 // Workflow
                 tavernaExecutor.setWorkflowUrl(action.getUrl());
-                // Output ports to recieve
+                // Output ports to receive
                 Set<TavernaPort> outputPorts = t2flowParser.getOutputPorts();
                 tavernaExecutor.setOutputPorts(outputPorts);
 
@@ -180,7 +186,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                     u.setFullname(action.getShortname() + " - " + digitalObject.getFullname());
                 }
                 FormatInfo tFormat = new FormatInfo();
-                tFormat.setDefaultExtension(targetExtension);
+                // tFormat.setDefaultExtension(action.getTargetFormatInfo().getDefaultExtension());
                 result.setTargetFormat(tFormat);
                 result.setMigratedObject(u);
 
