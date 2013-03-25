@@ -58,7 +58,7 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 
 /**
- * stateful session bean for managing plans
+ * Stateful session bean for managing plans.
  */
 @Stateful
 @SessionScoped
@@ -66,6 +66,9 @@ import org.slf4j.Logger;
 public class PlanManager implements Serializable {
     private static final long serialVersionUID = -1L;
 
+    /**
+     * Selection of projects to query.
+     */
     public enum WhichProjects {
         ALLPROJECTS, PUBLICPROJECTS, MYPROJECTS;
     }
@@ -247,7 +250,6 @@ public class PlanManager implements Serializable {
          * Finishes the query.
          */
         private void finishQuery() {
-
             List<Predicate> predicates = new ArrayList<Predicate>(5);
 
             // Where
@@ -304,110 +306,6 @@ public class PlanManager implements Serializable {
         this.lastLoadMode = lastLoadMode;
     }
 
-    // // FIXME @Observer("projectListChanged")
-    // public List<PlanProperties> relist() {
-    // List<PlanProperties> planList = list(lastLoadMode);
-    // log.debug("reloading  in " + lastLoadMode +
-    // ": number of projects loaded: " + planList.size());
-    // return planList;
-    // }
-
-    // /**
-    // * Furthermore, checks if project is locked by the current user, who may
-    // * thus be allowed to unlock the project. In this case the
-    // * {@link PlanProperties#isAllowReload()} is set. In the user interface
-    // this
-    // * flag means that an 'Unlock' button is displayed.
-    // */
-    // public List<PlanProperties> list(WhichProjects whichProjects) {
-    //
-    // TypedQuery<PlanProperties> query = null;
-    //
-    // // Select usernames of the users group
-    // List<String> usernames = em
-    // .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup",
-    // String.class)
-    // .setParameter("userGroup", user.getUserGroup()).getResultList();
-    //
-    // if (usernames.isEmpty()) {
-    // return new ArrayList<PlanProperties>();
-    // }
-    //
-    // if (whichProjects == WhichProjects.MYPROJECTS) {
-    // // load user's projects
-    // query = em.createQuery("select p.planProperties from Plan p where"
-    // + " (p.planProperties.owner IN (:usernames))"
-    // +
-    // " and ((p.projectBasis.identificationCode) = null or (p.planProperties.planType = :planType) )"
-    // + " order by p.planProperties.id", PlanProperties.class);
-    // query.setParameter("usernames", usernames);
-    // query.setParameter("planType", PlanType.FULL);
-    //
-    // } else if ((whichProjects == WhichProjects.ALLPROJECTS || whichProjects
-    // == WhichProjects.ALLFTEPROJECTS)
-    // && (user.isAdmin())) {
-    // // load all projects, public and private,
-    // // but ONLY if the user is an admin
-    // query =
-    // em.createQuery("select p from PlanProperties p where (p.planType = :planType) order by p.id",
-    // PlanProperties.class);
-    // if (whichProjects == WhichProjects.ALLFTEPROJECTS) {
-    // query.setParameter("planType", PlanType.FTE);
-    // } else {
-    // query.setParameter("planType", PlanType.FULL);
-    // }
-    // } else if (whichProjects == WhichProjects.FTEPROJECTS) {
-    // query = em.createQuery("select p.planProperties from Plan p where"
-    // + " (p.planProperties.owner IN (:usernames)) " +
-    // " and (p.planProperties.planType = :planType)"
-    // + " order by p.planProperties.id", PlanProperties.class);
-    // query.setParameter("usernames", usernames);
-    // query.setParameter("planType", PlanType.FTE);
-    //
-    // } else if (whichProjects == WhichProjects.PUBLICFTEPROJECTS) {
-    // query = em.createQuery("select p.planProperties from Plan p where"
-    // + " (p.planProperties.privateProject = false )" +
-    // " and (p.planProperties.planType = :planType)"
-    // + " order by p.planProperties.id", PlanProperties.class);
-    // query.setParameter("planType", PlanType.FTE);
-    // } else {
-    // // load all public projects, which includes those with published
-    // // reports
-    // query = em.createQuery(
-    // "select p.planProperties from Plan p where ((p.planProperties.privateProject = false)"
-    // + " or (p.planProperties.reportPublic = true)) " +
-    // " and (p.planProperties.planType = :planType) "
-    // + " order by p.planProperties.id", PlanProperties.class);
-    // query.setParameter("planType", PlanType.FULL);
-    // }
-    //
-    // List<PlanProperties> planList = query.getResultList();
-    //
-    // //
-    // // readOnly in PlanProperties is *transient*, it is used
-    // // to determine if a user is allowed to load a project
-    // //
-    // for (PlanProperties pp : planList) {
-    //
-    // // a project may NOT be loaded when
-    // // ... it is set to private
-    // // ... AND the user currently logged in is not the administrator
-    // // ... AND the user currently logged in is not the owner of that
-    // // project
-    // boolean readOnly = pp.isPrivateProject() && !user.isAdmin() &&
-    // !user.getUsername().equals(pp.getOwner())
-    // && !usernames.contains(pp.getOwner());
-    //
-    // boolean allowReload = pp.getOpenedByUser().equals(user.getUsername()) ||
-    // user.isAdmin();
-    //
-    // pp.setReadOnly(readOnly);
-    // pp.setAllowReload(allowReload);
-    // }
-    // setLastLoadMode(whichProjects);
-    // return planList;
-    // }
-
     /**
      * Creates a new plan query.
      * 
@@ -458,22 +356,29 @@ public class PlanManager implements Serializable {
         return planProperties;
     }
 
+    /**
+     * Reloads a plan. Checks if the provided plan is opened by the current
+     * user.
+     * 
+     * @param plan
+     *            the plan to reload
+     * @return the reloaded plan
+     * @throws PlanningException
+     *             if the plan could not be reloaded
+     */
     public Plan reloadPlan(Plan plan) throws PlanningException {
-        Query q = em
-            .createQuery("select count(pp.id) from  PlanProperties pp where (pp.openHandle = 1) and (pp.openedByUser = :user) and (pp.id = :propid)");
+        TypedQuery<Long> q = em
+            .createQuery(
+                "select count(pp.id) from  PlanProperties pp where (pp.openHandle = 1) and (pp.openedByUser = :user) and (pp.id = :propid)",
+                Long.class);
         q.setParameter("user", user.getUsername());
         q.setParameter("propid", plan.getPlanProperties().getId());
-        Object result = q.getSingleResult();
-        long num = 0;
-        if (result != null) {
-            num = ((Long) result).longValue();
-        }
-        if (num < 1) {
+        Long planCount = q.getSingleResult();
+        if (planCount != 1) {
             throw new PlanningException("This plan has not been loaded before, reload is not possible.");
         }
 
         Plan reloadedPlan = em.find(Plan.class, plan.getId());
-
         this.initializePlan(reloadedPlan);
         log.info("Plan " + reloadedPlan.getPlanProperties().getName() + " reloaded!");
         return reloadedPlan;
@@ -485,7 +390,8 @@ public class PlanManager implements Serializable {
      * locking the plan!
      * 
      * @param planId
-     * @return
+     *            the plan ID
+     * @return the loaded plan
      */
     public Plan loadPlan(int planId) {
         Plan plan = em.find(Plan.class, planId);
@@ -500,6 +406,9 @@ public class PlanManager implements Serializable {
      * 
      * @param propertyId
      *            the plan's PROPERTIES id!
+     * @return the loaded plan
+     * @throws PlanningException
+     *             if the plan could not be loaded
      */
     public Plan load(int propertyId) throws PlanningException {
         // try to lock the project
@@ -510,8 +419,7 @@ public class PlanManager implements Serializable {
         q.setParameter("propid", propertyId);
         int num = q.executeUpdate();
         if (num < 1) {
-            throw new PlanningException(
-                "In the meantime the plan has been loaded by an other user. Please choose another plan.");
+            throw new PlanningException("The plan has been loaded by another user. Please choose another plan.");
         }
         Object result = em.createQuery("select p.id from Plan p where p.planProperties.id = " + propertyId)
             .getSingleResult();
@@ -522,12 +430,23 @@ public class PlanManager implements Serializable {
         }
     }
 
+    /**
+     * Stores the provided plan.
+     * 
+     * @param plan
+     *            the plan to store
+     * @throws PlanningException
+     *             if an error occured
+     */
     public void store(Plan plan) throws PlanningException {
         em.persist(em.merge(plan));
     }
 
     /**
      * Hibernate initializes project and its parts.
+     * 
+     * @param p
+     *            the plan to initialize
      */
     private void initializePlan(Plan p) {
         Hibernate.initialize(p);
@@ -573,23 +492,29 @@ public class PlanManager implements Serializable {
     }
 
     /**
-     * Unlocks all projects in database.
+     * Unlocks all plans in the database.
      */
     public void unlockAll() {
         this.unlockQuery(-1);
     }
 
+    /**
+     * Unlocks a plan with the provided plan properties ID.
+     * 
+     * @param planPropertiesId
+     *            the plan's PROPERTIES id
+     */
     public void unlockPlan(int planPropertiesId) {
         unlockQuery(planPropertiesId);
     }
 
     /**
-     * Unlocks certain projects in database (dependent on parameter)
+     * Unlocks plans in the database (dependent on parameter). If the pid is -1,
+     * all plans are unlocked, otherwise the plan with the provided pid is
+     * unlocked.
      * 
-     * @param useId
-     *            If this is true, only project with id
-     *            {@link #planPropertiesId} will be unlocked; otherwise, all
-     *            projects in database will be unlocked
+     * @param pid
+     *            The plan ID to unlock or -1 to unlock all plans
      */
     private void unlockQuery(long pid) {
 
@@ -601,36 +526,29 @@ public class PlanManager implements Serializable {
         Query q = em.createQuery("update PlanProperties pp set pp.openHandle = 0, pp.openedByUser = '' " + where);
         try {
             if (q.executeUpdate() < 1) {
-                log.debug("Unlocking plan failed.");
+                log.debug("Unlocking plan of plans with with id [{}] failed.", pid);
             } else {
-                log.debug("Unlocked plan");
+                log.debug("Unlocked plans with id [{}].", pid);
             }
         } catch (Throwable e) {
-            log.error("Unlocking plan failed:", e);
+            log.error("Unlocking plans with id [{}] failed:", pid, e);
         }
-
-        pid = 0;
     }
 
     /**
-     * Saves a certain entity of the preservation planning project and updates
-     * the project state.
+     * Updates the state of the provided plan and saves the provided entity.
      * 
+     * @param plan
+     *            the plan
+     * @param currentState
+     *            the state of the plan
      * @param entity
-     *            Entity that shall be saved.
+     *            the entity to save
      */
     public void save(Plan plan, PlanState currentState, Object entity) {
 
-        if (log.isDebugEnabled()) {
-            log.debug("Persisting entity " + entity.getClass().getName());
-        }
+        log.debug("Persisting plan " + entity.getClass().getName());
 
-        /** dont forget to prepare changed entities e.g. set current user */
-        // PrepareChangesForPersist prep = new
-        // PrepareChangesForPersist(user.getUsername());
-
-        /** firstly, we set the project state to requiredPlanState */
-        // prep.prepare(selectedPlan.getState());
         plan.getPlanProperties().setState(currentState);
 
         if (plan.getPlanProperties().getReportUpload().isDataExistent()) {
@@ -645,14 +563,19 @@ public class PlanManager implements Serializable {
         em.persist(planProperties);
         plan.setPlanProperties(planProperties);
 
-        /** secondly, we save the intended entity */
-        // prep.prepare(entity);
         em.persist(em.merge(entity));
-        // //em.flush();
     }
 
     // --------------- save operations for steps ---------------
 
+    /**
+     * Saves changes to the plan settings.
+     * 
+     * @param planProperties
+     *            the plan properties
+     * @param alternativesDefinition
+     *            alternatives to save
+     */
     public void saveForPlanSettings(PlanProperties planProperties, AlternativesDefinition alternativesDefinition) {
         em.persist(em.merge(planProperties));
         em.persist(em.merge(alternativesDefinition));
@@ -664,7 +587,9 @@ public class PlanManager implements Serializable {
      * Method responsible for deleting a plan from database.
      * 
      * @param plan
-     *            Plan to delete.
+     *            the plan to delete.
+     * @throws PlanningException
+     *             if the plan could not be deleted
      */
     public void deletePlan(Plan plan) throws PlanningException {
         log.info("Deleting plan " + plan.getPlanProperties().getName() + " with id " + plan.getId());
