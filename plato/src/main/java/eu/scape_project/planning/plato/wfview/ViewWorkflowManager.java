@@ -26,11 +26,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.utils.FacesMessages;
+
+import org.slf4j.Logger;
 
 /**
  * Class responsible for executing all administrative worfklow tasks like
@@ -63,6 +64,9 @@ public class ViewWorkflowManager implements Serializable {
     @Inject
     private ViewWorkflowMenu workflowMenu;
 
+    @Inject
+    private FacesMessages facesMessages;
+
     /**
      * Method responsible for starting a viewWorkflow for a given plan.
      * 
@@ -71,13 +75,12 @@ public class ViewWorkflowManager implements Serializable {
      * @return Outcome-string of the current viewWorkflow page to show.
      */
     public String startWorkflow(Integer planPropertiesId) {
-        // load plan
         plan = null;
         try {
             plan = planManager.load(planPropertiesId);
         } catch (PlanningException e) {
-            log.warn("could not load plan with planPropertiesId " + planPropertiesId, e);
-            // stay on the same page
+            log.warn("Could not load plan with planPropertiesId " + planPropertiesId, e);
+            facesMessages.addError("Could not load plan: " + e.getMessage());
             return null;
         }
         return startWorkflow(plan);
@@ -102,11 +105,12 @@ public class ViewWorkflowManager implements Serializable {
         try {
             viewWorkflow.init(plan, workflowSteps);
             workflowMenu.init(workflowSteps);
-        } catch (PlanningException e1) {
-            log.error("Failed to initialize workflow.", e1);
+        } catch (PlanningException e) {
+            log.error("Failed to initialize workflow.", e);
+            facesMessages.addError("Could not open the plan: " + e.getMessage());
         }
 
-        // redirect to workflows current state view-url
+        // redirect to workflows current state view-URL
         String outcome = null;
         try {
             outcome = viewWorkflow.showCurrentView();
@@ -116,7 +120,8 @@ public class ViewWorkflowManager implements Serializable {
             }
 
         } catch (PlanningException e) {
-            log.warn("could not determine current view for plan with id " + plan.getId() + " : " + e.getMessage(), e);
+            log.warn("Could not determine current view for plan with id " + plan.getId() + " : " + e.getMessage(), e);
+            facesMessages.addError("Could not determine the current workflow step: " + e.getMessage());
         }
 
         return null;
@@ -136,11 +141,10 @@ public class ViewWorkflowManager implements Serializable {
     }
 
     /**
-     * Logs the user out.
-     * - closes the plan and ends the conversation
-     * - does a global logout
+     * Logs the user out. - closes the plan and ends the conversation - does a
+     * global logout
      * 
-     * @return
+     * @return the navigation target
      */
     public String logout() {
         planManager.unlockPlan(viewWorkflow.getPlan().getPlanProperties().getId());
@@ -173,6 +177,9 @@ public class ViewWorkflowManager implements Serializable {
         return viewWorkflow.getPlan();
     }
 
+    /**
+     * Starts a new conversation.
+     */
     private void startConversation() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
