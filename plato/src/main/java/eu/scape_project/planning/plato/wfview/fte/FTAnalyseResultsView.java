@@ -25,8 +25,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
@@ -43,6 +41,8 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 import eu.scape_project.planning.utils.Downloader;
+
+import org.slf4j.Logger;
 
 @Named("ftAnalyseResults")
 @ConversationScoped
@@ -72,7 +72,7 @@ public class FTAnalyseResultsView extends AbstractView {
     private List<TreeNode> requirementsRoots;
 
     /**
-     * List of leaves containing result- and transformed-values
+     * List of leaves containing result- and transformed-values.
      */
     private List<ReportLeaf> leafBeans;
 
@@ -89,6 +89,11 @@ public class FTAnalyseResultsView extends AbstractView {
      * requires a list to work properly.
      */
     private List<ResultNode> aggSumResultNodes;
+
+    /**
+     * Indicates whether there are knocked out alternatives present.
+     */
+    private boolean knockedoutAlternativePresent;
 
     /**
      * Indicates if all considered alternatives should be shown in the weighted
@@ -121,6 +126,7 @@ public class FTAnalyseResultsView extends AbstractView {
         leafBeans = new ArrayList<ReportLeaf>();
         aggSumResultNodes = new ArrayList<ResultNode>();
         aggMultResultNodes = new ArrayList<ResultNode>();
+        knockedoutAlternativePresent = true;
         showAllConsideredAlternativesForWeightedSum = false;
         weightedSumResultTreeShownAlternatives = new ArrayList<Alternative>();
         acceptableAlternatives = new ArrayList<Alternative>();
@@ -139,15 +145,17 @@ public class FTAnalyseResultsView extends AbstractView {
         leafBeans = ftAnalyseResults.constructPlanReportLeaves();
 
         aggMultResultNodes.clear();
-        aggMultResultNodes.add(
-            new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan.getAlternativesDefinition().getConsideredAlternatives()));
+        aggMultResultNodes.add(new ResultNode(plan.getTree().getRoot(), new WeightedMultiplication(), plan
+            .getAlternativesDefinition().getConsideredAlternatives()));
 
         aggSumResultNodes.clear();
-        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan.getAlternativesDefinition().getConsideredAlternatives());
+        ResultNode sumResultNode = new ResultNode(plan.getTree().getRoot(), new WeightedSum(), plan
+            .getAlternativesDefinition().getConsideredAlternatives());
         aggSumResultNodes.add(sumResultNode);
-        
 
         acceptableAlternatives = ftAnalyseResults.getAcceptableAlternatives();
+        knockedoutAlternativePresent = acceptableAlternatives.size() != plan.getAlternativesDefinition()
+            .getConsideredAlternatives().size();
 
         showAllConsideredAlternativesForWeightedSum = false;
         weightedSumResultTreeShownAlternatives = acceptableAlternatives;
@@ -176,7 +184,7 @@ public class FTAnalyseResultsView extends AbstractView {
     /**
      * Method responsible for starting the download for the given sample object.
      * 
-     * @param sample
+     * @param object
      *            SampleObject to download.
      */
     public void downloadSample(Object object) {
@@ -196,11 +204,9 @@ public class FTAnalyseResultsView extends AbstractView {
      */
     public void switchShowAllConsideredAlternativesForWeightedSum() {
         if (showAllConsideredAlternativesForWeightedSum) {
-            showAllConsideredAlternativesForWeightedSum = false;
-            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
-        } else {
-            showAllConsideredAlternativesForWeightedSum = true;
             weightedSumResultTreeShownAlternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
+        } else {
+            weightedSumResultTreeShownAlternatives = acceptableAlternatives;
         }
     }
 
@@ -247,6 +253,8 @@ public class FTAnalyseResultsView extends AbstractView {
      * {@link FTAnalyseResults#saveStepSpecific()} if a recommendation is set.
      * This fast track plan can also be continued as standard plan after calling
      * {@link FTAnalyseResults#transformToStandardPreservationPlan()}
+     * 
+     * @return the navigation target
      */
     @Override
     public String proceed() {
@@ -298,6 +306,10 @@ public class FTAnalyseResultsView extends AbstractView {
 
     public void setShowAllConsideredAlternativesForWeightedSum(boolean showAllConsideredAlternativesForWeightedSum) {
         this.showAllConsideredAlternativesForWeightedSum = showAllConsideredAlternativesForWeightedSum;
+    }
+
+    public boolean isKnockedoutAlternativePresent() {
+        return knockedoutAlternativePresent;
     }
 
     public List<Alternative> getWeightedSumResultTreeShownAlternatives() {

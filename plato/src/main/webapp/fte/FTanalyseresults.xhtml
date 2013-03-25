@@ -14,6 +14,7 @@
 	<ui:define name="title">SCAPE Planning Suite - Fast Track Evaluation - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h:outputStylesheet name="css/fte.css" />
+		<h:outputStylesheet name="css/tree.css" />
 		<h1>Fast Track Evaluation - #{viewWorkflow.currentView.name}</h1>
 
 		<!-- ********** plan data ********** -->
@@ -476,90 +477,87 @@
 		<div id="menu" class="menu-step">
 			<h2>Results: Weighted multiplication</h2>
 		</div>
-		<div class="center-position">
-			<small>Result-Tree with all Alternatives, Aggregation method:
-				Weighted multiplication</small>
-		</div>
 
 		<div class="center-position">
-			<ui:include src="/plato/shared/resultTree.xhtml">
-				<ui:param name="treeHelper" value="#{ftAnalyseResults.treeHelper}" />
-				<ui:param name="rootNode"
-					value="#{ftAnalyseResults.aggMultResultNodes}" />
-				<ui:param name="alternatives"
-					value="#{ftAnalyseResults.plan.alternativesDefinition.consideredAlternatives}" />
-			</ui:include>
+			<p:resultTree id="weightedMultResultsTree"
+				treeHelper="#{ftAnalyseResults.treeHelper}"
+				rootNode="#{ftAnalyseResults.aggMultResultNodes}"
+				alternatives="#{ftAnalyseResults.plan.alternativesDefinition.consideredAlternatives}"
+				toggleType="client">
+				<f:facet name="panel">
+					<small>Result-Tree with all Alternatives, Aggregation
+						method: Weighted multiplication</small>
+				</f:facet>
+			</p:resultTree>
 		</div>
 
-		<!-- ********** results weighted multiplication ********** -->
+		<!-- ********** results weighted sum ********** -->
 
 		<a name="resultsSum" />
-
 		<div id="menu" class="menu-step">
 			<h2>Results: Weighted sum</h2>
 		</div>
 
 		<a4j:outputPanel layout="block" id="weightedSumResults"
 			styleClass="center-position">
-			<h:form>
-				<small>
-					<p>Result-Tree with all Alternatives, Aggregation method:
-						Weighted sum</p> <a4j:commandButton value="Hide rejected alternatives"
-						action="#{ftAnalyseResults.switchShowAllConsideredAlternativesForWeightedSum()}"
-						rendered="#{ftAnalyseResults.showAllConsideredAlternativesForWeightedSum}"
-						render="weightedSumResults" /> <a4j:outputPanel layout="block"
-						rendered="#{!ftAnalyseResults.showAllConsideredAlternativesForWeightedSum}">
-						<p>
-							<b>Only strategies that do not have knock-out evaluation
-								criteria are shown; see above</b> <br />
-						</p>
-					</a4j:outputPanel>
-				</small>
+			<a4j:outputPanel layout="block"
+				rendered="#{empty ftAnalyseResults.acceptableAlternatives}"
+				styleClass="requiredIndicator">
+	            None of the considered
+	            alternatives have achieved acceptable values - all of them exhibit an
+	            unacceptable performance for at least one aspect of the requirements
+	            tree. However, to create a preservation plan, a feasible course of
+	            action is needed. You may want to reconsider your acceptable
+	            threshold settings in the Transformation step. You can do so by
+	            returning to that step and changing your settings, and then continue
+	            with the workflow.
+	    	</a4j:outputPanel>
 
-				<a4j:outputPanel layout="block"
-					rendered="#{empty ftAnalyseResults.acceptableAlternatives}"
-					styleClass="requiredIndicator">
-					<b>Note:</b>
-					<p>None of the considered alternatives have achieved acceptable
-						values - all of them exhibit an unacceptable performance for at
-						least one aspect of the requirements tree. However, to create a
-						preservation plan, a feasible course of action is needed. You may
-						want to reconsider your acceptable threshold settings in the
-						Transformation step. You can do so by returning to that step and
-						changing your settings, and then continue with the workflow.</p>
-				</a4j:outputPanel>
-				<a4j:commandButton value="Show all alternatives"
-					action="#{ftAnalyseResults.switchShowAllConsideredAlternativesForWeightedSum()}"
-					rendered="#{!ftAnalyseResults.showAllConsideredAlternativesForWeightedSum}"
-					render="weightedSumResults" />
-			</h:form>
 
 			<a4j:outputPanel layout="block"
 				rendered="#{ftAnalyseResults.showAllConsideredAlternativesForWeightedSum or not empty ftAnalyseResults.acceptableAlternatives}">
-				<ui:include src="/plato/shared/resultTree.xhtml">
-					<ui:param name="treeHelper" value="#{ftAnalyseResults.treeHelper}" />
-					<ui:param name="rootNode"
-						value="#{ftAnalyseResults.aggSumResultNodes}" />
-					<ui:param name="alternatives"
-						value="#{ftAnalyseResults.weightedSumResultTreeShownAlternatives}" />
-				</ui:include>
+				<p:resultTree id="weightedSumResultsTree"
+					treeHelper="#{ftAnalyseResults.treeHelper}"
+					rootNode="#{ftAnalyseResults.aggSumResultNodes}"
+					alternatives="#{ftAnalyseResults.weightedSumResultTreeShownAlternatives}">
+					<f:facet name="panel">
+						<div>
+							<small> <a4j:outputPanel layout="block"
+									rendered="#{!ftAnalyseResults.knockedoutAlternativePresent or ftAnalyseResults.showAllConsideredAlternativesForWeightedSum}">
+									Result-Tree with all alternatives, Aggregation method: Weighted sum
+								</a4j:outputPanel> <a4j:outputPanel layout="block"
+									rendered="#{ftAnalyseResults.knockedoutAlternativePresent and !ftAnalyseResults.showAllConsideredAlternativesForWeightedSum}">
+								Result-Tree with alternatives without knock-out	evaluation criteria, Aggregation method: Weighted sum
+							</a4j:outputPanel> <a4j:outputPanel layout="block"
+									rendered="#{ftAnalyseResults.knockedoutAlternativePresent}">
+									<h:selectBooleanCheckbox
+										value="#{ftAnalyseResults.showAllConsideredAlternativesForWeightedSum}">
+										<a4j:ajax event="click"
+											listener="#{ftAnalyseResults.switchShowAllConsideredAlternativesForWeightedSum()}"
+											render="weightedSumResults" />
+									</h:selectBooleanCheckbox>
+								Show all alternatives
+							</a4j:outputPanel>
+							</small>
+						</div>
+					</f:facet>
+				</p:resultTree>
 			</a4j:outputPanel>
 		</a4j:outputPanel>
 
 		<!-- ********** conclusion ********** -->
 
 		<a name="conclusion" />
-
 		<div id="menu" class="menu-step">
 			<h2>Conclusion</h2>
 		</div>
 
 		<h:form id="mainform">
-			<fieldset id="recommendation" class="size-full">
+			<fieldset id="recommendation_fieldset" class="size-full">
 				<legend>Recommendation</legend>
 				<div>
 					<h:outputLabel for="recommendation"> Recommendation: </h:outputLabel>
-					<h:selectOneMenu
+					<h:selectOneMenu id="recommendation"
 						value="#{ftAnalyseResults.recommendedAlternativeAsString}">
 						<f:selectItem itemLabel="" itemValue="#{null}" />
 						<f:selectItems value="#{ftAnalyseResults.acceptableAlternatives}"
@@ -590,6 +588,5 @@
 					styleClass="proceed-button" style="min-width:150px;" />
 			</div>
 		</h:form>
-
 	</ui:define>
 </ui:composition>
