@@ -8,8 +8,7 @@
 	xmlns:p="http://java.sun.com/jsf/composite/plato"
 	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">The SCAPE Planning Suite - Knowledge Browser</ui:define>
-
+	<ui:define name="title">SCAPE Planning Suite - Knowledge Browser</ui:define>
 	<ui:define name="content">
 		<h1>Manage criteria set</h1>
 
@@ -20,12 +19,11 @@
 						value="#{criteriaHierarchyHelper.selectedCriteriaHierarchy.name}" />
 				</legend>
 
-
-				<rich:tree id="richTree" var="node">
+				<rich:tree id="richTree" var="node" toggleType="client">
 					<rich:treeModelRecursiveAdaptor
 						roots="#{criteriaHierarchyHelper.selectedCriteriaHierarchyCriteriaTreeRoots}"
 						nodes="#{node.children}" leaf="#{node.leaf}">
-						<rich:treeNode iconLeaf="" icon="" expanded="#{!node.leaf}">
+						<rich:treeNode expanded="#{true}">
 							<h:inputText
 								style="border:1px solid #DDDDDD; float: left; width:270px; background-color: #{empty(node.name)? '#F08080':'white'};"
 								required="false" requiredMessage="Please provide a name."
