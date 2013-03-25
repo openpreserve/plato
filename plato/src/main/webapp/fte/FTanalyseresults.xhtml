@@ -11,13 +11,12 @@
                     xmlns:a4j="http://richfaces.org/a4j"
                     xmlns:rich="http://richfaces.org/rich">
 
-    <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentview.name}</ui:define>
+    <ui:define name="title">SCAPE Planning Suite - Fast Track Evaluation - #{viewWorkflow.currentView.name}</ui:define>
     <ui:define name="content">
 	<h:outputStylesheet name="css/fte.css"/>
-        <h1> Fast Track Evaluation - Analyse Results </h1>
+        <h1>Fast Track Evaluation - #{viewWorkflow.currentView.name}</h1>
         
         <!-- ********** plan data ********** -->
-        
         <div class="center-position">
             <div><small> Report creation date: #{ftAnalyseResults.currentDate} </small></div>
         <div class="component">

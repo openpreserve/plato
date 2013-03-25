@@ -8,35 +8,35 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	template="/WEB-INF/templates/default.xhtml">
-	<ui:define name="title">PLANETS Preservation Planning Tool - Fast Track Evaluation - Define Requirements</ui:define>
 
-	<ui:define name="scripts" />
-
+	<ui:define name="title">SCAPE Planning Suite - Fast Track Evaluation - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
+		<h1>Fast Track Evaluation - #{viewWorkflow.currentView.name}</h1>
 
-		<h1>Fast Track Evaluation - Define Requirements</h1>
-		
-		<div id="anchors">
-            <ul class="anchors">
-               <li class="anchors">
-                  <a href="#identification" class="anchors">Identification</a>
-               </li>
-               <li class="anchors">
-                  <a href="#samplerecords" class="anchors">Sample records</a>
-               </li>
-               <li class="anchors">
-                  <a href="#objectivetree" class="anchors">Objective tree</a>
-               </li>
-            </ul>
-         </div>
+		<div class="wfstepinfo">
+			<div id="anchors">
+				<ul class="anchors">
+					<li class="anchors"><a href="#identification" class="anchors">Identification</a>
+					</li>
+					<li class="anchors"><a href="#samplerecords" class="anchors">Sample
+							records</a></li>
+					<li class="anchors"><a href="#objectivetree" class="anchors">Objective
+							tree</a></li>
+				</ul>
+			</div>
+		</div>
 
-        <!-- ********** identification ********** -->
+		<!-- ********** identification ********** -->
 
 		<h:form>
-		    <h:inputText id="changedflag" value="#{defineRequirementsFTE.changed}" style="display:none" />
+			<h:inputText id="changedflag"
+				value="#{defineRequirementsFTE.changed}" style="display:none" />
 
 			<fieldset id="identification" class="size-full">
-				<legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> Identification </legend>
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					Identification
+				</legend>
 
 				<p:inputText labelText="Identification Code:"
 					id="identificationCode"
@@ -66,168 +66,189 @@
 					required="true" />
 			</fieldset>
 
-           <!-- ********** sample records ********** -->
+			<!-- ********** sample records ********** -->
 
-               <fieldset id="samplerecords" class="size-full">
-                   <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> Sample Records </legend>
-           
-                <div class="margin-bottom-huge">
-                    <p:inputTextArea labelText="Description of sample records:" id="samplesDescription"
-                                     input="#{defineRequirementsFTE.plan.sampleRecordsDefinition.samplesDescription}"
-                                     touchable="#{defineRequirementsFTE.plan.sampleRecordsDefinition}"
-                                     required="false" />
-                </div>
-                
-                   <a4j:outputPanel layout="block" id="samplesPanel">
-                    <!-- in case the project doesn't have any records so far, we display a message -->
-                    <h:outputText value="No records added so far" rendered="#{defineRequirementsFTE.samples == null}" />                
-                   
-					<h:dataTable id="allrecords" value="#{defineRequirementsFTE.samples}" var="row"
-					   rendered="#{defineRequirementsFTE.samples != null}"
-					   styleClass="tableStyle"
-					   headerClass="tableStyle-header">
-					   <h:column>
-					      <f:facet name="header">
-					         <h:outputText value="Sample Object" />
-					      </f:facet>
-					      <!-- the question is if this samplesample already has a name, "row.data == null" is useless -->
-					      <div class="nonwrapped">					      
-					         <p:inputText labelText="Full name:"
-					            id="fullName" input="#{row.fullname}"
-					            touchable="#{row}"
-					            disabled="#{row.dataExistent}"
-					            required="true" />
-					      </div>
-					      <div class="nonwrapped">
-					         <p:inputText labelText="Short name:"
-					            id="shortName" input="#{row.shortName}"
-					            maxlength="255"
-					            required="true" touchable="#{row}"/>
-					      </div>
-					      <h:outputLabel for="datayes" class="small">
+			<fieldset id="samplerecords" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					Sample Records
+				</legend>
+
+				<div class="margin-bottom-huge">
+					<p:inputTextArea labelText="Description of sample records:"
+						id="samplesDescription"
+						input="#{defineRequirementsFTE.plan.sampleRecordsDefinition.samplesDescription}"
+						touchable="#{defineRequirementsFTE.plan.sampleRecordsDefinition}"
+						required="false" />
+				</div>
+
+				<a4j:outputPanel layout="block" id="samplesPanel">
+					<!-- in case the project doesn't have any records so far, we display a message -->
+					<h:outputText value="No records added so far"
+						rendered="#{defineRequirementsFTE.samples == null}" />
+
+					<h:dataTable id="allrecords"
+						value="#{defineRequirementsFTE.samples}" var="row"
+						rendered="#{defineRequirementsFTE.samples != null}"
+						styleClass="tableStyle" headerClass="tableStyle-header">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Sample Object" />
+							</f:facet>
+							<!-- the question is if this samplesample already has a name, "row.data == null" is useless -->
+							<div class="nonwrapped">
+								<p:inputText labelText="Full name:" id="fullName"
+									input="#{row.fullname}" touchable="#{row}"
+									disabled="#{row.dataExistent}" required="true" />
+							</div>
+							<div class="nonwrapped">
+								<p:inputText labelText="Short name:" id="shortName"
+									input="#{row.shortName}" maxlength="255" required="true"
+									touchable="#{row}" />
+							</div>
+							<h:outputLabel for="datayes" class="small">
 					         Has data:
 					      </h:outputLabel>
-					      <!-- we would like to show a tooltip text for this element but unfortunately it is not  -->
-					      <!-- maybe the data-object is there but empty -->
-					      <div id="data" class="nonwrapped ">
-					         <h:selectBooleanCheckbox id="datayes"
-					            disabled="true"
-					            value="#{row.dataExistent}" />
-					         <h:outputText rendered="#{row.dataExistent}" value="#{row.sizeInMB}">
-					             <f:convertNumber type="number" maxFractionDigits="2" />
-					         </h:outputText> MB
-					         <h:commandButton value="download"
-					            action="#{defineRequirementsFTE.download(row)}"
-					            rendered="#{row.dataExistent}" />
-					      </div>
-					      <div class="float-off">
-					         <p:inputTextArea
-					            labelText="Original technical environment:"
-					            id="originalTechnicalEnvironment"
-					            input="#{row.originalTechnicalEnvironment}"
-					            maxlength="5000"
-					            touchable="#{row}"/>
-					      </div>
-					      <div class="float-off">
-					         <p:inputTextArea labelText="Description:"
-					            id="sampleRecordDescription"
-					            input="#{row.description}"
-					            maxlength="5000" touchable="#{row}"/>
-					      </div>
-					      <div class="margin-top-big margin-bottom-big">
-					         <a4j:commandButton value="Remove sample" action="#{defineRequirementsFTE.removeSample(row)}" 
-					                            render="samplesPanel" onclick="changed()"/>
-					      </div>
-					   </h:column>
-					   <h:column>
-					      <f:facet name="header">
-					         <h:outputText value="Object Format" />
-					      </f:facet>
-					      <p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
-	                     <a4j:commandButton value="Characterisation Info" action="#{defineRequirementsFTE.generateCharacterisationReport(row)}"
-	                                        oncomplete="#{rich:component('characterizationPanel')}.show()" render="characterizationPanel"
-	                                        style="vertical-align: middle;" />
-					   </h:column>
+							<!-- we would like to show a tooltip text for this element but unfortunately it is not  -->
+							<!-- maybe the data-object is there but empty -->
+							<div id="data" class="nonwrapped ">
+								<h:selectBooleanCheckbox id="datayes" disabled="true"
+									value="#{row.dataExistent}" />
+								<h:outputText rendered="#{row.dataExistent}"
+									value="#{row.sizeInMB}">
+									<f:convertNumber type="number" maxFractionDigits="2" />
+								</h:outputText>
+								MB
+								<h:commandButton value="download"
+									action="#{defineRequirementsFTE.download(row)}"
+									rendered="#{row.dataExistent}" />
+							</div>
+							<div class="float-off">
+								<p:inputTextArea labelText="Original technical environment:"
+									id="originalTechnicalEnvironment"
+									input="#{row.originalTechnicalEnvironment}" maxlength="5000"
+									touchable="#{row}" />
+							</div>
+							<div class="float-off">
+								<p:inputTextArea labelText="Description:"
+									id="sampleRecordDescription" input="#{row.description}"
+									maxlength="5000" touchable="#{row}" />
+							</div>
+							<div class="margin-top-big margin-bottom-big">
+								<a4j:commandButton value="Remove sample"
+									action="#{defineRequirementsFTE.removeSample(row)}"
+									render="samplesPanel" onclick="changed()" />
+							</div>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Object Format" />
+							</f:facet>
+							<p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
+							<a4j:commandButton value="Characterisation Info"
+								action="#{defineRequirementsFTE.generateCharacterisationReport(row)}"
+								oncomplete="#{rich:component('characterizationPanel')}.show()"
+								render="characterizationPanel" style="vertical-align: middle;" />
+						</h:column>
 					</h:dataTable>
 				</a4j:outputPanel>
-				
-				<hr/>
-				
-				<a4j:commandButton value="Add Sample Record" oncomplete="#{rich:component('uploadPanel')}.show()" />
-               </fieldset>               
-           
-           <!-- ********** objective tree ********** -->
 
-               <fieldset id="objectivetree" class="size-full">
-                   <legend class="fieldset-full-size-legend"> <ui:include src="/plato/shared/legend_nav.xhtml" /> Objective Tree </legend>
-                          
-                   <h:selectOneMenu id="selectTemplate" value="#{defineRequirementsFTE.selectedFTTemplate}">
-                       <f:selectItems value="#{defineRequirementsFTE.ftTemplates}" var="template"
-                                      itemValue="#{template}" itemLabel="#{template.displayString}" />
-                       <f:converter converterId="fastTrackTemplateConverter"/>
-                       <f:param name="templateList" value="#{defineRequirementsFTE.ftTemplates}" />
-                   </h:selectOneMenu>
-              
-                   <a4j:commandButton id="useTemplateButton" action="#{defineRequirementsFTE.useSelectedFastTrackTemplate}" value="Use Template" 
-                                      render="requirementsTreePanel" onbegin="changed()" execute="selectTemplate, useTemplateButton" />
+				<hr />
 
-				   <a4j:outputPanel layout="block" styleClass="center-position" id="requirementsTreePanel">
-                       <ui:include src="/plato/shared/treeSummary.xhtml">
-                           <ui:param name="treeHelper" value="#{defineRequirementsFTE.treeHelper}" />
-				           <ui:param name="rootNode" value="#{defineRequirementsFTE.treeRoots}" />
-				           <ui:param name="displayChangelogs" value="false" />
-				       </ui:include>
-			       </a4j:outputPanel>
-               </fieldset>
-               
-               <p:savediscardproceed bean="#{viewWorkflow}" />                
-               
-        </h:form>
+				<a4j:commandButton value="Add Sample Record"
+					oncomplete="#{rich:component('uploadPanel')}.show()" />
+			</fieldset>
 
-        <!-- ********** popup-panel for file selection ********** -->
+			<!-- ********** objective tree ********** -->
 
-        <!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
+			<fieldset id="objectivetree" class="size-full">
+				<legend class="fieldset-full-size-legend">
+					<ui:include src="/plato/shared/legend_nav.xhtml" />
+					Objective Tree
+				</legend>
+
+				<h:selectOneMenu id="selectTemplate"
+					value="#{defineRequirementsFTE.selectedFTTemplate}">
+					<f:selectItems value="#{defineRequirementsFTE.ftTemplates}"
+						var="template" itemValue="#{template}"
+						itemLabel="#{template.displayString}" />
+					<f:converter converterId="fastTrackTemplateConverter" />
+					<f:param name="templateList"
+						value="#{defineRequirementsFTE.ftTemplates}" />
+				</h:selectOneMenu>
+
+				<a4j:commandButton id="useTemplateButton"
+					action="#{defineRequirementsFTE.useSelectedFastTrackTemplate}"
+					value="Use Template" render="requirementsTreePanel"
+					onbegin="changed()" execute="selectTemplate, useTemplateButton" />
+
+				<a4j:outputPanel layout="block" styleClass="center-position"
+					id="requirementsTreePanel">
+					<ui:include src="/plato/shared/treeSummary.xhtml">
+						<ui:param name="treeHelper"
+							value="#{defineRequirementsFTE.treeHelper}" />
+						<ui:param name="rootNode"
+							value="#{defineRequirementsFTE.treeRoots}" />
+						<ui:param name="displayChangelogs" value="false" />
+					</ui:include>
+				</a4j:outputPanel>
+			</fieldset>
+
+			<p:savediscardproceed bean="#{viewWorkflow}" />
+
+		</h:form>
+
+		<!-- ********** popup-panel for file selection ********** -->
+
+		<!-- ATTENTION: Because of a bug in RichFaces-4.0.0. (see: https://issues.jboss.org/browse/RF-11355) the <h:form> tag has to be placed
                         outside/around the <rich:popupPanel> tag instead of the usual form usage inside (where its containing elements are).
                         This workaround is described here: http://community.jboss.org/thread/171909
                         If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
                         the second click (on buttons, etc.).
         -->
-        <h:form>
-        <!-- attach files panel -->
-            <rich:popupPanel id="uploadPanel" width="500" height="450" domElementAttachment="form">
-                <f:facet name="header">
-                    <h:outputText value="Upload file" />
-                </f:facet>
-                <f:facet name="controls">
-                    <h:graphicImage id="closeMapping" 
-                        value="/resources/gfx/icons/cancel.png"
-                        title="Close" width="16" height="16"
-                        onclick="#{rich:component('uploadPanel')}.hide()" />
-                </f:facet>            
-                <h:messages />
-              
-                <rich:fileUpload id="uploadResultFile" fileUploadListener="#{defineRequirementsFTE.uploadFile}"  
-                                 render="samplesPanel" onuploadcomplete="#{rich:component('uploadPanel')}.hide()" />
-            </rich:popupPanel>
-        <!-- / attach files panel -->
-        </h:form>
+		<h:form>
+			<!-- attach files panel -->
+			<rich:popupPanel id="uploadPanel" width="500" height="450"
+				domElementAttachment="form">
+				<f:facet name="header">
+					<h:outputText value="Upload file" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="closeMapping"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16"
+						height="16" onclick="#{rich:component('uploadPanel')}.hide()" />
+				</f:facet>
+				<h:messages />
+
+				<rich:fileUpload id="uploadResultFile"
+					fileUploadListener="#{defineRequirementsFTE.uploadFile}"
+					render="samplesPanel"
+					onuploadcomplete="#{rich:component('uploadPanel')}.hide()" />
+			</rich:popupPanel>
+			<!-- / attach files panel -->
+		</h:form>
 
 		<h:form>
 			<!-- characterisationReports -->
-			<rich:popupPanel id="characterizationPanel" minWidth="400" minHeight="700" resizeable="true" domElementAttachment="form">
+			<rich:popupPanel id="characterizationPanel" minWidth="400"
+				minHeight="700" resizeable="true" domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Characterisation Info" />
 				</f:facet>
 				<f:facet name="controls">
-					<h:graphicImage id="close"
-						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png"
+						title="Close" width="16" height="16"
 						onclick="#{rich:component('characterizationPanel')}.hide()" />
 				</f:facet>
 				<div class="container">
-				    <div><button type="button">Toggle Toolinfo</button></div>
+					<div>
+						<button type="button">Toggle Toolinfo</button>
+					</div>
 					<div class="leftcolumn">
-						<h:outputText value="#{defineRequirementsFTE.sampleCharacterisationReportAsHTML}" escape="false" />
+						<h:outputText
+							value="#{defineRequirementsFTE.sampleCharacterisationReportAsHTML}"
+							escape="false" />
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -238,7 +259,7 @@
 				</script>
 			</rich:popupPanel>
 			<!-- / characterisationReports -->
-		</h:form>     
-		
+		</h:form>
+
 	</ui:define>
 </ui:composition>

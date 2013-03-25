@@ -1,318 +1,364 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:a4j="http://richfaces.org/a4j"
-   xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-   xmlns:p="http://java.sun.com/jsf/composite/plato"
-   xmlns:rich="http://richfaces.org/rich"
-   template="/WEB-INF/templates/default.xhtml">
-   
-   <ui:define name="title">PLANETS Preservation Planning Tool - Fast Track Evaluation - Evaluate Alternatives</ui:define>
-   <ui:define name="scripts"></ui:define>
-   <ui:define name="content">
-   <h:outputStylesheet name="css/fte.css"/>
-         <h1>Fast Track Evaluation - Evaluate Alternatives</h1>
-         <h:form id="mainForm">
-            <h:inputText id="changedflag" value="#{ftEvaluateAlternatives.changed}" style="display:none" />
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/WEB-INF/templates/default.xhtml">
 
-			<h:outputText value="The following alternatives will be evaluated." rendered="#{not empty(ftEvaluateAlternatives.alternatives)}" />
-            <h:outputText value="No suitable alternatives have been found in registry." rendered="#{empty(ftEvaluateAlternatives.alternatives)}" />
-			<h:dataTable  id="alternativesTable" value="#{ftEvaluateAlternatives.alternatives}" var="alt"
-            	rendered="#{not empty(ftEvaluateAlternatives.alternatives)}" styleClass="tableStyle" headerClass="tableStyle-header"
-            	columnClasses="column-fte-name, column-fte-description, column-fte-remove">
-                <h:column>
-                	<f:facet name="header">
-                    	<h:outputText value="Name" />
+	<ui:define name="title">SCAPE Planning Suite - Fast Track Evaluation - #{viewWorkflow.currentView.name}</ui:define>
+	<ui:define name="content">
+		<h:outputStylesheet name="css/fte.css" />
+		<h1>Fast Track Evaluation - #{viewWorkflow.currentView.name}</h1>
+
+		<h:form id="mainForm">
+			<h:inputText id="changedflag"
+				value="#{ftEvaluateAlternatives.changed}" style="display:none" />
+
+			<h:outputText value="The following alternatives will be evaluated."
+				rendered="#{not empty(ftEvaluateAlternatives.alternatives)}" />
+			<h:outputText
+				value="No suitable alternatives have been found in registry."
+				rendered="#{empty(ftEvaluateAlternatives.alternatives)}" />
+			<h:dataTable id="alternativesTable"
+				value="#{ftEvaluateAlternatives.alternatives}" var="alt"
+				rendered="#{not empty(ftEvaluateAlternatives.alternatives)}"
+				styleClass="tableStyle" headerClass="tableStyle-header"
+				columnClasses="column-fte-name, column-fte-description, column-fte-remove">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Name" />
 					</f:facet>
-                    <h:outputText value="#{alt.name}"/>
-                </h:column>
-                
-                <h:column>
-                	<f:facet name="header">
-                    	<h:outputText value="Description" />
-					</f:facet>
-                    <h:outputText value="#{alt.description}" />
+					<h:outputText value="#{alt.name}" />
 				</h:column>
-				
-				<ui:remove>
-                <h:column>
-                    <f:facet name="header">
-                         <h:outputText value="Experience" />
-                    </f:facet>
-                    <h:link target="_blank" value="#{alt.action.experienceBase}" rendered="#{alt.action != null and not empty(alt.action.experienceBase)}">Experience base</h:link>
-                </h:column>
-				</ui:remove>
-                
-                <h:column>
-                	<f:facet name="header">
-                    	<h:outputText value="Remove" />
-					</f:facet>
-                    <h:commandButton value="Remove"
-                                onclick="changed()"
-                                action="#{ftEvaluateAlternatives.removeAlternative(alt)}" />
-                </h:column>
-            </h:dataTable>
-            
-            
-            <h:dataTable id="evaluatedAlternatives"
-               value="#{ftEvaluateAlternatives.consideredAlternatives}"
-               var="alt" styleClass="tableStyle" headerClass="tableStyle-header"
-               columnClasses="column-fte-alternative, column-fte-description-2">
-               <h:column>
-                  <f:facet name="header">Alternative</f:facet>
-                  <h:outputText value="#{alt.name}" />
-                  <p>
-                  <h:graphicImage value="/resources/gfx/icons/registries/#{alt.action.actionIdentifier}.png" alt="#{alt.action.actionIdentifier}" height="15" width="45"/>
-                  </p>
-                    
-               </h:column>
-               <h:column>
-                  <f:facet name="header">Description</f:facet>
-                    <rich:tabPanel switchType="client" styleClass="fte-tabPanel">
-			        <rich:tab header="Summary">
-			        <h:dataTable
-		             value="#{ftEvaluateAlternatives.plan.sampleRecordsDefinition.records}"
-                     var="record">
-                     <h:column>
-	                     <f:facet name="header">Record</f:facet>
-                        <h:outputText value="#{record.fullname}" />
-                     </h:column>
-                     <h:column>
-	                 <f:facet name="header">Status</f:facet>
-	                 
-                        <h:graphicImage 
-                        rendered="#{alt.experiment.detailedInfo[record] == null}"
-                        value="/resources/gfx/icons/small/not-known.png" />
-	                 
-                        <h:graphicImage 
-                        rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==true)}"
-                        value="/resources/gfx/icons/small/true.png" />
 
-						<h:graphicImage 
-                        rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==false)}"
-						value="/resources/gfx/icons/small/false.png" />
-				
-                     </h:column>
-                   
-    	           </h:dataTable> 
-			        </rich:tab>
-			        <rich:tab header="Report">
-						 <p:inputTextArea id="experimentreport"  
-		                     input="#{alt.experiment.detailedRunDescription}"
-		                     touchable="#{alt.experiment}"  
-		                     rows="10" readonly="true" disabled="true"/>
-			        </rich:tab>
-		        </rich:tabPanel>                 
-               </h:column>
-            </h:dataTable>
-            
-            <a4j:commandButton id="runAllExperiments"
-                               value="Run all experiments"
-                               rendered="#{ftEvaluateAlternatives.executableExperimentsAvailable}" 
-                               action="#{ftEvaluateAlternatives.prepareExperiments}" oncomplete="#{rich:component('execPanel')}.show()" 
-                               render="evaluatedAlternatives,execPanel" />
-                               
-                               
-            <!-- evaluation -->
-            <div class="margin-bottom-huge">
-                
-	             <p:help url="/plato/help/evaluate.html"  text="What is the task here?" />
-	             
-	            <!-- <div style="float:right;">-->
-	                 <ui:include src="/plato/shared/fileMatrix.xhtml">
-	                     <ui:param name="samples"
-	                         value="#{ftEvaluateAlternatives.plan.sampleRecordsDefinition.records}" />
-	                     <ui:param name="consideredAlternatives"
-	                         value="#{ftEvaluateAlternatives.consideredAlternatives}" />
-	                     <ui:param name="workflowstep" value="#{ftEvaluateAlternatives}" />
-	                 </ui:include>
-	            
-	             
-	             <fieldset id="treenavigationset" class="size-full">
-	                 <legend class="fieldset-full-size-legend">
-	                     <h:outputText value="Select the tree parts to display" />
-	                 </legend>
-	                 <rich:tree selectionType="client" immediate="true" var="node">
-	                     <rich:treeModelRecursiveAdaptor
-	                         roots="#{ftEvaluateAlternatives.treeRoot}" nodes="#{node.children}" leaf="#{node.leaf}">
-	                         <rich:treeNode highlightedClass="highlighted" iconLeaf="" icon="" expanded="#{ftEvaluateAlternatives.treeHelper.expandedNodes[node]}">
-	                          
-	                             <a4j:commandLink  render="leavesLists" 
-	                                 action="#{ftEvaluateAlternatives.select(node)}">
-	                                 <h:outputText value="#{node.name}" />
-	                             </a4j:commandLink>
-	                         </rich:treeNode>
-	                     </rich:treeModelRecursiveAdaptor>
-	                 </rich:tree>
-	             </fieldset>
-	             <div style="clear:both;"/>
-	             <ui:remove>
-	             <h:outputLink target="_blank" value="showmigrationresult-metadata.jsf" rendered="#{not empty(ftEvaluateAlternatives.measurableProperties)}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Description" />
+					</f:facet>
+					<h:outputText value="#{alt.description}" />
+				</h:column>
+
+				<ui:remove>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Experience" />
+						</f:facet>
+						<h:link target="_blank" value="#{alt.action.experienceBase}"
+							rendered="#{alt.action != null and not empty(alt.action.experienceBase)}">Experience base</h:link>
+					</h:column>
+				</ui:remove>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Remove" />
+					</f:facet>
+					<h:commandButton value="Remove" onclick="changed()"
+						action="#{ftEvaluateAlternatives.removeAlternative(alt)}" />
+				</h:column>
+			</h:dataTable>
+
+
+			<h:dataTable id="evaluatedAlternatives"
+				value="#{ftEvaluateAlternatives.consideredAlternatives}" var="alt"
+				styleClass="tableStyle" headerClass="tableStyle-header"
+				columnClasses="column-fte-alternative, column-fte-description-2">
+				<h:column>
+					<f:facet name="header">Alternative</f:facet>
+					<h:outputText value="#{alt.name}" />
+					<p>
+						<h:graphicImage
+							value="/resources/gfx/icons/registries/#{alt.action.actionIdentifier}.png"
+							alt="#{alt.action.actionIdentifier}" height="15" width="45" />
+					</p>
+
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					<rich:tabPanel switchType="client" styleClass="fte-tabPanel">
+						<rich:tab header="Summary">
+							<h:dataTable
+								value="#{ftEvaluateAlternatives.plan.sampleRecordsDefinition.records}"
+								var="record">
+								<h:column>
+									<f:facet name="header">Record</f:facet>
+									<h:outputText value="#{record.fullname}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">Status</f:facet>
+
+									<h:graphicImage
+										rendered="#{alt.experiment.detailedInfo[record] == null}"
+										value="/resources/gfx/icons/small/not-known.png" />
+
+									<h:graphicImage
+										rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==true)}"
+										value="/resources/gfx/icons/small/true.png" />
+
+									<h:graphicImage
+										rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==false)}"
+										value="/resources/gfx/icons/small/false.png" />
+
+								</h:column>
+
+							</h:dataTable>
+						</rich:tab>
+						<rich:tab header="Report">
+							<p:inputTextArea id="experimentreport"
+								input="#{alt.experiment.detailedRunDescription}"
+								touchable="#{alt.experiment}" rows="10" readonly="true"
+								disabled="true" />
+						</rich:tab>
+					</rich:tabPanel>
+				</h:column>
+			</h:dataTable>
+
+			<a4j:commandButton id="runAllExperiments" value="Run all experiments"
+				rendered="#{ftEvaluateAlternatives.executableExperimentsAvailable}"
+				action="#{ftEvaluateAlternatives.prepareExperiments}"
+				oncomplete="#{rich:component('execPanel')}.show()"
+				render="evaluatedAlternatives,execPanel" />
+
+
+			<!-- evaluation -->
+			<div class="margin-bottom-huge">
+
+				<p:help url="/plato/help/evaluate.html"
+					text="What is the task here?" />
+
+				<!-- <div style="float:right;">-->
+				<ui:include src="/plato/shared/fileMatrix.xhtml">
+					<ui:param name="samples"
+						value="#{ftEvaluateAlternatives.plan.sampleRecordsDefinition.records}" />
+					<ui:param name="consideredAlternatives"
+						value="#{ftEvaluateAlternatives.consideredAlternatives}" />
+					<ui:param name="workflowstep" value="#{ftEvaluateAlternatives}" />
+				</ui:include>
+
+
+				<fieldset id="treenavigationset" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<h:outputText value="Select the tree parts to display" />
+					</legend>
+					<rich:tree selectionType="client" immediate="true" var="node">
+						<rich:treeModelRecursiveAdaptor
+							roots="#{ftEvaluateAlternatives.treeRoot}"
+							nodes="#{node.children}" leaf="#{node.leaf}">
+							<rich:treeNode highlightedClass="highlighted" iconLeaf="" icon=""
+								expanded="#{ftEvaluateAlternatives.treeHelper.expandedNodes[node]}">
+
+								<a4j:commandLink render="leavesLists"
+									action="#{ftEvaluateAlternatives.select(node)}">
+									<h:outputText value="#{node.name}" />
+								</a4j:commandLink>
+							</rich:treeNode>
+						</rich:treeModelRecursiveAdaptor>
+					</rich:tree>
+				</fieldset>
+				<div style="clear: both;" />
+				<ui:remove>
+					<h:outputLink target="_blank"
+						value="showmigrationresult-metadata.jsf"
+						rendered="#{not empty(ftEvaluateAlternatives.measurableProperties)}">
 	                 Show measured properties
 	             </h:outputLink>
-	             </ui:remove>
-	
-	            <fieldset id="leafSet" class="size-full">
-	                <legend class="fieldset-full-size-legend">
-	                  <h:outputText value="Leaves to evaluate" />
-	               </legend>
-	               <a4j:outputPanel id="leavesLists">
-	                   <h:outputText value="No leaves selected" rendered="#{(empty ftEvaluateAlternatives.leaves)}"/>
-	
-	                    <div style="height:20px;font-weight:bold;">
-	                        <a4j:status startStyleClass="ajaxStatus" startText="Processing, please wait.... "/>
-	                    </div>
-	                   
-	                   <ui:include  src="/plato/shared/evaluationLeafList.xhtml" rendered="#{not empty ftEvaluateAlternatives.leaves}">
-	                        <ui:param name="leaves" value="#{ftEvaluateAlternatives.leaves}" />
-	                        <ui:param name="consideredAlternatives" value="#{ftEvaluateAlternatives.consideredAlternatives}" />
-	                        <ui:param name="samples" value="#{ftEvaluateAlternatives.plan.sampleRecordsDefinition.records}" />
-	                        <ui:param name="workflowstep" value="#{ftEvaluateAlternatives}" />
-	                   </ui:include>         
-	               </a4j:outputPanel>
-	            </fieldset>
-	            <fieldset id="autoEval" class="size-full">
-	            <x:div renderthis="#{ftEvaluateAlternatives.autoEvaluationAvailable}">
-	                <p>
-	                Since your tree contains criteria that are mapped to measurable properties and metrics, you can call the evaluation plugins here.<br/>
-	                <a4j:commandButton value="Evaluate all criteria" 
-	                                action="#{ftEvaluateAlternatives.evaluateAll}" 
-	                                eventsQueue="ajaxQ" 
-	                                render="mainForm"
-	                                ignoreDupResponses="true"/>
-	                    <span style="height:20px;font-weight:bold;">
-	                        <a4j:status  startStyleClass="ajaxStatus" startText="Processing, please wait.... "/>
-	                    </span>
-	                                
-	                <br/>
-	                </p>
-	            </x:div>
-	            <ui:remove>
-	            <!--  we want to do this differently -->
-	            <x:div style="width:100%">  
-	                <h:inputTextarea style="width:70%" rows="10" value="#{evaluationMessage}" disabled="true"/>
-	            </x:div>
-	            </ui:remove>
-	                <hr/>
-	                <p>
-	                Please make sure you check all evaluation results and approve them. Values that have not been evaluated or not yet approved are marked with a star (*).
-	                    The planning process requires you to either enter by yourself or confirm all evaluation results.
-	                    In order to confirm values that you have not entered yourself, please select<br/>
-	                    <h:commandButton value="Approve all values" action="#{ftEvaluateAlternatives.approve}" />
-	                </p>
-	            </fieldset>
-	             <fieldset id="comments" class="size-full">
-	                <legend class="fieldset-full-size-legend">
-	                  <h:outputText value="Comments" />
-	               </legend>
-	                    <p:inputTextArea id="evaluateExperimentComments" input="#{ftEvaluateAlternatives.plan.evaluation.comment}" touchable="#{ftEvaluateAlternatives.plan.evaluation}"/>
-	             </fieldset>
-	        </div>  
-            <!-- end evaluation -->
-           <p:savediscardproceed bean="#{viewWorkflow}" />            
-      </h:form>
-      <!-- run experiments -->
-<!-- this does not work, with ppr of a4j:poll, then experimentStatus evaluates to null
+				</ui:remove>
+
+				<fieldset id="leafSet" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<h:outputText value="Leaves to evaluate" />
+					</legend>
+					<a4j:outputPanel id="leavesLists">
+						<h:outputText value="No leaves selected"
+							rendered="#{(empty ftEvaluateAlternatives.leaves)}" />
+
+						<div style="height: 20px; font-weight: bold;">
+							<a4j:status startStyleClass="ajaxStatus"
+								startText="Processing, please wait.... " />
+						</div>
+
+						<ui:include src="/plato/shared/evaluationLeafList.xhtml"
+							rendered="#{not empty ftEvaluateAlternatives.leaves}">
+							<ui:param name="leaves" value="#{ftEvaluateAlternatives.leaves}" />
+							<ui:param name="consideredAlternatives"
+								value="#{ftEvaluateAlternatives.consideredAlternatives}" />
+							<ui:param name="samples"
+								value="#{ftEvaluateAlternatives.plan.sampleRecordsDefinition.records}" />
+							<ui:param name="workflowstep" value="#{ftEvaluateAlternatives}" />
+						</ui:include>
+					</a4j:outputPanel>
+				</fieldset>
+				<fieldset id="autoEval" class="size-full">
+					<x:div
+						renderthis="#{ftEvaluateAlternatives.autoEvaluationAvailable}">
+						<p>
+							Since your tree contains criteria that are mapped to measurable
+							properties and metrics, you can call the evaluation plugins here.<br />
+							<a4j:commandButton value="Evaluate all criteria"
+								action="#{ftEvaluateAlternatives.evaluateAll}"
+								eventsQueue="ajaxQ" render="mainForm" ignoreDupResponses="true" />
+							<span style="height: 20px; font-weight: bold;"> <a4j:status
+									startStyleClass="ajaxStatus"
+									startText="Processing, please wait.... " />
+							</span> <br />
+						</p>
+					</x:div>
+					<ui:remove>
+						<!--  we want to do this differently -->
+						<x:div style="width:100%">
+							<h:inputTextarea style="width:70%" rows="10"
+								value="#{evaluationMessage}" disabled="true" />
+						</x:div>
+					</ui:remove>
+					<hr />
+					<p>
+						Please make sure you check all evaluation results and approve
+						them. Values that have not been evaluated or not yet approved are
+						marked with a star (*). The planning process requires you to
+						either enter by yourself or confirm all evaluation results. In
+						order to confirm values that you have not entered yourself, please
+						select<br />
+						<h:commandButton value="Approve all values"
+							action="#{ftEvaluateAlternatives.approve}" />
+					</p>
+				</fieldset>
+				<fieldset id="comments" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<h:outputText value="Comments" />
+					</legend>
+					<p:inputTextArea id="evaluateExperimentComments"
+						input="#{ftEvaluateAlternatives.plan.evaluation.comment}"
+						touchable="#{ftEvaluateAlternatives.plan.evaluation}" />
+				</fieldset>
+			</div>
+			<!-- end evaluation -->
+			<p:savediscardproceed bean="#{viewWorkflow}" />
+		</h:form>
+		<!-- run experiments -->
+		<!-- this does not work, with ppr of a4j:poll, then experimentStatus evaluates to null
          
         <ui:include src="/plato/shared/runExperimentsPanel.xhtml">
             <a4j:param name="experimentStatus" value="#{runExperiments.experimentStatus}" />
             <a4j:param name="runExperimentsBean" value="#{runExperiments}" />
         </ui:include>
- -->        
-        <a4j:queue name="pollQueue"></a4j:queue>
-        <a4j:queue name="cmdQueue"></a4j:queue>
-         
-        <h:form id="pollform">
-              <a4j:poll id="poll" interval="1000" enabled="#{ftEvaluateAlternatives.experimentStatus.started and (not ftEvaluateAlternatives.experimentStatus.finished)}" 
-                  render="poll,execRefreshPanel" action="#{ftEvaluateAlternatives.experimentStatus.keepAlive}">
-                  <a4j:attachQueue name="pollQueue"></a4j:attachQueue>
-              </a4j:poll>
-        </h:form>
-        <h:form id="executeExperimentsForm">
-        <rich:popupPanel id="execPanel" width="600" height="200" domElementAttachment="form">
-            <f:facet name="header">
-                <h:outputText value="Run Migrations" />
-            </f:facet>
-            <f:facet name="controls">
-                <h:graphicImage id="closeMapping" 
-                    value="/resources/gfx/icons/cancel.png"
-                    title="Close" width="16" height="16"
-                    onclick="#{rich:component('execPanel')}.hide()" />
-            </f:facet>            
-            <a4j:outputPanel id="execRefreshPanel">
-               <a4j:outputPanel rendered="#{not ftEvaluateAlternatives.experimentStatus.started}">
-                   <h:outputText value="Alternatives queued for execution: #{ftEvaluateAlternatives.experimentStatus.altTotal}" />
-                   <br/>
-                   <h:outputText value="Each will be applied to #{ftEvaluateAlternatives.experimentStatus.samplesTotal} sample object(s)." />
-                   <br/>
-                   
-                   <a4j:commandButton
-                       onbegin=""
-                       action="#{ftEvaluateAlternatives.startExperiments}" 
-                       title="Start experiments"
-                       id="startExperiments"
-                       render="poll"
-                       value="Start">
-                       <a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
-                       </a4j:commandButton>    
-               </a4j:outputPanel>
-               
-               <a4j:outputPanel rendered="#{ftEvaluateAlternatives.experimentStatus.started}">
-                   <h:outputText value="Applying alternative #{ftEvaluateAlternatives.experimentStatus.altIndex + 1} of #{ftEvaluateAlternatives.experimentStatus.altTotal}" /><br/>
-                   <h:outputText value=" .. to sample  #{ftEvaluateAlternatives.experimentStatus.sampleIndex + 1} of #{ftEvaluateAlternatives.experimentStatus.samplesTotal}" />
-                   <br/><br/>
-                   <h:outputText value="Current alternative: #{ftEvaluateAlternatives.experimentStatus.currentAlternative.name}" rendered="#{ftEvaluateAlternatives.experimentStatus.currentAlternative != null}"/><br/>
-                   <h:outputText value="Current sample object: #{ftEvaluateAlternatives.experimentStatus.currentSample.shortName}" rendered="#{ftEvaluateAlternatives.experimentStatus.currentSample != null}"/>
-                   <br/><br/>
-                   <a4j:commandButton
-                       rendered="#{not (ftEvaluateAlternatives.experimentStatus.finished or ftEvaluateAlternatives.experimentStatus.canceled)}"  
-                       action="#{ftEvaluateAlternatives.experimentStatus.cancel()}" 
-                       id="cancelExperiments"
-                       value="Cancel experiments"/>
-        
-                   <h:outputText rendered="#{ftEvaluateAlternatives.experimentStatus.canceled and (not ftEvaluateAlternatives.experimentStatus.finished)}" value="Canceling experiments. Please wait until the currently active migration has finished."/>
-                   <a4j:outputPanel  rendered="#{ftEvaluateAlternatives.experimentStatus.finished}">
-                       <b>
-                       <h:outputText rendered="#{not ftEvaluateAlternatives.experimentStatus.canceled}" value="Finished experiments!"/>
-                       <h:outputText rendered="#{ftEvaluateAlternatives.experimentStatus.canceled}" value="Canceled experiments!"/>
-                       </b>
-                       <a4j:commandButton  
-                           action="#{ftEvaluateAlternatives.experimentStatus.clear()}" 
-                           title="Ok"  
-                           value="Close"
-                           id="closeExperiments"
-                           oncomplete="#{rich:component('execPanel')}.hide()"
-                           render="mainForm,executeExperimentsForm"/>
-                    </a4j:outputPanel>
-                </a4j:outputPanel>
-               </a4j:outputPanel>           
-            </rich:popupPanel>
-        </h:form>               
-      <!-- end run experiments -->         
+ -->
+		<a4j:queue name="pollQueue"></a4j:queue>
+		<a4j:queue name="cmdQueue"></a4j:queue>
+
+		<h:form id="pollform">
+			<a4j:poll id="poll" interval="1000"
+				enabled="#{ftEvaluateAlternatives.experimentStatus.started and (not ftEvaluateAlternatives.experimentStatus.finished)}"
+				render="poll,execRefreshPanel"
+				action="#{ftEvaluateAlternatives.experimentStatus.keepAlive}">
+				<a4j:attachQueue name="pollQueue"></a4j:attachQueue>
+			</a4j:poll>
+		</h:form>
+		<h:form id="executeExperimentsForm">
+			<rich:popupPanel id="execPanel" width="600" height="200"
+				domElementAttachment="form">
+				<f:facet name="header">
+					<h:outputText value="Run Migrations" />
+				</f:facet>
+				<f:facet name="controls">
+					<h:graphicImage id="closeMapping"
+						value="/resources/gfx/icons/cancel.png" title="Close" width="16"
+						height="16" onclick="#{rich:component('execPanel')}.hide()" />
+				</f:facet>
+				<a4j:outputPanel id="execRefreshPanel">
+					<a4j:outputPanel
+						rendered="#{not ftEvaluateAlternatives.experimentStatus.started}">
+						<h:outputText
+							value="Alternatives queued for execution: #{ftEvaluateAlternatives.experimentStatus.altTotal}" />
+						<br />
+						<h:outputText
+							value="Each will be applied to #{ftEvaluateAlternatives.experimentStatus.samplesTotal} sample object(s)." />
+						<br />
+
+						<a4j:commandButton onbegin=""
+							action="#{ftEvaluateAlternatives.startExperiments}"
+							title="Start experiments" id="startExperiments" render="poll"
+							value="Start">
+							<a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
+						</a4j:commandButton>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel
+						rendered="#{ftEvaluateAlternatives.experimentStatus.started}">
+						<h:outputText
+							value="Applying alternative #{ftEvaluateAlternatives.experimentStatus.altIndex + 1} of #{ftEvaluateAlternatives.experimentStatus.altTotal}" />
+						<br />
+						<h:outputText
+							value=" .. to sample  #{ftEvaluateAlternatives.experimentStatus.sampleIndex + 1} of #{ftEvaluateAlternatives.experimentStatus.samplesTotal}" />
+						<br />
+						<br />
+						<h:outputText
+							value="Current alternative: #{ftEvaluateAlternatives.experimentStatus.currentAlternative.name}"
+							rendered="#{ftEvaluateAlternatives.experimentStatus.currentAlternative != null}" />
+						<br />
+						<h:outputText
+							value="Current sample object: #{ftEvaluateAlternatives.experimentStatus.currentSample.shortName}"
+							rendered="#{ftEvaluateAlternatives.experimentStatus.currentSample != null}" />
+						<br />
+						<br />
+						<a4j:commandButton
+							rendered="#{not (ftEvaluateAlternatives.experimentStatus.finished or ftEvaluateAlternatives.experimentStatus.canceled)}"
+							action="#{ftEvaluateAlternatives.experimentStatus.cancel()}"
+							id="cancelExperiments" value="Cancel experiments" />
+
+						<h:outputText
+							rendered="#{ftEvaluateAlternatives.experimentStatus.canceled and (not ftEvaluateAlternatives.experimentStatus.finished)}"
+							value="Canceling experiments. Please wait until the currently active migration has finished." />
+						<a4j:outputPanel
+							rendered="#{ftEvaluateAlternatives.experimentStatus.finished}">
+							<b> <h:outputText
+									rendered="#{not ftEvaluateAlternatives.experimentStatus.canceled}"
+									value="Finished experiments!" /> <h:outputText
+									rendered="#{ftEvaluateAlternatives.experimentStatus.canceled}"
+									value="Canceled experiments!" />
+							</b>
+							<a4j:commandButton
+								action="#{ftEvaluateAlternatives.experimentStatus.clear()}"
+								title="Ok" value="Close" id="closeExperiments"
+								oncomplete="#{rich:component('execPanel')}.hide()"
+								render="mainForm,executeExperimentsForm" />
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</rich:popupPanel>
+		</h:form>
+		<!-- end run experiments -->
 
 		<h:form>
 			<!-- characterisationReports -->
-			<rich:popupPanel id="characterisationReports" minWidth="800" minHeight="700" resizeable="true" domElementAttachment="form">
+			<rich:popupPanel id="characterisationReports" minWidth="800"
+				minHeight="700" resizeable="true" domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Comparison of characterisation info" />
 				</f:facet>
 				<f:facet name="controls">
-					<h:graphicImage id="close"
-						value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png"
+						title="Close" width="16" height="16"
 						onclick="#{rich:component('characterisationReports')}.hide()" />
 				</f:facet>
 				<div class="container">
-				    <div><button type="button">Toggle Toolinfo</button></div>
+					<div>
+						<button type="button">Toggle Toolinfo</button>
+					</div>
 					<div class="leftcolumn">
-					    <h1>Sample</h1>
-						<h:outputText value="#{ftEvaluateAlternatives.sampleCharacterisationReportAsHTML}" escape="false" />
+						<h1>Sample</h1>
+						<h:outputText
+							value="#{ftEvaluateAlternatives.sampleCharacterisationReportAsHTML}"
+							escape="false" />
 					</div>
 					<div class="rightcolumn">
-					    <h1>Result</h1>
-						<h:outputText value="#{ftEvaluateAlternatives.resultCharacterisationReportAsHTML}" escape="false" />
+						<h1>Result</h1>
+						<h:outputText
+							value="#{ftEvaluateAlternatives.resultCharacterisationReportAsHTML}"
+							escape="false" />
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -324,5 +370,5 @@
 			</rich:popupPanel>
 			<!-- / characterisationReports -->
 		</h:form>
-   </ui:define>
+	</ui:define>
 </ui:composition>
