@@ -112,7 +112,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 SSHInMemoryTempFile tempFile = new SSHInMemoryTempFile();
-                tempFile.setName("result." + FileUtils.makeFilename(digitalObject.getFullname()));
+                tempFile.setName(FileUtils.makeFilename(digitalObject.getFullname()) + ".result");
                 for (TavernaPort inputToPort : inputToPorts) {
                     inputData.put(inputToPort, tempFile);
                 }
@@ -186,7 +186,6 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                     u.setFullname(action.getShortname() + " - " + digitalObject.getFullname());
                 }
                 FormatInfo tFormat = new FormatInfo();
-                // tFormat.setDefaultExtension(action.getTargetFormatInfo().getDefaultExtension());
                 result.setTargetFormat(tFormat);
                 result.setMigratedObject(u);
 
