@@ -312,7 +312,7 @@ public class ValidatePlanView extends AbstractView {
                 repositoryPassword);
             facesMessages.addInfo("Plan sucessfully deployed.");
         } catch (PlanningException e) {
-            facesMessages.addError("There was an error deploying the plan: " + e.getCause().getMessage());
+            facesMessages.addError("There was an error deploying the plan: " + e.getMessage());
         } finally {
             repositoryUsername = user.getUserGroup().getRepository().getUsername();
             repositoryPassword = "";
