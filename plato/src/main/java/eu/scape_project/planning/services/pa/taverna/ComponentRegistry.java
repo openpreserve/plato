@@ -25,13 +25,13 @@ import java.util.List;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.log4j.Logger;
-
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 import eu.scape_project.planning.utils.JGet;
+
+import org.apache.log4j.Logger;
 
 public class ComponentRegistry implements IPreservationActionRegistry {
     private static final int CONNECT_TIMEOUT = 15 * 1000;
@@ -81,7 +81,8 @@ public class ComponentRegistry implements IPreservationActionRegistry {
             .append("PREFIX meannot: <http://rdf.myexperiment.org/ontologies/annotations/>").append("\n")
             .append("PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/>").append("\n")
             .append("PREFIX mebase: <http://rdf.myexperiment.org/ontologies/base/>").append("\n")
-            .append("SELECT ?w ?wt ?wdesc ?wurl").append("\n").append("WHERE {").append("\n")
+            .append("SELECT ?w ?wt ?wdesc ?wurl ?wcurrentversion ?wcurrentversionnumber").append("\n")
+            .append("WHERE {").append("\n")
             .append("  ?w a mecontrib:Workflow ;").append("\n").append("     dcterms:title ?wt ;").append("\n")
             .append("     dcterms:description ?wdesc ;").append("\n").append("     meannot:has-tagging ?tscape ;")
             .append("\n").append("     meannot:has-tagging ?tmigration ;").append("\n")
@@ -91,7 +92,8 @@ public class ComponentRegistry implements IPreservationActionRegistry {
             .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
             .append("  ?tmigration meannot:uses-tag <http://www.myexperiment.org/tags/2681> .").append("\n")
             .append("  ?tcomponent meannot:uses-tag <http://www.myexperiment.org/tags/3214> .").append("\n")
-            .append("  ?wcurrentversion mebase:content-url ?wurl .").append("\n")
+            .append("  ?wcurrentversion mebase:content-url ?wurl ;").append("\n")
+            .append("     mebase:version-number ?wcurrentversionnumber .").append("\n")
             .append("  ?mimetypeTagging meannot:uses-tag ?mimeTypeTag .").append("\n")
             .append("  ?mimeTypeTag dcterms:title ?mimeType ").append("\n")
             .append("  FILTER regex('" + sourceFormat.getMimeType() + "', concat(?mimeType, '*'), 'i')").append("\n")
