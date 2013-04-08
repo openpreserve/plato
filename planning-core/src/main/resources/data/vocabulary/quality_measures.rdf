@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns="http://purl.org/DP/quality#"
   xml:base="http://purl.org/DP/quality/"
   xmlns:scales="http://purl.org/DP/quality/scales#"
@@ -735,7 +735,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#5">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>image distance mean absolute error MAE</skos:prefLabel>
-  <dct:description>average channel error distance</dct:description>
+  <dct:description> average channel error distance</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#1"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -873,7 +873,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#14">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>other yearly execution costs</skos:prefLabel>
-  <dct:description>Execution costs of an action which do not fit to a regular running cost category, measured in �/year</dct:description>
+  <dct:description>Execution costs of an action which do not fit to a regular running cost category, measured in €/year</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -881,7 +881,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#15">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Running hardware costs</skos:prefLabel>
-  <dct:description>Running hardware costs arising when using an action, measured in �/year (e.g. server rental costs).</dct:description>
+  <dct:description>Running hardware costs arising when using an action, measured in €/year (e.g. server rental costs).</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -889,7 +889,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#17">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Yearly running licence costs</skos:prefLabel>
-  <dct:description>Running software licence costs of an action in � per year.</dct:description>
+  <dct:description>Running software licence costs of an action in € per year.</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -897,7 +897,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#18">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Running licence costs per object</skos:prefLabel>
-  <dct:description>Software licence costs for running an action on one object (in � per object)</dct:description>
+  <dct:description>Software licence costs for running an action on one object (in € per object)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -905,7 +905,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#19">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Running personell costs</skos:prefLabel>
-  <dct:description>Running costs for operating an action per year (in �)</dct:description>
+  <dct:description>Running costs for operating an action per year (in €)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -913,7 +913,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#20">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Total running costs</skos:prefLabel>
-  <dct:description>Total sum of costs of operating an action (in �)</dct:description>
+  <dct:description>Total sum of costs of operating an action (in €)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -921,7 +921,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#21">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Running costs per object</skos:prefLabel>
-  <dct:description>Running operational costs of an action in � per object.</dct:description>
+  <dct:description>Running operational costs of an action in € per object.</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#9"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1152,7 +1152,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#61">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>sampling frequency unit</skos:prefLabel>
-  <dct:description>The unit of measurement for X Sampling Frequency and Y Sampling Frequency.</dct:description>
+  <dct:description>The unit of measurement for X Sampling Frequency and Y Sampling Frequency. </dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#22"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#ORDINAL" />
   <restriction>none/inch/cm</restriction>
@@ -1252,7 +1252,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#137">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>quantitative archival storage costs</skos:prefLabel>
-  <dct:description>Effects of a preservation action on archival storage costs, expressed as archival storage costs per object over a time period of 10 years, measured in  �.</dct:description>
+  <dct:description>Effects of a preservation action on archival storage costs, expressed as archival storage costs per object over a time period of 10 years, measured in  €.</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#46"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1284,14 +1284,14 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#30">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>TCO of action</skos:prefLabel>
-  <dct:description>Total costs of setting up and operating an action (in �)</dct:description>
+  <dct:description>Total costs of setting up and operating an action (in €)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#10"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#44">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
-  <skos:prefLabel>coverage of objects</skos:prefLabel>
+  <skos:prefLabel>coverage of objects </skos:prefLabel>
   <dct:description>Objects supported by the action as percentage of overall objects of this content that need to be supported</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#15"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
@@ -1710,7 +1710,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#16">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>feature development costs</skos:prefLabel>
-  <dct:description>Costs for developing new features which are not available in the software but required for successful operations (�)</dct:description>
+  <dct:description>Costs for developing new features which are not available in the software but required for successful operations (€)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1718,7 +1718,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#22">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Initial hardware costs</skos:prefLabel>
-  <dct:description>Initial hardware costs arising when deploying an action (e.g. new hardware needs to be acquired to get software running) measured in �</dct:description>
+  <dct:description>Initial hardware costs arising when deploying an action (e.g. new hardware needs to be acquired to get software running) measured in €</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1726,7 +1726,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#23">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Other initial setup costs</skos:prefLabel>
-  <dct:description>Setup costs of an action which do not fit to any other given setup costs, in �</dct:description>
+  <dct:description>Setup costs of an action which do not fit to any other given setup costs, in €</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1734,7 +1734,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#24">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Initial customization costs</skos:prefLabel>
-  <dct:description>Costs for customizing an action (e.g. performance-tuning), in �</dct:description>
+  <dct:description>Costs for customizing an action (e.g. performance-tuning), in €</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1742,7 +1742,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#25">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Initial integration costs</skos:prefLabel>
-  <dct:description>Costs for integrating an action in the current environment, in �</dct:description>
+  <dct:description>Costs for integrating an action in the current environment, in €</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1750,7 +1750,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#26">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Initial software licence costs</skos:prefLabel>
-  <dct:description>Initial software licence costs of an action, in �</dct:description>
+  <dct:description>Initial software licence costs of an action, in €</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1758,7 +1758,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#27">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Costs of external expertise for action setup</skos:prefLabel>
-  <dct:description>Cost for any external expertise required to setup an action (in �)</dct:description>
+  <dct:description>Cost for any external expertise required to setup an action (in €)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1766,7 +1766,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#28">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Software training costs</skos:prefLabel>
-  <dct:description>Costs for training staff in operating an action (in �)</dct:description>
+  <dct:description>Costs for training staff in operating an action (in €)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1774,7 +1774,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#29">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>Total setup costs</skos:prefLabel>
-  <dct:description>Total sum of costs needed to setup an action (in �)</dct:description>
+  <dct:description>Total sum of costs needed to setup an action (in €)</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#8"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#POSITIVENUMBER" />
 </rdf:Description>
@@ -1873,7 +1873,7 @@
   <dct:description>Indicates how good 3D object clipping is working.</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#71"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#ORDINAL" />
-  <restriction>no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
+  <restriction> no 3D objects displayed/not applicable/severe errors on whole image/errors noticeable but do not affect gameplay/no errors noticeable</restriction>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#191">
@@ -2112,7 +2112,7 @@
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#108">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
   <skos:prefLabel>stability judgement</skos:prefLabel>
-  <dct:description>Judgement of the stability of an action</dct:description>
+  <dct:description>Judgement of the stability of an action </dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#35"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#ORDINAL" />
   <restriction>stable/largely stable/unstable</restriction>
@@ -2823,7 +2823,7 @@
 
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#116">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
-  <skos:prefLabel>object-specific configuration</skos:prefLabel>
+  <skos:prefLabel>object-specific configuration </skos:prefLabel>
   <dct:description>Indicator how the action manages object-level specific configuration settings</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#36"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#ORDINAL" />
@@ -2972,7 +2972,7 @@
 
 <rdf:Description rdf:about="http://purl.org/DP/quality/measures#131">
   <rdf:type rdf:resource="http://purl.org/DP/quality#Measure"/>
-  <skos:prefLabel>valid Doublin Core (DC) metadata</skos:prefLabel>
+  <skos:prefLabel>valid Dublin Core (DC) metadata</skos:prefLabel>
   <dct:description>Indicates if XMP-metadata contains valid Dublin Core data.</dct:description>
   <attribute rdf:resource="http://purl.org/DP/quality/attributes#44"/>
   <scale rdf:resource="http://purl.org/DP/quality/scales#BOOLEAN" />

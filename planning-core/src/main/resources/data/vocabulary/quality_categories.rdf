@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF xmlns="http://purl.org/DP/quality#"
   xml:base="http://purl.org/DP/quality/"
   xmlns:scales="http://purl.org/DP/quality/scales#"
@@ -9,7 +9,7 @@
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema#">  
-
+     
 <rdf:Description rdf:about="http://purl.org/DP/quality/categories#format_sustainability">
   <rdf:type rdf:resource="http://purl.org/DP/quality#CriterionCategory"/>
   <skos:prefLabel>Format sustainability</skos:prefLabel>
