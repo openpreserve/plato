@@ -44,13 +44,13 @@ public class CriteriaManagerTest {
 	
 	@Test
 	public void testRetriveSingleMeasureBasic() {
-		Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/3");
+		Measure m = criteriaManager.getMeasure("http://purl.org/DP/quality/measures#3");
 		Assert.assertNotNull(m);
 	}
 
 	@Test
         public void testMeasureWithPositiveNumberScale() {
-            Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/3");
+            Measure m = criteriaManager.getMeasure("http://purl.org/DP/quality/measures#3");
             Assert.assertNotNull(m);
 
             Scale s = m.getScale();
@@ -61,7 +61,7 @@ public class CriteriaManagerTest {
 
         @Test
         public void testMeasureWithPositiveIntegerScale() {
-            Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/96");
+            Measure m = criteriaManager.getMeasure("http://purl.org/DP/quality/measures#96");
             Assert.assertNotNull(m);
 
             Scale s = m.getScale();
@@ -72,7 +72,7 @@ public class CriteriaManagerTest {
 	
         @Test
         public void testMeasureWithOrdinalScale() {
-            Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/38");
+            Measure m = criteriaManager.getMeasure("http://purl.org/DP/quality/measures#38");
             Assert.assertNotNull(m);
 
             Scale s = m.getScale();
@@ -84,7 +84,7 @@ public class CriteriaManagerTest {
         
 	@Test
 	public void testRetrievedMeasureIsComplete() {
-	    Measure m = criteriaManager.getMeasure("http://scape-project.eu/pw/vocab/measures/30");
+	    Measure m = criteriaManager.getMeasure("http://purl.org/DP/quality/measures#30");
 	    Assert.assertNotNull(m);
             Assert.assertTrue(StringUtils.isNotEmpty(m.getUri()));
             Assert.assertTrue(StringUtils.isNotEmpty(m.getName()));

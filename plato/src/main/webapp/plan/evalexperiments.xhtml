@@ -141,7 +141,7 @@
 
 		<h:form>
 			<!-- characterisationReports -->
-			<rich:popupPanel id="characterisationReports" minWidth="800"
+			<rich:popupPanel id="characterisationReports" minWidth="996"
 				minHeight="700" resizeable="true" domElementAttachment="form">
 
 				<f:facet name="header">
@@ -156,7 +156,7 @@
 					<div>
 						<button type="button">Toggle Toolinfo</button>
 					</div>
-					<div class="leftcolumn">
+					<div class="leftcolumn" style="max-width: 498px;">
 						<h:outputText
 							value="#{evalexperiments.sampleCharacterisationReportAsHTML}"
 							escape="false" />

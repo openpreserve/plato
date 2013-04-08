@@ -133,6 +133,9 @@ public class DefineBasisView extends AbstractView implements Serializable {
     public void useSelectedScenario(){
         if (selectedScenario != null) {
             plan.getProjectBasis().setSelectedScenarioURI(selectedScenario.getUri());
+            if (plan.getProjectBasis().getDocumentTypes().isEmpty()) {
+            	plan.getProjectBasis().setDocumentTypes(selectedScenario.getContentSet());
+            }
         }
     }
     

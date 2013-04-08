@@ -1017,6 +1017,7 @@ public class Leaf extends TreeNode {
             double transformerT5 = nt.getThreshold5();
             
             // calculate output bounds
+            // FIXME This uses internal logic of the transformer, should be reused instead: at least the check for increasing/decreasing
             // increasing thresholds
             if (transformerT1 <= transformerT5) {
                 // lower bound

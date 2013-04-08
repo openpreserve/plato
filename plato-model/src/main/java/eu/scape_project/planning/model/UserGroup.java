@@ -19,9 +19,7 @@ package eu.scape_project.planning.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -110,7 +108,7 @@ public class UserGroup implements Serializable {
     // }
 
     public List<RDFPolicy> getPolicies() {
-    	return policies;
+        return policies;
     }
 
     public void setPolicies(List<RDFPolicy> policies) {

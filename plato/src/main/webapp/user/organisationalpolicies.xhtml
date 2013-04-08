@@ -24,7 +24,7 @@
 				    
 				    <ul>
 				    <c:forEach items="#{s.controlPolicies}" var="p">
-				    	<li>#{organisationalPolicies.controlPolicyToString(p)}</li>
+				    	<li><b>#{p.name}</b>: Measure <b>#{p.measure.name}</b> <b>#{p.modality}</b> have a value <b>#{p.qualifier}</b> <b>#{p.value}</b></li>
 				    </c:forEach>
 				    </ul>
 	        	</c:forEach>

@@ -16,7 +16,6 @@
  ******************************************************************************/
 package eu.scape_project.planning.policies;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -129,26 +128,31 @@ public class OrganisationalPolicies implements Serializable {
         model = model.read(reader, null);
         reader.close();
 
-        String cpModelFile = POLICY_ONTOLOGY_DIR + File.separator + CONTROL_POLICY_FILE;
-        Model cpModel = FileManager.get().loadModel(cpModelFile);
+//        String cpModelFile = POLICY_ONTOLOGY_DIR + File.separator + CONTROL_POLICY_FILE;
+        Model cpModel = FileManager.get().loadModel("data/vocabulary/control-policy.rdf");
+        cpModel.add(FileManager.get().loadModel("data/vocabulary/control-policy_modalities.rdf"));
+        cpModel.add(FileManager.get().loadModel("data/vocabulary/control-policy_qualifiers.rdf"));
+        
 
-        model = model.union(cpModel);
+        model = model.add(cpModel);
 
-        String statement = "SELECT ?scenario ?scenario_name ?objective ?objectiveType ?measure ?modality ?value ?qualifier WHERE { "
-            + "?scenario rdf:type pw:Scenario . "
-            + "?scenario rdfs:label ?scenario_name . "
-            + "?scenario pw:hasObjective ?objective . "
+        String statement = "SELECT ?scenario ?scenario_name ?objective ?objective_label ?objectiveType ?measure ?modality ?value ?qualifier WHERE { "
+            + "?scenario rdf:type pc:PreservationCase . "
+            + "?scenario skos:prefLabel ?scenario_name . "
+            + "?scenario pc:hasObjective ?objective . "
             + "?objective rdf:type ?objectiveType . "
             + "?objectiveType rdfs:subClassOf cp:Objective . "
-            + "?objective cp:property ?measure . "
+            + "?objective skos:prefLabel ?objective_label . "
+            + "?objective cp:measure ?measure . "
             + "?objective cp:value ?value . "
             + "OPTIONAL {?objective cp:qualifier ?qualifier} . "
             + "OPTIONAL {?objective cp:modality ?modality} . " + "}";
 
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
             + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  "
-            + "PREFIX cp: <http://scape-project.eu/pw/vocab/control-policy#> ";
+            + "PREFIX pc: <http://purl.org/DP/preservation-case#> "
+            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX cp: <http://purl.org/DP/control-policy#> ";
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -160,6 +164,7 @@ public class OrganisationalPolicies implements Serializable {
                 QuerySolution qs = results.next();
 
                 String controlPolicyUri = qs.getResource("objective").getURI();
+                String controlPolicyName = qs.getLiteral("objective_label").toString();
                 String scenarioUri = qs.getResource("scenario").getURI();
                 String scenarioName = qs.getLiteral("scenario_name").toString();
                 String measureUri = qs.getResource("measure").toString();
@@ -183,6 +188,7 @@ public class OrganisationalPolicies implements Serializable {
                 Measure m = criteriaManager.getMeasure(measureUri);
 
                 cp.setUri(controlPolicyUri);
+                cp.setName(controlPolicyName);
                 cp.setValue(value);
                 cp.setMeasure(m);
 

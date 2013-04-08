@@ -188,10 +188,10 @@ public class PlanMigrator {
             if (success && "3.9.9".equals(version)) {
                 // transform the document to version 4.0.0
                 fileFrom = fileTo;
-                fileTo = fileFrom + "_V4.0.0.xml";
-                success = transformXmlData(fileFrom, fileTo, "data/xslt/V3.9.9-to-V4.0.0.xsl");
-                appliedTransformations.add("V3.9.9-to-V4.0.0.xsl");
-                version = "4.0.0";
+                fileTo = fileFrom + "_V4.0.1.xml";
+                success = transformXmlData(fileFrom, fileTo, "data/xslt/V3.9.9-to-V4.0.1.xsl");
+                appliedTransformations.add("V3.9.9-to-V4.0.1.xsl");
+                version = "4.0.1";
             }
 
             if (success) {

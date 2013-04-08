@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.RDFPolicy;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.model.policy.ControlPolicy;
 import eu.scape_project.planning.utils.FacesMessages;
 
 @Named("organisationalPolicies")
@@ -152,21 +151,6 @@ public class OrganisationalPoliciesView implements Serializable {
             facesMessages.addError("An error occured while generating the policy file");
         }
         FacesContext.getCurrentInstance().responseComplete();
-    }
-
-    public String controlPolicyToString(ControlPolicy controlPolicy) {
-        String text = "The control policy identified by URI " + controlPolicy.getUri() + " ";
-        
-        String modality = "";
-        if (controlPolicy.getModality() != null) {
-            modality = controlPolicy.getModality().toString(); 
-        }
-        
-        text += "indicates that measure " + controlPolicy.getMeasure().getName() + " ";
-        text += modality + " have a value " + controlPolicy.getQualifier().toString()
-            + " " + controlPolicy.getValue();
-
-        return text;
     }
 
     /**

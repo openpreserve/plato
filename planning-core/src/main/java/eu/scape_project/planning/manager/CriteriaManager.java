@@ -79,8 +79,9 @@ import eu.scape_project.planning.model.scales.Scale;
 public class CriteriaManager implements Serializable {
     private static final long serialVersionUID = -2305838596050068452L;
 
-    public static final String MEASURES_DIR = "data/measures";
-    public static final String MEASURES_FILE = "attributes_measures.rdf";
+    public static final String MEASURES_FILE = "data/vocabulary/quality_measures.rdf";
+    public static final String ATTRIBUTES_FILE = "data/vocabulary/quality_attributes.rdf";
+    public static final String CATEGORIES_FILE = "data/vocabulary/quality_categories.rdf";
 
     private Logger log = LoggerFactory.getLogger(CriteriaManager.class);
 
@@ -186,11 +187,12 @@ public class CriteriaManager implements Serializable {
     private void resolveCriterionCategories() {
         knownCategories.clear();
         
-        String statement = "SELECT ?c ?cn ?scope WHERE { " + "?c rdf:type pw:CriterionCategory . "
-            + "?c rdfs:label ?cn . " + "?c pw:scope ?scope }";
+        String statement = "SELECT ?c ?cn ?scope WHERE { " + "?c rdf:type quality:CriterionCategory . "
+            + "?c skos:prefLabel ?cn . " + "?c quality:scope ?scope }";
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
             + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+            + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX quality: <http://purl.org/DP/quality#>";
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -221,12 +223,14 @@ public class CriteriaManager implements Serializable {
     private void resolveAttributes() {
         knownAttributes.clear();
         
-        String statement = "SELECT ?a ?an ?ad ?ac WHERE { " + "?a rdf:type pw:Attribute . " + "?a rdfs:label ?an . "
-            + "?a pw:description ?ad . " + "?a pw:criterioncategory ?ac }";
+        String statement = "SELECT ?a ?an ?ad ?ac WHERE { " + "?a rdf:type quality:Attribute . " + "?a skos:prefLabel ?an . "
+            + "?a dct:description ?ad . " + "?a quality:criterionCategory ?ac }";
 
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
             + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+            + "PREFIX dct:<http://purl.org/dc/terms/> "
+            + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX quality: <http://purl.org/DP/quality#>";
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -251,13 +255,15 @@ public class CriteriaManager implements Serializable {
     private void resolveMeasures() {
         knownMeasures.clear();
         
-        String statement = "SELECT ?m ?mn ?md ?a ?s ?r WHERE { " + "?m rdf:type pw:Measure . "
-            + "?m pw:attribute ?a . " + "?m rdfs:label ?mn . " + "?m pw:description ?md . " + "?m pw:scale ?s . "
-            + "optional{?m pw:restriction ?r} }";
+        String statement = "SELECT ?m ?mn ?md ?a ?s ?r WHERE { " + "?m rdf:type quality:Measure . "
+            + "?m quality:attribute ?a . " + "?m skos:prefLabel ?mn . " + "?m dct:description ?md . " + "?m quality:scale ?s . "
+            + "optional{?m quality:restriction ?r} }";
 
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
             + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX pw: <http://scape-project.eu/pw/vocab/>  ";
+            + "PREFIX dct:<http://purl.org/dc/terms/> "
+            + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX quality: <http://purl.org/DP/quality#>";
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -329,9 +335,10 @@ public class CriteriaManager implements Serializable {
      */
     @Lock(LockType.WRITE)
     public void reload() {
-        String dir = MEASURES_DIR + "/" + MEASURES_FILE;
-
-        model = FileManager.get().loadModel(dir);
+        model = FileManager.get().loadModel(CATEGORIES_FILE);
+        model.add(FileManager.get().loadModel(ATTRIBUTES_FILE));
+        model.add(FileManager.get().loadModel(MEASURES_FILE));
+        
 
         resolveCriterionCategories();
         resolveAttributes();
