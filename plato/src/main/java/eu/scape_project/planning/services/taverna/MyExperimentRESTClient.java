@@ -139,6 +139,8 @@ public class MyExperimentRESTClient {
 
     private String myExperimentUri;
 
+    private Client client;
+
     private WebResource myExperiment;
 
     /**
@@ -151,7 +153,7 @@ public class MyExperimentRESTClient {
 
         ClientConfig cc = new DefaultClientConfig();
         cc.getFeatures().put(ClientConfig.FEATURE_DISABLE_XML_SECURITY, true);
-        Client client = Client.create(cc);
+        client = Client.create(cc);
 
         myExperiment = client.resource(myExperimentUri);
     }
@@ -178,13 +180,39 @@ public class MyExperimentRESTClient {
      *            the id of the workflow
      * @return a workflow description
      */
-    public WorkflowDescription getWorkflow(String id) {
+    public WorkflowDescription getWorkflow(String id, String version) {
         GenericType<JAXBElement<WorkflowDescription>> workflowType = new GenericType<JAXBElement<WorkflowDescription>>() {
         };
         try {
             LOG.debug("Querying myExperiments for workflow id [{}]", id);
-            return myExperiment.path(WORKFLOW_PATH).queryParam("id", id).accept(MediaType.APPLICATION_XML_TYPE)
-                .get(workflowType).getValue();
+            return myExperiment.path(WORKFLOW_PATH).queryParam("id", id).queryParam("version", version)
+                .accept(MediaType.APPLICATION_XML_TYPE).get(workflowType).getValue();
+        } catch (UniformInterfaceException e) {
+            if (e.getResponse().getStatus() == NOT_FOUND_STATUS) {
+                return null;
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    /**
+     * Gets the workflow description of a workflow.
+     * 
+     * @param id
+     *            the id of the workflow
+     * @return a workflow description
+     */
+    public WorkflowDescription getWorkflow(String uri) {
+        GenericType<JAXBElement<WorkflowDescription>> workflowType = new GenericType<JAXBElement<WorkflowDescription>>() {
+        };
+
+        client.setFollowRedirects(true);
+        WebResource resource = client.resource(uri).queryParam("all_elements", "yes");
+
+        try {
+            LOG.debug("Querying myExperiments for workflow resource [{}]", uri);
+            return resource.accept(MediaType.APPLICATION_XML_TYPE).get(workflowType).getValue();
         } catch (UniformInterfaceException e) {
             if (e.getResponse().getStatus() == NOT_FOUND_STATUS) {
                 return null;

@@ -763,11 +763,13 @@ div.rf-pp-cntr {
 .paged-list {
 	width: 100%;
 	padding: 2px;
+	/*
 	background-color: white;
 	border-top: 1px solid #155C89;
 	border-right: 1px solid #155C89;
 	border-bottom: 1px solid #155C89;
 	border-left: 11px solid #155C89;
+	*/
 }
 
 .paged-list .rf-dg {
@@ -810,8 +812,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                                                        
-		50);
+	filter: alpha(opacity = 50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -852,4 +853,131 @@ span.modality {
 
 span.value {
 	font-weight: bold;
+}
+
+/* service outputs */
+td.service-marker {
+	background-color: #CFCDCD;
+	width: 11px;
+	padding: 0px;
+}
+
+td.service-marker-myExperiment {
+	background-color: #ce0434;
+}
+
+td.service-marker.service-marker-MiniMEE-migration {
+	background-color: white;
+}
+
+td.service-marker.service-marker-P2 {
+	background-color: #005eb2;
+}
+
+.service-addservice {
+	width: 20px;
+}
+
+input.service-addservice-add {
+	-moz-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
+	box-shadow: inset 0px 1px 0px 0px #D9D6D6;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
+		), color-stop(1, #B0AEAE) );
+	background: -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CFCDCD',
+		endColorstr='#B0AEAE' );
+	background-color: #999898;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #999898;
+	display: inline-block;
+	color: #525151;
+	font-family: arial;
+	font-size: 30px;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 1px 1px 0px #D8D6D6;
+	padding: 3px;
+	height: 100%;
+}
+
+td.service-info {
+	position: relative;
+	padding: 0px;
+	font-size: 12px;
+}
+
+.service-info a {
+	font-size: 12px;
+}
+
+.service-info-panel {
+	display: block;
+	position: relative;
+	width: 100%;
+	min-height: 60px;
+	clear: both;
+}
+
+/* Clear after each node */
+.service-info-panel:before,.service-info-panel:after {
+	content: "";
+	display: table;
+}
+
+.service-info-panel:after {
+	clear: both;
+}
+
+.service-info-header {
+	padding: 3px;
+	background-color: #EEEEEE;
+	font-size: 14px;
+}
+
+.service-info-info {
+	width: 100%;
+	padding: 3px;
+}
+
+.service-info-footer {
+	padding: 3px;
+	background-color: #FAFAFA;
+	font-size: 12px;
+	clear: both;
+}
+
+.service-info-preview {
+	float: left;
+	max-width: 160px;
+	max-height: 160px;
+}
+
+.service-info-preview img {
+	max-width: 160px;
+	max-height: 160px;
+}
+
+.service-info-status {
+	float: right;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 16px;
+	width: 16px;
+}
+
+.service-status-start {
+	display: block;
+}
+
+.service-status-stop {
+	display: none;
+}
+
+.service-info-status img {
+	width: 16px;
+	height: 16px;
 }

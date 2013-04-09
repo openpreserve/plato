@@ -25,8 +25,6 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.AlternativesDefinition;
@@ -34,10 +32,13 @@ import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
 import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryFactory;
+
+import org.slf4j.Logger;
 
 /**
  * Classed containing the business logic for defining alternatives.
@@ -62,33 +63,38 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         prepareChangesForPersist.prepare(plan);
 
         saveEntity(plan.getTree());
-        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
+        plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
 
         saveEntity(plan.getRecommendation());
     }
 
     /**
      * Provides a list of actions available in the given registry for the given
-     * formatInfo
+     * formatInfo.
      * 
      * @param formatInfo
+     *            format info used to query
      * @param registry
-     * @return
+     *            registry to query
+     * @return a list of preservation action infos
      * @throws PlatoException
+     *             if the registry is not properly configured
      */
-    public List<PreservationActionDefinition> queryRegistry(FormatInfo formatInfo,
+    public List<IPreservationActionInfo> queryRegistry(FormatInfo formatInfo,
         PreservationActionRegistryDefinition registry) throws PlatoException {
         IPreservationActionRegistry serviceLocator = null;
+
         try {
             serviceLocator = PreservationActionRegistryFactory.getInstance(registry);
         } catch (IllegalArgumentException e1) {
             throw new PlatoException("Registry:  " + registry.getShortname()
                 + " has changed and needs to be reconfigured.");
         }
+
         if (serviceLocator == null) {
             throw new PlatoException("Failed to access " + registry.getShortname());
         }
-        // query the registry
+
         return serviceLocator.getAvailableActions(formatInfo);
     }
 
@@ -96,20 +102,31 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         return PreservationActionRegistryFactory.getAvailableRegistries();
     }
 
-    public void createAlternativesForPreservationActions(List<PreservationActionDefinition> selectedActions) {
-        for (PreservationActionDefinition action : selectedActions) {
-            /*
-             * Create a new alternative for this service
-             */
-            String uniqueName = plan.getAlternativesDefinition().createUniqueName(action.getShortname());
-            Alternative a = Alternative.createAlternative(uniqueName, action);
+    public void createAlternativesForPreservationActions(List<IPreservationActionInfo> selectedActions) {
+        for (IPreservationActionInfo actionInfo : selectedActions) {
+            createAlternative(actionInfo);
+        }
+    }
 
-            // and add it to the preservation planning project
-            try {
-                plan.getAlternativesDefinition().addAlternative(a);
-            } catch (PlanningException e) {
-                log.error(e.getMessage(), e);
-            }
+    public void createAlternative(IPreservationActionInfo actionInfo) {
+        PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
+        actionDefinition.setActionIdentifier(actionInfo.getActionIdentifier());
+        actionDefinition.setShortname(actionInfo.getShortname());
+        actionDefinition.setDescriptor(actionInfo.getDescriptor());
+        actionDefinition.setUrl(actionInfo.getUrl());
+        actionDefinition.setInfo(actionInfo.getInfo());
+
+        /*
+         * Create a new alternative for this service
+         */
+        String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
+        Alternative a = Alternative.createAlternative(uniqueName, actionDefinition);
+
+        // and add it to the preservation planning project
+        try {
+            plan.getAlternativesDefinition().addAlternative(a);
+        } catch (PlanningException e) {
+            log.error(e.getMessage(), e);
         }
     }
 }

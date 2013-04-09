@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -31,7 +31,7 @@ import org.dom4j.io.SAXReader;
 
 public class SparqlResultComponentsParser {
 
-    public void addComponentsFromSparqlResult(List<PreservationActionDefinition> components, Reader sparqlResult)
+    public void addComponentsFromSparqlResult(List<IPreservationActionInfo> components, Reader sparqlResult)
         throws PlatoException {
 
         SAXReader reader = new SAXReader();
@@ -64,14 +64,14 @@ public class SparqlResultComponentsParser {
 
             for (int i = 0; i < componentsNodes.size(); i++) {
                 Element component = (Element) componentsNodes.get(i);
-                PreservationActionDefinition def = new PreservationActionDefinition();
+                MyExperimentPreservationActionInfo def = new MyExperimentPreservationActionInfo();
 
                 def.setShortname(selectTitleXpath.selectSingleNode(component).getText());
                 // def.setUrl(selectUrlXpath.selectSingleNode(component).getText());
                 def.setUrl(selectDescriptorXpath.selectSingleNode(component).getText() + "/download?version="
                     + selectCurrentVersionNumberXpath.selectSingleNode(component).getText());
                 def.setInfo(selectDescriptionXpath.selectSingleNode(component).getText());
-                def.setDescriptor(selectDescriptorXpath.selectSingleNode(component).getText());
+                def.setDescriptor(selectCurrentVersionXpath.selectSingleNode(component).getText());
 
                 components.add(def);
             }

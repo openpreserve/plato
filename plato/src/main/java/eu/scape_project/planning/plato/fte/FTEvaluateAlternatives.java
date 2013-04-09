@@ -22,8 +22,6 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.EvaluationStatus;
@@ -33,6 +31,7 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.SampleObject;
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
 import eu.scape_project.planning.plato.bean.ExperimentStatus;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
@@ -41,6 +40,8 @@ import eu.scape_project.planning.plato.wf.RunExperiments;
 import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.validation.ValidationError;
+
+import org.slf4j.Logger;
 
 @Stateful
 @ConversationScoped
@@ -106,8 +107,8 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
         defineAlternatives.save();
         runExperiments.save();
         evaluateExperiments.save();
-        
-        //super.saveEntity(plan);
+
+        // super.saveEntity(plan);
     }
 
     /**
@@ -183,16 +184,23 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
         for (PreservationActionRegistryDefinition reg : allRegistries) {
             try {
                 if (reg.getShortname().contains("MiniMEE")) {
-                    List<PreservationActionDefinition> actions = defineAlternatives.queryRegistry(formatInfo, reg);
+                    List<IPreservationActionInfo> actions = defineAlternatives.queryRegistry(formatInfo, reg);
                     /*
                      * populate the list of available services TODO what about
                      * adding planets and filtering services according to
                      * "sensible" target formats (e.g. images:
                      * png,tiff,jp2,jpg,dng) ?
                      */
-                    for (PreservationActionDefinition definition : actions) {
+                    for (IPreservationActionInfo actionInfo : actions) {
+                        PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
+                        actionDefinition.setActionIdentifier(actionInfo.getActionIdentifier());
+                        actionDefinition.setShortname(actionInfo.getShortname());
+                        actionDefinition.setDescriptor(actionInfo.getDescriptor());
+                        actionDefinition.setUrl(actionInfo.getUrl());
+                        actionDefinition.setInfo(actionInfo.getInfo());
+
                         Alternative a = Alternative.createAlternative(plan.getAlternativesDefinition()
-                            .createUniqueName(definition.getShortname()), definition);
+                            .createUniqueName(actionDefinition.getShortname()), actionDefinition);
                         // and add it to the preservation planning project
                         plan.getAlternativesDefinition().addAlternative(a);
                     }

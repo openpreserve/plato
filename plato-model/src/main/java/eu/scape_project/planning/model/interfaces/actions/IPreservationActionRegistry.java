@@ -26,13 +26,12 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.PreservationActionDefinition;
 
 /**
  * Interface for preservation action registries supported by plato
  * 
  * @author Michael Kraxner
- *
+ * 
  */
 public interface IPreservationActionRegistry {
     /**
@@ -43,18 +42,21 @@ public interface IPreservationActionRegistry {
      * @throws MalformedURLException
      */
     void connect(String URL) throws ServiceException, MalformedURLException;
+
     /**
-     * returns a list of preservation actions which can handle objects of the given sourceFormat
+     * returns a list of preservation actions which can handle objects of the
+     * given sourceFormat
      * 
      * @param sourceFormat
-     * @return null, if nothing is found 
+     * @return null, if nothing is found
      * @throws RemoteException
      */
-    List<PreservationActionDefinition> getAvailableActions(FormatInfo sourceFormat) throws PlatoException;
+    List<IPreservationActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException;
+
     String getLastInfo();
-    
+
     String getToolIdentifier(String url);
-    
+
     String getToolParameters(String url);
-    
+
 }

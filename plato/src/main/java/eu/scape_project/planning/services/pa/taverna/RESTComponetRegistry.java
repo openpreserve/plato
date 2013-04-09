@@ -38,7 +38,7 @@ public class RESTComponetRegistry implements IPreservationActionRegistry {
     public void connect(String URL) throws ServiceException, MalformedURLException {
     }
 
-    public List<IPreservationActionInfo> getAvailableActions_TEST(FormatInfo sourceFormat) throws PlatoException {
+    public List<IPreservationActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
         List<IPreservationActionInfo> preservationActions = new ArrayList<IPreservationActionInfo>();
 
         ComponentQuery query = client.createComponentQuery();
@@ -49,9 +49,9 @@ public class RESTComponetRegistry implements IPreservationActionRegistry {
             MyExperimentPreservationActionInfo actionInfo = new MyExperimentPreservationActionInfo();
 
             actionInfo.setShortname(workflow.getName());
-            actionInfo.setUrl(workflow.getResource());
+            actionInfo.setUrl(workflow.getResource().toASCIIString());
             actionInfo.setInfo(workflow.getName());
-            actionInfo.setDescriptor(workflow.getUri());
+            actionInfo.setDescriptor(workflow.getUri().toASCIIString());
         }
 
         return preservationActions;

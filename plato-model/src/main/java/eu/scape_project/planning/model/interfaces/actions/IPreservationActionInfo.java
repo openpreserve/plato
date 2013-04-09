@@ -1,16 +1,16 @@
 package eu.scape_project.planning.model.interfaces.actions;
 
-import java.net.URL;
-
 public interface IPreservationActionInfo {
+
+    public String getActionIdentifier();
 
     public String getShortname();
 
     public void setShortname(String shortName);
 
-    public URL getDescriptor();
+    public String getDescriptor();
 
-    public void setDescriptor(URL descriptor);
+    public void setDescriptor(String descriptor);
 
     public String getInfo();
 

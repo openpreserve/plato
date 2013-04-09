@@ -34,48 +34,49 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
+
 import org.hibernate.annotations.IndexColumn;
 import org.hibernate.validator.constraints.Length;
 
-
 /**
  * Definition of a preservation action
- *
+ * 
  * @author Michael Kraxner
- *
  */
 @Entity
-public class PreservationActionDefinition implements Serializable, ITouchable{
+public class PreservationActionDefinition implements Serializable, ITouchable, IPreservationActionInfo {
     private static final long serialVersionUID = 4825419755334685518L;
-    
+
     @Id
     @GeneratedValue
     private int id;
-    
+
     /**
      * Short name of the alternative.
      */
     private String shortname;
-    
+
     /**
-     * references to a descriptor, which could be a PCDL, a RDF URI etc..
-     * This should become a URI ASAP!
+     * references to a descriptor, which could be a PCDL, a RDF URI etc.. This
+     * should become a URI ASAP!
      */
     private String descriptor;
-    
+
     /**
      * Additional information about the service.
      */
     @Lob
     private String info;
-    
+
     /**
-     * Action identifier which is used to find the matching stub and invoke the action.
+     * Action identifier which is used to find the matching stub and invoke the
+     * action.
      */
     private String actionIdentifier;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "padef_fk")
-    @IndexColumn(name="indexcol",base=1)
+    @IndexColumn(name = "indexcol", base = 1)
     private List<Parameter> params = new LinkedList<Parameter>();
 
     /**
@@ -83,7 +84,6 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
      */
     @Lob
     private String parameterInfo;
-    
 
     /**
      * URL to the service.
@@ -91,50 +91,50 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
     @Length(max = 2000)
     @Column(length = 2000)
     private String url;
-    
-    
-    @OneToOne(cascade=CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL)
     private FormatInfo targetFormatInfo;
-    
+
     private String targetFormat;
-    
+
     /**
      * This is currently only used by the MM, so no need e.g. to export/import
-     * This value is set by the service registry upon querying 
+     * This value is set by the service registry upon querying
      */
     private boolean emulated = false;
-    
+
     // most actiondefinitions are executable (by now)
     private boolean executable = true;
-    
-    @OneToOne(cascade=CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
     @Transient
     private boolean selected = false;
-    
+
     @Transient
     private boolean execute = false;
 
-    
     /**
-     * Returns a link to an experience base 
-     * TODO experience base need to be defined first  
+     * Returns a link to an experience base TODO experience base need to be
+     * defined first
      */
     public String getExperienceBase() {
-    	return null;
+        return null;
     }
-    
+
     public boolean isExecutable() {
         return executable;
     }
+
     public void setExecutable(boolean executable) {
         this.executable = executable;
     }
-    
+
     public FormatInfo getTargetFormatInfo() {
         return targetFormatInfo;
     }
+
     public void setTargetFormatInfo(FormatInfo targetFormatInfo) {
         this.targetFormatInfo = targetFormatInfo;
     }
@@ -142,6 +142,7 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
     public boolean isExecute() {
         return execute;
     }
+
     public void setExecute(boolean mayExecute) {
         this.execute = mayExecute;
     }
@@ -149,13 +150,15 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
     public String getDescriptor() {
         return descriptor;
     }
+
     public void setDescriptor(String descriptor) {
         this.descriptor = descriptor;
     }
-    
+
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -163,19 +166,23 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
     public String getInfo() {
         return info;
     }
+
     public void setInfo(String info) {
         this.info = info;
     }
-    
+
     public String getShortname() {
         return shortname;
     }
+
     public void setShortname(String shortname) {
         this.shortname = shortname;
     }
+
     public List<Parameter> getParams() {
         return params;
     }
+
     public void setParams(List<Parameter> params) {
         this.params = params;
     }
@@ -186,22 +193,27 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
     public String getTargetFormat() {
         return targetFormat;
     }
+
     public void setTargetFormat(String targetFormat) {
         this.targetFormat = targetFormat;
     }
+
     public boolean isSelected() {
         return selected;
     }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
     public String getActionIdentifier() {
         return actionIdentifier;
     }
+
     public void setActionIdentifier(String actionIdentifier) {
         this.actionIdentifier = actionIdentifier;
     }
-    
+
     public ChangeLog getChangeLog() {
         return changeLog;
     }
@@ -210,10 +222,10 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
         changeLog = value;
     }
 
-    public boolean isChanged(){
+    public boolean isChanged() {
         return changeLog.isAltered();
     }
-    
+
     public void touch() {
         changeLog.touch();
     }
@@ -224,7 +236,7 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
     }
-    
+
     public String getParamByName(String name) {
         for (Parameter param : params) {
             if (name.equals(param.getName()))
@@ -232,7 +244,7 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
         }
         return null;
     }
-    
+
     public void setParamByName(String name, String value) {
         Parameter p = null;
         for (Parameter param : params) {
@@ -244,26 +256,31 @@ public class PreservationActionDefinition implements Serializable, ITouchable{
         } else {
             p.setValue(value);
         }
-        
+
     }
+
     public boolean isEmulated() {
         return emulated;
     }
+
     public void setEmulated(boolean emulation) {
         this.emulated = emulation;
     }
-    
+
     public String getParameterInfo() {
         return parameterInfo;
     }
+
     public void setParameterInfo(String parameterInfo) {
         this.parameterInfo = parameterInfo;
     }
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}   
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 }

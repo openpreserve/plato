@@ -1,18 +1,23 @@
 package eu.scape_project.planning.services.pa.taverna;
 
-import java.net.URL;
-
 import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
 
 public class MyExperimentPreservationActionInfo implements IPreservationActionInfo {
 
+    private static final String ACTION_IDENTIFIER = "myExperiment";
+
     private String shortname;
 
-    private URL descriptor;
+    private String descriptor;
 
     private String info;
 
-    private URL url;
+    private String url;
+
+    @Override
+    public String getActionIdentifier() {
+        return ACTION_IDENTIFIER;
+    }
 
     @Override
     public String getShortname() {
@@ -25,12 +30,12 @@ public class MyExperimentPreservationActionInfo implements IPreservationActionIn
     }
 
     @Override
-    public URL getDescriptor() {
+    public String getDescriptor() {
         return descriptor;
     }
 
     @Override
-    public void setDescriptor(URL descriptor) {
+    public void setDescriptor(String descriptor) {
         this.descriptor = descriptor;
     }
 

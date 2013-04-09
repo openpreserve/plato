@@ -162,47 +162,53 @@
 									</div>
 								</ui:repeat>
 							</div>
-							<a4j:outputPanel id="lookupResultPanel">
-								<h:commandButton id="createAlternatives_2"
-									value="Create alternatives for selected services"
-									action="#{defineAlternatives.createAlternativesForPreservationActions}"
-									rendered="#{defineAlternatives.numOfAvailableActions > 20}" />
-								<h:dataTable value="#{defineAlternatives.availableActions}"
-									var="action" id="table"
-									rendered="#{not empty defineAlternatives.availableActions}"
-									styleClass="tableStyle" headerClass="tableStyle-header"
-									rowClasses="tableStyle-row">
-									<h:column>
-										<f:facet name="header">
-										</f:facet>
-										<h:selectBooleanCheckbox value="#{action.selected}" />
-									</h:column>
-									<h:column id="shortname">
-										<f:facet name="header">
-											<h:outputText value="Preservation Action" />
-										</f:facet>
-										<h:outputText value="#{action.shortname}" />
-									</h:column>
+
+							<ui:remove>
+								<a4j:outputPanel id="lookupResultPanel2">
+									<h:commandButton id="createAlternatives_2"
+										value="Create alternatives for selected services"
+										action="#{defineAlternatives.createAlternativesForPreservationActions}"
+										rendered="#{defineAlternatives.numOfAvailableActions > 20}" />
+									<h:dataTable value="#{defineAlternatives.availableActions}"
+										var="action" id="table"
+										rendered="#{not empty defineAlternatives.availableActions}"
+										styleClass="tableStyle" headerClass="tableStyle-header"
+										rowClasses="tableStyle-row">
+										<h:column>
+											<f:facet name="header">
+											</f:facet>
+											<h:selectBooleanCheckbox
+												value="#{defineAlternatives.actionSelection[action]}" />
+										</h:column>
+										<h:column id="shortname">
+											<f:facet name="header">
+												<h:outputText value="Preservation Action" />
+											</f:facet>
+											<h:outputText value="#{action.shortname}" />
+										</h:column>
+										<!--
 									<h:column id="targetformat">
 										<f:facet name="header">
 											<h:outputText value="Target Format" />
 										</f:facet>
-										<h:outputText value="#{action.targetFormat}" />
+										 <h:outputText value="#{action.targetFormat}" /> 
 									</h:column>
-									<h:column id="info">
-										<f:facet name="header">
-											<h:outputText value="Info" />
-										</f:facet>
-										<h:outputText value="#{action.info}" />
-									</h:column>
-									<h:column>
-										<f:facet name="header">
-											<h:outputText value="Link" />
-										</f:facet>
-										<x:div renderthis="#{not empty (action.descriptor)}">
-											<a target="_blank" href="#{action.descriptor}">#{action.descriptor}</a>
-										</x:div>
-									</h:column>
+									-->
+										<h:column id="info">
+											<f:facet name="header">
+												<h:outputText value="Info" />
+											</f:facet>
+											<h:outputText value="#{action.info}" />
+										</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="Link" />
+											</f:facet>
+											<x:div renderthis="#{not empty (action.descriptor)}">
+												<a target="_blank" href="#{action.descriptor}">#{action.descriptor}</a>
+											</x:div>
+										</h:column>
+										<!--
 									<h:column>
 										<f:facet name="header">
 											<h:outputText value="Experience" />
@@ -213,11 +219,43 @@
 												base</a>
 										</x:div>
 									</h:column>
-								</h:dataTable>
-								<h:commandButton id="createAlternatives"
-									value="Create alternatives for selected services"
-									action="#{defineAlternatives.createAlternativesForPreservationActions}"
-									rendered="#{not empty defineAlternatives.availableActions}" />
+									-->
+									</h:dataTable>
+									<h:commandButton id="createAlternatives"
+										value="Create alternatives for selected services"
+										action="#{defineAlternatives.createAlternativesForPreservationActions}"
+										rendered="#{not empty defineAlternatives.availableActions}" />
+								</a4j:outputPanel>
+								<div style="clear: both;" />
+							</ui:remove>
+
+							<a4j:outputPanel id="lookupResultPanel">
+								<a4j:outputPanel
+									rendered="#{not empty defineAlternatives.availableActions}"
+									styleClass="paged-list" layout="block">
+
+									<a4j:queue />
+
+									<rich:dataScroller for="lookupResults" maxPages="5"
+										boundaryControls="show" fastControls="hide"
+										renderIfSinglePage="false" stepControls="show" />
+									<rich:dataTable value="#{defineAlternatives.workflowInfoData}"
+										var="action" id="lookupResults" rows="3" style="width: 100%">
+										<rich:column
+											styleClass="service-marker service-marker-#{action.actionIdentifier}">
+											<rich:tooltip value="#{action.actionIdentifier}" />
+										</rich:column>
+										<rich:column styleClass="service-addservice">
+											<h:commandButton value="+" immediate="true"
+												action="#{defineAlternatives.addPreservationAction(action)}"
+												styleClass="service-addservice-add" />
+										</rich:column>
+										<rich:column styleClass="service-info" id="service-info">
+											<p:service-myExperiment id="service" actionInfo="#{action}"
+												data="#{defineAlternatives}" />
+										</rich:column>
+									</rich:dataTable>
+								</a4j:outputPanel>
 							</a4j:outputPanel>
 							<div style="clear: both;" />
 						</div>

@@ -233,7 +233,7 @@ public class KBrowser implements Serializable {
         importanceAnalysis = new ImportanceAnalysis(usedMeasures.values(), planLeaves, selectedPlans);
 
         dominatedSetCalculator = new RankChangingDominatedSets(selectedPlans, planLeaves);
-        dominatedUriSets = dominatedSetCalculator.getDominatedSets(Aggregation.ANY);
+        dominatedUriSets = dominatedSetCalculator.getDominatedSets(Aggregation.ALL);
         dominatedSetPlans.clear();
 
         dominatedSets = new ArrayList<List<Measure>>(dominatedUriSets.size());
