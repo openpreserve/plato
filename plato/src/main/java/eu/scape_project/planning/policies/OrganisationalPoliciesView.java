@@ -62,7 +62,7 @@ public class OrganisationalPoliciesView implements Serializable {
      */
     public String init() {
         policies.init();
-        return "/user/organisationalpolicies.jsf";
+        return "/user/organisationalpolicies.jsf?faces-redirect=true";
     }
 
     /**
@@ -102,8 +102,7 @@ public class OrganisationalPoliciesView implements Serializable {
      */
     public String save() {
         policies.save();
-        init();
-        return "/index.jsp";
+        return init();
     }
 
     /**
@@ -113,8 +112,7 @@ public class OrganisationalPoliciesView implements Serializable {
      */
     public String discard() {
         policies.discard();
-        init();
-        return "/index.jsp";
+        return init();
     }
 
     /**
@@ -126,7 +124,7 @@ public class OrganisationalPoliciesView implements Serializable {
         return policies;
     }
 
-    /**
+    /**output enum
      * Initiates a download for the provided policy
      * 
      * @param policy

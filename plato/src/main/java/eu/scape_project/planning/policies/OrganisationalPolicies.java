@@ -51,15 +51,12 @@ import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.UserGroup;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.policy.ControlPolicy;
-import eu.scape_project.planning.model.policy.Scenario;
+import eu.scape_project.planning.model.policy.PreservationCase;
 
 @Stateful
 @SessionScoped
 public class OrganisationalPolicies implements Serializable {
     private static final long serialVersionUID = 1811189638942547758L;
-
-    private static final String POLICY_ONTOLOGY_DIR = "data/policy-ontology";
-    private static final String CONTROL_POLICY_FILE = "control-policy.rdf";
 
     @Inject
     private Logger log;
@@ -72,19 +69,21 @@ public class OrganisationalPolicies implements Serializable {
 
     @Inject
     private User user;
-    
-    private List<Scenario> scenarios = new ArrayList<Scenario>();
 
-    public List<Scenario> getScenarios() {
-        return scenarios;
+    private String organisation;
+
+    private List<PreservationCase> preservationCases = new ArrayList<PreservationCase>();
+
+    public List<PreservationCase> getPreservationCases() {
+        return preservationCases;
     }
 
-    public void setScenarios(List<Scenario> scenarios) {
-        this.scenarios = scenarios;
+    public void setPreservationCases(List<PreservationCase> preservationCases) {
+        this.preservationCases = preservationCases;
     }
 
     public void init() {
-        scenarios.clear();
+        preservationCases.clear();
         RDFPolicy policy = user.getUserGroup().getLatestPolicy();
 
         if (policy == null) {
@@ -92,9 +91,9 @@ public class OrganisationalPolicies implements Serializable {
         }
 
         try {
-            resolveScenarios(policy.getPolicy());
+            resolvePreservationCases(policy.getPolicy());
         } catch (Exception e) {
-            log.error("Failed to load policy scenarios.", e);
+            log.error("Failed to load policy preservationCases.", e);
         }
     }
 
@@ -106,12 +105,12 @@ public class OrganisationalPolicies implements Serializable {
      * @throws IOException
      *             if the polify could not be read
      */
-    public boolean importPolicy(InputStream input){
+    public boolean importPolicy(InputStream input) {
         try {
             String content = IOUtils.toString(input, "UTF-8");
             input.close();
 
-            resolveScenarios(content);
+            resolvePreservationCases(content);
             user.getUserGroup().getPolicies().add(new RDFPolicy(content));
             log.info("Imported new policies for user " + user.getUsername());
             return true;
@@ -121,114 +120,152 @@ public class OrganisationalPolicies implements Serializable {
         return false;
     }
 
-    private void resolveScenarios(String rdfPolicies) throws Exception{
-        scenarios.clear();
+    private void resolvePreservationCases(String rdfPolicies) throws Exception {
+        preservationCases.clear();
         Model model = ModelFactory.createMemModelMaker().createDefaultModel();
         Reader reader = new StringReader(rdfPolicies);
         model = model.read(reader, null);
         reader.close();
 
-//        String cpModelFile = POLICY_ONTOLOGY_DIR + File.separator + CONTROL_POLICY_FILE;
+        // String cpModelFile = POLICY_ONTOLOGY_DIR + File.separator +
+        // CONTROL_POLICY_FILE;
         Model cpModel = FileManager.get().loadModel("data/vocabulary/control-policy.rdf");
         cpModel.add(FileManager.get().loadModel("data/vocabulary/control-policy_modalities.rdf"));
         cpModel.add(FileManager.get().loadModel("data/vocabulary/control-policy_qualifiers.rdf"));
-        
 
         model = model.add(cpModel);
 
-        String statement = "SELECT ?scenario ?scenario_name ?objective ?objective_label ?objectiveType ?measure ?modality ?value ?qualifier WHERE { "
-            + "?scenario rdf:type pc:PreservationCase . "
-            + "?scenario skos:prefLabel ?scenario_name . "
-            + "?scenario pc:hasObjective ?objective . "
-            + "?objective rdf:type ?objectiveType . "
-            + "?objectiveType rdfs:subClassOf cp:Objective . "
-            + "?objective skos:prefLabel ?objective_label . "
-            + "?objective cp:measure ?measure . "
-            + "?objective cp:value ?value . "
-            + "OPTIONAL {?objective cp:qualifier ?qualifier} . "
-            + "OPTIONAL {?objective cp:modality ?modality} . " + "}";
+        // query organisation from rdf
+        String statement =
+            "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX org: <http://www.w3.org/ns/org#> " 
+            + "PREFIX owl: <http://www.w3.org/2002/07/owl#> "
+            + "SELECT ?organisation WHERE { " 
+            + "?org rdf:type owl:NamedIndividual ."
+            + "?org org:identifier ?organisation } ";
 
-        String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX pc: <http://purl.org/DP/preservation-case#> "
-            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX cp: <http://purl.org/DP/control-policy#> ";
-
-        Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
-        ResultSet results = qe.execSelect();
+        Query orgQuery = QueryFactory.create(statement, Syntax.syntaxARQ);
+        QueryExecution orgQe = QueryExecutionFactory.create(orgQuery, model);
+        ResultSet orgResults = orgQe.execSelect();
 
         try {
-
-            while ((results != null) && (results.hasNext())) {
-                QuerySolution qs = results.next();
-
-                String controlPolicyUri = qs.getResource("objective").getURI();
-                String controlPolicyName = qs.getLiteral("objective_label").toString();
-                String scenarioUri = qs.getResource("scenario").getURI();
-                String scenarioName = qs.getLiteral("scenario_name").toString();
-                String measureUri = qs.getResource("measure").toString();
-                String modality = qs.getResource("modality").getLocalName();
-                String value = qs.getLiteral("value").getString();
-                Resource qualifier = qs.getResource("qualifier");
-
-                Scenario s = getScenario(scenarioUri);
-
-                if (s == null) {
-                    s = new Scenario();
-
-                    s.setName(scenarioName);
-                    s.setUri(scenarioUri);
-
-                    scenarios.add(s);
-                }
-
-                ControlPolicy cp = new ControlPolicy();
-
-                Measure m = criteriaManager.getMeasure(measureUri);
-
-                cp.setUri(controlPolicyUri);
-                cp.setName(controlPolicyName);
-                cp.setValue(value);
-                cp.setMeasure(m);
-
-                if (qualifier != null) {
-
-                    if (qualifier.getLocalName().equalsIgnoreCase("GT")) {
-                        cp.setQualifier(ControlPolicy.Qualifier.GT);
-                    } else if (qualifier.getLocalName().equalsIgnoreCase("LT")) {
-                        cp.setQualifier(ControlPolicy.Qualifier.LT);
-                    }
-                    if (qualifier.getLocalName().equalsIgnoreCase("LE")) {
-                        cp.setQualifier(ControlPolicy.Qualifier.LE);
-                    }
-                    if (qualifier.getLocalName().equalsIgnoreCase("GE")) {
-                        cp.setQualifier(ControlPolicy.Qualifier.GE);
-                    }
-                    if (qualifier.getLocalName().equalsIgnoreCase("EQ")) {
-                        cp.setQualifier(ControlPolicy.Qualifier.EQ);
-                    }
-                } else {
-                    cp.setQualifier(ControlPolicy.Qualifier.EQ);
-                }
-
-                if (modality.equalsIgnoreCase("MUST")) {
-                    cp.setModality(ControlPolicy.Modality.MUST);
-                } else if (modality.equalsIgnoreCase("SHOULD")) {
-                    cp.setModality(ControlPolicy.Modality.SHOULD);
-                }
-
-                s.getControlPolicies().add(cp);
+            if ((orgResults != null) && (orgResults.hasNext())) {
+                QuerySolution orgQs = orgResults.next();
+                this.organisation = orgQs.getLiteral("organisation").toString();
             }
         } finally {
-            qe.close();
+            orgQe.close();
+        }
+
+        // query all preservationCases
+        statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX pc: <http://purl.org/DP/preservation-case#> "
+            + "SELECT ?preservationcase ?name ?contentset WHERE { "
+            + "?preservationcase rdf:type pc:PreservationCase . " 
+            + "?preservationcase skos:prefLabel ?name . "
+            + "?preservationcase pc:hasContentSet ?contentset } ";
+
+        Query pcQuery = QueryFactory.create(statement, Syntax.syntaxARQ);
+        QueryExecution pcQe = QueryExecutionFactory.create(pcQuery, model);
+        ResultSet pcResults = pcQe.execSelect();
+
+        try {
+            while ((pcResults != null) && (pcResults.hasNext())) {
+                QuerySolution pcQs = pcResults.next();
+                PreservationCase pc = new PreservationCase();
+                pc.setName(pcQs.getLiteral("name").toString());
+                pc.setUri(pcQs.getResource("preservationcase").getURI());
+                pc.setContentSet(pcQs.getResource("contentset").getURI());
+                preservationCases.add(pc);
+
+                // determine user communities
+                statement = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                    + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+                    + "PREFIX pc: <http://purl.org/DP/preservation-case#> "
+                    + "SELECT ?usercommunity WHERE { "
+                    + "<" + pc.getUri() + ">" + " pc:hasUserCommunity ?usercommunity } ";
+
+                Query ucQuery = QueryFactory.create(statement, Syntax.syntaxARQ);
+
+                QueryExecution ucQe = QueryExecutionFactory.create(ucQuery, model);
+                ResultSet ucResults = ucQe.execSelect();
+
+                try {
+                    String ucs = "";
+                    while ((ucResults != null) && ucResults.hasNext()) {
+                        QuerySolution ucQs = ucResults.next();
+
+                        ucs += "," + ucQs.getResource("usercommunity").getLocalName();
+                    }
+                    if (StringUtils.isNotEmpty(ucs)) {
+                        pc.setUserCommunities(ucs.substring(1));
+                    }
+                } finally {
+                    ucQe.close();
+                }
+
+                // query objectives
+                statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                    + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
+                    + "PREFIX pc: <http://purl.org/DP/preservation-case#> "
+                    + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+                    + "PREFIX cp: <http://purl.org/DP/control-policy#> "
+                    + "SELECT ?objective ?objective_label ?objectiveType ?measure ?modality ?value ?qualifier WHERE { "
+                    + "<" + pc.getUri() + ">" + " pc:hasObjective ?objective . " 
+                    + "?objective rdf:type ?objectiveType . "
+                    + "?objectiveType rdfs:subClassOf cp:Objective . "
+                    + "?objective skos:prefLabel ?objective_label . " 
+                    + "?objective cp:measure ?measure . "
+                    + "?objective cp:value ?value . " + "OPTIONAL {?objective cp:qualifier ?qualifier} . "
+                    + "OPTIONAL {?objective cp:modality ?modality} }";
+
+                Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
+                QueryExecution qe = QueryExecutionFactory.create(query, model);
+                ResultSet results = qe.execSelect();
+
+                try {
+
+                    while ((results != null) && (results.hasNext())) {
+                        QuerySolution qs = results.next();
+                        ControlPolicy cp = new ControlPolicy();
+
+                        String controlPolicyUri = qs.getResource("objective").getURI();
+                        String controlPolicyName = qs.getLiteral("objective_label").toString();
+                        String measureUri = qs.getResource("measure").toString();
+                        String modality = qs.getResource("modality").getLocalName();
+                        String value = qs.getLiteral("value").getString();
+                        Resource qualifier = qs.getResource("qualifier");
+
+                        Measure m = criteriaManager.getMeasure(measureUri);
+
+                        cp.setUri(controlPolicyUri);
+                        cp.setName(controlPolicyName);
+                        cp.setValue(value);
+                        cp.setMeasure(m);
+
+                        if (qualifier != null) {
+                            cp.setQualifier(ControlPolicy.Qualifier.valueOf(qualifier.getLocalName()));
+                        } else {
+                            cp.setQualifier(ControlPolicy.Qualifier.EQ);
+                        }
+                        cp.setModality(ControlPolicy.Modality.valueOf(modality));
+
+                        pc.getControlPolicies().add(cp);
+                    }
+                } finally {
+                    qe.close();
+                }
+            }
+        } finally {
+            pcQe.close();
         }
     }
 
-    public Scenario getScenario(String scenarioUri) {
-        if (!StringUtils.isEmpty(scenarioUri)) {
-            for (Scenario s : scenarios) {
-                if (scenarioUri.equalsIgnoreCase(s.getUri())) {
+    public PreservationCase getPreservationCase(String preservationCaseUri) {
+        if (!StringUtils.isEmpty(preservationCaseUri)) {
+            for (PreservationCase s : preservationCases) {
+                if (preservationCaseUri.equalsIgnoreCase(s.getUri())) {
                     return s;
                 }
             }
@@ -265,5 +302,9 @@ public class OrganisationalPolicies implements Serializable {
         user.setUserGroup(oldUserGroup);
 
         log.info("Policies discarded for user " + user.getUsername());
+    }
+
+    public String getOrganisation() {
+        return organisation;
     }
 }

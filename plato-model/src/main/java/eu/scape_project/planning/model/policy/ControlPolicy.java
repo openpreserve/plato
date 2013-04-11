@@ -34,18 +34,25 @@ public class ControlPolicy {
 
         MUST("must"),
         SHOULD("should");
+        
+        private final String key;
+        private final String text;
 
         private Modality(final String text) {
             this.text = text;
+            this.key = "modality."+name();
         }
 
         public String toString() {
             return this.text;
         }
+        
+        public String getKey(){
+            return key;
+        }
 
-        private final String text;
     }
-
+    
     public enum Qualifier {
         GT("greater than"),
         LT("lower than"),
@@ -53,17 +60,22 @@ public class ControlPolicy {
         GE("greater or equal"),
         LE("lower or equal");
 
+        private final String text;
+        private final String key;
+
         private Qualifier(final String text) {
             this.text = text;
+            this.key = "qualifier."+name();
         }
 
         public String toString() {
             return text;
         }
-
-        private final String text;
+        
+        public String getKey() {
+            return key;
+        }
     }
-
     /**
      * URI of the control policy.
      */

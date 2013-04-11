@@ -28,6 +28,10 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
+
+import eu.scape_project.planning.model.policy.ControlPolicy;
+import eu.scape_project.planning.model.policy.PreservationCase;
 import eu.scape_project.planning.model.tree.PolicyTree;
 
 @Entity
@@ -136,9 +140,28 @@ public class ProjectBasis implements Serializable, ITouchable {
     private PolicyTree policyTree = new PolicyTree();
     
     /**
-     * Reference to selected scenario, that is the URI of the scenario from the policy definition
+     * Reference to selected preservation case, that is the URI of the preservation case from the policy definition
      */
-    private String selectedScenarioURI;
+    private String selectedPreservationCaseURI;
+    
+    public void applyPreservationCase(PreservationCase preservationcase) {
+        setSelectedPreservationCaseURI(preservationcase.getUri());
+        if (StringUtils.isEmpty(documentTypes)) {
+            documentTypes = preservationcase.getContentSet();
+        }
+        if (StringUtils.isEmpty(applyingPolicies)) {
+            StringBuilder allPolicies = new StringBuilder();
+            for (ControlPolicy policy : preservationcase.getControlPolicies()) {
+                allPolicies.append(String.format(". %s: Measure '%s' %s have a value %s %s \n", 
+                    policy.getName(), policy.getMeasure().getName(), String.valueOf(policy.getModality()), String.valueOf(policy.getQualifier()), policy.getValue()));
+            }
+            applyingPolicies = allPolicies.toString();
+        }
+        if (StringUtils.isEmpty(designatedCommunity)) {
+            designatedCommunity =preservationcase.getUserCommunities();
+        }
+    }
+    
 
     public String getDocumentTypes() {
         return documentTypes;
@@ -269,11 +292,11 @@ public class ProjectBasis implements Serializable, ITouchable {
         this.triggers = triggers;
     }
 
-    public String getSelectedScenarioURI() {
-        return selectedScenarioURI;
+    public String getSelectedPreservationCaseURI() {
+        return selectedPreservationCaseURI;
     }
 
-    public void setSelectedScenarioURI(String selectedScenario) {
-        this.selectedScenarioURI = selectedScenario;
+    public void setSelectedPreservationCaseURI(String selectedPreservationCase) {
+        this.selectedPreservationCaseURI = selectedPreservationCase;
     }
 }

@@ -22,14 +22,14 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DevelopExperiments;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-
-import org.slf4j.Logger;
 
 /**
  * Class used as backing-bean for the view developexperiments.xhtml.
@@ -62,7 +62,7 @@ public class DevelopExperimentsView extends AbstractView {
     @Override
     public void init(Plan plan) {
         super.init(plan);
-        alternatives = plan.getAlternativesDefinition().getAlternatives();
+        alternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
     }
 
     public List<Alternative> getAlternatives() {

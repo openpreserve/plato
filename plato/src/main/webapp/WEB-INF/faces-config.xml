@@ -17,8 +17,11 @@
 	</validator>
 	<application>
 		<message-bundle>plato_messages</message-bundle>
+		<resource-bundle>
+			<base-name>plato_messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
 	</application>
-
 	<factory>
 		<exception-handler-factory>eu.scape_project.planning.application.DefaultExceptionHandlerFactory</exception-handler-factory>
 	</factory>

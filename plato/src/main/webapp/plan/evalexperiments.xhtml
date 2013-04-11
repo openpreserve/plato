@@ -101,8 +101,7 @@
 			<fieldset id="autoEval" class="size-full">
 				<x:div renderthis="#{evalexperiments.autoEvaluationAvailable}">
 					<p>
-						Since your tree contains criteria that are mapped to measurable
-						properties and metrics, you can call the evaluation plugins here.<br />
+						Since your tree contains criteria that are mapped to measures, you can call the evaluation plugins here.<br />
 						<a4j:commandButton value="Evaluate all criteria"
 							action="#{evalexperiments.evaluateAll}" styleClass="save"
 							eventsQueue="ajaxQ" render="mainform" ignoreDupResponses="true" />
@@ -156,7 +155,7 @@
 					<div>
 						<button type="button">Toggle Toolinfo</button>
 					</div>
-					<div class="leftcolumn" style="max-width: 498px;">
+					<div class="leftcolumn" style="max-width: 470px;">
 						<h:outputText
 							value="#{evalexperiments.sampleCharacterisationReportAsHTML}"
 							escape="false" />

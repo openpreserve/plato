@@ -35,7 +35,7 @@ import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.policy.Scenario;
+import eu.scape_project.planning.model.policy.PreservationCase;
 import eu.scape_project.planning.model.scales.BooleanScale;
 import eu.scape_project.planning.model.scales.FloatRangeScale;
 import eu.scape_project.planning.model.scales.FloatScale;
@@ -115,7 +115,7 @@ public class IdentifyRequirementsView extends AbstractView {
      */
     private Leaf selectedLeaf;
     
-    private Scenario selectedScenario;
+    private PreservationCase selectedPreservationCase;
 
     public IdentifyRequirementsView() {
         currentPlanState = PlanState.RECORDS_CHOSEN;
@@ -136,7 +136,7 @@ public class IdentifyRequirementsView extends AbstractView {
         critSelector.init();
         
         policies.init();
-        selectedScenario = policies.getScenario(plan.getProjectBasis().getSelectedScenarioURI());
+        selectedPreservationCase = policies.getPreservationCase(plan.getProjectBasis().getSelectedPreservationCaseURI());
         
         if (plan.getTree().getRoot().getChildren().size() == 0) {
             generateTreeFromPolicies();
@@ -385,14 +385,14 @@ public class IdentifyRequirementsView extends AbstractView {
     }
     
     public void generateTreeFromPolicies() {
-        if (selectedScenario == null) {
+        if (selectedPreservationCase == null) {
             return;
         }
 
-        boolean success = identifyRequirements.createTreeFromScenario(selectedScenario);
+        boolean success = identifyRequirements.createTreeFromPreservationCase(selectedPreservationCase);
 
         if (success) {
-            facesMessages.addInfo("Tree successfully created from selected scenario.");
+            facesMessages.addInfo("Decision criteria successfully created based on control policies of the selected preservation case.");
             treeRoots.clear();
             treeRoots.add(plan.getTree().getRoot());
             requirementstreeHelper.expandAll(plan.getTree().getRoot());
@@ -451,7 +451,7 @@ public class IdentifyRequirementsView extends AbstractView {
         return requirementstreeHelper;
     }
 
-    public Scenario getSelectedScenario() {
-        return selectedScenario;
+    public PreservationCase getSelectedPreservationCase() {
+        return selectedPreservationCase;
     }
 }

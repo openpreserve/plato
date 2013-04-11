@@ -23,11 +23,14 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang.StringUtils;
+
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.plato.wfview.ViewWorkflowManager;
+import eu.scape_project.planning.policies.OrganisationalPolicies;
 
 /**
  * Backing bean to create new plans following the full workflow. Note, that it
@@ -59,6 +62,8 @@ public class CreatePlanView implements Serializable {
 
     @Inject
     private User user;
+    
+    @Inject private OrganisationalPolicies organisationalPolicies;
 
     private Plan plan;
 
@@ -86,6 +91,12 @@ public class CreatePlanView implements Serializable {
         plan.getPlanProperties().setAuthor(user.getFullName());
         plan.getPlanProperties().setPrivateProject(true);
         plan.getPlanProperties().setOwner(user.getUsername());
+        
+        if (StringUtils.isNotEmpty(organisationalPolicies.getOrganisation())) {
+            plan.getPlanProperties().setOrganization(organisationalPolicies.getOrganisation());            
+        } else {
+            plan.getPlanProperties().setOrganization(user.getUserGroup().getName());
+        }
 
         // We have to prevent the user from navigating to the step 'Load plan'
         // because the user wouldn't be able to leave this step: Going to

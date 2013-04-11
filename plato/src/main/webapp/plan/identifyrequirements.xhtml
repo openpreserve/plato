@@ -340,19 +340,19 @@
 				</fieldset>
 
 				<a4j:outputPanel layout="block" id="policiesPanel"
-					rendered="#{not empty(identifyRequirements.selectedScenario)}">
+					rendered="#{not empty(identifyRequirements.selectedPreservationCase)}">
 					<fieldset id="policies_fieldset" class="center-position size-full">
 						<legend class="fieldset-full-size-legend">
 							<ui:include src="/plato/shared/legend_nav.xhtml" />
-							Preservation scenario:
-							#{identifyRequirements.selectedScenario.name}
+							Preservation case:
+							#{identifyRequirements.selectedPreservationCase.name}
 						</legend>
 						<p>You can replace the current objective tree with a tree that
 							is automatically created from the control policies you have
-							defined for the selected scenario. Please consider that this
+							defined for the selected preservation case. Please consider that this
 							action replaces your current tree!</p>
 						<h:commandButton id="policiesBtn"
-							value="Create tree from scenario"
+							value="Create tree from preservation case"
 							action="#{identifyRequirements.generateTreeFromPolicies()}" />
 					</fieldset>
 				</a4j:outputPanel>
@@ -551,19 +551,19 @@
 							<th class="align-left" style="width: 80%;">Value</th>
 						</tr>
 						<tr>
-							<td>category</td>
+							<td><a href="#{identifyRequirements.critSelector.selectedCategory.uri}">category</a></td>
 							<td><h:outputText
 									value="#{identifyRequirements.critSelector.selectedCategory.name}"
 									rendered="#{identifyRequirements.critSelector.selectedCategory != null}" /></td>
 						</tr>
 						<tr>
-							<td>attribute description</td>
+							<td><a href="#{identifyRequirements.critSelector.selectedAttribute.uri}">attribute description</a></td>
 							<td><h:outputText
 									value="#{identifyRequirements.critSelector.selectedAttribute.description}"
 									rendered="#{identifyRequirements.critSelector.selectedAttribute != null}" /></td>
 						</tr>
 						<tr>
-							<td>measure</td>
+							<td><a href="#{identifyRequirements.critSelector.selectedMeasure.uri}">measure</a> </td>
 							<td><h:outputText
 									value="#{identifyRequirements.critSelector.selectedMeasure.description}"
 									rendered="#{identifyRequirements.critSelector.selectedMeasure != null}" /><br />

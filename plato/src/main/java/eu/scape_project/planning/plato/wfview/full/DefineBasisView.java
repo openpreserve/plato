@@ -27,7 +27,7 @@ import javax.inject.Named;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PolicyNode;
-import eu.scape_project.planning.model.policy.Scenario;
+import eu.scape_project.planning.model.policy.PreservationCase;
 import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineBasis;
@@ -51,9 +51,9 @@ public class DefineBasisView extends AbstractView implements Serializable {
     @Inject
     private OrganisationalPolicies policies;
 
-    private Scenario selectedScenario;
+    private PreservationCase selectedPreservationCase;
     
-    private List<Scenario> scenarios;
+    private List<PreservationCase> preservationCases;
     
 
     public DefineBasisView() {
@@ -73,8 +73,8 @@ public class DefineBasisView extends AbstractView implements Serializable {
         super.init(plan);
         
         policies.init();
-        scenarios = policies.getScenarios();
-        selectedScenario = policies.getScenario(plan.getProjectBasis().getSelectedScenarioURI());
+        preservationCases = policies.getPreservationCases();
+        selectedPreservationCase = policies.getPreservationCase(plan.getProjectBasis().getSelectedPreservationCaseURI());
 
         // expand all nodes of the displayed policy-tree (if existent)
         treeHelper.expandAll(plan.getProjectBasis().getPolicyTree().getRoot());
@@ -113,29 +113,26 @@ public class DefineBasisView extends AbstractView implements Serializable {
         this.policies = policies;
     }
     
-    public String getSelectedScenarioName(){
-        if (selectedScenario == null) {
+    public String getSelectedPreservationCaseName(){
+        if (selectedPreservationCase == null) {
             return null;
         } else {
-            return selectedScenario.getName();
+            return selectedPreservationCase.getName();
         }
     }
     
-    public void setSelectedScenarioName(String name) {
-        selectedScenario = null;
-        for (Scenario scenario : scenarios) {
-            if (scenario.getName().equals(name)) {
-                selectedScenario = scenario;
+    public void setSelectedPreservationCaseName(String name) {
+        selectedPreservationCase = null;
+        for (PreservationCase preservationCase : preservationCases) {
+            if (preservationCase.getName().equals(name)) {
+                selectedPreservationCase = preservationCase;
             }
         }
     }
     
-    public void useSelectedScenario(){
-        if (selectedScenario != null) {
-            plan.getProjectBasis().setSelectedScenarioURI(selectedScenario.getUri());
-            if (plan.getProjectBasis().getDocumentTypes().isEmpty()) {
-            	plan.getProjectBasis().setDocumentTypes(selectedScenario.getContentSet());
-            }
+    public void useSelectedPreservationCase(){
+        if (selectedPreservationCase != null) {
+            plan.getProjectBasis().applyPreservationCase(selectedPreservationCase);
         }
     }
     
@@ -143,11 +140,11 @@ public class DefineBasisView extends AbstractView implements Serializable {
         return treeHelper;
     }
 
-    public List<Scenario> getScenarios() {
-        return scenarios;
+    public List<PreservationCase> getPreservationCases() {
+        return preservationCases;
     }
 
-    public Scenario getSelectedScenario() {
-        return selectedScenario;
+    public PreservationCase getSelectedPreservationCase() {
+        return selectedPreservationCase;
     }
 }

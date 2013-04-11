@@ -34,7 +34,7 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.policy.ControlPolicy;
-import eu.scape_project.planning.model.policy.Scenario;
+import eu.scape_project.planning.model.policy.PreservationCase;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
@@ -343,16 +343,16 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
         }
         measuresToDelete.clear();
     }
-    public boolean createTreeFromScenario(Scenario scenario) {
+    public boolean createTreeFromPreservationCase(PreservationCase preservationCase) {
 
         ObjectiveTree newTree = new ObjectiveTree();
 
         Node root = new Node();
-        root.setName(scenario.getName());
+        root.setName(preservationCase.getName());
 
         newTree.setRoot(root);
 
-        for (ControlPolicy cp : scenario.getControlPolicies()) {
+        for (ControlPolicy cp : preservationCase.getControlPolicies()) {
 
             Measure m = criteriaManager.getMeasure(cp.getMeasure().getUri());
 

@@ -19,14 +19,51 @@
 		<h:form id="policyForm">
 		
 			<a4j:outputPanel id="policyPanel" layout="block">
-				<c:forEach items="#{organisationalPolicies.policies.scenarios}" var="s">
+				<c:forEach items="#{organisationalPolicies.policies.preservationCases}" var="s">
 				    <h2>#{s.name}</h2>
-				    
-				    <ul>
-				    <c:forEach items="#{s.controlPolicies}" var="p">
-				    	<li><b>#{p.name}</b>: Measure <b>#{p.measure.name}</b> <b>#{p.modality}</b> have a value <b>#{p.qualifier}</b> <b>#{p.value}</b></li>
-				    </c:forEach>
-				    </ul>
+					<ui:remove>				    
+					<h:dataTable value="#{s.controlPolicies}" var="p"
+						rendered="#{not empty s.controlPolicies}"
+						styleClass="center-position " headerClass="tableStyle-header"
+						rowClasses="policy-row"
+						>
+						<h:column>
+							<f:facet name="header">
+							   Objective
+							</f:facet>
+							#{p.name}
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+							   Measure
+							</f:facet>
+							<a href="#{p.measure.uri}">#{p.measure.name}</a> 
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+							   Modality
+							</f:facet>
+							#{p.modality} 
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+							   Qualifier
+							</f:facet>
+							#{p.qualifier} 
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+							   Value
+							</f:facet>
+							#{p.value} 
+						</h:column>
+					</h:dataTable>
+					</ui:remove>
+					<ul>	
+						<c:forEach items="#{s.controlPolicies}" var="p">
+					    	<li><span class="objective">#{p.name}</span>: Measure <span class="measure"><a href="#{p.measure.uri}">#{p.measure.name}</a></span> <span class="modality">#{msgs[p.modality.key]}</span> have a value <span class="qualifier">#{msgs[p.qualifier.key]}</span> <span class="value">#{p.value}</span></li>
+					    </c:forEach>
+					</ul>
 	        	</c:forEach>
 	        </a4j:outputPanel>
 		
