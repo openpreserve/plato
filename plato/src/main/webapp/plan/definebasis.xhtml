@@ -45,7 +45,7 @@
 			<h:commandLink action="#{defineBasis.discard}" value="Test Changed"
 				onclick="return mayExit_noClick();" style="display:none" />
 
-
+			<h:panelGroup id="all_fields_panel">
 			<fieldset id="preservationCases_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
@@ -211,7 +211,7 @@
 					-->
 				</ui:remove>
 			</a4j:outputPanel>
-
+			</h:panelGroup>
 			<p:savediscardproceed bean="#{viewWorkflow}" />
 		</h:form>
 
@@ -244,7 +244,7 @@
 						style="color: #FFFFFF;"
 						action="#{defineBasis.useSelectedPreservationCase()}"
 						oncomplete="#{rich:component('preservationCaseSelectionPopupPanel')}.hide()"
-						render="policies_panel,mainform">
+						render="all_fields_panel">
 						<h:graphicImage value="/resources/gfx/icons/apply.png"
 							title="Select a preservation case" width="32" height="32" />
 					</a4j:commandLink>

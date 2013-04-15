@@ -11,7 +11,7 @@
 	<name>Planning Tool</name>
 
 	<properties>
-		<plato.url>http://${sp.domain}:8080/plato/</plato.url>
+		<plato.url>http://${sp.domain}:${ps.port}/plato/</plato.url>
 		<parent.basedir>../</parent.basedir>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
 		<arquillian.version>1.0.1.Final</arquillian.version>

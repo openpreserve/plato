@@ -11,7 +11,7 @@
     <name>Knowledge Browser</name>
 
     <properties>
-        <kbrowser.url>http://${sp.domain}:8080/kbrowser/</kbrowser.url>
+        <kbrowser.url>http://${sp.domain}:${ps.port}/kbrowser/</kbrowser.url>
 
         <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
         <arquillian.version>1.0.1.Final</arquillian.version>
