@@ -11,8 +11,8 @@
 
 	<ui:define name="title">SCAPE Planning Suite - Fast Track Evaluation - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
+		<h:outputStylesheet name="css/tree.css" />
 		<h1>Fast Track Evaluation - #{viewWorkflow.currentView.name}</h1>
-
 		<div class="wfstepinfo">
 			<div id="anchors">
 				<ul class="anchors">
@@ -184,13 +184,9 @@
 
 				<a4j:outputPanel layout="block" styleClass="center-position"
 					id="requirementsTreePanel">
-					<ui:include src="/plato/shared/treeSummary.xhtml">
-						<ui:param name="treeHelper"
-							value="#{defineRequirementsFTE.treeHelper}" />
-						<ui:param name="rootNode"
-							value="#{defineRequirementsFTE.treeRoots}" />
-						<ui:param name="displayChangelogs" value="false" />
-					</ui:include>
+					<p:treeSummary treeHelper="#{defineRequirementsFTE.treeHelper}"
+						rootNode="#{defineRequirementsFTE.treeRoots}" toggleType="client">
+					</p:treeSummary>
 				</a4j:outputPanel>
 			</fieldset>
 

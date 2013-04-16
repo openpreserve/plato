@@ -3,7 +3,7 @@ body {
 	margin-right: auto;
 	padding: 0px;
 	background: #DADADA;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	/*font-family: Verdana, sans-serif;*/
 	font-size: 0.9em;
 	/*width: 1024px;*/
@@ -259,15 +259,22 @@ glow when focused.
 .input {
 	display: inline-block;
 	width: 60%;
-	/*position: relative;*/
 }
 
-textarea,input[type="text"],input[type="password"],select {
+input[type="text"],input[type="password"],select,textarea {
 	background-image: none;
 }
 
-.input input[type=text],input[type="password"] {
+.input input[type=text],.input input[type="password"],.input textarea {
 	padding: 2px;
+}
+
+.input select {
+	padding: 1px;
+}
+
+.input input[type=text],.input input[type="password"],.input select,.input textarea
+	{
 	margin-right: 0;
 	background-color: white;
 	border-top: 1px solid #155C89;
@@ -281,18 +288,25 @@ textarea,input[type="text"],input[type="password"],select {
 	outline: none;
 }
 
-.input input[type=text]:focus,input[type="password"]:focus {
+.input input[type=text]:focus,.input input[type="password"]:focus,.input select:focus
+	{
 	box-shadow: 2px 1px 5px #155C89;
 }
 
-.input input[type=text]::-webkit-input-placeholder,input[type=password]::-webkit-input-placeholder
+.input input[type=text]::-webkit-input-placeholder,.input input[type=password]::-webkit-input-placeholder
 	{
 	color: #BABABA;
 }
 
-.input input[type=text]:-moz-placeholder,input[type=password]:-moz-placeholder
+.input input[type=text]:-moz-placeholder,.input input[type=password]:-moz-placeholder
 	{
 	color: #BABABA;
+}
+
+.input-inline input[type=text],.input-inline input[type="password"],.input-inline input[type="checkbox"],.input-inline select,.input-inline textarea
+	{
+	border-left: 2px solid #155C89;
+	font-size: 10px;
 }
 
 /*
@@ -348,13 +362,10 @@ input[type=submit]:active,input[type=button]:hover {
 .input-no-label {
 	display: inline-block;
 	width: 90%;
-	/*position: relative;*/
-	/*background:green;*/
 }
 
 .errorMessage {
 	margin-left: 31%;
-	/*background: red;*/
 }
 
 .label-text {
@@ -371,38 +382,24 @@ input[type=submit]:active,input[type=button]:hover {
 
 .p-input-text {
 	width: 100%;
-	height: 20px;
 	padding: 2px;
-	margin-right: 0;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
 
 .p-input-textarea {
 	width: 100%;
 	height: 60px;
 	padding: 2px;
-	margin-right: 0;
-	background-color: white;
-	border-top: 1px solid #155C89;
-	border-right: 1px solid #155C89;
-	border-bottom: 1px solid #155C89;
-	border-left: 11px solid #155C89;
-	color: #000;
-	font-size: 14px;
-	font-weight: normal;
-	font-style: italic;
-	outline: none;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
 
-.p-input-textarea:focus {
-	box-shadow: 2px 1px 5px #155C89;
-}
-
-.p-input-textarea::-webkit-input-placeholder {
-	color: #BABABA;
-}
-
-.p-input-textarea:-moz-placeholder {
-	color: #BABABA;
+.p-select {
+	width: 100%;
+	padding: 2px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
 
 table.size-full {
@@ -594,7 +591,6 @@ input.proceed-button {
 	text-decoration: none;
 	text-shadow: 1px 1px 0px #aade7c;
 	padding: 10px;
-	-moz-box-shadow: inset 0px 1px 0px 0px #caefab;
 }
 
 div.save-placeholder {
@@ -814,7 +810,8 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =                                                        
+		50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -825,22 +822,26 @@ div.clear {
 	height: 100px;
 }
 
+/* Slider */
+span.rf-insl-trc {
+	background: white;
+}
 
 .done {
 	color: rgb(14, 180, 0);
 }
 
 span.objective {
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 span.measure {
-	font-weight: bold;	
-	color: rgb(4, 60, 204);	
+	font-weight: bold;
+	color: rgb(4, 60, 204);
 }
 
 span.qualifier {
-	font-weight: bold;	
+	font-weight: bold;
 	color: rgb(109, 109, 0);
 }
 
@@ -850,5 +851,5 @@ span.modality {
 }
 
 span.value {
-	font-weight: bold;	
+	font-weight: bold;
 }

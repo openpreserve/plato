@@ -1,0 +1,122 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<cc:interface>
+	<cc:attribute name="id" default="requirements" />
+	<cc:attribute name="treeHelper" required="true" />
+	<cc:attribute name="rootNode" required="true" />
+	<cc:attribute name="displayChangelogs" default="false" />
+	<cc:attribute name="toggleType" default="ajax" />
+	<cc:attribute name="nodestyle" />
+	<cc:attribute name="anchorPrefix" />
+	<cc:facet name="panel" />
+	<cc:facet name="nodedesc" />
+</cc:interface>
+
+<cc:implementation>
+	<div class="margin-bottom-huge">
+		<h:form id="#{cc.attrs.id}_form">
+			<div id="#{cc.attrs.id}_panel" class="tree-panel">
+				<cc:renderFacet name="panel" />
+			</div>
+			<div id="#{cc.attrs.id}_treeheader" class="tree-header">
+				<div class="tree-nodename">Node</div>
+				<div class="tree-nodeinfo">
+					<div class="tree-cell" style="width: 60px;">Weight</div>
+					<div class="tree-cell" style="width: 60px;">Total weight</div>
+					<div class="tree-cell" style="width: 400px;">Scale and
+						Description</div>
+				</div>
+			</div>
+			<div id="#{cc.attrs.id}_treecontent" class="tree-content">
+				<rich:tree var="node" toggleType="#{cc.attrs.toogleType}">
+					<rich:treeModelRecursiveAdaptor roots="#{cc.attrs.rootNode}"
+						nodes="#{node.children}" leaf="#{node.leaf}">
+						<rich:treeNode
+							expanded="#{cc.attrs.treeHelper.expandedNodes[node]}"
+							styleClass="tree-node #{cc.attrs.usenodestyle ? node.style : ''}">
+							<div class="tree-nodename">
+								<a4j:outputPanel layout="block"
+									rendered="#{not empty cc.attrs.anchorPrefix and node.leaf}">
+									<a href="#results#{node.id}"><h:outputText
+											value="#{node.name}" /></a>
+								</a4j:outputPanel>
+								<h:outputText value="#{node.name}"
+									rendered="#{empty cc.attrs.anchorPrefix or not node.leaf}" />
+
+								<a4j:outputPanel styleClass="tree-nodedesc" layout="block"
+									rendered="#{not empty cc.facets.nodedesc}">
+									<cc:renderFacet name="nodedesc" />
+								</a4j:outputPanel>
+							</div>
+							<div class="tree-nodeinfo">
+								<div class="tree-cell" style="width: 60px;">
+									<h:outputText value="#{node.weight}">
+										<f:convertNumber type="number" maxFractionDigits="2" />
+									</h:outputText>
+								</div>
+								<div class="tree-cell" style="width: 60px;">
+									<h:outputText value="#{node.totalWeight}">
+										<f:convertNumber type="number" maxFractionDigits="2" />
+									</h:outputText>
+								</div>
+
+								<a4j:outputPanel layout="block" style="width: 400px;"
+									rendered="#{node.leaf and (node.scale != null)}"
+									styleClass="tree-cell">
+									<h:outputText value="#{node.scale.displayName}  " />
+									<h:outputText value="[#{node.scale.unit}]"
+										rendered="#{not empty(node.scale.unit)}" />
+									<h:outputText rendered="#{node.scale.restricted}"
+										value=" #{node.scale.readableRestriction} " />
+									<h:outputText value=" (single)" rendered="#{node.single}" />
+
+									<a4j:outputPanel layout="block" style="width: 400px;"
+										rendered="#{node.leaf and node.mapped}">
+										<br />
+										<a href="#{node.measure.uri}">#{node.measure.name}</a>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="tree-cell"
+									rendered="#{cc.attrs.displayChangelogs}">
+									<table class="tableStyle table-small">
+										<tr>
+											<th width="80px" class="tableStyle-header"></th>
+											<th width="160px" class="tableStyle-header">Date</th>
+											<th width="160px" class="tableStyle-header">User</th>
+										</tr>
+										<tr>
+											<td>Created</td>
+											<td><h:outputText
+													value="#{node.changeLog.createdString}" /></td>
+											<td><h:outputText value="#{node.changeLog.createdBy}" /></td>
+										</tr>
+										<tr>
+											<td>Changed</td>
+											<td><h:outputText
+													value="#{node.changeLog.changedString}" /></td>
+											<td><h:outputText value="#{node.changeLog.changedBy}" /></td>
+										</tr>
+									</table>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="tree-cell"
+									rendered="#{(node.description != null) and (node.description != '')}">
+									<h:outputText value="(#{node.description})" />
+								</a4j:outputPanel>
+							</div>
+						</rich:treeNode>
+					</rich:treeModelRecursiveAdaptor>
+				</rich:tree>
+			</div>
+		</h:form>
+	</div>
+</cc:implementation>
+</html>

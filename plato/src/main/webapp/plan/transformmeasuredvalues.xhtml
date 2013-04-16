@@ -38,7 +38,7 @@
 				<rich:tree switchType="client" immediate="true" var="node">
 					<rich:treeModelRecursiveAdaptor roots="#{transform.treeRoots}"
 						nodes="#{node.children}" leaf="#{node.leaf}">
-						<rich:treeNode iconLeaf="" icon="">
+						<rich:treeNode>
 							<a4j:commandLink value="#{node.name}"
 								action="#{transform.selectTreeNode(node)}"
 								render="editLeavesPanel" />

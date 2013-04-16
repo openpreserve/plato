@@ -55,7 +55,7 @@
 				<rich:tree selectionType="client" immediate="true" var="node">
 					<rich:treeModelRecursiveAdaptor roots="#{evalexperiments.treeRoot}"
 						nodes="#{node.children}" leaf="#{node.leaf}">
-						<rich:treeNode highlightedClass="highlighted" iconLeaf="" icon=""
+						<rich:treeNode highlightedClass="highlighted"
 							expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
 
 							<a4j:commandLink render="leavesLists"
@@ -101,7 +101,8 @@
 			<fieldset id="autoEval" class="size-full">
 				<x:div renderthis="#{evalexperiments.autoEvaluationAvailable}">
 					<p>
-						Since your tree contains criteria that are mapped to measures, you can call the evaluation plugins here.<br />
+						Since your tree contains criteria that are mapped to measures, you
+						can call the evaluation plugins here.<br />
 						<a4j:commandButton value="Evaluate all criteria"
 							action="#{evalexperiments.evaluateAll}" styleClass="save"
 							eventsQueue="ajaxQ" render="mainform" ignoreDupResponses="true" />
