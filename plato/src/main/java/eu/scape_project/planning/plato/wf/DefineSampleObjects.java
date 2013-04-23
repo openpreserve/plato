@@ -17,8 +17,13 @@
 package eu.scape_project.planning.plato.wf;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -320,6 +325,28 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
                 }
                 plan.getSampleRecordsDefinition().addRecord(sample);
+            } else {
+                if (uid.startsWith("file:/")) {
+                    log.info("Sample object is from local filesystem {}", uid);
+                    try {
+                        InputStream sampleStream = new FileInputStream((new URL(uid)).getFile());
+                        ByteStream bsSample = this.convertToByteStream(sampleStream);
+                        sample.setData(bsSample);
+
+                        digitalObjectManager.moveDataToStorage(sample);
+                        addedBytestreams.add(sample.getPid());
+
+                        if (shouldCharacterise(sample)) {
+                            characteriseFits(sample, false);
+                        }
+                    } catch (FileNotFoundException e) {
+                        log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
+                    } catch (MalformedURLException e) {
+                        log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
+                    }
+                    plan.getSampleRecordsDefinition().addRecord(sample);
+                    
+                }
             }
         }
 

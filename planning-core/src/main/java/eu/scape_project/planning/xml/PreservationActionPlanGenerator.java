@@ -246,13 +246,8 @@ public class PreservationActionPlanGenerator implements Serializable {
 
                         List<String> objectIdentifiers = parser.getObjectIdentifiers();
 
-                        boolean skip = false; 
                         for (String objectIdentifier : objectIdentifiers) {
                             objects.addElement("object").addAttribute("uid", objectIdentifier);
-                            skip = true;
-                            if (skip) {
-                                break;
-                            }
                         }
                     }
                 }

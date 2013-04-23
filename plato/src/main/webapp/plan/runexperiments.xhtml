@@ -143,9 +143,8 @@
 			</a4j:poll>
 		</h:form>
 		<h:form id="executeExperimentsForm">
-			<rich:popupPanel id="execPanel" width="600" height="200"
-				domElementAttachment="form"
-				onmaskclick="#{rich:component('execPanel')}.hide();">
+			<rich:popupPanel id="execPanel" width="600" height="200" modal="true"
+				domElementAttachment="form">
 				<f:facet name="header">
 					<h:outputText value="Run Migrations" />
 				</f:facet>
