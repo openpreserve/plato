@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.planning.plato.wfview.full;
+package eu.scape_project.planning.services.taverna;
 
 import java.io.Serializable;
 import java.util.concurrent.Future;
@@ -24,39 +24,35 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.services.taverna.MyExperimentRESTClient;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.taverna.model.WorkflowDescription;
 
 import org.slf4j.Logger;
 
 /**
- * Class used as backing-bean for the view definealternatives.xhtml
- * 
- * @author Markus Hamm
+ * Asynchronous loader for Taverna services.
  */
 @Stateless
-public class DefineAlternativesLoader implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class TavernaServiceLoader implements Serializable {
+
+    private static final long serialVersionUID = -7996768888644615697L;
 
     @Inject
     private Logger log;
 
+    private MyExperimentRESTClient myExperimentRESTClient = new MyExperimentRESTClient();;
+
+    /**
+     * Loads the details of a Taverna service asynchronously and returns a
+     * future.
+     * 
+     * @param serviceInfo
+     *            the service to load
+     * @return a future of the service details
+     */
     @Asynchronous
-    public Future<WorkflowDescription> loadWorkflowDescription(MyExperimentRESTClient myExperimentRESTClient,
-        IPreservationActionInfo actionInfo) {
-
-        log.error("Loader");
-
-        // FIXME: Remove
-        // try {
-        // Thread.sleep(5000);
-        // } catch (InterruptedException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        log.error("Loader doing");
-        return new AsyncResult<WorkflowDescription>(myExperimentRESTClient.getWorkflow(actionInfo.getDescriptor()));
-
+    public Future<WorkflowDescription> loadWorkflowDescription(IServiceInfo serviceInfo) {
+        log.debug("Loading details of service [{}]", serviceInfo.getDescriptor());
+        return new AsyncResult<WorkflowDescription>(myExperimentRESTClient.getWorkflow(serviceInfo.getDescriptor()));
     }
 }

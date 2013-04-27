@@ -27,8 +27,8 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.utils.JGet;
 
 import org.apache.log4j.Logger;
@@ -41,8 +41,6 @@ public class ComponentRegistry implements IPreservationActionRegistry {
 
     private static final String ME_SPARQL_ENDPOINT = "http://rdf.myexperiment.org/sparql";
     private static final String ENCODING_UTF8 = "UTF-8";
-
-    private List<IPreservationActionInfo> preservationActions;
 
     @Override
     public void connect(String URL) throws ServiceException, MalformedURLException {
@@ -72,8 +70,8 @@ public class ComponentRegistry implements IPreservationActionRegistry {
      * ORDER BY ?w ?wt
      */
     @Override
-    public List<IPreservationActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
-        preservationActions = new ArrayList<IPreservationActionInfo>();
+    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+        List<IActionInfo> preservationActions = new ArrayList<IActionInfo>();
 
         StringBuilder query = new StringBuilder();
         query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>").append("\n")

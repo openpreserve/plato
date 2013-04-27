@@ -2,30 +2,30 @@ package eu.scape_project.planning.plato.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.plato.wfview.full.DefineAlternativesView;
+import eu.scape_project.planning.services.action.IActionInfo;
 
 import org.ajax4jsf.model.DataVisitor;
 import org.ajax4jsf.model.ExtendedDataModel;
 import org.ajax4jsf.model.Range;
 import org.ajax4jsf.model.SequenceRange;
 
-public class WorkflowInfoData extends ExtendedDataModel<IPreservationActionInfo> implements Serializable {
+public class ServiceInfoDataModel extends ExtendedDataModel<IActionInfo> implements Serializable {
 
     private static final long serialVersionUID = -31472856376172968L;
 
     private Integer rowKey;
 
-    private List<IPreservationActionInfo> actionInfos;
+    private List<IActionInfo> serviceInfos;
 
-    private DefineAlternativesView serviceLoader;
+    private Map<String, IServiceLoader> serviceLoaders;
 
-    public WorkflowInfoData(DefineAlternativesView serviceLoader, List<IPreservationActionInfo> actionInfos) {
-        this.actionInfos = actionInfos;
-        this.serviceLoader = serviceLoader;
+    public ServiceInfoDataModel(List<IActionInfo> serviceInfos, Map<String, IServiceLoader> serviceLoaders) {
+        this.serviceInfos = serviceInfos;
+        this.serviceLoaders = serviceLoaders;
     }
 
     @Override
@@ -42,8 +42,11 @@ public class WorkflowInfoData extends ExtendedDataModel<IPreservationActionInfo>
     public void walk(FacesContext context, DataVisitor visitor, Range range, Object argument) {
         int firstRow = ((SequenceRange) range).getFirstRow();
 
-        for (int i = firstRow; (i < actionInfos.size()) && (i < (firstRow + ((SequenceRange) range).getRows())); i++) {
-            serviceLoader.loadWorkflowDescription(actionInfos.get(i));
+        for (int i = firstRow; (i < serviceInfos.size()) && (i < (firstRow + ((SequenceRange) range).getRows())); i++) {
+            IServiceLoader serviceLoader = serviceLoaders.get(serviceInfos.get(i).getServiceIdentifier());
+            if (serviceLoader != null) {
+                serviceLoader.load(serviceInfos.get(i));
+            }
             visitor.process(context, i, argument);
         }
     }
@@ -55,12 +58,12 @@ public class WorkflowInfoData extends ExtendedDataModel<IPreservationActionInfo>
 
     @Override
     public int getRowCount() {
-        return actionInfos.size();
+        return serviceInfos.size();
     }
 
     @Override
-    public IPreservationActionInfo getRowData() {
-        return actionInfos.get(rowKey);
+    public IActionInfo getRowData() {
+        return serviceInfos.get(rowKey);
     }
 
     @Override

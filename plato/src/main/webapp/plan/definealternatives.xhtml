@@ -147,18 +147,18 @@
 							<div>
 								<ui:repeat value="#{defineAlternatives.availableRegistries}"
 									var="registry">
-									<div
-										style="float: left; min-width: 150px; margin: 15px; align: center;">
-										<strong> <h:outputText value="#{registry.shortname}" />
-										</strong> <br />
-										<h:graphicImage value="#{registry.logo}"
-											alt="#{registry.shortname}" height="40" width="120" />
-										<br />
+									<div class="registry-panel">
+										<div class="registry-logo">
+											<h:graphicImage value="#{registry.logo}"
+												alt="#{registry.shortname}" />
+										</div>
 										<a4j:commandButton id="showServices" value="Show Services"
 											onclick="toggleLoadingOverlay();this.disabled=true;"
 											oncomplete="this.disabled=false;toggleLoadingOverlay();"
 											action="#{defineAlternatives.showPreservationServices(registry)}"
-											render="lookupResultPanel,showServices,messages" />
+											render="lookupResultPanel,showServices,messages">
+
+										</a4j:commandButton>
 									</div>
 								</ui:repeat>
 							</div>
@@ -240,7 +240,7 @@
 										boundaryControls="show" fastControls="hide"
 										renderIfSinglePage="false" stepControls="show" />
 									<rich:dataTable value="#{defineAlternatives.workflowInfoData}"
-										var="action" id="lookupResults" rows="3" style="width: 100%">
+										var="action" id="lookupResults" rows="8" styleClass="service-results">
 										<rich:column
 											styleClass="service-marker service-marker-#{action.actionIdentifier}">
 											<rich:tooltip value="#{action.actionIdentifier}" />
@@ -251,8 +251,12 @@
 												styleClass="service-addservice-add" />
 										</rich:column>
 										<rich:column styleClass="service-info" id="service-info">
-											<p:service-myExperiment id="service" actionInfo="#{action}"
-												data="#{defineAlternatives}" />
+											<p:service-myExperiment id="service-myExperiment"
+												actionInfo="#{action}"
+												data="#{defineAlternatives.tavernaServices}"
+												rendered="#{action.actionIdentifier eq 'myExperiment'}" />
+											<p:service id="service" actionInfo="#{action}"
+												rendered="#{action.actionIdentifier ne 'myExperiment'}" />
 										</rich:column>
 									</rich:dataTable>
 								</a4j:outputPanel>

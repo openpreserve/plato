@@ -29,9 +29,9 @@ import at.tuwien.minireef.ResultSet;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
+import eu.scape_project.planning.services.action.PreservationActionInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
         return "";
     }
 
-    public List<IPreservationActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
 
         String statement = "SELECT distinct ?swname ?swversion ?formatname ?formatversion ?released ?vendorname "
             + "WHERE { ?sw ?link1 ?format . "
@@ -94,7 +94,7 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
         params.put("PUID", puid);
 
         ResultSet resultSet = MiniREEFResolver.getInstance().resolve(statement, params);
-        ArrayList<IPreservationActionInfo> result = new ArrayList<IPreservationActionInfo>();
+        ArrayList<IActionInfo> result = new ArrayList<IActionInfo>();
 
         if (resultSet == null) {
             // this should not happen if MiniREEF is properly configured
@@ -102,9 +102,8 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
             return result;
         }
 
-        PreservationActionDefinition def;
         for (int i = 0; i < resultSet.size(); i++) {
-            def = new PreservationActionDefinition();
+            PreservationActionInfo def = new PreservationActionInfo();
             def.setShortname("Convert using " + resultSet.getRow(i).get(0) + " " + resultSet.getRow(i).get(1));
             def.setTargetFormat(resultSet.getRow(i).get(2) + " " + resultSet.getRow(i).get(3));
             def.setInfo("by " + resultSet.getRow(i).get(4));

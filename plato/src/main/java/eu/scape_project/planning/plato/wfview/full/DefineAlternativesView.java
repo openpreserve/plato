@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -34,15 +32,16 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.SampleObject;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.plato.bean.WorkflowInfoData;
+import eu.scape_project.planning.plato.bean.IServiceLoader;
+import eu.scape_project.planning.plato.bean.ServiceInfoDataModel;
+import eu.scape_project.planning.plato.bean.TavernaServices;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
-import eu.scape_project.planning.services.taverna.MyExperimentRESTClient;
-import eu.scape_project.planning.services.taverna.model.WorkflowDescription;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
 
@@ -67,6 +66,9 @@ public class DefineAlternativesView extends AbstractView {
 
     @Inject
     private DefineAlternatives defineAlternatives;
+
+    @Inject
+    private TavernaServices tavernaServices;
 
     /**
      * List of defined alternatives
@@ -93,25 +95,20 @@ public class DefineAlternativesView extends AbstractView {
      */
     private int alternativeIdAllowedToRemove;
 
-    private MyExperimentRESTClient myExperimentRESTClient;
-
     /**
      * A list of all currently defined preservation service registries.
      */
     private List<PreservationActionRegistryDefinition> availableRegistries;
 
-    private List<IPreservationActionInfo> availableActions;
+    private List<IActionInfo> availableActions;
 
     private Map<PreservationActionRegistryDefinition, Boolean> registrySelection;
 
-    private Map<IPreservationActionInfo, Boolean> actionSelection;
+    private Map<IActionInfo, Boolean> actionSelection;
 
-    private Map<IPreservationActionInfo, Future<WorkflowDescription>> workflowDescriptions;
+    private ServiceInfoDataModel workflowInfoData;
 
-    @Inject
-    private DefineAlternativesLoader loader;
-
-    private WorkflowInfoData workflowInfoData;
+    private Map<String, IServiceLoader> serviceLoaders;
 
     public DefineAlternativesView() {
         currentPlanState = PlanState.TREE_DEFINED;
@@ -124,12 +121,11 @@ public class DefineAlternativesView extends AbstractView {
         editableAlternative = null;
 
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
-        availableActions = new ArrayList<IPreservationActionInfo>();
+        availableActions = new ArrayList<IActionInfo>();
         registrySelection = new HashMap<PreservationActionRegistryDefinition, Boolean>();
-        actionSelection = new HashMap<IPreservationActionInfo, Boolean>();
-        workflowDescriptions = new HashMap<IPreservationActionInfo, Future<WorkflowDescription>>();
+        actionSelection = new HashMap<IActionInfo, Boolean>();
 
-        myExperimentRESTClient = new MyExperimentRESTClient();
+        serviceLoaders = new HashMap<String, IServiceLoader>();
     }
 
     public void init(Plan plan) {
@@ -148,6 +144,8 @@ public class DefineAlternativesView extends AbstractView {
             log.error("Failed to retrieve registries", e);
             facesMessages.addError("Could not find any preservation action registries.");
         }
+
+        serviceLoaders.put("myExperiment", tavernaServices);
     }
 
     /**
@@ -291,23 +289,22 @@ public class DefineAlternativesView extends AbstractView {
      *            the registry to query
      */
     public void showPreservationServices(PreservationActionRegistryDefinition registry) {
+        log.debug("Loading preservation action services from registry [{}]", registry.getShortname());
         availableActions.clear();
         actionSelection.clear();
-        workflowDescriptions.clear();
+        tavernaServices.clear();
         try {
             registrySelection.clear();
             registrySelection.put(registry, true);
             availableActions.addAll(defineAlternatives.queryRegistry(getSampleWithFormat().getFormatInfo(), registry));
-            workflowInfoData = new WorkflowInfoData(this, availableActions);
-            for (IPreservationActionInfo actionInfo : availableActions) {
+            workflowInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
+            for (IActionInfo actionInfo : availableActions) {
                 actionSelection.put(actionInfo, false);
             }
         } catch (PlatoException e) {
             facesMessages.addError("Failed to query the registry: " + registry.getShortname() + " - " + e.getMessage());
             log.error("Failed to query the registry: " + registry.getShortname(), e);
         }
-
-        log.error("Done loading");
     }
 
     /**
@@ -326,8 +323,8 @@ public class DefineAlternativesView extends AbstractView {
      * Creates alternatives from selected preservation action infos.
      */
     public void createAlternativesForPreservationActions() {
-        List<IPreservationActionInfo> selectedActions = new ArrayList<IPreservationActionInfo>();
-        for (IPreservationActionInfo selectedAction : availableActions) {
+        List<IServiceInfo> selectedActions = new ArrayList<IServiceInfo>();
+        for (IServiceInfo selectedAction : availableActions) {
             if (actionSelection.get(selectedAction)) {
                 selectedActions.add(selectedAction);
             }
@@ -335,44 +332,8 @@ public class DefineAlternativesView extends AbstractView {
         defineAlternatives.createAlternativesForPreservationActions(selectedActions);
     }
 
-    public void addPreservationAction(IPreservationActionInfo actionInfo) {
+    public void addPreservationAction(IActionInfo actionInfo) {
         defineAlternatives.createAlternative(actionInfo);
-    }
-
-    public void loadWorkflowDescription(IPreservationActionInfo actionInfo) {
-        if (!workflowDescriptions.containsKey(actionInfo)) {
-            workflowDescriptions.put(actionInfo, loader.loadWorkflowDescription(myExperimentRESTClient, actionInfo));
-        }
-    }
-
-    public boolean isWorkflowDescriptionReady(IPreservationActionInfo actionInfo) {
-        Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(actionInfo);
-        if (futureWorkflowDescription == null) {
-            return false;
-        }
-
-        return futureWorkflowDescription.isDone();
-    }
-
-    public WorkflowDescription getWorkflowDescription(IPreservationActionInfo actionInfo) {
-
-        Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(actionInfo);
-
-        if (futureWorkflowDescription == null || !futureWorkflowDescription.isDone()) {
-            return null;
-        }
-
-        try {
-            return futureWorkflowDescription.get();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     // --------------- getter/setter ---------------
@@ -434,7 +395,7 @@ public class DefineAlternativesView extends AbstractView {
         return availableRegistries;
     }
 
-    public List<IPreservationActionInfo> getAvailableActions() {
+    public List<IActionInfo> getAvailableActions() {
         return availableActions;
     }
 
@@ -442,20 +403,20 @@ public class DefineAlternativesView extends AbstractView {
         return registrySelection;
     }
 
-    public Map<IPreservationActionInfo, Boolean> getActionSelection() {
+    public Map<IActionInfo, Boolean> getActionSelection() {
         return actionSelection;
     }
 
-    public Map<IPreservationActionInfo, Future<WorkflowDescription>> getWorkflowDescriptions() {
-        return workflowDescriptions;
-    }
-
-    public WorkflowInfoData getWorkflowInfoData() {
+    public ServiceInfoDataModel getWorkflowInfoData() {
         return workflowInfoData;
     }
 
-    public void setWorkflowInfoData(WorkflowInfoData workflowInfoData) {
+    public void setWorkflowInfoData(ServiceInfoDataModel workflowInfoData) {
         this.workflowInfoData = workflowInfoData;
+    }
+
+    public TavernaServices getTavernaServices() {
+        return tavernaServices;
     }
 
 }

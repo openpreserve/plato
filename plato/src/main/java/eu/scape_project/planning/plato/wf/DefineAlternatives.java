@@ -32,9 +32,10 @@ import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryFactory;
 
@@ -80,8 +81,8 @@ public class DefineAlternatives extends AbstractWorkflowStep {
      * @throws PlatoException
      *             if the registry is not properly configured
      */
-    public List<IPreservationActionInfo> queryRegistry(FormatInfo formatInfo,
-        PreservationActionRegistryDefinition registry) throws PlatoException {
+    public List<IActionInfo> queryRegistry(FormatInfo formatInfo, PreservationActionRegistryDefinition registry)
+        throws PlatoException {
         IPreservationActionRegistry serviceLocator = null;
 
         try {
@@ -102,15 +103,15 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         return PreservationActionRegistryFactory.getAvailableRegistries();
     }
 
-    public void createAlternativesForPreservationActions(List<IPreservationActionInfo> selectedActions) {
-        for (IPreservationActionInfo actionInfo : selectedActions) {
+    public void createAlternativesForPreservationActions(List<IServiceInfo> selectedActions) {
+        for (IServiceInfo actionInfo : selectedActions) {
             createAlternative(actionInfo);
         }
     }
 
-    public void createAlternative(IPreservationActionInfo actionInfo) {
+    public void createAlternative(IServiceInfo actionInfo) {
         PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
-        actionDefinition.setActionIdentifier(actionInfo.getActionIdentifier());
+        actionDefinition.setActionIdentifier(actionInfo.getServiceIdentifier());
         actionDefinition.setShortname(actionInfo.getShortname());
         actionDefinition.setDescriptor(actionInfo.getDescriptor());
         actionDefinition.setUrl(actionInfo.getUrl());

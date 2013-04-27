@@ -34,8 +34,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-
 import org.hibernate.annotations.IndexColumn;
 import org.hibernate.validator.constraints.Length;
 
@@ -45,7 +43,7 @@ import org.hibernate.validator.constraints.Length;
  * @author Michael Kraxner
  */
 @Entity
-public class PreservationActionDefinition implements Serializable, ITouchable, IPreservationActionInfo {
+public class PreservationActionDefinition implements Serializable, ITouchable {
     private static final long serialVersionUID = 4825419755334685518L;
 
     @Id

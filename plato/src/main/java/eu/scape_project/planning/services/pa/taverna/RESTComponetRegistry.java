@@ -23,8 +23,8 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionInfo;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.services.taverna.MyExperimentRESTClient;
 import eu.scape_project.planning.services.taverna.MyExperimentRESTClient.ComponentQuery;
 import eu.scape_project.planning.services.taverna.model.SearchResult.Workflow;
@@ -38,15 +38,15 @@ public class RESTComponetRegistry implements IPreservationActionRegistry {
     public void connect(String URL) throws ServiceException, MalformedURLException {
     }
 
-    public List<IPreservationActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
-        List<IPreservationActionInfo> preservationActions = new ArrayList<IPreservationActionInfo>();
+    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+        List<IActionInfo> preservationActions = new ArrayList<IActionInfo>();
 
         ComponentQuery query = client.createComponentQuery();
         query.addInputPortType(PortType.FromURIPort).addInputPortType(PortType.ToURIPort);
         List<Workflow> workflows = client.searchComponents(query);
 
         for (Workflow workflow : workflows) {
-            MyExperimentPreservationActionInfo actionInfo = new MyExperimentPreservationActionInfo();
+            TavernaPreservationActionInfo actionInfo = new TavernaPreservationActionInfo();
 
             actionInfo.setShortname(workflow.getName());
             actionInfo.setUrl(workflow.getResource().toASCIIString());

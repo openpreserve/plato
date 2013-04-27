@@ -16,8 +16,6 @@ body {
 	margin-bottom: auto;
 	margin-top: 0px;
 	border: 1px solid #BABABA;
-	/*border-right: 2px solid gray;
-	border-bottom: 2px solid gray;*/
 	background: white;
 }
 
@@ -650,10 +648,10 @@ div.warning {
 	padding-right: 10px;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	border-bottom: 1px solid gray;
-	border-right: 1px solid gray;
-	border-top: 1px solid gray;
-	border-left: 1px solid gray;
+	border-bottom: 1px solid #BABABA;
+	border-right: 1px solid #BABABA;
+	border-top: 1px solid #BABABA;
+	border-left: 1px solid #BABABA;
 	border-radius: 5px;
 	box-shadow: 0px 2px 10px 2px #888;
 	font-family: Helvetica;
@@ -666,10 +664,10 @@ ul#messages {
 	padding: 10px;
 	width: 900px;
 	background-color: #a9daeb;
-	border-bottom: 1px solid gray;
-	border-right: 1px solid gray;
-	border-top: 1px solid gray;
-	border-left: 1px solid gray;
+	border-bottom: 1px solid #BABABA;
+	border-right: 1px solid #BABABA;
+	border-top: 1px solid #BABABA;
+	border-left: 1px solid #BABABA;
 	border-radius: 5px;
 	box-shadow: 0px 2px 10px 2px #888;
 	font-family: Helvetica;
@@ -856,6 +854,32 @@ span.value {
 }
 
 /* service outputs */
+.registry-panel {
+	float: left;
+	min-width: 150px;
+	margin: 15px;
+	text-align: center;
+}
+
+.registry-panel input {
+	width: 100%;
+}
+
+.registry-logo {
+	min-width: 150px;
+	height: 40px;
+	border: 1px solid #BABABA;
+}
+
+.registry-logo img {
+	float: left;
+	height: 40px;
+}
+
+.service-results {
+	width: 100%;
+}
+
 td.service-marker {
 	background-color: #CFCDCD;
 	width: 11px;
@@ -866,11 +890,11 @@ td.service-marker-myExperiment {
 	background-color: #ce0434;
 }
 
-td.service-marker.service-marker-MiniMEE-migration {
+td.service-marker-MiniMEE-migration {
 	background-color: white;
 }
 
-td.service-marker.service-marker-P2 {
+td.service-marker-P2 {
 	background-color: #005eb2;
 }
 
@@ -879,26 +903,7 @@ td.service-marker.service-marker-P2 {
 }
 
 input.service-addservice-add {
-	-moz-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
-	-webkit-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
-	box-shadow: inset 0px 1px 0px 0px #D9D6D6;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
-		), color-stop(1, #B0AEAE) );
-	background: -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CFCDCD',
-		endColorstr='#B0AEAE' );
-	background-color: #999898;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	border: 1px solid #999898;
-	display: inline-block;
-	color: #525151;
-	font-family: arial;
 	font-size: 30px;
-	font-weight: bold;
-	text-decoration: none;
-	text-shadow: 1px 1px 0px #D8D6D6;
 	padding: 3px;
 	height: 100%;
 }
