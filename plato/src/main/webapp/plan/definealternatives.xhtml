@@ -61,15 +61,27 @@
 	                   -->
 					</h:column>
 					<h:column>
-						<f:facet name="header">Remove</f:facet>
-						<h:outputText
-							rendered="#{alternative.id == defineAlternatives.alternativeIdAllowedToRemove}"
-							value="This alternative has associated evaluation values. These will be removed as well. Are you sure?" />
-						<a4j:commandButton
-							action="#{defineAlternatives.tryRemoveAlternative(alternative)}"
-							value="Remove"
+						<a4j:commandButton value="Remove" execute="@this"
+							action="#{defineAlternatives.removeAlternative(alternative)}"
 							render="alterativesTablePanel editAlternativePanel"
-							execute="@this" onclick="changed()" />
+							rendered="#{empty alternative.experiment.results}"
+							onclick="changed();" />
+
+						<a4j:outputPanel styleClass="confirmation-container"
+							rendered="#{not empty alternative.experiment.results}">
+							<a4j:commandButton value="Remove" execute="@this"
+								action="#{defineAlternatives.removeAlternative(alternative)}"
+								render="alterativesTablePanel editAlternativePanel"
+								onclick="if ($(#{rich:element('removeConfirmation')}).css('display') == 'none') { $(#{rich:element('removeConfirmation')}).toggle(true); return false; } changed();" />
+							<a4j:outputPanel id="removeConfirmation"
+								styleClass="confirmation-panel" layout="block">
+								<h:outputText
+									value="This alternative has associated evaluation values. These will be removed as well. Are you sure?" />
+								<a4j:commandLink value="X" styleClass="confirmation-close"
+									onclick="$(#{rich:element('removeConfirmation')}).toggle(false); return false;" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
 					</h:column>
 				</h:dataTable>
 
@@ -239,15 +251,17 @@
 									<rich:dataScroller for="lookupResults" maxPages="5"
 										boundaryControls="show" fastControls="hide"
 										renderIfSinglePage="false" stepControls="show" />
-									<rich:dataTable value="#{defineAlternatives.workflowInfoData}"
-										var="action" id="lookupResults" rows="8" styleClass="service-results">
+									<rich:dataTable value="#{defineAlternatives.serviceInfoData}"
+										var="action" id="lookupResults" rows="8"
+										styleClass="service-results">
 										<rich:column
 											styleClass="service-marker service-marker-#{action.actionIdentifier}">
 											<rich:tooltip value="#{action.actionIdentifier}" />
 										</rich:column>
 										<rich:column styleClass="service-addservice">
-											<h:commandButton value="+" immediate="true"
+											<a4j:commandButton value="+" immediate="true"
 												action="#{defineAlternatives.addPreservationAction(action)}"
+												render="alterativesTablePanel"
 												styleClass="service-addservice-add" />
 										</rich:column>
 										<rich:column styleClass="service-info" id="service-info">

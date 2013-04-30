@@ -22,8 +22,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.ITouchable;
 import eu.scape_project.planning.model.Plan;
@@ -31,6 +29,8 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
+
+import org.slf4j.Logger;
 
 /**
  * This class represents the core/base-functionality of each viewWorkflow step.
@@ -103,6 +103,7 @@ public abstract class AbstractView implements Serializable {
     public void save() {
         try {
             getWfStep().save();
+            init(plan);
             changed = "";
             facesMessages.addInfo("Your changes have been saved.");
         } catch (Exception e) {

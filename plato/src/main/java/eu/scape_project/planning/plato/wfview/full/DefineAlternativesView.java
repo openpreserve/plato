@@ -49,7 +49,7 @@ import org.hibernate.validator.constraints.Length;
 import org.slf4j.Logger;
 
 /**
- * Class used as backing-bean for the view definealternatives.xhtml
+ * Class used as backing-bean for the view definealternatives.xhtml.
  * 
  * @author Markus Hamm
  */
@@ -71,7 +71,7 @@ public class DefineAlternativesView extends AbstractView {
     private TavernaServices tavernaServices;
 
     /**
-     * List of defined alternatives
+     * List of defined alternatives.
      */
     private List<Alternative> alternatives;
 
@@ -90,12 +90,6 @@ public class DefineAlternativesView extends AbstractView {
     private String editableAlternativeName;
 
     /**
-     * Id of the alternative which is allowed to be remove (at the second
-     * attempt/confirmation by the user).
-     */
-    private int alternativeIdAllowedToRemove;
-
-    /**
      * A list of all currently defined preservation service registries.
      */
     private List<PreservationActionRegistryDefinition> availableRegistries;
@@ -106,28 +100,34 @@ public class DefineAlternativesView extends AbstractView {
 
     private Map<IActionInfo, Boolean> actionSelection;
 
-    private ServiceInfoDataModel workflowInfoData;
+    /**
+     * Datamodel for services.
+     */
+    private ServiceInfoDataModel serviceInfoData;
 
     private Map<String, IServiceLoader> serviceLoaders;
 
+    /**
+     * Creates a new view object.
+     */
     public DefineAlternativesView() {
         currentPlanState = PlanState.TREE_DEFINED;
         name = "Define Alternatives";
         viewUrl = "/plan/definealternatives.jsf";
         group = "menu.evaluateAlternatives";
 
-        // alternatives = new ArrayList<Alternative>();
-        alternativeIdAllowedToRemove = -1;
         editableAlternative = null;
 
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
         availableActions = new ArrayList<IActionInfo>();
         registrySelection = new HashMap<PreservationActionRegistryDefinition, Boolean>();
         actionSelection = new HashMap<IActionInfo, Boolean>();
-
         serviceLoaders = new HashMap<String, IServiceLoader>();
     }
 
+    /**
+     * Initialises the view with plandata.
+     */
     public void init(Plan plan) {
         super.init(plan);
         alternatives = plan.getAlternativesDefinition().getAlternatives();
@@ -149,38 +149,24 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
-     * Method responsible for removing a given alternative. At the first attempt
-     * just a allowed-flag is set. After the second attempt (confirmed by the
-     * user) the alternative is deleted.
+     * Removes the provided alternative from the plan.
      * 
      * @param alternative
-     *            alternative to delete.
+     *            alternative to delete
      */
-    public void tryRemoveAlternative(Alternative alternative) {
-        // at the first attempt just set the allowed flag
-        if (alternative.getId() != alternativeIdAllowedToRemove) {
-            alternativeIdAllowedToRemove = alternative.getId();
-            log.debug("Allowed to remove alternative with id " + alternative.getId());
-            return;
+    public void removeAlternative(Alternative alternative) {
+
+        if (plan.isGivenAlternativeTheCurrentRecommendation(alternative)) {
+            facesMessages.addInfo("You have removed the action which was chosen as the recommended alternative.");
         }
 
-        // at the second attempt (user confirmed) delete alternative
-        if (alternative.getId() == alternativeIdAllowedToRemove) {
-            // if the alternative to delete is the current recommended
-            // alternative - show an info message
-            if (plan.isGivenAlternativeTheCurrentRecommendation(alternative)) {
-                facesMessages.addInfo("You have removed the action which was chosen as the recommended alternative.");
-            }
+        plan.removeAlternative(alternative);
 
-            plan.removeAlternative(alternative);
-            alternativeIdAllowedToRemove = -1;
-
-            if (alternative == editableAlternative) {
-                editableAlternative = null;
-            }
-
-            return;
+        if (alternative == editableAlternative) {
+            editableAlternative = null;
         }
+
+        return;
     }
 
     /**
@@ -202,6 +188,7 @@ public class DefineAlternativesView extends AbstractView {
                 return;
             }
         }
+
         // else if it is an existing one - the big part of properties have
         // already been set,
         // but the complex renaming procedure is done here.
@@ -297,7 +284,7 @@ public class DefineAlternativesView extends AbstractView {
             registrySelection.clear();
             registrySelection.put(registry, true);
             availableActions.addAll(defineAlternatives.queryRegistry(getSampleWithFormat().getFormatInfo(), registry));
-            workflowInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
+            serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
             for (IActionInfo actionInfo : availableActions) {
                 actionSelection.put(actionInfo, false);
             }
@@ -344,14 +331,6 @@ public class DefineAlternativesView extends AbstractView {
 
     public void setAlternatives(List<Alternative> alternatives) {
         this.alternatives = alternatives;
-    }
-
-    public int getAlternativeIdAllowedToRemove() {
-        return alternativeIdAllowedToRemove;
-    }
-
-    public void setAlternativeIdAllowedToRemove(int alternativeIdAllowedToRemove) {
-        this.alternativeIdAllowedToRemove = alternativeIdAllowedToRemove;
     }
 
     public FacesMessages getFacesMessages() {
@@ -407,12 +386,8 @@ public class DefineAlternativesView extends AbstractView {
         return actionSelection;
     }
 
-    public ServiceInfoDataModel getWorkflowInfoData() {
-        return workflowInfoData;
-    }
-
-    public void setWorkflowInfoData(ServiceInfoDataModel workflowInfoData) {
-        this.workflowInfoData = workflowInfoData;
+    public ServiceInfoDataModel getServiceInfoData() {
+        return serviceInfoData;
     }
 
     public TavernaServices getTavernaServices() {

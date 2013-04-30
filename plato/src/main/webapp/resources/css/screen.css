@@ -810,7 +810,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =         50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -986,3 +986,34 @@ td.service-info {
 	width: 16px;
 	height: 16px;
 }
+
+/* Confirmation panel */
+.confirmation-container {
+	position: relative;
+}
+
+.confirmation-panel {
+	display: none;
+	position: absolute;
+	top: 22px;
+	right: 0px;
+	background-color: #FE8066;
+	border: 1px solid #BABABA;
+	padding: 3px 20px 3px 3px;
+	width: 200px;
+	z-index: 10;
+}
+
+.confirmation-close {
+	position: absolute;
+	padding: 4px;
+	top: 0px;
+	right: 0px;
+	font-size: 18px;
+	font-weight: bold;
+	color: white;
+}
+
+.confirmation-close:hover {
+	color: white;
+	}
