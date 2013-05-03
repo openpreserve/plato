@@ -252,11 +252,9 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      * @param leaf
      *            Selected leaf
      */
-    public void selectLeaf(Object leaf) {
-        if (!(leaf instanceof CriteriaLeaf)) {
-            return;
-        }
+    public void selectLeaf(CriteriaLeaf leaf) {
         selectedLeaf = (CriteriaLeaf) leaf;
+        criterionSelector.selectMeasure(selectedLeaf.getMeasure());
         log.debug("Selected leaf with id=" + selectedLeaf.getId());
     }
 

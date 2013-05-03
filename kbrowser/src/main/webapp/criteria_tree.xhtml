@@ -173,17 +173,17 @@
 					criterionSelector="#{criteriaHierarchyHelper.criterionSelector}">
 
 					<h:panelGroup id="savePropertyMappingButton">
-						<a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
+						<a4j:commandLink id="saveCriterionMapping"
 							rendered="#{not empty criteriaHierarchyHelper.criterionSelector.selectedMeasure}"
 							action="#{criteriaHierarchyHelper.saveCriterionMapping}"
 							oncomplete="#{rich:component('editLeafMapping')}.hide()"
 							render="richTree">
-							<h:graphicImage value="resources/gfx/icons/apply.png"
+							<h:graphicImage library="gfx/icons" name="apply.png"
 								title="Save Criterion mapping" width="32" height="32" />
 						</a4j:commandLink>
 						<h:graphicImage
 							rendered="#{empty criteriaHierarchyHelper.criterionSelector.selectedMeasure}"
-							value="resources/gfx/icons/apply-disabled.png"
+							library="gfx/icons" name="apply-disabled.png"
 							title="Save Criterion mapping" width="32" height="32" />
 					</h:panelGroup>
 

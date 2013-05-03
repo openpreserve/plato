@@ -361,9 +361,7 @@ public class IdentifyRequirementsView extends AbstractView {
      * @param leaf
      *            Selected leaf
      */
-    public void selectLeaf(Object leaf) {
-        if (!(leaf instanceof Leaf))
-            return;
+    public void selectLeaf(Leaf leaf) {
         selectedLeaf = (Leaf) leaf;
         critSelector.selectMeasure(selectedLeaf.getMeasure());
         log.debug("Selected leaf with id=" + selectedLeaf.getId());

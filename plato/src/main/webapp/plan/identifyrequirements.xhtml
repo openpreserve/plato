@@ -442,131 +442,37 @@
 						value="/resources/gfx/icons/cancel.png" title="Close" width="16"
 						height="16" onclick="#{rich:component('editLeafMapping')}.hide()" />
 				</f:facet>
-
-				<h:messages />
-				<div style="display: block; width: 33%;">
-					<b>Search: </b>
-					<h:inputText id="searchTerm"
-						value="#{identifyRequirements.critSelector.searchTerm}"
-						style="width: 100%;">
-						<a4j:ajax event="keyup"
-							render="categories_select, attributes_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
-							listener="#{identifyRequirements.critSelector.updateSearch}" />
-						<a4j:attachQueue requestDelay="1000" />
-					</h:inputText>
-				</div>
-				<table style="width: 100%">
-					<tr>
-						<th style="width: 33%;"><i>Category</i></th>
-						<th style="width: 33%;"><i>Attribute</i></th>
-						<th style="width: 33%;"><i>Measure</i></th>
-					</tr>
-					<tr style="background-color: #F2F2F2;">
-						<td><h:selectOneListbox size="7" id="categories_select"
-								value="#{identifyRequirements.critSelector.selectedCategoryName}"
-								required="false" style="width:99%;">
-								<f:selectItems
-									value="#{identifyRequirements.critSelector.categories}"
-									var="cat" noSelectionValue="(all)" itemLabel="#{cat.name}"
-									itemValue="#{cat.name}" />
-								<a4j:ajax event="change"
-									render="attributes_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
-									listener="#{identifyRequirements.critSelector.categorySelected}" />
-							</h:selectOneListbox></td>
-						<td><h:selectOneListbox size="7" id="attributes_select"
-								value="#{identifyRequirements.critSelector.selectedAttributeName}"
-								required="false" style="width: 99%;">
-								<f:selectItems
-									value="#{identifyRequirements.critSelector.filteredAttributes}"
-									var="attr" itemLabel="#{attr.name}" itemValue="#{attr.name}"
-									noSelectionValue="(all)" />
-								<a4j:ajax event="change"
-									render="categories_select, measures_select, measure_description, saveMappingButton, removeMappingButton"
-									listener="#{identifyRequirements.critSelector.attributeSelected}" />
-							</h:selectOneListbox></td>
-						<td><h:selectOneListbox size="7" id="measures_select"
-								value="#{identifyRequirements.critSelector.selectedMeasureName}"
-								required="false" style="width: 99%;">
-								<f:selectItems id="metrics_select_items"
-									value="#{identifyRequirements.critSelector.filteredMeasures}"
-									var="measure" itemLabel="#{measure.name}"
-									itemValue="#{measure.name}" noSelectionLabel="(none)" />
-								<a4j:ajax event="change"
-									render="categories_select, attributes_select, measure_description, saveMappingButton, removeMappingButton"
-									listener="#{identifyRequirements.critSelector.measureSelected}" />
-							</h:selectOneListbox></td>
-					</tr>
-				</table>
-
-				<br />
-				<br />
-				<h:panelGroup id="measure_description">
-					<table class="size-xxl border"
-						style="width: 100%; border: 1px solid #DDDDDD;">
-						<tr>
-							<th class="align-left" style="width: 20%;">Measure
-								characteristic</th>
-							<th class="align-left" style="width: 80%;">Value</th>
-						</tr>
-						<tr>
-							<td><a
-								href="#{identifyRequirements.critSelector.selectedCategory.uri}">category</a></td>
-							<td><h:outputText
-									value="#{identifyRequirements.critSelector.selectedCategory.name}"
-									rendered="#{identifyRequirements.critSelector.selectedCategory != null}" /></td>
-						</tr>
-						<tr>
-							<td><a
-								href="#{identifyRequirements.critSelector.selectedAttribute.uri}">attribute
-									description</a></td>
-							<td><h:outputText
-									value="#{identifyRequirements.critSelector.selectedAttribute.description}"
-									rendered="#{identifyRequirements.critSelector.selectedAttribute != null}" /></td>
-						</tr>
-						<tr>
-							<td><a
-								href="#{identifyRequirements.critSelector.selectedMeasure.uri}">measure</a>
-							</td>
-							<td><h:outputText
-									value="#{identifyRequirements.critSelector.selectedMeasure.description}"
-									rendered="#{identifyRequirements.critSelector.selectedMeasure != null}" /><br />
-								<h:outputText
-									value=" Scale #{identifyRequirements.critSelector.selectedMeasure.scale.displayName}"
-									rendered="#{identifyRequirements.critSelector.selectedMeasure != null}" />
-								<h:outputText
-									value=": #{identifyRequirements.critSelector.selectedMeasure.scale.readableRestriction}"
-									rendered="#{identifyRequirements.critSelector.selectedMeasure != null and identifyRequirements.critSelector.selectedMeasure.scale.restricted}" /></td>
-						</tr>
-					</table>
-				</h:panelGroup>
-				<div style="margin-top: 0.5em;">
-					<h:panelGroup id="saveMappingButton">
-						<a4j:commandLink id="saveCriterionMapping" style="color: #FFFFFF;"
-							rendered="#{null != identifyRequirements.critSelector.selectedMeasureName}"
-							action="#{identifyRequirements.assignCriterionMapping}"
-							oncomplete="#{rich:component('editLeafMapping')}.hide()"
-							onclick="changed()" render="objectivetree_tree">
-							<h:graphicImage value="/resources/gfx/icons/apply.png"
+				<p:criterionSelector id="criterionSelector"
+					criterionSelector="#{identifyRequirements.critSelector}">
+					<div>
+						<h:panelGroup id="saveMappingButton">
+							<a4j:commandLink id="saveCriterionMapping"
+								rendered="#{null != identifyRequirements.critSelector.selectedMeasureName}"
+								action="#{identifyRequirements.assignCriterionMapping}"
+								oncomplete="#{rich:component('editLeafMapping')}.hide()"
+								onclick="changed()" render="objectivetree_tree">
+								<h:graphicImage library="gfx/icons" name="apply.png"
+									title="Map measure to decision criteria" width="32" height="32" />
+							</a4j:commandLink>
+							<h:graphicImage
+								rendered="#{null == identifyRequirements.critSelector.selectedMeasureName}"
+								library="gfx/icons" name="apply-disabled.png"
 								title="Map measure to decision criteria" width="32" height="32" />
-						</a4j:commandLink>
-						<h:graphicImage
-							rendered="#{null == identifyRequirements.critSelector.selectedMeasureName}"
-							value="/resources/gfx/icons/apply-disabled.png"
-							title="Map measure to decision criteria" width="32" height="32" />
-					</h:panelGroup>
+						</h:panelGroup>
 
-					<a4j:outputPanel layout="inline" id="removeMappingButton"
-						style="float: right;">
-						<a4j:commandLink id="removeCriterionMapping"
-							style="color: #FFFFFF;"
-							action="#{identifyRequirements.detachCriterionMapping()}"
-							oncomplete="#{rich:component('editLeafMapping')}.hide()"
-							onclick="changed()" render="objectivetree_tree">
-							<h:graphicImage value="/resources/gfx/icons/user-trash.png"
-								title="Save Criterion mapping" width="32" height="32" />
-						</a4j:commandLink>
-					</a4j:outputPanel>
-				</div>
+						<a4j:outputPanel layout="inline" id="removeMappingButton"
+							style="float: right;">
+							<a4j:commandLink id="removeCriterionMapping"
+								action="#{identifyRequirements.detachCriterionMapping()}"
+								oncomplete="#{rich:component('editLeafMapping')}.hide()"
+								onclick="changed()" render="objectivetree_tree">
+								<h:graphicImage library="gfx/icons" name="user-trash.png"
+									title="Save Criterion mapping" width="32" height="32" />
+							</a4j:commandLink>
+						</a4j:outputPanel>
+					</div>
+				</p:criterionSelector>
+
 			</rich:popupPanel>
 			<!-- / measure selection -->
 		</h:form>

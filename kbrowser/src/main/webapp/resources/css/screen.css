@@ -710,3 +710,31 @@ img.user {
 	vertical-align: middle;
 	padding-right: 5px;
 }
+
+
+
+div.rf-pp-hdr {
+	background-image: url(none);
+	background: #017298;
+}
+
+div.rf-pp-hdr-cnt {
+	color: white;
+	font-size: 14px;
+}
+
+div.rf-pp-hdr-cntrls a {
+	color: white;
+	font-size: 18px;
+	padding: 4px;
+}
+
+div.rf-pp-cntr {
+	border: 1px solid #000000;
+}
+
+
+/* General text */
+.text-understate {
+	color: #BABABA;
+}

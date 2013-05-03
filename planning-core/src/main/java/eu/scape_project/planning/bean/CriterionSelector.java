@@ -68,7 +68,22 @@ public class CriterionSelector implements Serializable {
     private List<ChangeListener> changeListeners = new ArrayList<ChangeListener>(1);
 
     /**
-     * Compares two Attribute instances regarding their name
+     * Compares two category instances regarding their name.
+     */
+    class CategoryNameComparator implements Comparator<CriterionCategory> {
+        @Override
+        public int compare(CriterionCategory o1, CriterionCategory o2) {
+            if (null == o1) {
+                return -1;
+            } else if (null == o2) {
+                return 1;
+            }
+            return o1.getName().compareTo(o2.getName());
+        }
+    }
+
+    /**
+     * Compares two attribute instances regarding their name.
      */
     class AttributeNameComparator implements Comparator<Attribute> {
         @Override
@@ -82,6 +97,9 @@ public class CriterionSelector implements Serializable {
         }
     }
 
+    /**
+     * Compares two measure instances regarding their name.
+     */
     class MeasureNameComparator implements Comparator<Measure> {
         @Override
         public int compare(Measure o1, Measure o2) {
@@ -94,20 +112,10 @@ public class CriterionSelector implements Serializable {
         }
     }
 
-    class CategoryNameComparator implements Comparator<CriterionCategory> {
-        @Override
-        public int compare(CriterionCategory o1, CriterionCategory o2) {
-            if (null == o1) {
-                return -1;
-            } else if (null == o2) {
-                return 1;
-            }
-            return o1.getName().compareTo(o2.getName());
-        }
-    }
-
+    /**
+     * Creates a new criterion selector object.
+     */
     public CriterionSelector() {
-
         clearSelection();
     }
 
@@ -170,7 +178,7 @@ public class CriterionSelector implements Serializable {
     }
 
     /**
-     * Clears the currently selected attribute, measure and searchTerm
+     * Clears the currently selected attribute, measure and searchTerm.
      */
     private void clearSelection() {
         filteredAttributes = new ArrayList<Attribute>();
@@ -183,6 +191,11 @@ public class CriterionSelector implements Serializable {
         searchTerm = "";
     }
 
+    /**
+     * Returns the name of the selected category.
+     * 
+     * @return the category name or null if no category selected
+     */
     public String getSelectedCategoryName() {
         if (selectedCategory == null) {
             return null;
@@ -191,14 +204,33 @@ public class CriterionSelector implements Serializable {
         }
     }
 
+    /**
+     * Sets the selected category by name.
+     * 
+     * @param name
+     *            the category name
+     */
     public void setSelectedCategoryName(String name) {
         this.selectedCategory = findCategoryByName(name);
     }
 
+    /**
+     * Sets the selected attribute by name.
+     * 
+     * @param name
+     *            the attribute name
+     */
     public void setSelectedAttributeName(String name) {
         selectedAttribute = findAttributeByName(name);
     }
 
+    /**
+     * Finds a category by name.
+     * 
+     * @param name
+     *            the category name
+     * @return the category or null if no matching category found
+     */
     private CriterionCategory findCategoryByName(String name) {
         if (name == null) {
             return null;
@@ -211,6 +243,13 @@ public class CriterionSelector implements Serializable {
         return null;
     }
 
+    /**
+     * Finds an attribute by name.
+     * 
+     * @param name
+     *            the attribute name
+     * @return the attribute or null if no matching attribute found
+     */
     private Attribute findAttributeByName(String name) {
         if (name == null) {
             return null;
@@ -223,6 +262,13 @@ public class CriterionSelector implements Serializable {
         return null;
     }
 
+    /**
+     * Finds the measure by name.
+     * 
+     * @param name
+     *            the measure name
+     * @return the measure or null if no matching measure found
+     */
     private Measure findMeasureByName(String name) {
         if (name == null) {
             return null;
@@ -235,6 +281,11 @@ public class CriterionSelector implements Serializable {
         return null;
     }
 
+    /**
+     * Returns the name of the selected attribute.
+     * 
+     * @return the attribute name or null if no attribute selected
+     */
     public String getSelectedAttributeName() {
         if (selectedAttribute == null) {
             return null;
@@ -243,24 +294,27 @@ public class CriterionSelector implements Serializable {
         }
     }
 
+    /**
+     * Sets the selected measure by name.
+     * 
+     * @param name
+     *            the measure name
+     */
     public void setSelectedMeasureName(String name) {
         selectedMeasure = findMeasureByName(name);
     }
 
+    /**
+     * Returns the name of the selected measure.
+     * 
+     * @return the measure name of null if no measure selected
+     */
     public String getSelectedMeasureName() {
         if (selectedMeasure == null) {
             return null;
         } else {
             return selectedMeasure.getName();
         }
-    }
-
-    public String getSearchTerm() {
-        return searchTerm;
-    }
-
-    public void setSearchTerm(String value) {
-        this.searchTerm = value;
     }
 
     /**
@@ -301,13 +355,12 @@ public class CriterionSelector implements Serializable {
         Collections.sort(filteredAttributes, new AttributeNameComparator());
     }
 
+    /**
+     * Notifies this object that a category was selected.
+     */
     public void categorySelected() {
         filteredAttributes.clear();
-        if (selectedCategory == null) {
-            // TODO: Is this correct? Why show all attributes if no category
-            // selected?
-            filteredAttributes.addAll(allAttributes);
-        } else {
+        if (selectedCategory != null) {
             for (Attribute attr : allAttributes) {
                 if (attr.getCategory().getUri().equals(selectedCategory.getUri())) {
                     filteredAttributes.add(attr);
@@ -321,15 +374,17 @@ public class CriterionSelector implements Serializable {
         if (filteredAttributes.size() == 1) {
             selectedAttribute = filteredAttributes.iterator().next();
         }
+
         // propagate the new selection
         attributeSelected();
     }
 
+    /**
+     * Notifies this object that a attribute was selected.
+     */
     public void attributeSelected() {
         filteredMeasures.clear();
-        if (selectedAttribute == null) {
-            // filteredMeasures.addAll(allMeasures);
-        } else {
+        if (selectedAttribute != null) {
             for (Measure m : allMeasures) {
                 if (m.getAttribute().getUri().equals(selectedAttribute.getUri())) {
                     filteredMeasures.add(m);
@@ -349,9 +404,15 @@ public class CriterionSelector implements Serializable {
             selectedMeasure = filteredMeasures.iterator().next();
         }
 
-        callChangeListeners();
+        setSearchTerm("");
+
+        // propagate the new selection
+        measureSelected();
     }
 
+    /**
+     * Notifies this object that a measure was selected.
+     */
     public void measureSelected() {
         if (selectedMeasure != null) {
             if ((selectedAttribute == null)
@@ -373,6 +434,12 @@ public class CriterionSelector implements Serializable {
         }
     }
 
+    /**
+     * Selects the provided measures.
+     * 
+     * @param measure
+     *            the measure to select
+     */
     public void selectMeasure(Measure measure) {
         if (measure != null) {
             selectedMeasure = measure;
@@ -385,10 +452,22 @@ public class CriterionSelector implements Serializable {
 
     }
 
+    /**
+     * Adds a change listener to this object.
+     * 
+     * @param changeListener
+     *            the change listener to add
+     */
     public void addChangeListener(ChangeListener changeListener) {
         changeListeners.add(changeListener);
     }
 
+    /**
+     * Removes a change listener from this object.
+     * 
+     * @param changeListener
+     *            the change listener to remove
+     */
     public void removeChangeListener(ChangeListener changeListener) {
         changeListeners.remove(changeListener);
     }
@@ -415,6 +494,14 @@ public class CriterionSelector implements Serializable {
 
     public CriterionCategory getSelectedCategory() {
         return selectedCategory;
+    }
+
+    public String getSearchTerm() {
+        return searchTerm;
+    }
+
+    public void setSearchTerm(String value) {
+        this.searchTerm = value;
     }
 
 }
