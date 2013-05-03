@@ -33,6 +33,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 
+import eu.scape_project.planning.bean.CriterionSelector;
 import eu.scape_project.planning.criteria.xml.CriteriaHierarchyExporter;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.CriteriaManager;

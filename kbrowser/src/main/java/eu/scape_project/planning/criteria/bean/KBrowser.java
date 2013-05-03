@@ -34,7 +34,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 
-import eu.scape_project.planning.criteria.bean.CriterionSelector.ChangeListener;
+import eu.scape_project.planning.bean.CriterionSelector;
+import eu.scape_project.planning.bean.CriterionSelector.ChangeListener;
 import eu.scape_project.planning.criteria.bean.DominatedSets.Aggregation;
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
