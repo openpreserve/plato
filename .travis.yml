@@ -1,0 +1,21 @@
+language: java
+
+install: mvn install -DskipTests=true -B -P -arquillian-jbossas-managed
+
+script: mvn test -P -arquillian-jbossas-managed
+
+branches:
+  only:
+    - master
+    - integration
+
+jdk:
+  - oraclejdk6
+  - oraclejdk7
+  - openjdk7
+
+before_script:
+  - mysql -e 'create database idpdbtest;'
+  - mysql -uroot -e 'GRANT ALL PRIVILEGES ON idpdbtest.* TO idptest@localhost IDENTIFIED BY "idptest";'
+  - mysql -e 'create database platodbtest;'
+  - mysql -uroot -e 'GRANT ALL PRIVILEGES ON platodbtest.* TO platotest@localhost IDENTIFIED BY "platotest";'
