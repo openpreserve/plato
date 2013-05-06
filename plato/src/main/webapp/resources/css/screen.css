@@ -307,9 +307,34 @@ input[type="text"],input[type="password"],select,textarea {
 	font-size: 10px;
 }
 
-/*
-blue button...
-*/
+.p-input-text {
+	width: 100%;
+	padding: 2px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.p-input-textarea {
+	width: 100%;
+	height: 60px;
+	padding: 2px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.p-select {
+	width: 100%;
+	padding: 2px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.input-no-label {
+	display: inline-block;
+	width: 90%;
+}
+
+/* Standard submit button */
 input[type=submit],input[type=button] {
 	-moz-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
@@ -349,100 +374,8 @@ input[type=submit]:active,input[type=button]:hover {
 	top: 1px;
 }
 
-.marks {
-	color: red;
-	display: inline-block;
-	/*width:9%;*/
-	/*background:green;*/
-	margin-left: 20px;
-}
-
-.input-no-label {
-	display: inline-block;
-	width: 90%;
-}
-
-.errorMessage {
-	margin-left: 31%;
-}
-
-.label-text {
-	color: #3B3B3B;
-	font-size: 14px;
-	font-family: Helvetica;
-	font-weight: normal;
-	cursor: help;
-}
-
-.label-text:hover {
-	color: #7C7C7C;
-}
-
-.p-input-text {
-	width: 100%;
-	padding: 2px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-
-.p-input-textarea {
-	width: 100%;
-	height: 60px;
-	padding: 2px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-
-.p-select {
-	width: 100%;
-	padding: 2px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-
-table.size-full {
-	border: black;
-	width: 100%;
-}
-
-table.size-full td {
-	padding-top: 10px;
-	padding-bottom: 20px;
-}
-
-.tableStyle { /*border:1px solid black;*/
-	width: 100%;
-	border-spacing: 0px;
-	/*background:red;*/
-}
-
-.tableStyle-header {
-	color: black;
-	font-size: 12px;
-	text-align: center;
-	background-color: #EEEEEE;
-	border: 1px solid white;
-}
-
-.tableStyle-row { /*border-bottom: 1px solid black;*/
-	/*background-color: #E6E6E6;*/
-	padding-bottom: 5px;
-	font-size: 12px;
-}
-
-.column-validation-results {
-	padding-top: 0px;
-	/*background:green;*/
-	vertical-align: top;
-}
-
-th.rf-dt-shdr-c {
-	background-image: url(none);
-	background: #017298;
-	color: white;
-}
-
-div.save-discard-proceed-buttons { /*background: red;*/
+/* Save/Discard/Proceed button */
+div.save-discard-proceed-buttons {
 	width: 100%;
 	margin-left: 2%;
 	margin-top: 20px;
@@ -605,6 +538,70 @@ input.proceed-button:hover {
 		endColorstr='#77d42a' );
 	background-color: #5cb811;
 	color: #306108;
+}
+
+.marks {
+	color: red;
+	display: inline-block;
+	margin-left: 20px;
+}
+
+.errorMessage {
+	margin-left: 31%;
+}
+
+.label-text {
+	color: #3B3B3B;
+	font-size: 14px;
+	font-family: Helvetica;
+	font-weight: normal;
+	cursor: help;
+}
+
+.label-text:hover {
+	color: #7C7C7C;
+}
+
+table.size-full {
+	border: black;
+	width: 100%;
+}
+
+table.size-full td {
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+.tableStyle { /*border:1px solid black;*/
+	width: 100%;
+	border-spacing: 0px;
+	/*background:red;*/
+}
+
+.tableStyle-header {
+	color: black;
+	font-size: 12px;
+	text-align: center;
+	background-color: #EEEEEE;
+	border: 1px solid white;
+}
+
+.tableStyle-row { /*border-bottom: 1px solid black;*/
+	/*background-color: #E6E6E6;*/
+	padding-bottom: 5px;
+	font-size: 12px;
+}
+
+.column-validation-results {
+	padding-top: 0px;
+	/*background:green;*/
+	vertical-align: top;
+}
+
+th.rf-dt-shdr-c {
+	background-image: url(none);
+	background: #017298;
+	color: white;
 }
 
 div.menu-step { /*width:95%;
@@ -810,7 +807,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =             50);
+	filter: alpha(opacity =                     50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -824,6 +821,14 @@ div.clear {
 /* Slider */
 span.rf-insl-trc {
 	background: white;
+}
+
+span.rf-insl-trc-cntr {
+	width: 90%;
+}
+
+span.rf-insl {
+	width: 100%;
 }
 
 .done {

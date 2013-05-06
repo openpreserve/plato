@@ -92,7 +92,7 @@
 										expanded="#{identifyRequirements.requirementstreeHelper.expandedNodes[node]}"
 										styleClass="tree-node">
 										<div class="tree-nodename input input-inline">
-											<h:inputText required="true" styleClass="p-input-text"
+											<h:inputText required="true"
 												requiredMessage="Please provide a name." id="name"
 												value="#{node.name}">
 												<f:validateLength maximum="255" minimum="1" />
@@ -127,7 +127,7 @@
 														hideDelay="500" style="z-index: 50; position: relative;">
 														<f:facet name="label">
 															<h:graphicImage
-																value="/resources/gfx/icons/small/preferences-system.png"
+																name="gfx/icons/small/preferences-system.png"
 																id="addLeafpic" />
 														</f:facet>
 														<rich:menuItem id="addLeaf" rendered="#{!node.leaf}"
@@ -145,8 +145,7 @@
 															label="Add an inner node" onclick="changed();"
 															render="objectivetree_tree">
 															<f:facet name="icon">
-																<h:graphicImage
-																	value="/resources/gfx/treetable/add-node.png"
+																<h:graphicImage name="gfx/treetable/add-node.png"
 																	width="16" height="16" />
 															</f:facet>
 														</rich:menuItem>
@@ -155,8 +154,7 @@
 															action="#{identifyRequirements.removeTreeNode(node)}"
 															render="objectivetree_tree">
 															<f:facet name="icon">
-																<h:graphicImage
-																	value="/resources/gfx/treetable/trash-node.png"
+																<h:graphicImage name="gfx/treetable/trash-node.png"
 																	width="16" height="16" />
 															</f:facet>
 														</rich:menuItem>
@@ -165,8 +163,7 @@
 															action="#{identifyRequirements.convertToNode(node)}"
 															onclick="changed();" render="objectivetree_tree">
 															<f:facet name="icon">
-																<h:graphicImage
-																	value="/resources/gfx/treetable/add-node.png"
+																<h:graphicImage name="gfx/treetable/add-node.png"
 																	width="16" height="16" />
 															</f:facet>
 														</rich:menuItem>
@@ -176,13 +173,12 @@
 															onclick="if(!confirm('Are you sure you want to convert this node and remove all of its children?'))return false;changed();"
 															render="objectivetree_tree">
 															<f:facet name="icon">
-																<h:graphicImage
-																	value="/resources/gfx/treetable/add-leaf.png"
+																<h:graphicImage name="gfx/treetable/add-leaf.png"
 																	width="16" height="16" />
 															</f:facet>
 														</rich:menuItem>
 													</rich:dropDownMenu>
-													<a4j:outputPanel layout="block" styleClass="mappingDiv"
+													<a4j:outputPanel layout="block"
 														rendered="#{node.leaf and not identifyRequirements.editingNodeComments}">
 														<a4j:commandLink
 															action="#{identifyRequirements.selectLeaf(node)}"
@@ -190,7 +186,7 @@
 															oncomplete="#{rich:component('editLeafMapping')}.show();"
 															execute="@this">
 															<h:graphicImage id="showMapping"
-																value="/resources/gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
+																name="gfx/icons/paperclip#{(not node.mapped)?'':'-green'}.png"
 																title="#{(node.mapped ? ('Edit measure: '.concat(node.measure.name)):'Select measure')}"
 																width="22" height="22" />
 														</a4j:commandLink>
