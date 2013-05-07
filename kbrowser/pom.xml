@@ -12,10 +12,6 @@
 
     <properties>
         <kbrowser.url>http://${sp.domain}:${ps.port}/kbrowser/</kbrowser.url>
-        <hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
-        <arquillian.version>1.0.1.Final</arquillian.version>
-        <richfaces.version>4.1.0.Final</richfaces.version>
-        <shrinkwrap.resolver.version>2.0.0-alpha-5</shrinkwrap.resolver.version>
     </properties>
 
     <build>
@@ -57,12 +53,6 @@
         </plugins>
     </build>
 
-    <!-- <dependencyManagement> <dependencies> <dependency> <groupId>org.jboss.shrinkwrap.resolver</groupId> 
-        <artifactId>shrinkwrap-resolver-bom</artifactId> <version>${shrinkwrap.resolver.version}</version> 
-        <scope>import</scope> <type>pom</type> </dependency> <dependency> <groupId>org.jboss.arquillian</groupId> 
-        <artifactId>arquillian-bom</artifactId> <version>1.0.3.Final</version> <scope>import</scope> 
-        <type>pom</type> </dependency> </dependencies> </dependencyManagement> -->
-
     <dependencies>
         <dependency>
             <groupId>org.jboss.spec</groupId>
@@ -81,20 +71,16 @@
         <dependency>
             <groupId>org.richfaces.ui</groupId>
             <artifactId>richfaces-components-ui</artifactId>
-            <version>${richfaces.version}</version>
         </dependency>
         <dependency>
             <groupId>org.richfaces.core</groupId>
             <artifactId>richfaces-core-impl</artifactId>
-            <version>${richfaces.version}</version>
         </dependency>
         <!-- Annotation processor to generate the JPA 2.0 metamodel classes 
             for typesafe criteria queries -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>1.1.1.Final</version>
-            <scope>provided</scope>
             <!-- Excluded because it's provided by the Java EE 6 dependencies -->
             <exclusions>
                 <exclusion>
@@ -106,8 +92,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -126,8 +110,6 @@
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -158,15 +140,4 @@
             <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
-
-    <!-- <profiles> <profile> <id>arquillian-jbossas-managed</id> <activation> 
-        <activeByDefault>true</activeByDefault> </activation> <dependencies> <dependency> 
-        <groupId>org.jboss.arquillian.junit</groupId> <artifactId>arquillian-junit-container</artifactId> 
-        <scope>test</scope> </dependency> <dependency> <groupId>org.jboss.as</groupId> 
-        <artifactId>jboss-as-arquillian-container-managed</artifactId> <version>7.1.0.Final</version> 
-        <scope>test</scope> </dependency> <dependency> <groupId>org.jboss.arquillian.protocol</groupId> 
-        <artifactId>arquillian-protocol-servlet</artifactId> <scope>test</scope> 
-        </dependency> <dependency> <groupId>org.jboss.weld</groupId> <artifactId>weld-core</artifactId> 
-        <version>1.1.8.Final</version> <scope>test</scope> </dependency> </dependencies> 
-        </profile> </profiles> -->
 </project>

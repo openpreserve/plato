@@ -162,14 +162,10 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>1.1.1.Final</version>
-			<scope>provided</scope>
 			<!-- Excluded because it's provided by the Java EE 6 dependencies -->
 			<exclusions>
 				<exclusion>
@@ -205,8 +201,6 @@
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>jaxen</groupId>
