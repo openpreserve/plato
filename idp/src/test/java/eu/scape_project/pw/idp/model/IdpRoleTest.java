@@ -101,6 +101,7 @@ public class IdpRoleTest {
 
         em.getTransaction().begin();
         em.persist(user1);
+        em.flush();
         em.getTransaction().commit();
 
         // ----- test -----
