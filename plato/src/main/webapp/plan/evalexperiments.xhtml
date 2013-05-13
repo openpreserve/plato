@@ -47,18 +47,18 @@
 				</div>
 			</div>
 
-			<fieldset id="treenavigationset" style="width: 50%;"
+			<fieldset id="navigationtreeSet" style="width: 50%;"
 				class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<h:outputText value="Select the tree parts to display" />
 				</legend>
-				<rich:tree selectionType="client" immediate="true" var="node">
-					<rich:treeModelRecursiveAdaptor roots="#{evalexperiments.treeRoot}"
+				<rich:tree id="navigationtree" selectionType="client" immediate="true" var="node">
+					<rich:treeModelRecursiveAdaptor id="model" roots="#{evalexperiments.treeRoot}"
 						nodes="#{node.children}" leaf="#{node.leaf}">
 						<rich:treeNode highlightedClass="highlighted"
 							expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
 
-							<a4j:commandLink render="leavesLists"
+							<a4j:commandLink id="select" render="leavesLists"
 								action="#{evalexperiments.select(node)}">
 								<h:outputText value="#{node.name}" />
 							</a4j:commandLink>
@@ -136,7 +136,7 @@
 					touchable="#{evalexperiments.plan.evaluation}" />
 			</fieldset>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 		<h:form>

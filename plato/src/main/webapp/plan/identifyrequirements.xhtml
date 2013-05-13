@@ -18,8 +18,8 @@
 		<div class="wfstepinfo">
 			<div id="anchors">
 				<ul class="anchors">
-					<li class="anchors"><a href="#objectivetreeRich"
-						class="anchors">Objective Tree</a></li>
+					<li class="anchors"><a href="#objectivetree" class="anchors">Objective
+							Tree</a></li>
 					<li class="anchors"><a href="#descriptiveinformation"
 						class="anchors">Descriptive Information</a></li>
 					<li class="anchors"><a href="#uploads" class="anchors">Uploads</a>
@@ -42,10 +42,10 @@
 		</div>
 
 		<div class="margin-bottom-huge; overflow:scroll">
-			<h:form id="treeForm">
+			<h:form id="mainform">
 				<h:inputText id="changedflag"
 					value="#{identifyRequirements.changed}" style="display:none" />
-				<fieldset id="objectivetreeRich" class="center-position size-full">
+				<fieldset id="objectivetree" class="center-position size-full">
 					<legend class="fieldset-full-size-legend">
 						<ui:include src="/plato/shared/legend_nav.xhtml" />
 						<h:outputText value=" Objective Tree" />
@@ -63,7 +63,7 @@
 
 					<a4j:outputPanel layout="block" id="objectivetree">
 						<!-- tree-header -->
-						<div id="objectivetree_treeheader" class="tree-header">
+						<div class="tree-header">
 							<div class="tree-nodename">Node</div>
 							<a4j:outputPanel layout="block"
 								rendered="#{not identifyRequirements.editingNodeComments}"
@@ -82,12 +82,13 @@
 						</div>
 
 						<!-- tree-content -->
-						<div id="objectivetree_treecontent" class="tree-content">
-							<rich:tree id="objectivetree_tree" var="node" immediate="true"
+						<div class="tree-content">
+							<rich:tree id="objectivetree-tree" var="node" immediate="true"
 								toggleType="client">
 								<rich:treeModelRecursiveAdaptor
 									roots="#{identifyRequirements.treeRoots}"
-									nodes="#{node.children}" leaf="#{node.leaf}">
+									nodes="#{node.children}" leaf="#{node.leaf}"
+									id="objectivetree-model">
 									<rich:treeNode
 										expanded="#{identifyRequirements.requirementstreeHelper.expandedNodes[node]}"
 										styleClass="tree-node">
@@ -133,7 +134,7 @@
 														<rich:menuItem id="addLeaf" rendered="#{!node.leaf}"
 															action="#{identifyRequirements.addLeaf(node)}"
 															label="Add a leaf node" onclick="changed();"
-															render="objectivetree_tree">
+															render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage
 																	value="/resources/gfx/treetable/add-leaf.png"
@@ -143,7 +144,7 @@
 														<rich:menuItem id="addNode" rendered="#{!node.leaf}"
 															action="#{identifyRequirements.addNode(node)}"
 															label="Add an inner node" onclick="changed();"
-															render="objectivetree_tree">
+															render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage name="gfx/treetable/add-node.png"
 																	width="16" height="16" />
@@ -152,7 +153,7 @@
 														<rich:menuItem id="removeNode"
 															rendered="#{node.parent!=null}" label="Remove"
 															action="#{identifyRequirements.removeTreeNode(node)}"
-															render="objectivetree_tree">
+															render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage name="gfx/treetable/trash-node.png"
 																	width="16" height="16" />
@@ -161,7 +162,7 @@
 														<rich:menuItem id="convertToNode" rendered="#{node.leaf}"
 															label="Convert to branch"
 															action="#{identifyRequirements.convertToNode(node)}"
-															onclick="changed();" render="objectivetree_tree">
+															onclick="changed();" render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage name="gfx/treetable/add-node.png"
 																	width="16" height="16" />
@@ -171,7 +172,7 @@
 															rendered="#{not node.leaf and node.parent != null}"
 															action="#{identifyRequirements.convertToLeaf(node)}"
 															onclick="if(!confirm('Are you sure you want to convert this node and remove all of its children?'))return false;changed();"
-															render="objectivetree_tree">
+															render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage name="gfx/treetable/add-leaf.png"
 																	width="16" height="16" />
@@ -210,7 +211,7 @@
 													<f:selectItems value="#{identifyRequirements.scaleList}" />
 													<a4j:ajax onbeforesubmit="changed()" event="change"
 														listener="#{node.touchIncludingScale}"
-														render="objectivetree_tree" />
+														render="objectivetree-tree" />
 												</h:selectOneMenu>
 											</a4j:outputPanel>
 
@@ -358,7 +359,7 @@
 						action="#{identifyRequirements.downloadTreeAsFreeMind()}" />
 				</fieldset>
 
-				<p:savediscardproceed bean="#{viewWorkflow}" />
+				<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 			</h:form>
 		</div>
 
@@ -427,7 +428,7 @@
 	                    If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
 	                    the second click (on buttons, etc.).
 	    -->
-		<h:form>
+		<h:form id="editLeafMappingForm">
 			<!-- measure selection -->
 			<rich:popupPanel id="editLeafMapping" width="800" autosized="true"
 				domElementAttachment="form">
@@ -447,7 +448,7 @@
 								rendered="#{null != identifyRequirements.critSelector.selectedMeasureName}"
 								action="#{identifyRequirements.assignCriterionMapping}"
 								oncomplete="#{rich:component('editLeafMapping')}.hide()"
-								onclick="changed()" render="objectivetree_tree">
+								onclick="changed()" render="objectivetree-tree">
 								<h:graphicImage library="gfx/icons" name="apply.png"
 									title="Map measure to decision criteria" width="32" height="32" />
 							</a4j:commandLink>
@@ -462,7 +463,7 @@
 							<a4j:commandLink id="removeCriterionMapping"
 								action="#{identifyRequirements.detachCriterionMapping()}"
 								oncomplete="#{rich:component('editLeafMapping')}.hide()"
-								onclick="changed()" render="objectivetree_tree">
+								onclick="changed()" render="objectivetree-tree">
 								<h:graphicImage library="gfx/icons" name="user-trash.png"
 									title="Save Criterion mapping" width="32" height="32" />
 							</a4j:commandLink>

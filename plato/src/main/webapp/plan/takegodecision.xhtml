@@ -32,7 +32,7 @@
 			</div>
 		</div>
 
-		<h:form id="godecisionsform">
+		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{takeGoDecision.changed}"
 				style="display:none" />
 
@@ -63,22 +63,24 @@
 
 			<fieldset class="size-full" id="decision">
 				<legend class="fieldset-full-size-legend"> Decision </legend>
-				<h:selectOneMenu value="#{takeGoDecision.goDecision.decision}">
+				<h:selectOneMenu id="decision"
+					value="#{takeGoDecision.goDecision.decision}">
 					<f:selectItems value="#{takeGoDecision.goDecisionSelectItems}" />
 					<a4j:ajax event="change" onbeforesubmit="changed()"
 						listener="#{takeGoDecision.goDecision.touch()}" />
 				</h:selectOneMenu>
 
 				<br />
-				<p:inputTextArea labelText="Reason for decision:"
+				<p:inputTextArea id="decisionReason"
+					labelText="Reason for decision:"
 					input="#{takeGoDecision.goDecision.reason}" required="true"
 					touchable="#{takeGoDecision.goDecision}" />
 				<br />
-				<p:inputTextArea labelText="Action needed:"
+				<p:inputTextArea id="decisionAction" labelText="Action needed:"
 					input="#{takeGoDecision.goDecision.actionNeeded}" required="true"
 					touchable="#{takeGoDecision.goDecision}" />
 			</fieldset>
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 	</ui:define>

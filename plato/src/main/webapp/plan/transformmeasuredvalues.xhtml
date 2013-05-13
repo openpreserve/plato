@@ -35,11 +35,11 @@
 			<fieldset id="treenavigationset" class="size-full">
 				<legend class="fieldset-full-size-legend"> Select the tree
 					parts to display </legend>
-				<rich:tree switchType="client" immediate="true" var="node">
-					<rich:treeModelRecursiveAdaptor roots="#{transform.treeRoots}"
+				<rich:tree id="navigationtree" switchType="client" immediate="true" var="node">
+					<rich:treeModelRecursiveAdaptor id="model" roots="#{transform.treeRoots}"
 						nodes="#{node.children}" leaf="#{node.leaf}">
 						<rich:treeNode>
-							<a4j:commandLink value="#{node.name}"
+							<a4j:commandLink id="select" value="#{node.name}"
 								action="#{transform.selectTreeNode(node)}"
 								render="editLeavesPanel" />
 						</rich:treeNode>
@@ -119,7 +119,7 @@
 				</p>
 			</fieldset>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 	</ui:define>
