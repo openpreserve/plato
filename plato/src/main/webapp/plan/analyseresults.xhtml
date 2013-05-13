@@ -487,8 +487,7 @@
 			<p:treeSummary treeHelper="#{analyseResults.requirementstreeHelper}"
 				rootNode="#{analyseResults.requirementsRoots}"
 				displayChangelogs="#{analyseResults.displayChangelogs}"
-				anchorPrefix="results#"
-				toggleType="client">
+				anchorPrefix="results#" toggleType="client">
 			</p:treeSummary>
 		</a4j:outputPanel>
 
@@ -1038,7 +1037,7 @@
 				</div>
 			</fieldset>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -32,7 +32,7 @@
 				</div>
 			</div>
 		</div>
-		<h:form id="alternativesList_form">
+		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{defineAlternatives.changed}"
 				style="display:none" />
 
@@ -43,7 +43,7 @@
 					headerClass="tableStyle-header" rowClasses="tableStyle-row">
 					<h:column>
 						<f:facet name="header">Name</f:facet>
-						<a4j:commandLink value="#{alternative.name}"
+						<a4j:commandLink id="editAlternativeCmd" value="#{alternative.name}"
 							action="#{defineAlternatives.showEditAlternative(alternative)}"
 							execute="@this" render="editAlternativePanel" />
 					</h:column>
@@ -85,7 +85,7 @@
 					</h:column>
 				</h:dataTable>
 
-				<a4j:commandButton
+				<a4j:commandButton id="addAlternative"
 					action="#{defineAlternatives.showAddNewAlternative}"
 					value="Add new Alternative" render="editAlternativePanel"
 					execute="@this" />
@@ -128,11 +128,13 @@
 							input="#{defineAlternatives.editableAlternative.resourceDescription.necessaryResources}"
 							touchable="#{defineAlternatives.editableAlternative}" />
 						<br />
-						<a4j:commandButton action="#{defineAlternatives.editAlternative}"
-							value="Save" render="alterativesTablePanel, editAlternativePanel"
+						<a4j:commandButton id="saveAlternative"
+							action="#{defineAlternatives.editAlternative}" value="Save"
+							render="alterativesTablePanel, editAlternativePanel"
 							onclick="changed()" />
-						<a4j:commandButton action="#{defineAlternatives.closeEditArea}"
-							value="Cancel" render="editAlternativePanel" execute="@this" />
+						<a4j:commandButton id="cancelAlternative"
+							action="#{defineAlternatives.closeEditArea}" value="Cancel"
+							render="editAlternativePanel" execute="@this" />
 					</fieldset>
 				</a4j:outputPanel>
 			</a4j:outputPanel>
@@ -148,7 +150,8 @@
 							value="To enable the automated search for services, please provide at least one sample object with data and use DROID to identify it."
 							rendered="#{!defineAlternatives.formatInfoAvailable}" /><br />
 					</strong>
-					<x:div renderthis="#{defineAlternatives.formatInfoAvailable}">
+					<x:div id="registriesSelection"
+						renderthis="#{defineAlternatives.formatInfoAvailable}">
 						<strong> <h:outputText
 								value="Sample #{defineAlternatives.sampleWithFormat.fullname} has 
                                the following format: #{defineAlternatives.sampleWithFormat.formatInfo.longName}. " />
@@ -157,7 +160,8 @@
 						</strong>
 						<div>
 							<div>
-								<ui:repeat value="#{defineAlternatives.availableRegistries}"
+								<ui:repeat id="registries"
+									value="#{defineAlternatives.availableRegistries}"
 									var="registry">
 									<div class="registry-panel">
 										<div class="registry-logo">
@@ -175,72 +179,6 @@
 								</ui:repeat>
 							</div>
 
-							<ui:remove>
-								<a4j:outputPanel id="lookupResultPanel2">
-									<h:commandButton id="createAlternatives_2"
-										value="Create alternatives for selected services"
-										action="#{defineAlternatives.createAlternativesForPreservationActions}"
-										rendered="#{defineAlternatives.numOfAvailableActions > 20}" />
-									<h:dataTable value="#{defineAlternatives.availableActions}"
-										var="action" id="table"
-										rendered="#{not empty defineAlternatives.availableActions}"
-										styleClass="tableStyle" headerClass="tableStyle-header"
-										rowClasses="tableStyle-row">
-										<h:column>
-											<f:facet name="header">
-											</f:facet>
-											<h:selectBooleanCheckbox
-												value="#{defineAlternatives.actionSelection[action]}" />
-										</h:column>
-										<h:column id="shortname">
-											<f:facet name="header">
-												<h:outputText value="Preservation Action" />
-											</f:facet>
-											<h:outputText value="#{action.shortname}" />
-										</h:column>
-										<!--
-									<h:column id="targetformat">
-										<f:facet name="header">
-											<h:outputText value="Target Format" />
-										</f:facet>
-										 <h:outputText value="#{action.targetFormat}" /> 
-									</h:column>
-									-->
-										<h:column id="info">
-											<f:facet name="header">
-												<h:outputText value="Info" />
-											</f:facet>
-											<h:outputText value="#{action.info}" />
-										</h:column>
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="Link" />
-											</f:facet>
-											<x:div renderthis="#{not empty (action.descriptor)}">
-												<a target="_blank" href="#{action.descriptor}">#{action.descriptor}</a>
-											</x:div>
-										</h:column>
-										<!--
-									<h:column>
-										<f:facet name="header">
-											<h:outputText value="Experience" />
-										</f:facet>
-										<h:link></h:link>
-										<x:div renderthis="#{not empty (action.experienceBase)}">
-											<a target="_blank" href="#{action.experienceBase}">Experience
-												base</a>
-										</x:div>
-									</h:column>
-									-->
-									</h:dataTable>
-									<h:commandButton id="createAlternatives"
-										value="Create alternatives for selected services"
-										action="#{defineAlternatives.createAlternativesForPreservationActions}"
-										rendered="#{not empty defineAlternatives.availableActions}" />
-								</a4j:outputPanel>
-								<div style="clear: both;" />
-							</ui:remove>
-
 							<a4j:outputPanel id="lookupResultPanel">
 								<a4j:outputPanel
 									rendered="#{not empty defineAlternatives.availableActions}"
@@ -251,15 +189,15 @@
 									<rich:dataScroller for="lookupResults" maxPages="5"
 										boundaryControls="show" fastControls="hide"
 										renderIfSinglePage="false" stepControls="show" />
-									<rich:dataTable value="#{defineAlternatives.serviceInfoData}"
-										var="action" id="lookupResults" rows="8"
-										styleClass="service-results">
+									<rich:dataTable id="lookupResults"
+										value="#{defineAlternatives.serviceInfoData}" var="action"
+										rows="8" styleClass="service-results">
 										<rich:column
 											styleClass="service-marker service-marker-#{action.actionIdentifier}">
 											<rich:tooltip value="#{action.actionIdentifier}" />
 										</rich:column>
 										<rich:column styleClass="service-addservice">
-											<a4j:commandButton value="+" immediate="true"
+											<a4j:commandButton id="add" value="+" immediate="true"
 												action="#{defineAlternatives.addPreservationAction(action)}"
 												render="alterativesTablePanel"
 												styleClass="service-addservice-add" />
@@ -293,7 +231,7 @@
 				</fieldset>
 			</a4j:outputPanel>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 	</ui:define>

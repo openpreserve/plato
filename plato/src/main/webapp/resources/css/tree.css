@@ -41,8 +41,10 @@
 }
 
 .tree-nodeinfo {
-	float: right;
+	position: relative; float : right;
+	z-index: 1;
 	width: 540px;
+	float: right;
 }
 
 .tree-cell {
@@ -128,6 +130,7 @@ span.rf-trn-ico {
 }
 
 .rf-trn-ico-lf {
-	background: url("#{resource['gfx/icons/icon-text-x-generic-template.png']}")
+	background:
+		url("#{resource['gfx/icons/icon-text-x-generic-template.png']}")
 		no-repeat center;
 }
