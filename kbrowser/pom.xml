@@ -76,6 +76,7 @@
             <groupId>org.richfaces.core</groupId>
             <artifactId>richfaces-core-impl</artifactId>
         </dependency>
+        
         <!-- Annotation processor to generate the JPA 2.0 metamodel classes 
             for typesafe criteria queries -->
         <dependency>

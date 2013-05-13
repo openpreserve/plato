@@ -36,13 +36,9 @@
 					<archive>
 						<manifestEntries>
 							<Built-By>Plato Development Team</Built-By>
-							<Dependencies>javaee.api, javax.faces.api,
-								javax.xml.rpc.api,
-								org.joda.time,
-								org.hibernate,
-								org.hibernate.validator,
-								org.dom4j,
-								org.picketlink</Dependencies>
+							<Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api,
+								org.joda.time, org.hibernate, org.hibernate.validator,
+								org.dom4j, org.picketlink</Dependencies>
 						</manifestEntries>
 					</archive>
 					<webResources>
@@ -101,6 +97,10 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
 			<exclusions>
 				<exclusion>
@@ -113,23 +113,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.6-Final</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -151,6 +140,7 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>net.tanesha.recaptcha4j</groupId>
 			<artifactId>recaptcha4j</artifactId>

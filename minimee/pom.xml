@@ -33,8 +33,6 @@
 			<version>1.1</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>com.hp.hpl.jena</groupId> <artifactId>jena</artifactId> 
-			<version>2.6.4</version> </dependency> -->
 		<dependency>
 			<groupId>com.hp.hpl.jena</groupId>
 			<artifactId>arq</artifactId>
