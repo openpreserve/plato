@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: PW Checkstyle with tweaks2
+    Checkstyle-Configuration: Plato Checkstyle
     Description: none
 -->
 <module name="Checker">
@@ -81,7 +81,7 @@
     <module name="UpperEll"/>
     <module name="ImportOrder">
       <property name="option" value="top"/>
-      <property name="groups" value="java, javax, junit, at, com, eu, org"/>
+      <property name="groups" value="java, javax, junit, at, com,  org, eu"/>
       <property name="separated" value="true"/>
     </module>
     <module name="WhitespaceAround">
