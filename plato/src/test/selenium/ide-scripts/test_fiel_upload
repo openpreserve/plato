@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/plato/index.jsf" />
+<title>test_fiel_upload</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">test_fiel_upload</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/plato/index.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='mainform']/div[2]/ul/li[3]/a/div/div[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:name:name_input</td>
+	<td>test plan 2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:description:description_input</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:organization:organization_input</td>
+	<td>sdf</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:createProject</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:identificationCode:identificationCode_input</td>
+	<td>sdf</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:documentTypes:documentTypes_input</td>
+	<td>sdfds</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:j_idt197:submitButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:collectionID:collectionID_input</td>
+	<td>sdfds</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:samplesDescription:samplesDescription_input</td>
+	<td>sdfsdfsdf</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.rf-fu-inp</td>
+	<td>${testdata_root}/applied-transformations.png</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:j_idt188:saveButton</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

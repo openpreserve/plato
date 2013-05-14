@@ -56,6 +56,8 @@ public class IdpRoleTest {
         IdpUser user2 = createUser("user2", adminRole, managerRole);
 
         em.getTransaction().begin();
+        em.persist(adminRole);
+        em.persist(managerRole);
         em.persist(user1);
         em.persist(user2);
         em.getTransaction().commit();
@@ -101,11 +103,15 @@ public class IdpRoleTest {
 
         em.getTransaction().begin();
         em.persist(user1);
+        em.flush();
         em.getTransaction().commit();
+
+        em.clear();
 
         // ----- test -----
         em.getTransaction().begin();
-        em.remove(assignedRole);
+        IdpRole fetchedRole = em.find(IdpRole.class, assignedRole.getId());
+        em.remove(fetchedRole);
         em.getTransaction().commit();
     }
 

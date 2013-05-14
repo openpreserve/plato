@@ -29,7 +29,8 @@
 					<archive>
 						<manifestEntries>
 							<Dependencies>javaee.api, javax.faces.api,
-								org.hibernate, org.hibernate.validator,
+								org.hibernate,
+								org.hibernate.validator,
 								javax.persistence.api, org.dom4j,
 								org.jaxen, org.apache.xerces</Dependencies>
 						</manifestEntries>
@@ -147,29 +148,18 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.0.0.CR2</version>
-			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jboss-logging</artifactId>
-					<groupId>org.jboss.logging</groupId>
-				</exclusion>
-			</exclusions>
+			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.2.0.Final</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>1.1.1.Final</version>
-			<scope>provided</scope>
 			<!-- Excluded because it's provided by the Java EE 6 dependencies -->
 			<exclusions>
 				<exclusion>
@@ -178,6 +168,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
@@ -205,8 +196,6 @@
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>jaxen</groupId>

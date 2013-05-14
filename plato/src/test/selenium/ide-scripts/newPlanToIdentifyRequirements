@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/idp/" />
+<title>newPlanToIdentifyRequirements</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">newPlanToIdentifyRequirements</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>http://localhost:8080/plato/index.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='mainform']/div[2]/ul/li[3]/a/div/div[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:name:name_input</td>
+	<td>Test Plan</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:description:description_input</td>
+	<td>TestPlan created with selenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:organization:organization_input</td>
+	<td>no org</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:createProject</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:documentTypes:documentTypes_input</td>
+	<td>sample images</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:j_idt145:submitButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:samplesDescription:samplesDescription_input</td>
+	<td>samples</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input[type=&quot;button&quot;]</td>
+	<td>1000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.rf-fu-inp</td>
+	<td>/home/kraxner/workspace/plato_trunk/view/img/arrow-down.gif</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.rf-fu-btn-cnt-upl</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//input[@value=&quot;arrow-down.gif&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:j_idt153:submitButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='treeForm:richTree:j__idt101.0:addLeaf']/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=treeForm:richTree:j__idt101.0.j__idt101.0:name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=treeForm:richTree:j__idt101.0.j__idt101.0:showMapping</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//option[@value='Functional correctness: Representation Instance Property']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[option/@value='Functional correctness: Representation Instance Property']</td>
+	<td>label=Functional correctness: Representation Instance Property</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//option[@value='file size']</td>
+	<td>file size</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[option/@value='file size']</td>
+	<td>label=file size</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>//a[@id='j_idt195:saveCriterionMapping']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=img[title=&quot;Map measure to decision criteria&quot;]</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

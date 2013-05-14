@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,18 +31,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.slf4j.Logger;
+
 import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
 import eu.scape_project.pw.idp.excpetions.CreateUserException;
 import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.internal.matchers.Equality;
-import org.slf4j.Logger;
 
 public class UserManagerTest {
     private UserManager userManager;
@@ -62,7 +60,9 @@ public class UserManagerTest {
     public void addUser_standardRoleHasToBeGenerated() throws CreateUserException {
         // -- set up --
         EntityManager em = mock(EntityManager.class);
+        @SuppressWarnings("unchecked")
         TypedQuery<IdpRole> query = mock(TypedQuery.class);
+        @SuppressWarnings("unchecked")
         TypedQuery<IdpRole> parameterQuery = mock(TypedQuery.class);
         when(em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)).thenReturn(query);
         when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);
@@ -88,7 +88,9 @@ public class UserManagerTest {
     public void addUser_standardRoleExists() throws CreateUserException {
         // -- set up --
         EntityManager em = mock(EntityManager.class);
+        @SuppressWarnings("unchecked")
         TypedQuery<IdpRole> query = mock(TypedQuery.class);
+        @SuppressWarnings("unchecked")
         TypedQuery<IdpRole> parameterQuery = mock(TypedQuery.class);
         when(em.createQuery("SELECT r from IdpRole r WHERE rolename = :rolename", IdpRole.class)).thenReturn(query);
         when(query.setParameter(anyString(), anyObject())).thenReturn(parameterQuery);

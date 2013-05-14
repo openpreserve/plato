@@ -30,15 +30,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.configuration.Configuration;
+import org.slf4j.Logger;
+
 import eu.scape_project.pw.idp.excpetions.CannotSendMailException;
 import eu.scape_project.pw.idp.excpetions.UserNotFoundException;
 import eu.scape_project.pw.idp.model.IdpRole;
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
 import eu.scape_project.pw.idp.utils.ConfigurationLoader;
-
-import org.apache.commons.configuration.Configuration;
-import org.slf4j.Logger;
 
 /**
  * Class responsible for managing users in the identity provider.
@@ -47,7 +47,7 @@ import org.slf4j.Logger;
 public class UserManager {
 
     /**
-     * Entitymanager.
+     * Entity manager.
      */
     @Inject
     private EntityManager em;
@@ -62,7 +62,7 @@ public class UserManager {
     private ConfigurationLoader configurationLoader;
 
     /**
-     * Standard rolename for a user.
+     * Standard role name for a user.
      */
     private static final String STANDARD_ROLE_NAME = "authenticated";
 
@@ -80,7 +80,8 @@ public class UserManager {
     }
 
     /**
-     * Method responsible for adding a new user.
+     * Adds a new user. Adds the standard role to the use. If the standard role
+     * does not exist, creates it.
      * 
      * @param user
      *            User to add.
@@ -97,6 +98,8 @@ public class UserManager {
         } else {
             role = new IdpRole();
             role.setRoleName(STANDARD_ROLE_NAME);
+            em.persist(role);
+            log.warn("Standard role not found, added standard role {}.", STANDARD_ROLE_NAME);
         }
 
         List<IdpRole> roles = user.getRoles();
@@ -107,11 +110,11 @@ public class UserManager {
         user.setStatus(IdpUserState.CREATED);
 
         em.persist(user);
-        log.info("Added user with username " + user.getUsername());
+        log.info("Added user with username {}.", user.getUsername());
     }
 
     /**
-     * Method responsible for activating an already created user.
+     * Activates an existing user.
      * 
      * @param user
      *            the user to activate
@@ -121,14 +124,13 @@ public class UserManager {
     public void activateUser(IdpUser user) throws UserNotFoundException {
         IdpUser foundUser = em.find(IdpUser.class, user.getId());
         if (foundUser == null) {
-            log.error("Error activating user. User not found {}.", user.getUsername());
-            throw new UserNotFoundException("Error activating user. User not found " + user.getUsername());
+            log.error("Error activating user. User {} not found.", user.getUsername());
+            throw new UserNotFoundException("Error activating user. User " + user.getUsername() + "not found.");
         }
         foundUser.setStatus(IdpUserState.ACTIVE);
         foundUser.setActionToken("");
         em.persist(foundUser);
-
-        log.info("Activated user with username " + foundUser.getUsername());
+        log.info("Activated user with username {}.", foundUser.getUsername());
     }
 
     /**
@@ -182,7 +184,6 @@ public class UserManager {
     public void initiateResetPassword(IdpUser user) {
         user.setActionToken(UUID.randomUUID().toString());
         em.persist(em.merge(user));
-
         log.info("Set action token for password reset mail for user {}", user.getUsername());
     }
 
@@ -299,12 +300,12 @@ public class UserManager {
     // ---------- getter/setter ----------
 
     // Method used to make this class Unit-testable
-    public void setEntityManager(EntityManager em) {
+    protected void setEntityManager(EntityManager em) {
         this.em = em;
     }
 
     // Method used to make this class Unit-testable
-    public void setLog(Logger log) {
+    protected void setLog(Logger log) {
         this.log = log;
     }
 }
