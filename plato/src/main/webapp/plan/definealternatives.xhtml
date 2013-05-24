@@ -35,6 +35,8 @@
 		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{defineAlternatives.changed}"
 				style="display:none" />
+
+			<!-- Alternatives table -->
 			<a4j:outputPanel layout="block" id="alterativesTablePanel"
 				style-class="full-size">
 				<rich:dataTable
@@ -84,6 +86,7 @@
 				</rich:dataTable>
 			</a4j:outputPanel>
 
+			<!-- Edit alternative -->
 			<a4j:outputPanel layout="block" id="editAlternativePanel">
 				<a4j:outputPanel
 					rendered="#{defineAlternatives.editableAlternative != null}">
@@ -147,8 +150,11 @@
 						<ui:include src="/plato/shared/legend_nav.xhtml" />
 						<h:outputText value="Add alternatives" />
 					</legend>
+
+					<!-- Registries -->
 					<x:div id="registriesSelection" renderthis="true">
 						<div class="registries">
+							<!-- Custom -->
 							<div class="registry-panel">
 								<div class="registry-logo">
 									<h:graphicImage library="gfx" name="logos/custom.png"
@@ -162,6 +168,21 @@
 									render="lookupResultPanel,addCustomAlternative,messages">
 								</a4j:commandButton>
 							</div>
+							<!-- myExperiment -->
+							<div class="registry-panel">
+								<div class="registry-logo">
+									<h:graphicImage library="gfx" name="logos/myExperiment.png"
+										alt="Custom alternative" width="200px" height="40px" />
+								</div>
+								<a4j:commandButton id="addMyExperimentAlternative"
+									value="Components (experimental)"
+									onclick="toggleLoadingOverlay();this.disabled=true;"
+									oncomplete="this.disabled=false;toggleLoadingOverlay();"
+									action="#{defineAlternatives.showMyExperimentAlternatives()}"
+									render="lookupResultPanel,addMyExperimentAlternative,messages">
+								</a4j:commandButton>
+							</div>
+							<!-- PA Registries -->
 							<ui:repeat id="registries"
 								value="#{defineAlternatives.availableRegistries}" var="registry">
 								<div class="registry-panel">
@@ -180,6 +201,7 @@
 								</div>
 							</ui:repeat>
 							<div style="clear: both;" />
+
 							<a4j:outputPanel layout="block"
 								rendered="#{!defineAlternatives.formatInfoAvailable}">
 								<strong>To enable the automated search for services,
@@ -196,40 +218,14 @@
 
 						</div>
 						<div style="clear: both;" />
+
+						<!-- Results -->
 						<a4j:outputPanel id="lookupResultPanel" layout="block">
-							<a4j:outputPanel
-								rendered="#{not empty defineAlternatives.availableActions}"
-								styleClass="paged-list" layout="block">
-								<a4j:queue />
-								<rich:dataScroller for="lookupResults" maxPages="5"
-									boundaryControls="show" fastControls="hide"
-									renderIfSinglePage="false" stepControls="show" />
-								<rich:dataTable id="lookupResults"
-									value="#{defineAlternatives.serviceInfoData}" var="action"
-									rows="8" styleClass="service-results">
-									<rich:column
-										styleClass="service-marker service-marker-#{action.actionIdentifier}" />
-									<rich:column styleClass="service-addservice">
-										<a4j:commandButton id="add" value="+" immediate="true"
-											action="#{defineAlternatives.addPreservationAction(action)}"
-											render="alterativesTablePanel"
-											styleClass="service-addservice-add" />
-									</rich:column>
-									<rich:column styleClass="service-info" id="service-info">
-										<p:service-myExperiment id="service-myExperiment"
-											actionInfo="#{action}"
-											data="#{defineAlternatives.tavernaServices}"
-											rendered="#{action.actionIdentifier eq 'myExperiment'}" />
-										<p:service id="service" actionInfo="#{action}"
-											rendered="#{action.actionIdentifier ne 'myExperiment'}" />
-									</rich:column>
-								</rich:dataTable>
-							</a4j:outputPanel>
 
+							<!-- Custom -->
 							<a4j:outputPanel
-								rendered="#{defineAlternatives.showCustomAlternatives}"
+								rendered="#{defineAlternatives.selectedRegistry == 'CUSTOM'}"
 								layout="block">
-
 								<table class="service-results">
 									<tr>
 										<td class="service-marker"></td>
@@ -252,7 +248,7 @@
 												id="addNewCustomAlternative" value="+"
 												action="#{defineAlternatives.addCustomAlternative}"
 												render="alterativesTablePanel,lookupResultPanel,messages"
-												styleClass="service-addservice-add" execute="test" /></td>
+												styleClass="service-addservice-add" /></td>
 										<td class="service-info" id="service-info"><a4j:outputPanel
 												id="test">
 												<div class="service-info-panel">
@@ -291,12 +287,112 @@
 									</tr>
 								</table>
 							</a4j:outputPanel>
+
+							<!-- myExperiment search -->
+							<a4j:outputPanel id="myExperimentFilters"
+								rendered="#{defineAlternatives.selectedRegistry == 'MY_EXPERIMENT'}"
+								layout="block" styleClass="service-filters">
+								<div class="service-filters-filter">
+									<h:outputText
+										value="#{defineAlternatives.sampleWithFormat.formatInfo.mimeType}" />
+									&#8605;
+									<h:inputText
+										value="#{defineAlternatives.myExperimentSearch.migrationPathTo}"
+										onkeypress="if (event.keyCode == 13) {#{rich:element('filter')}.click(); return false;}" />
+								</div>
+
+								<div class="service-filters-filter">
+									Dependency
+									<h:inputText
+										value="#{defineAlternatives.myExperimentSearch.dependencyLabel}"
+										onkeypress="if (event.keyCode == 13) {#{rich:element('filter')}.click(); return false;}" />
+								</div>
+
+								<div class="service-filters-filter">
+									Installation
+									<h:selectOneMenu
+										value="#{defineAlternatives.myExperimentSearch.environmentType}">
+										<f:selectItem itemValue="" itemLabel="" />
+										<f:selectItem
+											itemValue="http://purl.org/DP/components#LinuxEnvironment"
+											itemLabel="Linux" />
+										<f:selectItem
+											itemValue="http://purl.org/DP/components#MacOSXEnvironment"
+											itemLabel="Mac OS X" />
+										<f:selectItem
+											itemValue="http://purl.org/DP/components#WindowsEnvironment"
+											itemLabel="Windows" />
+									</h:selectOneMenu>
+
+									<h:selectOneMenu
+										value="#{defineAlternatives.myExperimentSearch.environment}">
+										<f:selectItem itemValue="" itemLabel="" />
+										<f:selectItem itemValue="http://purl.org/DP/components#CentOS"
+											itemLabel="CentOS" />
+										<f:selectItem itemValue="http://purl.org/DP/components#Debian"
+											itemLabel="Debian" />
+										<f:selectItem itemValue="http://purl.org/DP/components#MacOS"
+											itemLabel="MacOS" />
+										<f:selectItem itemValue="http://purl.org/DP/components#Redhat"
+											itemLabel="Redhat" />
+										<f:selectItem itemValue="http://purl.org/DP/components#Ubuntu"
+											itemLabel="Ubuntu" />
+										<f:selectItem
+											itemValue="http://purl.org/DP/components#Windows"
+											itemLabel="Windows" />
+									</h:selectOneMenu>
+								</div>
+								<a4j:commandButton id="filter" value="Filter"
+									onclick="toggleLoadingOverlay();this.disabled=true;"
+									oncomplete="this.disabled=false;toggleLoadingOverlay();"
+									action="#{defineAlternatives.filterMyExperimentAlternatives()}"
+									execute="myExperimentFilters"
+									render="lookupResultPanel,showServices,messages" type="submit">
+								</a4j:commandButton>
+							</a4j:outputPanel>
+							<div style="clear: both;" />
+
+							<!-- Available actions -->
+							<a4j:outputPanel
+								rendered="#{defineAlternatives.selectedRegistry != 'CUSTOM' and empty defineAlternatives.availableActions}"
+								styleClass="paged-list" layout="block">
+								<fieldset>No services found matching your criteria.</fieldset>
+							</a4j:outputPanel>
+							<a4j:outputPanel
+								rendered="#{defineAlternatives.selectedRegistry != 'CUSTOM' and not empty defineAlternatives.availableActions}"
+								styleClass="paged-list" layout="block">
+								<a4j:queue />
+								<rich:dataScroller for="lookupResults" maxPages="5"
+									boundaryControls="show" fastControls="hide"
+									renderIfSinglePage="false" stepControls="show" />
+								<rich:dataTable id="lookupResults"
+									value="#{defineAlternatives.serviceInfoData}" var="action"
+									rows="8" styleClass="service-results">
+									<rich:column
+										styleClass="service-marker service-marker-#{action.serviceIdentifier}" />
+									<rich:column styleClass="service-addservice">
+										<a4j:commandButton id="add" value="+" immediate="true"
+											action="#{defineAlternatives.addPreservationAction(action)}"
+											render="alterativesTablePanel"
+											styleClass="service-addservice-add" />
+									</rich:column>
+									<rich:column styleClass="service-info" id="service-info">
+										<p:service-myExperiment id="service-myExperiment"
+											actionInfo="#{action}"
+											data="#{defineAlternatives.tavernaServices}"
+											rendered="#{action.serviceIdentifier eq 'myExperiment'}" />
+										<p:service id="service" actionInfo="#{action}"
+											rendered="#{action.serviceIdentifier ne 'myExperiment'}" />
+									</rich:column>
+								</rich:dataTable>
+							</a4j:outputPanel>
 						</a4j:outputPanel>
 						<div style="clear: both;" />
 					</x:div>
 				</fieldset>
 			</a4j:outputPanel>
 
+			<!-- Descriptive information -->
 			<a4j:outputPanel layout="block">
 				<fieldset id="descriptive_information" class="size-full">
 					<legend class="fieldset-full-size-legend">

@@ -31,8 +31,7 @@ import org.dom4j.io.SAXReader;
 
 public class SparqlResultComponentsParser {
 
-    public void addComponentsFromSparqlResult(List<IActionInfo> components, Reader sparqlResult)
-        throws PlatoException {
+    public void addComponentsFromSparqlResult(List<IActionInfo> components, Reader sparqlResult) throws PlatoException {
 
         SAXReader reader = new SAXReader();
         try {
@@ -64,14 +63,17 @@ public class SparqlResultComponentsParser {
 
             for (int i = 0; i < componentsNodes.size(); i++) {
                 Element component = (Element) componentsNodes.get(i);
-                TavernaActionInfo def = new TavernaActionInfo();
+                MyExperimentActionInfo def = new MyExperimentActionInfo();
 
                 def.setShortname(selectTitleXpath.selectSingleNode(component).getText());
                 // def.setUrl(selectUrlXpath.selectSingleNode(component).getText());
                 def.setUrl(selectDescriptorXpath.selectSingleNode(component).getText() + "/download?version="
                     + selectCurrentVersionNumberXpath.selectSingleNode(component).getText());
                 def.setInfo(selectDescriptionXpath.selectSingleNode(component).getText());
-                def.setDescriptor(selectCurrentVersionXpath.selectSingleNode(component).getText());
+
+                def.setDescriptor(selectDescriptorXpath.selectSingleNode(component).getText()
+                    .replaceAll("workflows/", "workflow.xml?id=")
+                    + "&version=" + selectCurrentVersionNumberXpath.selectSingleNode(component).getText());
 
                 components.add(def);
             }

@@ -26,9 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
@@ -44,9 +41,13 @@ import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
+
+import org.hibernate.validator.constraints.Length;
+import org.slf4j.Logger;
 
 /**
  * Class used as backing-bean for the view definealternatives.xhtml.
@@ -56,7 +57,14 @@ import eu.scape_project.planning.validation.ValidationError;
 @Named("defineAlternatives")
 @ConversationScoped
 public class DefineAlternativesView extends AbstractView {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -8800780634335662691L;
+
+    private enum SelectedRegistry {
+        PA,
+        CUSTOM,
+        MY_EXPERIMENT
+    };
 
     @Inject
     private Logger log;
@@ -116,10 +124,9 @@ public class DefineAlternativesView extends AbstractView {
      */
     private Map<String, IServiceLoader> serviceLoaders;
 
-    /**
-     * Show custom alternatives.
-     */
-    private Boolean showCustomAlternatives = false;
+    private SelectedRegistry selectedRegistry = SelectedRegistry.CUSTOM;
+
+    private MyExperimentSearch myExperimentSearch;
 
     /**
      * Creates a new view object.
@@ -135,6 +142,9 @@ public class DefineAlternativesView extends AbstractView {
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
         availableActions = new ArrayList<IActionInfo>();
         serviceLoaders = new HashMap<String, IServiceLoader>();
+
+        myExperimentSearch = new MyExperimentSearch();
+        myExperimentSearch.setProfile("http://purl.org/DP/components#MigrationAction");
     }
 
     /**
@@ -189,7 +199,7 @@ public class DefineAlternativesView extends AbstractView {
     public void showEditAlternative(Alternative alternative) {
         editableAlternative = alternative;
         editableAlternativeName = alternative.getName();
-        
+
         if (alternative.getAction() != null) {
             editableAlternativeActionInfo = ActionInfoFactory.createActionInfo(alternative.getAction());
             IServiceLoader serviceLoader = serviceLoaders.get(alternative.getAction().getActionIdentifier());
@@ -262,25 +272,48 @@ public class DefineAlternativesView extends AbstractView {
         return plan.getSampleRecordsDefinition().getFirstSampleWithFormat();
     }
 
+    private void clearAvailableServices() {
+        availableActions.clear();
+        tavernaServices.clear();
+        selectedRegistry = null;
+    }
+
     /**
      * Shows the custom alternative input.
      */
     public void showCustomAlternatives() {
+        clearAvailableServices();
+        selectedRegistry = SelectedRegistry.CUSTOM;
         customAlternative = Alternative.createAlternative();
-        showCustomAlternatives = true;
+    }
+
+    /**
+     * Shows myExperiment alternatimyExperimentRESTClientves.
+     */
+    public void showMyExperimentAlternatives() {
+        clearAvailableServices();
+        selectedRegistry = SelectedRegistry.MY_EXPERIMENT;
+
+        myExperimentSearch.setFromMimetype(getSampleWithFormat().getFormatInfo().getMimeType());
+        filterMyExperimentAlternatives();
+    }
+
+    public void filterMyExperimentAlternatives() {
+        availableActions.clear();
+        availableActions.addAll(myExperimentSearch.search());
+        serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
     }
 
     /**
      * Retrieves the list of services available in the given registry, for the
-     * current sample with format info.
      * 
      * @param registry
      *            the registry to query
      */
     public void showPreservationServices(PreservationActionRegistryDefinition registry) {
-        showCustomAlternatives = false;
-        availableActions.clear();
-        tavernaServices.clear();
+        clearAvailableServices();
+        selectedRegistry = SelectedRegistry.PA;
+
         try {
             availableActions.addAll(defineAlternatives.queryRegistry(getSampleWithFormat().getFormatInfo(), registry));
             serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
@@ -311,7 +344,8 @@ public class DefineAlternativesView extends AbstractView {
         if (editableAlternative != null) {
             errors
                 .add(new ValidationError(
-                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step.", editableAlternative));
+                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step.",
+                    editableAlternative));
         }
 
         // general validation
@@ -362,16 +396,20 @@ public class DefineAlternativesView extends AbstractView {
         this.customAlternative = customAlternative;
     }
 
-    public Boolean getShowCustomAlternatives() {
-        return showCustomAlternatives;
-    }
-
     public List<PreservationActionRegistryDefinition> getAvailableRegistries() {
         return availableRegistries;
     }
 
     public List<IActionInfo> getAvailableActions() {
         return availableActions;
+    }
+
+    public SelectedRegistry getSelectedRegistry() {
+        return selectedRegistry;
+    }
+
+    public MyExperimentSearch getMyExperimentSearch() {
+        return myExperimentSearch;
     }
 
     public ServiceInfoDataModel getServiceInfoData() {
@@ -382,11 +420,8 @@ public class DefineAlternativesView extends AbstractView {
         return tavernaServices;
     }
 
-    public Logger getLog() {
-        return log;
-    }
-
     public void setLog(Logger log) {
         this.log = log;
     }
+
 }

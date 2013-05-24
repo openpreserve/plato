@@ -12,8 +12,8 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.services.action.IActionInfo;
-import eu.scape_project.planning.services.taverna.TavernaServiceLoader;
-import eu.scape_project.planning.services.taverna.model.WorkflowDescription;
+import eu.scape_project.planning.services.myexperiment.TavernaServiceLoader;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.utils.FacesMessages;
 
 /**

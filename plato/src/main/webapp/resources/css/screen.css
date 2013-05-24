@@ -807,7 +807,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                         50);
+	filter: alpha(opacity =                               50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -880,6 +880,20 @@ span.value {
 	height: 40px;
 }
 
+.service-filters {
+	padding: 5px;
+	border-collapse: collapse;
+}
+
+.service-filters-filter {
+	float: left;
+	padding: 3px;
+}
+
+.service-filters input[type=submit] {
+	float: right;
+}
+
 .service-results {
 	width: 100%;
 	border-collapse: collapse;
@@ -925,7 +939,7 @@ td.service-info {
 }
 
 .service-info a {
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .service-info-panel {
@@ -954,9 +968,21 @@ td.service-info {
 }
 
 .service-info-info {
-	width: 100%;
 	padding: 3px;
 	font-size: 12px;
+}
+
+.service-info-metadata {
+	float: right;
+	margin: 0px 5px 0px 15px;
+	padding: 3px;
+	border: 1px dotted black;
+}
+
+.service-info-metadata ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
 }
 
 .service-info-footer {
@@ -1001,6 +1027,19 @@ td.service-info {
 .service-info-status img {
 	width: 16px;
 	height: 16px;
+}
+
+.service-info-rating {
+	unicode-bidi: bidi-override;
+}
+
+.service-info-rating {
+	font-size: 14px;
+}
+
+.service-info-rating span {
+	position: absolute;
+	overflow: hidden;
 }
 
 /* Confirmation panel */

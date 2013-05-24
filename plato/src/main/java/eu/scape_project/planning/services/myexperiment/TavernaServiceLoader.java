@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package eu.scape_project.planning.services.taverna;
+package eu.scape_project.planning.services.myexperiment;
 
 import java.io.Serializable;
 import java.util.concurrent.Future;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import eu.scape_project.planning.services.taverna.model.WorkflowDescription;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 
 /**
  * Asynchronous loader for Taverna services.
@@ -39,19 +39,17 @@ public class TavernaServiceLoader implements Serializable {
     @Inject
     private Logger log;
 
-    private MyExperimentRESTClient myExperimentRESTClient = new MyExperimentRESTClient();;
-
     /**
      * Loads the details of a Taverna service asynchronously and returns a
      * future.
      * 
-     * @param serviceInfo
+     * @param descriptor
      *            the service to load
      * @return a future of the service details
      */
     @Asynchronous
     public Future<WorkflowDescription> loadWorkflowDescription(String descriptor) {
         log.debug("Loading details of service [{}].", descriptor);
-        return new AsyncResult<WorkflowDescription>(myExperimentRESTClient.getWorkflow(descriptor));
+        return new AsyncResult<WorkflowDescription>(MyExperimentRESTClient.getWorkflow(descriptor));
     }
 }

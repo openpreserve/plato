@@ -26,9 +26,9 @@ import at.tuwien.minimee.MiniMeeException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
-import eu.scape_project.planning.services.action.ActionInfo;
 
 public class MiniMeeServiceRegistry implements IPreservationActionRegistry {
     private MiniMeeRegistry registry = new MiniMeeRegistry();
@@ -64,10 +64,10 @@ public class MiniMeeServiceRegistry implements IPreservationActionRegistry {
             def.setUrl(service.getUrl());
             def.setDescriptor(service.getDescriptor());
             if (service.isMigration())
-                def.setActionIdentifier("MiniMEE-migration");
+                def.setServiceIdentifier("MiniMEE-migration");
             else {
                 def.setEmulated(true);
-                def.setActionIdentifier("MiniMEE-emulation");
+                def.setServiceIdentifier("MiniMEE-emulation");
                 // TODO: refine setting type according to sourceFormat
                 if ("avi".equals(sourceFormat.getDefaultExtension())
                     || "mpg".equals(sourceFormat.getDefaultExtension())

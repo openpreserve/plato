@@ -79,7 +79,7 @@ public class ComponentRegistry implements IPreservationActionRegistry {
             .append("PREFIX meannot: <http://rdf.myexperiment.org/ontologies/annotations/>").append("\n")
             .append("PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/>").append("\n")
             .append("PREFIX mebase: <http://rdf.myexperiment.org/ontologies/base/>").append("\n")
-            .append("SELECT ?w ?wt ?wdesc ?wurl ?wcurrentversion ?wcurrentversionnumber").append("\n")
+            .append("SELECT ?w ?wt ?wdesc ?wurl ?wcurrentversion ?wcurrentversionnumber ?wdescriptor").append("\n")
             .append("WHERE {").append("\n").append("  ?w a mecontrib:Workflow ;").append("\n")
             .append("     dcterms:title ?wt ;").append("\n").append("     dcterms:description ?wdesc ;").append("\n")
             .append("     meannot:has-tagging ?tscape ;").append("\n").append("     meannot:has-tagging ?tmigration ;")
