@@ -81,7 +81,7 @@
     <module name="UpperEll"/>
     <module name="ImportOrder">
       <property name="option" value="top"/>
-      <property name="groups" value="java, javax, junit, at, com,  org, eu"/>
+      <property name="groups" value="java, javax, junit, at, org, com, eu"/>
       <property name="separated" value="true"/>
     </module>
     <module name="WhitespaceAround">
