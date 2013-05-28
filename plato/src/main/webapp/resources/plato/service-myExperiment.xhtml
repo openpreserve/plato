@@ -17,7 +17,7 @@
 </cc:interface>
 
 <cc:implementation>
-	<a4j:outputPanel id="#{cc.attrs.id}" styleClass="service-info">
+	<a4j:outputPanel id="#{cc.attrs.id}">
 		<ui:remove>
 			<a4j:jsFunction name="loadData#{cc.attrs.id}"
 				actionListener="#{cc.attrs.data.loadWorkflowDescription(cc.attrs.actionInfo)}"

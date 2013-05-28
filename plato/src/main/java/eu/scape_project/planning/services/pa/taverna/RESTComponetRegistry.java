@@ -46,7 +46,7 @@ public class RESTComponetRegistry implements IPreservationActionRegistry {
         List<Workflow> workflows = client.searchComponents(query);
 
         for (Workflow workflow : workflows) {
-            TavernaPreservationActionInfo actionInfo = new TavernaPreservationActionInfo();
+            TavernaActionInfo actionInfo = new TavernaActionInfo();
 
             actionInfo.setShortname(workflow.getName());
             actionInfo.setUrl(workflow.getResource().toASCIIString());

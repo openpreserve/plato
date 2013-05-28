@@ -24,13 +24,14 @@
 		<div class="service-info-info">
 			<h:outputText value="#{cc.attrs.actionInfo.info}" />
 		</div>
-		<div class="service-info-footer">
-			<a4j:outputPanel
-				rendered="#{not empty cc.attrs.actionInfo.descriptor}">
+		<a4j:outputPanel
+			rendered="#{not empty cc.attrs.actionInfo.descriptor}">
+			<div class="service-info-footer">
+
 				<h:outputLink value="#{cc.attrs.actionInfo.descriptor}"
 					target="_blank">#{cc.attrs.actionInfo.descriptor}</h:outputLink>
-			</a4j:outputPanel>
-		</div>
+			</div>
+		</a4j:outputPanel>
 	</div>
 </cc:implementation>
 </html>

@@ -13,6 +13,9 @@ import org.ajax4jsf.model.ExtendedDataModel;
 import org.ajax4jsf.model.Range;
 import org.ajax4jsf.model.SequenceRange;
 
+/**
+ * Data model for action infos.
+ */
 public class ServiceInfoDataModel extends ExtendedDataModel<IActionInfo> implements Serializable {
 
     private static final long serialVersionUID = -31472856376172968L;
@@ -23,6 +26,14 @@ public class ServiceInfoDataModel extends ExtendedDataModel<IActionInfo> impleme
 
     private Map<String, IServiceLoader> serviceLoaders;
 
+    /**
+     * Creates a new service info data model.
+     * 
+     * @param serviceInfos
+     *            list of service infos
+     * @param serviceLoaders
+     *            map of service identifiers and their loaders
+     */
     public ServiceInfoDataModel(List<IActionInfo> serviceInfos, Map<String, IServiceLoader> serviceLoaders) {
         this.serviceInfos = serviceInfos;
         this.serviceLoaders = serviceLoaders;

@@ -18,7 +18,7 @@
 			<div id="anchors">
 				<ul class="anchors">
 					<li class="anchors"><a href="#create-alternatives"
-						class="anchors">Create alternatives from applicable services</a></li>
+						class="anchors">Add alternative</a></li>
 					<li class="anchors"><a href="#descriptive_information"
 						class="anchors">Descriptive Information</a></li>
 				</ul>
@@ -35,60 +35,53 @@
 		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{defineAlternatives.changed}"
 				style="display:none" />
-
 			<a4j:outputPanel layout="block" id="alterativesTablePanel"
 				style-class="full-size">
-				<h:dataTable value="#{defineAlternatives.alternatives}"
-					var="alternative" id="alternativesTable" styleClass="tableStyle"
-					headerClass="tableStyle-header" rowClasses="tableStyle-row">
-					<h:column>
-						<f:facet name="header">Name</f:facet>
-						<a4j:commandLink id="editAlternativeCmd" value="#{alternative.name}"
-							action="#{defineAlternatives.showEditAlternative(alternative)}"
-							execute="@this" render="editAlternativePanel" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Description</f:facet>
-						<h:outputText value="#{alternative.description}"></h:outputText>
-
-					</h:column>
-					<h:column>
-						<f:facet name="header">Experience</f:facet>
-						<!-- 
-	                   <h:outputLink rendered="#{alternative.action != null and alternative.action.experienceBase != null}" value="#{alternative.action.experienceBase}" target="_blank">
-	                        <f:verbatim>Experience base</f:verbatim>
-	                   </h:outputLink>
-	                   -->
-					</h:column>
-					<h:column>
-						<a4j:commandButton value="Remove" execute="@this"
+				<rich:dataTable
+					value="#{defineAlternatives.plan.alternativesDefinition.alternatives}"
+					var="alternative" id="alternativesTable"
+					styleClass="service-results"
+					rendered="#{not empty defineAlternatives.plan.alternativesDefinition.alternatives}">
+					<rich:column
+						styleClass="service-marker service-marker-#{alternative.action.actionIdentifier}">
+					</rich:column>
+					<rich:column styleClass="service-info">
+						<div class="service-info-panel">
+							<div class="service-info-header">
+								<a4j:commandLink id="editAlternativeCmd"
+									value="#{alternative.name}"
+									action="#{defineAlternatives.showEditAlternative(alternative)}"
+									render="editAlternativePanel" />
+							</div>
+							<div class="service-info-info">
+								<h:outputText value="#{alternative.description}" />
+							</div>
+						</div>
+					</rich:column>
+					<rich:column styleClass="service-addservice">
+						<a4j:commandButton value="-"
 							action="#{defineAlternatives.removeAlternative(alternative)}"
 							render="alterativesTablePanel editAlternativePanel"
 							rendered="#{empty alternative.experiment.results}"
-							onclick="changed();" />
-
+							onclick="changed();" styleClass="service-addservice-add" />
 						<a4j:outputPanel styleClass="confirmation-container"
 							rendered="#{not empty alternative.experiment.results}">
-							<a4j:commandButton value="Remove" execute="@this"
+							<a4j:commandButton value="-"
 								action="#{defineAlternatives.removeAlternative(alternative)}"
 								render="alterativesTablePanel editAlternativePanel"
-								onclick="if ($(#{rich:element('removeConfirmation')}).css('display') == 'none') { $(#{rich:element('removeConfirmation')}).toggle(true); return false; } changed();" />
+								onclick="if ($(#{rich:element('removeConfirmation')}).css('display') == 'none') { $('.confirmation-panel').toggle(false); $(#{rich:element('removeConfirmation')}).toggle(true); return false; } changed();"
+								styleClass="service-addservice-add" />
 							<a4j:outputPanel id="removeConfirmation"
-								styleClass="confirmation-panel" layout="block">
+								styleClass="confirmation-panel" layout="block"
+								onclick="$(#{rich:element('removeConfirmation')}).toggle(false); return false;">
+								<a4j:commandLink value="X" styleClass="confirmation-close" />
 								<h:outputText
 									value="This alternative has associated evaluation values. These will be removed as well. Are you sure?" />
-								<a4j:commandLink value="X" styleClass="confirmation-close"
-									onclick="$(#{rich:element('removeConfirmation')}).toggle(false); return false;" />
+
 							</a4j:outputPanel>
-
 						</a4j:outputPanel>
-					</h:column>
-				</h:dataTable>
-
-				<a4j:commandButton id="addAlternative"
-					action="#{defineAlternatives.showAddNewAlternative}"
-					value="Add new Alternative" render="editAlternativePanel"
-					execute="@this" />
+					</rich:column>
+				</rich:dataTable>
 			</a4j:outputPanel>
 
 			<a4j:outputPanel layout="block" id="editAlternativePanel">
@@ -96,38 +89,47 @@
 					rendered="#{defineAlternatives.editableAlternative != null}">
 					<fieldset class="size-full">
 						<legend class="fieldset-full-size-legend">
-							<h:outputText value="Alternative" />
+							<h:outputText value="Edit alternative" />
 						</legend>
-						<!-- 
-		                Name <h:inputText value="#{defineAlternatives.editableAlternativeName}" id="alternativeName" required="true">
-                            <f:validateLength for="alternativeName" minimum="1" maximum="30" />
-		                </h:inputText> * <br/>
--->
-
 						<p:inputText labelText="Name:" id="alternativeName"
 							required="true"
 							input="#{defineAlternatives.editableAlternativeName}" />
-						<br />
 						<p:inputTextArea labelText="Description:"
 							id="alternativeDescription" required="true"
 							input="#{defineAlternatives.editableAlternative.description}"
 							touchable="#{defineAlternatives.editableAlternative}" />
-						<br />
 						<p:inputTextArea labelText="Reason for considering:"
 							id="alternativeReason" required="false"
 							input="#{defineAlternatives.editableAlternative.resourceDescription.reasonForConsidering}"
 							touchable="#{defineAlternatives.editableAlternative}" />
-						<br />
 						<p:inputTextArea labelText="Configuration description:"
 							id="alternativeConfigurationDescription" required="false"
 							input="#{defineAlternatives.editableAlternative.resourceDescription.configSettings}"
 							touchable="#{defineAlternatives.editableAlternative}" />
-						<br />
 						<p:inputTextArea labelText="Indicator of necessary resources:"
 							id="indicatorOfNecessaryResources" required="false"
 							input="#{defineAlternatives.editableAlternative.resourceDescription.necessaryResources}"
 							touchable="#{defineAlternatives.editableAlternative}" />
-						<br />
+
+						<a4j:outputPanel
+							rendered="#{defineAlternatives.editableAlternative.action != null}">
+							<table class="service-results">
+								<tr>
+									<td
+										class="service-marker service-marker-#{defineAlternatives.editableAlternativeActionInfo.serviceIdentifier}" />
+									<td class="service-info"><p:service-myExperiment
+											id="service-myExperiment"
+											actionInfo="#{defineAlternatives.editableAlternativeActionInfo}"
+											data="#{defineAlternatives.tavernaServices}"
+											rendered="#{defineAlternatives.editableAlternativeActionInfo.serviceIdentifier eq 'myExperiment'}" />
+										<p:service id="service"
+											actionInfo="#{defineAlternatives.editableAlternativeActionInfo}"
+											rendered="#{defineAlternatives.editableAlternativeActionInfo.serviceIdentifier ne 'myExperiment'}" />
+									</td>
+								</tr>
+							</table>
+						</a4j:outputPanel>
+
 						<a4j:commandButton id="saveAlternative"
 							action="#{defineAlternatives.editAlternative}" value="Save"
 							render="alterativesTablePanel, editAlternativePanel"
@@ -138,86 +140,163 @@
 					</fieldset>
 				</a4j:outputPanel>
 			</a4j:outputPanel>
-			<a4j:outputPanel
-				rendered="#{(defineAlternatives.editableAlternative == null) and (defineAlternatives.availableRegistries != null)}">
+
+			<a4j:outputPanel layout="block">
 				<fieldset id="create-alternatives" class="size-full">
 					<legend class="fieldset-full-size-legend">
 						<ui:include src="/plato/shared/legend_nav.xhtml" />
-						<h:outputText value="Create alternatives from applicable services" />
+						<h:outputText value="Add alternatives" />
 					</legend>
-
-					<strong> <h:outputText
-							value="To enable the automated search for services, please provide at least one sample object with data and use DROID to identify it."
-							rendered="#{!defineAlternatives.formatInfoAvailable}" /><br />
-					</strong>
-					<x:div id="registriesSelection"
-						renderthis="#{defineAlternatives.formatInfoAvailable}">
-						<strong> <h:outputText
-								value="Sample #{defineAlternatives.sampleWithFormat.fullname} has 
-                               the following format: #{defineAlternatives.sampleWithFormat.formatInfo.longName}. " />
-							<br /> <h:outputText
-								value="You can look up preservation actions that are able to handle this object type in the following registries:" />
-						</strong>
-						<div>
-							<div>
-								<ui:repeat id="registries"
-									value="#{defineAlternatives.availableRegistries}"
-									var="registry">
-									<div class="registry-panel">
-										<div class="registry-logo">
-											<h:graphicImage value="#{registry.logo}"
-												alt="#{registry.shortname}" />
-										</div>
-										<a4j:commandButton id="showServices" value="Show Services"
-											onclick="toggleLoadingOverlay();this.disabled=true;"
-											oncomplete="this.disabled=false;toggleLoadingOverlay();"
-											action="#{defineAlternatives.showPreservationServices(registry)}"
-											render="lookupResultPanel,showServices,messages">
-
-										</a4j:commandButton>
-									</div>
-								</ui:repeat>
+					<x:div id="registriesSelection" renderthis="true">
+						<div class="registries">
+							<div class="registry-panel">
+								<div class="registry-logo">
+									<h:graphicImage library="gfx" name="logos/custom.png"
+										alt="Custom alternative" width="200px" height="40px" />
+								</div>
+								<a4j:commandButton id="addCustomAlternative"
+									value="Add custom alternative"
+									onclick="toggleLoadingOverlay();this.disabled=true;"
+									oncomplete="this.disabled=false;toggleLoadingOverlay();"
+									action="#{defineAlternatives.showCustomAlternatives()}"
+									render="lookupResultPanel,addCustomAlternative,messages">
+								</a4j:commandButton>
 							</div>
-
-							<a4j:outputPanel id="lookupResultPanel">
-								<a4j:outputPanel
-									rendered="#{not empty defineAlternatives.availableActions}"
-									styleClass="paged-list" layout="block">
-
-									<a4j:queue />
-
-									<rich:dataScroller for="lookupResults" maxPages="5"
-										boundaryControls="show" fastControls="hide"
-										renderIfSinglePage="false" stepControls="show" />
-									<rich:dataTable id="lookupResults"
-										value="#{defineAlternatives.serviceInfoData}" var="action"
-										rows="8" styleClass="service-results">
-										<rich:column
-											styleClass="service-marker service-marker-#{action.actionIdentifier}">
-											<rich:tooltip value="#{action.actionIdentifier}" />
-										</rich:column>
-										<rich:column styleClass="service-addservice">
-											<a4j:commandButton id="add" value="+" immediate="true"
-												action="#{defineAlternatives.addPreservationAction(action)}"
-												render="alterativesTablePanel"
-												styleClass="service-addservice-add" />
-										</rich:column>
-										<rich:column styleClass="service-info" id="service-info">
-											<p:service-myExperiment id="service-myExperiment"
-												actionInfo="#{action}"
-												data="#{defineAlternatives.tavernaServices}"
-												rendered="#{action.actionIdentifier eq 'myExperiment'}" />
-											<p:service id="service" actionInfo="#{action}"
-												rendered="#{action.actionIdentifier ne 'myExperiment'}" />
-										</rich:column>
-									</rich:dataTable>
-								</a4j:outputPanel>
-							</a4j:outputPanel>
+							<ui:repeat id="registries"
+								value="#{defineAlternatives.availableRegistries}" var="registry">
+								<div class="registry-panel">
+									<div class="registry-logo">
+										<h:graphicImage value="#{registry.logo}"
+											alt="#{registry.shortname}" width="200px" height="40px" />
+									</div>
+									<a4j:commandButton id="showServices" value="Show Services"
+										immediate="true"
+										onclick="toggleLoadingOverlay();this.disabled=true;"
+										oncomplete="this.disabled=false;toggleLoadingOverlay();"
+										action="#{defineAlternatives.showPreservationServices(registry)}"
+										render="lookupResultPanel,showServices,messages"
+										disabled="#{!defineAlternatives.formatInfoAvailable}">
+									</a4j:commandButton>
+								</div>
+							</ui:repeat>
 							<div style="clear: both;" />
+							<a4j:outputPanel layout="block"
+								rendered="#{!defineAlternatives.formatInfoAvailable}">
+								<strong>To enable the automated search for services,
+									please provide at least one sample object with data and use
+									DROID to identify it.</strong>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block"
+								rendered="#{defineAlternatives.formatInfoAvailable}">
+								<strong><h:outputText
+										value="Sample #{defineAlternatives.sampleWithFormat.fullname} has 
+                               the following format: #{defineAlternatives.sampleWithFormat.formatInfo.longName}. " />
+								</strong>
+							</a4j:outputPanel>
+
 						</div>
+						<div style="clear: both;" />
+						<a4j:outputPanel id="lookupResultPanel" layout="block">
+							<a4j:outputPanel
+								rendered="#{not empty defineAlternatives.availableActions}"
+								styleClass="paged-list" layout="block">
+								<a4j:queue />
+								<rich:dataScroller for="lookupResults" maxPages="5"
+									boundaryControls="show" fastControls="hide"
+									renderIfSinglePage="false" stepControls="show" />
+								<rich:dataTable id="lookupResults"
+									value="#{defineAlternatives.serviceInfoData}" var="action"
+									rows="8" styleClass="service-results">
+									<rich:column
+										styleClass="service-marker service-marker-#{action.actionIdentifier}" />
+									<rich:column styleClass="service-addservice">
+										<a4j:commandButton id="add" value="+" immediate="true"
+											action="#{defineAlternatives.addPreservationAction(action)}"
+											render="alterativesTablePanel"
+											styleClass="service-addservice-add" />
+									</rich:column>
+									<rich:column styleClass="service-info" id="service-info">
+										<p:service-myExperiment id="service-myExperiment"
+											actionInfo="#{action}"
+											data="#{defineAlternatives.tavernaServices}"
+											rendered="#{action.actionIdentifier eq 'myExperiment'}" />
+										<p:service id="service" actionInfo="#{action}"
+											rendered="#{action.actionIdentifier ne 'myExperiment'}" />
+									</rich:column>
+								</rich:dataTable>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel
+								rendered="#{defineAlternatives.showCustomAlternatives}"
+								layout="block">
+
+								<table class="service-results">
+									<tr>
+										<td class="service-marker"></td>
+										<td class="service-addservice"><a4j:commandButton
+												id="addDoNothing" value="+" immediate="true"
+												action="#{defineAlternatives.addDoNothing}"
+												render="alterativesTablePanel,messages"
+												styleClass="service-addservice-add" /></td>
+										<td class="service-info" id="service-info">
+											<div class="service-info-panel">
+												<div class="service-info-header">Keep status quo</div>
+												<div class="service-info-info">Keep the objects as
+													they are.</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="service-marker"></td>
+										<td class="service-addservice"><a4j:commandButton
+												id="addNewCustomAlternative" value="+"
+												action="#{defineAlternatives.addCustomAlternative}"
+												render="alterativesTablePanel,lookupResultPanel,messages"
+												styleClass="service-addservice-add" execute="test" /></td>
+										<td class="service-info" id="service-info"><a4j:outputPanel
+												id="test">
+												<div class="service-info-panel">
+													<div class="service-info-header">Custom alternative</div>
+													<div class="service-info-info">
+														<p:inputText labelText="Name:" id="alternativeName"
+															required="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															input="#{defineAlternatives.customAlternative.name}"
+															touchable="#{defineAlternatives.customAlternative}" />
+														<p:inputTextArea labelText="Description:"
+															id="alternativeDescription"
+															required="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															input="#{defineAlternatives.customAlternative.description}"
+															touchable="#{defineAlternatives.customAlternative}" />
+														<p:inputTextArea labelText="Reason for considering:"
+															id="alternativeReason" required="false"
+															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															input="#{defineAlternatives.customAlternative.resourceDescription.reasonForConsidering}"
+															touchable="#{defineAlternatives.customAlternative}" />
+														<p:inputTextArea labelText="Configuration description:"
+															id="alternativeConfigurationDescription" required="false"
+															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															input="#{defineAlternatives.customAlternative.resourceDescription.configSettings}"
+															touchable="#{defineAlternatives.customAlternative}" />
+														<p:inputTextArea
+															labelText="Indicator of necessary resources:"
+															id="indicatorOfNecessaryResources" required="false"
+															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
+															input="#{defineAlternatives.customAlternative.resourceDescription.necessaryResources}"
+															touchable="#{defineAlternatives.customAlternative}" />
+													</div>
+												</div>
+											</a4j:outputPanel></td>
+									</tr>
+								</table>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;" />
 					</x:div>
 				</fieldset>
 			</a4j:outputPanel>
+
 			<a4j:outputPanel layout="block">
 				<fieldset id="descriptive_information" class="size-full">
 					<legend class="fieldset-full-size-legend">
@@ -227,7 +306,7 @@
 					<p:inputTextArea labelText="Documentation:" id="documentation"
 						required="false"
 						input="#{defineAlternatives.plan.alternativesDefinition.description}"
-						touchable="#{defineAlternatives.editableAlternative}" />
+						touchable="#{defineAlternatives.plan.alternativesDefinition}" />
 				</fieldset>
 			</a4j:outputPanel>
 

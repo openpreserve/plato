@@ -807,7 +807,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                     50);
+	filter: alpha(opacity =                         50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -861,9 +861,8 @@ span.value {
 /* service outputs */
 .registry-panel {
 	float: left;
-	min-width: 150px;
+	min-width: 200px;
 	margin: 15px;
-	text-align: center;
 }
 
 .registry-panel input {
@@ -883,6 +882,11 @@ span.value {
 
 .service-results {
 	width: 100%;
+	border-collapse: collapse;
+}
+
+.service-results td {
+	border: 1px solid #C4C0B9;
 }
 
 td.service-marker {
@@ -904,23 +908,24 @@ td.service-marker-P2 {
 }
 
 .service-addservice {
-	width: 20px;
+	width: 26px;
+	padding: 4px;
 }
 
 input.service-addservice-add {
 	font-size: 30px;
 	padding: 3px;
 	height: 100%;
+	width: 26px;
 }
 
 td.service-info {
 	position: relative;
 	padding: 0px;
-	font-size: 12px;
 }
 
 .service-info a {
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .service-info-panel {
@@ -929,6 +934,7 @@ td.service-info {
 	width: 100%;
 	min-height: 60px;
 	clear: both;
+	background-color: #FFFFFF;
 }
 
 /* Clear after each node */
@@ -950,6 +956,7 @@ td.service-info {
 .service-info-info {
 	width: 100%;
 	padding: 3px;
+	font-size: 12px;
 }
 
 .service-info-footer {
@@ -957,6 +964,10 @@ td.service-info {
 	background-color: #FAFAFA;
 	font-size: 12px;
 	clear: both;
+}
+
+.service-info-footer a {
+	font-size: 12px;
 }
 
 .service-info-preview {
@@ -1000,7 +1011,6 @@ td.service-info {
 .confirmation-panel {
 	display: none;
 	position: absolute;
-	top: 22px;
 	right: 0px;
 	background-color: #FE8066;
 	border: 1px solid #BABABA;
@@ -1011,7 +1021,7 @@ td.service-info {
 
 .confirmation-close {
 	position: absolute;
-	padding: 4px;
+	padding: 2px;
 	top: 0px;
 	right: 0px;
 	font-size: 18px;

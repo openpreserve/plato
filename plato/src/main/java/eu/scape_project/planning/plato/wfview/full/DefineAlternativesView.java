@@ -26,6 +26,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
@@ -38,15 +41,12 @@ import eu.scape_project.planning.plato.bean.TavernaServices;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
-
-import org.hibernate.validator.constraints.Length;
-import org.slf4j.Logger;
 
 /**
  * Class used as backing-bean for the view definealternatives.xhtml.
@@ -67,45 +67,59 @@ public class DefineAlternativesView extends AbstractView {
     @Inject
     private DefineAlternatives defineAlternatives;
 
-    @Inject
-    private TavernaServices tavernaServices;
-
     /**
-     * List of defined alternatives.
+     * Alternative that is currently being edited.
      */
-    private List<Alternative> alternatives;
-
-    /**
-     * Alternative variable used to add new or edit existing alternatives.
-     */
-    private Alternative editableAlternative;
+    private IActionInfo editableAlternativeActionInfo;
 
     /**
      * Name of the editable alternative which cannot be set directly in the
      * editableAlternative because alternative renaming is a complex process.
      */
-
     @NotNull
     @Length(min = 1, max = 30)
     private String editableAlternativeName;
 
     /**
-     * A list of all currently defined preservation service registries.
+     * 
+     */
+    private Alternative editableAlternative;
+
+    /**
+     * Alternative that is newly created.
+     */
+    private Alternative customAlternative;
+
+    /**
+     * Cache for myExperiment service details.
+     */
+    @Inject
+    private TavernaServices tavernaServices;
+
+    /**
+     * List of all currently defined preservation service registries.
      */
     private List<PreservationActionRegistryDefinition> availableRegistries;
 
+    /**
+     * List of actions of the currently selected registry.
+     */
     private List<IActionInfo> availableActions;
 
-    private Map<PreservationActionRegistryDefinition, Boolean> registrySelection;
-
-    private Map<IActionInfo, Boolean> actionSelection;
-
     /**
-     * Datamodel for services.
+     * Data model for services.
      */
     private ServiceInfoDataModel serviceInfoData;
 
+    /**
+     * Service identifiers and their loaders.
+     */
     private Map<String, IServiceLoader> serviceLoaders;
+
+    /**
+     * Show custom alternatives.
+     */
+    private Boolean showCustomAlternatives = false;
 
     /**
      * Creates a new view object.
@@ -120,32 +134,31 @@ public class DefineAlternativesView extends AbstractView {
 
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
         availableActions = new ArrayList<IActionInfo>();
-        registrySelection = new HashMap<PreservationActionRegistryDefinition, Boolean>();
-        actionSelection = new HashMap<IActionInfo, Boolean>();
         serviceLoaders = new HashMap<String, IServiceLoader>();
     }
 
     /**
-     * Initialises the view with plandata.
+     * Initialises the view with plan data.
+     * 
+     * @param plan
+     *            plan used to initialize
      */
     public void init(Plan plan) {
         super.init(plan);
-        alternatives = plan.getAlternativesDefinition().getAlternatives();
 
         availableRegistries.clear();
         availableActions.clear();
-        registrySelection.clear();
         try {
             availableRegistries.addAll(defineAlternatives.getPreservationActionRegistries());
-            for (PreservationActionRegistryDefinition registry : availableRegistries) {
-                registrySelection.put(registry, false);
-            }
         } catch (PlanningServiceException e) {
             log.error("Failed to retrieve registries", e);
             facesMessages.addError("Could not find any preservation action registries.");
         }
 
         serviceLoaders.put("myExperiment", tavernaServices);
+        tavernaServices.clear();
+
+        showCustomAlternatives();
     }
 
     /**
@@ -155,7 +168,6 @@ public class DefineAlternativesView extends AbstractView {
      *            alternative to delete
      */
     public void removeAlternative(Alternative alternative) {
-
         if (plan.isGivenAlternativeTheCurrentRecommendation(alternative)) {
             facesMessages.addInfo("You have removed the action which was chosen as the recommended alternative.");
         }
@@ -165,55 +177,6 @@ public class DefineAlternativesView extends AbstractView {
         if (alternative == editableAlternative) {
             editableAlternative = null;
         }
-
-        return;
-    }
-
-    /**
-     * Method responsible for add/edit a new/existing alternative.
-     */
-    @SuppressWarnings("deprecation")
-    public void editAlternative() {
-        // If the entered alternative is a new alternative - add it
-        if ((editableAlternative.getId() == 0) && (!alternatives.contains(editableAlternative))) {
-            // add new alternative - this has to be done via
-            try {
-                // the call of this method at this stage is allowed because the
-                // Alternative is not yet created -
-                // so I don't have to use the complex rename function instead.
-                editableAlternative.setName(editableAlternativeName);
-                plan.addAlternative(editableAlternative);
-            } catch (PlanningException e) {
-                facesMessages.addError(e.getMessage());
-                return;
-            }
-        }
-
-        // else if it is an existing one - the big part of properties have
-        // already been set,
-        // but the complex renaming procedure is done here.
-        else {
-            editableAlternative.touch();
-
-            try {
-                plan.renameAlternative(editableAlternative, editableAlternativeName);
-            } catch (PlanningException e) {
-                facesMessages.addError(e.getMessage());
-                return;
-            }
-        }
-
-        // reset
-        editableAlternative = null;
-    }
-
-    /**
-     * Method responsible for preparing and showing the add new alternatives
-     * window.
-     */
-    public void showAddNewAlternative() {
-        editableAlternative = Alternative.createAlternative();
-        editableAlternativeName = "";
     }
 
     /**
@@ -226,6 +189,28 @@ public class DefineAlternativesView extends AbstractView {
     public void showEditAlternative(Alternative alternative) {
         editableAlternative = alternative;
         editableAlternativeName = alternative.getName();
+        
+        if (alternative.getAction() != null) {
+            editableAlternativeActionInfo = ActionInfoFactory.createActionInfo(alternative.getAction());
+            IServiceLoader serviceLoader = serviceLoaders.get(alternative.getAction().getActionIdentifier());
+            if (serviceLoader != null) {
+                serviceLoader.load(editableAlternativeActionInfo);
+            }
+        }
+    }
+
+    /**
+     * Method responsible for add/edit a new/existing alternative.
+     */
+    public void editAlternative() {
+        editableAlternative.touch();
+        try {
+            plan.renameAlternative(editableAlternative, editableAlternativeName);
+        } catch (PlanningException e) {
+            facesMessages.addError(e.getMessage());
+            return;
+        }
+        editableAlternative = null;
     }
 
     /**
@@ -235,18 +220,27 @@ public class DefineAlternativesView extends AbstractView {
         editableAlternative = null;
     }
 
-    @Override
-    protected boolean tryProceed(List<ValidationError> errors) {
-        // view-specific validation
-        if (editableAlternative != null) {
-            errors
-                .add(new ValidationError(
-                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step."));
+    /**
+     * Adds the predefine alternative "do nothing" to the plan.
+     */
+    public void addDoNothing() {
+        try {
+            defineAlternatives.addAlternative("Keep status quo", "Keep the objects as they are.");
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not add the alternative: " + e.getMessage());
         }
+    }
 
-        // general validation
-        boolean result = defineAlternatives.proceed(errors);
-        return result && errors.isEmpty();
+    /**
+     * Adds the custom alternative to the plan.
+     */
+    public void addCustomAlternative() {
+        try {
+            defineAlternatives.addAlternative(customAlternative);
+            customAlternative = Alternative.createAlternative();
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not add the alternative: " + e.getMessage());
+        }
     }
 
     /**
@@ -269,6 +263,14 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
+     * Shows the custom alternative input.
+     */
+    public void showCustomAlternatives() {
+        customAlternative = Alternative.createAlternative();
+        showCustomAlternatives = true;
+    }
+
+    /**
      * Retrieves the list of services available in the given registry, for the
      * current sample with format info.
      * 
@@ -276,18 +278,12 @@ public class DefineAlternativesView extends AbstractView {
      *            the registry to query
      */
     public void showPreservationServices(PreservationActionRegistryDefinition registry) {
-        log.debug("Loading preservation action services from registry [{}]", registry.getShortname());
+        showCustomAlternatives = false;
         availableActions.clear();
-        actionSelection.clear();
         tavernaServices.clear();
         try {
-            registrySelection.clear();
-            registrySelection.put(registry, true);
             availableActions.addAll(defineAlternatives.queryRegistry(getSampleWithFormat().getFormatInfo(), registry));
             serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
-            for (IActionInfo actionInfo : availableActions) {
-                actionSelection.put(actionInfo, false);
-            }
         } catch (PlatoException e) {
             facesMessages.addError("Failed to query the registry: " + registry.getShortname() + " - " + e.getMessage());
             log.error("Failed to query the registry: " + registry.getShortname(), e);
@@ -295,42 +291,39 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
-     * Returns the number of available actions.
+     * Adds a preservation action to the plan, created from the provided action
+     * info.
      * 
-     * @return the number of actions
+     * @param actionInfo
+     *            the action info
      */
-    public int getNumOfAvailableActions() {
-        if (availableActions == null) {
-            return 0;
-        }
-        return availableActions.size();
-    }
-
-    /**
-     * Creates alternatives from selected preservation action infos.
-     */
-    public void createAlternativesForPreservationActions() {
-        List<IServiceInfo> selectedActions = new ArrayList<IServiceInfo>();
-        for (IServiceInfo selectedAction : availableActions) {
-            if (actionSelection.get(selectedAction)) {
-                selectedActions.add(selectedAction);
-            }
-        }
-        defineAlternatives.createAlternativesForPreservationActions(selectedActions);
-    }
-
     public void addPreservationAction(IActionInfo actionInfo) {
-        defineAlternatives.createAlternative(actionInfo);
+        try {
+            defineAlternatives.addAlternative(actionInfo);
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not create an alternative from the service you selected.");
+        }
+    }
+
+    @Override
+    protected boolean tryProceed(List<ValidationError> errors) {
+        // view-specific validation
+        if (editableAlternative != null) {
+            errors
+                .add(new ValidationError(
+                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step."));
+        }
+
+        // general validation
+        boolean result = defineAlternatives.proceed(errors);
+        return result && errors.isEmpty();
     }
 
     // --------------- getter/setter ---------------
 
-    public List<Alternative> getAlternatives() {
-        return alternatives;
-    }
-
-    public void setAlternatives(List<Alternative> alternatives) {
-        this.alternatives = alternatives;
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return defineAlternatives;
     }
 
     public FacesMessages getFacesMessages() {
@@ -341,25 +334,12 @@ public class DefineAlternativesView extends AbstractView {
         this.facesMessages = facesMessages;
     }
 
-    public Logger getLog() {
-        return log;
-    }
-
-    public void setLog(Logger log) {
-        this.log = log;
-    }
-
     public Alternative getEditableAlternative() {
         return editableAlternative;
     }
 
     public void setEditableAlternative(Alternative editableAlternative) {
         this.editableAlternative = editableAlternative;
-    }
-
-    @Override
-    protected AbstractWorkflowStep getWfStep() {
-        return defineAlternatives;
     }
 
     public String getEditableAlternativeName() {
@@ -370,20 +350,28 @@ public class DefineAlternativesView extends AbstractView {
         this.editableAlternativeName = editableAlternativeName;
     }
 
+    public IActionInfo getEditableAlternativeActionInfo() {
+        return editableAlternativeActionInfo;
+    }
+
+    public Alternative getCustomAlternative() {
+        return customAlternative;
+    }
+
+    public void setCustomAlternative(Alternative customAlternative) {
+        this.customAlternative = customAlternative;
+    }
+
+    public Boolean getShowCustomAlternatives() {
+        return showCustomAlternatives;
+    }
+
     public List<PreservationActionRegistryDefinition> getAvailableRegistries() {
         return availableRegistries;
     }
 
     public List<IActionInfo> getAvailableActions() {
         return availableActions;
-    }
-
-    public Map<PreservationActionRegistryDefinition, Boolean> getRegistrySelection() {
-        return registrySelection;
-    }
-
-    public Map<IActionInfo, Boolean> getActionSelection() {
-        return actionSelection;
     }
 
     public ServiceInfoDataModel getServiceInfoData() {
@@ -394,4 +382,11 @@ public class DefineAlternativesView extends AbstractView {
         return tavernaServices;
     }
 
+    public Logger getLog() {
+        return log;
+    }
+
+    public void setLog(Logger log) {
+        this.log = log;
+    }
 }

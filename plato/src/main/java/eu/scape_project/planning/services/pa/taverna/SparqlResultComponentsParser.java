@@ -64,7 +64,7 @@ public class SparqlResultComponentsParser {
 
             for (int i = 0; i < componentsNodes.size(); i++) {
                 Element component = (Element) componentsNodes.get(i);
-                TavernaPreservationActionInfo def = new TavernaPreservationActionInfo();
+                TavernaActionInfo def = new TavernaActionInfo();
 
                 def.setShortname(selectTitleXpath.selectSingleNode(component).getText());
                 // def.setUrl(selectUrlXpath.selectSingleNode(component).getText());

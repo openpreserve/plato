@@ -31,7 +31,7 @@ import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
-import eu.scape_project.planning.services.action.PreservationActionInfo;
+import eu.scape_project.planning.services.action.ActionInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +103,7 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
         }
 
         for (int i = 0; i < resultSet.size(); i++) {
-            PreservationActionInfo def = new PreservationActionInfo();
+            ActionInfo def = new ActionInfo();
             def.setShortname("Convert using " + resultSet.getRow(i).get(0) + " " + resultSet.getRow(i).get(1));
             def.setTargetFormat(resultSet.getRow(i).get(2) + " " + resultSet.getRow(i).get(3));
             def.setInfo("by " + resultSet.getRow(i).get(4));

@@ -28,7 +28,7 @@ import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
-import eu.scape_project.planning.services.action.PreservationActionInfo;
+import eu.scape_project.planning.services.action.ActionInfo;
 
 public class MiniMeeServiceRegistry implements IPreservationActionRegistry {
     private MiniMeeRegistry registry = new MiniMeeRegistry();
@@ -54,7 +54,7 @@ public class MiniMeeServiceRegistry implements IPreservationActionRegistry {
         List<PreservationActionService> services = registry.findServices(sourceFormat, null);
         ArrayList<IActionInfo> result = new ArrayList<IActionInfo>();
         for (PreservationActionService service : services) {
-            PreservationActionInfo def = new PreservationActionInfo();
+            ActionInfo def = new ActionInfo();
             def.setShortname(service.getName());
             if (service.getTargetFormat() != null) {
                 def.setTargetFormat(service.getTargetFormat().getDefaultExtension());

@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:cc="http://java.sun.com/jsf/composite"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -14,6 +15,7 @@
 	<cc:attribute name="labelText" required="false"></cc:attribute>
 	<cc:attribute name="input" required="false" />
 	<cc:attribute name="required" />
+	<cc:attribute name="validate" default="true" />
 	<cc:attribute name="touchable" />
 	<cc:attribute name="rerender" />
 	<cc:attribute name="disabled" required="false" default="false" />
@@ -35,14 +37,16 @@
 				</a>
 			</div>
 			<div class="input">
-				<h:inputText id="#{cc.attrs.id}_input" value="#{cc.attrs.input}"
-					class="p-input-text" required="#{cc.attrs.required}"
-					label="#{cc.attrs.labelText}" disabled="#{cc.attrs.disabled}">
-					<a4j:ajax event="change" onbeforesubmit="changed()"
-						listener="#{cc.attrs.touchable.touch()}"
-						disabled="#{cc.attrs.touchable == null}"
-						render="#{cc.attrs.rerender}" />
-				</h:inputText>
+				<f:validateBean disabled="#{!cc.attrs.validate}">
+					<h:inputText id="#{cc.attrs.id}_input" value="#{cc.attrs.input}"
+						class="p-input-text" required="#{cc.attrs.required}"
+						label="#{cc.attrs.labelText}" disabled="#{cc.attrs.disabled}">
+						<a4j:ajax event="change" onbeforesubmit="changed()"
+							listener="#{cc.attrs.touchable.touch()}"
+							disabled="#{cc.attrs.touchable == null}"
+							render="#{cc.attrs.rerender}" />
+					</h:inputText>
+				</f:validateBean>
 				<div class="input-children">
 					<cc:insertChildren />
 				</div>
@@ -50,29 +54,22 @@
 		</c:if>
 		<c:if test="#{cc.attrs.labelText == null}">
 			<div class="input-no-label">
-				<h:inputText id="#{cc.attrs.id}_input" value="#{cc.attrs.input}"
-					class="p-input-text" required="#{cc.attrs.required}"
-					label="#{cc.attrs.labelText}">
-					<a4j:ajax event="change" onbeforesubmit="changed()"
-						listener="#{cc.attrs.touchable.touch()}"
-						disabled="#{cc.attrs.touchable == null}"
-						render="#{cc.attrs.rerender}" />
-				</h:inputText>
+				<f:validateBean disabled="#{!cc.attrs.validate}">
+					<h:inputText id="#{cc.attrs.id}_input" value="#{cc.attrs.input}"
+						class="p-input-text" required="#{cc.attrs.required}"
+						label="#{cc.attrs.labelText}">
+						<a4j:ajax event="change" onbeforesubmit="changed()"
+							listener="#{cc.attrs.touchable.touch()}"
+							disabled="#{cc.attrs.touchable == null}"
+							render="#{cc.attrs.rerender}" />
+					</h:inputText>
+				</f:validateBean>
 				<div class="input-children">
 					<cc:insertChildren />
 				</div>
 			</div>
 		</c:if>
 
-		<!-- <div class="marks">
-      <c:if test="#{cc.attrs.helpLink}">
-        <a href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" target="_blank">
-           <img src="../resources/gfx/help-browser.png" alt="Help Link" />
-        </a>
-      </c:if>
-      <c:if test="#{cc.attrs.required}">*</c:if>		
-    </div>
-     -->
 		<div class="errorMessage">
 			<rich:message showSummary="true" showDetail="false"
 				id="#{cc.attrs.id}_error" for="#{cc.attrs.id}_input" />

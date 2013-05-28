@@ -34,10 +34,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 
+import eu.scape_project.planning.exception.PlanningException;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import eu.scape_project.planning.exception.PlanningException;
 
 /**
  * Class containing all properties for workflow step 'Define Alternatives'.
@@ -238,12 +238,10 @@ public class AlternativesDefinition implements Serializable, ITouchable {
      *             with an already existing name).
      */
     public void addAlternative(Alternative alternative) throws PlanningException {
-        // throw an Exception if the given alternative name is not unique
         if (!isAlternativeNameUnique(alternative.getName())) {
             throw new PlanningException("A unique name must be provided for the alternative.");
         }
 
-        // to ensure referential integrity
         alternative.setAlternativesDefinition(this);
         alternatives.add(alternative);
     }

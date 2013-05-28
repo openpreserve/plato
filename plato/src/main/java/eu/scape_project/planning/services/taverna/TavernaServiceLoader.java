@@ -24,10 +24,9 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import eu.scape_project.planning.services.IServiceInfo;
-import eu.scape_project.planning.services.taverna.model.WorkflowDescription;
-
 import org.slf4j.Logger;
+
+import eu.scape_project.planning.services.taverna.model.WorkflowDescription;
 
 /**
  * Asynchronous loader for Taverna services.
@@ -51,8 +50,8 @@ public class TavernaServiceLoader implements Serializable {
      * @return a future of the service details
      */
     @Asynchronous
-    public Future<WorkflowDescription> loadWorkflowDescription(IServiceInfo serviceInfo) {
-        log.debug("Loading details of service [{}]", serviceInfo.getDescriptor());
-        return new AsyncResult<WorkflowDescription>(myExperimentRESTClient.getWorkflow(serviceInfo.getDescriptor()));
+    public Future<WorkflowDescription> loadWorkflowDescription(String descriptor) {
+        log.debug("Loading details of service [{}].", descriptor);
+        return new AsyncResult<WorkflowDescription>(myExperimentRESTClient.getWorkflow(descriptor));
     }
 }
