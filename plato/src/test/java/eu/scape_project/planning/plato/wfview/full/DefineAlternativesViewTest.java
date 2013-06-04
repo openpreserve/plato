@@ -22,10 +22,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.utils.FacesMessages;
@@ -70,42 +66,5 @@ public class DefineAlternativesViewTest {
 
         verify(defineAlternativesView.getPlan(), times(1)).removeAlternative(clickedAlternative);
         verify(defineAlternativesView.getFacesMessages(), times(1)).addInfo(anyString());
-    }
-
-    @Test
-    public void editAlternative_editExistingAlternativeChangesExistingOne() throws PlanningException {
-        Alternative alt1 = new Alternative("alt1", "alt1");
-        Alternative alt2 = new Alternative("alt2", "alt2");
-
-        List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-        existingAlternatives.add(alt1);
-        existingAlternatives.add(alt2);
-        defineAlternativesView.setAlternatives(existingAlternatives);
-
-        defineAlternativesView.setEditableAlternative(alt1);
-        defineAlternativesView.setEditableAlternativeName("newName");
-
-        defineAlternativesView.editAlternative();
-
-        verify(defineAlternativesView.getPlan(), times(0)).addAlternative(alt1);
-        verify(defineAlternativesView.getPlan(), times(1)).renameAlternative(alt1, "newName");
-    }
-
-    @Test
-    public void editAlternative_editNewAlternativeAddsNewAlternativeToList() throws PlanningException {
-        Alternative alt1 = new Alternative("alt1", "alt1");
-        Alternative alt2 = new Alternative("alt2", "alt2");
-
-        List<Alternative> existingAlternatives = new ArrayList<Alternative>();
-        existingAlternatives.add(alt1);
-        existingAlternatives.add(alt2);
-        defineAlternativesView.setAlternatives(existingAlternatives);
-
-        Alternative altNew = new Alternative("alt new", "altnew");
-        defineAlternativesView.setEditableAlternative(altNew);
-        defineAlternativesView.editAlternative();
-
-        verify(defineAlternativesView.getPlan(), times(1)).addAlternative(altNew);
-        verify(defineAlternativesView.getPlan(), times(0)).renameAlternative(altNew, "newName");
     }
 }
