@@ -22,6 +22,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.ITouchable;
 import eu.scape_project.planning.model.Plan;
@@ -29,8 +31,6 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
-
-import org.slf4j.Logger;
 
 /**
  * This class represents the core/base-functionality of each viewWorkflow step.
@@ -48,12 +48,12 @@ public abstract class AbstractView implements Serializable {
     protected FacesMessages facesMessages;
 
     /**
-     * The plan to modify/work on
+     * The plan to modify/work on.
      */
     protected Plan plan;
 
     /**
-     * Planstate this viewWorkflow step is responsible for
+     * Planstate this viewWorkflow step is responsible for.
      */
     protected PlanState currentPlanState;
 
@@ -79,6 +79,9 @@ public abstract class AbstractView implements Serializable {
      */
     protected String changed;
 
+    /**
+     * Creates a new abstract view object.
+     */
     public AbstractView() {
         this.currentPlanState = PlanState.CREATED;
         this.name = "abstract step";
@@ -90,6 +93,7 @@ public abstract class AbstractView implements Serializable {
      * corresponding BL
      * 
      * @param plan
+     *            plan used to initialize
      */
     public void init(Plan plan) {
         this.plan = plan;
@@ -103,11 +107,10 @@ public abstract class AbstractView implements Serializable {
     public void save() {
         try {
             getWfStep().save();
-            init(plan);
             changed = "";
             facesMessages.addInfo("Your changes have been saved.");
         } catch (Exception e) {
-            facesMessages.addError("Failed to save Your changes");
+            facesMessages.addError("Failed to save your changes");
             log.error("failed to save changes:", e);
         }
     }
@@ -133,7 +136,7 @@ public abstract class AbstractView implements Serializable {
     /**
      * Finishes the current step - this includes validating if the plan has
      * progressed enough - if there are problems, they are displayed as
-     * FacesMessages
+     * FacesMessages.
      * 
      * @return "success", if the plan state could be advanced, <code>null</code>
      *         otherwise
@@ -157,12 +160,18 @@ public abstract class AbstractView implements Serializable {
      * should be added to the provided list.
      * 
      * @param errors
+     *            list of errors
      * @return true, if plan state could be advanced
      */
     protected boolean tryProceed(List<ValidationError> errors) {
         return getWfStep().proceed(errors);
     }
 
+    /**
+     * Returns the workflow stop of this view.
+     * 
+     * @return the current workflow step
+     */
     protected abstract AbstractWorkflowStep getWfStep();
 
     // --------------- getter/setter ---------------
@@ -212,6 +221,7 @@ public abstract class AbstractView implements Serializable {
      * with complex method el expressions
      * 
      * @param object
+     *            the object to touch
      */
     public void touch(Object object) {
         if (object instanceof ITouchable) {
