@@ -1,8 +1,8 @@
 language: java
 
-install: mvn install -DskipTests=true -B -P -arquillian-jbossas-managed
+# install: mvn install -DskipTests=true -B -P no-integration-tests,-integration-tests
 
-script: mvn test -P -arquillian-jbossas-managed
+script: mvn clean install -B -P no-integration-tests,-integration-tests
 
 branches:
   only:

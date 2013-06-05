@@ -311,7 +311,7 @@ public class DefineAlternativesView extends AbstractView {
         if (editableAlternative != null) {
             errors
                 .add(new ValidationError(
-                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step."));
+                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step.", editableAlternative));
         }
 
         // general validation

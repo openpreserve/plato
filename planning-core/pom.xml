@@ -17,10 +17,17 @@
 	<properties>
 		<configuration.location.user>.plato</configuration.location.user>
 		<configuration.location.system>/etc/plato</configuration.location.system>
+
+	    <version.org.jboss.arquillian>1.0.3.Final</version.org.jboss.arquillian>
+	    <version.org.jboss.arquillian.drone>1.2.0.Alpha1</version.org.jboss.arquillian.drone>
 	</properties>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<artifactId>maven-ejb-plugin</artifactId>
 				<version>2.3</version>
@@ -46,31 +53,7 @@
 					</environmentVariables>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.12</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<environmentVariables>
-						<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
-					</environmentVariables>
-				</configuration>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>verify</id>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 			<!-- this create jar file of code from src/test/java so modules with tests 
 				can share code -->
 			<plugin>
@@ -83,16 +66,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<testExcludes>
-						<exclude>**/*IT.java</exclude>
-						<exclude>**/application/*.java</exclude>
-					</testExcludes>
-				</configuration>
 			</plugin>
 		</plugins>
 		<resources>
@@ -175,6 +148,7 @@
 			<version>${plato-model.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-digester3</artifactId>
@@ -299,7 +273,25 @@
 
 	<profiles>
 		<profile>
-			<id>arquillian-jbossas-managed</id>
+			<id>no-integration-tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+						    <!-- exclude all classes which depend on arquillian etc -->
+		 					<testExcludes>
+								<exclude>**/*IT.java</exclude>
+								<exclude>**/application/*.java</exclude>
+							</testExcludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>integration-tests</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -307,22 +299,40 @@
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.12</version>
 						<configuration>
-							<testExcludes combine.self="override" />
+							<encoding>UTF-8</encoding>
+							<environmentVariables>
+								<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
+							</environmentVariables>
 						</configuration>
-					</plugin>
-				</plugins>
+		 				<executions>
+							<execution>
+								<id>integration-test</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+		 			</plugin>
+ 				</plugins>
 			</build>
 			<dependencyManagement>
 				<dependencies>
-					<dependency>
-						<groupId>org.jboss.arquillian</groupId>
-						<artifactId>arquillian-bom</artifactId>
-						<version>1.0.2.Final</version>
-						<scope>import</scope>
-						<type>pom</type>
-					</dependency>
+			        <dependency>
+			            <groupId>org.jboss.arquillian</groupId>
+			            <artifactId>arquillian-bom</artifactId>
+			            <version>${version.org.jboss.arquillian}</version>
+			            <type>pom</type>
+			            <scope>import</scope>
+			        </dependency>        
 				</dependencies>
 			</dependencyManagement>
 

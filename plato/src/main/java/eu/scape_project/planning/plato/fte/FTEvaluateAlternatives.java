@@ -128,7 +128,7 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
         EvaluationStatus evaluationStatus = plan.getTree().getRoot().getEvaluationStatus();
 
         if (evaluationStatus != EvaluationStatus.COMPLETE) {
-            errors.add(new ValidationError("Experiments have not been conducted."));
+            errors.add(new ValidationError("Experiments have not been conducted.", evaluationStatus));
             return false;
         }
         boolean result = true;

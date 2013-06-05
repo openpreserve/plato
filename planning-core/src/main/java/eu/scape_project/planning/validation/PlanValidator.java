@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Decision;
@@ -28,7 +31,6 @@ import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.tree.TreeNode;
-import eu.scape_project.planning.validation.ValidationError;
 
 /**
  * Validates a plan against a plan state.
@@ -63,6 +65,9 @@ public class PlanValidator implements Serializable {
 //        if (plan.getPlanProperties().getState().getValue() < (state.getValue() - 1)) {
 //            return false;
 //        }
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        
         switch (state) {
             case BASIS_DEFINED:
                 result = isBasisDefinedSatisfied(plan, errors);

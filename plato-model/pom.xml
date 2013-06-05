@@ -146,6 +146,7 @@
 	</build>
 
 	<repositories>
+		<!-- we define a local repository for flanagan -->
 		<repository>
 			<id>plato-model-lib</id>
 			<name>Plato model libraries</name>

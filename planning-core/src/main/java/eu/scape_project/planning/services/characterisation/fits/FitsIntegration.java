@@ -17,10 +17,7 @@
 package eu.scape_project.planning.services.characterisation.fits;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Properties;
 
 import org.dom4j.io.OutputFormat;
 import org.slf4j.Logger;
@@ -46,11 +43,14 @@ public class FitsIntegration implements Serializable {
     public FitsIntegration() throws PlanningException{
         FITS_HOME = System.getenv("FITS_HOME");
         if (FITS_HOME == null) {
-            throw new PlanningException("FITS is not propertly configured - FITS_HOME is not defined.");
+            log.warn("FITS is not propertly configured (FITS_HOME is not defined) - characterisation will not be available.");
         }
     }
     
     public String characterise(File input) throws PlanningException{
+        if (FITS_HOME == null) {
+            throw new PlanningException("FITS is not properly configured (FITS_HOME is not defined).");
+        }
         CommandExecutor cmdExecutor = new CommandExecutor();
         cmdExecutor.setWorkingDirectory(FITS_HOME);
         String scriptExt;

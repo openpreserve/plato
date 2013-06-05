@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import eu.scape_project.planning.manager.CriteriaManager;
 import eu.scape_project.planning.model.measurement.Attribute;
 import eu.scape_project.planning.model.measurement.CriterionCategory;
 import eu.scape_project.planning.model.measurement.Measure;
@@ -18,21 +17,8 @@ import eu.scape_project.planning.model.scales.PositiveIntegerScale;
 import eu.scape_project.planning.model.scales.RestrictedScale;
 import eu.scape_project.planning.model.scales.Scale;
 
-//@RunWith(Arquillian.class)
 public class CriteriaManagerTest {
 
-//	@Deployment
-//	public static WebArchive createDeployment() {
-//		WebArchive wa = ShrinkWrap 
-//				.create(WebArchive.class)
-//				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-//				.addClasses(QueryFactory.class, ITouchable.class, Model.class, Query.class, PositiveIntegerScale.class, RestrictedScale.class, BooleanScale.class, FreeStringScale.class,
-//						FloatScale.class, PositiveFloatScale.class, OrdinalScale.class, LoggerFactory.class, Scale.class, CriteriaManager.class);
-//
-//		System.out.println(wa.toString(true));
-//		return wa;
-//	}
-	
         private static CriteriaManager criteriaManager;
     
         @BeforeClass
