@@ -34,7 +34,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 
-import eu.scape_project.planning.criteria.bean.CriterionSelector.ChangeListener;
+import eu.scape_project.planning.bean.CriterionSelector;
+import eu.scape_project.planning.bean.CriterionSelector.ChangeListener;
 import eu.scape_project.planning.criteria.bean.DominatedSets.Aggregation;
 import eu.scape_project.planning.criteria.bean.data.DiagramData;
 import eu.scape_project.planning.criteria.bean.data.PotentialToRangeMaxData;
@@ -233,7 +234,7 @@ public class KBrowser implements Serializable {
         importanceAnalysis = new ImportanceAnalysis(usedMeasures.values(), planLeaves, selectedPlans);
 
         dominatedSetCalculator = new RankChangingDominatedSets(selectedPlans, planLeaves);
-        dominatedUriSets = dominatedSetCalculator.getDominatedSets(Aggregation.ANY);
+        dominatedUriSets = dominatedSetCalculator.getDominatedSets(Aggregation.ALL);
         dominatedSetPlans.clear();
 
         dominatedSets = new ArrayList<List<Measure>>(dominatedUriSets.size());

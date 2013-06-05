@@ -1,0 +1,88 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:p="http://java.sun.com/jsf/composite/plato">
+
+<cc:interface>
+	<cc:attribute name="id" required="true" />
+	<cc:attribute name="actionInfo" required="true" />
+	<cc:attribute name="data" required="true" />
+	<cc:attribute name="queueName" required="false" />
+</cc:interface>
+
+<cc:implementation>
+	<a4j:outputPanel id="#{cc.attrs.id}">
+		<ui:remove>
+			<a4j:jsFunction name="loadData#{cc.attrs.id}"
+				actionListener="#{cc.attrs.data.loadWorkflowDescription(cc.attrs.actionInfo)}"
+				status="#{cc.attrs.id}_service_status" immediate="true" />
+			<script type="text/javascript">
+				jQuery(document).ready(function() {
+					loadData#{cc.attrs.id}();
+				});
+    		</script>
+		</ui:remove>
+
+		<a4j:outputPanel id="poll-region">
+			<a4j:region>
+				<a4j:poll id="poll" interval="1000"
+					render="poll-region service_panel"
+					enabled="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}" />
+			</a4j:region>
+		</a4j:outputPanel>
+
+		<a4j:outputPanel id="service_panel">
+			<a4j:outputPanel id="info" styleClass="service-info-panel"
+				rendered="#{cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}">
+				<div class="service-info-header">
+					<h:outputText value="#{cc.attrs.actionInfo.shortname}" />
+					<h:outputText
+						value=" (v#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).version})" />
+				</div>
+				<div class="service-info-preview">
+					<img
+						src="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).svg}"
+						onerror="this.style.display='none'" />
+				</div>
+				<div class="service-info-info">
+					<h:outputText value="#{cc.attrs.actionInfo.info}" />
+				</div>
+				<div class="service-info-footer">
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.actionInfo.descriptor}">
+						<h:outputLink value="#{cc.attrs.actionInfo.descriptor}"
+							target="_blank">Open on myExperiment</h:outputLink>
+					</a4j:outputPanel>
+					|
+					<ui:repeat
+						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).tags}"
+						varStatus="loop" var="tag">
+						<h:outputLink value="#{tag.resource}" target="_blank">#{!loop.first ? ',' : ''} #{tag.name}</h:outputLink>
+					</ui:repeat>
+					|
+					<h:outputLink
+						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.resource}"
+						target="_blank">#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.name}</h:outputLink>
+				</div>
+			</a4j:outputPanel>
+			<a4j:outputPanel id="status" styleClass="service-info-panel"
+				rendered="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}">
+
+
+
+				<p:service actionInfo="#{cc.attrs.actionInfo}">
+					<f:facet name="status">
+						<h:graphicImage library="gfx" name="ajax-loader.gif" />
+					</f:facet>
+				</p:service>
+			</a4j:outputPanel>
+		</a4j:outputPanel>
+	</a4j:outputPanel>
+</cc:implementation>
+</html>

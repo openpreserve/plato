@@ -26,7 +26,7 @@
 			</div>
 		</div>
 
-		<h:form id="mainForm">
+		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{runExperiments.changed}"
 				style="display:none" />
 
@@ -116,7 +116,7 @@
 				oncomplete="#{rich:component('execPanel')}.show()"
 				render="alternativesTable,execPanel" />
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 
@@ -143,9 +143,8 @@
 			</a4j:poll>
 		</h:form>
 		<h:form id="executeExperimentsForm">
-			<rich:popupPanel id="execPanel" width="600" height="200"
-				domElementAttachment="form"
-				onmaskclick="#{rich:component('execPanel')}.hide();">
+			<rich:popupPanel id="execPanel" width="600" height="200" modal="true"
+				domElementAttachment="form">
 				<f:facet name="header">
 					<h:outputText value="Run Migrations" />
 				</f:facet>
@@ -163,7 +162,7 @@
 							value="Each will be applied to #{runExperiments.experimentStatus.samplesTotal} sample object(s)." />
 						<br />
 
-						<a4j:commandButton onbegin=""
+						<a4j:commandButton id="startCmd"
 							action="#{runExperiments.startExperiments}"
 							title="Start experiments" render="poll" value="Start">
 							<a4j:attachQueue name="cmdQueue"></a4j:attachQueue>
@@ -188,7 +187,7 @@
 							rendered="#{runExperiments.experimentStatus.currentSample != null}" />
 						<br />
 						<br />
-						<a4j:commandButton
+						<a4j:commandButton id="cancel"
 							rendered="#{not (runExperiments.experimentStatus.finished or runExperiments.experimentStatus.canceled)}"
 							action="#{runExperiments.experimentStatus.setCanceled(true)}"
 							value="Cancel experiments" />
@@ -196,7 +195,7 @@
 						<h:outputText
 							rendered="#{runExperiments.experimentStatus.canceled and (not runExperiments.experimentStatus.finished)}"
 							value="Canceling experiments. Please wait until the currently active migration has finished." />
-						<a4j:outputPanel
+						<a4j:outputPanel id="finished"
 							rendered="#{runExperiments.experimentStatus.finished}">
 							<b> <h:outputText
 									rendered="#{not runExperiments.experimentStatus.canceled}"
@@ -204,7 +203,7 @@
 									rendered="#{runExperiments.experimentStatus.canceled}"
 									value="Canceled experiments!" />
 							</b>
-							<a4j:commandButton
+							<a4j:commandButton id="closeCmd"
 								action="#{runExperiments.experimentStatus.clear()}" title="Ok"
 								value="Close"
 								oncomplete="#{rich:component('execPanel')}.hide();"
@@ -221,7 +220,7 @@
                         If the form is not placed outside/around backing bean actions are not called as expected. They are only called after
                         the second click (on buttons, etc.).
         -->
-		<h:form>
+		<h:form id="uploadform">
 			<!-- upload panel -->
 			<rich:popupPanel id="uploadPanel" width="500" height="450"
 				domElementAttachment="form">

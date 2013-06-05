@@ -20,13 +20,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
+import eu.scape_project.planning.xml.StrictErrorHandler;
+
 import org.apache.commons.digester3.Digester;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
-import eu.scape_project.planning.services.PlanningServiceException;
-import eu.scape_project.planning.xml.StrictErrorHandler;
 
 /**
  * Provides a list of defined preservation service registries. Creates instances
@@ -99,7 +99,6 @@ public class PreservationActionRegistryFactory {
             throw new PlanningServiceException(e);
         }
         return allRegistries;
-
     }
 
 }

@@ -64,6 +64,8 @@ public class IdpUserTest {
         user.getRoles().add(role1);
 
         em.getTransaction().begin();
+        em.persist(role0);
+        em.persist(role1);
         em.persist(user);
         em.getTransaction().commit();
 
@@ -100,6 +102,8 @@ public class IdpUserTest {
         IdpUser user = createUser("testUser", role0, role1);
 
         em.getTransaction().begin();
+        em.persist(role0);
+        em.persist(role1);
         em.persist(user);
         em.getTransaction().commit();
         em.clear();
@@ -145,6 +149,8 @@ public class IdpUserTest {
         IdpUser user = createUser("testUser", role0, role1);
 
         em.getTransaction().begin();
+        em.persist(role0);
+        em.persist(role1);
         em.persist(user);
         em.getTransaction().commit();
         em.clear();
@@ -181,9 +187,9 @@ public class IdpUserTest {
         // delete probably conflicting test-user
         em.getTransaction().begin();
 
-        List<IdpUser> userToDelete = (List<IdpUser>) em
-            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username").setParameter("username", username)
-            .getResultList();
+        List<IdpUser> userToDelete = em
+            .createQuery("SELECT u FROM IdpUser u WHERE u.username = :username", IdpUser.class)
+            .setParameter("username", username).getResultList();
 
         for (IdpUser delUser : userToDelete) {
             em.remove(delUser);
@@ -196,9 +202,9 @@ public class IdpUserTest {
         // delete probably conflicting test-user
         em.getTransaction().begin();
 
-        List<IdpRole> rolesToDelete = (List<IdpRole>) em
-            .createQuery("SELECT r FROM IdpRole r WHERE r.roleName = :roleName").setParameter("roleName", roleName)
-            .getResultList();
+        List<IdpRole> rolesToDelete = em
+            .createQuery("SELECT r FROM IdpRole r WHERE r.roleName = :roleName", IdpRole.class)
+            .setParameter("roleName", roleName).getResultList();
 
         for (IdpRole delRole : rolesToDelete) {
             em.remove(delRole);

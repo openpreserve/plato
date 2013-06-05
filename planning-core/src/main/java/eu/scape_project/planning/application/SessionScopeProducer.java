@@ -46,7 +46,7 @@ import eu.scape_project.planning.model.UserGroup;
  * @author Michael Kraxner, Markus Hamm
  */
 @SessionScoped
-@Stateful
+//@Stateful
 public class SessionScopeProducer implements Serializable, IAuthenticatedUserProvider {
     private static final long serialVersionUID = -830549797293803656L;
 

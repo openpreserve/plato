@@ -7,10 +7,10 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import eu.scape_project.planning.services.action.IActionInfo;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import eu.scape_project.planning.model.PreservationActionDefinition;
 
 public class SparqlResultComponentsParserTest {
     private SparqlResultComponentsParser parser;
@@ -22,7 +22,7 @@ public class SparqlResultComponentsParserTest {
 
     @Test
     public void testSuccessfulParsing() throws Exception {
-        List<PreservationActionDefinition> components = new ArrayList<PreservationActionDefinition>();
+        List<IActionInfo> components = new ArrayList<IActionInfo>();
 
         Reader reader = new FileReader("src/test/resources/data/component/lookup-response-sample1.xml");
 
@@ -30,11 +30,12 @@ public class SparqlResultComponentsParserTest {
 
         Assert.assertEquals(8, components.size());
 
-        Assert.assertEquals("http://www.myexperiment.org/workflows/2639", components.get(0).getDescriptor());
-        Assert.assertEquals("http://www.myexperiment.org/workflows/2639/download/_untitled__549972.t2flow?version=4",
-            components.get(0).getUrl());
+        Assert.assertEquals("http://www.myexperiment.org/workflows/2639/versions/4", components.get(0).getDescriptor());
+        Assert
+            .assertEquals("http://www.myexperiment.org/workflows/2639/download?version=4", components.get(0).getUrl());
         Assert.assertEquals("Mock-Up mp3 To Wav Migrate And QA", components.get(0).getShortname());
         Assert.assertNotNull(components.get(0).getInfo());
+        Assert.assertEquals("myExperiment", components.get(0).getServiceIdentifier());
     }
 
 }

@@ -33,6 +33,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 
+import eu.scape_project.planning.bean.CriterionSelector;
 import eu.scape_project.planning.criteria.xml.CriteriaHierarchyExporter;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.CriteriaManager;
@@ -251,11 +252,9 @@ public class CriteriaHierarchyHelperBean implements Serializable {
      * @param leaf
      *            Selected leaf
      */
-    public void selectLeaf(Object leaf) {
-        if (!(leaf instanceof CriteriaLeaf)) {
-            return;
-        }
+    public void selectLeaf(CriteriaLeaf leaf) {
         selectedLeaf = (CriteriaLeaf) leaf;
+        criterionSelector.selectMeasure(selectedLeaf.getMeasure());
         log.debug("Selected leaf with id=" + selectedLeaf.getId());
     }
 

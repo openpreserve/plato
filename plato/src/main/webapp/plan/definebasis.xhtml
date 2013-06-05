@@ -45,107 +45,107 @@
 			<h:commandLink action="#{defineBasis.discard}" value="Test Changed"
 				onclick="return mayExit_noClick();" style="display:none" />
 
+			<h:panelGroup id="all_fields_panel">
+				<fieldset id="preservationCases_fieldset" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<ui:include src="/plato/shared/legend_nav.xhtml" />
+						<h:outputText value="Preservation case" />
+					</legend>
+					<h:panelGroup id="no_policies_panel"
+						rendered="#{empty(defineBasis.preservationCases)}">
+						<p>Do you have defined your control policies? Upload them for
+							your group to use this information for your plan.</p>
+					</h:panelGroup>
+					<h:panelGroup id="policies_panel"
+						rendered="#{not empty(defineBasis.preservationCases)}">
+						<p>You have defined control policies for your group or
+							organization. You can select the preservation case for which you
+							want to create this preservation plan.</p>
+						<p>
+							<span class="done"> <h:outputText
+									value="Chosen preservation case #{defineBasis.selectedPreservationCase.name}"
+									rendered="#{not empty(defineBasis.selectedPreservationCase)}" />
+							</span>
+						</p>
+						<a4j:commandButton value="Select preservation case"
+							oncomplete="#{rich:component('preservationCaseSelectionPopupPanel')}.show()" />
+					</h:panelGroup>
+				</fieldset>
+				<fieldset id="identification_fieldset" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						mainform
+						<ui:include src="/plato/shared/legend_nav.xhtml" />
+						<h:outputText value="Identification" />
+					</legend>
+					<p:inputText labelText="Identification Code:"
+						id="identificationCode"
+						input="#{defineBasis.plan.projectBasis.identificationCode}"
+						touchable="#{defineBasis.plan.projectBasis}">
+					</p:inputText>
+					<p:inputTextArea labelText="Document types:" id="documentTypes"
+						input="#{defineBasis.plan.projectBasis.documentTypes}"
+						touchable="#{defineBasis.plan.projectBasis}" required="true" />
+					<p:inputText labelText="Plan name:" id="planName"
+						input="#{defineBasis.plan.planProperties.name}"
+						touchable="#{defineBasis.plan.planProperties}" required="true" />
 
-			<fieldset id="preservationCases_fieldset" class="size-full">
-				<legend class="fieldset-full-size-legend">
-					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					<h:outputText value="Preservation case" />
-				</legend>
-				<h:panelGroup id="no_policies_panel"
-					rendered="#{empty(defineBasis.preservationCases)}">
-					<p>Do you have defined your control policies? Upload them for
-						your group to use this information for your plan.</p>
-				</h:panelGroup>
-				<h:panelGroup id="policies_panel"
-					rendered="#{not empty(defineBasis.preservationCases)}">
-					<p>You have defined control policies for your group or
-						organization. You can select the preservation case for which you want to
-						create this preservation plan.</p>
-					<p>
-						<span class="done">
-						<h:outputText
-							value="Chosen preservation case #{defineBasis.selectedPreservationCase.name}"
-							rendered="#{not empty(defineBasis.selectedPreservationCase)}" />
-						</span>
-					</p>
-					<a4j:commandButton value="Select preservation case"
-						oncomplete="#{rich:component('preservationCaseSelectionPopupPanel')}.show()" />
-				</h:panelGroup>
-			</fieldset>
-			<fieldset id="identification_fieldset" class="size-full">
-				<legend class="fieldset-full-size-legend">mainform
-					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					<h:outputText value="Identification" />
-				</legend>
-				<p:inputText labelText="Identification Code:"
-					id="identificationCode"
-					input="#{defineBasis.plan.projectBasis.identificationCode}"
-					touchable="#{defineBasis.plan.projectBasis}">
-				</p:inputText>
-				<p:inputTextArea labelText="Document types:" id="documentTypes"
-					input="#{defineBasis.plan.projectBasis.documentTypes}"
-					touchable="#{defineBasis.plan.projectBasis}" required="true" />
-				<p:inputText labelText="Plan name:" id="planName"
-					input="#{defineBasis.plan.planProperties.name}"
-					touchable="#{defineBasis.plan.planProperties}" required="true" />
+					<p:inputTextArea labelText="Plan description:" id="planDescription"
+						input="#{defineBasis.plan.planProperties.description}"
+						touchable="#{defineBasis.plan.planProperties}" required="true" />
 
-				<p:inputTextArea labelText="Plan description:" id="planDescription"
-					input="#{defineBasis.plan.planProperties.description}"
-					touchable="#{defineBasis.plan.planProperties}" required="true" />
-
-				<p:inputText labelText="Responsible planners:"
-					id="responsiblePlanner"
-					input="#{defineBasis.plan.planProperties.author}"
-					touchable="#{defineBasis.plan.planProperties}" required="true" />
-				<p:inputText labelText="Organisation:" id="organisation"
-					input="#{defineBasis.plan.planProperties.organization}"
-					touchable="#{defineBasis.plan.planProperties}" required="true" />
-			</fieldset>
-			<fieldset id="status_fieldset" class="size-full">
-				<legend class="fieldset-full-size-legend">
-					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					<h:outputText value=" Status" />
-				</legend>
-				<p:inputTextArea labelText="Mandate (e.g. Mission statement):"
-					id="mandate" input="#{defineBasis.plan.projectBasis.mandate}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<p:inputTextArea labelText="Planning purpose:" id="planningPurpose"
-					input="#{defineBasis.plan.projectBasis.planningPurpose}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<p:inputTextArea labelText="Designated community:"
-					id="designatedCommunity"
-					input="#{defineBasis.plan.projectBasis.designatedCommunity}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<p:inputTextArea labelText="Applying policies:"
-					id="applyingPolicies"
-					input="#{defineBasis.plan.projectBasis.applyingPolicies}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<p:inputTextArea
-					labelText="Relevant organisational procedures and workflows:"
-					id="organisationalProcedures"
-					input="#{defineBasis.plan.projectBasis.organisationalProcedures}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<p:inputTextArea
-					labelText="Contracts and agreements specifying preservation rights:"
-					id="preservationRights"
-					input="#{defineBasis.plan.projectBasis.preservationRights}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<p:inputTextArea
-					labelText="Reference to agreements of maintenance and access:"
-					id="referenceToAgreements"
-					input="#{defineBasis.plan.projectBasis.referenceToAgreements}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-			</fieldset>
-			<fieldset id="description_fieldset" class="size-full">
-				<legend class="fieldset-full-size-legend">
-					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					<h:outputText value=" Description" />
-				</legend>
-				<p:inputTextArea labelText="Relations to other plans:"
-					id="planRelations"
-					input="#{defineBasis.plan.projectBasis.planRelations}"
-					touchable="#{defineBasis.plan.projectBasis}" />
-				<script type="text/javascript">
+					<p:inputText labelText="Responsible planners:"
+						id="responsiblePlanner"
+						input="#{defineBasis.plan.planProperties.author}"
+						touchable="#{defineBasis.plan.planProperties}" required="true" />
+					<p:inputText labelText="Organisation:" id="organisation"
+						input="#{defineBasis.plan.planProperties.organization}"
+						touchable="#{defineBasis.plan.planProperties}" required="true" />
+				</fieldset>
+				<fieldset id="status_fieldset" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<ui:include src="/plato/shared/legend_nav.xhtml" />
+						<h:outputText value=" Status" />
+					</legend>
+					<p:inputTextArea labelText="Mandate (e.g. Mission statement):"
+						id="mandate" input="#{defineBasis.plan.projectBasis.mandate}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<p:inputTextArea labelText="Planning purpose:" id="planningPurpose"
+						input="#{defineBasis.plan.projectBasis.planningPurpose}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<p:inputTextArea labelText="Designated community:"
+						id="designatedCommunity"
+						input="#{defineBasis.plan.projectBasis.designatedCommunity}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<p:inputTextArea labelText="Applying policies:"
+						id="applyingPolicies"
+						input="#{defineBasis.plan.projectBasis.applyingPolicies}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<p:inputTextArea
+						labelText="Relevant organisational procedures and workflows:"
+						id="organisationalProcedures"
+						input="#{defineBasis.plan.projectBasis.organisationalProcedures}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<p:inputTextArea
+						labelText="Contracts and agreements specifying preservation rights:"
+						id="preservationRights"
+						input="#{defineBasis.plan.projectBasis.preservationRights}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<p:inputTextArea
+						labelText="Reference to agreements of maintenance and access:"
+						id="referenceToAgreements"
+						input="#{defineBasis.plan.projectBasis.referenceToAgreements}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+				</fieldset>
+				<fieldset id="description_fieldset" class="size-full">
+					<legend class="fieldset-full-size-legend">
+						<ui:include src="/plato/shared/legend_nav.xhtml" />
+						<h:outputText value=" Description" />
+					</legend>
+					<p:inputTextArea labelText="Relations to other plans:"
+						id="planRelations"
+						input="#{defineBasis.plan.projectBasis.planRelations}"
+						touchable="#{defineBasis.plan.projectBasis}" />
+					<script type="text/javascript">
 						// removes underscores from the
 						// passed text 
 						function prettify(text) {
@@ -166,59 +166,59 @@
 							});
 						});
 					</script>
-				<table class="tableStyle" border="0">
-					<tr>
-						<th class="tableStyle-header" style="width: 5%;">Active&nbsp;&nbsp;</th>
-						<th class="tableStyle-header" style="width: 10%;">Trigger</th>
-						<th class="tableStyle-header" style="width: 80%;">Description</th>
-					</tr>
-					<p:inputTrigger id="newCollection"
-						trigger="#{defineBasis.plan.projectBasis.triggers.newCollection}"
-						touchable="#{defineBasis.plan.projectBasis}"
-						helpid="triggerComment" />
-					<p:inputTrigger id="periodicReview"
-						trigger="#{defineBasis.plan.projectBasis.triggers.periodicReview}"
-						touchable="#{defineBasis.plan.projectBasis}"
-						helpid="triggerComment" />
-					<p:inputTrigger id="changedEnvironment"
-						trigger="#{defineBasis.plan.projectBasis.triggers.changedEnvironment}"
-						touchable="#{defineBasis.plan.projectBasis}"
-						helpid="triggerComment" />
-					<p:inputTrigger id="changedObjective"
-						trigger="#{defineBasis.plan.projectBasis.triggers.changedObjective}"
-						touchable="#{defineBasis.plan.projectBasis}"
-						helpid="triggerComment" />
-					<p:inputTrigger id="changedCollectionProfile"
-						trigger="#{defineBasis.plan.projectBasis.triggers.changedCollectionProfile}"
-						touchable="#{defineBasis.plan.projectBasis}"
-						helpid="triggerComment" />
-				</table>
-			</fieldset>
+					<table class="tableStyle" border="0">
+						<tr>
+							<th class="tableStyle-header" style="width: 5%;">Active&nbsp;&nbsp;</th>
+							<th class="tableStyle-header" style="width: 10%;">Trigger</th>
+							<th class="tableStyle-header" style="width: 80%;">Description</th>
+						</tr>
+						<p:inputTrigger id="newCollection"
+							trigger="#{defineBasis.plan.projectBasis.triggers.newCollection}"
+							touchable="#{defineBasis.plan.projectBasis}"
+							helpid="triggerComment" />
+						<p:inputTrigger id="periodicReview"
+							trigger="#{defineBasis.plan.projectBasis.triggers.periodicReview}"
+							touchable="#{defineBasis.plan.projectBasis}"
+							helpid="triggerComment" />
+						<p:inputTrigger id="changedEnvironment"
+							trigger="#{defineBasis.plan.projectBasis.triggers.changedEnvironment}"
+							touchable="#{defineBasis.plan.projectBasis}"
+							helpid="triggerComment" />
+						<p:inputTrigger id="changedObjective"
+							trigger="#{defineBasis.plan.projectBasis.triggers.changedObjective}"
+							touchable="#{defineBasis.plan.projectBasis}"
+							helpid="triggerComment" />
+						<p:inputTrigger id="changedCollectionProfile"
+							trigger="#{defineBasis.plan.projectBasis.triggers.changedCollectionProfile}"
+							touchable="#{defineBasis.plan.projectBasis}"
+							helpid="triggerComment" />
+					</table>
+				</fieldset>
 
-			<a4j:outputPanel id="policies" layout="block"
-				rendered="#{defineBasis.plan.projectBasis.policyTree.policyTreeDefined}">
-				<ui:include src="/plato/shared/policytree.xhtml">
-					<ui:param name="treeHelper" value="#{defineBasis.treeHelper}" />
-					<ui:param name="policyTree"
-						value="#{defineBasis.plan.projectBasis.policyTree}" />
-					<ui:param name="policyRoot" value="#{defineBasis.policyRoot}" />
-				</ui:include>
-				<ui:remove>
-					<!-- 
+				<a4j:outputPanel id="policies" layout="block"
+					rendered="#{defineBasis.plan.projectBasis.policyTree.policyTreeDefined}">
+					<ui:include src="/plato/shared/policytree.xhtml">
+						<ui:param name="treeHelper" value="#{defineBasis.treeHelper}" />
+						<ui:param name="policyTree"
+							value="#{defineBasis.plan.projectBasis.policyTree}" />
+						<ui:param name="policyRoot" value="#{defineBasis.policyRoot}" />
+					</ui:include>
+					<ui:remove>
+						<!-- 
 					<a4j:commandButton value="Remove Policy Tree"
 						action="#{defineBasis.removePolicyTree}" render="policies"
 						oncomplete="changed()" />
 					-->
-				</ui:remove>
-			</a4j:outputPanel>
-
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+					</ui:remove>
+				</a4j:outputPanel>
+			</h:panelGroup>
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 		<h:form>
 			<!-- preservation case selection-->
-			<rich:popupPanel id="preservationCaseSelectionPopupPanel" autosized="true"
-				domElementAttachment="form">
+			<rich:popupPanel id="preservationCaseSelectionPopupPanel"
+				autosized="true" domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Select a preservation case" />
@@ -231,8 +231,8 @@
 				</f:facet>
 
 				<h:selectOneListbox size="7" id="preservationCaseSelectionListBox"
-					value="#{defineBasis.selectedPreservationCaseName}" required="false"
-					style="width: 30em;">
+					value="#{defineBasis.selectedPreservationCaseName}"
+					required="false" style="width: 30em;">
 					<f:selectItems value="#{defineBasis.preservationCases}" var="s"
 						itemLabel="#{s.name}" itemValue="#{s.name}" />
 					<a4j:ajax event="change" render="confirmPreservationCasePanel" />
@@ -244,7 +244,7 @@
 						style="color: #FFFFFF;"
 						action="#{defineBasis.useSelectedPreservationCase()}"
 						oncomplete="#{rich:component('preservationCaseSelectionPopupPanel')}.hide()"
-						render="policies_panel,mainform">
+						render="all_fields_panel">
 						<h:graphicImage value="/resources/gfx/icons/apply.png"
 							title="Select a preservation case" width="32" height="32" />
 					</a4j:commandLink>

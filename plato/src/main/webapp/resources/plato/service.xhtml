@@ -1,0 +1,37 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<cc:interface>
+	<cc:attribute name="id" default="myExperimentAction" />
+	<cc:attribute name="actionInfo" required="true" />
+	<cc:facet name="status" />
+</cc:interface>
+
+<cc:implementation>
+	<div class="service-info-panel">
+		<div class="service-info-header">
+			<h:outputText value="#{cc.attrs.actionInfo.shortname}" />
+			<div class="service-info-status">
+				<cc:renderFacet name="status" />
+			</div>
+		</div>
+		<div class="service-info-info">
+			<h:outputText value="#{cc.attrs.actionInfo.info}" />
+		</div>
+		<a4j:outputPanel
+			rendered="#{not empty cc.attrs.actionInfo.descriptor}">
+			<div class="service-info-footer">
+
+				<h:outputLink value="#{cc.attrs.actionInfo.descriptor}"
+					target="_blank">#{cc.attrs.actionInfo.descriptor}</h:outputLink>
+			</div>
+		</a4j:outputPanel>
+	</div>
+</cc:implementation>
+</html>

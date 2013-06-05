@@ -117,16 +117,16 @@
 			<fieldset class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					Executable Plan
+					Executable Plan (Preservation Component)
 				</legend>
 				<a4j:outputPanel id="executablePlan">
 					<div>
 						<input type="button"
 							onclick="$('#uploadT2flowExecutablePlanPanel').toggle('normal');"
-							value="Upload Executable Plan" />
+							value="Upload Executable Plan (Preservation Component)" />
 						<h:commandButton
 							action="#{createExecutablePlan.download(createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan)}"
-							value="Download Executable Plan"
+							value="Download Executable Plan (Preservation Component)"
 							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}" />
 					</div>
 					<div id="uploadT2flowExecutablePlanPanel" class="sampleform">
@@ -143,13 +143,13 @@
 			<fieldset class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
-					Preservation action plan
+					Preservation Action Plan
 				</legend>
 				<a4j:outputPanel id="preservationActionPlan">
 					<div>
 						<h:commandButton
 							action="#{createExecutablePlan.generatePreservationActionPlan()}"
-							value="Generate preservation action plan"
+							value="Generate Preservation Action Plan"
 							rendered="#{createExecutablePlan.papGenerationPossible}" />
 						<h:commandButton
 							action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
@@ -159,7 +159,7 @@
 				</a4j:outputPanel>
 			</fieldset>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 
 	</ui:define>

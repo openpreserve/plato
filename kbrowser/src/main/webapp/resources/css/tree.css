@@ -1,0 +1,133 @@
+.tree-header {
+	font-weight: bold;
+}
+
+.tree-content,.tree-content a {
+	font-size: 11px;
+}
+
+.tree-node {
+	position: relative;
+	border: 1px solid #DDDDDD;
+	margin: -1px;
+	text-decoration: none;
+	overflow: visible; /* Visible to allow overflow of menu */
+	clear: both; /* Clear after header */
+	background: none;
+}
+
+/* Clear after each node */
+.tree-node:before,.tree-node:after {
+	content: "";
+	display: table;
+}
+
+.tree-node:after {
+	clear: both;
+}
+
+.tree-nodename {
+	position: absolute; /* Position to make size dynamic */
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	padding: 2px;
+	padding-right: 600px;
+	display: inline-block;
+}
+
+.tree-nodename input {
+	width: 100%;
+}
+
+.tree-nodeinfo {
+	float: right;
+	width: 540px;
+}
+
+.tree-cell {
+	float: left;
+	padding: 2px 2px 2px 0px;
+	width: 100%;
+}
+
+.tree-cell input,.tree-cell textarea,.tree-cell select {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.resultdiag-bar {
+	border: 1px solid #DDDDDD;
+	width: 250px;
+	height: 10px;
+}
+
+.resultdiag-bar img {
+	height: 10px;
+}
+
+.resultdiag-name {
+	width: 80%;
+}
+
+.resultdiag-value {
+	min-width: 30px;
+}
+
+.resultdiag-graph {
+	width: 253px;
+}
+
+#content div.treetable_nodeInfo_imp {
+	float: right;
+	width: 690px;
+}
+
+#content div.treetable_nodeInfo_imp div.treetable_cell input {
+	width: 30px;
+}
+
+.tree-nodedesc {
+	white-space: normal;
+	width: 90%;
+}
+
+.tree-node.sensitiveNode {
+	background-color: #FFCC66;
+}
+
+.tree-node.sensitiveNodeChildren {
+	background-color: #FFFFCC;
+}
+
+div.rf-trn,div.rf-tr-nd {
+	background: none;
+}
+
+span.rf-trn-hnd {
+	display: block;
+	float: left;
+}
+
+span.rf-trn-lbl {
+	display: block;
+}
+
+span.rf-trn-cnt {
+	display: block;
+}
+
+span.rf-trn-ico {
+	display: block;
+	float: left;
+}
+
+.rf-trn-ico-exp,.rf-trn-ico-colps {
+	background: url("#{resource['gfx/icons/icon-folder.png']}") no-repeat
+		center;
+}
+
+.rf-trn-ico-lf {
+	background: url("#{resource['gfx/icons/icon-text-x-generic-template.png']}"
+		no-repeat center;
+}

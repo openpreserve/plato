@@ -487,13 +487,12 @@
 		</div>
 		<a4j:outputPanel layout="block" styleClass="center-position"
 			id="requirements">
-			<ui:include src="/plato/shared/treeSummary.xhtml">
-				<ui:param name="treeHelper"
-					value="#{validatePlan.requirementstreeHelper}" />
-				<ui:param name="rootNode" value="#{validatePlan.requirementsRoots}" />
-				<ui:param name="displayChangelogs"
-					value="#{validatePlan.displayChangelogs}" />
-			</ui:include>
+
+			<p:treeSummary treeHelper="#{validatePlan.requirementstreeHelper}"
+				rootNode="#{validatePlan.requirementsRoots}"
+				displayChangelogs="#{validatePlan.displayChangelogs}"
+				anchorPrefix="#{validatePlan.displayEvalTransform? 'results#' : ''}"
+				toggleType="client" />
 		</a4j:outputPanel>
 
 		<!-- ********** alternatives ********** -->
@@ -694,7 +693,7 @@
 				<a4j:commandButton
 					value="#{validatePlan.displayEvalTransform? 'Hide' : 'Show'} Evaluation &amp; Transformation"
 					action="#{validatePlan.switchDisplayEvalTransform}"
-					render="evalTransformForm" />
+					render="evalTransformForm requirements" />
 
 				<ui:fragment rendered="#{validatePlan.displayEvalTransform}">
 

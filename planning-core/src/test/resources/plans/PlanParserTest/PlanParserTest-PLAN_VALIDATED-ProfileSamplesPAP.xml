@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.0">
+<?xml version="1.0" encoding="UTF-8"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.1">
 <plan>
 <changelog created="2012-11-27T17:23:48" createdBy="test1" changed="2012-11-27T17:24:42" changedBy="test1"/>
 <properties author="Test1 Test1" organization="TUW" name="PlanParser Test - ProfileSamplesPAP" privateProject="true" reportPublic="false" planType="FULL">
@@ -25756,13 +25756,13 @@ ViatC2aEBEN6dtYxNiI0otatkOWj/9k=</data>
 </mappings>
 <changelog created="2012-11-27T17:25:23" createdBy="test1" changed="2012-11-27T17:26:14" changedBy="test1"/>
 </ordinalTransformer>
-<measure ID="http://scape-project.eu/pw/vocab/measures/120">
+<measure ID="http://purl.org/DP/quality/measures#120">
 <name>validity</name>
 <description>Indicates whether the format of the object is valid.</description>
-<attribute ID="http://scape-project.eu/pw/vocab/attributes/40">
+<attribute ID="http://purl.org/DP/quality/attributes#40">
 <name>format conformity</name>
 <description>Does the digital object conform to its specification?</description>
-<category ID="http://scape-project.eu/pw/vocab/categories/functional_correctness_representation_instance_property" scope="OBJECT">
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_representation_instance_property" scope="OBJECT">
 <name>Functional correctness: Representation Instance Property</name>
 </category>
 </attribute>

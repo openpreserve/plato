@@ -189,12 +189,9 @@
 
 		<a4j:outputPanel layout="block" styleClass="center-position"
 			id="requirements">
-			<ui:include src="/plato/shared/treeSummary.xhtml">
-				<ui:param name="treeHelper" value="#{ftAnalyseResults.treeHelper}" />
-				<ui:param name="rootNode"
-					value="#{ftAnalyseResults.requirementsRoots}" />
-				<ui:param name="displayChangelogs" value="false" />
-			</ui:include>
+			<p:treeSummary treeHelper="#{ftAnalyseResults.treeHelper}"
+				rootNode="#{ftAnalyseResults.requirementsRoots}" toggleType="client">
+			</p:treeSummary>
 		</a4j:outputPanel>
 
 		<!-- ********** alternatives ********** -->

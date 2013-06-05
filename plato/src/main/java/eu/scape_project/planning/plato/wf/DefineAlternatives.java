@@ -25,8 +25,6 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.AlternativesDefinition;
@@ -34,10 +32,14 @@ import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryFactory;
+
+import org.slf4j.Logger;
 
 /**
  * Classed containing the business logic for defining alternatives.
@@ -52,6 +54,9 @@ public class DefineAlternatives extends AbstractWorkflowStep {
     @Inject
     private Logger log;
 
+    /**
+     * Creates a new define alternative object.
+     */
     public DefineAlternatives() {
         this.requiredPlanState = PlanState.TREE_DEFINED;
         this.correspondingPlanState = PlanState.ALTERNATIVES_DEFINED;
@@ -62,54 +67,110 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         prepareChangesForPersist.prepare(plan);
 
         saveEntity(plan.getTree());
-        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
+        plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
 
         saveEntity(plan.getRecommendation());
     }
 
     /**
      * Provides a list of actions available in the given registry for the given
-     * formatInfo
+     * formatInfo.
      * 
      * @param formatInfo
+     *            format info used to query
      * @param registry
-     * @return
+     *            registry to query
+     * @return a list of preservation action infos
      * @throws PlatoException
+     *             if the registry is not properly configured
      */
-    public List<PreservationActionDefinition> queryRegistry(FormatInfo formatInfo,
-        PreservationActionRegistryDefinition registry) throws PlatoException {
+    public List<IActionInfo> queryRegistry(FormatInfo formatInfo, PreservationActionRegistryDefinition registry)
+        throws PlatoException {
+        log.debug("Loading preservation action services from registry [{}]", registry.getShortname());
         IPreservationActionRegistry serviceLocator = null;
+
         try {
             serviceLocator = PreservationActionRegistryFactory.getInstance(registry);
         } catch (IllegalArgumentException e1) {
             throw new PlatoException("Registry:  " + registry.getShortname()
                 + " has changed and needs to be reconfigured.");
         }
+
         if (serviceLocator == null) {
             throw new PlatoException("Failed to access " + registry.getShortname());
         }
-        // query the registry
+
         return serviceLocator.getAvailableActions(formatInfo);
     }
 
+    /**
+     * Returns a list of registered preservation action registries.
+     * 
+     * @return a list of registries
+     * @throws PlanningServiceException
+     *             if the registries could not be found
+     */
     public List<PreservationActionRegistryDefinition> getPreservationActionRegistries() throws PlanningServiceException {
         return PreservationActionRegistryFactory.getAvailableRegistries();
     }
 
-    public void createAlternativesForPreservationActions(List<PreservationActionDefinition> selectedActions) {
-        for (PreservationActionDefinition action : selectedActions) {
-            /*
-             * Create a new alternative for this service
-             */
-            String uniqueName = plan.getAlternativesDefinition().createUniqueName(action.getShortname());
-            Alternative a = Alternative.createAlternative(uniqueName, action);
+    /**
+     * Creates an alternative from a action info and adds it to the plan.
+     * 
+     * The provided name is converted to a unique name for the plan.
+     * 
+     * @param actionInfo
+     *            the source action info
+     * @return the new alternative
+     * @throws PlanningException
+     *             if the alternative could not be added
+     */
+    public Alternative addAlternative(IServiceInfo actionInfo) throws PlanningException {
+        PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
+        actionDefinition.setActionIdentifier(actionInfo.getServiceIdentifier());
+        actionDefinition.setShortname(actionInfo.getShortname());
+        actionDefinition.setDescriptor(actionInfo.getDescriptor());
+        actionDefinition.setUrl(actionInfo.getUrl());
+        actionDefinition.setInfo(actionInfo.getInfo());
 
-            // and add it to the preservation planning project
-            try {
-                plan.getAlternativesDefinition().addAlternative(a);
-            } catch (PlanningException e) {
-                log.error(e.getMessage(), e);
-            }
-        }
+        String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
+        Alternative a = Alternative.createAlternative(uniqueName, actionDefinition);
+        plan.getAlternativesDefinition().addAlternative(a);
+        return a;
+    }
+
+    /**
+     * Creates an alternative with the provided name and description and adds it
+     * to the plan.
+     * 
+     * The provided name is converted to a unique name for the plan.
+     * 
+     * @param name
+     *            alternative name
+     * @param description
+     *            alternative description
+     * @return the new alternative
+     * @throws PlanningException
+     *             if the alternative could not be added
+     */
+    @SuppressWarnings("deprecation")
+    public Alternative addAlternative(String name, String description) throws PlanningException {
+        Alternative a = Alternative.createAlternative();
+        a.setName(plan.getAlternativesDefinition().createUniqueName(name));
+        a.setDescription(description);
+        plan.getAlternativesDefinition().addAlternative(a);
+        return a;
+    }
+
+    /**
+     * Adds the provided alternative to the plan.
+     * 
+     * @param alternative
+     *            the alternative to add
+     * @throws PlanningException
+     *             if the alternative could not be added
+     */
+    public void addAlternative(Alternative alternative) throws PlanningException {
+        plan.getAlternativesDefinition().addAlternative(alternative);
     }
 }

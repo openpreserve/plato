@@ -27,8 +27,8 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.PreservationActionDefinition;
-import eu.scape_project.planning.model.interfaces.actions.IPreservationActionRegistry;
+import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.utils.JGet;
 
 import org.apache.log4j.Logger;
@@ -41,8 +41,6 @@ public class ComponentRegistry implements IPreservationActionRegistry {
 
     private static final String ME_SPARQL_ENDPOINT = "http://rdf.myexperiment.org/sparql";
     private static final String ENCODING_UTF8 = "UTF-8";
-
-    private List<PreservationActionDefinition> preservationActions;
 
     @Override
     public void connect(String URL) throws ServiceException, MalformedURLException {
@@ -72,8 +70,8 @@ public class ComponentRegistry implements IPreservationActionRegistry {
      * ORDER BY ?w ?wt
      */
     @Override
-    public List<PreservationActionDefinition> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
-        preservationActions = new ArrayList<PreservationActionDefinition>();
+    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+        List<IActionInfo> preservationActions = new ArrayList<IActionInfo>();
 
         StringBuilder query = new StringBuilder();
         query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>").append("\n")
@@ -82,11 +80,10 @@ public class ComponentRegistry implements IPreservationActionRegistry {
             .append("PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/>").append("\n")
             .append("PREFIX mebase: <http://rdf.myexperiment.org/ontologies/base/>").append("\n")
             .append("SELECT ?w ?wt ?wdesc ?wurl ?wcurrentversion ?wcurrentversionnumber").append("\n")
-            .append("WHERE {").append("\n")
-            .append("  ?w a mecontrib:Workflow ;").append("\n").append("     dcterms:title ?wt ;").append("\n")
-            .append("     dcterms:description ?wdesc ;").append("\n").append("     meannot:has-tagging ?tscape ;")
-            .append("\n").append("     meannot:has-tagging ?tmigration ;").append("\n")
-            .append("     meannot:has-tagging ?tcomponent ;").append("\n")
+            .append("WHERE {").append("\n").append("  ?w a mecontrib:Workflow ;").append("\n")
+            .append("     dcterms:title ?wt ;").append("\n").append("     dcterms:description ?wdesc ;").append("\n")
+            .append("     meannot:has-tagging ?tscape ;").append("\n").append("     meannot:has-tagging ?tmigration ;")
+            .append("\n").append("     meannot:has-tagging ?tcomponent ;").append("\n")
             .append("     meannot:has-tagging ?mimetypeTagging ;").append("\n")
             .append("     mebase:has-current-version ?wcurrentversion .").append("\n")
             .append("  ?tscape meannot:uses-tag <http://www.myexperiment.org/tags/3108> .").append("\n")
@@ -106,10 +103,6 @@ public class ComponentRegistry implements IPreservationActionRegistry {
 
             new SparqlResultComponentsParser().addComponentsFromSparqlResult(preservationActions, new StringReader(
                 response));
-
-            for (PreservationActionDefinition def : preservationActions) {
-                def.setActionIdentifier("myExperiment");
-            }
 
             return preservationActions;
 

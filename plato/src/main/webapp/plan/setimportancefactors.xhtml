@@ -12,6 +12,7 @@
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
+		<h:outputStylesheet name="css/tree.css" />
 		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div class="wfstepinfo">
 			<div class="wfdescription">
@@ -61,23 +62,14 @@
 						actionListener="#{setImportanceFactors.resetFocus}"
 						value="#{setImportanceFactors.plan.tree.root.name} &gt; ..."
 						eventsQueue="ajaxQ" ignoreDupResponses="true" render="richTree" />
-					<div id="treeheader" style="padding-top: 5px;">
-						<div class="treetable_cell" style="width: 120px;">
-							<b>Name</b>
-						</div>
-						<div class="treetable_nodeInfo_imp">
-							<div class="treetable_cell" style="width: 400px;">
-								<b>Weight</b>
-							</div>
-							<div class="treetable_cell" style="width: 60px;">
-								<b>Total weight</b>
-							</div>
-							<div class="treetable_cell" style="width: 60px;">
-								<b>Lock</b>
-							</div>
-							<div class="treetable_cell">
-								<b>Performance</b>
-							</div>
+
+					<div id="treeheader" class="tree-header">
+						<div class="tree-nodename" style="width: 120px;">Name</div>
+						<div class="tree-nodeinfo" style="width: 720px;">
+							<div class="tree-cell" style="width: 400px;">Weight</div>
+							<div class="tree-cell" style="width: 50px;">Total weight</div>
+							<div class="tree-cell" style="width: 50px;">Lock</div>
+							<div class="tree-cell" style="width: 200px;">Performance</div>
 						</div>
 					</div>
 					<div id="treecontent" style="clear: both; padding-top: 5px;">
@@ -88,22 +80,20 @@
 							<rich:treeModelRecursiveAdaptor
 								roots="#{setImportanceFactors.focusedNode}"
 								nodes="#{node.children}" leaf="#{node.leaf}" id="treeAdaptor">
-								<rich:treeNode icon="" iconLeaf=""
-									highlightedClass="highlighted" expanded="false" id="treeNode">
-									<div class="treetable_cell"
-										style="height: 25px; width: 200px; min-width: 180px; text-align: left">
+								<rich:treeNode expanded="false" id="treeNode"
+									styleClass="tree-node">
+									<div class="tree-nodename">
 										<h:outputText id="name" value="#{node.name}" />
 										<a4j:commandLink
 											rendered="#{(!node.leaf) and (node.parent!=null)}"
 											actionListener="#{setImportanceFactors.focusOn(node)}"
 											value=" X" render="a4jTreeTable" />
 									</div>
-									<div class="treetable_nodeInfo_imp">
-										<div class="treetable_cell" style="width: 400px;">
+									<div class="tree-nodeinfo" style="width: 720px;">
+										<div class="tree-cell" style="width: 400px;">
 											<!-- Weight informations -->
-											<rich:inputNumberSlider value="#{node.weight}"
-												style="width: 98%;" minValue="0" maxValue="1" step="0.01"
-												showInput="true" showToolTip="true"
+											<rich:inputNumberSlider value="#{node.weight}" minValue="0"
+												maxValue="1" step="0.01" showInput="true" showToolTip="true"
 												enableManualInput="false" disabled="#{!node.child}"
 												id="weightSlider">
 
@@ -117,18 +107,16 @@
 										</div>
 
 										<a4j:outputPanel ajaxRendered="true">
-											<div class="treetable_cell"
-												style="width: 60px; text-align: center;">
+											<div class="tree-cell" style="width: 50px;">
 
 												<!-- Total Weight -->
 												<h:outputText value="#{node.totalWeight}" id="totalWeight">
 													<f:convertNumber maxFractionDigits="2" />
 												</h:outputText>
-
 											</div>
 
-											<div class="treetable_cell"
-												style="width: 60px; text-align: center;">
+											<div class="tree-cell"
+												style="width: 50px; text-align: center;">
 												<!-- Lock -->
 												<h:selectBooleanCheckbox rendered="#{node!=null}"
 													value="#{node.lock}" disabled="#{!node.child}" id="locked">
@@ -137,33 +125,30 @@
 												</h:selectBooleanCheckbox>
 											</div>
 										</a4j:outputPanel>
-
-										<div class="treetable_cell">
+										<div class="tree-cell" style="width: 200px;">
 											<!--  we want to display values aggregated over sample objects here.-->
-											<div class="size-xl">
-												<h:dataTable
-													value="#{setImportanceFactors.plan.alternativesDefinition.consideredAlternatives}"
-													var="alter"
-													headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap"
-													columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big nowrap"
-													rendered="#{node.leaf}">
-													<h:column>
-														<f:facet name="header">
-															<h:outputText value="Alternative" />
-														</f:facet>
-														<h:outputText value="#{alter.name}" />
-													</h:column>
-													<h:column>
-														<f:facet name="header">
-															<h:outputText value="Result" />
-														</f:facet>
-														<h:outputText
-															value="#{setImportanceFactors.criterionResultMap[node].results[alter.name]}">
-															<f:convertNumber maxFractionDigits="2" />
-														</h:outputText>
-													</h:column>
-												</h:dataTable>
-											</div>
+											<h:dataTable
+												value="#{setImportanceFactors.plan.alternativesDefinition.consideredAlternatives}"
+												var="alter"
+												headerClass="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap"
+												columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big nowrap"
+												rendered="#{node.leaf}">
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Alternative" />
+													</f:facet>
+													<h:outputText value="#{alter.name}" />
+												</h:column>
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Result" />
+													</f:facet>
+													<h:outputText
+														value="#{setImportanceFactors.criterionResultMap[node].results[alter.name]}">
+														<f:convertNumber maxFractionDigits="2" />
+													</h:outputText>
+												</h:column>
+											</h:dataTable>
 										</div>
 									</div>
 								</rich:treeNode>
@@ -177,7 +162,7 @@
 				input="#{setImportanceFactors.plan.importanceWeighting.comment}"
 				touchable="#{setImportanceFactors.plan.importanceWeighting}" />
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -29,10 +29,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import org.picketlink.identity.federation.core.interfaces.AttributeManager;
+
 import eu.scape_project.pw.idp.model.IdpUser;
 import eu.scape_project.pw.idp.model.IdpUserState;
-
-import org.picketlink.identity.federation.core.interfaces.AttributeManager;
 
 /**
  * Attribute manager for the user.
@@ -40,9 +40,7 @@ import org.picketlink.identity.federation.core.interfaces.AttributeManager;
 @Stateless
 public class UserAttributeManager implements AttributeManager {
 
-    /**
-     * @see AttributeManager#getAttributes(Principal, List)
-     */
+    @Override
     public Map<String, Object> getAttributes(Principal userPrincipal, List<String> attributeKeys) {
 
         if (userPrincipal == null) {
@@ -76,15 +74,6 @@ public class UserAttributeManager implements AttributeManager {
                 } else if (attributeKey.equals("email")) {
                     object = user.getEmail();
                 }
-                // else if (attributeKey.equals("userRoles")) {
-                // List<IdpRole> roles = user.getRoles();
-                // ArrayList<String> roleNames = new
-                // ArrayList<String>(roles.size());
-                // for (IdpRole role : roles) {
-                // roleNames.add(role.getRoleName());
-                // }
-                // attributes.put(attributeKey, roleNames);
-                // }
 
                 if (object != null) {
                     attributes.put(attributeKey, object);

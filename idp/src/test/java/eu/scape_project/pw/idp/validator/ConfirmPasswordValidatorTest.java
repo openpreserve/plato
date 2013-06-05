@@ -18,8 +18,6 @@ package eu.scape_project.pw.idp.validator;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.validator.ValidatorException;
@@ -37,7 +35,6 @@ public class ConfirmPasswordValidatorTest {
     @Test
     public void validate_stopValidationIfPasswordOrConfirmationIsEmpty() {
         UIComponent uiComponent = new UIInput();
-        Map<String, Object> attributesMap = uiComponent.getAttributes();
 
         uiComponent.getAttributes().put("pwConfirm", "");
         confirmPwValidator.validate(null, uiComponent, "");
@@ -54,7 +51,6 @@ public class ConfirmPasswordValidatorTest {
     @Test
     public void validate_equalPasswordsAreAccepted() {
         UIComponent uiComponent = new UIInput();
-        Map<String, Object> attributesMap = uiComponent.getAttributes();
 
         uiComponent.getAttributes().put("pwConfirm", "EqualPassword");
         confirmPwValidator.validate(null, uiComponent, "EqualPassword");
@@ -65,7 +61,6 @@ public class ConfirmPasswordValidatorTest {
     @Test(expected = ValidatorException.class)
     public void validate_unEqualPasswordsAreNotAccepted() {
         UIComponent uiComponent = new UIInput();
-        Map<String, Object> attributesMap = uiComponent.getAttributes();
 
         uiComponent.getAttributes().put("pwConfirm", "Password");
         confirmPwValidator.validate(null, uiComponent, "WrongConfirmedPassword");

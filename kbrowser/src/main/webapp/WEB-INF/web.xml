@@ -31,7 +31,7 @@
     </context-param>
     <context-param>
         <param-name>org.richfaces.skin</param-name>
-        <param-value>kBrowserBlueSky</param-value>
+        <param-value>DEFAULT</param-value>
     </context-param>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

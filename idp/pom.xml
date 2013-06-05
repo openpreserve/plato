@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>planningsuite</artifactId>
 		<groupId>eu.scape-project.pw</groupId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.2.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>idp</artifactId>
@@ -12,10 +12,7 @@
 	<name>idp</name>
 	<description>Identity Provider</description>
 	<properties>
-		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
-		<arquillian.version>1.0.0.CR5</arquillian.version>
-		<richfaces.version>4.1.0.Final</richfaces.version>
-		<idp.url>http://${idp.domain}:8080/idp/</idp.url>
+		<idp.url>http://${idp.domain}:${ps.port}/idp/</idp.url>
 		<trust.domains>${sp.domain}</trust.domains>
 		<configuration.location.user>.plato</configuration.location.user>
 		<configuration.location.system>/etc/plato</configuration.location.system>
@@ -39,13 +36,9 @@
 					<archive>
 						<manifestEntries>
 							<Built-By>Plato Development Team</Built-By>
-							<Dependencies>javaee.api, javax.faces.api,
-								javax.xml.rpc.api,
-								org.joda.time,
-								org.hibernate,
-								org.hibernate.validator,
-								org.dom4j,
-								org.picketlink</Dependencies>
+							<Dependencies>javaee.api, javax.faces.api, javax.xml.rpc.api,
+								org.joda.time, org.hibernate, org.hibernate.validator,
+								org.dom4j, org.picketlink</Dependencies>
 						</manifestEntries>
 					</archive>
 					<webResources>
@@ -96,19 +89,19 @@
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-components-ui</artifactId>
-			<version>${richfaces.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.richfaces.core</groupId>
 			<artifactId>richfaces-core-impl</artifactId>
-			<version>${richfaces.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>1.1.1.Final</version>
-			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate.javax.persistence</groupId>
@@ -118,44 +111,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.5.6-Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate.validator.version}</version>
-			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.6-Final</version>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.19</version>
-			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-			<scope>provided</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
-			<version>${arquillian.version}</version>
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -176,6 +140,7 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>net.tanesha.recaptcha4j</groupId>
 			<artifactId>recaptcha4j</artifactId>

@@ -484,14 +484,11 @@
 
 		<a4j:outputPanel layout="block" styleClass="center-position"
 			id="requirements">
-			<ui:include src="/plato/shared/treeSummary.xhtml">
-				<ui:param name="treeHelper"
-					value="#{analyseResults.requirementstreeHelper}" />
-				<ui:param name="rootNode"
-					value="#{analyseResults.requirementsRoots}" />
-				<ui:param name="displayChangelogs"
-					value="#{analyseResults.displayChangelogs}" />
-			</ui:include>
+			<p:treeSummary treeHelper="#{analyseResults.requirementstreeHelper}"
+				rootNode="#{analyseResults.requirementsRoots}"
+				displayChangelogs="#{analyseResults.displayChangelogs}"
+				anchorPrefix="results#" toggleType="client">
+			</p:treeSummary>
 		</a4j:outputPanel>
 
 		<!-- ********** alternatives ********** -->
@@ -1040,7 +1037,7 @@
 				</div>
 			</fieldset>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
 	</ui:define>
 </ui:composition>

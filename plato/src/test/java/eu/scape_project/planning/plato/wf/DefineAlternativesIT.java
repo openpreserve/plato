@@ -16,30 +16,55 @@
  ******************************************************************************/
 package eu.scape_project.planning.plato.wf;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-import org.jboss.shrinkwrap.api.ArchivePaths;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.weld.context.bound.Bound;
+import org.jboss.weld.context.bound.BoundConversationContext;
+import org.jboss.weld.context.bound.MutableBoundRequest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-// FIXME at least the deployment should work: @RunWith(Arquillian.class)
+import eu.scape_project.planning.application.PlatoDeploymentBuilder;
+
+@RunWith(Arquillian.class)
 public class DefineAlternativesIT {
+
+    @Inject
+    @Bound
+    private BoundConversationContext conversationContext;
 
     @Inject
     private DefineAlternatives action;
 
-    // @Deployment
-    public static JavaArchive createTestArchive() {
-        return ShrinkWrap.create(JavaArchive.class, "platotest.jar").addClasses(DefineAlternatives.class)
-            .addAsManifestResource(new ByteArrayAsset("<beans/>".getBytes()), ArchivePaths.create("beans.xml"));
+    @Deployment
+    public static WebArchive createDeployment() {
+        
+        WebArchive platoWar = PlatoDeploymentBuilder.createPlatoWebArchive();
+        platoWar
+            .addClasses(AbstractWorkflowStep.class, DefineAlternatives.class, DefineAlternativesIT.class);
+            ;
+            
+        return platoWar;
     }
+    
 
-    // @Test
+    @Test
     public void test() {
+        conversationContext.associate(new MutableBoundRequest(
+            new HashMap<String, Object>(), new HashMap<String, Object>()));
+        conversationContext.activate();
+
+        Assert.assertTrue(conversationContext.isActive());
         Assert.assertNotNull(action);
+        action.init(null);
+        
     }
 
 }

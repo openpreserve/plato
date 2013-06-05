@@ -24,8 +24,8 @@
 				<cc:renderFacet name="panel" />
 			</div>
 			<div id="#{cc.attrs.id}_treeheader" class="tree-header">
-				<div class="tree-cell tree-nodename">Node</div>
-				<div class="tree-cell tree-nodeinfo">Results</div>
+				<div class="tree-nodename">Node</div>
+				<div class="tree-nodeinfo">Results</div>
 			</div>
 			<div id="#{cc.attrs.id}_treecontent" class="tree-content">
 				<rich:tree var="node" toggleType="#{cc.attrs.toogleType}">
@@ -34,7 +34,7 @@
 						<rich:treeNode
 							expanded="#{cc.attrs.treeHelper.expandedNodes[node]}"
 							styleClass="tree-node #{cc.attrs.usenodestyle ? node.style : ''}">
-							<div class="tree-cell tree-nodename">
+							<div class="tree-nodename">
 								<a4j:outputPanel layout="block" rendered="#{node.leaf}">
 									<a href="#results#{node.id}"><h:outputText
 											value="#{node.name}" /></a>
@@ -46,7 +46,7 @@
 									<cc:renderFacet name="nodedesc" />
 								</a4j:outputPanel>
 							</div>
-							<div class="tree-cell tree-nodeinfo">
+							<div class="tree-nodeinfo">
 								<table class="resultdiag-table">
 									<a4j:repeat value="#{cc.attrs.alternatives}" var="a"
 										rowKeyVar="i">
