@@ -245,7 +245,7 @@ public class PlanValidator implements Serializable {
         // at least one sample must be defined
         if (plan.getSampleRecordsDefinition().getRecords().size() == 0) {
             result = false;
-            errors.add(new ValidationError("At least one sample must be added to proceed with the wizard."));
+            errors.add(new ValidationError("At least one sample must be added to proceed with the workflow."));
         }
         // sample names must be unique
         List<String> names = new ArrayList<String>();

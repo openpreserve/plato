@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>planningsuite</artifactId>
 		<groupId>eu.scape-project.pw</groupId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.2.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>idp</artifactId>
