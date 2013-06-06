@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>planningsuite</artifactId>
 		<groupId>eu.scape-project.pw</groupId>
-		<version>4.2.0-SNAPSHOT</version>
+		<version>4.3.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>planning-core</artifactId>
@@ -35,6 +35,8 @@
 					<ejbVersion>3.0</ejbVersion>
 					<archive>
 						<manifestEntries>
+							<Built-By>Plato Development Team</Built-By>
+						    <Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
 							<Dependencies>javaee.api, javax.faces.api,
 								org.hibernate,
 								org.hibernate.validator,
@@ -145,7 +147,6 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
-			<version>${plato-model.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		

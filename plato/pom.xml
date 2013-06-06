@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>eu.scape-project.pw</groupId>
 		<artifactId>planningsuite</artifactId>
-		<version>4.2.0-SNAPSHOT</version>
+		<version>4.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>plato</artifactId>
 	<packaging>war</packaging>
@@ -42,6 +42,7 @@
 					<archive>
 						<manifestEntries>
 							<Built-By>Plato Development Team</Built-By>
+						    <Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
 							<Dependencies>javaee.api, javax.faces.api,
 								javax.xml.rpc.api,
 								org.joda.time,
@@ -125,13 +126,11 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
-			<version>${plato-model.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>planning-core</artifactId>
-			<version>${planning-core.version}</version>
 			<scope>provided</scope>
 			<type>ejb</type>
 		</dependency>
@@ -139,7 +138,6 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>planning-core</artifactId>
-			<version>${planning-core.version}</version>
 			<scope>test</scope>
 			<classifier>tests</classifier>
 		</dependency>
@@ -147,8 +145,8 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>minimee</artifactId>
-			<version>${minimee.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>

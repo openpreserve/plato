@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scape-project.pw</groupId>
 	<artifactId>planningsuite</artifactId>
-	<version>4.2.0-SNAPSHOT</version>
+	<version>4.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Planning Suite</name>
 
@@ -66,13 +66,10 @@
 		<idp.url>http://${idp.domain}:${ps.port}/idp/</idp.url>
 		<sp.domain>localhost</sp.domain>
 
-		<plato-model.version>4.2.0-SNAPSHOT</plato-model.version>
-		<planning-core.version>4.2.0-SNAPSHOT</planning-core.version>
-		<minimee.version>4.2.0-SNAPSHOT</minimee.version>
-		<plato.version>4.2.0-SNAPSHOT</plato.version>
-		<kbrowser.version>4.2.0-SNAPSHOT</kbrowser.version>
 		<junit.version>4.8.1</junit.version>
 		<jboss-javaee.version>3.0.1.Final</jboss-javaee.version>
+		
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>		
 	</properties>
 
 	<build>
@@ -175,6 +172,49 @@
 	</build>
 	<dependencyManagement>
 		<dependencies>
+			<!-- define versions of sub modules -->
+			<dependency>
+				<groupId>eu.scape-project.pw</groupId>
+				<artifactId>plato-model</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>eu.scape-project.pw</groupId>
+				<artifactId>planning-core</artifactId>
+				<version>${project.version}</version>
+				<scope>provided</scope>
+				<type>ejb</type>
+			</dependency>
+			<!-- reuse src/test/java code -->
+			<dependency>
+				<groupId>eu.scape-project.pw</groupId>
+				<artifactId>planning-core</artifactId>
+				<version>${project.version}</version>
+				<scope>test</scope>
+				<classifier>tests</classifier>
+			</dependency>
+			<!-- -->
+			<dependency>
+				<groupId>eu.scape-project.pw</groupId>
+				<artifactId>minimee</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>eu.scape-project.pw</groupId>
+				<artifactId>plato</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
+			<dependency>
+				<groupId>eu.scape-project.pw</groupId>
+				<artifactId>kbrowser</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
+			
+			
+			<!-- define versions of dependencies -->
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
