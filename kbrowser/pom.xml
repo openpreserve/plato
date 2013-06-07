@@ -31,8 +31,8 @@
                     <archive>
                         <manifestEntries>
 							<Built-By>Plato Development Team</Built-By>
-						    <Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
-                            <Dependencies>javaee.api, javax.faces.api,
+							<Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
+							<Dependencies>javaee.api, javax.faces.api,
                                 javax.xml.rpc.api,
                                 org.joda.time,
                                 org.hibernate, org.hibernate.validator,
