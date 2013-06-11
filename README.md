@@ -79,7 +79,11 @@ Please refer to the [readme of jboss-utils] (https://github.com/openplanets/plat
 ***
 
 ## Install required programs 
-### FITS
+
+### Configure Plato
+Some aspects of Plato can be configured using configuration files. See [Plato configuration](https://github.com/openplanets/plato/wiki/Plato-configuration) for further information.
+
+### Optional: FITS
 * Install FITS Tool from [http://code.google.com/p/fits](http://code.google.com/p/fits) .
 * Set environment variable FITS_HOME to install directory. 
 
@@ -90,11 +94,9 @@ Only necessary if you want to use Minimee services
 2. Configure tool and services in the files tool-configs.xml and actions-config.xml.
    You can find examples in `minimee/src/main/resources/data/services/`
 
-### Configure Plato
-Some aspects of Plato can be configured using configuration files. See [Plato configuration](https://github.com/openplanets/plato/wiki/Plato-configuration) for further information.
 
 ***
-## Build and Deploy
+## Build and Deploy Planning Suite
 
 ### Setup Test Server
 To setup the test server make a copy of the already configured main instance, replace the standalone.xml with the generated standalone-test.xml, and rename it to standalone.xml.
@@ -104,25 +106,30 @@ To setup the test server make a copy of the already configured main instance, re
 2. Install git client
 3. Clone Plato source from the Github: <pre>git clone git@github.com:openplanets/plato.git</pre>
 4. Go into the folder plato and start the build process: 
-   <pre>mvn clean install -Dsp.domain=your.planningsuite.domain.org -Didp.domain=your.idp.domain.org -DjbossHomeTest=&lt;JBOSS_HOME_TEST&gt;</pre>
+   <pre>mvn clean install -Dsp.domain=your.planningsuite.domain.org -Didp.domain=your.idp.domain.org -DskipTests</pre>
   Parameters:
-  * sp.domain: the domain where Planning Suite will be available (defaults to _localhost_)
+  * sp.domain: specifies the domain of the service provider - where Planning Suite will be available (defaults to _localhost_)
   * idp.domain: the domain where your identity provider will be available(defaults to _localhost_)
-  * jbossHomeTest: the path to your local JBoss server  used for testing
-    Note: you can skip this parameter if you also skip all tests via _-DskipTests_
   The generated artifacts are in the _target_ sub-folders of planningsuite-ear and idp
   You have to use the war and ear files. (you cannot deploy the exploded archives, because there is a bug in the maven-war plugin)
 
-5. Copy planningsuite-ear/target/planningsuite-ear.ear to your JBoss deployments folder
+5. Copy planningsuite-ear/target/planningsuite-<current version>.ear to your JBoss deployments folder
 6. Copy idp/target/idp.war to your JBoss deployments folder.
 
 NOTE: If your database is set up for the first time, you have to:
 
-1. Edit the file planningsuite-ear/src/main/application/META-INF/persistence.xml and set hibernate.hbm2dll.auto to _create_
-2. Generate plannginsuite-ear.ear and deploy it to JBoss (like described above)
-3. Change hibernate.hbm2dll.auto back to _update_ 
+1. Build plannginsuite.ear with the additional parameter: <pre> -Ddatabase.schema.generation=create </pre>
+   and deploy it to JBoss (like described above)
+2. Stop JBoss
+3. Build plannginsuite.ear once more without the additional parameter and deploy it again
    This is **important**, otherwise the database gets re-created with each start - and your data gets lost
-4. Generate and deploy once again plannginsuite-ear.ear 
+
+To run tests:
+
+* Instead of parameter -DskipTests you have to provide the path to your local JBoss server (the one you have prepared for testing):
+  <pre> -DjbossHomeTest=&lt; path to local jboss server &gt; </pre>
+
+
 
 ## Development
 

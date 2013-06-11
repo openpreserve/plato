@@ -30,6 +30,7 @@
 					<version>6</version>
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
 					<initializeInOrder>true</initializeInOrder>
+					<filtering>true</filtering>
 					<modules>
 						<jarModule>
 							<groupId>eu.scape-project.pw</groupId>
@@ -60,6 +61,7 @@
 								org.jboss.interceptor, org.jboss.as.weld, org.jboss.logging,
 								org.jboss.weld.core, org.jboss.weld.api, org.jboss.weld.spi</Dependencies>
 						</manifestEntries>
+
 					</archive>
 				</configuration>
 			</plugin>
@@ -70,6 +72,7 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
+			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>

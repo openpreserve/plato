@@ -68,8 +68,13 @@
 
 		<junit.version>4.8.1</junit.version>
 		<jboss-javaee.version>3.0.1.Final</jboss-javaee.version>
+
+		<!-- timestamp is used for archives and manifest entries -->
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		
-		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>		
+		<!-- when deployed for the first time, the Planning Suite must be built with database.schema.generation=create
+		     so additional database objects can be created -->
+		<database.schema.generation>update</database.schema.generation>
 	</properties>
 
 	<build>
@@ -177,13 +182,11 @@
 				<groupId>eu.scape-project.pw</groupId>
 				<artifactId>plato-model</artifactId>
 				<version>${project.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>eu.scape-project.pw</groupId>
 				<artifactId>planning-core</artifactId>
 				<version>${project.version}</version>
-				<scope>provided</scope>
 				<type>ejb</type>
 			</dependency>
 			<!-- reuse src/test/java code -->
@@ -212,8 +215,8 @@
 				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
-			
-			
+
+
 			<!-- define versions of dependencies -->
 			<dependency>
 				<groupId>junit</groupId>
