@@ -13,7 +13,11 @@
 	<packaging>ear</packaging>
 
 	<build>
-		<finalName>planningsuite-${project.version}</finalName>
+		<!-- the currently used version of eclipse WTP plugin has a bug and ommits 
+			the version, cannot cope with finalName but we have to specify the name of 
+			this file explicitly in persistence.xml... therefore we set the filename 
+			for maven build to the eclipse WTP default -->
+		<finalName>planningsuite-ear</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -55,13 +59,12 @@
 					<archive>
 						<manifestEntries>
 							<Built-By>Plato Development Team</Built-By>
-						    <Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
+							<Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
 							<Dependencies>javaee.api, javax.faces.api, org.jboss.as.jpa,
 								org.hibernate, org.javassist, javax.persistence.api, javaee.api,
 								org.jboss.interceptor, org.jboss.as.weld, org.jboss.logging,
 								org.jboss.weld.core, org.jboss.weld.api, org.jboss.weld.spi</Dependencies>
 						</manifestEntries>
-
 					</archive>
 				</configuration>
 			</plugin>
@@ -72,7 +75,6 @@
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>plato-model</artifactId>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>eu.scape-project.pw</groupId>
