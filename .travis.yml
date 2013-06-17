@@ -1,7 +1,9 @@
 language: java
 
-# install: mvn install -DskipTests=true -B -P no-integration-tests,-integration-tests
 
+# activate profile no-integration-tests so test sources and their dependencies can be excluded from build
+# (there is no jboss server installed on travis anyway)
+# deactivate profile integration-tests (it is active by default)
 script: mvn clean install -B -P no-integration-tests,-integration-tests
 
 branches:

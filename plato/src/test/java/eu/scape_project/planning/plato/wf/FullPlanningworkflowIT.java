@@ -15,10 +15,12 @@ import org.jboss.weld.context.bound.BoundConversationContext;
 import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.scape_project.planning.annotation.IntegrationTest;
 import eu.scape_project.planning.application.PlatoDeploymentBuilder;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
@@ -26,6 +28,7 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.validation.ValidationError;
 
+@Category(IntegrationTest.class)
 @RunWith(Arquillian.class)
 public class FullPlanningworkflowIT {
 

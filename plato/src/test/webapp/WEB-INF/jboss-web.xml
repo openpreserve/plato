@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <valve>
+        <class-name>eu.scape_project.planning.jboss.util.UTF8EncodingValve
+        </class-name>
+    </valve>
+</jboss-web>

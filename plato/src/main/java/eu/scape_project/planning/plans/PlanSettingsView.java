@@ -207,7 +207,7 @@ public class PlanSettingsView implements Serializable {
 
     /**
      * Method responsible for starting the plan-report download in the users
-     * web-browser.
+     * web-selenium.
      */
     public void downloadReport() {
         try {

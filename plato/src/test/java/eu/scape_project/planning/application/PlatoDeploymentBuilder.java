@@ -1,6 +1,8 @@
 package eu.scape_project.planning.application;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.net.URI;
 import java.util.Arrays;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -8,8 +10,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
-
-import eu.scape_project.planning.application.MockAuthenticatedUserProvider;
 
 public class PlatoDeploymentBuilder {
 
@@ -25,6 +25,18 @@ public class PlatoDeploymentBuilder {
         return resolver;
     }
     
+    
+    public static void addAsWebResources(WebArchive archive, URI base, File directory, FilenameFilter filter) {
+        for (File f : directory.listFiles(filter)) {
+            
+            String rel = base.relativize(f.toURI()).toString();
+            if (f.isDirectory()) {
+                addAsWebResources(archive, base, f, filter);
+            } else {
+                archive.addAsWebResource(f,  rel);
+            }
+        }
+    }
     
     /**
      * Creates a basic {@link WebArchive} for module plato.

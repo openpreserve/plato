@@ -106,14 +106,15 @@ To setup the test server make a copy of the already configured main instance, re
 2. Install git client
 3. Clone Plato source from the Github: <pre>git clone git@github.com:openplanets/plato.git</pre>
 4. Go into the folder plato and start the build process: 
-   <pre>mvn clean install -Dsp.domain=your.planningsuite.domain.org -Didp.domain=your.idp.domain.org -DskipTests</pre>
+   <pre>mvn clean install -Dps.port=80 -Dsp.domain=your.planningsuite.domain.org -Didp.domain=your.idp.domain.org -DskipTests</pre>
   Parameters:
+  * ps.port=80: port on which the web-applications will be available (defaults to _8080_)
   * sp.domain: specifies the domain of the service provider - where Planning Suite will be available (defaults to _localhost_)
   * idp.domain: the domain where your identity provider will be available(defaults to _localhost_)
+
   The generated artifacts are in the _target_ sub-folders of planningsuite-ear and idp
   You have to use the war and ear files. (you cannot deploy the exploded archives, because there is a bug in the maven-war plugin)
-
-5. Copy planningsuite-ear/target/planningsuite-<current version>.ear to your JBoss deployments folder
+5. Copy planningsuite-ear/target/planningsuite-ear.ear to your JBoss deployments folder
 6. Copy idp/target/idp.war to your JBoss deployments folder.
 
 NOTE: If your database is set up for the first time, you have to:

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/idp/" />
+<title>createPlan</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">createPlan</td></tr>
+</thead><tbody>
+<tr>
+	<td>assertTitle</td>
+	<td>SCAPE Planning Suite</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='mainform']/div[2]/ul/li[3]/a/div/div[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:name:name_input</td>
+	<td>Test Plan</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:description:description_input</td>
+	<td>Selenium Test</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:createProject</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:documentTypes:documentTypes_input</td>
+	<td>images</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=mainform:savediscardproceed:submitButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:collectionID:collectionID_input</td>
+	<td>a test collection</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:collectionDescription:collectionDescription_input</td>
+	<td>collection of images</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:collectionTypeOfObjects:collectionTypeOfObjects_input</td>
+	<td>mostly jpg images</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=mainform:collectionNumberOfObjects:collectionNumberOfObjects_input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:collectionNumberOfObjects:collectionNumberOfObjects_input</td>
+	<td>300</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:collectionExpectedGrowthRate:collectionExpectedGrowthRate_input</td>
+	<td>1000 per year</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=mainform:collectionRetentionPeriod:collectionRetentionPeriod_input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=mainform:samplesDescription:samplesDescription_input</td>
+	<td>some test samples</td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>SCAPE Planning Suite - Define Sample Objects</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

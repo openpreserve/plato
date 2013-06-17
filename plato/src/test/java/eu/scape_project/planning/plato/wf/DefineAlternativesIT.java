@@ -29,10 +29,13 @@ import org.jboss.weld.context.bound.Bound;
 import org.jboss.weld.context.bound.BoundConversationContext;
 import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import eu.scape_project.planning.annotation.IntegrationTest;
 import eu.scape_project.planning.application.PlatoDeploymentBuilder;
 
+@Category(IntegrationTest.class)
 @RunWith(Arquillian.class)
 public class DefineAlternativesIT {
 

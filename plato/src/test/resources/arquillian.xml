@@ -5,6 +5,10 @@
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
 	<defaultProtocol type="Servlet 3.0" />
+    <extension qualifier="selenium" >
+        <!-- <property name="browser">*googlechrome</property> -->
+        
+    </extension>	
 <!-- 	<container qualifier="jbossas" default="true">
 		<configuration>
 			<property name="providerUrl">jnp://localhost:1099</property>

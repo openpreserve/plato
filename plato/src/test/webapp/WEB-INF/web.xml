@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+    <display-name>Planning Tool</display-name>
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <filter>
+        <filter-name>UTF8EncodingFilter</filter-name>
+        <filter-class>eu.scape_project.planning.services.UTF8EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UTF8EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.richfaces.skin</param-name>
+        <param-value>DEFAULT</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.richfaces.CONTROL_SKINNING</param-name>
+        <param-value>enable</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+
+    <!-- Define a Security Constraint on this Application -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Plato</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>authenticated</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <description>
+			The role that is required to log in to Plato
+    	</description>
+        <role-name>authenticated</role-name>
+    </security-role>
+ 
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/index.jsf</location>
+    </error-page>
+</web-app>

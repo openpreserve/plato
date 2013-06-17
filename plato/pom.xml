@@ -13,12 +13,9 @@
 	<properties>
 		<plato.url>http://${sp.domain}:${ps.port}/plato/</plato.url>
 		<parent.basedir>../</parent.basedir>
-		
-	    <version.org.jboss.arquillian>1.0.3.Final</version.org.jboss.arquillian>
-	    <version.org.jboss.arquillian.drone>1.2.0.Alpha1</version.org.jboss.arquillian.drone>
-<!-- 	    <version.org.jboss.arquillian.graphene>1.0.0.Final</version.org.jboss.arquillian.graphene>
-	    <version.org.jboss.arquillian.graphene2>2.0.0.Alpha3</version.org.jboss.arquillian.graphene2>
- -->		
+
+		<version.org.jboss.arquillian>1.0.4.Final</version.org.jboss.arquillian>
+		<version.org.jboss.arquillian.drone>1.2.0.Alpha2</version.org.jboss.arquillian.drone>
 	</properties>
 
 	<build>
@@ -75,11 +72,15 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
+				<version>2.12.3</version>
 				<configuration>
 					<environmentVariables>
 						<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
 					</environmentVariables>
+					<includes>
+						<include>**/*.class</include>
+					</includes>
+					<excludedGroups>eu.scape_project.planning.annotation.IntegrationTest,eu.scape_project.planning.annotation.SeleniumTest</excludedGroups>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -146,7 +147,7 @@
 			<groupId>eu.scape-project.pw</groupId>
 			<artifactId>minimee</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -213,6 +214,8 @@
 	</dependencies>
 	<profiles>
 		<profile>
+			<!-- To speed up unit tests on Travis we exclude sources which depend 
+				on arquillian and selenium -->
 			<id>no-integration-tests</id>
 			<build>
 				<plugins>
@@ -220,8 +223,8 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
-						    <!-- exclude all classes which depend on arquillian etc -->
-		 					<testExcludes>
+							<!-- exclude all classes which depend on arquillian etc -->
+							<testExcludes>
 								<exclude>**/*IT.java</exclude>
 								<exclude>**/application/*.java</exclude>
 							</testExcludes>
@@ -230,26 +233,26 @@
 				</plugins>
 			</build>
 		</profile>
-	
+
 		<profile>
 			<id>integration-tests</id>
-			<activation><activeByDefault>true</activeByDefault></activation>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>2.12</version>
+						<version>2.14.1</version>
 						<configuration>
 							<encoding>UTF-8</encoding>
 							<environmentVariables>
 								<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
 							</environmentVariables>
-							<excludes>
-								<exclude>**/selenium/*.java</exclude>
-							</excludes>
+							<groups>eu.scape_project.planning.annotation.IntegrationTest</groups>
 						</configuration>
-		 				<executions>
+						<executions>
 							<execution>
 								<id>integration-test</id>
 								<goals>
@@ -263,44 +266,44 @@
 								</goals>
 							</execution>
 						</executions>
-		 			</plugin>
- 				</plugins>
+					</plugin>
+				</plugins>
 			</build>
 			<dependencyManagement>
-			    <dependencies>
-			        <!-- Arquillian Core dependencies -->
-			        <dependency>
-			            <groupId>org.jboss.arquillian</groupId>
-			            <artifactId>arquillian-bom</artifactId>
-			            <version>${version.org.jboss.arquillian}</version>
-			            <type>pom</type>
-			            <scope>import</scope>
-			        </dependency>        
-			        
-			 		<dependency>
-			            <groupId>org.jboss.arquillian.extension</groupId>
-			            <artifactId>arquillian-drone-bom</artifactId>
-			            <version>${version.org.jboss.arquillian.drone}</version>
-			            <type>pom</type>
-			            <scope>import</scope>
-			        </dependency>
-			    </dependencies>
+				<dependencies>
+					<!-- Arquillian Core dependencies -->
+					<dependency>
+						<groupId>org.jboss.arquillian</groupId>
+						<artifactId>arquillian-bom</artifactId>
+						<version>${version.org.jboss.arquillian}</version>
+						<type>pom</type>
+						<scope>import</scope>
+					</dependency>
+
+					<dependency>
+						<groupId>org.jboss.arquillian.extension</groupId>
+						<artifactId>arquillian-drone-bom</artifactId>
+						<version>${version.org.jboss.arquillian.drone}</version>
+						<type>pom</type>
+						<scope>import</scope>
+					</dependency>
+				</dependencies>
 			</dependencyManagement>
 			<dependencies>
 				<!-- arquillian drone dependencies -->
 				<dependency>
-				    <groupId>org.jboss.arquillian.extension</groupId>
-				    <artifactId>arquillian-drone-selenium</artifactId>
-				    <scope>test</scope>
+					<groupId>org.jboss.arquillian.extension</groupId>
+					<artifactId>arquillian-drone-selenium</artifactId>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
-				    <groupId>org.seleniumhq.selenium</groupId>
-				    <artifactId>selenium-java</artifactId>
-				    <scope>test</scope>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+					<scope>test</scope>
 				</dependency>
-		        <!-- non - arquillian drone dependencies -->
-		        
-		        			
+				<!-- non - arquillian drone dependencies -->
+
+
 				<dependency>
 					<groupId>org.jboss.arquillian.junit</groupId>
 					<artifactId>arquillian-junit-container</artifactId>
@@ -320,7 +323,7 @@
 				<dependency>
 					<groupId>org.jboss.weld</groupId>
 					<artifactId>weld-core</artifactId>
-					<version>1.1.8.Final</version>
+					<version>1.1.13.Final</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -332,20 +335,19 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>2.12</version>
+						<version>2.14.1</version>
 						<configuration>
 							<encoding>UTF-8</encoding>
 							<environmentVariables>
 								<JBOSS_HOME>${jbossHomeTest}</JBOSS_HOME>
 							</environmentVariables>
+							<groups>eu.scape_project.planning.annotation.SeleniumTest</groups>
 							<includes>
-								<include>**/selenium/*.java</include>
+								<include>**/*.java</include>
 							</includes>
-						    <excludes>
-						    	<exclude>**/*.java</exclude>
-						    </excludes>
+<!-- 							<excludedGroups>eu.scape_project.planning.annotation.IntegrationTest</excludedGroups> -->
 						</configuration>
-		 				<executions>
+						<executions>
 							<execution>
 								<id>integration-test</id>
 								<goals>
@@ -359,65 +361,65 @@
 								</goals>
 							</execution>
 						</executions>
-		 			</plugin>
- 				</plugins>
+					</plugin>
+				</plugins>
 			</build>
 			<dependencyManagement>
-			    <dependencies>
-			        <!-- Arquillian Core dependencies: these are needed for build -->
-			        <dependency>
-			            <groupId>org.jboss.arquillian</groupId>
-			            <artifactId>arquillian-bom</artifactId>
-			            <version>${version.org.jboss.arquillian}</version>
-			            <type>pom</type>
-			            <scope>import</scope>
-			        </dependency>        
-			        
-			 		<dependency>
-			            <groupId>org.jboss.arquillian.extension</groupId>
-			            <artifactId>arquillian-drone-bom</artifactId>
-			            <version>${version.org.jboss.arquillian.drone}</version>
-			            <type>pom</type>
-			            <scope>import</scope>
-			        </dependency>
-			    </dependencies>
+				<dependencies>
+					<!-- Arquillian Core dependencies: these are needed for build -->
+					<dependency>
+						<groupId>org.jboss.arquillian</groupId>
+						<artifactId>arquillian-bom</artifactId>
+						<version>${version.org.jboss.arquillian}</version>
+						<type>pom</type>
+						<scope>import</scope>
+					</dependency>
+
+					<dependency>
+						<groupId>org.jboss.arquillian.extension</groupId>
+						<artifactId>arquillian-drone-bom</artifactId>
+						<version>${version.org.jboss.arquillian.drone}</version>
+						<type>pom</type>
+						<scope>import</scope>
+					</dependency>
+				</dependencies>
 			</dependencyManagement>
 			<dependencies>
-			<!-- arquillian drone dependencies -->
+				<!-- arquillian drone dependencies -->
 				<dependency>
-				    <groupId>org.jboss.arquillian.extension</groupId>
-				    <artifactId>arquillian-drone-impl</artifactId>
-				    <scope>test</scope>
+					<groupId>org.jboss.arquillian.extension</groupId>
+					<artifactId>arquillian-drone-impl</artifactId>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
-				    <groupId>org.jboss.arquillian.extension</groupId>
-				    <artifactId>arquillian-drone-selenium</artifactId>
-				    <scope>test</scope>
+					<groupId>org.jboss.arquillian.extension</groupId>
+					<artifactId>arquillian-drone-selenium</artifactId>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
-				    <groupId>org.jboss.arquillian.extension</groupId>
-				    <artifactId>arquillian-drone-selenium-server</artifactId>
-				    <scope>test</scope>
+					<groupId>org.jboss.arquillian.extension</groupId>
+					<artifactId>arquillian-drone-selenium-server</artifactId>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
-				    <groupId>org.seleniumhq.selenium</groupId>
-				    <artifactId>selenium-java</artifactId>
-				    <scope>test</scope>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+					<scope>test</scope>
 				</dependency>
 				<dependency>
-				    <groupId>org.seleniumhq.selenium</groupId>
-				    <artifactId>selenium-server</artifactId>
-				    <scope>test</scope>
-				    <exclusions>
-				        <exclusion>
-				            <groupId>org.mortbay.jetty</groupId>
-				            <artifactId>servlet-api-2.5</artifactId>
-				        </exclusion>
-				    </exclusions>
-				</dependency>		        
-		        <!-- non - arquillian drone dependencies -->
-		        
-		        			
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-server</artifactId>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>org.mortbay.jetty</groupId>
+							<artifactId>servlet-api-2.5</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<!-- non - arquillian drone dependencies -->
+
+
 				<dependency>
 					<groupId>org.jboss.arquillian.junit</groupId>
 					<artifactId>arquillian-junit-container</artifactId>
@@ -434,13 +436,13 @@
 					<artifactId>arquillian-protocol-servlet</artifactId>
 					<scope>test</scope>
 				</dependency>
-				<dependency>
+ 				<dependency>
 					<groupId>org.jboss.weld</groupId>
 					<artifactId>weld-core</artifactId>
-					<version>1.1.8.Final</version>
+					<version>1.1.13.Final</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
-		</profile>		
+		</profile>
 	</profiles>
 </project>
