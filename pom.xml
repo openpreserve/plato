@@ -316,5 +316,14 @@
 				</site>
 			</distributionManagement>
 		</profile>
-	</profiles>
+		<profile>
+			<id>profile-opf-jenkins</id>
+			<distributionManagement>
+				<site>
+					<id>opf.jenkins.site</id>
+					<name>OPF Labs Maven Local Website</name>
+					<url>file:///var/www/projects/plato</url>
+				</site>
+			</distributionManagement>
+		</profile>	</profiles>
 </project>
