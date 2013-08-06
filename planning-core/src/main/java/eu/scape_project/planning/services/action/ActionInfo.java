@@ -1,11 +1,12 @@
 package eu.scape_project.planning.services.action;
 
 import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.services.IServiceInfo;
 
 /**
  * Information about a preservation action service.
  */
-public class ActionInfo extends PreservationActionDefinition implements IActionInfo {
+public class ActionInfo extends PreservationActionDefinition implements IServiceInfo {
 
     private static final long serialVersionUID = -7502826760939283906L;
 

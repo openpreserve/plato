@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.IServiceInfo;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -31,7 +31,7 @@ import org.dom4j.io.SAXReader;
 
 public class SparqlResultComponentsParser {
 
-    public void addComponentsFromSparqlResult(List<IActionInfo> components, Reader sparqlResult) throws PlatoException {
+    public void addComponentsFromSparqlResult(List<IServiceInfo> components, Reader sparqlResult) throws PlatoException {
 
         SAXReader reader = new SAXReader();
         try {

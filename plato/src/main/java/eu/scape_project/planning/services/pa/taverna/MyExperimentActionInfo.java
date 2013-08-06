@@ -1,11 +1,11 @@
 package eu.scape_project.planning.services.pa.taverna;
 
-import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.IServiceInfo;
 
 /**
  * A Taverna preservation action service information.
  */
-public class MyExperimentActionInfo implements IActionInfo {
+public class MyExperimentActionInfo implements IServiceInfo {
     private static final String SERVICE_IDENTIFIER = "myExperiment";
 
     private String shortname;

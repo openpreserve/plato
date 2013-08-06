@@ -9,18 +9,18 @@ import java.util.concurrent.Future;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
-import eu.scape_project.planning.services.action.IActionInfo;
-import eu.scape_project.planning.services.myexperiment.TavernaServiceLoader;
+import eu.scape_project.planning.services.IServiceInfo;
+import eu.scape_project.planning.services.myexperiment.MyExperimentAsyncLoader;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.utils.FacesMessages;
+
+import org.slf4j.Logger;
 
 /**
  * Taverna service cache for loading details.
  */
 @Dependent
-public class TavernaServices implements Serializable, IServiceLoader {
+public class MyExperimentServices implements Serializable, IServiceLoader {
 
     private static final long serialVersionUID = -65374305723742598L;
 
@@ -31,12 +31,12 @@ public class TavernaServices implements Serializable, IServiceLoader {
     private FacesMessages facesMessages;
 
     @Inject
-    private TavernaServiceLoader loader;
+    private MyExperimentAsyncLoader loader;
 
     private Map<String, Future<WorkflowDescription>> workflowDescriptions = new HashMap<String, Future<WorkflowDescription>>();
 
     @Override
-    public void load(IActionInfo serviceInfo) {
+    public void load(IServiceInfo serviceInfo) {
         if (!workflowDescriptions.containsKey(serviceInfo.getDescriptor())) {
             log.debug("Loading service [{}]", serviceInfo.getUrl());
             workflowDescriptions.put(serviceInfo.getDescriptor(),
@@ -51,7 +51,7 @@ public class TavernaServices implements Serializable, IServiceLoader {
      *            the service to check
      * @return true if the details are ready, false otherwise
      */
-    public boolean isWorkflowDescriptionReady(IActionInfo serviceInfo) {
+    public boolean isWorkflowDescriptionReady(IServiceInfo serviceInfo) {
         Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(serviceInfo.getDescriptor());
         if (futureWorkflowDescription == null) {
             return false;
@@ -67,7 +67,7 @@ public class TavernaServices implements Serializable, IServiceLoader {
      *            the service to get
      * @return details of the service
      */
-    public WorkflowDescription getWorkflowDescription(IActionInfo serviceInfo) {
+    public WorkflowDescription getWorkflowDescription(IServiceInfo serviceInfo) {
         if (serviceInfo == null) {
             return null;
         }

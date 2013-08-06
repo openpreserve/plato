@@ -27,7 +27,7 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.utils.JGet;
 
@@ -70,8 +70,8 @@ public class ComponentRegistry implements IPreservationActionRegistry {
      * ORDER BY ?w ?wt
      */
     @Override
-    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
-        List<IActionInfo> preservationActions = new ArrayList<IActionInfo>();
+    public List<IServiceInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+        List<IServiceInfo> preservationActions = new ArrayList<IServiceInfo>();
 
         StringBuilder query = new StringBuilder();
         query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>").append("\n")

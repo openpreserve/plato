@@ -20,7 +20,7 @@ public final class ActionInfoFactory {
      *            the preservation action definition
      * @return a action info
      */
-    public static IActionInfo createActionInfo(PreservationActionDefinition preservationActionDefinition) {
+    public static ActionInfo createActionInfo(PreservationActionDefinition preservationActionDefinition) {
         ActionInfo actionInfo = new ActionInfo();
         actionInfo.setServiceIdentifier(preservationActionDefinition.getActionIdentifier());
         actionInfo.setDescriptor(preservationActionDefinition.getDescriptor());

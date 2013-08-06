@@ -5,10 +5,9 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
+import eu.scape_project.planning.services.IServiceInfo;
 
-import eu.scape_project.planning.services.action.IActionInfo;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +21,7 @@ public class SparqlResultComponentsParserTest {
 
     @Test
     public void testSuccessfulParsing() throws Exception {
-        List<IActionInfo> components = new ArrayList<IActionInfo>();
+        List<IServiceInfo> components = new ArrayList<IServiceInfo>();
 
         Reader reader = new FileReader("src/test/resources/data/component/lookup-response-sample1.xml");
 
@@ -37,5 +36,4 @@ public class SparqlResultComponentsParserTest {
         Assert.assertNotNull(components.get(0).getInfo());
         Assert.assertEquals("myExperiment", components.get(0).getServiceIdentifier());
     }
-
 }

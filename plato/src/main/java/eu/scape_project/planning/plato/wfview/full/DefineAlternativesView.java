@@ -33,14 +33,14 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.plato.bean.IServiceLoader;
+import eu.scape_project.planning.plato.bean.MyExperimentServices;
 import eu.scape_project.planning.plato.bean.ServiceInfoDataModel;
-import eu.scape_project.planning.plato.bean.TavernaServices;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
-import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.utils.FacesMessages;
@@ -60,10 +60,11 @@ public class DefineAlternativesView extends AbstractView {
 
     private static final long serialVersionUID = -8800780634335662691L;
 
+    /**
+     * Types of registries.
+     */
     private enum SelectedRegistry {
-        PA,
-        CUSTOM,
-        MY_EXPERIMENT
+        PA, CUSTOM, MY_EXPERIMENT
     };
 
     @Inject
@@ -78,7 +79,7 @@ public class DefineAlternativesView extends AbstractView {
     /**
      * Alternative that is currently being edited.
      */
-    private IActionInfo editableAlternativeActionInfo;
+    private IServiceInfo editableAlternativeActionInfo;
 
     /**
      * Name of the editable alternative which cannot be set directly in the
@@ -102,7 +103,7 @@ public class DefineAlternativesView extends AbstractView {
      * Cache for myExperiment service details.
      */
     @Inject
-    private TavernaServices tavernaServices;
+    private MyExperimentServices tavernaServices;
 
     /**
      * List of all currently defined preservation service registries.
@@ -112,7 +113,7 @@ public class DefineAlternativesView extends AbstractView {
     /**
      * List of actions of the currently selected registry.
      */
-    private List<IActionInfo> availableActions;
+    private List<IServiceInfo> availableActions;
 
     /**
      * Data model for services.
@@ -140,7 +141,7 @@ public class DefineAlternativesView extends AbstractView {
         editableAlternative = null;
 
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
-        availableActions = new ArrayList<IActionInfo>();
+        availableActions = new ArrayList<IServiceInfo>();
         serviceLoaders = new HashMap<String, IServiceLoader>();
 
         myExperimentSearch = new MyExperimentSearch();
@@ -272,6 +273,9 @@ public class DefineAlternativesView extends AbstractView {
         return plan.getSampleRecordsDefinition().getFirstSampleWithFormat();
     }
 
+    /**
+     * Clears the lists of available services.
+     */
     private void clearAvailableServices() {
         availableActions.clear();
         tavernaServices.clear();
@@ -288,7 +292,7 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
-     * Shows myExperiment alternatimyExperimentRESTClientves.
+     * Shows myExperiment alternatives.
      */
     public void showMyExperimentAlternatives() {
         clearAvailableServices();
@@ -298,6 +302,9 @@ public class DefineAlternativesView extends AbstractView {
         filterMyExperimentAlternatives();
     }
 
+    /**
+     * Filters myExperiment alternatives.
+     */
     public void filterMyExperimentAlternatives() {
         availableActions.clear();
         availableActions.addAll(myExperimentSearch.search());
@@ -305,7 +312,7 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
-     * Retrieves the list of services available in the given registry, for the
+     * Retrieves the list of services available in the given registry.
      * 
      * @param registry
      *            the registry to query
@@ -327,12 +334,12 @@ public class DefineAlternativesView extends AbstractView {
      * Adds a preservation action to the plan, created from the provided action
      * info.
      * 
-     * @param actionInfo
+     * @param serviceInfo
      *            the action info
      */
-    public void addPreservationAction(IActionInfo actionInfo) {
+    public void addPreservationAction(IServiceInfo serviceInfo) {
         try {
-            defineAlternatives.addAlternative(actionInfo);
+            defineAlternatives.addAlternative(serviceInfo);
         } catch (PlanningException e) {
             facesMessages.addError("Could not create an alternative from the service you selected.");
         }
@@ -384,7 +391,7 @@ public class DefineAlternativesView extends AbstractView {
         this.editableAlternativeName = editableAlternativeName;
     }
 
-    public IActionInfo getEditableAlternativeActionInfo() {
+    public IServiceInfo getEditableAlternativeActionInfo() {
         return editableAlternativeActionInfo;
     }
 
@@ -400,7 +407,7 @@ public class DefineAlternativesView extends AbstractView {
         return availableRegistries;
     }
 
-    public List<IActionInfo> getAvailableActions() {
+    public List<IServiceInfo> getAvailableActions() {
         return availableActions;
     }
 
@@ -416,7 +423,7 @@ public class DefineAlternativesView extends AbstractView {
         return serviceInfoData;
     }
 
-    public TavernaServices getTavernaServices() {
+    public MyExperimentServices getTavernaServices() {
         return tavernaServices;
     }
 

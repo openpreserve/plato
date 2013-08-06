@@ -26,6 +26,7 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.services.IServiceInfo;
 
 /**
  * Interface for preservation action registries supported by plato.
@@ -44,13 +45,13 @@ public interface IPreservationActionRegistry {
 
     /**
      * returns a list of preservation actions which can handle objects of the
-     * given sourceFormat
+     * given sourceFormat.
      * 
      * @param sourceFormat
      * @return null, if nothing is found
      * @throws RemoteException
      */
-    List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException;
+    List<IServiceInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException;
 
     String getLastInfo();
 

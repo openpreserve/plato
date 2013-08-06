@@ -24,15 +24,15 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
+
+import org.slf4j.Logger;
 
 /**
  * Asynchronous loader for Taverna services.
  */
 @Stateless
-public class TavernaServiceLoader implements Serializable {
+public class MyExperimentAsyncLoader implements Serializable {
 
     private static final long serialVersionUID = -7996768888644615697L;
 

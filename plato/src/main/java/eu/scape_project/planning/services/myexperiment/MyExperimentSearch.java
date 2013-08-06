@@ -19,7 +19,7 @@ package eu.scape_project.planning.services.myexperiment;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient.ComponentQuery;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
 import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
@@ -46,8 +46,8 @@ public class MyExperimentSearch {
 
     private String environmentType;
 
-    public List<IActionInfo> search() {
-        List<IActionInfo> services = new ArrayList<IActionInfo>();
+    public List<IServiceInfo> search() {
+        List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 
         // Create query
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();

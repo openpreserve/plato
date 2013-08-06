@@ -34,7 +34,6 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
-import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryFactory;
@@ -84,7 +83,7 @@ public class DefineAlternatives extends AbstractWorkflowStep {
      * @throws PlatoException
      *             if the registry is not properly configured
      */
-    public List<IActionInfo> queryRegistry(FormatInfo formatInfo, PreservationActionRegistryDefinition registry)
+    public List<IServiceInfo> queryRegistry(FormatInfo formatInfo, PreservationActionRegistryDefinition registry)
         throws PlatoException {
         log.debug("Loading preservation action services from registry [{}]", registry.getShortname());
         IPreservationActionRegistry serviceLocator = null;
