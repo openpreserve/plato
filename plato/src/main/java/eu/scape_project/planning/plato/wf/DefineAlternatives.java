@@ -25,6 +25,8 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.AlternativesDefinition;
@@ -34,11 +36,10 @@ import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryFactory;
-
-import org.slf4j.Logger;
 
 /**
  * Classed containing the business logic for defining alternatives.
@@ -131,6 +132,37 @@ public class DefineAlternatives extends AbstractWorkflowStep {
         actionDefinition.setDescriptor(actionInfo.getDescriptor());
         actionDefinition.setUrl(actionInfo.getUrl());
         actionDefinition.setInfo(actionInfo.getInfo());
+
+        String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
+        Alternative a = Alternative.createAlternative(uniqueName, actionDefinition);
+        plan.getAlternativesDefinition().addAlternative(a);
+        return a;
+    }
+
+    /**
+     * Creates an alternative from a action info and adds it to the plan.
+     * 
+     * The provided name is converted to a unique name for the plan.
+     * 
+     * @param actionInfo
+     *            the source action info
+     * @return the new alternative
+     * @throws PlanningException
+     *             if the alternative could not be added
+     */
+    public Alternative addAlternative(ActionInfo actionInfo) throws PlanningException {
+        PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
+        actionDefinition.setShortname(actionInfo.getShortname());
+        actionDefinition.setDescriptor(actionInfo.getDescriptor());
+        actionDefinition.setInfo(actionInfo.getInfo());
+        actionDefinition.setActionIdentifier(actionInfo.getActionIdentifier());
+        actionDefinition.setParams(actionInfo.getParams());
+        actionDefinition.setParameterInfo(actionInfo.getParameterInfo());
+        actionDefinition.setUrl(actionInfo.getUrl());
+        actionDefinition.setTargetFormatInfo(actionInfo.getTargetFormatInfo());
+        actionDefinition.setTargetFormat(actionInfo.getTargetFormat());
+        actionDefinition.setEmulated(actionInfo.isEmulated());
+        actionDefinition.setExecutable(actionInfo.isExecutable());
 
         String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
         Alternative a = Alternative.createAlternative(uniqueName, actionDefinition);

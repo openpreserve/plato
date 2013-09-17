@@ -34,6 +34,9 @@ public class MyExperimentSearch {
      */
     private MyExperimentRESTClient myExperimentRESTClient = new MyExperimentRESTClient();
 
+    /*
+     * Search parameters
+     */
     private String profile;
 
     private String fromMimetype;
@@ -46,6 +49,11 @@ public class MyExperimentSearch {
 
     private String environmentType;
 
+    /**
+     * Searches for components using the set search parameters.
+     * 
+     * @return a list of service infos that match the search parameters
+     */
     public List<IServiceInfo> search() {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 

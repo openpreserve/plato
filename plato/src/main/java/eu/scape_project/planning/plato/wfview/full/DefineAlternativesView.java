@@ -26,11 +26,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.plato.bean.IServiceLoader;
 import eu.scape_project.planning.plato.bean.MyExperimentServices;
@@ -40,14 +44,13 @@ import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
+import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
-
-import org.hibernate.validator.constraints.Length;
-import org.slf4j.Logger;
 
 /**
  * Class used as backing-bean for the view definealternatives.xhtml.
@@ -338,6 +341,21 @@ public class DefineAlternativesView extends AbstractView {
      *            the action info
      */
     public void addPreservationAction(IServiceInfo serviceInfo) {
+        try {
+            defineAlternatives.addAlternative(serviceInfo);
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not create an alternative from the service you selected.");
+        }
+    }
+    
+    /**
+     * Adds a preservation action to the plan, created from the provided action
+     * info.
+     * 
+     * @param serviceInfo
+     *            the action info
+     */
+    public void addPreservationAction(ActionInfo serviceInfo) {
         try {
             defineAlternatives.addAlternative(serviceInfo);
         } catch (PlanningException e) {

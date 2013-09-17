@@ -29,7 +29,7 @@ public class SparqlResultComponentsParserTest {
 
         Assert.assertEquals(8, components.size());
 
-        Assert.assertEquals("http://www.myexperiment.org/workflows/2639/versions/4", components.get(0).getDescriptor());
+        Assert.assertEquals("http://www.myexperiment.org/workflow.xml?id=2639&version=4", components.get(0).getDescriptor());
         Assert
             .assertEquals("http://www.myexperiment.org/workflows/2639/download?version=4", components.get(0).getUrl());
         Assert.assertEquals("Mock-Up mp3 To Wav Migrate And QA", components.get(0).getShortname());
