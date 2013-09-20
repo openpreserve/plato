@@ -42,5 +42,4 @@ public class SearchResult {
     public void setWorkflows(List<WorkflowInfo> workflows) {
         this.workflows = workflows;
     }
-
 }

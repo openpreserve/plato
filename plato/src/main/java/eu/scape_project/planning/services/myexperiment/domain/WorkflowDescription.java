@@ -58,7 +58,7 @@ import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescriptio
 /**
  * Description of a workflow of a myExperiment REST API response.
  */
-@XmlRootElement
+@XmlRootElement(name = "workflow")
 public class WorkflowDescription extends WorkflowInfo {
 
     private static final String SEMANTIC_ANNOTATION_LANG = "N3";

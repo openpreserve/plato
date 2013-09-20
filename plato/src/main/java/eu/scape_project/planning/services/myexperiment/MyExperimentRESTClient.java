@@ -450,8 +450,6 @@ public class MyExperimentRESTClient {
 
     private String myExperimentUri;
 
-    private Client client;
-
     private WebResource myExperiment;
 
     /**
@@ -463,11 +461,19 @@ public class MyExperimentRESTClient {
         myExperimentUri = config.getString("myexperiment.rest.uri");
 
         ClientConfig cc = new DefaultClientConfig();
-        // cc.getFeatures().put(ClientConfig.FEATURE_DISABLE_XML_SECURITY,
-        // true);
-        client = Client.create(cc);
+        Client client = Client.create(cc);
 
         myExperiment = client.resource(myExperimentUri);
+    }
+
+    /**
+     * Creates a new rest client for myExperiment.
+     * 
+     * @param myExperiment
+     *            web resource to use for requests
+     */
+    public MyExperimentRESTClient(WebResource myExperiment) {
+        this.myExperiment = myExperiment;
     }
 
     /**
