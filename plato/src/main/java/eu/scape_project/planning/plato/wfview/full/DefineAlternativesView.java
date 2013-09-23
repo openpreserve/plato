@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
@@ -47,6 +48,8 @@ import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
 import eu.scape_project.planning.utils.FacesMessages;
@@ -67,7 +70,9 @@ public class DefineAlternativesView extends AbstractView {
      * Types of registries.
      */
     private enum SelectedRegistry {
-        PA, CUSTOM, MY_EXPERIMENT
+        PA,
+        CUSTOM,
+        MY_EXPERIMENT
     };
 
     @Inject
@@ -347,7 +352,41 @@ public class DefineAlternativesView extends AbstractView {
             facesMessages.addError("Could not create an alternative from the service you selected.");
         }
     }
-    
+
+    /**
+     * Adds a preservation action to the plan, created from the provided action
+     * info.
+     * 
+     * @param serviceInfo
+     *            the action info
+     */
+    public void addPreservationAction(MyExperimentActionInfo serviceInfo) {
+        WorkflowDescription wf = tavernaServices.getWorkflowDescriptionBlocking(serviceInfo);
+        if (wf == null) {
+            facesMessages.addError("Could not retrieve workflow description from myExeriment.");
+            return;
+        }
+
+        try {
+            PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
+            actionDefinition.setActionIdentifier(serviceInfo.getServiceIdentifier());
+            actionDefinition.setShortname(serviceInfo.getShortname());
+            actionDefinition.setDescriptor(serviceInfo.getDescriptor());
+            actionDefinition.setUrl(serviceInfo.getUrl());
+            actionDefinition.setInfo(serviceInfo.getInfo());
+
+            for (ParameterPort p : wf.getParameterPorts()) {
+                actionDefinition.getParams().add(new Parameter(p.getName(), ""));
+            }
+
+            String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
+            Alternative a = Alternative.createAlternative(uniqueName, actionDefinition);
+            defineAlternatives.addAlternative(a);
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not create an alternative from the service you selected.");
+        }
+    }
+
     /**
      * Adds a preservation action to the plan, created from the provided action
      * info.

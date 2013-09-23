@@ -16,6 +16,8 @@
  ******************************************************************************/
 package eu.scape_project.planning.plato.wfview.full;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
@@ -25,11 +27,16 @@ import javax.inject.Named;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
+import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.plato.bean.MyExperimentServices;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DevelopExperiments;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.services.action.ActionInfo;
+import eu.scape_project.planning.services.action.ActionInfoFactory;
 
 /**
  * Class used as backing-bean for the view developexperiments.xhtml.
@@ -50,6 +57,14 @@ public class DevelopExperimentsView extends AbstractView {
     private List<Alternative> alternatives;
 
     /**
+     * Cache for myExperiment service details.
+     */
+    @Inject
+    private MyExperimentServices myExperimentServices;
+
+    private HashMap<Alternative, ActionInfo> actionInfos;
+
+    /**
      * Default constructor.
      */
     public DevelopExperimentsView() {
@@ -63,6 +78,22 @@ public class DevelopExperimentsView extends AbstractView {
     public void init(Plan plan) {
         super.init(plan);
         alternatives = plan.getAlternativesDefinition().getConsideredAlternatives();
+
+        actionInfos = new HashMap<Alternative, ActionInfo>(alternatives.size());
+        for (Alternative a : alternatives) {
+            PreservationActionDefinition pad = a.getAction();
+            if (pad != null) {
+                ActionInfo actionInfo = ActionInfoFactory.createActionInfo(pad);
+                actionInfos.put(a, actionInfo);
+                myExperimentServices.load(actionInfo);
+            }
+        }
+    }
+
+    // --------------- getter/setter ---------------
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return developExperiments;
     }
 
     public List<Alternative> getAlternatives() {
@@ -73,8 +104,11 @@ public class DevelopExperimentsView extends AbstractView {
         this.alternatives = alternatives;
     }
 
-    @Override
-    protected AbstractWorkflowStep getWfStep() {
-        return developExperiments;
+    public MyExperimentServices getMyExperimentServices() {
+        return myExperimentServices;
+    }
+
+    public HashMap<Alternative, ActionInfo> getActionInfos() {
+        return actionInfos;
     }
 }

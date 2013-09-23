@@ -53,7 +53,7 @@ public abstract class AbstractView implements Serializable {
     protected Plan plan;
 
     /**
-     * Planstate this viewWorkflow step is responsible for.
+     * Plan state this viewWorkflow step is responsible for.
      */
     protected PlanState currentPlanState;
 
@@ -62,14 +62,6 @@ public abstract class AbstractView implements Serializable {
     protected String viewUrl;
 
     protected String group;
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
 
     /**
      * This flag is used in views to prevent navigation per menu when there are
@@ -174,8 +166,20 @@ public abstract class AbstractView implements Serializable {
      */
     protected abstract AbstractWorkflowStep getWfStep();
 
-    // --------------- getter/setter ---------------
+    /**
+     * Touches the given object. Used for a4j:ajax listener, which can not cope
+     * with complex method el expressions
+     * 
+     * @param object
+     *            the object to touch
+     */
+    public void touch(Object object) {
+        if (object instanceof ITouchable) {
+            ((ITouchable) object).touch();
+        }
+    }
 
+    // --------------- getter/setter ---------------
     public PlanState getCurrentPlanState() {
         return currentPlanState;
     }
@@ -216,16 +220,11 @@ public abstract class AbstractView implements Serializable {
         this.plan = plan;
     }
 
-    /**
-     * Touches the given object. Used for a4j:ajax listener, which can not cope
-     * with complex method el expressions
-     * 
-     * @param object
-     *            the object to touch
-     */
-    public void touch(Object object) {
-        if (object instanceof ITouchable) {
-            ((ITouchable) object).touch();
-        }
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

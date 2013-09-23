@@ -49,11 +49,13 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.Syntax;
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation.Dependency;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort.PredefinedParameter;
 
 /**
  * Description of a workflow of a myExperiment REST API response.
@@ -264,6 +266,86 @@ public class WorkflowDescription extends WorkflowInfo {
         }
     }
 
+    /**
+     * Parameter port.
+     */
+    public static class ParameterPort {
+
+        /**
+         * Predefined parameters.
+         */
+        public static class PredefinedParameter {
+            private String value;
+            private String description;
+
+            /**
+             * Empty constructor needed for JAXB.
+             */
+            public PredefinedParameter() {
+            }
+
+            /**
+             * Creates a new predefined parameter.
+             * 
+             * @param value
+             *            the value of the parameter
+             * @param description
+             *            the description of the parameter
+             */
+            public PredefinedParameter(String value, String description) {
+                this.value = value;
+                this.description = description;
+            }
+
+            public String getValue() {
+                return value;
+            }
+
+            public String getDescription() {
+                return description;
+            }
+
+        }
+
+        private String name;
+
+        private String description;
+
+        private List<PredefinedParameter> predefinedParameters;
+
+        /**
+         * Empty constructor needed for JAXB.
+         */
+        public ParameterPort() {
+        }
+
+        /**
+         * Creates a new parameter port.
+         * 
+         * @param name
+         *            the port name
+         * @param predefinedParameters
+         *            a list of predefined parameters
+         */
+        public ParameterPort(String name, String description, List<PredefinedParameter> predefinedParameters) {
+            this.name = name;
+            this.description = description;
+            this.predefinedParameters = predefinedParameters;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public List<PredefinedParameter> getPredefinedParameters() {
+            return predefinedParameters;
+        }
+    }
+
     @XmlElement
     private WorkflowDescription.Type type;
 
@@ -291,10 +373,10 @@ public class WorkflowDescription extends WorkflowInfo {
     private String profile = null;
     private List<MigrationPath> migrationPaths = null;
     private List<Installation> installations = null;
+    private List<ParameterPort> parameterPorts = null;
 
     /**
-     * Parses the components and returns the found migration paths of the top
-     * workflow.
+     * Parses the components and returns the found profile of the top workflow.
      * 
      * @return a list of migration paths
      * @throws XPathExpressionException
@@ -425,8 +507,8 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
-     * Parses the components and returns the found migration paths of the top
-     * workflow.
+     * Parses the components and returns the found installations paths of all
+     * workflows.
      * 
      * @return a list of migration paths
      * @throws XPathExpressionException
@@ -523,6 +605,127 @@ public class WorkflowDescription extends WorkflowInfo {
             }
         }
         return installations;
+    }
+
+    /**
+     * Parses the components and returns the found parameter ports of the top
+     * workflow.
+     * 
+     * @return a list of migration paths
+     * @throws XPathExpressionException
+     * @throws IOException
+     */
+    public List<ParameterPort> getParameterPorts() {
+
+        if (parameterPorts == null) {
+            parameterPorts = new ArrayList<ParameterPort>();
+
+            for (Element el : components) {
+                if (el.getNodeName().equals("components")) {
+                    try {
+                        Document doc = el.getOwnerDocument();
+                        XPath xPath = XPathFactory.newInstance().newXPath();
+                        NodeList nodes = (NodeList) xPath.evaluate("/components//dataflow[@role='top']/sources/source",
+                            doc.getDocumentElement(), XPathConstants.NODESET);
+
+                        for (int i = 0; i < nodes.getLength(); ++i) {
+                            Element pel = (Element) nodes.item(i);
+                            ParameterPort p = parseParameterPort(pel);
+                            if (p != null) {
+                                parameterPorts.add(p);
+                            }
+                        }
+                    } catch (XPathExpressionException e) {
+                        LOG.warn("Error extracting installations from myExperiment response", e);
+                    }
+                }
+            }
+        }
+        return parameterPorts;
+    }
+
+    /**
+     * Parses the provided element and creates a ParameterPort.
+     * 
+     * @param element
+     *            the element to parse
+     * @return the parameter port or null if the element is not parameter port
+     */
+    private ParameterPort parseParameterPort(Element element) {
+        ParameterPort parameterPort = null;
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+
+            String portName = (String) xPath.evaluate("name", element, XPathConstants.STRING);
+            String portDescription = (String) xPath
+                .evaluate("descriptions/description", element, XPathConstants.STRING);
+
+            String semanticAnnotations = (String) xPath.evaluate("semantic_annotation/content", element,
+                XPathConstants.STRING);
+
+            Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+            Reader reader = new StringReader(semanticAnnotations);
+            model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+
+            // @formatter:off
+            String statement = 
+                  "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                + "PREFIX comp: <http://purl.org/DP/components#> "
+                + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+                + "PREFIX cc: <http://creativecommons.org/ns#> "
+                + "SELECT ?port ?value ?description WHERE { "
+                + "{ ?port comp:portType comp:ParameterPort ."
+                + "} UNION {"
+                + " { ?port comp:acceptsPredefinedParameter ?parameter ."
+                + "            ?parameter comp:parameterValue ?value ."
+                + "            ?parameter comp:parameterDescription ?description } . } }";
+            // @formatter:on
+
+            Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
+            QueryExecution qe = QueryExecutionFactory.create(query, model);
+            ResultSet results = qe.execSelect();
+
+            try {
+                if (results.hasNext()) {
+                    List<PredefinedParameter> predefinedParameters = new ArrayList<PredefinedParameter>();
+                    parameterPort = new ParameterPort(portName, portDescription, predefinedParameters);
+
+                    while ((results != null) && (results.hasNext())) {
+                        QuerySolution qs = results.next();
+                        Literal value = qs.getLiteral("value");
+                        Literal description = qs.getLiteral("description");
+                        if (value != null && description != null) {
+                            predefinedParameters
+                                .add(new PredefinedParameter(value.getString(), description.getString()));
+                        }
+                    }
+                }
+            } finally {
+                qe.close();
+            }
+
+        } catch (XPathExpressionException e) {
+            LOG.warn("Error extracting parameter port definition from myExperiment response", e);
+        }
+
+        return parameterPort;
+    }
+
+    /**
+     * Returns the parameter port with the provided name.
+     * 
+     * @param name
+     *            the port name
+     * @return the port or null if none found.
+     */
+    public ParameterPort getParameterPort(String name) {
+        List<ParameterPort> ports = getParameterPorts();
+        for (ParameterPort p : ports) {
+            if (p.name.equals(name)) {
+                return p;
+            }
+        }
+        return null;
     }
 
     /**

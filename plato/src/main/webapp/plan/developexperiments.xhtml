@@ -8,7 +8,8 @@
 	xmlns:p="http://java.sun.com/jsf/composite/plato"
 	template="/WEB-INF/templates/default.xhtml"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core">
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
@@ -27,35 +28,43 @@
 
 		<h:form id="mainform">
 			<div class="full-size">
-				<h:dataTable value="#{developExperiments.alternatives}"
+				<rich:dataTable value="#{developExperiments.alternatives}"
 					var="alternative" id="alternativesTable" styleClass="tableStyle"
 					headerClass="tableStyle-header" rowClasses="tableStyle-row">
-					<h:column>
-						<f:facet name="header">Registry</f:facet>
-						<h:graphicImage
-							value="/resources/gfx/icons/registries/#{alternative.action.actionIdentifier}.png"
-							rendered="#{alternative.action != null}" height="40" width="120" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Alternative</f:facet>
-                   #{alternative.name}
-                </h:column>
-					<h:column>
-						<f:facet name="header">Description</f:facet>
-						<p:inputTextArea labelText="Description:"
-							input="#{alternative.experiment.description}" required="false" />
-						<br />
-						<p:inputTextArea labelText="Settings:"
-							input="#{alternative.experiment.settings}" required="false" />
+					<rich:column
+						styleClass="service-marker service-marker-#{alternative.action.actionIdentifier}">
+					</rich:column>
+					<rich:column styleClass="service-info">
+						<div class="service-info-panel">
+							<div class="service-info-header">#{alternative.name}</div>
+							<div class="service-info-info">
 
-						<h:panelGroup
-							rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}"
-							layout="block">
-		                Information about parameters:              
-		                <pre class="overflow-s" style="width: 58%;"> #{alernative.action.parameterInfo}" </pre>
-						</h:panelGroup>
-					</h:column>
-				</h:dataTable>
+								<p:inputTextArea id="developExperimentDescription"
+									labelText="Description:"
+									input="#{alternative.experiment.description}" required="false" />
+
+								<a4j:outputPanel id="settings"
+									rendered="#{alternative.action.actionIdentifier ne 'myExperiment' or not empty alternative.experiment.settings}">
+									<p:inputTextArea id="developExperimentSettings"
+										labelText="Settings:"
+										input="#{alternative.experiment.settings}" required="false" />
+									<h:panelGroup
+										rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}"
+										layout="block">
+		                			Information about parameters:              
+		                			<pre class="overflow-s" style="width: 58%;"> #{alernative.action.parameterInfo}" </pre>
+									</h:panelGroup>
+								</a4j:outputPanel>
+
+								<p:service-parameters id="developExperimentParameters"
+									data="#{developExperiments.myExperimentServices}"
+									serviceInfo="#{developExperiments.actionInfos[alternative]}"
+									alternative="#{alternative}"
+									rendered="#{alternative.action.actionIdentifier eq 'myExperiment'}" />
+							</div>
+						</div>
+					</rich:column>
+				</rich:dataTable>
 			</div>
 
 			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />

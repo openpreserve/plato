@@ -9,12 +9,16 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Assert;
 import org.junit.Test;
 
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation.Dependency;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.MigrationPath;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort.PredefinedParameter;
 
 public class WorkflowDescriptionTest {
 
@@ -66,5 +70,29 @@ public class WorkflowDescriptionTest {
         Assert.assertEquals("imagemagick", dependencies.get(0).getName());
         Assert.assertEquals("5", dependencies.get(0).getVersion());
         Assert.assertEquals("http://opensource.org/licenses/Apache-2.0", dependencies.get(0).getLicense());
+
+        List<ParameterPort> parameterPorts = wf.getParameterPorts();
+        Assert.assertEquals(1, parameterPorts.size());
+        Assert.assertEquals("compression", parameterPorts.get(0).getName());
+        Assert.assertEquals("Imagemagick convert compress parameter", parameterPorts.get(0).getDescription());
+        List<PredefinedParameter> predefinedParameters = parameterPorts.get(0).getPredefinedParameters();
+        Assert.assertEquals(3, predefinedParameters.size());
+
+        Assert.assertThat(predefinedParameters, new TypeSafeMatcher<List<PredefinedParameter>>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Predefined parameters does not contain compression type none.");
+            }
+
+            @Override
+            protected boolean matchesSafely(List<PredefinedParameter> parameters) {
+                for (PredefinedParameter p : parameters) {
+                    if (p.getValue().equals("none") && p.getDescription().equals("no compression")) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }

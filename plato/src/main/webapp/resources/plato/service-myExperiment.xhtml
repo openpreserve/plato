@@ -143,7 +143,7 @@
 			</a4j:outputPanel>
 
 			<!-- Fallback if workflow not yet ready -->
-			<a4j:outputPanel id="status" styleClass="service-info-panel"
+			<a4j:outputPanel id="fallback" styleClass="service-info-panel"
 				rendered="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}">
 				<p:service actionInfo="#{cc.attrs.actionInfo}">
 					<f:facet name="status">

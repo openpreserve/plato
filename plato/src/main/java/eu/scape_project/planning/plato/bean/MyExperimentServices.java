@@ -9,15 +9,15 @@ import java.util.concurrent.Future;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.myexperiment.MyExperimentAsyncLoader;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.utils.FacesMessages;
 
-import org.slf4j.Logger;
-
 /**
- * Taverna service cache for loading details.
+ * MyExperiment service cache for loading details.
  */
 @Dependent
 public class MyExperimentServices implements Serializable, IServiceLoader {
@@ -63,9 +63,12 @@ public class MyExperimentServices implements Serializable, IServiceLoader {
     /**
      * Returns the service details if ready.
      * 
+     * Returns null if the serviceInfo is null, was not requested for load or is
+     * not ready yet.
+     * 
      * @param serviceInfo
      *            the service to get
-     * @return details of the service
+     * @return details of the service or null
      */
     public WorkflowDescription getWorkflowDescription(IServiceInfo serviceInfo) {
         if (serviceInfo == null) {
@@ -73,6 +76,35 @@ public class MyExperimentServices implements Serializable, IServiceLoader {
         }
         Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(serviceInfo.getDescriptor());
         if (futureWorkflowDescription == null || !futureWorkflowDescription.isDone()) {
+            return null;
+        }
+        try {
+            return futureWorkflowDescription.get();
+        } catch (InterruptedException e) {
+            log.warn("Loading of service [{}] interrupted.", serviceInfo.getUrl(), e);
+            facesMessages.addWarning("Loading of service details interrupted");
+        } catch (ExecutionException e) {
+            log.warn("Loading of service [{}] failed.", serviceInfo.getUrl(), e);
+            facesMessages.addWarning("Loading of service " + serviceInfo.getUrl() + " details failed");
+        }
+        return null;
+    }
+
+    /**
+     * Returns the service details blocking until the the description is loaded.
+     * 
+     * Returns null if the serviceInfo is null or was not requested for load.
+     * 
+     * @param serviceInfo
+     *            the service to get
+     * @return details of the service or null
+     */
+    public WorkflowDescription getWorkflowDescriptionBlocking(IServiceInfo serviceInfo) {
+        if (serviceInfo == null) {
+            return null;
+        }
+        Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(serviceInfo.getDescriptor());
+        if (futureWorkflowDescription == null) {
             return null;
         }
         try {

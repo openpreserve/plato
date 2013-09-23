@@ -6,12 +6,12 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import eu.scape_project.planning.services.IServiceInfo;
-
 import org.ajax4jsf.model.DataVisitor;
 import org.ajax4jsf.model.ExtendedDataModel;
 import org.ajax4jsf.model.Range;
 import org.ajax4jsf.model.SequenceRange;
+
+import eu.scape_project.planning.services.IServiceInfo;
 
 /**
  * Data model for service infos.

@@ -24,9 +24,9 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-
 import org.slf4j.Logger;
+
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 
 /**
  * Asynchronous loader for Taverna services.

@@ -43,7 +43,7 @@ public class DevelopExperiments extends AbstractWorkflowStep {
 
     @Override
     protected void saveStepSpecific() {
-        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
+        plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
     }
 
 }

@@ -286,17 +286,17 @@ input[type="text"],input[type="password"],select,textarea {
 	outline: none;
 }
 
-.input input[type=text]:focus,.input input[type="password"]:focus,.input select:focus
+.input input[type=text]:focus,.input input[type="password"]:focus,.input select:focus,.input textarea:focus
 	{
 	box-shadow: 2px 1px 5px #155C89;
 }
 
-.input input[type=text]::-webkit-input-placeholder,.input input[type=password]::-webkit-input-placeholder
+.input input[type=text]::-webkit-input-placeholder,.input input[type=password]::-webkit-input-placeholder,.input textarea::-webkit-input-placeholder
 	{
 	color: #BABABA;
 }
 
-.input input[type=text]:-moz-placeholder,.input input[type=password]:-moz-placeholder
+.input input[type=text]:-moz-placeholder,.input input[type=password]:-moz-placeholder,.input textarea::-moz-placeholder
 	{
 	color: #BABABA;
 }
@@ -366,7 +366,7 @@ input[type=submit]:hover,input[type=button]:hover {
 	background: -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B0AEAE',
 		endColorstr='#CFCDCD' );
-	background-color: #3290CC;
+	background-color: #999898;
 }
 
 input[type=submit]:active,input[type=button]:hover {
@@ -604,6 +604,45 @@ th.rf-dt-shdr-c {
 	color: white;
 }
 
+.service-parameter-au-popup .rf-au-lst-scrl {
+	width: 570px;
+}
+
+.input .rf-au {
+	background-image: none;
+	width: 100%;
+	border: none;
+	font-size: 1em;
+}
+
+.input .rf-au-fld-btn {
+	background-image: none;
+	width: 100%;
+}
+
+.input .rf-au input {
+    width: -moz-calc(100% - 16px - 15px);
+    width: -webkit-calc(100% - 16px - 15px);
+    width: calc(100% - 16px - 15px);
+}
+
+.input input.rf-au-inp {
+	background-image: none;
+	margin: 2px 0px 2px 0px;
+}
+
+.input .rf-au-btn {
+	margin: 2px 0px 2px 0px;
+	border: none;
+	background-image: url(none);
+	background: #017298;
+	/* background: #999898; */
+}
+
+.input .rf-au-btn-arrow {
+	height: 23px;
+}
+
 div.menu-step { /*width:95%;
 	margin-left: 2%;*/
 	margin-top: 20px;
@@ -807,7 +846,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                               50);
+	filter: alpha(opacity =                                       50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -944,11 +983,9 @@ td.service-info {
 
 .service-info-panel {
 	display: block;
-	position: relative;
 	width: 100%;
 	min-height: 60px;
 	clear: both;
-	background-color: #FFFFFF;
 }
 
 /* Clear after each node */
@@ -1040,6 +1077,33 @@ td.service-info {
 .service-info-rating span {
 	position: absolute;
 	overflow: hidden;
+}
+
+.service-parameter-or {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+.service-parameter-or:before {
+	position: absolute;
+	left: 0%;
+	top: 50%;
+	height: 1px;
+	background: #ccc;
+	content: "";
+	width: 100%;
+}
+
+.service-parameter-or:after {
+	position: absolute;
+	top: 0%;
+	left: 46%;
+	background: #fff;
+	display: block;
+	content: 'or';
+	width: 8%;
 }
 
 /* Confirmation panel */
