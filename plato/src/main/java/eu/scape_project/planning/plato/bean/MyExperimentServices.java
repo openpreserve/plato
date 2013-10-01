@@ -75,46 +75,23 @@ public class MyExperimentServices implements Serializable, IServiceLoader {
             return null;
         }
         Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(serviceInfo.getDescriptor());
-        if (futureWorkflowDescription == null || !futureWorkflowDescription.isDone()) {
-            return null;
-        }
-        try {
-            return futureWorkflowDescription.get();
-        } catch (InterruptedException e) {
-            log.warn("Loading of service [{}] interrupted.", serviceInfo.getUrl(), e);
-            facesMessages.addWarning("Loading of service details interrupted");
-        } catch (ExecutionException e) {
-            log.warn("Loading of service [{}] failed.", serviceInfo.getUrl(), e);
-            facesMessages.addWarning("Loading of service " + serviceInfo.getUrl() + " details failed");
-        }
-        return null;
-    }
-
-    /**
-     * Returns the service details blocking until the the description is loaded.
-     * 
-     * Returns null if the serviceInfo is null or was not requested for load.
-     * 
-     * @param serviceInfo
-     *            the service to get
-     * @return details of the service or null
-     */
-    public WorkflowDescription getWorkflowDescriptionBlocking(IServiceInfo serviceInfo) {
-        if (serviceInfo == null) {
-            return null;
-        }
-        Future<WorkflowDescription> futureWorkflowDescription = workflowDescriptions.get(serviceInfo.getDescriptor());
         if (futureWorkflowDescription == null) {
-            return null;
+            load(serviceInfo);
+            futureWorkflowDescription = workflowDescriptions.get(serviceInfo.getDescriptor());
         }
         try {
-            return futureWorkflowDescription.get();
+            WorkflowDescription wf = futureWorkflowDescription.get();
+            if (wf == null) {
+                log.debug("Service [{}] not found.", serviceInfo.getUrl());
+                facesMessages.addWarning("Service [" + serviceInfo.getUrl() + "] not found.");
+            }
+            return wf;
         } catch (InterruptedException e) {
             log.warn("Loading of service [{}] interrupted.", serviceInfo.getUrl(), e);
             facesMessages.addWarning("Loading of service details interrupted");
         } catch (ExecutionException e) {
             log.warn("Loading of service [{}] failed.", serviceInfo.getUrl(), e);
-            facesMessages.addWarning("Loading of service " + serviceInfo.getUrl() + " details failed");
+            facesMessages.addWarning("Loading of details service " + serviceInfo.getUrl() + " failed");
         }
         return null;
     }

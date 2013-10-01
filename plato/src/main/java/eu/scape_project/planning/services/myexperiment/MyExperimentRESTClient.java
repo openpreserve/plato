@@ -134,26 +134,26 @@ public class MyExperimentRESTClient {
         /**
          * Adds a migration path restriction to the query.
          * 
-         * @param fromMimetype
+         * @param sourceMimetype
          *            the from mimetype
-         * @param toMimetype
+         * @param targetMimetype
          *            the to mimetype
          * @return this query
          */
-        public ComponentQuery addMigrationPath(String fromMimetype, String toMimetype) {
-            if ((fromMimetype != null && !fromMimetype.equals("")) || (toMimetype != null && !toMimetype.equals(""))) {
+        public ComponentQuery addMigrationPath(String sourceMimetype, String targetMimetype) {
+            if ((sourceMimetype != null && !sourceMimetype.equals("")) || (targetMimetype != null && !targetMimetype.equals(""))) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(ONTOLOGY_IRI + "migrates"), node));
                 group.addTriplePattern(new Triple(node, NodeFactory.createURI(TYPE_URI), NodeFactory
                     .createURI(ONTOLOGY_IRI + "MigrationPath")));
-                if (fromMimetype != null && !fromMimetype.equals("")) {
-                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "fromMimetype"),
-                        NodeFactory.createLiteral(fromMimetype)));
+                if (sourceMimetype != null && !sourceMimetype.equals("")) {
+                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "sourceMimetype"),
+                        NodeFactory.createLiteral(sourceMimetype)));
                 }
-                if (toMimetype != null && !toMimetype.equals("")) {
-                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "toMimetype"),
-                        NodeFactory.createLiteral(toMimetype)));
+                if (targetMimetype != null && !targetMimetype.equals("")) {
+                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "targetMimetype"),
+                        NodeFactory.createLiteral(targetMimetype)));
                 }
                 query.addElement(group);
             }
@@ -163,12 +163,12 @@ public class MyExperimentRESTClient {
         /**
          * Adds a migration path from restriction to the query.
          * 
-         * @param fromMimetype
+         * @param sourceMimetype
          *            the from mimetype
          * @return this query
          */
-        public ComponentQuery addMigrationPath(String fromMimetype) {
-            return addMigrationPath(fromMimetype, null);
+        public ComponentQuery addMigrationPath(String sourceMimetype) {
+            return addMigrationPath(sourceMimetype, null);
         }
 
         /**
@@ -178,7 +178,7 @@ public class MyExperimentRESTClient {
          *            the pattern
          * @return this query
          */
-        public ComponentQuery setMigrationPathToPattern(String pattern) {
+        public ComponentQuery setMigrationPathTargetPattern(String pattern) {
             this.migrationPathToPattern = pattern;
             return this;
         }
@@ -578,6 +578,7 @@ public class MyExperimentRESTClient {
             return resource.accept(MediaType.APPLICATION_XML_TYPE).get(workflowType).getValue();
         } catch (UniformInterfaceException e) {
             if (e.getResponse().getStatus() == NOT_FOUND_STATUS) {
+                LOG.debug("Workflow resource [{}] not found", descriptor);
                 return null;
             } else {
                 throw e;

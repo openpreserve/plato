@@ -156,8 +156,8 @@ public class WorkflowDescription extends WorkflowInfo {
      * Migration path.
      */
     public static class MigrationPath {
-        private String fromMimetype;
-        private String toMimetype;
+        private String sourceMimetype;
+        private String targetMimetype;
 
         /**
          * Empty constructor needed for JAXB.
@@ -168,22 +168,22 @@ public class WorkflowDescription extends WorkflowInfo {
         /**
          * Creates a new migration path.
          * 
-         * @param fromMimetype
-         *            the from mimetype
-         * @param toMimetype
-         *            the to mimetype
+         * @param sourceMimetype
+         *            the source mimetype
+         * @param targetMimetype
+         *            the target mimetype
          */
-        public MigrationPath(String fromMimetype, String toMimetype) {
-            this.fromMimetype = fromMimetype;
-            this.toMimetype = toMimetype;
+        public MigrationPath(String sourceMimetype, String targetMimetype) {
+            this.sourceMimetype = sourceMimetype;
+            this.targetMimetype = targetMimetype;
         }
 
-        public String getFromMimetype() {
-            return fromMimetype;
+        public String getSourceMimetype() {
+            return sourceMimetype;
         }
 
-        public String getToMimetype() {
-            return toMimetype;
+        public String getTargetMimetype() {
+            return targetMimetype;
         }
     }
 
@@ -267,9 +267,69 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
+     * Port.
+     */
+    public static class Port {
+
+        private String name;
+
+        private String description;
+
+        private String portType;
+
+        /**
+         * Empty constructor needed for JAXB.
+         */
+        public Port() {
+        }
+
+        /**
+         * Creates a new port.
+         * 
+         * @param name
+         *            the port name
+         * @param description
+         *            the port description
+         */
+        public Port(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        /**
+         * Creates a new port.
+         * 
+         * @param name
+         *            the port name
+         * @param description
+         *            the port description
+         * @param portType
+         *            port type
+         */
+        public Port(String name, String description, String portType) {
+            this(name, description);
+            this.portType = portType;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getPortType() {
+            return portType;
+        }
+    }
+
+    /**
      * Parameter port.
      */
-    public static class ParameterPort {
+    public static class ParameterPort extends Port {
+
+        private static final String PORT_TYPE = "http://purl.org/DP/components#ParameterPort";
 
         /**
          * Predefined parameters.
@@ -307,10 +367,6 @@ public class WorkflowDescription extends WorkflowInfo {
 
         }
 
-        private String name;
-
-        private String description;
-
         private List<PredefinedParameter> predefinedParameters;
 
         /**
@@ -324,21 +380,14 @@ public class WorkflowDescription extends WorkflowInfo {
          * 
          * @param name
          *            the port name
+         * @param description
+         *            the port description
          * @param predefinedParameters
          *            a list of predefined parameters
          */
         public ParameterPort(String name, String description, List<PredefinedParameter> predefinedParameters) {
-            this.name = name;
-            this.description = description;
+            super(name, description, PORT_TYPE);
             this.predefinedParameters = predefinedParameters;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
         }
 
         public List<PredefinedParameter> getPredefinedParameters() {
@@ -373,170 +422,45 @@ public class WorkflowDescription extends WorkflowInfo {
     private String profile = null;
     private List<MigrationPath> migrationPaths = null;
     private List<Installation> installations = null;
-    private List<ParameterPort> parameterPorts = null;
+    private List<Port> inputPorts = null;
+    private List<Port> outputPorts = null;
 
     /**
-     * Parses the components and returns the found profile of the top workflow.
-     * 
-     * @return a list of migration paths
-     * @throws XPathExpressionException
-     * @throws IOException
+     * Reads semantic annotations making them available via the getter methods.
      */
-    public String getProfile() {
+    public void readSemanticAnnotations() {
+        readProfile();
+        readInputPorts();
+        readOutputPorts();
+        readInstallations();
 
-        if (profile == null) {
-            profile = "";
-            for (Element el : components) {
-                if (el.getNodeName().equals("components")) {
-                    try {
-                        Document doc = el.getOwnerDocument();
-                        XPath xPath = XPathFactory.newInstance().newXPath();
-                        NodeList nodes = (NodeList) xPath.evaluate(
-                            "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
-                            XPathConstants.NODESET);
-                        for (int i = 0; i < nodes.getLength(); ++i) {
-                            Element pel = (Element) nodes.item(i);
-
-                            Model model = ModelFactory.createMemModelMaker().createDefaultModel();
-                            String semanticAnnotation = pel.getTextContent();
-                            semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
-                            Reader reader = new StringReader(semanticAnnotation);
-                            model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
-                            reader.close();
-
-                            // @formatter:off
-                            String statement = 
-                                  "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                                + "PREFIX comp: <http://purl.org/DP/components#> "
-                                + "SELECT ?profile WHERE { "
-                                + "?wf comp:fits ?profile }"; 
-                            // @formatter:on
-
-                            Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
-                            QueryExecution qe = QueryExecutionFactory.create(q, model);
-                            ResultSet results = qe.execSelect();
-                            try {
-                                if ((results != null) && (results.hasNext())) {
-                                    QuerySolution orgQs = results.next();
-                                    profile = orgQs.getResource("profile").getURI();
-                                }
-                            } finally {
-                                qe.close();
-                            }
-                        }
-                    } catch (XPathExpressionException e) {
-                        LOG.warn("Error extracting profile from myExperiment response", e);
-                    } catch (IOException e) {
-                        LOG.warn("Error reading profile annotation from myExperiment response", e);
-                    }
-                }
-            }
-        }
-
-        return profile;
+        readMigrationPaths();
     }
 
     /**
-     * Parses the components and returns the found migration paths of the top
-     * workflow.
+     * Reads the profile of the top workflow.
      * 
-     * @return a list of migration paths
      * @throws XPathExpressionException
      * @throws IOException
      */
-    public List<MigrationPath> getMigrationPaths() {
+    public void readProfile() {
 
-        if (migrationPaths == null) {
-            migrationPaths = new ArrayList<MigrationPath>();
-
-            for (Element el : components) {
-                if (el.getNodeName().equals("components")) {
-                    try {
-                        Document doc = el.getOwnerDocument();
-                        XPath xPath = XPathFactory.newInstance().newXPath();
-                        NodeList nodes = (NodeList) xPath.evaluate(
-                            "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
-                            XPathConstants.NODESET);
-                        for (int i = 0; i < nodes.getLength(); ++i) {
-                            Element pel = (Element) nodes.item(i);
-
-                            Model model = ModelFactory.createMemModelMaker().createDefaultModel();
-                            String semanticAnnotation = pel.getTextContent();
-                            semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
-                            Reader reader = new StringReader(semanticAnnotation);
-                            model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
-                            reader.close();
-
-                            // @formatter:off
-                            String statement = 
-                                  "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                                + "PREFIX comp: <http://purl.org/DP/components#> "
-                                + "SELECT ?fromMimetype ?toMimetype WHERE { "
-                                + "?migrationPath rdf:type comp:MigrationPath ." 
-                                + "?migrationPath comp:fromMimetype ?fromMimetype ." 
-                                + "?migrationPath comp:toMimetype ?toMimetype } ";
-                            // @formatter:on
-
-                            Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
-                            QueryExecution qe = QueryExecutionFactory.create(q, model);
-                            ResultSet results = qe.execSelect();
-                            try {
-                                if ((results != null) && (results.hasNext())) {
-                                    QuerySolution orgQs = results.next();
-                                    String fromMimetype = orgQs.getLiteral("fromMimetype").getString();
-                                    String toMimetype = orgQs.getLiteral("toMimetype").getString();
-
-                                    MigrationPath m = new MigrationPath(fromMimetype, toMimetype);
-                                    migrationPaths.add(m);
-                                }
-                            } finally {
-                                qe.close();
-                            }
-
-                        }
-                    } catch (XPathExpressionException e) {
-                        LOG.warn("Error extracting migration paths from myExperiment response", e);
-                    } catch (IOException e) {
-                        LOG.warn("Error reading migration path annotations from myExperiment response", e);
-                    }
-                }
-            }
-        }
-
-        return migrationPaths;
-    }
-
-    /**
-     * Parses the components and returns the found installations paths of all
-     * workflows.
-     * 
-     * @return a list of migration paths
-     * @throws XPathExpressionException
-     * @throws IOException
-     */
-    public List<Installation> getInstallations() {
-
-        if (installations == null) {
-            installations = new ArrayList<Installation>();
-
-            for (Element el : components) {
-                if (el.getNodeName().equals("components")) {
-                    try {
-                        Document doc = el.getOwnerDocument();
-                        XPath xPath = XPathFactory.newInstance().newXPath();
-                        NodeList nodes = (NodeList) xPath.evaluate(
-                            "/components//processor/semantic_annotation/content", doc.getDocumentElement(),
-                            XPathConstants.NODESET);
-
-                        StringBuilder combinedAnnotations = new StringBuilder();
-                        for (int i = 0; i < nodes.getLength(); ++i) {
-                            Element pel = (Element) nodes.item(i);
-                            combinedAnnotations.append(pel.getTextContent());
-                        }
-                        String semanticAnnotations = replaceBlankNodes(combinedAnnotations.toString());
+        profile = "";
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate(
+                        "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
+                        XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
 
                         Model model = ModelFactory.createMemModelMaker().createDefaultModel();
-                        Reader reader = new StringReader(semanticAnnotations);
+                        String semanticAnnotation = pel.getTextContent();
+                        semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
+                        Reader reader = new StringReader(semanticAnnotation);
                         model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
                         reader.close();
 
@@ -544,104 +468,310 @@ public class WorkflowDescription extends WorkflowInfo {
                         String statement = 
                               "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
                             + "PREFIX comp: <http://purl.org/DP/components#> "
-                            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-                            + "PREFIX cc: <http://creativecommons.org/ns#> "
-                            + "SELECT ?installation ?environment ?depTitle ?depVersion ?depLicense WHERE { "
-                            + "?installation rdf:type comp:Installation ." 
-                            + "OPTIONAL { ?installation comp:hasEnvironment ?environment } ."
-                            + "OPTIONAL { ?installation comp:dependsOn ?dependency } ."
-                            + "OPTIONAL { ?dependency skos:prefLabel ?depTitle } ."
-                            + "OPTIONAL { ?dependency comp:dependencyVersion ?depVersion } ."
-                            + "OPTIONAL { ?dependency cc:license ?depLicense } . } "
-                            + "ORDER BY ?installation";
+                            + "SELECT ?profile WHERE { "
+                            + "?wf comp:fits ?profile }"; 
                         // @formatter:on
 
-                        Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
-                        QueryExecution qe = QueryExecutionFactory.create(query, model);
+                        Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
+                        QueryExecution qe = QueryExecutionFactory.create(q, model);
                         ResultSet results = qe.execSelect();
-
                         try {
-                            Resource prevInst = null;
-                            List<Dependency> dependencies = new ArrayList<Dependency>();
-                            String environment = "";
-                            while ((results != null) && (results.hasNext())) {
-                                QuerySolution qs = results.next();
-                                Resource inst = qs.getResource("installation");
-
-                                if (prevInst != null && prevInst != inst) {
-                                    Installation installation = new Installation(dependencies, environment);
-                                    installations.add(installation);
-                                    environment = "";
-                                    dependencies = new ArrayList<Dependency>();
-                                }
-
-                                environment = qs.getResource("environment") == null ? null : qs.getResource(
-                                    "environment").getURI();
-
-                                String dependencyTitle = qs.getLiteral("depTitle") == null ? null : qs.getLiteral(
-                                    "depTitle").getString();
-                                String dependencyVersion = qs.getLiteral("depVersion") == null ? null : qs.getLiteral(
-                                    "depVersion").getString();
-                                String dependencyLicense = qs.getResource("depLicense") == null ? null : qs
-                                    .getResource("depLicense").getURI();
-
-                                dependencies.add(new Dependency(dependencyTitle, dependencyVersion, dependencyLicense));
-
-                                prevInst = inst;
-                            }
-                            if (prevInst != null) {
-                                Installation installation = new Installation(dependencies, environment);
-                                installations.add(installation);
+                            if ((results != null) && (results.hasNext())) {
+                                QuerySolution orgQs = results.next();
+                                profile = orgQs.getResource("profile").getURI();
                             }
                         } finally {
                             qe.close();
                         }
-                    } catch (XPathExpressionException e) {
-                        LOG.warn("Error extracting installations from myExperiment response", e);
-                    } catch (IOException e) {
-                        LOG.warn("Error reading installation annotation from myExperiment response", e);
                     }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting profile from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading profile annotation from myExperiment response", e);
                 }
             }
         }
-        return installations;
     }
 
     /**
-     * Parses the components and returns the found parameter ports of the top
-     * workflow.
+     * Reads the migration paths of the top workflow.
      * 
-     * @return a list of migration paths
      * @throws XPathExpressionException
      * @throws IOException
      */
-    public List<ParameterPort> getParameterPorts() {
+    public void readMigrationPaths() {
+        migrationPaths = new ArrayList<MigrationPath>();
 
-        if (parameterPorts == null) {
-            parameterPorts = new ArrayList<ParameterPort>();
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate(
+                        "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
+                        XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
 
-            for (Element el : components) {
-                if (el.getNodeName().equals("components")) {
-                    try {
-                        Document doc = el.getOwnerDocument();
-                        XPath xPath = XPathFactory.newInstance().newXPath();
-                        NodeList nodes = (NodeList) xPath.evaluate("/components//dataflow[@role='top']/sources/source",
-                            doc.getDocumentElement(), XPathConstants.NODESET);
+                        Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+                        String semanticAnnotation = pel.getTextContent();
+                        semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
+                        Reader reader = new StringReader(semanticAnnotation);
+                        model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+                        reader.close();
 
-                        for (int i = 0; i < nodes.getLength(); ++i) {
-                            Element pel = (Element) nodes.item(i);
-                            ParameterPort p = parseParameterPort(pel);
-                            if (p != null) {
-                                parameterPorts.add(p);
+                        // @formatter:off
+                        String statement = 
+                              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                            + "PREFIX comp: <http://purl.org/DP/components#> "
+                            + "SELECT ?sourceMimetype ?targetMimetype WHERE { "
+                            + "?migrationPath rdf:type comp:MigrationPath ." 
+                            + "?migrationPath comp:sourceMimetype ?sourceMimetype ." 
+                            + "?migrationPath comp:targetMimetype ?targetMimetype } ";
+                        // @formatter:on
+
+                        Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
+                        QueryExecution qe = QueryExecutionFactory.create(q, model);
+                        ResultSet results = qe.execSelect();
+                        try {
+                            if ((results != null) && (results.hasNext())) {
+                                QuerySolution orgQs = results.next();
+                                String sourceMimetype = orgQs.getLiteral("sourceMimetype").getString();
+                                String targetMimetype = orgQs.getLiteral("targetMimetype").getString();
+
+                                MigrationPath m = new MigrationPath(sourceMimetype, targetMimetype);
+                                migrationPaths.add(m);
                             }
+                        } finally {
+                            qe.close();
                         }
-                    } catch (XPathExpressionException e) {
-                        LOG.warn("Error extracting installations from myExperiment response", e);
+
                     }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting migration paths from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading migration path annotations from myExperiment response", e);
                 }
             }
         }
-        return parameterPorts;
+    }
+
+    /**
+     * Reads the found installations paths of all workflows.
+     * 
+     * @throws XPathExpressionException
+     * @throws IOException
+     */
+    public void readInstallations() {
+        installations = new ArrayList<Installation>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate("/components//processor/semantic_annotation/content",
+                        doc.getDocumentElement(), XPathConstants.NODESET);
+
+                    StringBuilder combinedAnnotations = new StringBuilder();
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+                        combinedAnnotations.append(pel.getTextContent());
+                    }
+                    String semanticAnnotations = replaceBlankNodes(combinedAnnotations.toString());
+
+                    Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+                    Reader reader = new StringReader(semanticAnnotations);
+                    model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+                    reader.close();
+
+                    // @formatter:off
+                    String statement = 
+                          "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                        + "PREFIX comp: <http://purl.org/DP/components#> "
+                        + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+                        + "PREFIX cc: <http://creativecommons.org/ns#> "
+                        + "SELECT ?installation ?environment ?depTitle ?depVersion ?depLicense WHERE { "
+                        + "?installation rdf:type comp:Installation ." 
+                        + "OPTIONAL { ?installation comp:hasEnvironment ?environment } ."
+                        + "OPTIONAL { ?installation comp:dependsOn ?dependency } ."
+                        + "OPTIONAL { ?dependency skos:prefLabel ?depTitle } ."
+                        + "OPTIONAL { ?dependency comp:dependencyVersion ?depVersion } ."
+                        + "OPTIONAL { ?dependency cc:license ?depLicense } . } "
+                        + "ORDER BY ?installation";
+                    // @formatter:on
+
+                    Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
+                    QueryExecution qe = QueryExecutionFactory.create(query, model);
+                    ResultSet results = qe.execSelect();
+
+                    try {
+                        Resource prevInst = null;
+                        List<Dependency> dependencies = new ArrayList<Dependency>();
+                        String environment = "";
+                        while ((results != null) && (results.hasNext())) {
+                            QuerySolution qs = results.next();
+                            Resource inst = qs.getResource("installation");
+
+                            if (prevInst != null && prevInst != inst) {
+                                Installation installation = new Installation(dependencies, environment);
+                                installations.add(installation);
+                                environment = "";
+                                dependencies = new ArrayList<Dependency>();
+                            }
+
+                            environment = qs.getResource("environment") == null ? null : qs.getResource("environment")
+                                .getURI();
+
+                            String dependencyTitle = qs.getLiteral("depTitle") == null ? null : qs.getLiteral(
+                                "depTitle").getString();
+                            String dependencyVersion = qs.getLiteral("depVersion") == null ? null : qs.getLiteral(
+                                "depVersion").getString();
+                            String dependencyLicense = qs.getResource("depLicense") == null ? null : qs.getResource(
+                                "depLicense").getURI();
+
+                            dependencies.add(new Dependency(dependencyTitle, dependencyVersion, dependencyLicense));
+
+                            prevInst = inst;
+                        }
+                        if (prevInst != null) {
+                            Installation installation = new Installation(dependencies, environment);
+                            installations.add(installation);
+                        }
+                    } finally {
+                        qe.close();
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting installations from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading installation annotation from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads the input ports of the top workflow.
+     */
+    public void readInputPorts() {
+        inputPorts = new ArrayList<Port>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate("/components//dataflow[@role='top']/sources/source",
+                        doc.getDocumentElement(), XPathConstants.NODESET);
+
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+                        Port p = parsePort(pel);
+                        if (p != null) {
+                            inputPorts.add(p);
+                        }
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting input ports from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads the output ports of the top workflow.
+     */
+    public void readOutputPorts() {
+        outputPorts = new ArrayList<Port>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate("/components//dataflow[@role='top']/sinks/sink",
+                        doc.getDocumentElement(), XPathConstants.NODESET);
+
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+                        Port p = parsePort(pel);
+                        if (p != null) {
+                            outputPorts.add(p);
+                        }
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting ouput ports from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Parses the provided element and creates a ParameterPort.
+     * 
+     * @param element
+     *            the element to parse
+     * @return the parameter port or null if the element is not parameter port
+     */
+    private Port parsePort(Element element) {
+        Port port = null;
+        try {
+            XPath xPath = XPathFactory.newInstance().newXPath();
+
+            String portName = (String) xPath.evaluate("name", element, XPathConstants.STRING);
+            String portDescription = (String) xPath
+                .evaluate("descriptions/description", element, XPathConstants.STRING);
+
+            String semanticAnnotations = (String) xPath.evaluate("semantic_annotation/content", element,
+                XPathConstants.STRING);
+
+            Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+            Reader reader = new StringReader(semanticAnnotations);
+            model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+
+            // @formatter:off
+            String statement = 
+                  "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                + "PREFIX comp: <http://purl.org/DP/components#> "
+                + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+                + "PREFIX cc: <http://creativecommons.org/ns#> "
+                + "SELECT ?port ?portType ?parameter WHERE { { "
+                + "?port comp:portType ?portType ."
+                + " } UNION { { "
+                + "?port comp:acceptsPredefinedParameter ?parameter"
+                + " } MINUS { "
+                + "?port comp:portType comp:ParameterPort"
+                + "} } . }";
+            // @formatter:on
+
+            Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
+            QueryExecution qe = QueryExecutionFactory.create(query, model);
+            ResultSet results = qe.execSelect();
+
+            try {
+                if ((results != null) && (results.hasNext())) {
+                    while ((results != null) && (results.hasNext())) {
+                        QuerySolution qs = results.next();
+                        Resource portType = qs.getResource("portType");
+                        Resource parameter = qs.getResource("parameter");
+                        if (ParameterPort.PORT_TYPE.equals(portType.getURI()) || parameter != null) {
+                            port = parseParameterPort(element);
+                        } else {
+                            port = new Port(portName, portDescription, portType.getURI());
+                        }
+                    }
+                } else {
+                    port = new Port(portName, portDescription);
+                }
+            } finally {
+                qe.close();
+            }
+
+        } catch (XPathExpressionException e) {
+            LOG.warn("Error extracting port definition from myExperiment response", e);
+        }
+
+        return port;
     }
 
     /**
@@ -712,23 +842,6 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
-     * Returns the parameter port with the provided name.
-     * 
-     * @param name
-     *            the port name
-     * @return the port or null if none found.
-     */
-    public ParameterPort getParameterPort(String name) {
-        List<ParameterPort> ports = getParameterPorts();
-        for (ParameterPort p : ports) {
-            if (p.name.equals(name)) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Replaces the blank node representation in semantic annotations with
      * unique variables.
      * 
@@ -747,6 +860,22 @@ public class WorkflowDescription extends WorkflowInfo {
         }
         m.appendTail(sb);
         return sb.toString();
+    }
+
+    /**
+     * Returns the parameter port with the provided name.
+     * 
+     * @param name
+     *            the port name
+     * @return the port or null if none found.
+     */
+    public ParameterPort getParameterPort(String name) {
+        for (Port p : inputPorts) {
+            if (p instanceof ParameterPort && p.getName().equals(name)) {
+                return (ParameterPort) p;
+            }
+        }
+        return null;
     }
 
     /**
@@ -807,5 +936,25 @@ public class WorkflowDescription extends WorkflowInfo {
 
     public List<Element> getComponents() {
         return components;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public List<MigrationPath> getMigrationPaths() {
+        return migrationPaths;
+    }
+
+    public List<Installation> getInstallations() {
+        return installations;
+    }
+
+    public List<Port> getInputPorts() {
+        return inputPorts;
+    }
+
+    public List<Port> getOutputPorts() {
+        return outputPorts;
     }
 }

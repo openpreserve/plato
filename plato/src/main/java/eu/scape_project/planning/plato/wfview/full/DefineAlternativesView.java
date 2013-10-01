@@ -27,6 +27,7 @@ import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
@@ -50,6 +51,7 @@ import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
 import eu.scape_project.planning.utils.FacesMessages;
@@ -98,7 +100,7 @@ public class DefineAlternativesView extends AbstractView {
     private String editableAlternativeName;
 
     /**
-     * 
+     * Alternative currently editable.
      */
     private Alternative editableAlternative;
 
@@ -106,6 +108,17 @@ public class DefineAlternativesView extends AbstractView {
      * Alternative that is newly created.
      */
     private Alternative customAlternative;
+
+    /**
+     * URL of custom myExperiment service.
+     */
+    @URL
+    private String customMyExperimentServiceUri;
+
+    /**
+     * Workflow description of custom myExperiment service.
+     */
+    private MyExperimentActionInfo customMyExperimentServiceInfo;
 
     /**
      * Cache for myExperiment service details.
@@ -339,6 +352,30 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
+     * Adds a preservation action to the plan, created from the custom
+     * myExperiment service URI.
+     */
+    public void loadCustomMyExperimentService() {
+        customMyExperimentServiceInfo = new MyExperimentActionInfo();
+        customMyExperimentServiceInfo.setDescriptor(customMyExperimentServiceUri);
+        customMyExperimentServiceInfo.setUrl(customMyExperimentServiceUri);
+        customMyExperimentServiceInfo.setShortname(customMyExperimentServiceUri);
+        customMyExperimentServiceInfo.setInfo(customMyExperimentServiceUri);
+
+        WorkflowDescription wf = tavernaServices.getWorkflowDescription(customMyExperimentServiceInfo);
+        if (wf != null) {
+            customMyExperimentServiceInfo.setUrl(wf.getContentUri());
+            customMyExperimentServiceInfo.setShortname(wf.getName());
+            customMyExperimentServiceInfo.setInfo(wf.getDescription());
+            customMyExperimentServiceInfo.setDescriptor(wf.getDescriptor());
+            customMyExperimentServiceInfo.setContentType(wf.getContentType());
+            tavernaServices.load(customMyExperimentServiceInfo);
+        } else {
+            customMyExperimentServiceInfo = null;
+        }
+    }
+
+    /**
      * Adds a preservation action to the plan, created from the provided action
      * info.
      * 
@@ -361,7 +398,7 @@ public class DefineAlternativesView extends AbstractView {
      *            the action info
      */
     public void addPreservationAction(MyExperimentActionInfo serviceInfo) {
-        WorkflowDescription wf = tavernaServices.getWorkflowDescriptionBlocking(serviceInfo);
+        WorkflowDescription wf = tavernaServices.getWorkflowDescription(serviceInfo);
         if (wf == null) {
             facesMessages.addError("Could not retrieve workflow description from myExeriment.");
             return;
@@ -375,8 +412,10 @@ public class DefineAlternativesView extends AbstractView {
             actionDefinition.setUrl(serviceInfo.getUrl());
             actionDefinition.setInfo(serviceInfo.getInfo());
 
-            for (ParameterPort p : wf.getParameterPorts()) {
-                actionDefinition.getParams().add(new Parameter(p.getName(), ""));
+            for (Port p : wf.getInputPorts()) {
+                if (p instanceof ParameterPort) {
+                    actionDefinition.getParams().add(new Parameter(p.getName(), ""));
+                }
             }
 
             String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
@@ -458,6 +497,18 @@ public class DefineAlternativesView extends AbstractView {
 
     public void setCustomAlternative(Alternative customAlternative) {
         this.customAlternative = customAlternative;
+    }
+
+    public String getCustomMyExperimentServiceUri() {
+        return customMyExperimentServiceUri;
+    }
+
+    public void setCustomMyExperimentServiceUri(String customMyExperimentServiceUri) {
+        this.customMyExperimentServiceUri = customMyExperimentServiceUri;
+    }
+
+    public IServiceInfo getCustomMyExperimentServiceInfo() {
+        return customMyExperimentServiceInfo;
     }
 
     public List<PreservationActionRegistryDefinition> getAvailableRegistries() {

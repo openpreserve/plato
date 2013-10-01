@@ -50,6 +50,8 @@ public class MyExperimentAsyncLoader implements Serializable {
     @Asynchronous
     public Future<WorkflowDescription> loadWorkflowDescription(String descriptor) {
         log.debug("Loading details of service [{}].", descriptor);
-        return new AsyncResult<WorkflowDescription>(MyExperimentRESTClient.getWorkflow(descriptor));
+        WorkflowDescription wf = MyExperimentRESTClient.getWorkflow(descriptor);
+        wf.readSemanticAnnotations();
+        return new AsyncResult<WorkflowDescription>(wf);
     }
 }

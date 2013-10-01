@@ -44,7 +44,7 @@
 									input="#{alternative.experiment.description}" required="false" />
 
 								<a4j:outputPanel id="settings"
-									rendered="#{alternative.action.actionIdentifier ne 'myExperiment' or not empty alternative.experiment.settings}">
+									rendered="#{alternative.action.actionIdentifier ne 'myExperiment' or ( not empty alternative.experiment.settings and alternative.experiment.settings eq '' )}">
 									<p:inputTextArea id="developExperimentSettings"
 										labelText="Settings:"
 										input="#{alternative.experiment.settings}" required="false" />

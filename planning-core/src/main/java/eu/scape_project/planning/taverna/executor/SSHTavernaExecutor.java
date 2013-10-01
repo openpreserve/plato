@@ -31,8 +31,17 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import eu.scape_project.planning.taverna.TavernaPort;
-import eu.scape_project.planning.utils.ConfigurationLoader;
+import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.connection.channel.direct.Session;
+import net.schmizz.sshj.connection.channel.direct.Session.Command;
+import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
+import net.schmizz.sshj.xfer.FileSystemFile;
+import net.schmizz.sshj.xfer.InMemoryDestFile;
+import net.schmizz.sshj.xfer.InMemorySourceFile;
+import net.sf.taverna.t2.baclava.DataThing;
+import net.sf.taverna.t2.baclava.factory.DataThingFactory;
+import net.sf.taverna.t2.baclava.factory.DataThingXMLFactory;
 
 import org.apache.commons.configuration.Configuration;
 import org.jdom.Document;
@@ -45,17 +54,7 @@ import org.jdom.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.schmizz.sshj.SSHClient;
-import net.schmizz.sshj.common.IOUtils;
-import net.schmizz.sshj.connection.channel.direct.Session;
-import net.schmizz.sshj.connection.channel.direct.Session.Command;
-import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
-import net.schmizz.sshj.xfer.FileSystemFile;
-import net.schmizz.sshj.xfer.InMemoryDestFile;
-import net.schmizz.sshj.xfer.InMemorySourceFile;
-import net.sf.taverna.t2.baclava.DataThing;
-import net.sf.taverna.t2.baclava.factory.DataThingFactory;
-import net.sf.taverna.t2.baclava.factory.DataThingXMLFactory;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 
 /**
  * Class to execute Taverna workflows on a remote server via SSH.
@@ -100,11 +99,10 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      */
     private String workflowUrl;
     private File workflowFile;
-    private Map<TavernaPort, Object> inputData = new HashMap<TavernaPort, Object>();
-    private Set<TavernaPort> outputPorts = new HashSet<TavernaPort>();
-    private HashMap<TavernaPort, ?> outputFiles = new HashMap<TavernaPort, Object>();
-
-    private Map<TavernaPort, Object> outputData = new HashMap<TavernaPort, Object>();;
+    private Map<String, Object> inputData = new HashMap<String, Object>();
+    private Set<String> outputPorts = new HashSet<String>();
+    private HashMap<String, ?> outputFiles = new HashMap<String, Object>();
+    private Map<String, Object> outputData = new HashMap<String, Object>();;
     private String outputDoc;
 
     /*
@@ -236,16 +234,16 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         Element rootElement = new Element("dataThingMap", NAMESPACE);
         Document document = new Document(rootElement);
 
-        for (Entry<TavernaPort, Object> entry : inputData.entrySet()) {
-            TavernaPort port = entry.getKey();
+        for (Entry<String, Object> entry : inputData.entrySet()) {
+            String portName = entry.getKey();
 
             Object value = entry.getValue();
-            Object dereferencedInput = dereferenceInput(port, value);
+            Object dereferencedInput = dereferenceInput(portName, value);
 
             DataThing thing = DataThingFactory.bake(dereferencedInput);
 
             Element dataThingElement = new Element("dataThing", NAMESPACE);
-            dataThingElement.setAttribute("key", port.getName());
+            dataThingElement.setAttribute("key", portName);
             dataThingElement.addContent(thing.getElement());
             rootElement.addContent(dataThingElement);
         }
@@ -265,27 +263,29 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /**
      * Dereferences an input object of the provided port recursively.
      * 
-     * @param port
-     *            the port
+     * @param portName
+     *            the port name
      * @param value
      *            input object
-     * @return a derefereneced object
+     * @return a dereferenced object
      * @throws IOException
+     *             if the file cannot be read
      * @throws TavernaExecutorException
+     *             if the file cannot be dereferenced
      */
-    private Object dereferenceInput(TavernaPort port, Object value) throws IOException, TavernaExecutorException {
+    private Object dereferenceInput(String portName, Object value) throws IOException, TavernaExecutorException {
         if (value instanceof Collection<?>) {
             ArrayList<Object> results = new ArrayList<Object>(((Collection<?>) value).size());
             for (Object object : (Collection<?>) value) {
-                results.add(dereferenceInput(port, object));
+                results.add(dereferenceInput(portName, object));
             }
             return results;
         } else if (value instanceof File) {
-            return uploadFile((File) value, port.getName());
+            return uploadFile((File) value, portName);
         } else if (value instanceof ByteArraySourceFile) {
-            return uploadFile((ByteArraySourceFile) value, port.getName());
+            return uploadFile((ByteArraySourceFile) value, portName);
         } else if (value instanceof SSHTempFile) {
-            return registerTempPath((SSHTempFile) value, port.getName());
+            return registerTempPath((SSHTempFile) value, portName);
         } else {
             return value;
         }
@@ -300,7 +300,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      *            the target directory name
      * @return the path of the file on the server
      * @throws IOException
+     *             if the file cannot be read
      * @throws TavernaExecutorException
+     *             if the file cannot be uploaded
      */
     private String uploadFile(File file, String targetDir) throws IOException, TavernaExecutorException {
 
@@ -402,7 +404,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     /**
-     * Creates a directory on the server if it does not already exist
+     * Creates a directory on the server if it does not already exist.
      * 
      * @param dir
      *            name of the directory to create
@@ -497,13 +499,13 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
                 Map<String, DataThing> outputDataThings = DataThingXMLFactory.parseDataDocument(outputDocument);
 
-                for (TavernaPort port : outputPorts) {
-                    DataThing outputDataThing = outputDataThings.get(port.getName());
+                for (String portName : outputPorts) {
+                    DataThing outputDataThing = outputDataThings.get(portName);
 
                     if (outputDataThing == null) {
-                        outputData.put(port, null);
+                        outputData.put(portName, null);
                     } else {
-                        outputData.put(port, outputDataThing.getDataObject());
+                        outputData.put(portName, outputDataThing.getDataObject());
                     }
 
                 }
@@ -518,35 +520,42 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         }
 
         // Download files
-        for (Entry<TavernaPort, ?> entry : outputFiles.entrySet()) {
+        for (Entry<String, ?> entry : outputFiles.entrySet()) {
             getResultFiles(entry.getKey(), entry.getValue());
         }
     }
 
     /**
-     * Reads the results files of the provided port
+     * Reads the results files of the provided port.
      * 
-     * @param port
-     *            the port
+     * @param portName
+     *            the port name
      * @param value
      *            a file or nested collection of files
      * @return a file or nested collection of files
      * @throws IOException
+     *             if the file cannot be downloaded
      * @throws TavernaExecutorException
+     *             if the file cannot be processed
      */
-    private Object getResultFiles(TavernaPort port, Object value) throws IOException, TavernaExecutorException {
+    private Object getResultFiles(String portName, Object value) throws IOException, TavernaExecutorException {
         if (value instanceof Collection<?>) {
             ArrayList<Object> results = new ArrayList<Object>(((Collection<?>) value).size());
             for (Object object : (Collection<?>) value) {
-                results.add(dereferenceInput(port, object));
+                results.add(dereferenceInput(portName, object));
             }
             return results;
         } else if (value instanceof File) {
-            String path = port.getName() + File.separator + ((File) value).getName();
+            String path = portName + File.separator + ((File) value).getName();
             downloadFile(path, (File) value);
             return value;
         } else if (value instanceof SSHInMemoryTempFile) {
-            downloadFile((SSHInMemoryTempFile) value);
+            // Check either registered tmp file or try path from output port
+            String path = tempFilePaths.get(value);
+            if (path == null) {
+                path = (String) outputData.get(portName);
+            }
+            downloadFile(path, (SSHInMemoryTempFile) value);
             return value;
         } else {
             return value;
@@ -561,6 +570,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * @param localFile
      *            the local file
      * @throws IOException
+     *             if the file could not be downloaded
      */
     private void downloadFile(String path, File localFile) throws IOException {
         String sourcePath = workingDir + File.separator + path;
@@ -570,34 +580,29 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     /**
-     * Downloads a path to a temp file.
+     * Downloads a registered tmp file.
      * 
-     * @param path
-     *            the server path
      * @param tempFile
-     *            the temp file
+     *            the tmp file
      * @throws IOException
+     *             if the file could not be downloaded
      * @throws TavernaExecutorException
+     *             if the file is not registered
      */
-    private void downloadFile(SSHInMemoryTempFile tempFile) throws IOException, TavernaExecutorException {
-
-        String tempFilePath = tempFilePaths.get(tempFile);
-        if (tempFilePath == null) {
-            LOG.error("The temp file " + tempFile.getName() + " is not registerd.");
-            throw new TavernaExecutorException("The temp file " + tempFile.getName() + " is not registerd.");
-        }
-
+    private void downloadFile(String path, SSHInMemoryTempFile tempFile) throws IOException, TavernaExecutorException {
         ByteArrayDestFile destFile = new ByteArrayDestFile();
-        ssh.newSCPFileTransfer().download(tempFilePath, destFile);
+        ssh.newSCPFileTransfer().download(path, destFile);
         tempFile.setData(destFile.getData());
-        LOG.debug("Downloaded file " + tempFilePath + " to " + tempFile.getName());
+        LOG.debug("Downloaded file " + path + " to " + tempFile.getName());
     }
 
     /**
      * Cleans up created resources on the server.
      * 
      * @throws IOException
+     *             if a communication error occurred
      * @throws TavernaExecutorException
+     *             if the cleanup was not successful
      */
     private void cleanupServer() throws IOException, TavernaExecutorException {
         final Session session = ssh.startSession();
@@ -634,11 +639,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         this.workflowFile = workflowFile;
     }
 
-    public Map<TavernaPort, Object> getInputData() {
+    public Map<String, Object> getInputData() {
         return inputData;
     }
 
-    public void setInputData(Map<TavernaPort, Object> inputData) {
+    public void setInputData(Map<String, Object> inputData) {
         this.inputData = inputData;
     }
 
@@ -650,11 +655,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * ()
      */
     @Override
-    public Map<TavernaPort, ?> getOutputData() {
+    public Map<String, ?> getOutputData() {
         return outputData;
     }
 
-    public void setOutputData(Map<TavernaPort, Object> outputData) {
+    public void setOutputData(Map<String, Object> outputData) {
         this.outputData = outputData;
     }
 
@@ -666,19 +671,19 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * ()
      */
     @Override
-    public HashMap<TavernaPort, ?> getOutputFiles() {
+    public HashMap<String, ?> getOutputFiles() {
         return outputFiles;
     }
 
-    public void setOutputFiles(HashMap<TavernaPort, ?> outputFiles) {
+    public void setOutputFiles(HashMap<String, ?> outputFiles) {
         this.outputFiles = outputFiles;
     }
 
-    public Set<TavernaPort> getOutputPorts() {
+    public Set<String> getOutputPorts() {
         return outputPorts;
     }
 
-    public void setOutputPorts(Set<TavernaPort> outputPorts) {
+    public void setOutputPorts(Set<String> outputPorts) {
         this.outputPorts = outputPorts;
     }
 
@@ -699,6 +704,14 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         private byte[] data;
         private String name;
 
+        /**
+         * Creates a new byte array source file.
+         * 
+         * @param name
+         *            name of the file
+         * @param data
+         *            data
+         */
         public ByteArraySourceFile(String name, byte[] data) {
             this.name = name;
             this.data = data;
@@ -725,15 +738,15 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      */
     public class ByteArrayDestFile extends InMemoryDestFile {
 
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        private ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         @Override
         public OutputStream getOutputStream() throws IOException {
-            return os;
+            return outputStream;
         }
 
         public byte[] getData() {
-            return os.toByteArray();
+            return outputStream.toByteArray();
         }
     }
 

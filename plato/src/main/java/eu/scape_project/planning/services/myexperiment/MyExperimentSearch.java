@@ -59,7 +59,7 @@ public class MyExperimentSearch {
 
         // Create query
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();
-        query.addProfile(profile).addMigrationPath(fromMimetype).setMigrationPathToPattern(migrationPathTo)
+        query.addProfile(profile).addMigrationPath(fromMimetype).setMigrationPathTargetPattern(migrationPathTo)
             .addInstallationEnvironment(environment).addInstallationEnvironmentType(environmentType);
 
         query.setDependencyLabelPattern(dependencyLabel);

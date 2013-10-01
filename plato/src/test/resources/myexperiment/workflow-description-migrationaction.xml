@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow uri="http://sandbox.myexperiment.org/workflow.xml?id=3366" resource="http://sandbox.myexperiment.org/workflows/3366" version="1">
-  <id>3366</id>
+<workflow uri="http://sandbox.myexperiment.org/workflow.xml?id=3372" resource="http://sandbox.myexperiment.org/workflows/3372" version="1">
+  <id>3372</id>
   <title>Imagemagick convert - tiff2tiff - compression</title>
   <description>Converts tiff to tiff using imagemagick convert with the provided compression</description>
   <type resource="http://sandbox.myexperiment.org/content_types/2" uri="http://sandbox.myexperiment.org/type.xml?id=2">Taverna 2</type>
   <uploader resource="http://sandbox.myexperiment.org/users/20122" uri="http://sandbox.myexperiment.org/user.xml?id=20122">Markus Plangg</uploader>
-  <preview>http://sandbox.myexperiment.org/workflows/3366/versions/1/previews/full</preview>
-  <svg>http://sandbox.myexperiment.org/workflows/3366/versions/1/previews/svg</svg>
+  <preview>http://sandbox.myexperiment.org/workflows/3372/versions/1/previews/full</preview>
+  <svg>http://sandbox.myexperiment.org/workflows/3372/versions/1/previews/svg</svg>
   <license-type resource="http://sandbox.myexperiment.org/licenses/2" uri="http://sandbox.myexperiment.org/license.xml?id=2">by-sa</license-type>
-  <content-uri>http://sandbox.myexperiment.org/workflows/3366/download/imagemagick_convert_-_tiff2tiff_-_compression_281494.t2flow</content-uri>
+  <content-uri>http://sandbox.myexperiment.org/workflows/3372/download/imagemagick_convert_-_tiff2tiff_-_compression_480171.t2flow</content-uri>
   <content-type>application/vnd.taverna.t2flow+xml</content-type>
   <tags>
     <tag uri="http://sandbox.myexperiment.org/tag.xml?id=618" resource="http://sandbox.myexperiment.org/tags/618">test</tag>
+    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=3214" resource="http://sandbox.myexperiment.org/tags/3214">component</tag>
   </tags>
   <ratings/>
   <components>
     <dataflows>
-      <dataflow id="805e95ff-d6c8-48a2-b22e-f287b7c9f7e3" role="top">
+      <dataflow id="4d680729-09de-4df6-ae28-2630f182ca19" role="top">
         <sources>
           <source>
-            <name>from_uri</name>
+            <name>source_path</name>
             <descriptions>
-              <description>URI to the input object</description>
+              <description>Path to the migration source</description>
             </descriptions>
             <examples>
               <example>in.tiff</example>
@@ -29,22 +30,7 @@
             <semantic_annotation>
               <type>text/rdf+n3</type>
               <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
-              &lt;http://purl.org/DP/components#FromURIPort&gt; .
-</content>
-            </semantic_annotation>
-          </source>
-          <source>
-            <name>to_uri</name>
-            <descriptions>
-              <description>URI to the input object</description>
-            </descriptions>
-            <examples>
-              <example>out.tiff</example>
-            </examples>
-            <semantic_annotation>
-              <type>text/rdf+n3</type>
-              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
-              &lt;http://purl.org/DP/components#ToURIPort&gt; .
+              &lt;http://purl.org/DP/components#SourcePathPort&gt; .
 </content>
             </semantic_annotation>
           </source>
@@ -102,6 +88,19 @@
 </content>
             </semantic_annotation>
           </sink>
+          <sink>
+            <name>target_path</name>
+            <descriptions>
+              <description>Path to the migration target</description>
+            </descriptions>
+            <examples/>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
+              &lt;http://purl.org/DP/components#TargetPathPort&gt; .
+</content>
+            </semantic_annotation>
+          </sink>
         </sinks>
         <processors>
           <processor>
@@ -127,6 +126,12 @@
 </content>
             </semantic_annotation>
           </processor>
+          <processor>
+            <name>createTargetPath</name>
+            <type>beanshell</type>
+            <script>File target = File.createTempFile("convert-to-tiff-" + Long.toString(System.nanoTime()), ".tiff");
+String targetPath = target.getAbsolutePath();</script>
+          </processor>
         </processors>
         <datalinks>
           <datalink>
@@ -135,16 +140,7 @@
               <port>from_uri</port>
             </sink>
             <source>
-              <node>from_uri</node>
-            </source>
-          </datalink>
-          <datalink>
-            <sink>
-              <node>convert</node>
-              <port>to_uri</port>
-            </sink>
-            <source>
-              <node>to_uri</node>
+              <node>source_path</node>
             </source>
           </datalink>
           <datalink>
@@ -154,6 +150,16 @@
             </sink>
             <source>
               <node>compression</node>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>convert</node>
+              <port>to_uri</port>
+            </sink>
+            <source>
+              <node>createTargetPath</node>
+              <port>targetPath</port>
             </source>
           </datalink>
           <datalink>
@@ -174,6 +180,15 @@
               <port>STDERR</port>
             </source>
           </datalink>
+          <datalink>
+            <sink>
+              <node>target_path</node>
+            </sink>
+            <source>
+              <node>createTargetPath</node>
+              <port>targetPath</port>
+            </source>
+          </datalink>
         </datalinks>
         <semantic_annotation>
           <type>text/rdf+n3</type>
@@ -182,9 +197,9 @@
 
 &lt;&gt;    &lt;http://purl.org/DP/components#migrates&gt;
               [ a       &lt;http://purl.org/DP/components#MigrationPath&gt; ;
-                &lt;http://purl.org/DP/components#fromMimetype&gt;
+                &lt;http://purl.org/DP/components#sourceMimetype&gt;
                         "image/tiff" ;
-                &lt;http://purl.org/DP/components#toMimetype&gt;
+                &lt;http://purl.org/DP/components#targetMimetype&gt;
                         "image/tiff"
               ] .
 </content>

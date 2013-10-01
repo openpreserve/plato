@@ -22,9 +22,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
@@ -41,9 +45,6 @@ import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.FileUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Migration action service for executing migration actions using taverna on a
@@ -76,7 +77,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
             URL url = new URL(action.getUrl());
             InputStream is = url.openStream();
             try {
-                HashMap<TavernaPort, Object> inputData = new HashMap<TavernaPort, Object>();
+                HashMap<String, Object> inputData = new HashMap<String, Object>();
 
                 T2FlowParser t2flowParser = T2FlowParserFallback.createParser(is);
                 if (!t2flowParser.getProfile().equals(T2FlowParser.ComponentProfile.MigrationAction)) {
@@ -96,7 +97,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 }
 
                 for (TavernaPort inputFromPort : inputFromPorts) {
-                    inputData.put(inputFromPort,
+                    inputData.put(inputFromPort.getName(),
                         tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject.getFullname()),
                             digitalObject.getData().getData()));
                 }
@@ -114,7 +115,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 SSHInMemoryTempFile tempFile = new SSHInMemoryTempFile();
                 tempFile.setName(FileUtils.makeFilename(digitalObject.getFullname()) + ".result");
                 for (TavernaPort inputToPort : inputToPorts) {
-                    inputData.put(inputToPort, tempFile);
+                    inputData.put(inputToPort.getName(), tempFile);
                 }
 
                 // Parameter
@@ -129,7 +130,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
 
                 if (parameterPorts.size() == 1) {
                     for (TavernaPort parameterPort : parameterPorts) {
-                        inputData.put(parameterPort, action.getParamByName("settings"));
+                        inputData.put(parameterPort.getName(), action.getParamByName("settings"));
                     }
                 }
 
@@ -138,7 +139,11 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                 tavernaExecutor.setWorkflowUrl(action.getUrl());
                 // Output ports to receive
                 Set<TavernaPort> outputPorts = t2flowParser.getOutputPorts();
-                tavernaExecutor.setOutputPorts(outputPorts);
+                Set<String> outputPortNames = new HashSet<String>(outputPorts.size());
+                for (TavernaPort p : outputPorts) {
+                    outputPortNames.add(p.getName());
+                }
+                tavernaExecutor.setOutputPorts(outputPortNames);
 
                 // Output files
                 Set<TavernaPort> outputToPorts = t2flowParser.getOutputPorts(new URI(
@@ -150,10 +155,9 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
                     return result;
                 }
 
-                HashMap<TavernaPort, SSHInMemoryTempFile> requestedFiles = new HashMap<TavernaPort, SSHInMemoryTempFile>(
-                    1);
+                HashMap<String, SSHInMemoryTempFile> requestedFiles = new HashMap<String, SSHInMemoryTempFile>(1);
                 for (TavernaPort outputToPort : outputToPorts) {
-                    requestedFiles.put(outputToPort, tempFile);
+                    requestedFiles.put(outputToPort.getName(), tempFile);
                 }
                 tavernaExecutor.setOutputFiles(requestedFiles);
 
@@ -177,10 +181,10 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
 
                 // Map<TavernaPort, ?> outputData =
                 // tavernaExecutor.getOutputData();
-                Map<TavernaPort, ?> outputFiles = tavernaExecutor.getOutputFiles();
+                Map<String, ?> outputFiles = tavernaExecutor.getOutputFiles();
 
                 DigitalObject u = new DigitalObject();
-                for (Entry<TavernaPort, ?> entry : outputFiles.entrySet()) {
+                for (Entry<String, ?> entry : outputFiles.entrySet()) {
                     SSHInMemoryTempFile resultFile = (SSHInMemoryTempFile) entry.getValue();
                     u.getData().setData(resultFile.getData());
                     u.setFullname(action.getShortname() + " - " + digitalObject.getFullname());

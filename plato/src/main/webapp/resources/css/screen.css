@@ -271,8 +271,7 @@ input[type="text"],input[type="password"],select,textarea {
 	padding: 1px;
 }
 
-.input input[type=text],.input input[type="password"],.input select,.input textarea
-	{
+.input input[type=text],.input input[type="password"],.input select,.input textarea	{
 	margin-right: 0;
 	background-color: white;
 	border-top: 1px solid #155C89;
@@ -372,6 +371,14 @@ input[type=submit]:hover,input[type=button]:hover {
 input[type=submit]:active,input[type=button]:hover {
 	position: relative;
 	top: 1px;
+}
+
+input[type=submit]:disabled,input[type=button]:disabled {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
+		), color-stop(1, #B0AEAE) );
+	background: -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CFCDCD',
+		endColorstr='#B0AEAE' );
 }
 
 /* Save/Discard/Proceed button */
@@ -636,11 +643,10 @@ th.rf-dt-shdr-c {
 	border: none;
 	background-image: url(none);
 	background: #017298;
-	/* background: #999898; */
 }
 
 .input .rf-au-btn-arrow {
-	height: 23px;
+	height: 22px;
 }
 
 div.menu-step { /*width:95%;

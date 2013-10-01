@@ -223,7 +223,7 @@
 						<a4j:outputPanel id="lookupResultPanel" layout="block">
 
 							<!-- Custom -->
-							<a4j:outputPanel
+							<a4j:outputPanel id="customAlternatives"
 								rendered="#{defineAlternatives.selectedRegistry == 'CUSTOM'}"
 								layout="block">
 								<table class="service-results">
@@ -285,6 +285,35 @@
 												</div>
 											</a4j:outputPanel></td>
 									</tr>
+									<tr>
+										<td class="service-marker service-marker-myExperiment"></td>
+										<td class="service-addservice"><a4j:commandButton
+												id="add" value="+" immediate="true"
+												action="#{defineAlternatives.addPreservationAction(defineAlternatives.customMyExperimentServiceInfo)}"
+												render="alterativesTablePanel"
+												styleClass="service-addservice-add" 
+												disabled="#{empty defineAlternatives.customMyExperimentServiceInfo}"/></td>
+										<td class="service-info" id="service-info">
+											<div class="service-info-panel">
+												<div class="service-info-header">myExperiment workflow</div>
+												<div class="service-info-info">
+													<div>
+														<!-- <h:inputText value="#{defineAlternatives.customMyExperimentServiceUri}" /> -->
+														<p:inputText id="custom-myexperiment"
+															input="#{defineAlternatives.customMyExperimentServiceUri}" />
+														<a4j:commandButton id="loadCustomService"
+															action="#{defineAlternatives.loadCustomMyExperimentService}"
+															render="customAlternatives,messages" value="Load" />
+													</div>
+													<p:service-myExperiment id="service-myExperiment"
+														actionInfo="#{defineAlternatives.customMyExperimentServiceInfo}"
+														data="#{defineAlternatives.tavernaServices}"
+														rendered="#{not empty defineAlternatives.customMyExperimentServiceInfo and defineAlternatives.customMyExperimentServiceInfo.serviceIdentifier eq 'myExperiment'}" />
+												</div>
+											</div>
+										</td>
+									</tr>
+
 								</table>
 							</a4j:outputPanel>
 
@@ -366,23 +395,23 @@
 									boundaryControls="show" fastControls="hide"
 									renderIfSinglePage="false" stepControls="show" />
 								<rich:dataTable id="lookupResults"
-									value="#{defineAlternatives.serviceInfoData}" var="action"
+									value="#{defineAlternatives.serviceInfoData}" var="serviceInfo"
 									rows="8" styleClass="service-results">
 									<rich:column
-										styleClass="service-marker service-marker-#{action.serviceIdentifier}" />
+										styleClass="service-marker service-marker-#{serviceInfo.serviceIdentifier}" />
 									<rich:column styleClass="service-addservice">
 										<a4j:commandButton id="add" value="+" immediate="true"
-											action="#{defineAlternatives.addPreservationAction(action)}"
+											action="#{defineAlternatives.addPreservationAction(serviceInfo)}"
 											render="alterativesTablePanel"
 											styleClass="service-addservice-add" />
 									</rich:column>
 									<rich:column styleClass="service-info" id="service-info">
 										<p:service-myExperiment id="service-myExperiment"
-											actionInfo="#{action}"
+											actionInfo="#{serviceInfo}"
 											data="#{defineAlternatives.tavernaServices}"
-											rendered="#{action.serviceIdentifier eq 'myExperiment'}" />
+											rendered="#{serviceInfo.serviceIdentifier eq 'myExperiment'}" />
 										<p:service id="service" actionInfo="#{action}"
-											rendered="#{action.serviceIdentifier ne 'myExperiment'}" />
+											rendered="#{serviceInfo.serviceIdentifier ne 'myExperiment'}" />
 									</rich:column>
 								</rich:dataTable>
 							</a4j:outputPanel>

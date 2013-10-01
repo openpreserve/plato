@@ -26,10 +26,7 @@ import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 
 /**
- * 
- * 
- * @author Michael Kraxner
- * 
+ * Factory for preservation actions.
  */
 public class PreservationActionServiceFactory {
     private static Logger log = LoggerFactory.getLogger(PreservationActionServiceFactory.class);
@@ -67,8 +64,10 @@ public class PreservationActionServiceFactory {
         preservationActionServices.put("MiniMEE-migration", "at.tuwien.minimee.migration.MiniMeeMigrationService");
         preservationActionServices.put("MiniMEE-emulation",
             "eu.scape_project.planning.services.action.minimee.MiniMeeEmulationService");
+        // preservationActionServices.put("myExperiment",
+        // "eu.scape_project.planning.taverna.migrationaction.SSHTavernaMigrationActionService");
         preservationActionServices.put("myExperiment",
-            "eu.scape_project.planning.taverna.migrationaction.SSHTavernaMigrationActionService");
+            "eu.scape_project.planning.services.pa.taverna.SSHTavernaMigrationActionService");
 
     }
 
@@ -78,12 +77,12 @@ public class PreservationActionServiceFactory {
      * action definition must be registered in the application.
      * 
      * @param action
+     *            action definition
      * @return {@link IPreservationAction}
      */
     public static IPreservationAction getPreservationAction(PreservationActionDefinition action) {
         try {
-
-            String actionClassname = preservationActionServices.get(action.getActionIdentifier()); //
+            String actionClassname = preservationActionServices.get(action.getActionIdentifier());
 
             Object serviceLocator = null;
             try {
@@ -95,8 +94,9 @@ public class PreservationActionServiceFactory {
             if (serviceLocator instanceof IPreservationAction) {
                 IPreservationAction locator = (IPreservationAction) serviceLocator;
                 return locator;
-            } else
+            } else {
                 throw new IllegalArgumentException(actionClassname + " is not a PreservationAction service.");
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not create preservation action service for '"
                 + action.getActionIdentifier() + "'.", e);
