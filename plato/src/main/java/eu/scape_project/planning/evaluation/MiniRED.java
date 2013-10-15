@@ -55,6 +55,8 @@ public class MiniRED implements Serializable {
         register("minireef", "eu.scape_project.planning.evaluation.evaluators.MiniREEFEvaluator");
         register("imagecomp", "eu.scape_project.planning.evaluation.evaluators.ImageComparisonEvaluator");
         
+        register("myExperiment", "eu.scape_project.planning.services.evaluation.taverna.SSHTavernaEvaluationService");
+        
         //register("consolidated", "eu.scape_project.planning.evaluation.evaluators.ConsolidatedEvaluator");
     }
     
@@ -73,7 +75,7 @@ public class MiniRED implements Serializable {
     public List<IObjectEvaluator> getObjectEvaluationSequence() {
         LinkedList<IObjectEvaluator> evaluators = new LinkedList<IObjectEvaluator>();
         // "metadata", 
-        String[] keys = new String[]{"experiment", "object", "imagecomp"};
+        String[] keys = new String[]{"myExperiment", "experiment", "object", "imagecomp"};
         for (String s: keys) {
             if (evaluatorClasses.containsKey(s)) {
                 evaluators.add((IObjectEvaluator)createEvaluator(s));

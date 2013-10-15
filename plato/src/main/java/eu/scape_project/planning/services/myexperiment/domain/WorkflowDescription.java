@@ -277,6 +277,8 @@ public class WorkflowDescription extends WorkflowInfo {
 
         private String portType;
 
+        private String measure;
+
         /**
          * Empty constructor needed for JAXB.
          */
@@ -321,6 +323,14 @@ public class WorkflowDescription extends WorkflowInfo {
 
         public String getPortType() {
             return portType;
+        }
+
+        public String getMeasure() {
+            return measure;
+        }
+
+        private void setMeasure(String measure) {
+            this.measure = measure;
         }
     }
 
@@ -736,11 +746,11 @@ public class WorkflowDescription extends WorkflowInfo {
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
                 + "PREFIX cc: <http://creativecommons.org/ns#> "
                 + "SELECT ?port ?portType ?parameter WHERE { { "
-                + "?port comp:portType ?portType ."
-                + " } UNION { { "
-                + "?port comp:acceptsPredefinedParameter ?parameter"
-                + " } MINUS { "
-                + "?port comp:portType comp:ParameterPort"
+                + "  ?port comp:portType ?portType ."
+                + "} UNION { { "
+                + "    ?port comp:acceptsPredefinedParameter ?parameter"
+                + "  } MINUS { "
+                + "    ?port comp:portType comp:ParameterPort"
                 + "} } . }";
             // @formatter:on
 
@@ -767,11 +777,53 @@ public class WorkflowDescription extends WorkflowInfo {
                 qe.close();
             }
 
+            // Measures
+            addMeasures(model, port);
+
         } catch (XPathExpressionException e) {
             LOG.warn("Error extracting port definition from myExperiment response", e);
         }
 
         return port;
+    }
+
+    /**
+     * Adds the measures of the provided model to the port.
+     * 
+     * @param model
+     *            the model containing the measures
+     * @param port
+     *            the port
+     */
+    private void addMeasures(Model model, Port port) {
+        // @formatter:off
+        String statement = 
+              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX comp: <http://purl.org/DP/components#> "
+            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX cc: <http://creativecommons.org/ns#> "
+            + "SELECT ?port ?measure WHERE { { "
+            + "  ?port comp:acceptsMeasure ?measure ."
+            + "} UNION { "
+            + "  ?port comp:providesMeasure ?measure ."
+            + "} }";
+        // @formatter:on
+
+        Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
+        try {
+            if ((results != null) && (results.hasNext())) {
+                QuerySolution qs = results.next();
+                Resource measure = qs.getResource("measure");
+                if (measure != null) {
+                    port.setMeasure(measure.getURI());
+                }
+            }
+        } finally {
+            qe.close();
+        }
     }
 
     /**
@@ -803,12 +855,12 @@ public class WorkflowDescription extends WorkflowInfo {
                 + "PREFIX comp: <http://purl.org/DP/components#> "
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
                 + "PREFIX cc: <http://creativecommons.org/ns#> "
-                + "SELECT ?port ?value ?description WHERE { "
-                + "{ ?port comp:portType comp:ParameterPort ."
+                + "SELECT ?port ?value ?description WHERE { {"
+                + "  ?port comp:portType comp:ParameterPort ."
                 + "} UNION {"
-                + " { ?port comp:acceptsPredefinedParameter ?parameter ."
-                + "            ?parameter comp:parameterValue ?value ."
-                + "            ?parameter comp:parameterDescription ?description } . } }";
+                + "  ?port comp:acceptsPredefinedParameter ?parameter ."
+                + "  ?parameter comp:parameterValue ?value ."
+                + "  ?parameter comp:parameterDescription ?description } }";
             // @formatter:on
 
             Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
