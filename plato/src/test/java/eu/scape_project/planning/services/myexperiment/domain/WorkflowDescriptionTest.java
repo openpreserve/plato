@@ -17,9 +17,8 @@ import org.junit.Test;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation.Dependency;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.MigrationPath;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort.PredefinedParameter;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port.PredefinedParameter;
 
 public class WorkflowDescriptionTest {
 
@@ -80,12 +79,12 @@ public class WorkflowDescriptionTest {
         Assert.assertEquals("http://purl.org/DP/components#SourcePathPort", inputPorts.get(0).getPortType());
 
         for (Port p : inputPorts) {
-            if (p instanceof ParameterPort) {
+            if (p.isParameterPort()) {
                 Assert.assertEquals("compression", p.getName());
                 Assert.assertEquals("Imagemagick convert compress parameter", p.getDescription());
                 Assert.assertEquals("http://purl.org/DP/components#ParameterPort", p.getPortType());
 
-                List<PredefinedParameter> predefinedParameters = ((ParameterPort) p).getPredefinedParameters();
+                List<PredefinedParameter> predefinedParameters = p.getPredefinedParameters();
                 Assert.assertEquals(3, predefinedParameters.size());
 
                 Assert.assertThat(predefinedParameters, new TypeSafeMatcher<List<PredefinedParameter>>() {

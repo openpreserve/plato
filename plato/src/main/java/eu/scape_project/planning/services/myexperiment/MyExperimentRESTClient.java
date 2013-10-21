@@ -216,8 +216,10 @@ public class MyExperimentRESTClient {
                 Set<String> mimeset = new HashSet<String>();
                 Collections.addAll(mimeset, mimetypes);
                 for (String mimetype : mimeset) {
-                    elements.addTriplePattern(new Triple(wfNode, NodeFactory
-                        .createURI(ONTOLOGY_IRI + "handlesMimetype"), NodeFactory.createLiteral(mimetype)));
+                    if (mimetype != null) {
+                        elements.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(ONTOLOGY_IRI
+                            + "handlesMimetype"), NodeFactory.createLiteral(mimetype)));
+                    }
                 }
                 handlesMimetypes.addElement(elements);
             }
@@ -244,6 +246,7 @@ public class MyExperimentRESTClient {
                 Set<String> wildcards = new HashSet<String>(mimetypes.length);
                 for (String mimetype : mimetypes) {
                     wildcards.add(getMimetypeWildcard(mimetype));
+
                 }
                 addHandlesMimetype(wildcards.toArray(new String[0]));
             }

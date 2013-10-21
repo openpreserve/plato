@@ -51,7 +51,7 @@
 					value="#{cc.attrs.alternative.action.params}" var="parameter">
 
 					<a4j:outputPanel id="manual_input" layout="block"
-						rendered="#{empty cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getParameterPort(parameter.name).predefinedParameters}">
+						rendered="#{empty cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getInputPort(parameter.name).predefinedParameters}">
 						<p:inputText labelText="#{parameter.name}:"
 							input="#{parameter.value}" required="false" rerender="info"
 							touchable="#{cc.attrs.alternative}"
@@ -59,7 +59,7 @@
 					</a4j:outputPanel>
 
 					<a4j:outputPanel id="select_input" layout="block"
-						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getParameterPort(parameter.name).predefinedParameters}">
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getInputPort(parameter.name).predefinedParameters}">
 						<div class="component">
 							<div class="label">
 								<a
@@ -72,13 +72,13 @@
 							<div class="input">
 								<rich:autocomplete value="#{parameter.value}"
 									selectFirst="false" mode="client"
-									autocompleteList="#{cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getParameterPort(parameter.name).predefinedParameters}"
+									autocompleteList="#{cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getInputPort(parameter.name).predefinedParameters}"
 									var="predefParam" fetchValue="#{predefParam.value}"
 									showButton="true" popupClass="service-parameter-au-popup">
 									#{predefParam.value} - #{predefParam.description}
 								</rich:autocomplete>
 								<div class="service-parameter-description">
-									#{cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getParameterPort(parameter.name).description}
+									#{cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo).getInputPort(parameter.name).description}
 								</div>
 							</div>
 						</div>

@@ -50,7 +50,6 @@ import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
@@ -413,7 +412,7 @@ public class DefineAlternativesView extends AbstractView {
             actionDefinition.setInfo(serviceInfo.getInfo());
 
             for (Port p : wf.getInputPorts()) {
-                if (p instanceof ParameterPort) {
+                if (p.isParameterPort()) {
                     actionDefinition.getParams().add(new Parameter(p.getName(), ""));
                 }
             }

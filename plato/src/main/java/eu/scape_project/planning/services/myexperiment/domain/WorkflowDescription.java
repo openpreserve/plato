@@ -55,7 +55,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation.Dependency;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.ParameterPort.PredefinedParameter;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port.PredefinedParameter;
 
 /**
  * Description of a workflow of a myExperiment REST API response.
@@ -271,76 +271,6 @@ public class WorkflowDescription extends WorkflowInfo {
      */
     public static class Port {
 
-        private String name;
-
-        private String description;
-
-        private String portType;
-
-        private String measure;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public Port() {
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         */
-        public Port(String name, String description) {
-            this.name = name;
-            this.description = description;
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         * @param portType
-         *            port type
-         */
-        public Port(String name, String description, String portType) {
-            this(name, description);
-            this.portType = portType;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getPortType() {
-            return portType;
-        }
-
-        public String getMeasure() {
-            return measure;
-        }
-
-        private void setMeasure(String measure) {
-            this.measure = measure;
-        }
-    }
-
-    /**
-     * Parameter port.
-     */
-    public static class ParameterPort extends Port {
-
-        private static final String PORT_TYPE = "http://purl.org/DP/components#ParameterPort";
-
         /**
          * Predefined parameters.
          */
@@ -377,32 +307,89 @@ public class WorkflowDescription extends WorkflowInfo {
 
         }
 
+        private static final String PARAMETER_PORT_TYPE = "http://purl.org/DP/components#ParameterPort";
+
+        private String name;
+
+        private String description;
+
+        private String portType;
+
+        private String measure;
+
         private List<PredefinedParameter> predefinedParameters;
 
         /**
          * Empty constructor needed for JAXB.
          */
-        public ParameterPort() {
+        public Port() {
         }
 
         /**
-         * Creates a new parameter port.
+         * Creates a new port.
          * 
          * @param name
          *            the port name
          * @param description
          *            the port description
-         * @param predefinedParameters
-         *            a list of predefined parameters
          */
-        public ParameterPort(String name, String description, List<PredefinedParameter> predefinedParameters) {
-            super(name, description, PORT_TYPE);
-            this.predefinedParameters = predefinedParameters;
+        public Port(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        /**
+         * Creates a new port.
+         * 
+         * @param name
+         *            the port name
+         * @param description
+         *            the port description
+         * @param portType
+         *            port type
+         */
+        public Port(String name, String description, String portType) {
+            this(name, description);
+            this.portType = portType;
+        }
+
+        /**
+         * Checks if this port is a parameter port.
+         * 
+         * @return true if this port is a parameter port, false otherwise
+         */
+        public boolean isParameterPort() {
+            return PARAMETER_PORT_TYPE.equals(portType) || predefinedParameters != null;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getPortType() {
+            return portType;
+        }
+
+        public String getMeasure() {
+            return measure;
+        }
+
+        private void setMeasure(String measure) {
+            this.measure = measure;
         }
 
         public List<PredefinedParameter> getPredefinedParameters() {
             return predefinedParameters;
         }
+
+        private void setPredefinedParameters(List<PredefinedParameter> predefinedParameters) {
+            this.predefinedParameters = predefinedParameters;
+        }
+
     }
 
     @XmlElement
@@ -763,11 +750,11 @@ public class WorkflowDescription extends WorkflowInfo {
                     while ((results != null) && (results.hasNext())) {
                         QuerySolution qs = results.next();
                         Resource portType = qs.getResource("portType");
+                        port = new Port(portName, portDescription, portType.getURI());
+
                         Resource parameter = qs.getResource("parameter");
-                        if (ParameterPort.PORT_TYPE.equals(portType.getURI()) || parameter != null) {
-                            port = parseParameterPort(element);
-                        } else {
-                            port = new Port(portName, portDescription, portType.getURI());
+                        if (Port.PARAMETER_PORT_TYPE.equals(portType.getURI()) || parameter != null) {
+                            addPredefinedParameters(model, port);
                         }
                     }
                 } else {
@@ -827,70 +814,46 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
-     * Parses the provided element and creates a ParameterPort.
+     * Parses predefined parameters of the provided model to the port.
      * 
-     * @param element
-     *            the element to parse
-     * @return the parameter port or null if the element is not parameter port
+     * @param model
+     *            the model containing the measures
+     * @param port
+     *            the port
      */
-    private ParameterPort parseParameterPort(Element element) {
-        ParameterPort parameterPort = null;
+    private void addPredefinedParameters(Model model, Port port) {
+        // @formatter:off
+        String statement = 
+              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX comp: <http://purl.org/DP/components#> "
+            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX cc: <http://creativecommons.org/ns#> "
+            + "SELECT ?port ?value ?description WHERE { "
+            + "  ?port comp:acceptsPredefinedParameter ?parameter ."
+            + "  ?parameter comp:parameterValue ?value ."
+            + "  ?parameter comp:parameterDescription ?description }";
+        // @formatter:on
+
+        Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
+        QueryExecution qe = QueryExecutionFactory.create(query, model);
+        ResultSet results = qe.execSelect();
+
         try {
-            XPath xPath = XPathFactory.newInstance().newXPath();
-
-            String portName = (String) xPath.evaluate("name", element, XPathConstants.STRING);
-            String portDescription = (String) xPath
-                .evaluate("descriptions/description", element, XPathConstants.STRING);
-
-            String semanticAnnotations = (String) xPath.evaluate("semantic_annotation/content", element,
-                XPathConstants.STRING);
-
-            Model model = ModelFactory.createMemModelMaker().createDefaultModel();
-            Reader reader = new StringReader(semanticAnnotations);
-            model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
-
-            // @formatter:off
-            String statement = 
-                  "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                + "PREFIX comp: <http://purl.org/DP/components#> "
-                + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-                + "PREFIX cc: <http://creativecommons.org/ns#> "
-                + "SELECT ?port ?value ?description WHERE { {"
-                + "  ?port comp:portType comp:ParameterPort ."
-                + "} UNION {"
-                + "  ?port comp:acceptsPredefinedParameter ?parameter ."
-                + "  ?parameter comp:parameterValue ?value ."
-                + "  ?parameter comp:parameterDescription ?description } }";
-            // @formatter:on
-
-            Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
-            QueryExecution qe = QueryExecutionFactory.create(query, model);
-            ResultSet results = qe.execSelect();
-
-            try {
-                if (results.hasNext()) {
-                    List<PredefinedParameter> predefinedParameters = new ArrayList<PredefinedParameter>();
-                    parameterPort = new ParameterPort(portName, portDescription, predefinedParameters);
-
-                    while ((results != null) && (results.hasNext())) {
-                        QuerySolution qs = results.next();
-                        Literal value = qs.getLiteral("value");
-                        Literal description = qs.getLiteral("description");
-                        if (value != null && description != null) {
-                            predefinedParameters
-                                .add(new PredefinedParameter(value.getString(), description.getString()));
-                        }
+            if (results.hasNext()) {
+                List<PredefinedParameter> predefinedParameters = new ArrayList<PredefinedParameter>();
+                while ((results != null) && (results.hasNext())) {
+                    QuerySolution qs = results.next();
+                    Literal value = qs.getLiteral("value");
+                    Literal description = qs.getLiteral("description");
+                    if (value != null && description != null) {
+                        predefinedParameters.add(new PredefinedParameter(value.getString(), description.getString()));
                     }
                 }
-            } finally {
-                qe.close();
+                port.setPredefinedParameters(predefinedParameters);
             }
-
-        } catch (XPathExpressionException e) {
-            LOG.warn("Error extracting parameter port definition from myExperiment response", e);
+        } finally {
+            qe.close();
         }
-
-        return parameterPort;
     }
 
     /**
@@ -912,22 +875,6 @@ public class WorkflowDescription extends WorkflowInfo {
         }
         m.appendTail(sb);
         return sb.toString();
-    }
-
-    /**
-     * Returns the parameter port with the provided name.
-     * 
-     * @param name
-     *            the port name
-     * @return the port or null if none found.
-     */
-    public ParameterPort getParameterPort(String name) {
-        for (Port p : inputPorts) {
-            if (p instanceof ParameterPort && p.getName().equals(name)) {
-                return (ParameterPort) p;
-            }
-        }
-        return null;
     }
 
     /**
@@ -955,6 +902,22 @@ public class WorkflowDescription extends WorkflowInfo {
             LOG.warn("Error creating resource URI with version", e);
         }
         return super.getResource();
+    }
+
+    /**
+     * Returns the input port with the provided name.
+     * 
+     * @param name
+     *            the port name
+     * @return the port or null if no port was found
+     */
+    public Port getInputPort(String name) {
+        for (Port p : inputPorts) {
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
     }
 
     // ---------- getter/setter ----------
