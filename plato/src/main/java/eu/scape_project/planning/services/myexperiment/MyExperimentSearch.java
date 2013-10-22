@@ -70,7 +70,7 @@ public class MyExperimentSearch {
             MyExperimentActionInfo service = new MyExperimentActionInfo();
 
             service.setShortname(workflow.getName());
-            service.setDescriptor(workflow.getUri().toASCIIString());
+            service.setDescriptor(workflow.getDescriptor());
             service.setInfo(workflow.getDescription());
             service.setUrl(workflow.getContentUri());
             service.setContentType(workflow.getContentType());

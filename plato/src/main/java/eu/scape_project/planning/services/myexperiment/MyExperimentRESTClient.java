@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBElement;
@@ -56,6 +58,40 @@ public class MyExperimentRESTClient {
      * Elements to request for workflow details.
      */
     private static final String WORKFLOW_ELEMENTS = "id,title,description,type,uploader,preview,svg,license-type,content-uri,content-type,tags,ratings,components";
+
+    private static final int WORKFLOW_URL_GROUP = 1;
+
+    /**
+     * Pattern for guessing descriptor URL
+     */
+    private static final Pattern WORKFLOW_DL_PATTERN = Pattern
+        .compile("(.+\\:\\/\\/.+)workflows\\/(\\d+)(\\.html|/download)(/.+?)?([?&]version=(\\d+))?");
+
+    /**
+     * Pattern group number for id
+     */
+    private static final int WORKFLOW_PATH_ID_GROUP = 2;
+
+    /**
+     * Pattern group number for version
+     */
+    private static final int WORKFLOW_PATH_VERSION_GROUP = 4;
+
+    /**
+     * Pattern for guessing descriptor URL
+     */
+    private static final Pattern WORKFLOW_PATH_PATTERN = Pattern
+        .compile("(.+\\:\\/\\/.+)workflows\\/(\\d+)(/versions/(\\d+))?/?");
+
+    /**
+     * Pattern group number for id
+     */
+    private static final int WORKFLOW_DL_ID_GROUP = 2;
+
+    /**
+     * Pattern group number for version
+     */
+    private static final int WORKFLOW_DL_VERSION_GROUP = 6;
 
     /**
      * Describes a query for components using the myExperiment REST endpoint.
@@ -694,19 +730,61 @@ public class MyExperimentRESTClient {
         GenericType<JAXBElement<WorkflowDescription>> workflowType = new GenericType<JAXBElement<WorkflowDescription>>() {
         };
 
+        String likelyDescriptor = guessDescriptor(descriptor);
         Client client = Client.create();
-        WebResource resource = client.resource(descriptor).queryParam("elements", WORKFLOW_ELEMENTS);
+        WebResource resource = client.resource(likelyDescriptor).queryParam("elements", WORKFLOW_ELEMENTS);
 
         try {
-            LOG.debug("Querying myExperiments for workflow resource [{}]", descriptor);
+            LOG.debug("Querying myExperiments for workflow resource [{}]", likelyDescriptor);
             return resource.accept(MediaType.APPLICATION_XML_TYPE).get(workflowType).getValue();
         } catch (UniformInterfaceException e) {
             if (e.getResponse().getStatus() == NOT_FOUND_STATUS) {
-                LOG.debug("Workflow resource [{}] not found", descriptor);
+                LOG.debug("Workflow resource [{}] not found", likelyDescriptor);
                 return null;
             } else {
                 throw e;
             }
         }
     }
+
+    /**
+     * Creates a descriptor URL based on the provided reference URL to a
+     * workflow.
+     * 
+     * @param reference
+     *            a URL to a workflow
+     * @return the likely descriptor URL or the reference if no match was found
+     */
+    private static String guessDescriptor(String reference) {
+        if (reference.matches("(.+\\:\\/\\/.+workflow.xml)(.*[?&]id=\\d+)")) {
+            return reference;
+        } else {
+            String myExperimentUrl = null;
+            String id = null;
+            String version = null;
+
+            Matcher dlMatcher = WORKFLOW_DL_PATTERN.matcher(reference);
+            if (dlMatcher.matches()) {
+                myExperimentUrl = dlMatcher.group(WORKFLOW_URL_GROUP);
+                id = dlMatcher.group(WORKFLOW_DL_ID_GROUP);
+                version = dlMatcher.group(WORKFLOW_DL_VERSION_GROUP);
+            } else {
+                Matcher pathMatcher = WORKFLOW_PATH_PATTERN.matcher(reference);
+                if (pathMatcher.matches()) {
+                    myExperimentUrl = pathMatcher.group(WORKFLOW_URL_GROUP);
+                    id = pathMatcher.group(WORKFLOW_PATH_ID_GROUP);
+                    version = pathMatcher.group(WORKFLOW_PATH_VERSION_GROUP);
+                }
+            }
+
+            if (myExperimentUrl != null && id != null) {
+                if (version == null) {
+                    version = "1";
+                }
+                return myExperimentUrl + "workflow.xml?id=" + id + "&version=" + version;
+            }
+        }
+        return reference;
+    }
+
 }

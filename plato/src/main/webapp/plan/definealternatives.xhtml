@@ -65,14 +65,15 @@
 							action="#{defineAlternatives.removeAlternative(alternative)}"
 							render="alterativesTablePanel editAlternativePanel"
 							rendered="#{empty alternative.experiment.results}"
-							onclick="changed();" styleClass="service-addservice-add" />
+							onclick="changed();" styleClass="service-addservice-add"
+							type="button" />
 						<a4j:outputPanel styleClass="confirmation-container"
 							rendered="#{not empty alternative.experiment.results}">
 							<a4j:commandButton value="-"
 								action="#{defineAlternatives.removeAlternative(alternative)}"
 								render="alterativesTablePanel editAlternativePanel"
 								onclick="if ($(#{rich:element('removeConfirmation')}).css('display') == 'none') { $('.confirmation-panel').toggle(false); $(#{rich:element('removeConfirmation')}).toggle(true); return false; } changed();"
-								styleClass="service-addservice-add" />
+								styleClass="service-addservice-add" type="button" />
 							<a4j:outputPanel id="removeConfirmation"
 								styleClass="confirmation-panel" layout="block"
 								onclick="$(#{rich:element('removeConfirmation')}).toggle(false); return false;">
@@ -165,8 +166,8 @@
 									onclick="toggleLoadingOverlay();this.disabled=true;"
 									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.showCustomAlternatives()}"
-									render="lookupResultPanel,addCustomAlternative,messages">
-								</a4j:commandButton>
+									render="lookupResultPanel,addCustomAlternative,messages"
+									type="button" />
 							</div>
 							<!-- myExperiment -->
 							<div class="registry-panel">
@@ -175,12 +176,12 @@
 										alt="Custom alternative" width="200px" height="40px" />
 								</div>
 								<a4j:commandButton id="addMyExperimentAlternative"
-									value="Components (experimental)"
+									value="Show Services"
 									onclick="toggleLoadingOverlay();this.disabled=true;"
 									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.showMyExperimentAlternatives()}"
-									render="lookupResultPanel,addMyExperimentAlternative,messages">
-								</a4j:commandButton>
+									render="lookupResultPanel,addMyExperimentAlternative,messages"
+									type="button" />
 							</div>
 							<!-- PA Registries -->
 							<ui:repeat id="registries"
@@ -195,9 +196,9 @@
 										onclick="toggleLoadingOverlay();this.disabled=true;"
 										oncomplete="this.disabled=false;toggleLoadingOverlay();"
 										action="#{defineAlternatives.showPreservationServices(registry)}"
-										render="lookupResultPanel,showServices,messages"
-										disabled="#{!defineAlternatives.formatInfoAvailable}">
-									</a4j:commandButton>
+										render="lookupResultPanel,messages"
+										disabled="#{!defineAlternatives.formatInfoAvailable}"
+										type="button" />
 								</div>
 							</ui:repeat>
 							<div style="clear: both;" />
@@ -233,7 +234,7 @@
 												id="addDoNothing" value="+" immediate="true"
 												action="#{defineAlternatives.addDoNothing}"
 												render="alterativesTablePanel,messages"
-												styleClass="service-addservice-add" /></td>
+												styleClass="service-addservice-add" type="button" /></td>
 										<td class="service-info" id="service-info">
 											<div class="service-info-panel">
 												<div class="service-info-header">Keep status quo</div>
@@ -248,7 +249,7 @@
 												id="addNewCustomAlternative" value="+"
 												action="#{defineAlternatives.addCustomAlternative}"
 												render="alterativesTablePanel,lookupResultPanel,messages"
-												styleClass="service-addservice-add" /></td>
+												styleClass="service-addservice-add" type="button" /></td>
 										<td class="service-info" id="service-info"><a4j:outputPanel
 												id="test">
 												<div class="service-info-panel">
@@ -291,20 +292,22 @@
 												id="add" value="+" immediate="true"
 												action="#{defineAlternatives.addPreservationAction(defineAlternatives.customMyExperimentServiceInfo)}"
 												render="alterativesTablePanel"
-												styleClass="service-addservice-add" 
-												disabled="#{empty defineAlternatives.customMyExperimentServiceInfo}"/></td>
+												styleClass="service-addservice-add"
+												disabled="#{empty defineAlternatives.customMyExperimentServiceInfo}"
+												type="button" /></td>
 										<td class="service-info" id="service-info">
 											<div class="service-info-panel">
 												<div class="service-info-header">myExperiment workflow</div>
 												<div class="service-info-info">
-													<div>
-														<!-- <h:inputText value="#{defineAlternatives.customMyExperimentServiceUri}" /> -->
+													<a4j:outputPanel id="myExperimentLoad">
 														<p:inputText id="custom-myexperiment"
-															input="#{defineAlternatives.customMyExperimentServiceUri}" />
+															input="#{defineAlternatives.customMyExperimentServiceUri}"
+															onkeypress="if (event.keyCode == 13) {#{rich:element('loadCustomService')}.click(); return false;}" />
 														<a4j:commandButton id="loadCustomService"
 															action="#{defineAlternatives.loadCustomMyExperimentService}"
-															render="customAlternatives,messages" value="Load" />
-													</div>
+															render="customAlternatives,messages" value="Load"
+															execute="customAlternatives" type="button" />
+													</a4j:outputPanel>
 													<p:service-myExperiment id="service-myExperiment"
 														actionInfo="#{defineAlternatives.customMyExperimentServiceInfo}"
 														data="#{defineAlternatives.tavernaServices}"
@@ -376,8 +379,7 @@
 									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.filterMyExperimentAlternatives()}"
 									execute="myExperimentFilters"
-									render="lookupResultPanel,showServices,messages" type="submit">
-								</a4j:commandButton>
+									render="lookupResultPanel,messages" type="button" />
 							</a4j:outputPanel>
 							<div style="clear: both;" />
 

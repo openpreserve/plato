@@ -27,7 +27,7 @@
 				rendered="#{empty cc.attrs.serviceInfo or not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.serviceInfo)}">
 
 				<a4j:outputPanel id="poll-region"
-					rendered="#{not empty cc.attrs.serviceInfo and not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.serviceInfo)}">
+					rendered="#{not empty cc.attrs.serviceInfo}">
 					<a4j:region>
 						<a4j:poll id="poll" interval="1000" render="service-panel"
 							enabled="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.serviceInfo)}" />
@@ -46,7 +46,7 @@
 
 			<!-- Info -->
 			<a4j:outputPanel id="info" styleClass="service-info-panel"
-				rendered="#{not empty cc.attrs.serviceInfo and cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.serviceInfo)}">
+				rendered="#{not empty cc.attrs.serviceInfo and cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.serviceInfo)  and not empty cc.attrs.data.getWorkflowDescription(cc.attrs.serviceInfo)}">
 				<a4j:repeat id="parameter"
 					value="#{cc.attrs.alternative.action.params}" var="parameter">
 
