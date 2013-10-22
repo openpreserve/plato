@@ -69,15 +69,13 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
             return results;
         }
 
-        SSHTavernaEvaluationService evaluator = new SSHTavernaEvaluationService();
-
         Set<String> processedMeasures = new HashSet<String>(measureUris.size());
 
         for (String measure : measureUris) {
             if (!processedMeasures.contains(measure)) {
                 List<WorkflowInfo> wfs = queryMyExperiment(sample, result, measure);
                 for (WorkflowInfo wf : wfs) {
-                    Map<String, Value> wfResults = evaluator.evaluate(sample, result, wf, measureUris, listener);
+                    Map<String, Value> wfResults = evaluate(sample, result, wf, measureUris, listener);
                     results.putAll(wfResults);
                     processedMeasures.addAll(results.keySet());
                 }
