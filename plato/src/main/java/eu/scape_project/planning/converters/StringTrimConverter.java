@@ -18,25 +18,22 @@ package eu.scape_project.planning.converters;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
 /**
  * Converter responsible for transforming between input number as double and its
  * string representation.
- * 
- * @author Hannes Kulovits, Markus Hamm
  */
-public class NumberConverter implements Converter, Serializable {
+@FacesConverter(value = "StringTrimConverter")
+public class StringTrimConverter implements Converter, Serializable {
 
-    private static final long serialVersionUID = -6674250183273455339L;
+    private static final long serialVersionUID = 8557945861418423829L;
 
     /**
-     * Method responsible for converting the given input string to the wanted
-     * double number.
+     * Converts the provided string value by trimming it.
      * 
      * @param context
      *            FacesContext for the request being processed
@@ -44,45 +41,12 @@ public class NumberConverter implements Converter, Serializable {
      *            UIComponent with which this model object value is associated
      * @param value
      *            Input string to be converted.
-     * @throws ConverterException
-     *             if the input cannot be converted to double.
-     * @return Input converted to double value.
+     * @return Trimmed input string.
      * 
      */
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        // no value provided
-        if (value == null || value.trim().length() == 0) {
-            FacesMessage message = new FacesMessage();
-            message.setSummary("Please enter a value");
-            message.setDetail("No value provided");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ConverterException(message);
-        }
-
-        // be aware of grouping separators (like 1000 dots, etc.)
-        int nrOfCommasAndDots = value.replaceAll("[^.,]", "").length();
-        if (nrOfCommasAndDots > 1) {
-            FacesMessage message = new FacesMessage();
-            message.setSummary("Please use . as comma and do not use grouping");
-            message.setDetail("Only one comma allowed");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ConverterException(message);
-        }
-
-        // try to convert the given input
-        try {
-            // to be able to convert numbers separated by , -> convert , to .
-            value = value.replace(',', '.');
-
-            return Double.valueOf(Double.parseDouble(value));
-        } catch (NumberFormatException e) { // not a number
-            FacesMessage message = new FacesMessage();
-            message.setSummary("Please enter a numeric value");
-            message.setDetail("Provided value is not a double");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ConverterException(message);
-        }
+        return value != null ? value.trim() : null;
     }
 
     /**
@@ -100,9 +64,6 @@ public class NumberConverter implements Converter, Serializable {
      */
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (value == null) {
-            return "";
-        }
-        return Double.toString((Double) value);
+        return (String) value;
     }
 }

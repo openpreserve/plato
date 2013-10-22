@@ -83,7 +83,7 @@ public class MyExperimentServices implements Serializable, IServiceLoader {
             WorkflowDescription wf = futureWorkflowDescription.get();
             if (wf == null) {
                 log.debug("Service [{}] not found.", serviceInfo.getUrl());
-                facesMessages.addWarning("Service [" + serviceInfo.getUrl() + "] not found.");
+                facesMessages.addWarning("Service " + serviceInfo.getUrl() + " not found.");
             }
             return wf;
         } catch (InterruptedException e) {

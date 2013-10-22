@@ -22,6 +22,7 @@
 	<cc:attribute name="helpid" required="false" />
 	<cc:attribute name="helpLink" required="false" default="true" />
 	<cc:attribute name="onkeypress" required="false" />
+	<cc:attribute name="converter" required="false" />
 </cc:interface>
 
 <cc:implementation>
@@ -39,12 +40,16 @@
 						class="label-text" />
 				</a>
 			</div>
+
 			<div class="input">
 				<f:validateBean disabled="#{!cc.attrs.validate}">
 					<h:inputText id="#{cc.attrs.id}_input" value="#{cc.attrs.input}"
 						class="p-input-text" required="#{cc.attrs.required}"
 						label="#{cc.attrs.labelText}" disabled="#{cc.attrs.disabled}"
 						onkeypress="#{cc.attrs.onkeypress}">
+						<c:if test="#{cc.attrs.converterId != null}">
+							<f:converter converterId="#{cc.attrs.converterId}" />
+						</c:if>
 						<a4j:ajax event="change" onbeforesubmit="changed()"
 							listener="#{cc.attrs.touchable.touch()}"
 							disabled="#{cc.attrs.touchable == null}"
@@ -62,6 +67,9 @@
 					<h:inputText id="#{cc.attrs.id}_input" value="#{cc.attrs.input}"
 						class="p-input-text" required="#{cc.attrs.required}"
 						label="#{cc.attrs.labelText}" onkeypress="#{cc.attrs.onkeypress}">
+						<c:if test="#{cc.attrs.converterId != null}">
+							<f:converter converterId="#{cc.attrs.converterId}" />
+						</c:if>
 						<a4j:ajax event="change" onbeforesubmit="changed()"
 							listener="#{cc.attrs.touchable.touch()}"
 							disabled="#{cc.attrs.touchable == null}"

@@ -698,7 +698,8 @@ ul#messages {
 	float: left;
 }
 
-#sampleactions input[type="submit"],input[type="button"] {
+.multi-buttons input[type="submit"],.multi-buttons input[type="button"]
+	{
 	margin-right: 10px;
 }
 
@@ -710,8 +711,6 @@ img.user {
 	vertical-align: middle;
 	padding-right: 5px;
 }
-
-
 
 div.rf-pp-hdr {
 	background-image: url(none);
@@ -732,7 +731,6 @@ div.rf-pp-hdr-cntrls a {
 div.rf-pp-cntr {
 	border: 1px solid #000000;
 }
-
 
 /* General text */
 .text-understate {

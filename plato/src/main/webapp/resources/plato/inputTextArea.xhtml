@@ -21,7 +21,7 @@
 	<cc:attribute name="touchable" />
 	<cc:attribute name="rerender" />
 	<cc:attribute name="helpLink" required="false" default="true" />
-	<cc:attribute name="onkeypress" required="false" />
+	<cc:attribute name="converterId" required="false" />
 </cc:interface>
 
 <cc:implementation>
@@ -43,7 +43,10 @@
 					<h:inputTextarea id="#{cc.attrs.id}_input"
 						value="#{cc.attrs.input}" readonly="#{cc.attrs.readonly}"
 						class="p-input-textarea" required="#{cc.attrs.required}"
-						label="#{cc.attrs.labelText}" onkeypress="#{cc.attrs.onkeypress}">
+						label="#{cc.attrs.labelText}">
+						<c:if test="#{cc.attrs.converterId != null}">
+							<f:converter converterId="#{cc.attrs.converterId}" />
+						</c:if>
 						<a4j:ajax event="change" onbeforesubmit="changed()"
 							listener="#{cc.attrs.touchable.touch()}"
 							disabled="#{cc.attrs.touchable == null}"
@@ -59,7 +62,10 @@
 					<h:inputTextarea id="#{cc.attrs.id}_input"
 						value="#{cc.attrs.input}" readonly="#{cc.attrs.readonly}"
 						class="p-input-textarea" required="#{cc.attrs.required}"
-						label="#{cc.attrs.labelText}" onkeypress="#{cc.attrs.onkeypress}">
+						label="#{cc.attrs.labelText}">
+						<c:if test="#{cc.attrs.converterId != null}">
+							<f:converter converterId="#{cc.attrs.converterId}" />
+						</c:if>
 						<a4j:ajax event="change" onbeforesubmit="changed()"
 							listener="#{cc.attrs.touchable.touch()}"
 							disabled="#{cc.attrs.touchable == null}"
@@ -69,16 +75,6 @@
 			</div>
 		</c:if>
 
-		<!--
-    <div class="marks">
-      <c:if test="#{cc.attrs.helpLink}">
-        <a href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }" target="_blank">
-           <img src="../resources/gfx/help-browser.png" alt="Help Link" />
-        </a>
-      </c:if>
-      <c:if test="#{cc.attrs.required}">*</c:if>		
-    </div>
-     -->
 		<div class="errorMessage">
 			<rich:message showSummary="true" showDetail="false"
 				id="#{cc.attrs.id}_error" for="#{cc.attrs.id}_input" />

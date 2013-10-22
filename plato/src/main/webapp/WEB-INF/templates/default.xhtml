@@ -71,7 +71,8 @@
 			<div id="bear">
 				<a href="#{request.contextPath}/"> <img
 					src="#{resource['gfx:plato-logo.png']}" alt="Plato" height="60px" />
-					<img src="#{resource['gfx:plato-version.png']}" alt="Plato-Version" height="60px" />
+					<img src="#{resource['gfx:plato-version.png']}" alt="Plato-Version"
+					height="60px" />
 				</a>
 			</div>
 			<div id="scape">
@@ -124,14 +125,14 @@
 			</ui:remove>
 		</div>
 
-		<div id="content">
+		<a4j:outputPanel id="content" ajaxRendered="true">
 			<h:messages id="messages" globalOnly="true" showDetail="true"
 				errorClass="error" warnClass="warning" infoClass="info" />
 
 			<ui:insert name="content">
                     [Template content will be inserted here]
             </ui:insert>
-		</div>
+		</a4j:outputPanel>
 	</div>
 
 	<div id="footer">

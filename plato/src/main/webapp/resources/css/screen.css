@@ -271,7 +271,8 @@ input[type="text"],input[type="password"],select,textarea {
 	padding: 1px;
 }
 
-.input input[type=text],.input input[type="password"],.input select,.input textarea	{
+.input input[type=text],.input input[type="password"],.input select,.input textarea
+	{
 	margin-right: 0;
 	background-color: white;
 	border-top: 1px solid #155C89;
@@ -628,9 +629,9 @@ th.rf-dt-shdr-c {
 }
 
 .input .rf-au input {
-    width: -moz-calc(100% - 16px - 15px);
-    width: -webkit-calc(100% - 16px - 15px);
-    width: calc(100% - 16px - 15px);
+	width: -moz-calc(100% -       16px -       15px);
+	width: -webkit-calc(100% -       16px -       15px);
+	width: calc(100% -       16px -       15px);
 }
 
 .input input.rf-au-inp {
@@ -753,7 +754,8 @@ ul#messages {
 	float: left;
 }
 
-#sampleactions input[type="submit"],input[type="button"] {
+.multi-buttons input[type="submit"],.multi-buttons input[type="button"]
+	{
 	margin-right: 10px;
 }
 
@@ -852,7 +854,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                                       50);
+	filter: alpha(opacity =                                             50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -992,6 +994,7 @@ td.service-info {
 	width: 100%;
 	min-height: 60px;
 	clear: both;
+	background: white;
 }
 
 /* Clear after each node */

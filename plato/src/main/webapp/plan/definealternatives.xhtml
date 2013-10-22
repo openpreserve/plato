@@ -37,11 +37,11 @@
 				style="display:none" />
 
 			<!-- Alternatives table -->
-			<a4j:outputPanel layout="block" id="alterativesTablePanel"
+			<a4j:outputPanel layout="block" id="alteratives-panel"
 				style-class="full-size">
 				<rich:dataTable
 					value="#{defineAlternatives.plan.alternativesDefinition.alternatives}"
-					var="alternative" id="alternativesTable"
+					var="alternative" id="alteratives-table"
 					styleClass="service-results"
 					rendered="#{not empty defineAlternatives.plan.alternativesDefinition.alternatives}">
 					<rich:column
@@ -63,7 +63,7 @@
 					<rich:column styleClass="service-addservice">
 						<a4j:commandButton value="-"
 							action="#{defineAlternatives.removeAlternative(alternative)}"
-							render="alterativesTablePanel editAlternativePanel"
+							render="alteratives-panel editAlternativePanel"
 							rendered="#{empty alternative.experiment.results}"
 							onclick="changed();" styleClass="service-addservice-add"
 							type="button" />
@@ -71,7 +71,7 @@
 							rendered="#{not empty alternative.experiment.results}">
 							<a4j:commandButton value="-"
 								action="#{defineAlternatives.removeAlternative(alternative)}"
-								render="alterativesTablePanel editAlternativePanel"
+								render="alteratives-panel editAlternativePanel"
 								onclick="if ($(#{rich:element('removeConfirmation')}).css('display') == 'none') { $('.confirmation-panel').toggle(false); $(#{rich:element('removeConfirmation')}).toggle(true); return false; } changed();"
 								styleClass="service-addservice-add" type="button" />
 							<a4j:outputPanel id="removeConfirmation"
@@ -97,23 +97,21 @@
 						</legend>
 						<p:inputText labelText="Name:" id="alternativeName"
 							required="true"
-							input="#{defineAlternatives.editableAlternativeName}" />
+							input="#{defineAlternatives.editableAlternativeName}"
+							converterId="StringTrimConverter"
+							onkeypress="if (event.keyCode == 13) {#{rich:element('saveAlternative')}.click(); return false;}" />
 						<p:inputTextArea labelText="Description:"
 							id="alternativeDescription" required="true"
-							input="#{defineAlternatives.editableAlternative.description}"
-							touchable="#{defineAlternatives.editableAlternative}" />
+							input="#{defineAlternatives.editableAlternative.description}" />
 						<p:inputTextArea labelText="Reason for considering:"
 							id="alternativeReason" required="false"
-							input="#{defineAlternatives.editableAlternative.resourceDescription.reasonForConsidering}"
-							touchable="#{defineAlternatives.editableAlternative}" />
+							input="#{defineAlternatives.editableAlternative.resourceDescription.reasonForConsidering}" />
 						<p:inputTextArea labelText="Configuration description:"
 							id="alternativeConfigurationDescription" required="false"
-							input="#{defineAlternatives.editableAlternative.resourceDescription.configSettings}"
-							touchable="#{defineAlternatives.editableAlternative}" />
+							input="#{defineAlternatives.editableAlternative.resourceDescription.configSettings}" />
 						<p:inputTextArea labelText="Indicator of necessary resources:"
 							id="indicatorOfNecessaryResources" required="false"
-							input="#{defineAlternatives.editableAlternative.resourceDescription.necessaryResources}"
-							touchable="#{defineAlternatives.editableAlternative}" />
+							input="#{defineAlternatives.editableAlternative.resourceDescription.necessaryResources}" />
 
 						<a4j:outputPanel
 							rendered="#{defineAlternatives.editableAlternative.action != null}">
@@ -134,13 +132,15 @@
 							</table>
 						</a4j:outputPanel>
 
-						<a4j:commandButton id="saveAlternative"
-							action="#{defineAlternatives.editAlternative}" value="Save"
-							render="alterativesTablePanel, editAlternativePanel"
-							onclick="changed()" />
-						<a4j:commandButton id="cancelAlternative"
-							action="#{defineAlternatives.closeEditArea}" value="Cancel"
-							render="editAlternativePanel" execute="@this" />
+						<div class="multi-buttons">
+							<a4j:commandButton id="saveAlternative"
+								action="#{defineAlternatives.editAlternative}" value="Save"
+								render="alteratives-panel editAlternativePanel"
+								onclick="changed()" type="button" />
+							<a4j:commandButton id="cancelAlternative"
+								action="#{defineAlternatives.closeEditArea}" value="Cancel"
+								render="editAlternativePanel" execute="@this" type="button" />
+						</div>
 					</fieldset>
 				</a4j:outputPanel>
 			</a4j:outputPanel>
@@ -166,8 +166,7 @@
 									onclick="toggleLoadingOverlay();this.disabled=true;"
 									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.showCustomAlternatives()}"
-									render="lookupResultPanel,addCustomAlternative,messages"
-									type="button" />
+									render="lookupResultPanel,addCustomAlternative" type="button" />
 							</div>
 							<!-- myExperiment -->
 							<div class="registry-panel">
@@ -180,7 +179,7 @@
 									onclick="toggleLoadingOverlay();this.disabled=true;"
 									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.showMyExperimentAlternatives()}"
-									render="lookupResultPanel,addMyExperimentAlternative,messages"
+									render="lookupResultPanel,addMyExperimentAlternative"
 									type="button" />
 							</div>
 							<!-- PA Registries -->
@@ -196,7 +195,7 @@
 										onclick="toggleLoadingOverlay();this.disabled=true;"
 										oncomplete="this.disabled=false;toggleLoadingOverlay();"
 										action="#{defineAlternatives.showPreservationServices(registry)}"
-										render="lookupResultPanel,messages"
+										render="lookupResultPanel"
 										disabled="#{!defineAlternatives.formatInfoAvailable}"
 										type="button" />
 								</div>
@@ -233,7 +232,7 @@
 										<td class="service-addservice"><a4j:commandButton
 												id="addDoNothing" value="+" immediate="true"
 												action="#{defineAlternatives.addDoNothing}"
-												render="alterativesTablePanel,messages"
+												render="alteratives-panel"
 												styleClass="service-addservice-add" type="button" /></td>
 										<td class="service-info" id="service-info">
 											<div class="service-info-panel">
@@ -248,7 +247,7 @@
 										<td class="service-addservice"><a4j:commandButton
 												id="addNewCustomAlternative" value="+"
 												action="#{defineAlternatives.addCustomAlternative}"
-												render="alterativesTablePanel,lookupResultPanel,messages"
+												render="alteratives-panel lookupResultPanel"
 												styleClass="service-addservice-add" type="button" /></td>
 										<td class="service-info" id="service-info"><a4j:outputPanel
 												id="test">
@@ -259,29 +258,26 @@
 															required="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
 															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
 															input="#{defineAlternatives.customAlternative.name}"
-															touchable="#{defineAlternatives.customAlternative}" />
+															onkeypress="if (event.keyCode == 13) {#{rich:element('addNewCustomAlternative')}.click(); return false;}"
+															converterId="StringTrimConverter" />
 														<p:inputTextArea labelText="Description:"
 															id="alternativeDescription"
 															required="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
 															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
-															input="#{defineAlternatives.customAlternative.description}"
-															touchable="#{defineAlternatives.customAlternative}" />
+															input="#{defineAlternatives.customAlternative.description}" />
 														<p:inputTextArea labelText="Reason for considering:"
 															id="alternativeReason" required="false"
 															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
-															input="#{defineAlternatives.customAlternative.resourceDescription.reasonForConsidering}"
-															touchable="#{defineAlternatives.customAlternative}" />
+															input="#{defineAlternatives.customAlternative.resourceDescription.reasonForConsidering}" />
 														<p:inputTextArea labelText="Configuration description:"
 															id="alternativeConfigurationDescription" required="false"
 															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
-															input="#{defineAlternatives.customAlternative.resourceDescription.configSettings}"
-															touchable="#{defineAlternatives.customAlternative}" />
+															input="#{defineAlternatives.customAlternative.resourceDescription.configSettings}" />
 														<p:inputTextArea
 															labelText="Indicator of necessary resources:"
 															id="indicatorOfNecessaryResources" required="false"
 															validate="#{not empty param['mainform:registriesSelection:addNewCustomAlternative']}"
-															input="#{defineAlternatives.customAlternative.resourceDescription.necessaryResources}"
-															touchable="#{defineAlternatives.customAlternative}" />
+															input="#{defineAlternatives.customAlternative.resourceDescription.necessaryResources}" />
 													</div>
 												</div>
 											</a4j:outputPanel></td>
@@ -291,7 +287,7 @@
 										<td class="service-addservice"><a4j:commandButton
 												id="add" value="+" immediate="true"
 												action="#{defineAlternatives.addPreservationAction(defineAlternatives.customMyExperimentServiceInfo)}"
-												render="alterativesTablePanel"
+												render="alteratives-panel"
 												styleClass="service-addservice-add"
 												disabled="#{empty defineAlternatives.customMyExperimentServiceInfo}"
 												type="button" /></td>
@@ -302,10 +298,12 @@
 													<a4j:outputPanel id="myExperimentLoad">
 														<p:inputText id="custom-myexperiment"
 															input="#{defineAlternatives.customMyExperimentServiceUri}"
+															required="#{not empty param['mainform:registriesSelection:loadCustomService']}"
+															validate="#{not empty param['mainform:registriesSelection:loadCustomService']}"
 															onkeypress="if (event.keyCode == 13) {#{rich:element('loadCustomService')}.click(); return false;}" />
 														<a4j:commandButton id="loadCustomService"
 															action="#{defineAlternatives.loadCustomMyExperimentService}"
-															render="customAlternatives,messages" value="Load"
+															render="customAlternatives" value="Load"
 															execute="customAlternatives" type="button" />
 													</a4j:outputPanel>
 													<p:service-myExperiment id="service-myExperiment"
@@ -378,8 +376,8 @@
 									onclick="toggleLoadingOverlay();this.disabled=true;"
 									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.filterMyExperimentAlternatives()}"
-									execute="myExperimentFilters"
-									render="lookupResultPanel,messages" type="button" />
+									execute="myExperimentFilters" render="lookupResultPanel"
+									type="button" />
 							</a4j:outputPanel>
 							<div style="clear: both;" />
 
@@ -404,7 +402,7 @@
 									<rich:column styleClass="service-addservice">
 										<a4j:commandButton id="add" value="+" immediate="true"
 											action="#{defineAlternatives.addPreservationAction(serviceInfo)}"
-											render="alterativesTablePanel"
+											render="alteratives-panel"
 											styleClass="service-addservice-add" />
 									</rich:column>
 									<rich:column styleClass="service-info" id="service-info">

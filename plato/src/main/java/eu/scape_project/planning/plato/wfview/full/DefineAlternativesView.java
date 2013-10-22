@@ -123,7 +123,7 @@ public class DefineAlternativesView extends AbstractView {
      * Cache for myExperiment service details.
      */
     @Inject
-    private MyExperimentServices tavernaServices;
+    private MyExperimentServices myExperimentServices;
 
     /**
      * List of all currently defined preservation service registries.
@@ -159,6 +159,9 @@ public class DefineAlternativesView extends AbstractView {
         group = "menu.evaluateAlternatives";
 
         editableAlternative = null;
+        customAlternative = null;
+        customMyExperimentServiceInfo = null;
+        customMyExperimentServiceUri = null;
 
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
         availableActions = new ArrayList<IServiceInfo>();
@@ -186,8 +189,8 @@ public class DefineAlternativesView extends AbstractView {
             facesMessages.addError("Could not find any preservation action registries.");
         }
 
-        serviceLoaders.put("myExperiment", tavernaServices);
-        tavernaServices.clear();
+        serviceLoaders.put("myExperiment", myExperimentServices);
+        myExperimentServices.clear();
 
         showCustomAlternatives();
     }
@@ -235,6 +238,7 @@ public class DefineAlternativesView extends AbstractView {
      */
     public void editAlternative() {
         editableAlternative.touch();
+        editableAlternativeName = editableAlternativeName.trim();
         try {
             plan.renameAlternative(editableAlternative, editableAlternativeName);
         } catch (PlanningException e) {
@@ -298,7 +302,7 @@ public class DefineAlternativesView extends AbstractView {
      */
     private void clearAvailableServices() {
         availableActions.clear();
-        tavernaServices.clear();
+        myExperimentServices.clear();
         selectedRegistry = null;
     }
 
@@ -309,6 +313,8 @@ public class DefineAlternativesView extends AbstractView {
         clearAvailableServices();
         selectedRegistry = SelectedRegistry.CUSTOM;
         customAlternative = Alternative.createAlternative();
+        customMyExperimentServiceInfo = null;
+        customMyExperimentServiceUri = null;
     }
 
     /**
@@ -355,27 +361,31 @@ public class DefineAlternativesView extends AbstractView {
      * myExperiment service URI.
      */
     public void loadCustomMyExperimentService() {
+        if (customMyExperimentServiceUri == null || "".equals(customMyExperimentServiceUri)) {
+            return;
+        }
+
         customMyExperimentServiceInfo = new MyExperimentActionInfo();
         customMyExperimentServiceInfo.setDescriptor(customMyExperimentServiceUri);
         customMyExperimentServiceInfo.setUrl(customMyExperimentServiceUri);
         customMyExperimentServiceInfo.setShortname(customMyExperimentServiceUri);
         customMyExperimentServiceInfo.setInfo(customMyExperimentServiceUri);
 
-        WorkflowDescription wf = tavernaServices.getWorkflowDescription(customMyExperimentServiceInfo);
+        WorkflowDescription wf = myExperimentServices.getWorkflowDescription(customMyExperimentServiceInfo);
         if (wf != null) {
             customMyExperimentServiceInfo.setUrl(wf.getContentUri());
             customMyExperimentServiceInfo.setShortname(wf.getName());
             customMyExperimentServiceInfo.setInfo(wf.getDescription());
             customMyExperimentServiceInfo.setDescriptor(wf.getDescriptor());
             customMyExperimentServiceInfo.setContentType(wf.getContentType());
-            tavernaServices.load(customMyExperimentServiceInfo);
+            myExperimentServices.load(customMyExperimentServiceInfo);
         } else {
             customMyExperimentServiceInfo = null;
         }
     }
 
     /**
-     * Adds a preservation action to the plan, created from the provided action
+     * Adds a preservation action to the plan, created from the provided service
      * info.
      * 
      * @param serviceInfo
@@ -390,14 +400,14 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
-     * Adds a preservation action to the plan, created from the provided action
+     * Adds a preservation action to the plan, created from the provided service
      * info.
      * 
      * @param serviceInfo
      *            the action info
      */
     public void addPreservationAction(MyExperimentActionInfo serviceInfo) {
-        WorkflowDescription wf = tavernaServices.getWorkflowDescription(serviceInfo);
+        WorkflowDescription wf = myExperimentServices.getWorkflowDescription(serviceInfo);
         if (wf == null) {
             facesMessages.addError("Could not retrieve workflow description from myExeriment.");
             return;
@@ -531,7 +541,7 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     public MyExperimentServices getTavernaServices() {
-        return tavernaServices;
+        return myExperimentServices;
     }
 
     public void setLog(Logger log) {
