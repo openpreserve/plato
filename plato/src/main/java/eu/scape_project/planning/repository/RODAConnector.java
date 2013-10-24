@@ -81,11 +81,7 @@ public class RODAConnector implements RepositoryConnectorApi {
         return downloadFile(config, identifier);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public InputStream downloadFile(Map<String, String> config, String identifier) throws RepositoryConnectorException {
+    private InputStream downloadFile(Map<String, String> config, String identifier) throws RepositoryConnectorException {
         String user = config.get(USER_KEY);
         String pass = config.get(PASS_KEY);
 

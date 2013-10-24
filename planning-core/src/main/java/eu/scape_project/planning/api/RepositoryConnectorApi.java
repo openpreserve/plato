@@ -17,7 +17,6 @@
 package eu.scape_project.planning.api;
 
 import java.io.InputStream;
-import java.util.Map;
 
 import eu.scape_project.planning.utils.RepositoryConnectorException;
 
@@ -46,16 +45,4 @@ public interface RepositoryConnectorApi {
      */
     InputStream downloadFile(String identifier) throws RepositoryConnectorException;
 
-    /**
-     * Downloads a file from the repository with the given configuration. The
-     * configuration might require different parameters based on the underlying
-     * implementation.
-     * 
-     * @param config
-     *            the configuration
-     * @param identifier
-     *            the repository specific identifier.
-     * @return the input stream of the downloaded file.
-     */
-    InputStream downloadFile(Map<String, String> config, String identifier) throws RepositoryConnectorException;
 }

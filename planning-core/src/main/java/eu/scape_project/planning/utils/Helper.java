@@ -12,6 +12,10 @@ import java.util.regex.Pattern;
  */
 public final class Helper {
 
+    public static boolean isLocalIdentifier(String id) {
+        return id.startsWith("file:/");        
+    }
+    
     public static boolean isRODAidentifier(String id) {
         String re1 = "((?:[a-z][a-z]+))"; // Word 1
         String re2 = "(:)"; // Any Single Character 1
