@@ -73,8 +73,8 @@ public class MiniREEFEvaluator implements IActionEvaluator {
 
         for (String measureId : measureUris) {
 
-            Scale scale = null; 
-            Value value = null; 
+            Scale scale = null;
+            Value value = null;
 
             if (MeasureConstants.BATCHPROCESSING_SUPPORTED.equals(measureId)) {
                 scale = new BooleanScale();
@@ -111,7 +111,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             if (measureId.startsWith(MeasureConstants.NUMBER_OF_TOOLS)) {
                 scale = new PositiveIntegerScale();
                 value = scale.createValue();
-                
+
                 // _measure_ is the number of tools found
                 result = "" + resultSet.size();
                 value.parse(result);
@@ -121,7 +121,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
                 listener.updateStatus("MiniREEF evaluated " + measureId);
             } else if (MeasureConstants.FORMAT_IPR_PROTECTION.equals(measureId)) {
                 scale = new OrdinalScale();
-                
+
                 if (resultSet.size() > 0) {
                     // e.g. open = false, comment: "Format is encumbered by IPR"
                     String comment = "";
@@ -153,15 +153,17 @@ public class MiniREEFEvaluator implements IActionEvaluator {
                 listener.updateStatus("P2 does not contain enough information to evaluate " + measureId
                     + " for this format.");
             } else if ((MeasureConstants.FORMAT_COMPLEXITY.equals(measureId))) {
-                //|| (MeasureConstants.FORMAT_DISCLOSURE.equals(measureId))
-// FIXME: the results from p2 have to be matched to the defined measures
-//                || (MeasureConstants.FORMAT_UBIQUITY.equals(measureId))
-//                || (MeasureConstants.FORMAT_DOCUMENTATION_QUALITY.equals(measureId))
-//                || (MeasureConstants.FORMAT_STABILITY.equals(measureId))
-//                || (MeasureConstants.FORMAT_LICENSE.equals(measureId))) {
+                // || (MeasureConstants.FORMAT_DISCLOSURE.equals(measureId))
+                // FIXME: the results from p2 have to be matched to the defined
+                // measures
+                // || (MeasureConstants.FORMAT_UBIQUITY.equals(measureId))
+                // ||
+                // (MeasureConstants.FORMAT_DOCUMENTATION_QUALITY.equals(measureId))
+                // || (MeasureConstants.FORMAT_STABILITY.equals(measureId))
+                // || (MeasureConstants.FORMAT_LICENSE.equals(measureId))) {
 
                 scale = new OrdinalScale();
-                
+
                 if (resultSet.size() > 0) {
                     String text = resultSet.getRow(0).get(0);
                     if (text.trim().length() > 0) {
@@ -215,20 +217,6 @@ public class MiniREEFEvaluator implements IActionEvaluator {
 
         statements.put(MeasureConstants.NUMBER_OF_TOOLS, statement);
 
-        // action://format/numberOfTools/save :
-        // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
-        // statement = "SELECT distinct ?swname " +
-        // "WHERE { ?sw ?link ?format . "
-        // +
-        // "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save> . "
-        // + "        ?format pronom:FileFormatIdentifier ?ident . "
-        // + "        ?ident  pronom:Identifier \"$PUID$\" ." +
-        // "        ?ident  pronom:IdentifierType \"PUID\" ."
-        // + "        ?sw pronom:SoftwareName  ?swname } ";
-        //
-        // statements.put(MeasureConstants.FORMAT_NUMBEROFTOOLS_SAVE,
-        // statement);
-
         // action://format/numberOfTools/open :
         // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Save"
         statement = "SELECT distinct ?swname " + "WHERE { ?sw ?link ?format . "
@@ -236,23 +224,7 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "        ?format pronom:FileFormatIdentifier ?ident . "
             + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
             + "        ?sw pronom:SoftwareName  ?swname } ";
-
         statements.put(MeasureConstants.NUMBER_OF_FREE_TOOLS_THAT_ARE_OPEN_SOURCE, statement);
-
-        // action://format/numberOfTools/other :
-        // "http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other"
-//        statement = "SELECT distinct ?swname " + "WHERE { ?sw ?link ?format . "
-//            + "        ?link rdf:type <http://p2-registry.ecs.soton.ac.uk/pronom/SoftwareLink/Other> . "
-//            + "        ?format pronom:FileFormatIdentifier ?ident . "
-//            + "        ?ident  pronom:Identifier \"$PUID$\" ." + "        ?ident  pronom:IdentifierType \"PUID\" ."
-//            + "        ?sw pronom:SoftwareName  ?swname } ";
-//
-//        statements.put(MeasureConstants.FORMAT_NUMBEROFTOOLS_OTHERS, statement);
-
-//        statement = "SELECT ?d WHERE { " + " ?format pronom:FormatDisclosure ?d . "
-//            + " ?format pronom:FileFormatIdentifier ?ident . " + " ?ident pronom:IdentifierType \"PUID\" . "
-//            + " ?ident pronom:Identifier \"$PUID$\" }";
-//        statements.put(MeasureConstants.FORMAT_DISCLOSURE, statement);
 
         // p2 is used to add information about ubiquity
         statement = "SELECT ?d  WHERE {  " + "?format p2-additional:ubiquity ?u . " + "?u rdfs:comment ?d . "
@@ -277,20 +249,23 @@ public class MiniREEFEvaluator implements IActionEvaluator {
             + "?ident pronom:IdentifierType \"PUID\" ." + "?ident pronom:Identifier \"$PUID$\" }";
         statements.put(MeasureConstants.FORMAT_STABILITY, statement);
 
-//        /**
-//         * we use the same query for information on rights, and select the
-//         * comment and rdf:resource, this way we can provide more detailed
-//         * information, if a right model does not apply to the format
-//         */
-//        // pronom(!) is used to add information about rights!
-//        String selectRights = "SELECT DISTINCT ?d ?u WHERE {  " + "?format pronom:rights ?u . "
-//            + "?u rdfs:comment ?d . " + "?format pronom:IsSupertypeOf ?pronomformat . "
-//            + "?pronomformat pronom:FileFormatIdentifier ?ident ." + "?ident pronom:IdentifierType \"PUID\" ."
-//            + "?ident pronom:Identifier \"$PUID$\" }";
-//        statements.put(MeasureConstants.FORMAT_LICENSE, selectRights);
-//
-//        // pronom(!) is used to add information about rights!
-//        statements.put(MeasureConstants.FORMAT_IPR_PROTECTION, selectRights);
+        // /**
+        // * we use the same query for information on rights, and select the
+        // * comment and rdf:resource, this way we can provide more detailed
+        // * information, if a right model does not apply to the format
+        // */
+        // // pronom(!) is used to add information about rights!
+        // String selectRights = "SELECT DISTINCT ?d ?u WHERE {  " +
+        // "?format pronom:rights ?u . "
+        // + "?u rdfs:comment ?d . " +
+        // "?format pronom:IsSupertypeOf ?pronomformat . "
+        // + "?pronomformat pronom:FileFormatIdentifier ?ident ." +
+        // "?ident pronom:IdentifierType \"PUID\" ."
+        // + "?ident pronom:Identifier \"$PUID$\" }";
+        // statements.put(MeasureConstants.FORMAT_LICENSE, selectRights);
+        //
+        // // pronom(!) is used to add information about rights!
+        // statements.put(MeasureConstants.FORMAT_IPR_PROTECTION, selectRights);
     }
 
 }

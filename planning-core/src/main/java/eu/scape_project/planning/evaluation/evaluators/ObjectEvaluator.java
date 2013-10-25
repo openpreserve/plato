@@ -58,7 +58,6 @@ public class ObjectEvaluator implements IObjectEvaluator {
         HashMap<String, Value> results = new HashMap<String, Value>();
 
         for (String measureUri : measureUris) {
-            // uri = scape://criterion#123
             if (MeasureConstants.COMPARATIVE_FILE_SIZE.equals(measureUri)) {
                 if (result != null) {
                     // evaluate here

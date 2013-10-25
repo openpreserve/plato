@@ -148,6 +148,7 @@ public class EvaluateExperiments extends AbstractWorkflowStep {
             }
             // then object evaluators
             List<IObjectEvaluator> objEvaluators = miniRED.getObjectEvaluationSequence();
+            objEvaluators.remove(0);
             for (Alternative alternative : plan.getAlternativesDefinition().getConsideredAlternatives()) {
                 // .. for all alternatives
                 List<SampleObject> samples = plan.getSampleRecordsDefinition().getRecords();
