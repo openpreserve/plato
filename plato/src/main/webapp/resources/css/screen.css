@@ -335,7 +335,7 @@ input[type="text"],input[type="password"],select,textarea {
 }
 
 /* Standard submit button */
-input[type=submit],input[type=button] {
+input[type=submit],input[type=button],.default-button {
 	-moz-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	box-shadow: inset 0px 1px 0px 0px #D9D6D6;
@@ -360,21 +360,25 @@ input[type=submit],input[type=button] {
 	margin: 5px 0px;
 }
 
-input[type=submit]:hover,input[type=button]:hover {
+input[type=submit]:hover,input[type=button]:hover,.default-button:hover {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
 		), color-stop(1, #CFCDCD) );
 	background: -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B0AEAE',
 		endColorstr='#CFCDCD' );
 	background-color: #999898;
+	color: #525151;
 }
 
+/*
+Do we need this?
 input[type=submit]:active,input[type=button]:hover {
 	position: relative;
 	top: 1px;
 }
+*/
 
-input[type=submit]:disabled,input[type=button]:disabled {
+input[type=submit]:disabled,input[type=button]:disabled,.default-button:disabled {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
 		), color-stop(1, #B0AEAE) );
 	background: -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
@@ -393,6 +397,10 @@ div.save-discard-proceed-buttons {
 
 .save-discard-proceed-buttons input {
 	margin-left: 15px;
+}
+
+.save-discard-proceed-buttons save-button {
+	float: left;
 }
 
 input.sdsbutton {
@@ -440,6 +448,7 @@ input.approve-button:hover {
 }
 
 input.save-button {
+	
 	-moz-box-shadow: inset 0px 1px 0px 0px #B4F1FF;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #B4F1FF;
 	box-shadow: inset 0px 1px 0px 0px #B4F1FF;
@@ -629,9 +638,9 @@ th.rf-dt-shdr-c {
 }
 
 .input .rf-au input {
-	width: -moz-calc(100% -       16px -       15px);
-	width: -webkit-calc(100% -       16px -       15px);
-	width: calc(100% -       16px -       15px);
+	width: -moz-calc(100% -         16px -         15px);
+	width: -webkit-calc(100% -         16px -         15px);
+	width: calc(100% -         16px -         15px);
 }
 
 .input input.rf-au-inp {
@@ -854,7 +863,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                                             50);
+	filter: alpha(opacity =                                               50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;

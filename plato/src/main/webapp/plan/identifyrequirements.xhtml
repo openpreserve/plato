@@ -301,7 +301,8 @@
 							<br />
 						</ui:repeat>
 						<a4j:commandButton value="Attach documentation file"
-							oncomplete="#{rich:component('uploadPanel')}.show()" />
+							oncomplete="#{rich:component('uploadPanel')}.show()"
+							type="button" />
 					</a4j:outputPanel>
 				</fieldset>
 
@@ -340,7 +341,8 @@
 								XML?</a>
 						</p>
 						<a4j:commandButton value="Select File"
-							oncomplete="#{rich:component('selectImportPanel')}.show()" />
+							oncomplete="#{rich:component('selectImportPanel')}.show()"
+							type="button" />
 						<a4j:outputPanel layout="inline"
 							rendered="#{identifyRequirements.importFile != null}">
 	                       #{identifyRequirements.importFile.fullname}
@@ -355,8 +357,9 @@
 					<p>If you want to continue working on the tree in Freemind, you
 						can download the current objective tree as mindmap file for
 						Freemind. Please save the tree before downloading it!</p>
-					<h:commandButton value="Download tree as mindmap"
-						action="#{identifyRequirements.downloadTreeAsFreeMind()}" />
+					<h:commandLink value="Download tree as mindmap"
+						action="#{identifyRequirements.downloadTreeAsFreeMind()}"
+						styleClass="default-button" />
 				</fieldset>
 
 				<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />

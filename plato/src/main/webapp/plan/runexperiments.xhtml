@@ -114,7 +114,7 @@
 				style="height: 4.5em; background-image: url(../resources/gfx/play.png); background-repeat: no-repeat; background-color: white;"
 				action="#{runExperiments.setupAllExperiments}"
 				oncomplete="#{rich:component('execPanel')}.show()"
-				render="alternativesTable,execPanel" />
+				render="alternativesTable,execPanel" type="button" />
 
 			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
 		</h:form>
