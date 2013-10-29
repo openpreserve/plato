@@ -1,0 +1,9 @@
+<measures>
+    <measure subject="inputFile" type="compressionRatio">95</measure>
+    <measure subject="inputFile" type="width">1400</measure>
+    <measure subject="inputFile" type="height">1800</measure>
+    <measure subject="outputFile" type="compressionRatio">0</measure>
+    <measure subject="outputFile" type="width">1400</measure>
+    <measure subject="outputFile" type="height">1800</measure>
+    <measure subject="comparison" type="similarity">0.99</measure>
+</measures>

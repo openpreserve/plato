@@ -18,9 +18,6 @@ package eu.scape_project.planning.plato.wf;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
 
 import eu.scape_project.planning.model.PlanState;
 
@@ -33,10 +30,6 @@ import eu.scape_project.planning.model.PlanState;
 @ConversationScoped
 public class DefineBasis extends AbstractWorkflowStep {
     private static final long serialVersionUID = -2269973220973705568L;
-
-    @Inject
-    private Logger log;
-    
 
     public DefineBasis() {
         this.requiredPlanState = PlanState.INITIALISED;

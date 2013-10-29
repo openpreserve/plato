@@ -14,8 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
+import eu.scape_project.planning.annotation.ManualTest;
 import eu.scape_project.planning.utils.FileUtils;
 
+@ManualTest
 public class SCAPEPlanManagementClientTest {
     private static final Logger LOG = LoggerFactory.getLogger(SCAPEPlanManagementClientTest.class);
 

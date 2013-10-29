@@ -23,8 +23,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +32,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 
-import pt.gov.dgarq.roda.core.PlanClient;
 import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.tree.Leaf;
@@ -56,9 +52,6 @@ public class ValidatePlan extends AbstractWorkflowStep {
 
     @Inject
     private Logger log;
-
-    @Inject
-    private ByteStreamManager byteStreamManager;
 
     @Inject
     private ProjectExportAction projectExport;
@@ -107,69 +100,37 @@ public class ValidatePlan extends AbstractWorkflowStep {
 
     public void deployPlan(String endpoint, String user, String password) throws PlanningException {
 
-        if (!isRodaRepository(endpoint)) {
-            SCAPEPlanManagementClient planManagement = new SCAPEPlanManagementClient(endpoint, user, password);
-            
-            String planIdentifier;
-            try {
-                planIdentifier = planManagement.reservePlanIdentifier();
-            } catch (Exception e) {
-                throw new PlanningException("Could not reserve Identifier.", e);
-            } catch (Throwable e) {
-                throw new PlanningException("Could not reserve Identifier.", e);
-            }
-            this.plan.getPlanProperties().setRepositoryIdentifier(planIdentifier);
-            saveWithoutModifyingPlanState();
-            
-
-            String binarydataTempPath = OS.getTmpPath() + planIdentifier + "/";
-            File binarydataTempDir = new File(binarydataTempPath);
-            binarydataTempDir.mkdirs();
-            File planFile = new File(binarydataTempPath + "plan.xml");
-            try {
-                try {
-                    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(planFile));
-                    projectExport.exportComplete(plan.getPlanProperties().getId(), out, binarydataTempPath);
-                    out.flush();
-                    out.close();
-                    
-                    planManagement.deployPlan(planIdentifier, new FileInputStream(planFile));
-                } catch (Exception e) {
-                    throw new PlanningException("Failed to generate plan.", e);
-                }
-            } finally {
-                OS.deleteDirectory(binarydataTempDir);
-            }
-            
-        } else {
-            
-            endpoint = endpoint + "/roda-core/";
-            PlanClient planClient;
-            try {
-                planClient = new PlanClient(new URL(endpoint), user, password);
-            } catch (MalformedURLException e) {
-                log.error("Error creating PlanClient URL '" + endpoint, e);
-                throw new PlanningException("Error creating PlanClient URL " + endpoint, e);
-            }
-    
-            if (!plan.getPreservationActionPlan().isDataExistent()) {
-                throw new PlanningException("No Preservation Action Plan found.");
-            }
-    
-            File planFile = byteStreamManager.getTempFile(plan.getPreservationActionPlan().getPid());
-            if (!planFile.canRead()) {
-                throw new PlanningException("Preservation Action Plan could not be processed.");
-            }
-    
-            try {
-                planClient.uploadPlan(planFile);
-                log.info("Deployed plan {} to {}.", plan.getPlanProperties().getId(), endpoint);
-            } catch (RuntimeException e) {
-                throw new PlanningException("Error deploying plan.", e);
-            }
+        SCAPEPlanManagementClient planManagement = new SCAPEPlanManagementClient(endpoint, user, password);
+        
+        String planIdentifier;
+        try {
+            planIdentifier = planManagement.reservePlanIdentifier();
+        } catch (Exception e) {
+            throw new PlanningException("Could not reserve Identifier.", e);
+        } catch (Throwable e) {
+            throw new PlanningException("Could not reserve Identifier.", e);
         }
-    }
-    private boolean isRodaRepository(final String endpoint) {
-        return endpoint.contains("roda");
+        this.plan.getPlanProperties().setRepositoryIdentifier(planIdentifier);
+        saveWithoutModifyingPlanState();
+        
+
+        String binarydataTempPath = OS.getTmpPath() + planIdentifier + "/";
+        File binarydataTempDir = new File(binarydataTempPath);
+        binarydataTempDir.mkdirs();
+        File planFile = new File(binarydataTempPath + "plan.xml");
+        try {
+            try {
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(planFile));
+                projectExport.exportComplete(plan.getPlanProperties().getId(), out, binarydataTempPath);
+                out.flush();
+                out.close();
+                
+                planManagement.deployPlan(planIdentifier, new FileInputStream(planFile));
+            } catch (Exception e) {
+                throw new PlanningException("Failed to generate plan.", e);
+            }
+        } finally {
+            OS.deleteDirectory(binarydataTempDir);
+        }
     }
 }

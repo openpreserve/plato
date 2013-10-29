@@ -80,7 +80,7 @@
 					<includes>
 						<include>**/*.class</include>
 					</includes>
-					<excludedGroups>eu.scape_project.planning.annotation.IntegrationTest,eu.scape_project.planning.annotation.SeleniumTest</excludedGroups>
+					<excludedGroups>eu.scape_project.planning.annotation.ManualTest,eu.scape_project.planning.annotation.IntegrationTest,eu.scape_project.planning.annotation.SeleniumTest</excludedGroups>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -205,22 +205,6 @@
 			<version>1.13</version>
 		</dependency>		
 
-		<!-- RODA-Client dependencies -->
-		<dependency>
-			<groupId>pt.gov.dgarq.roda</groupId>
-			<artifactId>roda-client</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>saxon</artifactId>
-					<groupId>net.sf.saxon</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-configuration</artifactId>
-					<groupId>commons-configuration</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 	
 	<profiles>

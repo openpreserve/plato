@@ -7,8 +7,10 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
+import eu.scape_project.planning.annotation.ManualTest;
 import eu.scape_project.planning.utils.RepositoryConnectorException;
 
+@ManualTest
 public class SCAPEDataConnectorTest {
 
     /**
