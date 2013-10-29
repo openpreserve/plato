@@ -18,8 +18,8 @@ import eu.scape_project.planning.annotation.ManualTest;
 import eu.scape_project.planning.utils.FileUtils;
 
 @ManualTest
-public class SCAPEPlanManagementClientTest {
-    private static final Logger LOG = LoggerFactory.getLogger(SCAPEPlanManagementClientTest.class);
+public class SCAPEPlanManagementClientIT {
+    private static final Logger LOG = LoggerFactory.getLogger(SCAPEPlanManagementClientIT.class);
 
     private static SCAPEPlanManagementClient client;
     

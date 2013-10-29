@@ -11,7 +11,7 @@ import eu.scape_project.planning.annotation.ManualTest;
 import eu.scape_project.planning.utils.RepositoryConnectorException;
 
 @ManualTest
-public class SCAPEDataConnectorTest {
+public class SCAPEDataConnectorIT {
 
     /**
      * Downloads a test file from a locally running fedora4 instance.
