@@ -1,9 +1,26 @@
+/*******************************************************************************
+ * Copyright 2006 - 2012 Vienna University of Technology,
+ * Department of Software Technology and Interactive Systems, IFS
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.scape_project.planning.model.tree;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -32,7 +49,7 @@ public class LeafPersistenceIT extends PersistenceTest{
         em.getTransaction().commit();
         em.refresh(l);
         
-        Assert.assertEquals(1,  ((Long)em.createQuery("select count(*) from Scale").getSingleResult()).longValue());
+        assertEquals(1,  ((Long)em.createQuery("select count(*) from Scale").getSingleResult()).longValue());
 
         Measure meas = new Measure();
         Attribute attr = new Attribute();
@@ -81,23 +98,23 @@ public class LeafPersistenceIT extends PersistenceTest{
 
         // reload the leaf
         Leaf lStored = em.find(Leaf.class, l.getId());
-        Assert.assertNotNull(lStored);
+        assertNotNull(lStored);
 
-        Assert.assertNotNull(lStored.getValues("b"));
-        Assert.assertNotNull(lStored.getValues("x"));
-        Assert.assertNotNull(lStored.getValues("a"));
+        assertNotNull(lStored.getValues("b"));
+        assertNotNull(lStored.getValues("x"));
+        assertNotNull(lStored.getValues("a"));
 
-        Assert.assertEquals(4, lStored.getValues("a").size());
-        Assert.assertEquals(4, lStored.getValues("b").size());
-        Assert.assertEquals(4, lStored.getValues("x").size());
+        assertEquals(4, lStored.getValues("a").size());
+        assertEquals(4, lStored.getValues("b").size());
+        assertEquals(4, lStored.getValues("x").size());
 
-        Assert.assertEquals(4, ((PositiveIntegerValue) lStored.getValues("a").getValue(0)).getValue());
-        Assert.assertEquals(3, ((PositiveIntegerValue) lStored.getValues("a").getValue(1)).getValue());
-        Assert.assertEquals(2, ((PositiveIntegerValue) lStored.getValues("a").getValue(2)).getValue());
-        Assert.assertEquals(1, ((PositiveIntegerValue) lStored.getValues("a").getValue(3)).getValue());
+        assertEquals(4, ((PositiveIntegerValue) lStored.getValues("a").getValue(0)).getValue());
+        assertEquals(3, ((PositiveIntegerValue) lStored.getValues("a").getValue(1)).getValue());
+        assertEquals(2, ((PositiveIntegerValue) lStored.getValues("a").getValue(2)).getValue());
+        assertEquals(1, ((PositiveIntegerValue) lStored.getValues("a").getValue(3)).getValue());
 
-        Assert.assertEquals(3, ((PositiveIntegerValue) lStored.getValues("b").getValue(1)).getValue());
-        Assert.assertEquals(1, ((PositiveIntegerValue) lStored.getValues("x").getValue(3)).getValue());
+        assertEquals(3, ((PositiveIntegerValue) lStored.getValues("b").getValue(1)).getValue());
+        assertEquals(1, ((PositiveIntegerValue) lStored.getValues("x").getValue(3)).getValue());
 
         em.getTransaction().begin();
         lStored.removeValues(alternatives, 1);
@@ -108,8 +125,8 @@ public class LeafPersistenceIT extends PersistenceTest{
         lStored = em.find(Leaf.class, l.getId());
         for (Alternative a : alternatives) {
             Values values = lStored.getValues(a.getName());
-            Assert.assertEquals(4, ((PositiveIntegerValue) values.getValue(0)).getValue());
-            Assert.assertEquals(1, ((PositiveIntegerValue) values.getValue(1)).getValue());
+            assertEquals(4, ((PositiveIntegerValue) values.getValue(0)).getValue());
+            assertEquals(1, ((PositiveIntegerValue) values.getValue(1)).getValue());
         }
         lStored.initValues(alternatives, 5, true);
         for (Alternative a : alternatives) {
@@ -125,25 +142,25 @@ public class LeafPersistenceIT extends PersistenceTest{
         em.close();
         // check order with new connection, this time don't recreate schema
         em = newConnection();
-        Assert.assertNotNull(em);
+        assertNotNull(em);
         em.getTransaction().begin();
         
         lStored = em.find(Leaf.class, l.getId());
         for (Alternative a : alternatives) {
             Values values = lStored.getValues(a.getName());
-            Assert.assertEquals(4, ((PositiveIntegerValue) values.getValue(0)).getValue());
-            Assert.assertEquals(1, ((PositiveIntegerValue) values.getValue(1)).getValue());
-            Assert.assertEquals(3, ((PositiveIntegerValue) values.getValue(2)).getValue());
-            Assert.assertEquals(4, ((PositiveIntegerValue) values.getValue(3)).getValue());
-            Assert.assertEquals(5, ((PositiveIntegerValue) values.getValue(4)).getValue());
+            assertEquals(4, ((PositiveIntegerValue) values.getValue(0)).getValue());
+            assertEquals(1, ((PositiveIntegerValue) values.getValue(1)).getValue());
+            assertEquals(3, ((PositiveIntegerValue) values.getValue(2)).getValue());
+            assertEquals(4, ((PositiveIntegerValue) values.getValue(3)).getValue());
+            assertEquals(5, ((PositiveIntegerValue) values.getValue(4)).getValue());
         }  
         
-        Assert.assertEquals("Removed values (orphans) should be automatically deleted", 15, 
+        assertEquals("Removed values (orphans) should be automatically deleted", 15, 
             ((Long)em.createQuery("select count(*) from Value").getSingleResult()).longValue());
         
         em.remove(lStored);
 
-        Assert.assertEquals("Values should be automatically deleted together with leaf and its valueMap.", 0, 
+        assertEquals("Values should be automatically deleted together with leaf and its valueMap.", 0, 
             ((Long)em.createQuery("select count(*) from Value").getSingleResult()).longValue());
 
         em.getTransaction().rollback();
@@ -154,7 +171,7 @@ public class LeafPersistenceIT extends PersistenceTest{
         Measure m = new Measure();
         lStored.setMeasure(m);
         em.persist(lStored);
-        Assert.assertEquals("Measure should be persisted together with leaf", 1, 
+        assertEquals("Measure should be persisted together with leaf", 1, 
             ((Long)em.createQuery("select count(*) from Measure").getSingleResult()).longValue());
         
 
@@ -162,14 +179,14 @@ public class LeafPersistenceIT extends PersistenceTest{
         em.getTransaction().begin();
         
         em.remove(lStored);
-        Assert.assertEquals("Measure should be deleted together with leaf", 0, 
+        assertEquals("Measure should be deleted together with leaf", 0, 
             ((Long)em.createQuery("select count(*) from Measure").getSingleResult()).longValue());
 
         em.getTransaction().rollback();
         em.getTransaction().begin();
         lStored = em.merge(lStored);
 
-        Assert.assertEquals("Measure should be persisted together with leaf", 1, 
+        assertEquals("Measure should be persisted together with leaf", 1, 
             ((Long)em.createQuery("select count(*) from Measure").getSingleResult()).longValue());
         
         Measure m2 = new Measure();
@@ -177,8 +194,9 @@ public class LeafPersistenceIT extends PersistenceTest{
         lStored.setMeasure(m2);
         
         em.persist(lStored);
-        Assert.assertEquals("Measure should be persisted together with leaf", 2, 
+        assertEquals("Measure should be persisted together with leaf", 2, 
             ((Long)em.createQuery("select count(*) from Measure").getSingleResult()).longValue());
+        em.getTransaction().commit();        
     }
 
 
