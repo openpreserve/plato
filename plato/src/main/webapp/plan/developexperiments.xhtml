@@ -38,16 +38,16 @@
 						<div class="service-info-panel">
 							<div class="service-info-header">#{alternative.name}</div>
 							<div class="service-info-info">
-
 								<p:inputTextArea id="developExperimentDescription"
 									labelText="Description:"
-									input="#{alternative.experiment.description}" required="false" />
-
+									input="#{alternative.experiment.description}" required="false"
+									touchable="#{alternative.experiment}" />
 								<a4j:outputPanel id="settings"
 									rendered="#{alternative.action.actionIdentifier ne 'myExperiment' or ( not empty alternative.experiment.settings and alternative.experiment.settings eq '' )}">
 									<p:inputTextArea id="developExperimentSettings"
 										labelText="Settings:"
-										input="#{alternative.experiment.settings}" required="false" />
+										input="#{alternative.experiment.settings}" required="false"
+										touchable="#{alternative.experiment}" />
 									<h:panelGroup
 										rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}"
 										layout="block">

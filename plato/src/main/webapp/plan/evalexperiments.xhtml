@@ -52,9 +52,11 @@
 				<legend class="fieldset-full-size-legend">
 					<h:outputText value="Select the tree parts to display" />
 				</legend>
-				<rich:tree id="navigationtree" selectionType="client" immediate="true" var="node">
-					<rich:treeModelRecursiveAdaptor id="model" roots="#{evalexperiments.treeRoot}"
-						nodes="#{node.children}" leaf="#{node.leaf}">
+				<rich:tree id="navigationtree" selectionType="client"
+					immediate="true" var="node">
+					<rich:treeModelRecursiveAdaptor id="model"
+						roots="#{evalexperiments.treeRoot}" nodes="#{node.children}"
+						leaf="#{node.leaf}">
 						<rich:treeNode highlightedClass="highlighted"
 							expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
 
@@ -132,6 +134,7 @@
 					<h:outputText value="Comments" />
 				</legend>
 				<p:inputTextArea id="evaluateExperimentComments"
+					labelText="Comments:"
 					input="#{evalexperiments.plan.evaluation.comment}"
 					touchable="#{evalexperiments.plan.evaluation}" />
 			</fieldset>

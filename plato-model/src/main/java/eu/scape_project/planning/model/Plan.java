@@ -467,12 +467,13 @@ public class Plan implements Serializable, ITouchable {
                     }
                 }
             }
+            t.touch();
         }
     }
 
     /**
-     * Returns the acceptable alternatives of a plan.
-     * Acceptable alternatives are alternatives which contain no knock-out(0 evaluation).
+     * Returns the acceptable alternatives of a plan. Acceptable alternatives
+     * are alternatives which contain no knock-out(0 evaluation).
      * 
      * @return List of acceptable alternatives.
      */

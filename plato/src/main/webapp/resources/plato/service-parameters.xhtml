@@ -39,7 +39,7 @@
 
 				<a4j:repeat value="#{cc.attrs.alternative.action.params}" var="p">
 					<p:inputText labelText="#{p.name}:" input="#{p.value}"
-						required="false"
+						required="false" touchable="#{cc.attrs.alternative}"
 						helpid="#{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid}" />
 				</a4j:repeat>
 			</a4j:outputPanel>

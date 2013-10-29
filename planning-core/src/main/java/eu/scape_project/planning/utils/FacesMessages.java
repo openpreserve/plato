@@ -33,90 +33,106 @@ import javax.faces.context.FacesContext;
  */
 public class FacesMessages implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5804425794122264314L;
 
     /**
-     * Add Faces Info-Message.
+     * Adds a faces info-message with an empty string as detailedInfo and no
+     * componentId.
      * 
-     * @param message
-     *            Message to publish.
+     * @see #addInfo(String, String, String)
      */
     public void addInfo(final String message) {
         addMessage(FacesMessage.SEVERITY_INFO, null, message, "");
     }
-    
+
     /**
-     * Add Faces Info-Message for a specific component.
+     * Adds a faces info-message with an empty string as detailedInfo.
      * 
-     * @param componentId
-     *            Id of the component this message belongs to. (Component id is
-     *            the id used in xhtml code (e.g. <h:form id="myId">))
-     * @param message
-     *            Message to publish.
+     * @see #addInfo(String, String, String)
      */
     public void addInfo(final String componentId, final String message) {
         addMessage(FacesMessage.SEVERITY_INFO, componentId, message, "");
     }
 
+    /**
+     * Adds a faces info-message for a specific component.
+     * 
+     * @param componentId
+     *            id of the component this message belongs to. (the component id
+     *            is the id used in xhtml code (e.g. <h:form id="myId">))
+     * @param message
+     *            summary message text
+     * @param detailedInfo
+     *            detail message text
+     */
     public void addInfo(final String componentId, final String message, final String detailedInfo) {
         addMessage(FacesMessage.SEVERITY_INFO, componentId, message, detailedInfo);
     }
-    
-    private void addMessage(final FacesMessage.Severity severity, final String componentId, final String message, final String detailedInfo) {
-        String clientId = null;
-        if (componentId != null) {
-            resolveClientId(componentId);
-        }
-        FacesContext.getCurrentInstance().addMessage(clientId, new FacesMessage(severity, message, detailedInfo));
-    }
 
     /**
-     * Add Faces Error-Message.
+     * Adds a faces warning-message with no componentId.
      * 
-     * @param message
-     *            Message to publish.
-     */
-    public void addError(final String message) {
-        addMessage(FacesMessage.SEVERITY_ERROR, null, message, "");
-    }
-
-    /**
-     * Add Faces Error-Message for a specific component.
-     * 
-     * @param componentId
-     *            Id of the component this message belongs to. (Component id is
-     *            the id used in xhtml code (e.g. <h:form id="myId">))
-     * @param message
-     *            Message to publish.
-     */
-    public void addError(final String componentId, final String message) {
-        addMessage(FacesMessage.SEVERITY_ERROR, componentId, message, "");
-    }
-
-    /**
-     * Add Faces Error-Message.
-     * 
-     * @param message
-     *            Message to publish.
+     * @see #addWarning(String, String)
      */
     public void addWarning(final String message) {
         addMessage(FacesMessage.SEVERITY_WARN, null, message, "");
     }
 
     /**
-     * Add Faces Warning-Message for a specific component.
+     * Adds a faces warning-message for a specific component.
      * 
      * @param componentId
-     *            Id of the component this message belongs to. (Component id is
-     *            the id used in xhtml code (e.g. <h:form id="myId">))
+     *            id of the component this message belongs to. (the component id
+     *            is the id used in xhtml code (e.g. <h:form id="myId">))
      * @param message
-     *            Message to publish.
+     *            summary message text
      */
     public void addWarning(final String componentId, final String message) {
         addMessage(FacesMessage.SEVERITY_WARN, componentId, message, "");
+    }
+
+    /**
+     * Adds a faces error-message with no componentId.
+     * 
+     * @see #addError(String, String)
+     */
+    public void addError(final String message) {
+        addMessage(FacesMessage.SEVERITY_ERROR, null, message, "");
+    }
+
+    /**
+     * Adds a faces error-message for a specific component.
+     * 
+     * @param componentId
+     *            id of the component this message belongs to. (the component id
+     *            is the id used in xhtml code (e.g. <h:form id="myId">))
+     * @param message
+     *            summary message text
+     */
+    public void addError(final String componentId, final String message) {
+        addMessage(FacesMessage.SEVERITY_ERROR, componentId, message, "");
+    }
+
+    /**
+     * Adds a faces message for a specific component.
+     * 
+     * @param severity
+     *            severity of the message
+     * @param componentId
+     *            id of the component this message belongs to. (the component id
+     *            is the id used in xhtml code (e.g. <h:form id="myId">))
+     * @param message
+     *            summary message text
+     * @param detailedInfo
+     *            detail message text
+     */
+    private void addMessage(final FacesMessage.Severity severity, final String componentId, final String message,
+        final String detailedInfo) {
+        String clientId = null;
+        if (componentId != null) {
+            clientId = resolveClientId(componentId);
+        }
+        FacesContext.getCurrentInstance().addMessage(clientId, new FacesMessage(severity, message, detailedInfo));
     }
 
     /**

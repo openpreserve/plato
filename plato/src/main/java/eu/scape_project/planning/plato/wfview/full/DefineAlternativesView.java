@@ -288,6 +288,17 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
+     * Determines if there is at least one sample with format info.
+     * 
+     * @return true if a sample with format info is available
+     */
+    public boolean isMimetypeAvailable() {
+        SampleObject sample = getSampleWithFormat();
+        return isFormatInfoAvailable() && sample.getFormatInfo().getMimeType() != null
+            && !"".equals(sample.getFormatInfo().getMimeType());
+    }
+
+    /**
      * Returns a sample with attached format info - at the moment this is the
      * first sample with format info found.
      * 
@@ -321,6 +332,12 @@ public class DefineAlternativesView extends AbstractView {
      * Shows myExperiment alternatives.
      */
     public void showMyExperimentAlternatives() {
+        if (!isMimetypeAvailable()) {
+            facesMessages
+                .addError("Could not find a sample with format information. Please add a mimetype to one of your samples.");
+            return;
+        }
+
         clearAvailableServices();
         selectedRegistry = SelectedRegistry.MY_EXPERIMENT;
 
@@ -344,6 +361,12 @@ public class DefineAlternativesView extends AbstractView {
      *            the registry to query
      */
     public void showPreservationServices(PreservationActionRegistryDefinition registry) {
+        if (!isFormatInfoAvailable()) {
+            facesMessages
+                .addError("Could not find a sample with format information. Please add format information to one of your samples.");
+            return;
+        }
+
         clearAvailableServices();
         selectedRegistry = SelectedRegistry.PA;
 

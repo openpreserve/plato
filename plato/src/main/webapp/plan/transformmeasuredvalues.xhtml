@@ -51,8 +51,9 @@
 
 			<fieldset id="comments" class="size-full">
 				<legend class="fieldset-full-size-legend"> Comments </legend>
-				<p:inputTextArea labelText="Comments:" id="comments"
-					input="#{transform.plan.transformation.comment}" required="false" />
+				<p:inputTextArea id="comments" labelText="Comments:"
+					input="#{transform.plan.transformation.comment}" required="false"
+					touchable="#{transform.plan.transformation}" />
 			</fieldset>
 
 			<a4j:outputPanel layout="block" id="editLeavesPanel">
@@ -103,7 +104,7 @@
 					<a4j:commandButton id="calculateDefaultTransfomationSettings"
 						value="Calculate default transformation settings"
 						action="#{transform.calculateDefaultTransformers()}"
-						render="editLeavesPanel" type="button" />
+						oncomplete="changed();" render="editLeavesPanel" type="button" />
 					<br /> Make sure you check all transformation functions and
 					approve them. Transformation settings that have not been defined or
 					not yet approved are marked with a star (*).
@@ -117,8 +118,8 @@
 						ajaxRendered="true" />
 					<a4j:commandButton id="confirmTransformationSettings"
 						value="Confirm transformation settings"
-						action="#{transform.approve()}" render="editLeavesPanel"
-						type="button" />
+						action="#{transform.approve()}" oncomplete="changed();"
+						render="editLeavesPanel" type="button" />
 				</p>
 			</fieldset>
 

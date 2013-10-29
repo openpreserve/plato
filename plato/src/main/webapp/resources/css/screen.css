@@ -360,7 +360,8 @@ input[type=submit],input[type=button],.default-button {
 	margin: 5px 0px;
 }
 
-input[type=submit]:hover,input[type=button]:hover,.default-button:hover {
+input[type=submit]:hover,input[type=button]:hover,.default-button:hover
+	{
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
 		), color-stop(1, #CFCDCD) );
 	background: -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
@@ -377,8 +378,8 @@ input[type=submit]:active,input[type=button]:hover {
 	top: 1px;
 }
 */
-
-input[type=submit]:disabled,input[type=button]:disabled,.default-button:disabled {
+input[type=submit]:disabled,input[type=button]:disabled,.default-button:disabled
+	{
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
 		), color-stop(1, #B0AEAE) );
 	background: -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
@@ -448,7 +449,6 @@ input.approve-button:hover {
 }
 
 input.save-button {
-	
 	-moz-box-shadow: inset 0px 1px 0px 0px #B4F1FF;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #B4F1FF;
 	box-shadow: inset 0px 1px 0px 0px #B4F1FF;
@@ -638,9 +638,9 @@ th.rf-dt-shdr-c {
 }
 
 .input .rf-au input {
-	width: -moz-calc(100% -         16px -         15px);
-	width: -webkit-calc(100% -         16px -         15px);
-	width: calc(100% -         16px -         15px);
+	width: -moz-calc(100% -           16px -           15px);
+	width: -webkit-calc(100% -           16px -           15px);
+	width: calc(100% -           16px -           15px);
 }
 
 .input input.rf-au-inp {
@@ -763,7 +763,7 @@ ul#messages {
 	float: left;
 }
 
-.multi-buttons input[type="submit"],.multi-buttons input[type="button"]
+.multi-buttons input[type="submit"],.multi-buttons input[type="button"],.multi-buttons a.default-button
 	{
 	margin-right: 10px;
 }
@@ -863,7 +863,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                                               50);
+	filter: alpha(opacity =                                                 50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;

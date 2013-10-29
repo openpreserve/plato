@@ -171,6 +171,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
     public void attachFile(DigitalObject digitalObject) throws StorageException {
         digitalObjectManager.moveDataToStorage(digitalObject);
         plan.getRequirementsDefinition().getUploads().add(digitalObject);
+        plan.getRequirementsDefinition().touch();
 
         addedBytestreams.add(digitalObject.getPid());
     }
@@ -183,6 +184,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
      */
     public void removeAttachedFile(DigitalObject digitalObject) {
         plan.getRequirementsDefinition().getUploads().remove(digitalObject);
+        plan.getRequirementsDefinition().touch();
 
         bytestreamsToRemove.add(digitalObject.getPid());
     }

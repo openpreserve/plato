@@ -175,7 +175,7 @@ public class RunExperimentsView extends AbstractView {
             runExperiments.uploadResultFile(digitalObject, alternativeForNextUpload, sampleObjectForNextUpload);
         } catch (StorageException e) {
             log.error("Exception at trying to upload result file.", e);
-            facesMessages.addError("Unable to upload result-file for alternative");
+            facesMessages.addError("Unable to upload result file for alternative. Please try again.");
         }
     }
 
@@ -198,7 +198,7 @@ public class RunExperimentsView extends AbstractView {
         } catch (StorageException e) {
             log.error("Exception at trying to fetch result file for alternative " + alternative.getName()
                 + "and sample " + sampleObject.getFullname(), e);
-            facesMessages.addError("Unable to fetch result-file");
+            facesMessages.addError("Unable to fetch result file. Please try again.");
         }
 
         if (resultFile != null) {

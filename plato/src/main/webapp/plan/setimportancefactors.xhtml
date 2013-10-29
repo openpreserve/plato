@@ -92,17 +92,16 @@
 									<div class="tree-nodeinfo" style="width: 720px;">
 										<div class="tree-cell" style="width: 400px;">
 											<!-- Weight informations -->
-											<rich:inputNumberSlider value="#{node.weight}" minValue="0"
-												maxValue="1" step="0.01" showInput="true" showToolTip="true"
-												enableManualInput="false" disabled="#{!node.child}"
-												id="weightSlider">
-
+											<rich:inputNumberSlider id="weightSlider"
+												value="#{node.weight}" minValue="0" maxValue="1" step="0.01"
+												showInput="true" showToolTip="true"
+												enableManualInput="false" disabled="#{!node.child}">
 												<a4j:ajax
 													disabled="#{!setImportanceFactors.autoBalancingEnabled}"
 													event="change"
 													data="#{setImportanceFactors.currentBalancedValues}"
 													listener="#{setImportanceFactors.balanceNode(node)}"
-													oncomplete="updateBalancedNodeData(#{rich:component('treeNode')}, event.data);" />
+													oncomplete="updateBalancedNodeData(#{rich:component('treeNode')}, event.data);changed();" />
 											</rich:inputNumberSlider>
 										</div>
 

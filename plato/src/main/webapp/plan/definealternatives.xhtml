@@ -126,8 +126,7 @@
 											rendered="#{defineAlternatives.editableAlternativeActionInfo.serviceIdentifier eq 'myExperiment'}" />
 										<p:service id="service"
 											actionInfo="#{defineAlternatives.editableAlternativeActionInfo}"
-											rendered="#{defineAlternatives.editableAlternativeActionInfo.serviceIdentifier ne 'myExperiment'}" />
-									</td>
+											rendered="#{defineAlternatives.editableAlternativeActionInfo.serviceIdentifier ne 'myExperiment'}" /></td>
 								</tr>
 							</table>
 						</a4j:outputPanel>
@@ -159,27 +158,27 @@
 							<div class="registry-panel">
 								<div class="registry-logo">
 									<h:graphicImage library="gfx" name="logos/custom.png"
-										alt="Custom alternative" width="200px" height="40px" />
+										alt="Custom alternative" width="200" height="40" />
 								</div>
 								<a4j:commandButton id="addCustomAlternative"
 									value="Add custom alternative"
-									onclick="toggleLoadingOverlay();this.disabled=true;"
-									oncomplete="this.disabled=false;toggleLoadingOverlay();"
+									onclick="toggleLoadingOverlay();"
+									oncomplete="toggleLoadingOverlay();"
 									action="#{defineAlternatives.showCustomAlternatives()}"
-									render="lookupResultPanel,addCustomAlternative" type="button" />
+									render="lookupResultPanel" type="button" />
 							</div>
 							<!-- myExperiment -->
 							<div class="registry-panel">
 								<div class="registry-logo">
 									<h:graphicImage library="gfx" name="logos/myExperiment.png"
-										alt="Custom alternative" width="200px" height="40px" />
+										alt="Custom alternative" width="200" height="40" />
 								</div>
 								<a4j:commandButton id="addMyExperimentAlternative"
 									value="Show Services"
-									onclick="toggleLoadingOverlay();this.disabled=true;"
-									oncomplete="this.disabled=false;toggleLoadingOverlay();"
 									action="#{defineAlternatives.showMyExperimentAlternatives()}"
-									render="lookupResultPanel,addMyExperimentAlternative"
+									onclick="toggleLoadingOverlay();"
+									oncomplete="toggleLoadingOverlay();" render="lookupResultPanel"
+									disabled="#{!defineAlternatives.mimetypeAvailable}"
 									type="button" />
 							</div>
 							<!-- PA Registries -->
@@ -188,13 +187,12 @@
 								<div class="registry-panel">
 									<div class="registry-logo">
 										<h:graphicImage value="#{registry.logo}"
-											alt="#{registry.shortname}" width="200px" height="40px" />
+											alt="#{registry.shortname}" width="200" height="40" />
 									</div>
 									<a4j:commandButton id="showServices" value="Show Services"
-										immediate="true"
-										onclick="toggleLoadingOverlay();this.disabled=true;"
-										oncomplete="this.disabled=false;toggleLoadingOverlay();"
 										action="#{defineAlternatives.showPreservationServices(registry)}"
+										onclick="toggleLoadingOverlay();"
+										oncomplete="toggleLoadingOverlay();"
 										render="lookupResultPanel"
 										disabled="#{!defineAlternatives.formatInfoAvailable}"
 										type="button" />
@@ -373,8 +371,8 @@
 									</h:selectOneMenu>
 								</div>
 								<a4j:commandButton id="filter" value="Filter"
-									onclick="toggleLoadingOverlay();this.disabled=true;"
-									oncomplete="this.disabled=false;toggleLoadingOverlay();"
+									onclick="toggleLoadingOverlay();"
+									oncomplete="toggleLoadingOverlay();"
 									action="#{defineAlternatives.filterMyExperimentAlternatives()}"
 									execute="myExperimentFilters" render="lookupResultPanel"
 									type="button" />
@@ -410,7 +408,7 @@
 											actionInfo="#{serviceInfo}"
 											data="#{defineAlternatives.tavernaServices}"
 											rendered="#{serviceInfo.serviceIdentifier eq 'myExperiment'}" />
-										<p:service id="service" actionInfo="#{action}"
+										<p:service id="service" actionInfo="#{serviceInfo}"
 											rendered="#{serviceInfo.serviceIdentifier ne 'myExperiment'}" />
 									</rich:column>
 								</rich:dataTable>

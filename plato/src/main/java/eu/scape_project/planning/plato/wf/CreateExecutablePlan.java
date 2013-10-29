@@ -28,6 +28,9 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.dom4j.io.OutputFormat;
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.ByteStream;
@@ -39,9 +42,6 @@ import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.xml.PreservationActionPlanGenerator;
-
-import org.dom4j.io.OutputFormat;
-import org.slf4j.Logger;
 
 /**
  * Workflow step to configure the executable plan.

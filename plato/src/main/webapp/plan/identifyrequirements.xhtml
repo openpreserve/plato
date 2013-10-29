@@ -108,7 +108,7 @@
 												rendered="#{identifyRequirements.editingNodeComments and node.leaf and (node.scale != null)}">
 												<h:outputText value="#{node.scale.displayName}  " />
 												<h:outputText rendered="#{node.scale.restricted}"
-													value="#{node.scale.restriction}  " />
+													value="#{node.scale.restriction}" />
 												<h:outputText value="[#{node.scale.unit}]"
 													rendered="#{not empty(node.scale.unit)}" />
 												<br />
@@ -226,9 +226,6 @@
 														render="restriction" />
 												</h:inputText>
 												<rich:message for="restriction" />
-												<h:inputText disabled="true" value=""
-													styleClass="p-input-text"
-													rendered="#{node.leaf and (node.scale != null) and (not node.scale.restricted)}" />
 											</div>
 
 											<div class="tree-cell" style="width: 90px;">
@@ -275,6 +272,7 @@
 					</legend>
 					<p:inputTextArea id="description" labelText="Description:"
 						input="#{identifyRequirements.plan.requirementsDefinition.description}"
+						touchable="#{identifyRequirements.plan.requirementsDefinition}"
 						required="false" />
 				</fieldset>
 
@@ -288,16 +286,17 @@
 						<p>Please attach extended documentation (about the
 							requirements definition process, about suggested measurements, or
 							about reasons for certain requirements) here:</p>
-						<ui:repeat var="file"
-							value="#{identifyRequirements.plan.requirementsDefinition.uploads}">
+						<ui:repeat
+							value="#{identifyRequirements.plan.requirementsDefinition.uploads}"
+							var="file">
 							<h:commandLink value="#{file.fullname}"
 								action="#{identifyRequirements.downloadAttachedFile(file)}" />
-	                        (<h:outputText value="#{file.sizeInMB}">
+	              (<h:outputText value="#{file.sizeInMB}">
 								<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
 							</h:outputText> MB)
-	                        <a4j:commandButton
+	            <a4j:commandButton value="Remove"
 								action="#{identifyRequirements.removeAttachedFile(file)}"
-								value="Remove" render="uploadsPanel" />
+								oncomplete="changed();" render="uploadsPanel" />
 							<br />
 						</ui:repeat>
 						<a4j:commandButton value="Attach documentation file"
@@ -389,8 +388,8 @@
 
 				<rich:fileUpload id="uploadResultFile"
 					fileUploadListener="#{identifyRequirements.uploadFile}"
-					render="uploadsPanel"
-					onuploadcomplete="#{rich:component('uploadPanel')}.hide()" />
+					onuploadcomplete="#{rich:component('uploadPanel')}.hide(); changed();"
+					render="uploadsPanel" />
 			</rich:popupPanel>
 			<!-- / attach files panel -->
 		</h:form>
