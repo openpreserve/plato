@@ -20,15 +20,17 @@
 package eu.scape_project.planning.plato.wf;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
@@ -41,6 +43,7 @@ import eu.scape_project.planning.taverna.parser.T2FlowParser;
 import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.FileUtils;
+import eu.scape_project.planning.xml.PlanXMLConstants;
 import eu.scape_project.planning.xml.PreservationActionPlanGenerator;
 
 /**
@@ -169,24 +172,41 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
      *             if an error occurred
      */
     public void generatePreservationActionPlan() throws PlanningException {
-
-        generator.setCollectionProfile(plan.getSampleRecordsDefinition().getCollectionProfile());
-        generator.setExecutablePlanDefinition(plan.getExecutablePlanDefinition());
-        generator.setOutputFormat(OutputFormat.createPrettyPrint());
-
         try {
-            DigitalObject object = generator.generatePreservationActionPlan();
+            Document papDoc = generator.generatePreservationActionPlanDocument(
+                plan.getSampleRecordsDefinition().getCollectionProfile()
+                ,plan.getExecutablePlanDefinition()
+                ,plan);            
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        
+            OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+            outputFormat.setEncoding(PlanXMLConstants.ENCODING);
 
-            digitalObjectManager.moveDataToStorage(object);
+            XMLWriter writer = new XMLWriter(out, outputFormat);
+            
+            writer.write(papDoc);
+            writer.close();
+
+            ByteStream bs = new ByteStream();
+            bs.setData(out.toByteArray());
+            bs.setSize(out.size());
+
+            DigitalObject digitalObject = new DigitalObject();
+            digitalObject.setFullname(PreservationActionPlanGenerator.FULL_NAME);
+            digitalObject.setContentType("application/xml");
+            digitalObject.setData(bs);
+
+            digitalObjectManager.moveDataToStorage(digitalObject);
 
             if (plan.getPreservationActionPlan() != null && plan.getPreservationActionPlan().isDataExistent()) {
                 bytestreamsToRemove.add(plan.getPreservationActionPlan().getPid());
             }
 
-            plan.setPreservationActionPlan(object);
-            addedBytestreams.add(object.getPid());
+            plan.setPreservationActionPlan(digitalObject);
+            addedBytestreams.add(digitalObject.getPid());
 
-        } catch (UnsupportedEncodingException e) {
+        } catch (IOException e) {
             log.error("Error generating preservation action plan {}.", e.getMessage());
             throw new PlanningException("Error generating preservation action plan.", e);
         } catch (StorageException e) {

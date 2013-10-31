@@ -13,18 +13,17 @@ import eu.scape_project.planning.xml.LocalURIResolver;
 
 public class QualityLevelDefinitionTest {
     
-    @Test
+    //@Test
     public void testValidSample1() throws Exception{
         SchematronValidator validator = new SchematronValidator();
         
         StringWriter reportWriter = new StringWriter();
 
-        URIResolver resolver = new LocalURIResolver().addHrefBase("iso_schematron_skeleton_for_saxon.xsl", "schematron/iso_schematron_skeleton_for_saxon.xsl");
+        URIResolver resolver = new LocalURIResolver().addHrefBase("iso_schematron_skeleton_for_xslt1.xsl", "schematron/iso_schematron_skeleton_for_xslt1.xsl");
         
-        validator.validate(new StreamSource(getClass().getClassLoader().getResourceAsStream("schematron/sample_measures1.xml")), 
-            new StreamSource(getClass().getClassLoader().getResourceAsStream("schematron/sample_qld1.xml")), new StreamResult(reportWriter), resolver);
+        validator.validate(new StreamSource(getClass().getClassLoader().getResourceAsStream("qld/sample_measures1.xml")), 
+            new StreamSource(getClass().getClassLoader().getResourceAsStream("qld/sample_qld1.xml")), new StreamResult(reportWriter), resolver);
         
-        System.out.println(reportWriter.toString());
         
     }
 

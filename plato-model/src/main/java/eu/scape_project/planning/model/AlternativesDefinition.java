@@ -243,7 +243,8 @@ public class AlternativesDefinition implements Serializable, ITouchable {
         }
 
         if (!isAlternativeNameValid(alternative.getName())) {
-            throw new PlanningException("The alternative name must not start or end with a whitespace.");
+            String msg = String.format("The alternative name must not start or end with a whitespace. [%s]", alternative.getName());
+            throw new PlanningException(msg);
         }
 
         alternative.setAlternativesDefinition(this);

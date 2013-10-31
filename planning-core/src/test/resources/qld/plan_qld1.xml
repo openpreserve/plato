@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://purl.oclc.org/dsdl/schematron">
+ <pattern>
+  <title>QLDs based on plan iPRES 2013 DEMO(test_plan_123)</title>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#134' and (@subject != 'inputFile')]">
+   <assert test="(. != 'No')">automated QA supported must have (one) of the the following values: [Yes]</assert>
+  </rule>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#123' and (@subject != 'inputFile')]">
+   <assert test=" .  &lt;=  4.0">comparative file size must be  less than or equal to 4.0</assert>
+  </rule>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#117' and (@subject != 'inputFile')]">
+   <assert test="(. != 'lossless') and (. != 'lossy')">compression type must have (one) of the the following values: [none]</assert>
+  </rule>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#51' and (@subject != 'inputFile')]">
+   <assert test="(. != 'No')">image width equal must have (one) of the the following values: [Yes]</assert>
+  </rule>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#53' and (@subject != 'inputFile')]">
+   <assert test="(. != 'No')">image height equal must have (one) of the the following values: [Yes]</assert>
+  </rule>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#251' and (@subject != 'inputFile')]">
+   <assert test="(. != 'No')">EXIF: all tiff data retained must have (one) of the the following values: [Yes]</assert>
+  </rule>
+  <rule context="measure[@type='http://purl.org/DP/quality/measures#56' and (@subject != 'inputFile')]">
+   <assert test="(. != 'No')">colour model preserved must have (one) of the the following values: [Yes]</assert>
+  </rule>
+ </pattern>
+</schema>
+

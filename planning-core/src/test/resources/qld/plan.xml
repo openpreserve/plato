@@ -1,0 +1,1029 @@
+<?xml version="1.0" encoding="UTF-8"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.1">
+<plan>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-09-01T00:32:19" changedBy="scape.pw"/>
+<properties author="J scape.pw" organization="SCAPE" name="iPRES 2013 DEMO" privateProject="true" reportPublic="false" planType="FULL" >
+<state value="10"/>
+<description>a demo plan at iPRES</description>
+<owner>scape.pw</owner>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-10-30T16:18:32" changedBy="kraxner"/>
+</properties>
+<basis identificationCode="">
+<documentTypes>http://www.bl.uk/policies/JISC1_newspapers</documentTypes>
+<applyingPolicies>. Automated QA must be possible: Measure 'automated QA supported' must have a value equal true &#13;
+. Format Documentation freely available: Measure 'format documentation availability' should have a value equal yes-free &#13;
+. Comparative file size must be less then 10: Measure 'comparative file size' must have a value lower than 10 &#13;
+. Action software licence must be open source: Measure 'software licence source code' must have a value equal openSource &#13;
+. Format should be international standard: Measure 'format standardization' should have a value equal international standard &#13;
+. Ease of integration: Measure 'ease of integration' should have a value equal good &#13;
+. Number of tools greater 0: Measure 'number of tools' must have a value greater than 0 &#13;
+. Elapsed time per MB: Measure 'elapsed time per MB' must have a value lower than 2000 &#13;
+. Image width must be unchanged: Measure 'image width equal' must have a value equal true &#13;
+. Action tool usability should be good: Measure 'ease of use' should have a value equal openSource &#13;
+. Quantitative archival storage costs: Measure 'quantitative archival storage costs' must have a value lower than 0.24 &#13;
+. Action should be stable: Measure 'stability judgement' should have a value equal stable &#13;
+. Identification  possibilities must be automatic: Measure 'identification possibilities' must have a value equal automatic_specific &#13;
+. Image height must be unchanged: Measure 'image height equal' must have a value equal true &#13;
+. Compression type must be none: Measure 'compression type' must have a value equal none &#13;
+. All Tiff data must be retained: Measure 'EXIF: all tiff data retained' must have a value equal true &#13;
+. Colour model must be preserved: Measure 'colour model preserved' must have a value equal true &#13;
+. Format complexity should be low: Measure 'format complexity' should have a value equal low &#13;
+. Running costs per object: Measure 'Running costs per object' must have a value lower than 0.24</applyingPolicies>
+<designatedCommunity>researchers,genealogists</designatedCommunity>
+<mandate/>
+<organisationalProcedures/>
+<planningPurpose/>
+<planRelations/>
+<preservationRights/>
+<referenceToAgreements/>
+<triggers>
+<trigger type="NEW_COLLECTION" active="false" description=""/>
+<trigger type="PERIODIC_REVIEW" active="false" description=""/>
+<trigger type="CHANGED_ENVIRONMENT" active="false" description=""/>
+<trigger type="CHANGED_OBJECTIVE" active="false" description=""/>
+<trigger type="CHANGED_COLLECTION_PROFILE" active="false" description=""/>
+</triggers>
+<policyTree/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</basis>
+<sampleRecords>
+<samplesDescription>The sample objects were chosen by c3po using the size'o'matic 3000 algorithm.</samplesDescription>
+<collectionProfile>
+<collectionID>demo?cc1fdfaa-8abf-4d3c-b2b8-198cec35d761</collectionID>
+<description/>
+<expectedGrowthRate/>
+<numberOfObjects>87</numberOfObjects>
+<typeOfObjects>The collection consists of 100.0% 'Tagged Image File Format' files.</typeOfObjects>
+<retentionPeriod/>
+<profile fullname="demo_cc1fdfaa-8abf-4d3c-b2b8-198cec35d761.xml" contentType="application/xml">
+<data xmlns:plato="http://ifs.tuwien.ac.at/dp/plato" hasData="false" encoding="base64"></data>
+<formatInfo>
+<changelog created="2013-09-01T00:31:23" changed="2013-09-01T00:31:23"/>
+</formatInfo>
+<changelog created="2013-09-01T00:31:23" changed="2013-09-01T00:31:23"/>
+</profile>
+</collectionProfile>
+<record fullname="http://roda.scape.keep.pt/roda-core/get/roda:84/F0" contentType="image/tiff" shortName="http://localhost:8080/roda-core/get/roda:84/F0">
+<data xmlns:plato="http://ifs.tuwien.ac.at/dp/plato" hasData="false" encoding="base64"></data>
+<fitsXML encoding="base64"></fitsXML>
+<formatInfo puid="Conflict" name="Tagged Image File Format" version="Conflict" mimeType="image/tiff" defaultExtension="">
+<changelog created="2013-08-31T23:13:14" createdBy="scape.pw" changed="2013-08-31T23:13:14"/>
+</formatInfo>
+<changelog created="2013-08-31T23:13:14" createdBy="scape.pw" changed="2013-08-31T23:13:14"/>
+<description/>
+<originalTechnicalEnvironment/>
+</record>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-09-01T00:33:22" changedBy="scape.pw"/>
+</sampleRecords>
+<requirementsDefinition>
+<description/>
+<uploads/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</requirementsDefinition>
+<alternatives>
+<description/>
+<alternative discarded="false" name="Migration Imagemagick convert">
+<description>Converts an image to TIFF using imagemagick convert. Takes a parameter that sets the -compress parameter of imagemagick. using service at: http://www.myexperiment.org/workflows/3482/download?version=1</description>
+<action shortname="Migration Imagemagick convert image2tiff - compress" url="http://www.myexperiment.org/workflows/3482/download?version=1" actionIdentifier="myExperiment" info="Converts an image to TIFF using imagemagick convert. Takes a parameter that sets the -compress parameter of imagemagick." executable="true">
+<descriptor>http://www.myexperiment.org/workflows/3482/versions/1</descriptor>
+<params>
+<param name="settings" value="none"/>
+</params>
+<changelog created="2013-08-31T23:22:18" createdBy="scape.pw" changed="2013-08-31T23:22:18"/>
+</action>
+<resourceDescription>
+<changelog created="2013-08-31T23:22:18" createdBy="scape.pw" changed="2013-08-31T23:22:18"/>
+</resourceDescription>
+<experiment>
+<description/>
+<settings>none</settings>
+<results/>
+<detailedInfos>
+<detailedInfo key="http://localhost:8080/roda-core/get/roda:84/F0" successful="true">
+<programOutput>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#13;
+&lt;b:dataThingMap xmlns:b="http://org.embl.ebi.escience/baclava/0.1alpha"&gt;&#13;
+  &lt;b:dataThing key="path_to"&gt;&#13;
+    &lt;b:myGridDataDocument lsid="" syntactictype="'text/plain'"&gt;&#13;
+      &lt;s:metadata xmlns:s="http://org.embl.ebi.escience/xscufl/0.1alpha"&gt;&#13;
+        &lt;s:mimeTypes&gt;&#13;
+          &lt;s:mimeType&gt;text/plain&lt;/s:mimeType&gt;&#13;
+        &lt;/s:mimeTypes&gt;&#13;
+      &lt;/s:metadata&gt;&#13;
+      &lt;b:dataElement lsid=""&gt;&#13;
+        &lt;b:dataElementData&gt;L3RtcC9wbGF0by4yd2gwQ2NQYmxLY3Y1aExwTldobS9wYXRoX3RvL2h0dHByb2Rhc2NhcGVrZWVw&#13;
+cHRyb2RhLWNvcmVnZXRyb2RhODRGMC5yZXN1bHQ=&lt;/b:dataElementData&gt;&#13;
+      &lt;/b:dataElement&gt;&#13;
+    &lt;/b:myGridDataDocument&gt;&#13;
+  &lt;/b:dataThing&gt;&#13;
+  &lt;b:dataThing key="STDERR"&gt;&#13;
+    &lt;b:myGridDataDocument lsid="" syntactictype="'application/octet-stream'"&gt;&#13;
+      &lt;s:metadata xmlns:s="http://org.embl.ebi.escience/xscufl/0.1alpha"&gt;&#13;
+        &lt;s:mimeTypes&gt;&#13;
+          &lt;s:mimeType&gt;application/octet-stream&lt;/s:mimeType&gt;&#13;
+        &lt;/s:mimeTypes&gt;&#13;
+      &lt;/s:metadata&gt;&#13;
+      &lt;b:dataElement lsid=""&gt;&#13;
+        &lt;b:dataElementData&gt;Y29udmVydDogRXJyb3IgZmV0Y2hpbmcgZGF0YSBmb3IgZmllbGQgIkFydGlzdCIuIGAvdG1wL3Bs&#13;
+YXRvLjJ3aDBDY1BibEtjdjVoTHBOV2htL3BhdGhfZnJvbS9odHRwcm9kYXNjYXBla2VlcHB0cm9k&#13;
+YS1jb3JlZ2V0cm9kYTg0RjAnIEAgdGlmZi5jL1RJRkZFcnJvcnMvNDkzLgo=&lt;/b:dataElementData&gt;&#13;
+      &lt;/b:dataElement&gt;&#13;
+    &lt;/b:myGridDataDocument&gt;&#13;
+  &lt;/b:dataThing&gt;&#13;
+  &lt;b:dataThing key="STDOUT"&gt;&#13;
+    &lt;b:myGridDataDocument lsid="" syntactictype="'application/octet-stream'"&gt;&#13;
+      &lt;s:metadata xmlns:s="http://org.embl.ebi.escience/xscufl/0.1alpha"&gt;&#13;
+        &lt;s:mimeTypes&gt;&#13;
+          &lt;s:mimeType&gt;application/octet-stream&lt;/s:mimeType&gt;&#13;
+        &lt;/s:mimeTypes&gt;&#13;
+      &lt;/s:metadata&gt;&#13;
+      &lt;b:dataElement lsid=""&gt;&#13;
+        &lt;b:dataElementData /&gt;&#13;
+      &lt;/b:dataElement&gt;&#13;
+    &lt;/b:myGridDataDocument&gt;&#13;
+  &lt;/b:dataThing&gt;&#13;
+  &lt;b:dataThing key="path_from"&gt;&#13;
+    &lt;b:myGridDataDocument lsid="" syntactictype="'text/plain'"&gt;&#13;
+      &lt;s:metadata xmlns:s="http://org.embl.ebi.escience/xscufl/0.1alpha"&gt;&#13;
+        &lt;s:mimeTypes&gt;&#13;
+          &lt;s:mimeType&gt;text/plain&lt;/s:mimeType&gt;&#13;
+        &lt;/s:mimeTypes&gt;&#13;
+      &lt;/s:metadata&gt;&#13;
+      &lt;b:dataElement lsid=""&gt;&#13;
+        &lt;b:dataElementData&gt;L3RtcC9wbGF0by4yd2gwQ2NQYmxLY3Y1aExwTldobS9wYXRoX2Zyb20vaHR0cHJvZGFzY2FwZWtl&#13;
+ZXBwdHJvZGEtY29yZWdldHJvZGE4NEYw&lt;/b:dataElementData&gt;&#13;
+      &lt;/b:dataElement&gt;&#13;
+    &lt;/b:myGridDataDocument&gt;&#13;
+  &lt;/b:dataThing&gt;&#13;
+&lt;/b:dataThingMap&gt;</programOutput>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2013-08-31T23:22:18" createdBy="scape.pw" changed="2013-08-31T23:22:18"/>
+</experiment>
+<changelog created="2013-08-31T23:22:18" createdBy="scape.pw" changed="2013-08-31T23:22:18"/>
+</alternative>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-09-01T00:33:22" changedBy="scape.pw"/>
+</alternatives>
+<decision>
+<reason>go</reason>
+<actionNeeded>no</actionNeeded>
+<goDecision value="GO"/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T23:22:40" changedBy="scape.pw"/>
+</decision>
+<evaluation>
+<comment/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</evaluation>
+<importanceWeighting>
+<comment/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</importanceWeighting>
+<recommendation alternativeName="Migration Imagemagick convert">
+<reasoning>see document..</reasoning>
+<effects>..</effects>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-09-01T00:34:18" changedBy="scape.pw"/>
+</recommendation>
+<transformation>
+<comment/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</transformation>
+<tree weightsInitialized="true">
+<node name="JISC1 newspapers" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+<node name="Functional correctness: Representation Instance Property" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="automated quality assurance support" weight="0.33" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="automated QA supported" weight="1.0" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:28:47" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#134">
+<name>automated QA supported</name>
+<description>Indicates whether results of an action support automated QA with current means</description>
+<attribute ID="http://purl.org/DP/quality/attributes#45">
+<name>automated quality assurance support</name>
+<description>Indicators whether the outcome of an action supports automated QA</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_representation_instance_property" scope="OBJECT">
+<name>Functional correctness: Representation Instance Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="file size" weight="0.34" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="comparative file size" weight="1.0" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>4.0</threshold1>
+<threshold2>3.0</threshold2>
+<threshold3>2.0</threshold3>
+<threshold4>1.0</threshold4>
+<threshold5>0.5</threshold5>
+</thresholds>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:29:07" changedBy="scape.pw"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#123">
+<name>comparative file size</name>
+<description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
+<attribute ID="http://purl.org/DP/quality/attributes#41">
+<name>file size</name>
+<description>What happened to the size of the file?</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_representation_instance_property" scope="OBJECT">
+<name>Functional correctness: Representation Instance Property</name>
+</category>
+</attribute>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<positiveFloatResult>
+<value>1.0</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="compression" weight="0.33" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="compression type" weight="1.0" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="none/lossless/lossy">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="lossless" target="0.0"/>
+<mapping ordinal="lossy" target="0.0"/>
+<mapping ordinal="none" target="5.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:29:12" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#117">
+<name>compression type</name>
+<description>Type of compression used in the outcome object</description>
+<attribute ID="http://purl.org/DP/quality/attributes#39">
+<name>compression</name>
+<description>Compression used in outcome object.</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_representation_instance_property" scope="OBJECT">
+<name>Functional correctness: Representation Instance Property</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="none/lossless/lossy">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>none</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Format sustainability" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="format documentation" weight="0.2" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="format documentation availability" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="yes-free/yes-pay/no">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="yes-free" target="5.0"/>
+<mapping ordinal="no" target="0.0"/>
+<mapping ordinal="yes-pay" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-10-29T17:14:33" changedBy="kraxner"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#147">
+<name>format documentation availability</name>
+<description>Availability of the documentation for a format</description>
+<attribute ID="http://purl.org/DP/quality/attributes#52">
+<name>format documentation</name>
+<description>Indicators for the documentation that is available for a format</description>
+<category ID="http://purl.org/DP/quality/categories#format_sustainability" scope="ALTERNATIVE_ACTION">
+<name>Format sustainability</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="yes-free/yes-pay/no">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>yes-free</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="format stability" weight="0.2" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="format standardization" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="international standard/de facto standard/none">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="de facto standard" target="3.0"/>
+<mapping ordinal="international standard" target="5.0"/>
+<mapping ordinal="none" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:29:27" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#161">
+<name>format standardization</name>
+<description>Standardization of the outcome format.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#49">
+<name>format stability</name>
+<description>Degree of stability of a format and its versions</description>
+<category ID="http://purl.org/DP/quality/categories#format_sustainability" scope="ALTERNATIVE_ACTION">
+<name>Format sustainability</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="international standard/de facto standard/none">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>international standard</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="format adoption" weight="0.2" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="number of tools" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="AVERAGE"/>
+<positiveIntegerScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveIntegerScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>0.0</threshold1>
+<threshold2>1.0</threshold2>
+<threshold3>2.0</threshold3>
+<threshold4>3.0</threshold4>
+<threshold5>4.0</threshold5>
+</thresholds>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:29:41" changedBy="scape.pw"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#141">
+<name>number of tools</name>
+<description>Indicator for the adoption of a format, expressed as the total number of all tools that support a format</description>
+<attribute ID="http://purl.org/DP/quality/attributes#48">
+<name>format adoption</name>
+<description>Degree of adoption of a format</description>
+<category ID="http://purl.org/DP/quality/categories#format_sustainability" scope="ALTERNATIVE_ACTION">
+<name>Format sustainability</name>
+</category>
+</attribute>
+<positiveIntegerScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveIntegerScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<positiveIntegerResult>
+<value>5</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</positiveIntegerResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="format disclosure" weight="0.2" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="identification possibilities" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="automatic_specific/automatic_generic/automatic_tentative/manual/none">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="manual" target="1.0"/>
+<mapping ordinal="automatic_specific" target="5.0"/>
+<mapping ordinal="automatic_generic" target="3.0"/>
+<mapping ordinal="none" target="0.0"/>
+<mapping ordinal="automatic_tentative" target="2.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:29:51" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#153">
+<name>identification possibilities</name>
+<description>Possibilies to identify the outcome format (cf. PRONOM)</description>
+<attribute ID="http://purl.org/DP/quality/attributes#55">
+<name>format disclosure</name>
+<description>Disclosure of the format</description>
+<category ID="http://purl.org/DP/quality/categories#format_sustainability" scope="ALTERNATIVE_ACTION">
+<name>Format sustainability</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="automatic_specific/automatic_generic/automatic_tentative/manual/none">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>automatic_specific</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="format transparency" weight="0.2" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="format complexity" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="high/medium/low">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="high" target="0.0"/>
+<mapping ordinal="low" target="5.0"/>
+<mapping ordinal="medium" target="3.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:01" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#143">
+<name>format complexity</name>
+<description>Indicator of the complexity of a format as judged by experts in the domain</description>
+<attribute ID="http://purl.org/DP/quality/attributes#50">
+<name>format transparency</name>
+<description>How transparent is the format and its specification?</description>
+<category ID="http://purl.org/DP/quality/categories#format_sustainability" scope="ALTERNATIVE_ACTION">
+<name>Format sustainability</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="high/medium/low">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>medium</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Action licensing" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="software licence of a preservation action" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="software licence source code" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="openSource/closedSource">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="openSource" target="5.0"/>
+<mapping ordinal="closedSource" target="1.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:07" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#175">
+<name>software licence source code</name>
+<description>Indicates if and in which way the source code of the software is accessible.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#11">
+<name>software licence of a preservation action</name>
+<description>These are the licence agreements of a preservation action</description>
+<category ID="http://purl.org/DP/quality/categories#action_licensing" scope="ALTERNATIVE_ACTION">
+<name>Action licensing</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="openSource/closedSource">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>openSource</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Installability" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="server environment integration" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="ease of integration" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="good/acceptable/poor/not possible">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="4.0"/>
+<mapping ordinal="poor" target="3.0"/>
+<mapping ordinal="good" target="5.0"/>
+<mapping ordinal="not possible" target="2.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:12" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#99">
+<name>ease of integration</name>
+<description>Assessment of how easy it is to integrate an action into a particular server environment.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#32">
+<name>server environment integration</name>
+<description>Feasibility of integration of an action into a server environment</description>
+<category ID="http://purl.org/DP/quality/categories#installability" scope="ALTERNATIVE_ACTION">
+<name>Installability</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="good/acceptable/poor/not possible">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Time behaviour" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="processing time" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="elapsed time per MB" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>4.0</threshold1>
+<threshold2>3.0</threshold2>
+<threshold3>2.0</threshold3>
+<threshold4>1.0</threshold4>
+<threshold5>0.5</threshold5>
+</thresholds>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:32" changedBy="scape.pw"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#10">
+<name>elapsed time per MB</name>
+<description>elapsed processing time per Megabyte of input data, measured in milliseconds</description>
+<attribute ID="http://purl.org/DP/quality/attributes#6">
+<name>processing time</name>
+<description>processing time</description>
+<category ID="http://purl.org/DP/quality/categories#time_behaviour" scope="ALTERNATIVE_ACTION">
+<name>Time behaviour</name>
+</category>
+</attribute>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<positiveFloatResult>
+<value>1.0</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Functional correctness: Transformation Independent Property" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="image size" weight="0.33" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="image width equal" weight="0.5" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:37" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#51">
+<name>image width equal</name>
+<description>true iff image width has been preserved.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#19">
+<name>image size</name>
+<description>Dimensions of a digital image</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_transformation_independent_property" scope="OBJECT">
+<name>Functional correctness: Transformation Independent Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="image height equal" weight="0.5" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:38" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#53">
+<name>image height equal</name>
+<description>true iff image height has been preserved.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#19">
+<name>image size</name>
+<description>Dimensions of a digital image</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_transformation_independent_property" scope="OBJECT">
+<name>Functional correctness: Transformation Independent Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="image EXIF metadata" weight="0.34" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="EXIF: all tiff data retained" weight="1.0" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:41" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#251">
+<name>EXIF: all tiff data retained</name>
+<description>Indicates whether the specific type of EXIF metadata has been retained.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#2">
+<name>image EXIF metadata</name>
+<description>The accuracy of Exchangeable Image File Format (EXIF) metadata of an image.</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_transformation_independent_property" scope="OBJECT">
+<name>Functional correctness: Transformation Independent Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="colour space of a digital image" weight="0.33" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="colour model preserved" weight="1.0" single="false" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:44" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#56">
+<name>colour model preserved</name>
+<description>Indicates whether the colour model has been preserved.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#20">
+<name>colour space of a digital image</name>
+<description>The designated colour space of the decompressed image data</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_transformation_independent_property" scope="OBJECT">
+<name>Functional correctness: Transformation Independent Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Operability" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="ease of operations" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="ease of use" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="acceptable" target="3.0"/>
+<mapping ordinal="poor" target="1.0"/>
+<mapping ordinal="good" target="5.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:30:49" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#115">
+<name>ease of use</name>
+<description>Assessment of how easy it is to use an action in operations</description>
+<attribute ID="http://purl.org/DP/quality/attributes#38">
+<name>ease of operations</name>
+<description>How easy are operations with this action?</description>
+<category ID="http://purl.org/DP/quality/categories#operability" scope="ALTERNATIVE_ACTION">
+<name>Operability</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="good/acceptable/poor">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>good</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Outcome effect" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="archival storage costs" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="quantitative archival storage costs" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>20.0</threshold1>
+<threshold2>3.0</threshold2>
+<threshold3>2.0</threshold3>
+<threshold4>1.0</threshold4>
+<threshold5>0.0</threshold5>
+</thresholds>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:31:06" changedBy="scape.pw"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#137">
+<name>quantitative archival storage costs</name>
+<description>Effects of a preservation action on archival storage costs, expressed as archival storage costs per object over a time period of 10 years, measured in  €.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#46">
+<name>archival storage costs</name>
+<description>Effects of a preservation action on archival storage costs</description>
+<category ID="http://purl.org/DP/quality/categories#outcome_effect" scope="ALTERNATIVE_ACTION">
+<name>Outcome effect</name>
+</category>
+</attribute>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<positiveFloatResult>
+<value>10.0</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Maturity" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="stability" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="stability judgement" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="stable/largely stable/unstable">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="unstable" target="1.0"/>
+<mapping ordinal="largely stable" target="3.0"/>
+<mapping ordinal="stable" target="5.0"/>
+</mappings>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:31:13" changedBy="scape.pw"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#108">
+<name>stability judgement</name>
+<description>Judgement of the stability of an action</description>
+<attribute ID="http://purl.org/DP/quality/attributes#35">
+<name>stability</name>
+<description>Stability of an action under normal operations</description>
+<category ID="http://purl.org/DP/quality/categories#maturity" scope="ALTERNATIVE_ACTION">
+<name>Maturity</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="stable/largely stable/unstable">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<ordinalResult>
+<value>stable</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Action costs" weight="0.1" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<node name="operational costs of a preservation action" weight="1.0" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<leaf name="Running costs per object" weight="1.0" single="true" lock="false">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:31:43"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="THRESHOLD_STEPPING"/>
+<thresholds>
+<threshold1>50.0</threshold1>
+<threshold2>29.0</threshold2>
+<threshold3>10.0</threshold3>
+<threshold4>3.0</threshold4>
+<threshold5>1.0</threshold5>
+</thresholds>
+<changelog created="2013-08-31T23:20:07" createdBy="scape.pw" changed="2013-08-31T23:31:38" changedBy="scape.pw"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#21">
+<name>Running costs per object</name>
+<description>Running operational costs of an action in € per object.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#9">
+<name>operational costs of a preservation action</name>
+<description>These are the operational costs of running a preservation action.</description>
+<category ID="http://purl.org/DP/quality/categories#action_costs" scope="ALTERNATIVE_ACTION">
+<name>Action costs</name>
+</category>
+</attribute>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2013-08-31T23:19:47" createdBy="scape.pw" changed="2013-08-31T23:19:47"/>
+</positiveFloatScale>
+</measure>
+<evaluation>
+<alternative key="Migration Imagemagick convert">
+<positiveFloatResult>
+<value>10.0</value>
+<comment/>
+<changelog created="2013-08-31T23:23:39" changed="2013-08-31T23:26:24"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+</node>
+</tree>
+<executablePlan>
+<toolParameters>none</toolParameters>
+<triggersConditions/>
+<validateQA/>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</executablePlan>
+<planDefinition currency="EUR">
+<triggers>
+<trigger type="NEW_COLLECTION" active="false"/>
+<trigger type="PERIODIC_REVIEW" active="false"/>
+<trigger type="CHANGED_ENVIRONMENT" active="false"/>
+<trigger type="CHANGED_OBJECTIVE" active="false"/>
+<trigger type="CHANGED_COLLECTION_PROFILE" active="false"/>
+</triggers>
+<changelog created="2013-08-31T22:52:10" createdBy="scape.pw" changed="2013-08-31T22:52:10"/>
+</planDefinition>
+</plan>
+</plans>

@@ -27,6 +27,13 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.digester3.CallMethodRule;
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester3.NodeCreateRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.CollectionProfile;
@@ -100,13 +107,6 @@ import eu.scape_project.planning.xml.plan.SampleAggregationModeFactory;
 import eu.scape_project.planning.xml.plan.TransformationModeFactory;
 import eu.scape_project.planning.xml.plan.TriggerFactory;
 import eu.scape_project.planning.xml.plan.XMLDataWrapper;
-
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.digester3.CallMethodRule;
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.digester3.NodeCreateRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Creates preservation plans and templates from their XML representations.

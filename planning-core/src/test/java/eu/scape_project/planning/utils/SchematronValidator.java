@@ -16,7 +16,7 @@ import eu.scape_project.planning.xml.LocalURIResolver;
 public class SchematronValidator {
     
     
-    private static final String GEN_SCHEMATRON_XSLT = "schematron/iso_svrl_for_xslt2.xsl";
+    private static final String GEN_SCHEMATRON_XSLT = "schematron/iso_svrl_for_xslt1.xsl";
     
     public SchematronValidator(){
         

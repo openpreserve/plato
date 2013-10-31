@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Plato: Executable Plan
-      Version: 0.1
+      Version: 1.1
+      * added QLDs
+      * added id for executable plan
  -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:tav="http://taverna.sf.net/2008/xml/t2flow" targetNamespace="http://ifs.tuwien.ac.at/dp/plato" elementFormDefault="qualified" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:tav="http://taverna.sf.net/2008/xml/t2flow" targetNamespace="http://ifs.tuwien.ac.at/dp/plato" elementFormDefault="qualified" version="1.1">
 	<xs:import namespace="http://taverna.sf.net/2008/xml/t2flow" schemaLocation="t2flow.xsd"/>
 	<xs:element name="preservationActionPlan" type="PreservationActionPlan"/>
 	<xs:complexType name="PreservationActionPlan">
@@ -15,13 +17,13 @@
 				TBD: 
 				* More information on the preservation plan? 
 				* describe when the plan has to be applied (on ingest, to existing objects...)
-				* service level specifications (QA, performance,...)
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="collection" type="Collection"/>
 			<xs:element name="objects" type="Objects"/>
 			<xs:element name="executablePlan" type="ExecutablePlan"/>
+			<xs:element name="qualityLevelDescription" type="QualityLevelDescription" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="schemaVersion" type="Version1" />
 	</xs:complexType>
@@ -50,6 +52,14 @@
 		<xs:sequence/>
 		<xs:attribute name="uid" type="xs:string" use="required"/>
 	</xs:complexType>
+	<xs:complexType name="QualityLevelDescription">
+		<xs:annotation>
+			<xs:documentation>Quality Level Description for characterization and quality assurance outputs of the migrated object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any namespace="http://purl.oclc.org/dsdl/schematron" processContents="skip"></xs:any>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="ExecutablePlan">
 		<xs:annotation>
 			<xs:documentation> The executable plan itself, which can be applied to objects. </xs:documentation>
@@ -58,16 +68,14 @@
 			<xs:element ref="tav:workflow">
 				<xs:annotation>
 					<xs:documentation>
-						A taverna workflow adhering to a common interface:
-						input ports:  input_reference - a reference to the object to be migrated
-						output ports: output_reference - a reference to the migrated object
-										   additional output ports for measured criteria, e.g.: action.efficiency.timeBehaviour.timePerSample
-						TBD: interface for migrations from/to multiple objects  (1 - n, m - 1, m - n) e.g. multipage pdf to tiffs
+						A taverna workflow adhering to the SCAPE component profile Executable Plan
+						see: https://github.com/openplanets/scape-component-profiles/blob/master/profiles/MigrationExecutablePlanComponentProfile.xml
 				</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
 		<xs:attribute name="type" type="ExecutablePlanType"/>
+		<xs:attribute name="id" type="xs:string"/>
 	</xs:complexType>
 	<xs:simpleType name="ExecutablePlanType">
 		<xs:annotation>
