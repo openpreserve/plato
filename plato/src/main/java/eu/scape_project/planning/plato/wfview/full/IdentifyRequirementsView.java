@@ -158,7 +158,8 @@ public class IdentifyRequirementsView extends AbstractView {
     public void addLeaf(Object object) {
         if (object instanceof Node) {
             Node node = (Node) object;
-            identifyRequirements.addNewLeaf(node);
+            Leaf newLeaf = identifyRequirements.addNewLeaf(node);
+            requirementstreeHelper.expandNode(newLeaf);
         }
     }
 
@@ -171,7 +172,8 @@ public class IdentifyRequirementsView extends AbstractView {
     public void addNode(Object object) {
         if (object instanceof Node) {
             Node node = (Node) object;
-            identifyRequirements.addNewNode(node);
+            Node newNode = identifyRequirements.addNewNode(node);
+            requirementstreeHelper.expandNode(newNode);
         }
     }
 

@@ -107,7 +107,7 @@ public class IdentifyRequirements extends AbstractWorkflowStep {
         node.addChild(newNode);
         // this node has been changed()
         node.touch();
-        return node;
+        return newNode;
     }
 
     /**

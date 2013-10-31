@@ -84,12 +84,12 @@
 						<!-- tree-content -->
 						<div class="tree-content">
 							<rich:tree id="objectivetree-tree" var="node" immediate="true"
-								toggleType="client">
+								toggleType="ajax">
 								<rich:treeModelRecursiveAdaptor
 									roots="#{identifyRequirements.treeRoots}"
 									nodes="#{node.children}" leaf="#{node.leaf}"
 									id="objectivetree-model">
-									<rich:treeNode
+									<rich:treeNode id="node"
 										expanded="#{identifyRequirements.requirementstreeHelper.expandedNodes[node]}"
 										styleClass="tree-node">
 										<div class="tree-nodename input input-inline">
@@ -144,7 +144,7 @@
 														<rich:menuItem id="addNode" rendered="#{!node.leaf}"
 															action="#{identifyRequirements.addNode(node)}"
 															label="Add an inner node" onclick="changed();"
-															render="objectivetree-tree">
+																render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage name="gfx/treetable/add-node.png"
 																	width="16" height="16" />
