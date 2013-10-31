@@ -1,0 +1,24 @@
+{{<data/t2flow/processor}}
+{{$activities}}
+<activities>
+  <activity>
+    <raven>
+      <group>net.sf.taverna.t2.activities</group>
+      <artifact>stringconstant-activity</artifact>
+      <version>1.4</version>
+    </raven>
+    <class>net.sf.taverna.t2.activities.stringconstant.StringConstantActivity</class>
+    <inputMap />
+    <outputMap>
+      <map from="value" to="value" />
+    </outputMap>
+    <configBean encoding="xstream">
+      <net.sf.taverna.t2.activities.stringconstant.StringConstantConfigurationBean>
+        <value>{{value}}</value>
+      </net.sf.taverna.t2.activities.stringconstant.StringConstantConfigurationBean>
+    </configBean>
+    <annotations />
+  </activity>
+</activities>
+{{/activities}}
+{{/data/t2flow/processor}} 

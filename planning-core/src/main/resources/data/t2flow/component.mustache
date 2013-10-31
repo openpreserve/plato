@@ -1,0 +1,33 @@
+{{<data/t2flow/processor}}
+{{$activities}}
+<activities>
+  <activity>
+    <raven>
+      <group>net.sf.taverna.t2.component</group>
+      <artifact>component-activity</artifact>
+      <version>1.0.5</version>
+    </raven>
+    <class>net.sf.taverna.t2.component.ComponentActivity</class>
+    <inputMap>
+      {{#inputPorts}}
+      <map from="{{name}}" to="{{name}}" />
+      {{/inputPorts}}
+    </inputMap>
+    <outputMap>
+      {{#outputPorts}}
+      <map from="{{name}}" to="{{name}}" />
+      {{/outputPorts}}
+    </outputMap>
+    <configBean encoding="xstream">
+      <net.sf.taverna.t2.component.ComponentActivityConfigurationBean>
+        <registryBase>{{registryBase}}</registryBase>
+        <familyName>{{familyName}}</familyName>
+        <componentName>{{componentName}}</componentName>
+        <componentVersion>{{componentVersion}}</componentVersion>
+      </net.sf.taverna.t2.component.ComponentActivityConfigurationBean>
+    </configBean>
+    <annotations />
+  </activity>
+</activities>
+{{/activities}}
+{{/data/t2flow/processor}} 

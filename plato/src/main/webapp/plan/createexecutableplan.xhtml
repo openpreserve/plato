@@ -130,6 +130,10 @@
 							value="Download Executable Plan (Preservation Component)"
 							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}"
 							styleClass="default-button" />
+						<h:commandLink action="#{createExecutablePlan.downloadTemplate()}"
+							value="Download Executable Plan Template"
+							styleClass="default-button" />
+
 					</div>
 					<div id="uploadT2flowExecutablePlanPanel" class="sampleform">
 						<rich:fileUpload id="uploadT2flowExecutablePlan"

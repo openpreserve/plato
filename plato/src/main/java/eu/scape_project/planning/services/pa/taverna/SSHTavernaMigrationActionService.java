@@ -71,7 +71,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
         HashMap<String, Object> inputData = new HashMap<String, Object>();
 
         WorkflowDescription workflowDescription = MyExperimentRESTClient.getWorkflow(action.getDescriptor());
-        workflowDescription.readSemanticAnnotations();
+        workflowDescription.readMetadata();
         if (!workflowDescription.getProfile().equals("http://purl.org/DP/components#MigrationAction")) {
             result.setSuccessful(false);
             result.setReport("The workflow " + action.getUrl() + " is no MigrationAction.");

@@ -32,8 +32,13 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileUtils implements Serializable {
+/**
+ * File utilities.
+ */
+public final class FileUtils implements Serializable {
     private static final long serialVersionUID = -2554713564317100326L;
+
+    private static final int WRITE_BUFFER_SIZE = 1024;
 
     /**
      * Default separator between filename parts.
@@ -41,6 +46,13 @@ public class FileUtils implements Serializable {
     public static final String FILENAME_SEPARATOR = "-";
 
     private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
+
+    /**
+     * Private constructor to avoid instantiation.
+     */
+    private FileUtils() {
+        throw new AssertionError("Instantiating utility class.");
+    }
 
     /**
      * Returns a file handle for the resource with the given name.
@@ -66,8 +78,8 @@ public class FileUtils implements Serializable {
      *             if the data cannot be read
      */
     public static byte[] inputStreamToBytes(InputStream in) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-        byte[] buffer = new byte[1024];
+        ByteArrayOutputStream out = new ByteArrayOutputStream(WRITE_BUFFER_SIZE);
+        byte[] buffer = new byte[WRITE_BUFFER_SIZE];
         int len;
 
         try {
@@ -128,29 +140,48 @@ public class FileUtils implements Serializable {
         return bytes;
     }
 
+    /**
+     * Replaces the extension of the provided filename with a new extension.
+     * 
+     * @param filename
+     *            the filename to process
+     * @param newExtension
+     *            new extension to add
+     * @return the filename with new extension
+     */
     public static String replaceExtension(String filename, String newExtension) {
         return filename.substring(0, filename.lastIndexOf(".")) + "." + newExtension;
     }
 
     /**
-     * Creates a filen
+     * Creates a filename from the provided string.
      * 
      * @param value
-     * @return
+     *            the value to use
+     * @return the value as well-formed filename
      */
     public static String makeFilename(String value) {
         if (value == null) {
             return "";
         }
-        // \w .. [a-zA-Z_0-9]
-        return value.replaceAll("\\s", "_").replaceAll("[^\\w-]", "");
+        return value.replaceAll("\\s", "_").replaceAll("[^\\w-\\.]", "");
     }
 
+    /**
+     * Writes content from an input stream to the output stream.
+     * 
+     * @param in
+     *            input stream to read from
+     * @param out
+     *            output stream to write to
+     * @throws IOException
+     *             if an error occurred during write
+     */
     public static void writeToFile(InputStream in, OutputStream out) throws IOException {
         InputStream bufIn = new BufferedInputStream(in);
         OutputStream bufOut = new BufferedOutputStream(out);
         try {
-            byte[] buf = new byte[1024];
+            byte[] buf = new byte[WRITE_BUFFER_SIZE];
             int len;
             while ((len = bufIn.read(buf)) > 0) {
                 bufOut.write(buf, 0, len);

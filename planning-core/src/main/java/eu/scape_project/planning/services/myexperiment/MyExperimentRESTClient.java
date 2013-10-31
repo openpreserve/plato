@@ -748,6 +748,29 @@ public class MyExperimentRESTClient {
     }
 
     /**
+     * Gets the workflow content of a workflow identified by the provided
+     * workflowInfo.
+     * 
+     * @param workflowInfo
+     *            the workflow info
+     * @return the content of the workflow
+     */
+    public static String getWorkflowContent(WorkflowInfo workflowInfo) {
+        try {
+            LOG.debug("Querying myExperiment for workflow content for [{}]", workflowInfo.getContentUri());
+            return Client.create().resource(workflowInfo.getContentUri()).accept(workflowInfo.getContentType())
+                .get(String.class);
+        } catch (UniformInterfaceException e) {
+            if (e.getResponse().getStatus() == NOT_FOUND_STATUS) {
+                LOG.debug("Workflow resource [{}] not found", workflowInfo.getContentUri());
+                return null;
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    /**
      * Creates a descriptor URL based on the provided reference URL to a
      * workflow.
      * 

@@ -421,21 +421,45 @@ public class WorkflowDescription extends WorkflowInfo {
     private List<Installation> installations = null;
     private List<Port> inputPorts = null;
     private List<Port> outputPorts = null;
+    private String dataflowId = null;
 
     /**
-     * Reads semantic annotations making them available via the getter methods.
+     * Reads additional metadata making it available via the getter methods.
      */
-    public void readSemanticAnnotations() {
+    public void readMetadata() {
+        readDataflowId();
         readProfile();
         readInputPorts();
         readOutputPorts();
         readInstallations();
-
         readMigrationPaths();
     }
 
     /**
-     * Reads the profile of the top workflow.
+     * Reads the dataflow id of the top dataflow.
+     * 
+     * @throws XPathExpressionException
+     * @throws IOException
+     */
+    public void readDataflowId() {
+
+        dataflowId = "";
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    dataflowId = (String) xPath.evaluate("/components//dataflow[@role='top']/@id",
+                        doc.getDocumentElement(), XPathConstants.STRING);
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting dataflow id from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads the profile of the top dataflow.
      * 
      * @throws XPathExpressionException
      * @throws IOException
@@ -462,11 +486,9 @@ public class WorkflowDescription extends WorkflowInfo {
                         reader.close();
 
                         // @formatter:off
-                        String statement = 
-                              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                            + "PREFIX comp: <http://purl.org/DP/components#> "
-                            + "SELECT ?profile WHERE { "
-                            + "?wf comp:fits ?profile }"; 
+                        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                            + "PREFIX comp: <http://purl.org/DP/components#> " + "SELECT ?profile WHERE { "
+                            + "?wf comp:fits ?profile }";
                         // @formatter:on
 
                         Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
@@ -491,7 +513,7 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
-     * Reads the migration paths of the top workflow.
+     * Reads the migration paths of the top dataflow.
      * 
      * @throws XPathExpressionException
      * @throws IOException
@@ -518,12 +540,11 @@ public class WorkflowDescription extends WorkflowInfo {
                         reader.close();
 
                         // @formatter:off
-                        String statement = 
-                              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
                             + "PREFIX comp: <http://purl.org/DP/components#> "
                             + "SELECT ?sourceMimetype ?targetMimetype WHERE { "
-                            + "?migrationPath rdf:type comp:MigrationPath ." 
-                            + "?migrationPath comp:sourceMimetype ?sourceMimetype ." 
+                            + "?migrationPath rdf:type comp:MigrationPath ."
+                            + "?migrationPath comp:sourceMimetype ?sourceMimetype ."
                             + "?migrationPath comp:targetMimetype ?targetMimetype } ";
                         // @formatter:on
 
@@ -583,19 +604,17 @@ public class WorkflowDescription extends WorkflowInfo {
                     reader.close();
 
                     // @formatter:off
-                    String statement = 
-                          "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                    String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
                         + "PREFIX comp: <http://purl.org/DP/components#> "
                         + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
                         + "PREFIX cc: <http://creativecommons.org/ns#> "
                         + "SELECT ?installation ?environment ?depTitle ?depVersion ?depLicense WHERE { "
-                        + "?installation rdf:type comp:Installation ." 
+                        + "?installation rdf:type comp:Installation ."
                         + "OPTIONAL { ?installation comp:hasEnvironment ?environment } ."
                         + "OPTIONAL { ?installation comp:dependsOn ?dependency } ."
                         + "OPTIONAL { ?dependency skos:prefLabel ?depTitle } ."
                         + "OPTIONAL { ?dependency comp:dependencyVersion ?depVersion } ."
-                        + "OPTIONAL { ?dependency cc:license ?depLicense } . } "
-                        + "ORDER BY ?installation";
+                        + "OPTIONAL { ?dependency cc:license ?depLicense } . } " + "ORDER BY ?installation";
                     // @formatter:on
 
                     Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
@@ -648,7 +667,7 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
-     * Reads the input ports of the top workflow.
+     * Reads the input ports of the top dataflow.
      */
     public void readInputPorts() {
         inputPorts = new ArrayList<Port>();
@@ -676,7 +695,7 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
-     * Reads the output ports of the top workflow.
+     * Reads the output ports of the top dataflow.
      */
     public void readOutputPorts() {
         outputPorts = new ArrayList<Port>();
@@ -727,18 +746,13 @@ public class WorkflowDescription extends WorkflowInfo {
             model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
 
             // @formatter:off
-            String statement = 
-                  "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
                 + "PREFIX comp: <http://purl.org/DP/components#> "
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-                + "PREFIX cc: <http://creativecommons.org/ns#> "
-                + "SELECT ?port ?portType ?parameter WHERE { { "
-                + "  ?port comp:portType ?portType ."
-                + "} UNION { { "
-                + "    ?port comp:acceptsPredefinedParameter ?parameter"
-                + "  } MINUS { "
-                + "    ?port comp:portType comp:ParameterPort"
-                + "} } . }";
+                + "PREFIX cc: <http://creativecommons.org/ns#> " + "SELECT ?port ?portType ?parameter WHERE { { "
+                + "  ?port comp:portType ?portType ." + "} UNION { { "
+                + "    ?port comp:acceptsPredefinedParameter ?parameter" + "  } MINUS { "
+                + "    ?port comp:portType comp:ParameterPort" + "} } . }";
             // @formatter:on
 
             Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
@@ -784,15 +798,10 @@ public class WorkflowDescription extends WorkflowInfo {
      */
     private void addMeasures(Model model, Port port) {
         // @formatter:off
-        String statement = 
-              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX comp: <http://purl.org/DP/components#> "
-            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX cc: <http://creativecommons.org/ns#> "
-            + "SELECT ?port ?measure WHERE { { "
-            + "  ?port comp:acceptsMeasure ?measure ."
-            + "} UNION { "
-            + "  ?port comp:providesMeasure ?measure ."
+        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX comp: <http://purl.org/DP/components#> " + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX cc: <http://creativecommons.org/ns#> " + "SELECT ?port ?measure WHERE { { "
+            + "  ?port comp:acceptsMeasure ?measure ." + "} UNION { " + "  ?port comp:providesMeasure ?measure ."
             + "} }";
         // @formatter:on
 
@@ -823,14 +832,10 @@ public class WorkflowDescription extends WorkflowInfo {
      */
     private void addPredefinedParameters(Model model, Port port) {
         // @formatter:off
-        String statement = 
-              "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX comp: <http://purl.org/DP/components#> "
-            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX cc: <http://creativecommons.org/ns#> "
-            + "SELECT ?port ?value ?description WHERE { "
-            + "  ?port comp:acceptsPredefinedParameter ?parameter ."
-            + "  ?parameter comp:parameterValue ?value ."
+        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+            + "PREFIX comp: <http://purl.org/DP/components#> " + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX cc: <http://creativecommons.org/ns#> " + "SELECT ?port ?value ?description WHERE { "
+            + "  ?port comp:acceptsPredefinedParameter ?parameter ." + "  ?parameter comp:parameterValue ?value ."
             + "  ?parameter comp:parameterDescription ?description }";
         // @formatter:on
 
@@ -951,6 +956,10 @@ public class WorkflowDescription extends WorkflowInfo {
 
     public List<Element> getComponents() {
         return components;
+    }
+
+    public String getDataflowId() {
+        return dataflowId;
     }
 
     public String getProfile() {

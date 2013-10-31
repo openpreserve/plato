@@ -173,18 +173,16 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
      */
     public void generatePreservationActionPlan() throws PlanningException {
         try {
-            Document papDoc = generator.generatePreservationActionPlanDocument(
-                plan.getSampleRecordsDefinition().getCollectionProfile()
-                ,plan.getExecutablePlanDefinition()
-                ,plan);            
-            
+            Document papDoc = generator.generatePreservationActionPlanDocument(plan.getSampleRecordsDefinition()
+                .getCollectionProfile(), plan.getExecutablePlanDefinition(), plan);
+
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-                        
+
             OutputFormat outputFormat = OutputFormat.createPrettyPrint();
             outputFormat.setEncoding(PlanXMLConstants.ENCODING);
 
             XMLWriter writer = new XMLWriter(out, outputFormat);
-            
+
             writer.write(papDoc);
             writer.close();
 

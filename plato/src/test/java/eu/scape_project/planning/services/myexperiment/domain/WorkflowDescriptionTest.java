@@ -31,7 +31,7 @@ public class WorkflowDescriptionTest {
             .getResourceAsStream("myexperiment/workflow-description-migrationaction.xml");
 
         WorkflowDescription wf = (WorkflowDescription) unmarshaller.unmarshal(in);
-        wf.readSemanticAnnotations();
+        wf.readMetadata();
 
         Assert.assertEquals(new URI("http://sandbox.myexperiment.org/workflow.xml?id=3372"), wf.getUri());
         Assert.assertEquals(new URI("http://sandbox.myexperiment.org/workflows/3372/versions/1"), wf.getResource());

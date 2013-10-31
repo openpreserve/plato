@@ -1,0 +1,28 @@
+{{<data/t2flow/processor}}
+{{$activities}}
+<activities>
+  <activity>
+    <raven>
+      <group>net.sf.taverna.t2.activities</group>
+      <artifact>dataflow-activity</artifact>
+      <version>1.4</version>
+    </raven>
+    <class>net.sf.taverna.t2.activities.dataflow.DataflowActivity</class>
+    <inputMap>
+      {{#inputPorts}}
+      <map from="{{name}}" to="{{name}}" />
+      {{/inputPorts}}
+    </inputMap>
+    <outputMap>
+      {{#outputPorts}}
+      <map from="{{name}}" to="{{name}}" />
+      {{/outputPorts}}
+    </outputMap>
+    <configBean encoding="dataflow">
+      <dataflow ref="{{id}}" />
+    </configBean>
+    <annotations />
+  </activity>
+</activities>
+{{/activities}}
+{{/data/t2flow/processor}} 

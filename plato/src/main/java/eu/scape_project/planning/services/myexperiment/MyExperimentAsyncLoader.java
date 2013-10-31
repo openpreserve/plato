@@ -52,7 +52,7 @@ public class MyExperimentAsyncLoader implements Serializable {
         log.debug("Loading details of service [{}].", descriptor);
         WorkflowDescription wf = MyExperimentRESTClient.getWorkflow(descriptor);
         if (wf != null) {
-            wf.readSemanticAnnotations();
+            wf.readMetadata();
         }
         return new AsyncResult<WorkflowDescription>(wf);
     }

@@ -1,0 +1,99 @@
+<processor>
+  <name>{{name}}</name>
+  <inputPorts>
+    {{#inputPorts}}
+    <port>
+      <name>{{name}}</name>
+      <depth>{{depth}}</depth>
+    </port>
+    {{/inputPorts}}
+  </inputPorts>
+  <outputPorts>
+    {{#outputPorts}}
+    <port>
+      <name>{{name}}</name>
+      <depth>{{depth}}</depth>
+      <granularDepth>0</granularDepth>
+    </port>
+    {{/outputPorts}}
+  </outputPorts>
+  <annotations />
+  {{$activities}}
+  <activities />
+  {{/activities}}
+  <dispatchStack>
+    <dispatchLayer>
+      <raven>
+        <group>net.sf.taverna.t2.core</group>
+        <artifact>workflowmodel-impl</artifact>
+        <version>1.4</version>
+      </raven>
+      <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Parallelize</class>
+      <configBean encoding="xstream">
+        <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+          <maxJobs>1</maxJobs>
+        </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+      </configBean>
+    </dispatchLayer>
+    <dispatchLayer>
+      <raven>
+        <group>net.sf.taverna.t2.core</group>
+        <artifact>workflowmodel-impl</artifact>
+        <version>1.4</version>
+      </raven>
+      <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ErrorBounce</class>
+      <configBean encoding="xstream">
+        <null />
+      </configBean>
+    </dispatchLayer>
+    <dispatchLayer>
+      <raven>
+        <group>net.sf.taverna.t2.core</group>
+        <artifact>workflowmodel-impl</artifact>
+        <version>1.4</version>
+      </raven>
+      <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Failover</class>
+      <configBean encoding="xstream">
+        <null />
+      </configBean>
+    </dispatchLayer>
+    <dispatchLayer>
+      <raven>
+        <group>net.sf.taverna.t2.core</group>
+        <artifact>workflowmodel-impl</artifact>
+        <version>1.4</version>
+      </raven>
+      <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Retry</class>
+      <configBean encoding="xstream">
+        <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+          <backoffFactor>1.0</backoffFactor>
+          <initialDelay>1000</initialDelay>
+          <maxDelay>5000</maxDelay>
+          <maxRetries>0</maxRetries>
+        </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+      </configBean>
+    </dispatchLayer>
+    <dispatchLayer>
+      <raven>
+        <group>net.sf.taverna.t2.core</group>
+        <artifact>workflowmodel-impl</artifact>
+        <version>1.4</version>
+      </raven>
+      <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class>
+      <configBean encoding="xstream">
+        <null />
+      </configBean>
+    </dispatchLayer>
+  </dispatchStack>
+  <iterationStrategyStack>
+    <iteration>
+      <strategy>
+        <cross>
+          {{#inputPorts}}
+          <port name="{{name}}" depth="{{depth}}" />
+          {{/inputPorts}}
+        </cross>
+      </strategy>
+    </iteration>
+  </iterationStrategyStack>
+</processor>

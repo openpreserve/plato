@@ -112,7 +112,7 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
 
         // Get description
         WorkflowDescription workflowDescription = MyExperimentRESTClient.getWorkflow(service.getDescriptor());
-        workflowDescription.readSemanticAnnotations();
+        workflowDescription.readMetadata();
 
         if (!workflowDescription.getProfile().equals("http://purl.org/DP/components#Characterisation")
             && !workflowDescription.getProfile().equals("http://purl.org/DP/components#QAObjectComparison")) {
