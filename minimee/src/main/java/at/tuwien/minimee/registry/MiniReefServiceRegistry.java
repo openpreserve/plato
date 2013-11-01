@@ -29,9 +29,9 @@ import at.tuwien.minireef.ResultSet;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.services.action.IActionInfo;
-import eu.scape_project.planning.services.action.IPreservationActionRegistry;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.action.ActionInfo;
+import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
         return "";
     }
 
-    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+    public List<IServiceInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
 
         String statement = "SELECT distinct ?swname ?swversion ?formatname ?formatversion ?released ?vendorname "
             + "WHERE { ?sw ?link1 ?format . "
@@ -94,7 +94,7 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
         params.put("PUID", puid);
 
         ResultSet resultSet = MiniREEFResolver.getInstance().resolve(statement, params);
-        ArrayList<IActionInfo> result = new ArrayList<IActionInfo>();
+        ArrayList<IServiceInfo> result = new ArrayList<IServiceInfo>();
 
         if (resultSet == null) {
             // this should not happen if MiniREEF is properly configured

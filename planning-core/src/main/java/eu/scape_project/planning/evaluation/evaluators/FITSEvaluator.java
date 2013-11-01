@@ -160,12 +160,12 @@ public class FITSEvaluator implements IObjectEvaluator {
                         // new BooleanScale());
                     } else if (MeasureConstants.COMPRESSION_COMPRESSION_TYPE.equals(measureUri)) {
                         v = new OrdinalValue();
-                        if ((resultImageCompressionScheme == null) || 
-                            ("".equals(resultImageCompressionScheme)) ||
-                            ("None".equals(resultImageCompressionScheme)) ||
-                            ("Uncompressed".equals(resultImageCompressionScheme))) {
+                        if ((resultImageCompressionScheme == null) || ("".equals(resultImageCompressionScheme))
+                            || ("None".equals(resultImageCompressionScheme))
+                            || ("Uncompressed".equals(resultImageCompressionScheme))) {
                             v.parse("none");
-                        } else if ("LZW".equals(resultImageCompressionScheme) || "Deflate".equals(resultImageCompressionScheme)) {
+                        } else if ("LZW".equals(resultImageCompressionScheme)
+                            || "Deflate".equals(resultImageCompressionScheme)) {
                             v.parse("lossless");
                         } else {
                             v.parse("lossy");
@@ -242,20 +242,6 @@ public class FITSEvaluator implements IObjectEvaluator {
                         String resultValue = extractor.extractText(fitsDocResult,
                             "//fits:ImageCreation/DateTimeCreated/text()");
                         v = identicalValues(sampleValue, resultValue, new BooleanScale());
-                        // FIXME
-                        // } else if
-                        // ((MeasureConstants.OBJECT_IMAGE_METADATA_LASTMODIFIED
-                        // + "#equal").equals(measureUri)) {
-                        // String sampleValue = extractor
-                        // .extractText(fitsDocSample,
-                        // "//fits:fileinfo/lastmodified/text()");
-                        // String resultValue = extractor
-                        // .extractText(fitsDocResult,
-                        // "//fits:fileinfo/lastmodified/text()");
-                        // v = identicalValues(sampleValue, resultValue, new
-                        // BooleanScale());
-                        // // FIXME only a criterion for EXIF IDF0 image
-                        // // description is defined
                     } else if ((MeasureConstants.EXIF_IMAGE_DESCRIPTION_RETAINED + "#equal").equals(measureUri)) {
                         String sampleValue = extractor.extractText(fitsDocSample,
                             "//fits:exiftool/ImageDescription/text()");

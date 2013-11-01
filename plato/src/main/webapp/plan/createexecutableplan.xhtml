@@ -120,22 +120,22 @@
 					Executable Plan (Preservation Component)
 				</legend>
 				<a4j:outputPanel id="executablePlan">
-					<div>
-						<input type="button"
+					<div class="multi-buttons">
+						<input
 							onclick="$('#uploadT2flowExecutablePlanPanel').toggle('normal');"
-							value="Upload Executable Plan (Preservation Component)" />
-						<h:commandButton
+							value="Upload Executable Plan (Preservation Component)"
+							type="button" />
+						<h:commandLink
 							action="#{createExecutablePlan.download(createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan)}"
 							value="Download Executable Plan (Preservation Component)"
-							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}" />
+							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}"
+							styleClass="default-button" />
 					</div>
 					<div id="uploadT2flowExecutablePlanPanel" class="sampleform">
 						<rich:fileUpload id="uploadT2flowExecutablePlan"
 							fileUploadListener="#{createExecutablePlan.uploadT2flowExecutablePlan}"
-							acceptedTypes="t2flow" allowFlash="true">
-							<a4j:ajax event="uploadcomplete" execute="@none"
-								render="executablePlan preservationActionPlan" />
-						</rich:fileUpload>
+							acceptedTypes="t2flow"
+							render="executablePlan preservationActionPlan" />
 					</div>
 				</a4j:outputPanel>
 			</fieldset>
@@ -145,17 +145,22 @@
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					Preservation Action Plan
 				</legend>
-				<a4j:outputPanel id="preservationActionPlan">
-					<div>
-						<h:commandButton
-							action="#{createExecutablePlan.generatePreservationActionPlan()}"
-							value="Generate Preservation Action Plan"
-							rendered="#{createExecutablePlan.papGenerationPossible}" />
-						<h:commandButton
-							action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
-							value="Download Preservation Action Plan"
-							rendered="#{createExecutablePlan.plan.preservationActionPlan != null and createExecutablePlan.plan.preservationActionPlan.dataExistent}" />
-					</div>
+				<a4j:outputPanel id="preservationActionPlan"
+					styleClass="mutli-button">
+					<a4j:commandButton
+						action="#{createExecutablePlan.generatePreservationActionPlan()}"
+						value="Generate Preservation Action Plan"
+						rendered="#{createExecutablePlan.papGenerationPossible}"
+						type="button" />
+					<h:commandLink
+						action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
+						value="Download Preservation Action Plan"
+						rendered="#{createExecutablePlan.plan.preservationActionPlan != null and createExecutablePlan.plan.preservationActionPlan.dataExistent}"
+						styleClass="default-button" />
+				</a4j:outputPanel>
+				<a4j:outputPanel
+					rendered="#{not createExecutablePlan.papGenerationPossible}">
+					To generate a preservation action plan, please add a collection profile and executable plan.
 				</a4j:outputPanel>
 			</fieldset>
 

@@ -119,6 +119,5 @@ public class PCDLEvaluator implements IActionEvaluator {
 
     private void addExtractionPaths() {
         extractionPaths.put(MeasureConstants.LICENCING_SCHEMA, "//Licensing/Schema/text()");
-//        extractionPaths.put(MeasureConstants.ACTION_LICENSE, "//Licensing/License/text()");
     }
 }

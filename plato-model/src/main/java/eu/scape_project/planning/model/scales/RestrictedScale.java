@@ -26,32 +26,29 @@ import javax.persistence.Transient;
 
 import eu.scape_project.planning.validation.ValidationError;
 
-
 @Entity
 @DiscriminatorValue("E")
 public abstract class RestrictedScale extends Scale {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1729926168748385807L;
+
     /**
      * This field is only used for the annotation, to prevent hibernate from
      * trying to persist the field. The point is we need the getter and setter.
-     * Handling is done differently depending on the subclass, which have to take care
-     * of persisting the restriction settings themselves
+     * Handling is done differently depending on the subclass, which have to
+     * take care of persisting the restriction settings themselves
      */
     @Transient
     private String restriction;
 
     public abstract void setRestriction(String restriction);
-    
+
     public abstract String getRestriction();
 
     /**
-     * This returns a String for displaying the restriction settings in a readable form
+     * This returns a String for displaying the restriction settings in a
+     * readable form
      */
     public abstract String getReadableRestriction();
-
 
     @Override
     public boolean isRestricted() {
@@ -59,8 +56,8 @@ public abstract class RestrictedScale extends Scale {
     }
 
     /**
-     * There are some scales with predefined restrictions - their restrictions must not be changed.
-     * This field indicates that.
+     * There are some scales with predefined restrictions - their restrictions
+     * must not be changed. This field indicates that.
      */
     @Transient
     protected boolean immutableRestriction = false;
@@ -75,15 +72,13 @@ public abstract class RestrictedScale extends Scale {
     }
 
     @Override
-    public boolean isCorrectlySpecified(String leafName,
-            List<ValidationError> errors) {
+    public boolean isCorrectlySpecified(String leafName, List<ValidationError> errors) {
         return this.restrictionIsValid(leafName, errors);
     }
 
     /**
      * Returns true if the restriction is correctly specified.
      */
-    protected abstract boolean restrictionIsValid(String leafName,
-            List<ValidationError> errors);
- 
+    protected abstract boolean restrictionIsValid(String leafName, List<ValidationError> errors);
+
 }

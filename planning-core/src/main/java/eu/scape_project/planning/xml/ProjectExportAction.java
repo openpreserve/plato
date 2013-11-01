@@ -46,7 +46,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.codec.binary.Base64OutputStream;
+import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
 import org.dom4j.Document;
@@ -450,12 +450,12 @@ public class ProjectExportAction implements Serializable {
             writer.writeStartElement("data");
             writer.writeAttribute("id", "" + id);
 
-            // create an encoding output stream which writes to the XMLStreamWriter-content
-            Base64OutputStream base64EncodingOut = new Base64OutputStream(new WriterOutputStream(new XMLStreamContentWriter(writer) , PlanXMLConstants.ENCODING), true, PlanXMLConstants.BASE64_LINE_LENGTH, PlanXMLConstants.BASE64_LINE_BREAK);
+            Base64InputStream base64EncodingIn = new Base64InputStream( data, true, PlanXMLConstants.BASE64_LINE_LENGTH, PlanXMLConstants.BASE64_LINE_BREAK);
             
-            // read the binary data and write it encoded to the stream
-            IOUtils.copy(data, base64EncodingOut);
-            base64EncodingOut.flush();
+            OutputStream out = new WriterOutputStream(new XMLStreamContentWriter(writer) , PlanXMLConstants.ENCODING);
+            // read the binary data and encode it on the fly
+            IOUtils.copy(base64EncodingIn, out);
+            out.flush();
             
             // all data is written - end 
             writer.writeEndElement();

@@ -38,7 +38,7 @@ public class PlanXMLConstants {
     public static final String PLATO_SCHEMA = "plato-V4.xsd";
     public static final String PLATO_SCHEMA_LOCATION = SCHEMA_LOCATION + PLATO_SCHEMA;
     public static final String PLATO_SCHEMA_URI = PLATO_NS + "/" + PLATO_SCHEMA;
-    public static final String PLATO_SCHEMA_VERSION = "4.0.1";
+    public static final String PLATO_SCHEMA_VERSION = "4.0.2";
     
     
     public static final String PAP_SCHEMA = "preservationActionPlan-V1.xsd";

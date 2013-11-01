@@ -57,6 +57,20 @@ public class AlternativesDefinitionTest {
 
         assertEquals(3, alternativesDefinition.getAlternatives().size());
     }
+    
+    @Test(expected = PlanningException.class)
+    public void addAlternative_addNewAlternativeWithLeadingWhitespaceThrowsException() throws PlanningException {
+        // new alternative
+        Alternative altToAdd = new Alternative(" name", "trailing whitespace");
+        alternativesDefinition.addAlternative(altToAdd);
+    }
+    
+    @Test(expected = PlanningException.class)
+    public void addAlternative_addNewAlternativeWithTrailingWhitespaceThrowsException() throws PlanningException {
+        // new alternative
+        Alternative altToAdd = new Alternative("name ", "trailing whitespace");
+        alternativesDefinition.addAlternative(altToAdd);
+    }
 
     @Test
     public void renameAlternative_renameAlternativeToTheSameNameDoesNothing() throws PlanningException {
@@ -107,6 +121,30 @@ public class AlternativesDefinitionTest {
         alternativesDefinition.renameAlternative(alt2, "newName");
 
         assertEquals("newName", alt2.getName());
+    }
+    
+    @Test(expected = PlanningException.class)
+    public void renameAlternative_renameAlternativeToLeadingWhitespaceThrowsException() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        alternativesDefinition.renameAlternative(alt2, " newName");
+    }
+    
+    @Test(expected = PlanningException.class)
+    public void renameAlternative_renameAlternativeToTrailingWhitespaceThrowsException() throws PlanningException {
+        // existing alternatives
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        Alternative alt2 = new Alternative("alt2", "alt2");
+
+        alternativesDefinition.addAlternative(alt1);
+        alternativesDefinition.addAlternative(alt2);
+
+        alternativesDefinition.renameAlternative(alt2, "newName ");
     }
 
 }

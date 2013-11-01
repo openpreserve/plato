@@ -80,7 +80,7 @@
 					<includes>
 						<include>**/*.class</include>
 					</includes>
-					<excludedGroups>eu.scape_project.planning.annotation.IntegrationTest,eu.scape_project.planning.annotation.SeleniumTest</excludedGroups>
+					<excludedGroups>eu.scape_project.planning.annotation.ManualTest,eu.scape_project.planning.annotation.IntegrationTest,eu.scape_project.planning.annotation.SeleniumTest</excludedGroups>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -193,25 +193,20 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
-
-		<!-- RODA-Client dependencies -->
-		<dependency>
-			<groupId>pt.gov.dgarq.roda</groupId>
-			<artifactId>roda-client</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>saxon</artifactId>
-					<groupId>net.sf.saxon</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-configuration</artifactId>
-					<groupId>commons-configuration</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+		
+ 		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>1.13</version>
+		</dependency>		
+  		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.13</version>
+		</dependency>		
 
 	</dependencies>
+	
 	<profiles>
 		<profile>
 			<!-- To speed up unit tests on Travis we exclude sources which depend 
@@ -345,7 +340,7 @@
 							<includes>
 								<include>**/*.java</include>
 							</includes>
-<!-- 							<excludedGroups>eu.scape_project.planning.annotation.IntegrationTest</excludedGroups> -->
+							<!-- <excludedGroups>eu.scape_project.planning.annotation.IntegrationTest</excludedGroups> -->
 						</configuration>
 						<executions>
 							<execution>
@@ -436,7 +431,7 @@
 					<artifactId>arquillian-protocol-servlet</artifactId>
 					<scope>test</scope>
 				</dependency>
- 				<dependency>
+				<dependency>
 					<groupId>org.jboss.weld</groupId>
 					<artifactId>weld-core</artifactId>
 					<version>1.1.13.Final</version>

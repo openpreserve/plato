@@ -38,7 +38,7 @@ import eu.scape_project.planning.plato.ExperimentRunner;
 import eu.scape_project.planning.plato.bean.ExperimentStatus;
 
 /**
- * Business logic for workflow step Run Experiments
+ * Business logic for workflow step Run Experiments.
  * 
  * @author Markus Hamm, Michael Kraxner
  */
@@ -181,7 +181,7 @@ public class RunExperiments extends AbstractWorkflowStep {
         plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(),
             plan.getSampleRecordsDefinition().getRecords().size());
 
-        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
+        plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
         saveEntity(plan.getTree());
     }
 }

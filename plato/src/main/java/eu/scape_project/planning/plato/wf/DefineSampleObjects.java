@@ -17,7 +17,6 @@
 package eu.scape_project.planning.plato.wf;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -50,6 +49,7 @@ import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.repository.RODAConnector;
+import eu.scape_project.planning.repository.SCAPEDataConnectorClient;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.utils.Helper;
 import eu.scape_project.planning.utils.ParserException;
@@ -227,15 +227,21 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         this.storeProfile(name, bsData);
 
         log.info("processing sample objects information");
-        RODAConnector roda = new RODAConnector();
-        Map<String,String> config = new HashMap<String,String>() {{
-            put(RODAConnector.ENDPOINT_KEY , repositoryURL);
-            put(RODAConnector.USER_KEY , repositoryUser);
-            put(RODAConnector.PASS_KEY , repositoryPassword);
-        }};        
-        roda.updateConfig(config);
+        RepositoryConnectorApi repo;
+        if (Helper.isRODAidentifier(repositoryURL)) {
+            RODAConnector roda = new RODAConnector();
+            Map<String,String> config = new HashMap<String,String>() {{
+                put(RODAConnector.ENDPOINT_KEY , repositoryURL);
+                put(RODAConnector.USER_KEY , repositoryUser);
+                put(RODAConnector.PASS_KEY , repositoryPassword);
+            }};        
+            roda.updateConfig(config);
+            repo = roda;
+        } else {
+            repo = new SCAPEDataConnectorClient(repositoryURL, repositoryUser, repositoryPassword);
+        }
         this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
-        this.processSamples(roda, samples);
+        this.processSamples(repo, samples);
 
         CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
         profile.setCollectionID(id + "?" + key);
@@ -308,8 +314,28 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         for (SampleObject sample : samples) {
             String uid = sample.getFullname();
 
-            if (Helper.isRODAidentifier(uid)) {
-                log.info("Sample object is from a RODA instance. Downloading {}", uid);
+            if (Helper.isLocalIdentifier(uid)) {
+                log.info("Sample object is from local filesystem {}", uid);
+                try {
+                    InputStream sampleStream = new FileInputStream((new URL(uid)).getFile());
+                    ByteStream bsSample = this.convertToByteStream(sampleStream);
+                    sample.setData(bsSample);
+
+                    digitalObjectManager.moveDataToStorage(sample);
+                    addedBytestreams.add(sample.getPid());
+
+                    plan.getSampleRecordsDefinition().addRecord(sample);
+
+                    if (shouldCharacterise(sample)) {
+                        characteriseFits(sample, false);
+                    }
+                } catch (FileNotFoundException e) {
+                    log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
+                } catch (MalformedURLException e) {
+                    log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
+                }
+            } else {                
+                log.info("Sample object is from repository {}. Downloading {}", repo.getRepositoryIdentifier(), uid);
                 try {
                     InputStream sampleStream = repo.downloadFile(uid);
                     ByteStream bsSample = this.convertToByteStream(sampleStream);
@@ -318,34 +344,13 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
                     digitalObjectManager.moveDataToStorage(sample);
                     addedBytestreams.add(sample.getPid());
 
+                    plan.getSampleRecordsDefinition().addRecord(sample);
+
                     if (shouldCharacterise(sample)) {
                         characteriseFits(sample, false);
                     }
                 } catch (RepositoryConnectorException e) {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
-                }
-                plan.getSampleRecordsDefinition().addRecord(sample);
-            } else {
-                if (uid.startsWith("file:/")) {
-                    log.info("Sample object is from local filesystem {}", uid);
-                    try {
-                        InputStream sampleStream = new FileInputStream((new URL(uid)).getFile());
-                        ByteStream bsSample = this.convertToByteStream(sampleStream);
-                        sample.setData(bsSample);
-
-                        digitalObjectManager.moveDataToStorage(sample);
-                        addedBytestreams.add(sample.getPid());
-
-                        if (shouldCharacterise(sample)) {
-                            characteriseFits(sample, false);
-                        }
-                    } catch (FileNotFoundException e) {
-                        log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
-                    } catch (MalformedURLException e) {
-                        log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
-                    }
-                    plan.getSampleRecordsDefinition().addRecord(sample);
-                    
                 }
             }
         }

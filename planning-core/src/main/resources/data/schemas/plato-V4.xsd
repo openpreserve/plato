@@ -9,6 +9,8 @@
  www.planets-project.eu
  www.ifs.tuwien.ac.at/dp 
 
+ Changes in V4.0.2:
+  * added optional attribute: repositoryidentifier to projectPropertiesType
  Changes in V4.0.1:
   * added freeStringResultType, corrected reference to intRangeResultType, intRangeValueType
  
@@ -25,7 +27,7 @@
     The version attribute of this schema reflects the exact version of corresponding plans. 
  
  -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ifs.tuwien.ac.at/dp/plato" targetNamespace="http://ifs.tuwien.ac.at/dp/plato" elementFormDefault="qualified" version="4.0.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ifs.tuwien.ac.at/dp/plato" targetNamespace="http://ifs.tuwien.ac.at/dp/plato" elementFormDefault="qualified" version="4.0.2">
 	<xs:include schemaLocation="preservationActionPlan-V1.xsd"/>
 	<xs:element name="plans" type="Plans"/>
 	<xs:complexType name="Plans">
@@ -294,6 +296,7 @@
 		<xs:attribute name="privateProject" type="xs:boolean"/>
 		<xs:attribute name="reportPublic" type="xs:boolean"/>
 		<xs:attribute name="planType" type="planTypeType" use="required"/>
+		<xs:attribute name="repositoryIdentifier" type="xs:string"/>
 	</xs:complexType>
 	<xs:complexType name="projectBasisType">
 		<xs:all>

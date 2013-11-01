@@ -1,25 +1,18 @@
 <preservationActionConfig>
-<preservationActionRegistries>
-    <registry>
-        <shortname>myExperiment</shortname>
-        <logo>/resources/gfx/logos/myExperiment.png</logo>
-        <type>eu.scape_project.planning.services.pa.taverna.ComponentRegistry</type>
-        <url>http://www.myexperiment.org/</url>
-        <active>true</active>       
-    </registry>
-    <registry>
-        <shortname>MiniMEE</shortname>
-        <logo>/resources/gfx/logos/minimee.png</logo>
-        <type>at.tuwien.minimee.registry.MiniMeeServiceRegistry</type>
-        <url></url>
-        <active>true</active>       
-    </registry>
-	 <registry>
-        <shortname>MiniREEF</shortname>
-        <logo>/resources/gfx/logos/p2.png</logo>
-        <type>at.tuwien.minimee.registry.MiniReefServiceRegistry</type>
-        <url></url>
-        <active>true</active>       
-    </registry>
-</preservationActionRegistries>
+	<preservationActionRegistries>
+		<registry>
+			<shortname>MiniMEE</shortname>
+			<logo>/resources/gfx/logos/minimee.png</logo>
+			<type>at.tuwien.minimee.registry.MiniMeeServiceRegistry</type>
+			<url></url>
+			<active>true</active>
+		</registry>
+		<registry>
+			<shortname>MiniREEF</shortname>
+			<logo>/resources/gfx/logos/p2.png</logo>
+			<type>at.tuwien.minimee.registry.MiniReefServiceRegistry</type>
+			<url></url>
+			<active>true</active>
+		</registry>
+	</preservationActionRegistries>
 </preservationActionConfig>

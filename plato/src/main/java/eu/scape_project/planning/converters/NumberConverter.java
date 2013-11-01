@@ -26,7 +26,7 @@ import javax.faces.convert.ConverterException;
 
 /**
  * Converter responsible for transforming between input number as double and its
- * string representation
+ * string representation.
  * 
  * @author Hannes Kulovits, Markus Hamm
  */
@@ -38,14 +38,18 @@ public class NumberConverter implements Converter, Serializable {
      * Method responsible for converting the given input string to the wanted
      * double number.
      * 
+     * @param context
+     *            FacesContext for the request being processed
+     * @param component
+     *            UIComponent with which this model object value is associated
      * @param value
      *            Input string to be converted.
-     * 
      * @throws ConverterException
      *             if the input cannot be converted to double.
      * @return Input converted to double value.
      * 
      */
+    @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         // no value provided
         if (value == null || value.trim().length() == 0) {
@@ -85,11 +89,16 @@ public class NumberConverter implements Converter, Serializable {
      * Method responsible for converting a double value to the representative
      * display string.
      * 
+     * @param context
+     *            FacesContext for the request being processed
+     * @param component
+     *            UIComponent with which this model object value is associated
      * @param value
      *            Integer or Double representation of the entered value.
      * 
      * @return String representation of the value for user display.
      */
+    @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value == null) {
             return "";

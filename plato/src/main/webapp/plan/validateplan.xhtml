@@ -42,9 +42,11 @@
 
 			<h:form>
 				<div id="future_in_menu_bar"></div>
-				<h:commandButton
+				<a4j:commandButton id="switch-changelog"
 					value="#{validatePlan.displayChangelogs? 'Hide' : 'Show' } Changelogs"
-					action="#{validatePlan.switchDisplayChangelogs}" />
+					action="#{validatePlan.switchDisplayChangelogs}"
+					render="switch-changelog, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evalTransformForm"
+					type="button" />
 			</h:form>
 		</div>
 		<div class="component">
@@ -693,7 +695,7 @@
 				<a4j:commandButton
 					value="#{validatePlan.displayEvalTransform? 'Hide' : 'Show'} Evaluation &amp; Transformation"
 					action="#{validatePlan.switchDisplayEvalTransform}"
-					render="evalTransformForm requirements" />
+					render="evalTransformForm requirements" type="button" />
 
 				<ui:fragment rendered="#{validatePlan.displayEvalTransform}">
 

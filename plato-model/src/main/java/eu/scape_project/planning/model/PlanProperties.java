@@ -32,8 +32,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
- * Holds attributes of a preservation project. Attributes such as the projects
- * author or whether the project is read-only.
+ * Holds attributes of a preservation plan. Attributes such as the plans
+ * author or whether the plan is read-only.
  * 
  * @author Hannes Kulovits
  */
@@ -46,6 +46,11 @@ public class PlanProperties implements Serializable, ITouchable {
     @GeneratedValue
     private int id;
 
+    /**
+     * Identifies this plan in a repository.
+     */
+    private String repositoryIdentifier;
+    
     /**
      * Author of the preservation project.
      */
@@ -289,5 +294,13 @@ public class PlanProperties implements Serializable, ITouchable {
 
     public void setPlanType(PlanType planType) {
         this.planType = planType;
+    }
+
+    public String getRepositoryIdentifier() {
+        return repositoryIdentifier;
+    }
+
+    public void setRepositoryIdentifier(String repositoryIdentifier) {
+        this.repositoryIdentifier = repositoryIdentifier;
     }
 }

@@ -153,11 +153,10 @@
 									render="characterizationPanel" style="vertical-align: middle;" />
 							</div>
 							<div class="margin-top-big margin-bottom-big">
-								<a4j:commandButton id="cbutton#{row.id}"
-									rendered="#{defineSampleRecords.allowRemove != row.id}"
-									value="Remove sample"
+								<a4j:commandButton id="cbutton#{row.id}" value="Remove sample"
 									action="#{defineSampleRecords.askRemoveSample(row)}"
-									render="sampleRecordsList" execute="@this" />
+									rendered="#{defineSampleRecords.allowRemove != row.id}"
+									execute="@this" onclick="changed();" render="sampleRecordsList" />
 								<h:outputText
 									rendered="#{defineSampleRecords.allowRemove == row.id}"
 									value="This sample has associated evaluation values. These will be removed as well. Are you sure?"
@@ -166,7 +165,7 @@
 									rendered="#{defineSampleRecords.allowRemove == row.id}"
 									value="Yes, remove it."
 									action="#{defineSampleRecords.removeSample(row)}"
-									onclick="changed()" render="sampleRecordsList" />
+									onclick="changed();" render="sampleRecordsList" />
 							</div>
 						</h:column>
 					</h:dataTable>
@@ -185,39 +184,24 @@
 						objects, manually fill in the sample information or upload a c3po
 						xml profile.</p>
 				</div>
-				<div id="sampleactions">
+				<div id="sampleactions" class="multi-buttons">
 					<a4j:commandButton value="Add sample" id="addRecord"
 						action="#{defineSampleRecords.newSample}" onclick="changed()"
 						render="sampleRecordsList" />
-					<input onclick="renderUploadForm('sample')" type="button"
-						value="Upload sample" /> <input
-						onclick="renderUploadForm('profile')" type="button"
-						value="Upload profile" />
+					<input
+						onclick="$('#uploadSample').toggle('normal');$('#uploadProfile').hide('normal');"
+						type="button" value="Upload sample" /> <input
+						onclick="$('#uploadSample').hide('normal');$('#uploadProfile').toggle('normal');"
+						type="button" value="Upload profile" />
 				</div>
-				<script type="text/javascript">
-					function renderUploadForm(id) {
-						//toggles the upload forms
-						var form;
-						if (id == 'sample') {
-							form = $('#uploadSample');
-							
-						} else if (id == 'profile'){
-							form = $('#uploadProfile');
-						}
-						
-						$(form).toggle('normal');
-					}
-		        </script>
 				<div id="sampleforms">
 					<div id="uploadSample" class="sampleform">
 						<h3>Upload Sample</h3>
 						<rich:fileUpload
-							fileUploadListener="#{defineSampleRecords.listener}"
-							allowFlash="false">
-							<a4j:ajax event="uploadcomplete" execute="@none"
-								render="sampleRecordsList" />
-						</rich:fileUpload>
+							fileUploadListener="#{defineSampleRecords.uploadSample}"
+							render="sampleRecordsList" />
 					</div>
+
 					<div id="uploadProfile" class="sampleform">
 						<div>
 							<h3>Upload Profile</h3>
@@ -254,10 +238,8 @@
 
 						<rich:fileUpload id="uploadProfile"
 							fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}"
-							acceptedTypes="xml" allowFlash="false">
-							<a4j:ajax event="uploadcomplete" execute="@none"
-								render="profile samplesDescription sampleRecordsList" />
-						</rich:fileUpload>
+							acceptedTypes="xml"
+							render="profile samplesDescription sampleRecodsList" />
 					</div>
 				</div>
 			</fieldset>

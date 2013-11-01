@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow uri="http://sandbox.myexperiment.org/workflow.xml?id=3372" resource="http://sandbox.myexperiment.org/workflows/3372" version="1">
+  <id>3372</id>
+  <title>Imagemagick convert - tiff2tiff - compression</title>
+  <description>Converts tiff to tiff using imagemagick convert with the provided compression</description>
+  <type resource="http://sandbox.myexperiment.org/content_types/2" uri="http://sandbox.myexperiment.org/type.xml?id=2">Taverna 2</type>
+  <uploader resource="http://sandbox.myexperiment.org/users/20122" uri="http://sandbox.myexperiment.org/user.xml?id=20122">Markus Plangg</uploader>
+  <preview>http://sandbox.myexperiment.org/workflows/3372/versions/1/previews/full</preview>
+  <svg>http://sandbox.myexperiment.org/workflows/3372/versions/1/previews/svg</svg>
+  <license-type resource="http://sandbox.myexperiment.org/licenses/2" uri="http://sandbox.myexperiment.org/license.xml?id=2">by-sa</license-type>
+  <content-uri>http://sandbox.myexperiment.org/workflows/3372/download/imagemagick_convert_-_tiff2tiff_-_compression_480171.t2flow</content-uri>
+  <content-type>application/vnd.taverna.t2flow+xml</content-type>
+  <tags>
+    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=618" resource="http://sandbox.myexperiment.org/tags/618">test</tag>
+    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=3214" resource="http://sandbox.myexperiment.org/tags/3214">component</tag>
+  </tags>
+  <ratings/>
+  <components>
+    <dataflows>
+      <dataflow id="4d680729-09de-4df6-ae28-2630f182ca19" role="top">
+        <sources>
+          <source>
+            <name>source_path</name>
+            <descriptions>
+              <description>Path to the migration source</description>
+            </descriptions>
+            <examples>
+              <example>in.tiff</example>
+            </examples>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
+              &lt;http://purl.org/DP/components#SourcePathPort&gt; .
+</content>
+            </semantic_annotation>
+          </source>
+          <source>
+            <name>compression</name>
+            <descriptions>
+              <description>Imagemagick convert compress parameter</description>
+            </descriptions>
+            <examples>
+              <example>none</example>
+            </examples>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
+              &lt;http://purl.org/DP/components#ParameterPort&gt; .
+
+&lt;&gt;    &lt;http://purl.org/DP/components#acceptsPredefinedParameter&gt;
+              [ a       &lt;http://purl.org/DP/components#PredefinedParameter&gt; ;
+                &lt;http://purl.org/DP/components#parameterDescription&gt;
+                        "no compression" ;
+                &lt;http://purl.org/DP/components#parameterValue&gt;
+                        "none"
+              ] .
+
+&lt;&gt;    &lt;http://purl.org/DP/components#acceptsPredefinedParameter&gt;
+              [ a       &lt;http://purl.org/DP/components#PredefinedParameter&gt; ;
+                &lt;http://purl.org/DP/components#parameterDescription&gt;
+                        "CCITT Group 4" ;
+                &lt;http://purl.org/DP/components#parameterValue&gt;
+                        "Group4"
+              ] .
+
+&lt;&gt;    &lt;http://purl.org/DP/components#acceptsPredefinedParameter&gt;
+              [ a       &lt;http://purl.org/DP/components#PredefinedParameter&gt; ;
+                &lt;http://purl.org/DP/components#parameterDescription&gt;
+                        "run length encoding" ;
+                &lt;http://purl.org/DP/components#parameterValue&gt;
+                        "RLE"
+              ] .
+</content>
+            </semantic_annotation>
+          </source>
+        </sources>
+        <sinks>
+          <sink>
+            <name>status</name>
+            <descriptions>
+              <description>STDOUT and STDERR of the action</description>
+            </descriptions>
+            <examples/>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
+              &lt;http://purl.org/DP/components#ActionStatusPort&gt; .
+</content>
+            </semantic_annotation>
+          </sink>
+          <sink>
+            <name>target_path</name>
+            <descriptions>
+              <description>Path to the migration target</description>
+            </descriptions>
+            <examples/>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
+              &lt;http://purl.org/DP/components#TargetPathPort&gt; .
+</content>
+            </semantic_annotation>
+          </sink>
+        </sinks>
+        <processors>
+          <processor>
+            <name>convert</name>
+            <type>externaltool</type>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt; &lt;http://purl.org/DP/components#requiresInstallation&gt; 
+      [ a &lt;http://purl.org/DP/components#Installation&gt; ;
+    &lt;http://purl.org/DP/components#hasEnvironment&gt; &lt;http://purl.org/DP/components#Debian&gt; ;
+    &lt;http://purl.org/DP/components#hasPackageManagerConfig&gt; 
+        [ a &lt;http://purl.org/DP/components#DpkgConfig&gt; ;
+            &lt;http://purl.org/DP/components#installsDpkgs&gt; "imagemagick" ;
+            &lt;http://purl.org/DP/components#requiresSource&gt; "deb http://scape.keep.pt/apt stable main"
+        ] ;
+    &lt;http://purl.org/DP/components#dependsOn&gt;
+        [ a &lt;http://purl.org/DP/components#Dependency&gt; ;
+            &lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; "imagemagick" ;
+            &lt;http://purl.org/DP/components#dependencyVersion&gt; "5" ;
+            &lt;http://xmlns.com/foaf/0.1/page&gt; &lt;http://www.imagemagick.org&gt; ;
+            &lt;http://creativecommons.org/ns#license&gt; &lt;http://opensource.org/licenses/Apache-2.0&gt;
+        ] ] .
+</content>
+            </semantic_annotation>
+          </processor>
+          <processor>
+            <name>createTargetPath</name>
+            <type>beanshell</type>
+            <script>File target = File.createTempFile("convert-to-tiff-" + Long.toString(System.nanoTime()), ".tiff");
+String targetPath = target.getAbsolutePath();</script>
+          </processor>
+        </processors>
+        <datalinks>
+          <datalink>
+            <sink>
+              <node>convert</node>
+              <port>from_uri</port>
+            </sink>
+            <source>
+              <node>source_path</node>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>convert</node>
+              <port>compression</port>
+            </sink>
+            <source>
+              <node>compression</node>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>convert</node>
+              <port>to_uri</port>
+            </sink>
+            <source>
+              <node>createTargetPath</node>
+              <port>targetPath</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>status</node>
+            </sink>
+            <source>
+              <node>convert</node>
+              <port>STDOUT</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>status</node>
+            </sink>
+            <source>
+              <node>convert</node>
+              <port>STDERR</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>target_path</node>
+            </sink>
+            <source>
+              <node>createTargetPath</node>
+              <port>targetPath</port>
+            </source>
+          </datalink>
+        </datalinks>
+        <semantic_annotation>
+          <type>text/rdf+n3</type>
+          <content>&lt;&gt;    &lt;http://purl.org/DP/components#fits&gt;
+              &lt;http://purl.org/DP/components#MigrationAction&gt; .
+
+&lt;&gt;    &lt;http://purl.org/DP/components#migrates&gt;
+              [ a       &lt;http://purl.org/DP/components#MigrationPath&gt; ;
+                &lt;http://purl.org/DP/components#sourceMimetype&gt;
+                        "image/tiff" ;
+                &lt;http://purl.org/DP/components#targetMimetype&gt;
+                        "image/tiff"
+              ] .
+</content>
+        </semantic_annotation>
+      </dataflow>
+    </dataflows>
+  </components>
+</workflow>

@@ -71,8 +71,7 @@ public class ExperimentEvaluator implements IObjectEvaluator {
      * 
      */
     static {
-        propertyToMeasuredValues.put(MigrationResult.MIGRES_MEMORY_GROSS,
-            MigrationResult.MIGRES_MEMORY_GROSS);
+        propertyToMeasuredValues.put(MigrationResult.MIGRES_MEMORY_GROSS, MigrationResult.MIGRES_MEMORY_GROSS);
     }
 
     /**
@@ -116,25 +115,8 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 return v;
             }
             return null;
-//        } else if (MeasureConstants.OBJECT_ACTION_RUNTIME_PERFORMANCE_THROUGHPUT.equals(measureUri)) {
-//            Value extracted = extractMeasuredValue(alternative, sample,
-//                MeasureConstants.ELAPSED_TIME_PER_OBJECT);
-//            if (extracted instanceof PositiveFloatValue) {
-//                PositiveFloatValue value = new PositiveFloatValue();
-//                double floatVal = ((PositiveFloatValue) extracted).getValue();
-//                if (Double.compare(floatVal, 0.0) != 0) {
-//                    // calculate msec/MB
-//                    floatVal = floatVal / sampleSize;
-//                    // throughput is defined in MB per second, time/perMB is
-//                    // msec/MB
-//                    value.setValue((1.0 / (floatVal / 1000.0)));
-//                }
-//                value.setComment("extracted from experiment details");
-//                return value;
-//            }
         } else if (MeasureConstants.ELAPSED_TIME_PER_MB.equals(measureUri)) {
-            Value extracted = extractMeasuredValue(alternative, sample,
-                MeasureConstants.ELAPSED_TIME_PER_OBJECT);
+            Value extracted = extractMeasuredValue(alternative, sample, MeasureConstants.ELAPSED_TIME_PER_OBJECT);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();
@@ -147,8 +129,7 @@ public class ExperimentEvaluator implements IObjectEvaluator {
                 return value;
             }
         } else if (MeasureConstants.AVERAGE_MEMORY_USED_PER_MB.equals(measureUri)) {
-            Value extracted = extractMeasuredValue(alternative, sample,
-                MigrationResult.MIGRES_MEMORY_GROSS);
+            Value extracted = extractMeasuredValue(alternative, sample, MigrationResult.MIGRES_MEMORY_GROSS);
             if (extracted instanceof PositiveFloatValue) {
                 PositiveFloatValue value = new PositiveFloatValue();
                 double floatVal = ((PositiveFloatValue) extracted).getValue();

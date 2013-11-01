@@ -1,17 +1,16 @@
 package eu.scape_project.planning.xml;
 
+import static org.junit.Assert.*;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.utils.ParserException;
-import eu.scape_project.planning.xml.C3POProfileParser;
 
 public class C3POProfileParserTest {
 
@@ -34,39 +33,38 @@ public class C3POProfileParserTest {
     @Test
     public void shouldTestSuccessfulParsing() throws Exception {
         String id = this.parser.getCollectionId();
-        Assert.assertEquals("roda", id);
+        assertEquals("roda", id);
 
         String count = this.parser.getObjectsCountInPartition();
-        Assert.assertEquals("264", count);
+        assertEquals("264", count);
 
         String desc = this.parser.getTypeOfObjects();
-        Assert.assertNotSame(MISSING, desc);
+        assertNotSame(MISSING, desc);
     }
 
     @Test
     public void shouldTestSampleRecordParsing() throws Exception {
         List<SampleObject> objects = this.parser.getSampleObjects();
-        Assert.assertNotNull(objects);
-        Assert.assertFalse(objects.isEmpty());
+        assertNotNull(objects);
+        assertFalse(objects.isEmpty());
 
         boolean atLeastOnehasPuid = false;
         for (SampleObject o : objects) {
-            Assert.assertNotNull(o.getFullname());
-            Assert.assertNotSame("", o.getFullname());
+            assertNotNull(o.getFullname());
+            assertNotSame("", o.getFullname());
 
             if (!atLeastOnehasPuid) {
                 atLeastOnehasPuid = o.getFormatInfo().getPuid() != null;
             }
         }
 
-        Assert.assertTrue(atLeastOnehasPuid);
+        assertTrue(atLeastOnehasPuid);
     }
     
     @Test
     public void shouldTestObjectIdentifierRetrieval() throws Exception {
         List<String> ids = this.parser.getObjectIdentifiers();
-        Assert.assertFalse(ids.isEmpty());
-        Assert.assertEquals(264, ids.size());
-        
+        assertFalse(ids.isEmpty());
+        assertEquals(264, ids.size());
     }
 }

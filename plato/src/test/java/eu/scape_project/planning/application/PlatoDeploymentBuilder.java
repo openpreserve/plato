@@ -57,8 +57,9 @@ public class PlatoDeploymentBuilder {
         // add additional libraries and their dependencies 
         File[] libs = resolver.artifacts(
             "eu.scape-project.pw:planning-core", 
-            "eu.scape-project.pw:minimee",
-            "pt.gov.dgarq.roda:roda-client"
+            "eu.scape-project.pw:minimee"
+//            ,
+//            "pt.gov.dgarq.roda:roda-client"
             ).resolveAsFiles();
 
         

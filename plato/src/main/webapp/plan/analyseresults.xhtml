@@ -42,12 +42,14 @@
 						rendered="#{analyseResults.displayChangelogs}"
 						value="Hide Changelogs"
 						action="#{analyseResults.switchDisplayChangelogs}"
-						render="changelogButtons, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evaluationTable" />
+						render="changelogButtons, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evaluationTable"
+						type="button" />
 					<a4j:commandButton id="changelogButtonShow"
 						rendered="#{!analyseResults.displayChangelogs}"
 						value="Display Changelogs"
 						action="#{analyseResults.switchDisplayChangelogs}"
-						render="changelogButtons, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evaluationTable" />
+						render="changelogButtons, planChangelog, basisChangelog, collectionChangelog, samplesform, requirements, alternativesTable, experimentsTable, evaluationTable"
+						type="button" />
 				</a4j:outputPanel>
 			</h:form>
 		</div>

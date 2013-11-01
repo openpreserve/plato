@@ -1,8 +1,8 @@
 package eu.scape_project.planning.manager;
 
-import javax.inject.Inject;
+import static org.junit.Assert.*;
 
-import junit.framework.Assert;
+import javax.inject.Inject;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
@@ -57,9 +57,9 @@ public class ByteStreamManagerIT {
         byte[] array = {1, 2, 3, 4};
         String pid = bm.store(null, array);
         byte[] loaded = bm.load(pid);
-        Assert.assertTrue(loaded.length == array.length);
+        assertTrue(loaded.length == array.length);
         for (int i = 0; i < loaded.length; i++) {
-            Assert.assertTrue(loaded[i] == array[i]);
+            assertTrue(loaded[i] == array[i]);
         }
     }
 
@@ -70,10 +70,10 @@ public class ByteStreamManagerIT {
         bm.store("plato:test", array);
         bm.store("plato:test", update);
         byte[] loaded = bm.load("plato:test");
-        Assert.assertFalse(loaded.length == array.length);
-        Assert.assertTrue(loaded.length == update.length);
+        assertFalse(loaded.length == array.length);
+        assertTrue(loaded.length == update.length);
         for (int i = 0; i < loaded.length; i++) {
-            Assert.assertTrue(loaded[i] == update[i]);
+            assertTrue(loaded[i] == update[i]);
         }
     }
 
@@ -84,13 +84,13 @@ public class ByteStreamManagerIT {
         try {
             pid = bm.store(null, array);
             byte[] loaded = bm.load(pid);
-            Assert.assertTrue(loaded.length == array.length);
+            assertTrue(loaded.length == array.length);
             bm.delete(pid);
             for (int i = 0; i < loaded.length; i++) {
-                Assert.assertTrue(loaded[i] == array[i]);
+                assertTrue(loaded[i] == array[i]);
             }
         } catch (StorageException e) {
-            Assert.fail("Failed to store and delete bytestream. " + e.getMessage());
+            fail("Failed to store and delete bytestream. " + e.getMessage());
         }
         // this call *should* fail
         bm.load(pid);

@@ -65,19 +65,20 @@ public class DefineSampleRecordsView extends AbstractView {
     @Inject
     private DefineSampleObjects defineSamples;
 
-    @Inject  private ByteStreamManager bytestreamManager;
+    @Inject
+    private ByteStreamManager bytestreamManager;
 
     @Inject
     private FacesMessages facesMessages;
 
     @Inject
     private Downloader downloader;
-    
+
     @Inject
     private User user;
 
     private String sampleCharacterisationReportAsHTML;
-    
+
     private String repositoryUsername;
     private String repositoryPassword;
 
@@ -119,50 +120,59 @@ public class DefineSampleRecordsView extends AbstractView {
     }
 
     /**
-     * Uploads a file into a newly created sample sample and adds this sample
-     * sample to the list in the project.
+     * Uploads a file into a newly created sample sample and adds this sample to
+     * the list in the project.
      * 
-     * @return
+     * @param event
+     *            the file upload event
      */
-    public void listener(final FileUploadEvent event) throws Exception {
+    public void uploadSample(final FileUploadEvent event) {
         UploadedFile item = event.getUploadedFile();
         String fileName = item.getName();
+        log.debug("Sample file {} uploaded", fileName);
 
+        // try {
         try {
-
             defineSamples.addSample(fileName, item.getContentType(),
                 FileUtils.inputStreamToBytes(item.getInputStream()));
-
-        } catch (Exception e) {
-            log.error("failed to add sample object.", e);
-            facesMessages.addError("Failed to add sample object.");
+        } catch (PlanningException e) {
+            log.error("An error occurred while adding the sample to the plan", e);
+            facesMessages.addError("An error occurred while adding the file to your plan");
+        } catch (IOException e) {
+            log.warn("An error occurred while opening the input stream", e);
+            this.facesMessages.addError("An error occurred while reading the file. Please try again");
         }
         System.gc();
     }
 
+    /**
+     * Uploads a profile file and reads the profile into the plan.
+     * 
+     * @param event
+     *            the file upload event
+     */
     public void uploadCollectionProfile(final FileUploadEvent event) {
         UploadedFile item = event.getUploadedFile();
         String fileName = item.getName();
-        log.debug("Collection Profile file [{}] uploaded", fileName);
+        log.debug("Collection Profile file {} uploaded", fileName);
 
         if (!fileName.endsWith(".xml")) {
-            log.warn("The uploaded file [{}] is not an xml file", fileName);
+            log.warn("The uploaded file {} is not an xml file", fileName);
             facesMessages.addError("The uploaded file is not an xml");
             return;
         }
 
         try {
             this.defineSamples.readProfile(item.getInputStream(), repositoryUsername, repositoryPassword);
-
         } catch (ParserException e) {
-            log.warn("An error occurred during parsing: {}", e.getMessage());
-            this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
+            log.warn("An error occurred during parsing", e);
+            this.facesMessages.addError("An error occurred while reading the uploaded profile: " + e.getMessage());
         } catch (PlanningException e) {
-            log.warn("An error occurred furing parsing: {}", e.getMessage());
-            this.facesMessages.addError("An error occurred, while reading in the uploaded profile: " + e.getMessage());
+            log.warn("An error occurred during parsing", e);
+            this.facesMessages.addError("An error occurred while reading the uploaded profile: " + e.getMessage());
         } catch (IOException e) {
-            log.warn("An error occurred while opening the input stream: {}", e.getMessage());
-            this.facesMessages.addError("An error occurred, while reading the file. Please try again");
+            log.warn("An error occurred while opening the input stream", e);
+            this.facesMessages.addError("An error occurred while reading the file. Please try again");
         }
     }
 

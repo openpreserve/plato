@@ -7,7 +7,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:p="http://java.sun.com/jsf/composite/plato">
+	xmlns:p="http://java.sun.com/jsf/composite/plato"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 <cc:interface>
 	<cc:attribute name="id" required="true" />
@@ -17,70 +18,142 @@
 </cc:interface>
 
 <cc:implementation>
-	<a4j:outputPanel id="#{cc.attrs.id}">
-		<ui:remove>
-			<a4j:jsFunction name="loadData#{cc.attrs.id}"
-				actionListener="#{cc.attrs.data.loadWorkflowDescription(cc.attrs.actionInfo)}"
-				status="#{cc.attrs.id}_service_status" immediate="true" />
-			<script type="text/javascript">
-				jQuery(document).ready(function() {
-					loadData#{cc.attrs.id}();
-				});
-    		</script>
-		</ui:remove>
+	<a4j:outputPanel id="#{cc.attrs.id}"
+		rendered="#{not empty cc.attrs.actionInfo}">
+		<a4j:outputPanel id="service-panel">
+			<h:outputScript library="js" name="rating.js" target="head" />
 
-		<a4j:outputPanel id="poll-region">
-			<a4j:region>
-				<a4j:poll id="poll" interval="1000"
-					render="poll-region service_panel"
-					enabled="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}" />
-			</a4j:region>
-		</a4j:outputPanel>
-
-		<a4j:outputPanel id="service_panel">
-			<a4j:outputPanel id="info" styleClass="service-info-panel"
-				rendered="#{cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}">
-				<div class="service-info-header">
-					<h:outputText value="#{cc.attrs.actionInfo.shortname}" />
-					<h:outputText
-						value=" (v#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).version})" />
-				</div>
-				<div class="service-info-preview">
-					<img
-						src="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).svg}"
-						onerror="this.style.display='none'" />
-				</div>
-				<div class="service-info-info">
-					<h:outputText value="#{cc.attrs.actionInfo.info}" />
-				</div>
-				<div class="service-info-footer">
-					<a4j:outputPanel
-						rendered="#{not empty cc.attrs.actionInfo.descriptor}">
-						<h:outputLink value="#{cc.attrs.actionInfo.descriptor}"
-							target="_blank">Open on myExperiment</h:outputLink>
-					</a4j:outputPanel>
-					|
-					<ui:repeat
-						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).tags}"
-						varStatus="loop" var="tag">
-						<h:outputLink value="#{tag.resource}" target="_blank">#{!loop.first ? ',' : ''} #{tag.name}</h:outputLink>
-					</ui:repeat>
-					|
-					<h:outputLink
-						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.resource}"
-						target="_blank">#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.name}</h:outputLink>
-				</div>
-			</a4j:outputPanel>
-			<a4j:outputPanel id="status" styleClass="service-info-panel"
+			<!-- Fallback if workflow not yet ready -->
+			<a4j:outputPanel id="fallback" styleClass="service-info-panel"
 				rendered="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}">
 
-
+				<a4j:outputPanel id="poll-region">
+					<a4j:region>
+						<a4j:poll id="poll" interval="1000"
+							render="poll-region service-panel"
+							enabled="#{not cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo)}" />
+					</a4j:region>
+				</a4j:outputPanel>
 
 				<p:service actionInfo="#{cc.attrs.actionInfo}">
 					<f:facet name="status">
 						<h:graphicImage library="gfx" name="ajax-loader.gif" />
 					</f:facet>
 				</p:service>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel id="service-info-panel"
+				styleClass="service-info-panel"
+				rendered="#{cc.attrs.data.isWorkflowDescriptionReady(cc.attrs.actionInfo) and not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo)}">
+				<!-- Header -->
+				<div class="service-info-header">
+					<h:outputText
+						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).name}" />
+					<h:outputText
+						value=" (v#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).version})" />
+				</div>
+				<!-- Preview -->
+				<div class="service-info-preview">
+					<h:outputLink
+						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).svg}"
+						target="_blank">
+						<img
+							src="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).svg}"
+							onerror="this.style.display='none'" />
+					</h:outputLink>
+				</div>
+				<!-- Info -->
+				<div class="service-info-info">
+					<!-- Installations -->
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).installations}"
+						styleClass="service-info-metadata">
+						<ui:repeat
+							value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).installations}"
+							varStatus="loop" var="installation">
+							<div class="service-info-metadata-block">
+								<h:outputLink value="#{installation.environment}">##{fn:substringAfter(installation.environment, '#')}</h:outputLink>
+								<ui:repeat value="#{installation.dependencies}" varStatus="loop"
+									var="dependency">
+									<ul>
+										<li>#{dependency.name} #{dependency.version} [<h:outputLink
+												value="#{dependency.license}">&#9911;</h:outputLink>]
+										</li>
+									</ul>
+								</ui:repeat>
+							</div>
+						</ui:repeat>
+
+					</a4j:outputPanel>
+
+					<!-- Migration paths -->
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).migrationPaths}"
+						styleClass="service-info-metadata">
+						<ul>
+							<ui:repeat
+								value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).migrationPaths}"
+								varStatus="loop" var="migrationPath">
+								<li>#{migrationPath.sourceMimetype} &#8605;
+									#{migrationPath.targetMimetype}</li>
+							</ui:repeat>
+						</ul>
+					</a4j:outputPanel>
+
+					<h:outputText
+						value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).description}" />
+				</div>
+
+				<!-- Footer -->
+				<div class="service-info-footer">
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).resource}">
+						<h:outputLink
+							value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).resource}"
+							target="_blank">Open on myExperiment</h:outputLink>
+					</a4j:outputPanel>
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).profile}">
+					|
+					<h:outputLink
+							value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).profile}"
+							target="_blank">
+							<h:outputText
+								value="##{fn:substringAfter(cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).profile, '#')}" />
+						</h:outputLink>
+					</a4j:outputPanel>
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).tags}">
+					|
+					<ui:repeat
+							value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).tags}"
+							varStatus="loop" var="tag">
+							<h:outputLink value="#{tag.resource}" target="_blank">#{!loop.first ? ',' : ''} #{tag.name}</h:outputLink>
+						</ui:repeat>
+					</a4j:outputPanel>
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.resource}">
+					|
+					<h:outputLink
+							value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.resource}"
+							target="_blank">#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).uploader.name}</h:outputLink>
+					</a4j:outputPanel>
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).licenseType}">
+					|
+					<h:outputLink
+							value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).licenseType.resource}"
+							target="_blank">#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).licenseType.name}</h:outputLink>
+					</a4j:outputPanel>
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).averageRating}">
+					|
+					<a4j:outputPanel id="rating" styleClass="service-info-rating">#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).averageRating}</a4j:outputPanel>
+						<script type="text/javascript">
+						$('[id="#{rich:clientId("rating")}"]').convertRating();
+					</script>
+					</a4j:outputPanel>
+				</div>
 			</a4j:outputPanel>
 		</a4j:outputPanel>
 	</a4j:outputPanel>

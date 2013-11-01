@@ -211,6 +211,8 @@ public class UserManager {
 
             StringBuilder builder = new StringBuilder();
             builder.append("Dear " + user.getFirstName() + " " + user.getLastName() + ", \n\n");
+            builder.append("You have requested help recovering the password for the Plato user ");
+            builder.append(user.getUsername()).append(".\n\n");
             builder.append("Please use the following link to reset your Planningsuite password: \n");
             builder.append("http://" + serverString + "/idp/resetPassword.jsf?uid=" + user.getActionToken());
             builder.append("\n\n--\n");

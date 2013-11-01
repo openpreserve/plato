@@ -1,0 +1,8 @@
+<schema xmlns="http://purl.oclc.org/dsdl/schematron">
+   <pattern>
+      <title>measures rules</title>
+      <rule context="measure[@type='similarity']">
+         <assert test=". &gt; 0.87">Similarity score must be greater than 0.87</assert>
+      </rule>
+   </pattern>
+</schema>

@@ -83,7 +83,7 @@ public abstract class Scale implements Serializable, ITouchable, Cloneable {
     private int id;
 
     /**
-     * the measurement unit of the Scale. E.g. "number of tools" supporting a
+     * The measurement unit of the Scale. E.g. "number of tools" supporting a
      * file format, "Euro" for the costs of a preservation action, etc.
      */
     @Lob

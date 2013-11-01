@@ -38,7 +38,6 @@ import eu.scape_project.planning.plato.wf.EvaluateExperiments;
 import eu.scape_project.planning.plato.wf.RunExperiments;
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
-import eu.scape_project.planning.services.action.IActionInfo;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.validation.ValidationError;
 
@@ -112,9 +111,6 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
         // super.saveEntity(plan);
     }
 
-    /**
-	 * 
-	 */
     @Override
     protected boolean mayProceed(List<ValidationError> errors) {
         // First we have to check if the experiments have been conducted. This
@@ -185,7 +181,7 @@ public class FTEvaluateAlternatives extends AbstractWorkflowStep {
         for (PreservationActionRegistryDefinition reg : allRegistries) {
             try {
                 if (reg.getShortname().contains("MiniMEE")) {
-                    List<IActionInfo> actions = defineAlternatives.queryRegistry(formatInfo, reg);
+                    List<IServiceInfo> actions = defineAlternatives.queryRegistry(formatInfo, reg);
                     /*
                      * populate the list of available services TODO what about
                      * adding planets and filtering services according to

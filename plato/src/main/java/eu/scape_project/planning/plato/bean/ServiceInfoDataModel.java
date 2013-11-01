@@ -6,23 +6,23 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import eu.scape_project.planning.services.action.IActionInfo;
-
 import org.ajax4jsf.model.DataVisitor;
 import org.ajax4jsf.model.ExtendedDataModel;
 import org.ajax4jsf.model.Range;
 import org.ajax4jsf.model.SequenceRange;
 
+import eu.scape_project.planning.services.IServiceInfo;
+
 /**
- * Data model for action infos.
+ * Data model for service infos.
  */
-public class ServiceInfoDataModel extends ExtendedDataModel<IActionInfo> implements Serializable {
+public class ServiceInfoDataModel extends ExtendedDataModel<IServiceInfo> implements Serializable {
 
     private static final long serialVersionUID = -31472856376172968L;
 
     private Integer rowKey;
 
-    private List<IActionInfo> serviceInfos;
+    private List<IServiceInfo> serviceInfos;
 
     private Map<String, IServiceLoader> serviceLoaders;
 
@@ -34,7 +34,7 @@ public class ServiceInfoDataModel extends ExtendedDataModel<IActionInfo> impleme
      * @param serviceLoaders
      *            map of service identifiers and their loaders
      */
-    public ServiceInfoDataModel(List<IActionInfo> serviceInfos, Map<String, IServiceLoader> serviceLoaders) {
+    public ServiceInfoDataModel(List<IServiceInfo> serviceInfos, Map<String, IServiceLoader> serviceLoaders) {
         this.serviceInfos = serviceInfos;
         this.serviceLoaders = serviceLoaders;
     }
@@ -73,7 +73,7 @@ public class ServiceInfoDataModel extends ExtendedDataModel<IActionInfo> impleme
     }
 
     @Override
-    public IActionInfo getRowData() {
+    public IServiceInfo getRowData() {
         return serviceInfos.get(rowKey);
     }
 

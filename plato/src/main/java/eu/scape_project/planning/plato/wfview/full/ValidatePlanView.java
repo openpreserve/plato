@@ -81,6 +81,8 @@ public class ValidatePlanView extends AbstractView {
     private TreeHelperBean requirementstreeHelper;
     @Inject
     private TreeHelperBean resultstreeHelper;
+    
+    
 
     /**
      * Variable encapsulating the PolicyTree-Root in a list. This is required,
@@ -308,14 +310,11 @@ public class ValidatePlanView extends AbstractView {
 
     public void deployPlan() {
         try {
-            validatePlan.uploadPlanToRODA(user.getUserGroup().getRepository().getUrl(), repositoryUsername,
-                repositoryPassword);
+            validatePlan.deployPlan(user.getUserGroup().getRepository().getUrl(), repositoryUsername, repositoryPassword);
             facesMessages.addInfo("Plan sucessfully deployed.");
         } catch (PlanningException e) {
             facesMessages.addError("There was an error deploying the plan: " + e.getMessage());
-        } finally {
-            repositoryUsername = user.getUserGroup().getRepository().getUsername();
-            repositoryPassword = "";
+            log.error("There was an error deploying the plan", e);
         }
     }
 

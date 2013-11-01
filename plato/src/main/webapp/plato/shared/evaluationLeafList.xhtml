@@ -7,7 +7,8 @@
 	xmlns:p="http://java.sun.com/jsf/composite/plato"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<h:dataTable id="evaluationLeafList" style="width:100%" value="#{leaves}" var="leaf">
+	<h:dataTable id="evaluationLeafList" style="width:100%"
+		value="#{leaves}" var="leaf">
 
 		<h:column style="width:100%">
 
@@ -21,8 +22,8 @@
 				rendered="#{leaf.scale.restricted and not empty leaf.scale.readableRestriction}" />
 
 
-			<h:dataTable id="alternatives" value="#{consideredAlternatives}" var="alter"
-				headerClass="tableStyle-header" styleClass="tableStyle"
+			<h:dataTable id="alternatives" value="#{consideredAlternatives}"
+				var="alter" headerClass="tableStyle-header" styleClass="tableStyle"
 				rowClasses=""
 				columnClasses="column-fte-aso,column-fte-rac,column-fte-unit"
 				border="0">
@@ -84,7 +85,7 @@
 												rendered="#{not leaf.valueMap[alter.name].list[0].evaluated}"
 												value="* &nbsp;" />
 										</h:panelGroup>
-										
+
 										<h:outputText rendered='#{leaf.scale.type == "restricted"}'
 											value="#{leaf.scale.readableRestriction}" />
 										<h:outputText rendered="#{leaf.scale.unit != null}"
@@ -183,7 +184,7 @@
 										</h:panelGroup>
 										<h:outputText rendered='#{leaf.scale.type == "restricted"}'
 											value="#{leaf.scale.readableRestriction}" />
-													<br />
+										<br />
 										<ui:remove>
 											<!-- 			
 										<h:message rendered="#{not leaf.scale.integer}" styleClass="discreet-error" for="_num#{status.index}" />
@@ -227,13 +228,25 @@
 			</h:dataTable>
 			<!-- auto-evaluation -->
 			<h:panelGroup rendered="#{leaf.mapped}">
-				<div style="border-width: 1px; border-style: dotted; background: rgb(204, 222, 255); padding-left: 5px;">
+				<div
+					style="border-width: 1px; border-style: dotted; background: rgb(204, 222, 255); padding-left: 5px;">
 					<table class="fullTable">
-						<tr><td><b>Measure</b></td> <td><b><a href="#{leaf.measure.uri}">#{leaf.measure.name}</a></b></td></tr>
-						<tr><td>Attribute</td><td><a href="#{leaf.measure.attribute.uri}" >#{leaf.measure.attribute.description}</a></td></tr>
-						<tr><td>Description</td><td>#{leaf.measure.description}</td></tr>
+						<tr>
+							<td><b>Measure</b></td>
+							<td><b><a href="#{leaf.measure.uri}">#{leaf.measure.name}</a></b></td>
+						</tr>
+						<tr>
+							<td>Attribute</td>
+							<td><a href="#{leaf.measure.attribute.uri}">#{leaf.measure.attribute.description}</a></td>
+						</tr>
+						<tr>
+							<td>Description</td>
+							<td>#{leaf.measure.description}</td>
+						</tr>
 					</table>
-					<h:commandButton rendered="#{leaf.mapped}" value="Evaluate"	action="#{workflowstep.evaluate(leaf)}" render="leafTable" />
+					<a4j:commandButton id="evaluate" rendered="#{leaf.mapped}" value="Evaluate"
+						action="#{workflowstep.evaluate(leaf)}" render="evaluationLeafList"
+						type="button" />
 				</div>
 			</h:panelGroup>
 			<hr />

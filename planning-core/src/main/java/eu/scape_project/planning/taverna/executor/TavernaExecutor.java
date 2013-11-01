@@ -19,30 +19,33 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import eu.scape_project.planning.taverna.TavernaPort;
-
+/**
+ * Executor for taverna workflows.
+ */
 public interface TavernaExecutor {
 
-	/**
-	 * Executes the workflow.
-	 * 
-	 * @throws IOException
-	 * @throws TavernaExecutorException
-	 */
-	public abstract void execute() throws IOException, TavernaExecutorException;
+    /**
+     * Executes the workflow.
+     * 
+     * @throws IOException
+     *             if data could not be read
+     * @throws TavernaExecutorException
+     *             if an error occurs during execution
+     */
+    void execute() throws IOException, TavernaExecutorException;
 
-	/**
-	 * Returns the output data of the previous workflow run.
-	 * 
-	 * @return
-	 */
-	public abstract Map<TavernaPort, ?> getOutputData();
+    /**
+     * Returns the output data of the previous workflow run.
+     * 
+     * @return a map of port names with the output data
+     */
+    Map<String, ?> getOutputData();
 
-	/**
-	 * Returns the ouput files of the previous workflow run.
-	 * 
-	 * @return
-	 */
-	public abstract HashMap<TavernaPort, ?> getOutputFiles();
+    /**
+     * Returns the output files of the previous workflow run.
+     * 
+     * @return a map of port names with the output files
+     */
+    HashMap<String, ?> getOutputFiles();
 
 }

@@ -84,12 +84,12 @@
 						<!-- tree-content -->
 						<div class="tree-content">
 							<rich:tree id="objectivetree-tree" var="node" immediate="true"
-								toggleType="client">
+								toggleType="ajax">
 								<rich:treeModelRecursiveAdaptor
 									roots="#{identifyRequirements.treeRoots}"
 									nodes="#{node.children}" leaf="#{node.leaf}"
 									id="objectivetree-model">
-									<rich:treeNode
+									<rich:treeNode id="node"
 										expanded="#{identifyRequirements.requirementstreeHelper.expandedNodes[node]}"
 										styleClass="tree-node">
 										<div class="tree-nodename input input-inline">
@@ -108,7 +108,7 @@
 												rendered="#{identifyRequirements.editingNodeComments and node.leaf and (node.scale != null)}">
 												<h:outputText value="#{node.scale.displayName}  " />
 												<h:outputText rendered="#{node.scale.restricted}"
-													value="#{node.scale.restriction}  " />
+													value="#{node.scale.restriction}" />
 												<h:outputText value="[#{node.scale.unit}]"
 													rendered="#{not empty(node.scale.unit)}" />
 												<br />
@@ -144,7 +144,7 @@
 														<rich:menuItem id="addNode" rendered="#{!node.leaf}"
 															action="#{identifyRequirements.addNode(node)}"
 															label="Add an inner node" onclick="changed();"
-															render="objectivetree-tree">
+																render="objectivetree-tree">
 															<f:facet name="icon">
 																<h:graphicImage name="gfx/treetable/add-node.png"
 																	width="16" height="16" />
@@ -226,9 +226,6 @@
 														render="restriction" />
 												</h:inputText>
 												<rich:message for="restriction" />
-												<h:inputText disabled="true" value=""
-													styleClass="p-input-text"
-													rendered="#{node.leaf and (node.scale != null) and (not node.scale.restricted)}" />
 											</div>
 
 											<div class="tree-cell" style="width: 90px;">
@@ -275,6 +272,7 @@
 					</legend>
 					<p:inputTextArea id="description" labelText="Description:"
 						input="#{identifyRequirements.plan.requirementsDefinition.description}"
+						touchable="#{identifyRequirements.plan.requirementsDefinition}"
 						required="false" />
 				</fieldset>
 
@@ -288,20 +286,22 @@
 						<p>Please attach extended documentation (about the
 							requirements definition process, about suggested measurements, or
 							about reasons for certain requirements) here:</p>
-						<ui:repeat var="file"
-							value="#{identifyRequirements.plan.requirementsDefinition.uploads}">
+						<ui:repeat
+							value="#{identifyRequirements.plan.requirementsDefinition.uploads}"
+							var="file">
 							<h:commandLink value="#{file.fullname}"
 								action="#{identifyRequirements.downloadAttachedFile(file)}" />
-	                        (<h:outputText value="#{file.sizeInMB}">
+	              (<h:outputText value="#{file.sizeInMB}">
 								<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
 							</h:outputText> MB)
-	                        <a4j:commandButton
+	            <a4j:commandButton value="Remove"
 								action="#{identifyRequirements.removeAttachedFile(file)}"
-								value="Remove" render="uploadsPanel" />
+								oncomplete="changed();" render="uploadsPanel" />
 							<br />
 						</ui:repeat>
 						<a4j:commandButton value="Attach documentation file"
-							oncomplete="#{rich:component('uploadPanel')}.show()" />
+							oncomplete="#{rich:component('uploadPanel')}.show()"
+							type="button" />
 					</a4j:outputPanel>
 				</fieldset>
 
@@ -340,7 +340,8 @@
 								XML?</a>
 						</p>
 						<a4j:commandButton value="Select File"
-							oncomplete="#{rich:component('selectImportPanel')}.show()" />
+							oncomplete="#{rich:component('selectImportPanel')}.show()"
+							type="button" />
 						<a4j:outputPanel layout="inline"
 							rendered="#{identifyRequirements.importFile != null}">
 	                       #{identifyRequirements.importFile.fullname}
@@ -355,8 +356,9 @@
 					<p>If you want to continue working on the tree in Freemind, you
 						can download the current objective tree as mindmap file for
 						Freemind. Please save the tree before downloading it!</p>
-					<h:commandButton value="Download tree as mindmap"
-						action="#{identifyRequirements.downloadTreeAsFreeMind()}" />
+					<h:commandLink value="Download tree as mindmap"
+						action="#{identifyRequirements.downloadTreeAsFreeMind()}"
+						styleClass="default-button" />
 				</fieldset>
 
 				<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
@@ -386,8 +388,8 @@
 
 				<rich:fileUpload id="uploadResultFile"
 					fileUploadListener="#{identifyRequirements.uploadFile}"
-					render="uploadsPanel"
-					onuploadcomplete="#{rich:component('uploadPanel')}.hide()" />
+					onuploadcomplete="#{rich:component('uploadPanel')}.hide(); changed();"
+					render="uploadsPanel" />
 			</rich:popupPanel>
 			<!-- / attach files panel -->
 		</h:form>

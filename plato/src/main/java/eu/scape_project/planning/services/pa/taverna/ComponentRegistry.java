@@ -27,7 +27,7 @@ import javax.xml.rpc.ServiceException;
 
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
 import eu.scape_project.planning.utils.JGet;
 
@@ -70,8 +70,8 @@ public class ComponentRegistry implements IPreservationActionRegistry {
      * ORDER BY ?w ?wt
      */
     @Override
-    public List<IActionInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
-        List<IActionInfo> preservationActions = new ArrayList<IActionInfo>();
+    public List<IServiceInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
+        List<IServiceInfo> preservationActions = new ArrayList<IServiceInfo>();
 
         StringBuilder query = new StringBuilder();
         query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>").append("\n")
@@ -79,7 +79,7 @@ public class ComponentRegistry implements IPreservationActionRegistry {
             .append("PREFIX meannot: <http://rdf.myexperiment.org/ontologies/annotations/>").append("\n")
             .append("PREFIX mecontrib: <http://rdf.myexperiment.org/ontologies/contributions/>").append("\n")
             .append("PREFIX mebase: <http://rdf.myexperiment.org/ontologies/base/>").append("\n")
-            .append("SELECT ?w ?wt ?wdesc ?wurl ?wcurrentversion ?wcurrentversionnumber").append("\n")
+            .append("SELECT ?w ?wt ?wdesc ?wurl ?wcurrentversion ?wcurrentversionnumber ?wdescriptor").append("\n")
             .append("WHERE {").append("\n").append("  ?w a mecontrib:Workflow ;").append("\n")
             .append("     dcterms:title ?wt ;").append("\n").append("     dcterms:description ?wdesc ;").append("\n")
             .append("     meannot:has-tagging ?tscape ;").append("\n").append("     meannot:has-tagging ?tmigration ;")

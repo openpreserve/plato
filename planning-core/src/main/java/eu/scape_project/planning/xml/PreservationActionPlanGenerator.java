@@ -16,143 +16,46 @@
 package eu.scape_project.planning.xml;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import javax.ejb.Stateful;
 import javax.inject.Inject;
-
-import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.manager.DigitalObjectManager;
-import eu.scape_project.planning.manager.StorageException;
-import eu.scape_project.planning.model.ByteStream;
-import eu.scape_project.planning.model.CollectionProfile;
-import eu.scape_project.planning.model.DigitalObject;
-import eu.scape_project.planning.model.ExecutablePlanDefinition;
-import eu.scape_project.planning.taverna.parser.T2FlowParser;
-import eu.scape_project.planning.taverna.parser.TavernaParserException;
-import eu.scape_project.planning.utils.ParserException;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
+
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.DigitalObjectManager;
+import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.model.CollectionProfile;
+import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.ExecutablePlanDefinition;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.sla.QLDGenerator;
+import eu.scape_project.planning.taverna.parser.T2FlowParser;
+import eu.scape_project.planning.taverna.parser.TavernaParserException;
+import eu.scape_project.planning.utils.ParserException;
 
 /**
  * Generator for preservation action plans.
  */
-@Stateful
 public class PreservationActionPlanGenerator implements Serializable {
 
     private static final long serialVersionUID = 1201408409334201384L;
-
-    /**
-     * The default output format used for this class.
-     */
-    public static final OutputFormat DEFAULT_OUTPUT_FORMAT;
-
-    /**
-     * Full name of the generated digital object.
-     */
-    public static final String FULL_NAME = "PreservationActionPlan.xml";
-
-    /**
-     * Encoding used for writing data.
-     */
-    private static final String ENCODING = "UTF-8";
+    
+    public static final String FULL_NAME = "PreservationActionPlan.xml";    
 
     private static Namespace xsi = new Namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-    private static Namespace platoNS = new Namespace("", PlanXMLConstants.PLATO_NS);;
-
-    @Inject
-    private Logger log;
+    private static Namespace platoNS = new Namespace("", PlanXMLConstants.PLATO_NS);
 
     @Inject
     private DigitalObjectManager digitalObjectManager;
 
-    private CollectionProfile collectionProfile;
-
-    private ExecutablePlanDefinition executablePlanDefinition;
-
-    private OutputFormat outputFormat = DEFAULT_OUTPUT_FORMAT;
-
     private boolean addDigitalObjectData = true;
 
-    static {
-        DEFAULT_OUTPUT_FORMAT = OutputFormat.createPrettyPrint();
-        DEFAULT_OUTPUT_FORMAT.setEncoding(ENCODING);
-    }
-
-    /**
-     * Generates a preservation action plan from the data as digital object.
-     * 
-     * @return the preservation action plan
-     * @throws PlanningException
-     *             if an error occurred during generation
-     * @throws UnsupportedEncodingException
-     *             if the set encoding is not supported
-     */
-    public DigitalObject generatePreservationActionPlan() throws PlanningException, UnsupportedEncodingException {
-        DigitalObject digitalObject = null;
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            generatePreservationActionPlan(out);
-
-            ByteStream bs = new ByteStream();
-            bs.setData(out.toByteArray());
-            bs.setSize(out.size());
-            digitalObject = new DigitalObject();
-            digitalObject.setFullname(FULL_NAME);
-            digitalObject.setContentType("application/xml");
-            digitalObject.setData(bs);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException e) {
-                log.error("Error closing preservation action plan output stream {}.", e.getMessage());
-                throw new PlanningException("Error closing preservation action plan output stream.", e);
-            }
-        }
-        return digitalObject;
-    }
-
-    /**
-     * Generates a preservation action plan and writes it to the provided output
-     * stream.
-     * 
-     * @param out
-     *            the output stream for the preservation action plan
-     * @throws PlanningException
-     *             if an error occurred during generation
-     * @throws UnsupportedEncodingException
-     *             if the set encoding is not supported
-     */
-    public void generatePreservationActionPlan(OutputStream out) throws PlanningException, UnsupportedEncodingException {
-
-        XMLWriter writer = new XMLWriter(out, outputFormat);
-        try {
-            writer.write(generatePreservationActionPlanDocument());
-        } catch (IOException e) {
-            log.error("Error writing preservation action plan {}.", e.getMessage());
-            throw new PlanningException("Error writing preservation action plan.", e);
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException e) {
-                log.error("Error closing preservation action plan writer {}.", e.getMessage());
-                throw new PlanningException("Error closing preservation action plan writer.", e);
-            }
-        }
-    }
 
     /**
      * Generates a preservation action plan as dom4j document.
@@ -161,20 +64,26 @@ public class PreservationActionPlanGenerator implements Serializable {
      * @throws PlanningException
      *             if an error occurred during generation
      */
-    public Document generatePreservationActionPlanDocument() throws PlanningException {
+    public Document generatePreservationActionPlanDocument(CollectionProfile collectionProfile, ExecutablePlanDefinition executablePlanDefinition, Plan plan) throws PlanningException {
         Document doc = createPapDoc();
         Element preservationActionPlan = doc.getRootElement();
 
         // Preservation action plan
         try {
             addPreservationActionPlanData(collectionProfile, preservationActionPlan);
-
             addPreservationActionPlanT2flow(executablePlanDefinition.getT2flowExecutablePlan(), preservationActionPlan);
+            
+            
+            QLDGenerator qldGen = new QLDGenerator();
+            qldGen.generateQLD(plan);
+            Element qualityLevelDescription = preservationActionPlan.addElement("qualityLevelDescription");
+            Element root = qldGen.getQldNode().getRootElement();
+            Element schema = qualityLevelDescription.addElement("schema", "http://purl.oclc.org/dsdl/schematron");
+            schema.addAttribute("xmlns", "http://purl.oclc.org/dsdl/schematron");
+            schema.add(root.element("pattern").detach());
         } catch (ParserException e) {
-            log.error("Error parsing collection profile {}", e.getMessage());
             throw new PlanningException("Error parsing collection profile", e);
         } catch (TavernaParserException e) {
-            log.error("Error parsing executable plan {}", e.getMessage());
             throw new PlanningException("Error parsing executable plan", e);
         }
 
@@ -299,38 +208,4 @@ public class PreservationActionPlanGenerator implements Serializable {
         }
         return executablePlan;
     }
-
-    // ---------- getter/setter ----------
-    public CollectionProfile getCollectionProfile() {
-        return collectionProfile;
-    }
-
-    public void setCollectionProfile(CollectionProfile collectionProfile) {
-        this.collectionProfile = collectionProfile;
-    }
-
-    public ExecutablePlanDefinition getExecutablePlanDefinition() {
-        return executablePlanDefinition;
-    }
-
-    public void setExecutablePlanDefinition(ExecutablePlanDefinition executablePlanDefinition) {
-        this.executablePlanDefinition = executablePlanDefinition;
-    }
-
-    public OutputFormat getOutputFormat() {
-        return outputFormat;
-    }
-
-    public void setOutputFormat(OutputFormat outputFormat) {
-        this.outputFormat = outputFormat;
-    }
-
-    public boolean isAddDigitalObjectData() {
-        return addDigitalObjectData;
-    }
-
-    public void setAddDigitalObjectData(boolean addDigitalObjectData) {
-        this.addDigitalObjectData = addDigitalObjectData;
-    }
-
 }

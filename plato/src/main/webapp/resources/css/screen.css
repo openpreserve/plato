@@ -286,17 +286,17 @@ input[type="text"],input[type="password"],select,textarea {
 	outline: none;
 }
 
-.input input[type=text]:focus,.input input[type="password"]:focus,.input select:focus
+.input input[type=text]:focus,.input input[type="password"]:focus,.input select:focus,.input textarea:focus
 	{
 	box-shadow: 2px 1px 5px #155C89;
 }
 
-.input input[type=text]::-webkit-input-placeholder,.input input[type=password]::-webkit-input-placeholder
+.input input[type=text]::-webkit-input-placeholder,.input input[type=password]::-webkit-input-placeholder,.input textarea::-webkit-input-placeholder
 	{
 	color: #BABABA;
 }
 
-.input input[type=text]:-moz-placeholder,.input input[type=password]:-moz-placeholder
+.input input[type=text]:-moz-placeholder,.input input[type=password]:-moz-placeholder,.input textarea::-moz-placeholder
 	{
 	color: #BABABA;
 }
@@ -335,7 +335,7 @@ input[type="text"],input[type="password"],select,textarea {
 }
 
 /* Standard submit button */
-input[type=submit],input[type=button] {
+input[type=submit],input[type=button],.default-button {
 	-moz-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	box-shadow: inset 0px 1px 0px 0px #D9D6D6;
@@ -360,18 +360,31 @@ input[type=submit],input[type=button] {
 	margin: 5px 0px;
 }
 
-input[type=submit]:hover,input[type=button]:hover {
+input[type=submit]:hover,input[type=button]:hover,.default-button:hover
+	{
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
 		), color-stop(1, #CFCDCD) );
 	background: -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B0AEAE',
 		endColorstr='#CFCDCD' );
-	background-color: #3290CC;
+	background-color: #999898;
+	color: #525151;
 }
 
+/*
+Do we need this?
 input[type=submit]:active,input[type=button]:hover {
 	position: relative;
 	top: 1px;
+}
+*/
+input[type=submit]:disabled,input[type=button]:disabled,.default-button:disabled
+	{
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
+		), color-stop(1, #B0AEAE) );
+	background: -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CFCDCD',
+		endColorstr='#B0AEAE' );
 }
 
 /* Save/Discard/Proceed button */
@@ -385,6 +398,10 @@ div.save-discard-proceed-buttons {
 
 .save-discard-proceed-buttons input {
 	margin-left: 15px;
+}
+
+.save-discard-proceed-buttons save-button {
+	float: left;
 }
 
 input.sdsbutton {
@@ -604,6 +621,44 @@ th.rf-dt-shdr-c {
 	color: white;
 }
 
+.service-parameter-au-popup .rf-au-lst-scrl {
+	width: 570px;
+}
+
+.input .rf-au {
+	background-image: none;
+	width: 100%;
+	border: none;
+	font-size: 1em;
+}
+
+.input .rf-au-fld-btn {
+	background-image: none;
+	width: 100%;
+}
+
+.input .rf-au input {
+	width: -moz-calc(100% -           16px -           15px);
+	width: -webkit-calc(100% -           16px -           15px);
+	width: calc(100% -           16px -           15px);
+}
+
+.input input.rf-au-inp {
+	background-image: none;
+	margin: 2px 0px 2px 0px;
+}
+
+.input .rf-au-btn {
+	margin: 2px 0px 2px 0px;
+	border: none;
+	background-image: url(none);
+	background: #017298;
+}
+
+.input .rf-au-btn-arrow {
+	height: 23px;
+}
+
 div.menu-step { /*width:95%;
 	margin-left: 2%;*/
 	margin-top: 20px;
@@ -708,7 +763,8 @@ ul#messages {
 	float: left;
 }
 
-#sampleactions input[type="submit"],input[type="button"] {
+.multi-buttons input[type="submit"],.multi-buttons input[type="button"],.multi-buttons a.default-button
+	{
 	margin-right: 10px;
 }
 
@@ -807,7 +863,7 @@ div.clear {
 	width: 100%;
 	height: 100%;
 	background-color: #000;
-	filter: alpha(opacity =                         50);
+	filter: alpha(opacity =                                                 50);
 	-moz-opacity: 0.5;
 	-khtml-opacity: 0.5;
 	opacity: 0.5;
@@ -880,6 +936,20 @@ span.value {
 	height: 40px;
 }
 
+.service-filters {
+	padding: 5px;
+	border-collapse: collapse;
+}
+
+.service-filters-filter {
+	float: left;
+	padding: 3px;
+}
+
+.service-filters input[type=submit] {
+	float: right;
+}
+
 .service-results {
 	width: 100%;
 	border-collapse: collapse;
@@ -925,16 +995,15 @@ td.service-info {
 }
 
 .service-info a {
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .service-info-panel {
 	display: block;
-	position: relative;
 	width: 100%;
 	min-height: 60px;
 	clear: both;
-	background-color: #FFFFFF;
+	background: white;
 }
 
 /* Clear after each node */
@@ -954,9 +1023,21 @@ td.service-info {
 }
 
 .service-info-info {
-	width: 100%;
 	padding: 3px;
 	font-size: 12px;
+}
+
+.service-info-metadata {
+	float: right;
+	margin: 0px 5px 0px 15px;
+	padding: 3px;
+	border: 1px dotted black;
+}
+
+.service-info-metadata ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
 }
 
 .service-info-footer {
@@ -1001,6 +1082,46 @@ td.service-info {
 .service-info-status img {
 	width: 16px;
 	height: 16px;
+}
+
+.service-info-rating {
+	unicode-bidi: bidi-override;
+}
+
+.service-info-rating {
+	font-size: 14px;
+}
+
+.service-info-rating span {
+	position: absolute;
+	overflow: hidden;
+}
+
+.service-parameter-or {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+.service-parameter-or:before {
+	position: absolute;
+	left: 0%;
+	top: 50%;
+	height: 1px;
+	background: #ccc;
+	content: "";
+	width: 100%;
+}
+
+.service-parameter-or:after {
+	position: absolute;
+	top: 0%;
+	left: 46%;
+	background: #fff;
+	display: block;
+	content: 'or';
+	width: 8%;
 }
 
 /* Confirmation panel */

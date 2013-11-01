@@ -19,9 +19,10 @@
  */
 package eu.scape_project.planning.plato.wf;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +30,16 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.repository.SCAPEPlanManagementClient;
+import eu.scape_project.planning.utils.OS;
 import eu.scape_project.planning.validation.ValidationError;
-
-import org.slf4j.Logger;
-
-import pt.gov.dgarq.roda.core.PlanClient;
+import eu.scape_project.planning.xml.ProjectExportAction;
 
 /**
  * @author Michael Kraxner
@@ -53,7 +54,8 @@ public class ValidatePlan extends AbstractWorkflowStep {
     private Logger log;
 
     @Inject
-    private ByteStreamManager byteStreamManager;
+    private ProjectExportAction projectExport;
+    
 
     public ValidatePlan() {
         requiredPlanState = PlanState.PLAN_DEFINED;
@@ -96,32 +98,39 @@ public class ValidatePlan extends AbstractWorkflowStep {
         // no custom save operation is needed here
     }
 
-    public void uploadPlanToRODA(String url, String username, String password) throws PlanningException {
+    public void deployPlan(String endpoint, String user, String password) throws PlanningException {
 
-        url = url + "/roda-core/";
-        PlanClient planClient;
+        SCAPEPlanManagementClient planManagement = new SCAPEPlanManagementClient(endpoint, user, password);
+        
+        String planIdentifier;
         try {
-            planClient = new PlanClient(new URL(url), username, password);
-        } catch (MalformedURLException e) {
-            log.error("Error creating PlanClient URL '" + url, e);
-            throw new PlanningException("Error creating PlanClient URL " + url, e);
+            planIdentifier = planManagement.reservePlanIdentifier();
+        } catch (Exception e) {
+            throw new PlanningException("Could not reserve Identifier.", e);
+        } catch (Throwable e) {
+            throw new PlanningException("Could not reserve Identifier.", e);
         }
+        this.plan.getPlanProperties().setRepositoryIdentifier(planIdentifier);
+        saveWithoutModifyingPlanState();
+        
 
-        if (!plan.getPreservationActionPlan().isDataExistent()) {
-            throw new PlanningException("No Preservation Action Plan found.");
-        }
-
-        File planFile = byteStreamManager.getTempFile(plan.getPreservationActionPlan().getPid());
-        if (!planFile.canRead()) {
-            throw new PlanningException("Preservation Action Plan could not be processed.");
-        }
-
+        String binarydataTempPath = OS.getTmpPath() + planIdentifier + "/";
+        File binarydataTempDir = new File(binarydataTempPath);
+        binarydataTempDir.mkdirs();
+        File planFile = new File(binarydataTempPath + "plan.xml");
         try {
-            planClient.uploadPlan(planFile);
-            log.info("Deployed plan {} to {}.", plan.getPlanProperties().getId(), url);
-        } catch (RuntimeException e) {
-            throw new PlanningException("Error deploying plan.", e);
+            try {
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(planFile));
+                projectExport.exportComplete(plan.getPlanProperties().getId(), out, binarydataTempPath);
+                out.flush();
+                out.close();
+                
+                planManagement.deployPlan(planIdentifier, new FileInputStream(planFile));
+            } catch (Exception e) {
+                throw new PlanningException("Failed to generate plan.", e);
+            }
+        } finally {
+            OS.deleteDirectory(binarydataTempDir);
         }
-
     }
 }

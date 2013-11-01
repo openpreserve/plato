@@ -31,11 +31,12 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * Entity describing a preservation alternative. A preservation action can also be a preservation
- * action service, then {@link #action} is set.
- *
+ * Entity describing a preservation alternative. A preservation action can also
+ * be a preservation action service, then {@link #action} is set.
+ * 
  * @author Hannes Kulovits
  */
 @Entity
@@ -50,19 +51,14 @@ public class Alternative implements Serializable, ITouchable {
     private ResourceDescription resourceDescription;
 
     @ManyToOne
-    @JoinColumn(name="parent_id", insertable=false, updatable=false, nullable=false)
+    @JoinColumn(name = "parent_id", insertable = false, updatable = false, nullable = false)
     private AlternativesDefinition alternativesDefinition;
 
     @NotNull
+    @NotBlank
     @Length(min = 1, max = 30)
     private String name;
 
-    /**
-     * standard length for a string column is 255
-     * validation is broken because we use facelet templates (issue resolved in  Seam 2.0)
-     * therefore allow "long" entries
-     */
-    
     @NotNull
     @Lob
     private String description;
@@ -71,7 +67,7 @@ public class Alternative implements Serializable, ITouchable {
     @GeneratedValue
     private int id;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
     /**
@@ -80,13 +76,12 @@ public class Alternative implements Serializable, ITouchable {
     @OneToOne(cascade = CascadeType.ALL)
     private PreservationActionDefinition action;
 
-    
     private boolean discarded = false;
 
     public boolean isExecutable() {
         return action != null && action.isExecutable();
     }
-    
+
     public int getId() {
         return id;
     }
@@ -98,8 +93,9 @@ public class Alternative implements Serializable, ITouchable {
     /**
      * Creates an alternative.
      * 
-     * This constructor is marked deprecated to emphasize that one should not create an instance without providing name and description.
-     * Still, it is required in some situations, e.g. for de-serializing via digester. 
+     * This constructor is marked deprecated to emphasize that one should not
+     * create an instance without providing name and description. Still, it is
+     * required in some situations, e.g. for de-serializing via digester.
      */
     @Deprecated
     public Alternative() {
@@ -128,15 +124,18 @@ public class Alternative implements Serializable, ITouchable {
     }
 
     /**
-     * Sets the name of this alternative.
-     * CAUTION:
-     * Do NOT use this, if the alternative is already part of an alternative definition:
-     * - if it is part of a stand alone alternative definition, use {@link AlternativesDefinition#renameAlternative(Alternative, String)} instead
-     * - it the alternative definition is part of a plan, use {@link Plan#renameAlternative(Alternative, String)}} instead.
+     * Sets the name of this alternative. CAUTION: Do NOT use this, if the
+     * alternative is already part of an alternative definition: - if it is part
+     * of a stand alone alternative definition, use
+     * {@link AlternativesDefinition#renameAlternative(Alternative, String)}
+     * instead - it the alternative definition is part of a plan, use
+     * {@link Plan#renameAlternative(Alternative, String)} instead.
      * 
-     * This is crucial, as integrity checks have to be performed, and other objects might refer to this alternative. 
+     * This is crucial, as integrity checks have to be performed, and other
+     * objects might refer to this alternative.
      * 
-     * @param name new name of this alternative
+     * @param name
+     *            new name of this alternative
      */
     @Deprecated
     public void setName(String name) {
@@ -157,6 +156,7 @@ public class Alternative implements Serializable, ITouchable {
 
     /**
      * Creates an empty alternative.
+     * 
      * @return {@link Alternative} object
      */
     public static Alternative createAlternative() {
@@ -170,8 +170,7 @@ public class Alternative implements Serializable, ITouchable {
         return alternativesDefinition;
     }
 
-    public void setAlternativesDefinition(
-            AlternativesDefinition alternativesDefinition) {
+    public void setAlternativesDefinition(AlternativesDefinition alternativesDefinition) {
         this.alternativesDefinition = alternativesDefinition;
     }
 
@@ -182,9 +181,9 @@ public class Alternative implements Serializable, ITouchable {
     public void setDiscarded(boolean discarded) {
         this.discarded = discarded;
     }
-    
+
     public boolean getDiscarded() {
-    	return this.discarded;
+        return this.discarded;
     }
 
     public ChangeLog getChangeLog() {
@@ -195,7 +194,7 @@ public class Alternative implements Serializable, ITouchable {
         changeLog = value;
     }
 
-    public boolean isChanged(){
+    public boolean isChanged() {
         return changeLog.isAltered();
     }
 
@@ -211,9 +210,10 @@ public class Alternative implements Serializable, ITouchable {
         // call handleChanges of all child elementss
         experiment.handleChanges(h);
         resourceDescription.handleChanges(h);
-        // manually created alternatives obviously don't have related preservation actions
+        // manually created alternatives obviously don't have related
+        // preservation actions
         if (action != null)
-           action.handleChanges(h);
+            action.handleChanges(h);
     }
 
     public PreservationActionDefinition getAction() {
@@ -224,25 +224,25 @@ public class Alternative implements Serializable, ITouchable {
         this.action = action;
     }
 
-    public static Alternative createAlternative (String uniqueName, PreservationActionDefinition action) {
+    public static Alternative createAlternative(String uniqueName, PreservationActionDefinition action) {
         Alternative a = Alternative.createAlternative();
-        
+
         ResourceDescription rd = new ResourceDescription();
-        //rd.setConfigSettings(configSettings);
-        
+        // rd.setConfigSettings(configSettings);
+
         a.setResourceDescription(rd);
-        
+
         a.setName(uniqueName);
         // generate service description
-        String descr = action.getInfo()+ " using service at: " + action.getUrl();
-        
-        if (action.getParameterInfo() != null && !"".equals(action.getParameterInfo())) {                    
+        String descr = action.getInfo() + " using service at: " + action.getUrl();
+
+        if (action.getParameterInfo() != null && !"".equals(action.getParameterInfo())) {
             descr += "\n\n" + "Additional information about parameters: \n" + action.getParameterInfo();
         }
-        
+
         a.setDescription(descr);
         a.setAction(action);
-        
+
         return a;
-    }    
+    }
 }

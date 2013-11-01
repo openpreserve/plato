@@ -27,24 +27,32 @@ import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PlatoException;
+import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.plato.bean.IServiceLoader;
+import eu.scape_project.planning.plato.bean.MyExperimentServices;
 import eu.scape_project.planning.plato.bean.ServiceInfoDataModel;
-import eu.scape_project.planning.plato.bean.TavernaServices;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DefineAlternatives;
 import eu.scape_project.planning.plato.wfview.AbstractView;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.PlanningServiceException;
+import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
-import eu.scape_project.planning.services.action.IActionInfo;
+import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
+import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
+import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.validation.ValidationError;
 
@@ -56,7 +64,17 @@ import eu.scape_project.planning.validation.ValidationError;
 @Named("defineAlternatives")
 @ConversationScoped
 public class DefineAlternativesView extends AbstractView {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -8800780634335662691L;
+
+    /**
+     * Types of registries.
+     */
+    private enum SelectedRegistry {
+        PA,
+        CUSTOM,
+        MY_EXPERIMENT
+    };
 
     @Inject
     private Logger log;
@@ -70,7 +88,7 @@ public class DefineAlternativesView extends AbstractView {
     /**
      * Alternative that is currently being edited.
      */
-    private IActionInfo editableAlternativeActionInfo;
+    private IServiceInfo editableAlternativeActionInfo;
 
     /**
      * Name of the editable alternative which cannot be set directly in the
@@ -81,7 +99,7 @@ public class DefineAlternativesView extends AbstractView {
     private String editableAlternativeName;
 
     /**
-     * 
+     * Alternative currently editable.
      */
     private Alternative editableAlternative;
 
@@ -91,10 +109,21 @@ public class DefineAlternativesView extends AbstractView {
     private Alternative customAlternative;
 
     /**
+     * URL of custom myExperiment service.
+     */
+    @URL
+    private String customMyExperimentServiceUri;
+
+    /**
+     * Workflow description of custom myExperiment service.
+     */
+    private MyExperimentActionInfo customMyExperimentServiceInfo;
+
+    /**
      * Cache for myExperiment service details.
      */
     @Inject
-    private TavernaServices tavernaServices;
+    private MyExperimentServices myExperimentServices;
 
     /**
      * List of all currently defined preservation service registries.
@@ -104,7 +133,7 @@ public class DefineAlternativesView extends AbstractView {
     /**
      * List of actions of the currently selected registry.
      */
-    private List<IActionInfo> availableActions;
+    private List<IServiceInfo> availableActions;
 
     /**
      * Data model for services.
@@ -116,10 +145,9 @@ public class DefineAlternativesView extends AbstractView {
      */
     private Map<String, IServiceLoader> serviceLoaders;
 
-    /**
-     * Show custom alternatives.
-     */
-    private Boolean showCustomAlternatives = false;
+    private SelectedRegistry selectedRegistry = SelectedRegistry.CUSTOM;
+
+    private MyExperimentSearch myExperimentSearch;
 
     /**
      * Creates a new view object.
@@ -131,10 +159,16 @@ public class DefineAlternativesView extends AbstractView {
         group = "menu.evaluateAlternatives";
 
         editableAlternative = null;
+        customAlternative = null;
+        customMyExperimentServiceInfo = null;
+        customMyExperimentServiceUri = null;
 
         availableRegistries = new ArrayList<PreservationActionRegistryDefinition>();
-        availableActions = new ArrayList<IActionInfo>();
+        availableActions = new ArrayList<IServiceInfo>();
         serviceLoaders = new HashMap<String, IServiceLoader>();
+
+        myExperimentSearch = new MyExperimentSearch();
+        myExperimentSearch.setProfile("http://purl.org/DP/components#MigrationAction");
     }
 
     /**
@@ -155,8 +189,8 @@ public class DefineAlternativesView extends AbstractView {
             facesMessages.addError("Could not find any preservation action registries.");
         }
 
-        serviceLoaders.put("myExperiment", tavernaServices);
-        tavernaServices.clear();
+        serviceLoaders.put("myExperiment", myExperimentServices);
+        myExperimentServices.clear();
 
         showCustomAlternatives();
     }
@@ -189,7 +223,7 @@ public class DefineAlternativesView extends AbstractView {
     public void showEditAlternative(Alternative alternative) {
         editableAlternative = alternative;
         editableAlternativeName = alternative.getName();
-        
+
         if (alternative.getAction() != null) {
             editableAlternativeActionInfo = ActionInfoFactory.createActionInfo(alternative.getAction());
             IServiceLoader serviceLoader = serviceLoaders.get(alternative.getAction().getActionIdentifier());
@@ -204,6 +238,7 @@ public class DefineAlternativesView extends AbstractView {
      */
     public void editAlternative() {
         editableAlternative.touch();
+        editableAlternativeName = editableAlternativeName.trim();
         try {
             plan.renameAlternative(editableAlternative, editableAlternativeName);
         } catch (PlanningException e) {
@@ -253,6 +288,17 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
+     * Determines if there is at least one sample with format info.
+     * 
+     * @return true if a sample with format info is available
+     */
+    public boolean isMimetypeAvailable() {
+        SampleObject sample = getSampleWithFormat();
+        return isFormatInfoAvailable() && sample.getFormatInfo().getMimeType() != null
+            && !"".equals(sample.getFormatInfo().getMimeType());
+    }
+
+    /**
      * Returns a sample with attached format info - at the moment this is the
      * first sample with format info found.
      * 
@@ -263,24 +309,67 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
-     * Shows the custom alternative input.
+     * Clears the lists of available services.
      */
-    public void showCustomAlternatives() {
-        customAlternative = Alternative.createAlternative();
-        showCustomAlternatives = true;
+    private void clearAvailableServices() {
+        availableActions.clear();
+        myExperimentServices.clear();
+        selectedRegistry = null;
     }
 
     /**
-     * Retrieves the list of services available in the given registry, for the
-     * current sample with format info.
+     * Shows the custom alternative input.
+     */
+    public void showCustomAlternatives() {
+        clearAvailableServices();
+        selectedRegistry = SelectedRegistry.CUSTOM;
+        customAlternative = Alternative.createAlternative();
+        customMyExperimentServiceInfo = null;
+        customMyExperimentServiceUri = null;
+    }
+
+    /**
+     * Shows myExperiment alternatives.
+     */
+    public void showMyExperimentAlternatives() {
+        if (!isMimetypeAvailable()) {
+            facesMessages
+                .addError("Could not find a sample with format information. Please add a mimetype to one of your samples.");
+            return;
+        }
+
+        clearAvailableServices();
+        selectedRegistry = SelectedRegistry.MY_EXPERIMENT;
+
+        myExperimentSearch.setFromMimetype(getSampleWithFormat().getFormatInfo().getMimeType());
+        filterMyExperimentAlternatives();
+    }
+
+    /**
+     * Filters myExperiment alternatives.
+     */
+    public void filterMyExperimentAlternatives() {
+        availableActions.clear();
+        availableActions.addAll(myExperimentSearch.search());
+        serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
+    }
+
+    /**
+     * Retrieves the list of services available in the given registry.
      * 
      * @param registry
      *            the registry to query
      */
     public void showPreservationServices(PreservationActionRegistryDefinition registry) {
-        showCustomAlternatives = false;
-        availableActions.clear();
-        tavernaServices.clear();
+        if (!isFormatInfoAvailable()) {
+            facesMessages
+                .addError("Could not find a sample with format information. Please add format information to one of your samples.");
+            return;
+        }
+
+        clearAvailableServices();
+        selectedRegistry = SelectedRegistry.PA;
+
         try {
             availableActions.addAll(defineAlternatives.queryRegistry(getSampleWithFormat().getFormatInfo(), registry));
             serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
@@ -291,15 +380,94 @@ public class DefineAlternativesView extends AbstractView {
     }
 
     /**
+     * Adds a preservation action to the plan, created from the custom
+     * myExperiment service URI.
+     */
+    public void loadCustomMyExperimentService() {
+        if (customMyExperimentServiceUri == null || "".equals(customMyExperimentServiceUri)) {
+            return;
+        }
+
+        customMyExperimentServiceInfo = new MyExperimentActionInfo();
+        customMyExperimentServiceInfo.setDescriptor(customMyExperimentServiceUri);
+        customMyExperimentServiceInfo.setUrl(customMyExperimentServiceUri);
+        customMyExperimentServiceInfo.setShortname(customMyExperimentServiceUri);
+        customMyExperimentServiceInfo.setInfo(customMyExperimentServiceUri);
+
+        WorkflowDescription wf = myExperimentServices.getWorkflowDescription(customMyExperimentServiceInfo);
+        if (wf != null) {
+            customMyExperimentServiceInfo.setUrl(wf.getContentUri());
+            customMyExperimentServiceInfo.setShortname(wf.getName());
+            customMyExperimentServiceInfo.setInfo(wf.getDescription());
+            customMyExperimentServiceInfo.setDescriptor(wf.getDescriptor());
+            customMyExperimentServiceInfo.setContentType(wf.getContentType());
+            myExperimentServices.load(customMyExperimentServiceInfo);
+        } else {
+            customMyExperimentServiceInfo = null;
+        }
+    }
+
+    /**
+     * Adds a preservation action to the plan, created from the provided service
+     * info.
+     * 
+     * @param serviceInfo
+     *            the action info
+     */
+    public void addPreservationAction(IServiceInfo serviceInfo) {
+        try {
+            defineAlternatives.addAlternative(serviceInfo);
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not create an alternative from the service you selected.");
+        }
+    }
+
+    /**
+     * Adds a preservation action to the plan, created from the provided service
+     * info.
+     * 
+     * @param serviceInfo
+     *            the action info
+     */
+    public void addPreservationAction(MyExperimentActionInfo serviceInfo) {
+        WorkflowDescription wf = myExperimentServices.getWorkflowDescription(serviceInfo);
+        if (wf == null) {
+            facesMessages.addError("Could not retrieve workflow description from myExeriment.");
+            return;
+        }
+
+        try {
+            PreservationActionDefinition actionDefinition = new PreservationActionDefinition();
+            actionDefinition.setActionIdentifier(serviceInfo.getServiceIdentifier());
+            actionDefinition.setShortname(serviceInfo.getShortname());
+            actionDefinition.setDescriptor(serviceInfo.getDescriptor());
+            actionDefinition.setUrl(serviceInfo.getUrl());
+            actionDefinition.setInfo(serviceInfo.getInfo());
+
+            for (Port p : wf.getInputPorts()) {
+                if (p.isParameterPort()) {
+                    actionDefinition.getParams().add(new Parameter(p.getName(), ""));
+                }
+            }
+
+            String uniqueName = plan.getAlternativesDefinition().createUniqueName(actionDefinition.getShortname());
+            Alternative a = Alternative.createAlternative(uniqueName, actionDefinition);
+            defineAlternatives.addAlternative(a);
+        } catch (PlanningException e) {
+            facesMessages.addError("Could not create an alternative from the service you selected.");
+        }
+    }
+
+    /**
      * Adds a preservation action to the plan, created from the provided action
      * info.
      * 
-     * @param actionInfo
+     * @param serviceInfo
      *            the action info
      */
-    public void addPreservationAction(IActionInfo actionInfo) {
+    public void addPreservationAction(ActionInfo serviceInfo) {
         try {
-            defineAlternatives.addAlternative(actionInfo);
+            defineAlternatives.addAlternative(serviceInfo);
         } catch (PlanningException e) {
             facesMessages.addError("Could not create an alternative from the service you selected.");
         }
@@ -311,7 +479,8 @@ public class DefineAlternativesView extends AbstractView {
         if (editableAlternative != null) {
             errors
                 .add(new ValidationError(
-                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step.", editableAlternative));
+                    "You are currently editing an Alternative. Please finish editing first before you proceed to the next step.",
+                    editableAlternative));
         }
 
         // general validation
@@ -350,7 +519,7 @@ public class DefineAlternativesView extends AbstractView {
         this.editableAlternativeName = editableAlternativeName;
     }
 
-    public IActionInfo getEditableAlternativeActionInfo() {
+    public IServiceInfo getEditableAlternativeActionInfo() {
         return editableAlternativeActionInfo;
     }
 
@@ -362,31 +531,44 @@ public class DefineAlternativesView extends AbstractView {
         this.customAlternative = customAlternative;
     }
 
-    public Boolean getShowCustomAlternatives() {
-        return showCustomAlternatives;
+    public String getCustomMyExperimentServiceUri() {
+        return customMyExperimentServiceUri;
+    }
+
+    public void setCustomMyExperimentServiceUri(String customMyExperimentServiceUri) {
+        this.customMyExperimentServiceUri = customMyExperimentServiceUri;
+    }
+
+    public IServiceInfo getCustomMyExperimentServiceInfo() {
+        return customMyExperimentServiceInfo;
     }
 
     public List<PreservationActionRegistryDefinition> getAvailableRegistries() {
         return availableRegistries;
     }
 
-    public List<IActionInfo> getAvailableActions() {
+    public List<IServiceInfo> getAvailableActions() {
         return availableActions;
+    }
+
+    public SelectedRegistry getSelectedRegistry() {
+        return selectedRegistry;
+    }
+
+    public MyExperimentSearch getMyExperimentSearch() {
+        return myExperimentSearch;
     }
 
     public ServiceInfoDataModel getServiceInfoData() {
         return serviceInfoData;
     }
 
-    public TavernaServices getTavernaServices() {
-        return tavernaServices;
-    }
-
-    public Logger getLog() {
-        return log;
+    public MyExperimentServices getTavernaServices() {
+        return myExperimentServices;
     }
 
     public void setLog(Logger log) {
         this.log = log;
     }
+
 }

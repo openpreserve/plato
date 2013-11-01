@@ -242,6 +242,11 @@ public class AlternativesDefinition implements Serializable, ITouchable {
             throw new PlanningException("A unique name must be provided for the alternative.");
         }
 
+        if (!isAlternativeNameValid(alternative.getName())) {
+            String msg = String.format("The alternative name must not start or end with a whitespace. [%s]", alternative.getName());
+            throw new PlanningException(msg);
+        }
+
         alternative.setAlternativesDefinition(this);
         alternatives.add(alternative);
     }
@@ -270,6 +275,10 @@ public class AlternativesDefinition implements Serializable, ITouchable {
             throw new PlanningException("A unique name must be provided for the alternative.");
         }
 
+        if (!isAlternativeNameValid(newName)) {
+            throw new PlanningException("The alternative name must not start or end with a whitespace.");
+        }
+
         // At this stage renaming of the alternative is okay
         alternative.setName(newName);
     }
@@ -281,13 +290,27 @@ public class AlternativesDefinition implements Serializable, ITouchable {
      * Note: The check is done case-insensitive
      * 
      * @param name
-     * @return true, if there is no alternative with the same
+     * @return true if there is no alternative with the same
      */
     private boolean isAlternativeNameUnique(String name) {
         for (Alternative alt : alternatives) {
             if (alt.getName().equalsIgnoreCase(name)) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the alternative name is valid.
+     * 
+     * @param name
+     *            the name to check
+     * @return true if valid, false otherwise
+     */
+    private boolean isAlternativeNameValid(String name) {
+        if (name.length() != name.trim().length()) {
+            return false;
         }
         return true;
     }

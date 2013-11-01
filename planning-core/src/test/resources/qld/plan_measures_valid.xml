@@ -1,0 +1,22 @@
+<measures>
+    <!-- automated QA supported must have (one) of the the following values: [Yes] --> 
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#134">Yes</measure>
+
+    <!-- comparative file size must be  less than or equal to 4.0 -->
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#123">2.7</measure>
+
+    <!-- compression type must have (one) of the the following values: [none] -->
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#117">none</measure>
+    
+    <!-- image width equal must have (one) of the the following values: [Yes] -->
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#51">Yes</measure>
+
+    <!-- image height equal must have (one) of the the following values: [Yes] -->
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#53">Yes</measure>
+
+    <!-- EXIF: all tiff data retained must have (one) of the the following values: [Yes] -->
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#251">Yes</measure>
+
+    <!-- colour model preserved must have (one) of the the following values: [Yes] -->
+    <measure subject="outputFile" type="http://purl.org/DP/quality/measures#56">Yes</measure>
+</measures>

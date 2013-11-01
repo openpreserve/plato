@@ -105,9 +105,10 @@ public class CreateExecutablePlanView extends AbstractView {
                 parser = null;
                 datafilledProfile = null;
             } catch (StorageException e) {
-                facesMessages.addError("Could not load collection profile.");
+                facesMessages.addError("Could not load collection profile. Please try again.");
             } catch (ParserException e) {
-                facesMessages.addError("Could not parse collection profile.");
+                facesMessages
+                    .addError("Could not parse collection profile. Please make sure the collection profile is valid.");
             }
         } else {
             log.debug("No profile defined so far.");
@@ -126,8 +127,8 @@ public class CreateExecutablePlanView extends AbstractView {
         log.debug("Executable plan file [{}] uploaded", fileName);
 
         if (!fileName.endsWith(".t2flow")) {
-            log.warn("The uploaded file [{}] is not an t2flow file", fileName);
-            facesMessages.addError("The uploaded file is not an t2flow");
+            log.warn("The uploaded file {} is not an t2flow file", fileName);
+            facesMessages.addError("The uploaded file is not an t2flow. Please upload a valid Taverna t2flow file.");
             return;
         }
 
@@ -135,15 +136,14 @@ public class CreateExecutablePlanView extends AbstractView {
             createExecutablePlan.readT2flowExecutablePlan(item.getInputStream());
         } catch (TavernaParserException e) {
             log.warn("An error occurred during parsing: {}", e.getMessage());
-            facesMessages.addError("An error occurred, while reading in the uploaded executable plan: "
-                + e.getMessage());
+            facesMessages.addError("There was a problem reading the plan: " + e.getMessage()
+                + ". Please make sure you have selected a valid executable plan.");
         } catch (PlanningException e) {
-            log.warn("An error occurred furing parsing: {}", e.getMessage());
-            facesMessages.addError("An error occurred, while reading in the uploaded executable plan: "
-                + e.getMessage());
+            log.warn("An error occurred during storing the plan: {}", e.getMessage());
+            facesMessages.addError("There was a problem reading the plan: " + e.getMessage() + ". Please try again.");
         } catch (IOException e) {
             log.warn("An error occurred while opening the input stream: {}", e.getMessage());
-            facesMessages.addError("An error occurred, while reading the file. Please try again");
+            facesMessages.addError("There was a problem reading the file. Please try again.");
         }
     }
 
@@ -164,9 +164,9 @@ public class CreateExecutablePlanView extends AbstractView {
      * Initiates the generation of a preservation action plan.
      */
     public void generatePreservationActionPlan() {
-
         if (!isPapGenerationPossible()) {
-            facesMessages.addError("An error occured while generating the preservation ation plan.");
+            facesMessages
+                .addError("Cannot generate Preservation Action Plan. Please add a collection profile and executable plan first.");
             return;
         }
 

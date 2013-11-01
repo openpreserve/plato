@@ -77,7 +77,7 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
             ImageCompareEvaluator imageEvaluator = new ImageCompareEvaluator();
 
             for (String measureUri : measureUris) {
-                Scale scale = null; 
+                Scale scale = null;
                 String mode = null;
                 if (MeasureConstants.IMAGE_CONTENT_IS_EQUAL.equals(measureUri)) {
                     mode = "equal";
@@ -98,17 +98,10 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                     mode = "mse";
                     scale = new PositiveFloatScale();
                 } else if (MeasureConstants.IMAGE_DISTANCE_RMSE.equals(measureUri)) {
-//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_MEPP.equals(measureUri)) {
-//                    mode = "mepp";
+                    mode = "rmse";
                 } else if (MeasureConstants.IMAGE_DISTANCE_SSIM.equals(measureUri)) {
                     mode = "ssimSimple";
                     scale = new FloatScale();
-//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLEHUE.equals(measureUri)) {
-//                    mode = "ssimSimpleHue";
-//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_SSIMSIMPLESATURATION.equals(measureUri)) {
-//                    mode = "ssimSimpleSaturation";
-//                } else if (MeasureConstants.OBJECT_IMAGE_SIMILARITY_EQUALJUDGED.equals(measureUri)) {
-//                    mode = "equalJudged";
                 }
 
                 if (mode != null) {
@@ -118,7 +111,8 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                             tempFiles.get(result), "AE");
 
                         if (d.compareTo(Scale.MAX_VALUE) == 0) {
-                            // No: only evaluation results are returned, no error messages
+                            // No: only evaluation results are returned, no
+                            // error messages
                             // v.setComment("ImageMagick compare failed or could not be called");
                         } else {
                             v = scale.createValue();
@@ -129,7 +123,8 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                         Double d = imageEvaluator.evaluate(tempDir.getAbsolutePath(), tempFiles.get(sample),
                             tempFiles.get(result), mode);
                         if (d == null) {
-                            // No: only evaluation results are returned, no error messages
+                            // No: only evaluation results are returned, no
+                            // error messages
                             // v.setComment("ImageMagick comparison failed");
                         } else {
                             v = scale.createValue();

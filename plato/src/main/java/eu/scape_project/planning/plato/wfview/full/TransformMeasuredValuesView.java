@@ -138,7 +138,7 @@ public class TransformMeasuredValuesView extends AbstractView {
     }
 
     /**
-     * sets (primitive) default values for all numeric and boolean transformers
+     * sets (primitive) default values for all numeric and boolean transformers.
      */
     public void calculateDefaultTransformers() {
         transformMeasuredValues.calculateDefaultTransformers();

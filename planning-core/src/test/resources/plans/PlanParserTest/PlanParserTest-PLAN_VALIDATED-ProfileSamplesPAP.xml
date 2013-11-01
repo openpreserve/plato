@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.1">
+<?xml version="1.0" encoding="UTF-8"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.2">
 <plan>
 <changelog created="2012-11-27T17:23:48" createdBy="test1" changed="2012-11-27T17:24:42" changedBy="test1"/>
 <properties author="Test1 Test1" organization="TUW" name="PlanParser Test - ProfileSamplesPAP" privateProject="true" reportPublic="false" planType="FULL">

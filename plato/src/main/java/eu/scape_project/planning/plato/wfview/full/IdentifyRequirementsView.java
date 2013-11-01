@@ -83,10 +83,9 @@ public class IdentifyRequirementsView extends AbstractView {
     @Inject
     private CriterionSelector critSelector;
 
-
     @Inject
     private TreeHelperBean requirementstreeHelper;
-    
+
     @Inject
     private OrganisationalPolicies policies;
 
@@ -107,16 +106,19 @@ public class IdentifyRequirementsView extends AbstractView {
      * Items for the scale SelectMenu.
      */
     private List<SelectItem> scaleList;
-    
+
     private DigitalObject importFile;
 
     /**
      * Leaf selected (last clicked) in the requirements-tree.
      */
     private Leaf selectedLeaf;
-    
+
     private PreservationCase selectedPreservationCase;
 
+    /**
+     * Creates a new view.
+     */
     public IdentifyRequirementsView() {
         currentPlanState = PlanState.RECORDS_CHOSEN;
         name = "Identify Requirements";
@@ -128,23 +130,25 @@ public class IdentifyRequirementsView extends AbstractView {
         importFile = null;
     }
 
+    @Override
     public void init(Plan plan) {
         super.init(plan);
         treeRoots = new ArrayList<TreeNode>();
         treeRoots.add(plan.getTree().getRoot());
         populateScaleList();
         critSelector.init();
-        
+
         policies.init();
-        selectedPreservationCase = policies.getPreservationCase(plan.getProjectBasis().getSelectedPreservationCaseURI());
-        
+        selectedPreservationCase = policies
+            .getPreservationCase(plan.getProjectBasis().getSelectedPreservationCaseURI());
+
         if (plan.getTree().getRoot().getChildren().size() == 0) {
             generateTreeFromPolicies();
         }
-        
+
         requirementstreeHelper.expandAll(plan.getTree().getRoot());
     }
-    
+
     /**
      * Attaches a new Leaf to the given object (which is, hopefully, a Node).
      * 
@@ -154,12 +158,13 @@ public class IdentifyRequirementsView extends AbstractView {
     public void addLeaf(Object object) {
         if (object instanceof Node) {
             Node node = (Node) object;
-            identifyRequirements.addNewLeaf(node);
+            Leaf newLeaf = identifyRequirements.addNewLeaf(node);
+            requirementstreeHelper.expandNode(newLeaf);
         }
     }
 
     /**
-     * Attaches a new Node to the given object (which is, hopefully, a Node)
+     * Attaches a new Node to the given object (which is, hopefully, a Node).
      * 
      * @param object
      *            Node where the new Node should be attached.
@@ -167,7 +172,8 @@ public class IdentifyRequirementsView extends AbstractView {
     public void addNode(Object object) {
         if (object instanceof Node) {
             Node node = (Node) object;
-            identifyRequirements.addNewNode(node);
+            Node newNode = identifyRequirements.addNewNode(node);
+            requirementstreeHelper.expandNode(newNode);
         }
     }
 
@@ -217,7 +223,7 @@ public class IdentifyRequirementsView extends AbstractView {
         } catch (StorageException e) {
             log.error("Exception at trying to fetch attached file with pid " + object.getPid() + ": " + e.getMessage(),
                 e);
-            facesMessages.addError("importPanel", "Unable to fetch attached file");
+            facesMessages.addError("importPanel", "Unable to fetch attached file. Please try again.");
             return;
         }
 
@@ -242,8 +248,8 @@ public class IdentifyRequirementsView extends AbstractView {
         try {
             identifyRequirements.attachFile(digitalObject);
         } catch (StorageException e) {
-            log.error("Exception at trying to attach file. ", e);
-            facesMessages.addError("importPanel", "Unable to attach file");
+            log.error("Exception at trying to attach file.", e);
+            facesMessages.addError("Unable to attach file. Please try again.");
         }
     }
 
@@ -328,7 +334,7 @@ public class IdentifyRequirementsView extends AbstractView {
         String freeMindXML = identifyRequirements.exportTreeAsFreeMindXML();
         downloader.downloadMM(freeMindXML, plan.getPlanProperties().getName() + ".mm");
     }
-    
+
     /**
      * Method responsible for populating possible SelectItmes of the Scale
      * SelectBox (showing up in the requirements tree).
@@ -381,7 +387,7 @@ public class IdentifyRequirementsView extends AbstractView {
     public void detachCriterionMapping() {
         identifyRequirements.detachCriterionFromLeaf(selectedLeaf);
     }
-    
+
     public void generateTreeFromPolicies() {
         if (selectedPreservationCase == null) {
             return;
@@ -390,13 +396,14 @@ public class IdentifyRequirementsView extends AbstractView {
         boolean success = identifyRequirements.createTreeFromPreservationCase(selectedPreservationCase);
 
         if (success) {
-            facesMessages.addInfo("Decision criteria successfully created based on control policies of the selected preservation case.");
+            facesMessages
+                .addInfo("Decision criteria successfully created based on control policies of the selected preservation case.");
             treeRoots.clear();
             treeRoots.add(plan.getTree().getRoot());
             requirementstreeHelper.expandAll(plan.getTree().getRoot());
         }
 
-    }    
+    }
 
     @Override
     protected AbstractWorkflowStep getWfStep() {
@@ -404,7 +411,7 @@ public class IdentifyRequirementsView extends AbstractView {
     }
 
     // --------------- getter/setter ---------------
-    
+
     public boolean isEditingNodeComments() {
         return editingNodeComments;
     }
