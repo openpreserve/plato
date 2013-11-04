@@ -1250,6 +1250,10 @@
 							</ui:remove>
 
 							<div class="save-discard-proceed-buttons">
+								<h:commandButton id="deployTriggers" 
+									value="Deploy Triggers"
+									action="#{validatePlan.deployTriggers()}"
+									styleClass="save-button" style="min-width: 150px; float: none;" />
 								<a4j:outputPanel
 									rendered="#{validatePlan.user.userGroup.repository == null or validatePlan.user.userGroup.repository.url == null or validatePlan.user.userGroup.repository.url == ''}">
 									<h:commandButton id="reviseButtonSingle"

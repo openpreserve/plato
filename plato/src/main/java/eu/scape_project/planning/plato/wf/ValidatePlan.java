@@ -29,17 +29,32 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.configuration.Configuration;
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.slf4j.Logger;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.api.client.filter.LoggingFilter;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.repository.SCAPEPlanManagementClient;
+import eu.scape_project.planning.sla.TriggerGenerator;
+import eu.scape_project.planning.utils.ConfigurationLoader;
 import eu.scape_project.planning.utils.OS;
 import eu.scape_project.planning.validation.ValidationError;
 import eu.scape_project.planning.xml.ProjectExportAction;
+import eu.scape_project.watch.domain.AsyncRequest;
+import eu.scape_project.watch.domain.Trigger;
+import eu.scape_project.watch.utils.KBUtils;
 
 /**
  * @author Michael Kraxner
@@ -132,5 +147,36 @@ public class ValidatePlan extends AbstractWorkflowStep {
         } finally {
             OS.deleteDirectory(binarydataTempDir);
         }
+    }
+    
+    public void deployTriggers() throws PlanningException{
+    	
+    	TriggerGenerator triggerGen = new TriggerGenerator();
+    	List<Trigger> triggers = triggerGen.generateTriggers(user.getEmail(), 24*3600*1000, plan);
+    	
+    	if (triggers.size() > 0) {
+	        try {
+	            ConfigurationLoader configurationLoader = new ConfigurationLoader();
+	            Configuration config = configurationLoader.load();
+	            String watchEndpoint = config.getString("watch.rest.uri");
+	            String watchUser = config.getString("watch.rest.user");
+	            String watchPassword = config.getString("watch.rest.password");
+	        	
+				final ClientConfig cc = new DefaultClientConfig();
+				cc.getClasses().add(JacksonJsonProvider.class);
+				final Client clientWithJacksonSerializer = Client.create(cc);
+				clientWithJacksonSerializer.addFilter(new LoggingFilter());
+				clientWithJacksonSerializer.addFilter(new HTTPBasicAuthFilter(watchUser, watchPassword));
+				WebResource resource = clientWithJacksonSerializer.resource(watchEndpoint);
+
+				final AsyncRequest areq = new AsyncRequest("monitor plan: " + plan.getPlanProperties().getName(), triggers);
+				final AsyncRequest areq2 = resource.path(KBUtils.ASYNC_REQUEST + ".json/new").accept(MediaType.APPLICATION_JSON)
+					      .post(AsyncRequest.class, areq);
+			} catch (Exception e) {
+				throw new PlanningException("Failed to access endpoint.", e);
+			}
+    	} else {
+    		throw new PlanningException("No triggers to deploy.");
+    	}
     }
 }

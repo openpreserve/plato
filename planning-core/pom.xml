@@ -107,6 +107,19 @@
 			<name>myGrid Snapshot Repository</name>
 			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
 		</repository>
+		<!-- we define a local repository for scout model -->
+		<repository>
+			<id>planning core lib</id>
+			<name>Planning core libraries</name>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>file://${project.basedir}/lib</url>
+		</repository>		
 	</repositories>
 
 	<dependencies>
@@ -269,6 +282,13 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.7</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>eu.scape-project</groupId>
+			<artifactId>scout-model</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+		
 
 	</dependencies>
 	<profiles>

@@ -21,21 +21,12 @@ import eu.scape_project.planning.validation.ValidationError;
 
 public class QLDGenerator {
 
-    // <schema xmlns="http://purl.oclc.org/dsdl/schematron">
-    // <pattern>
-    // <title>measures rules</title>
-    // <rule context="measure[@type='similarity']">
-    // <assert test=". &gt; 0.87">Similarity score must be greater than
-    // 0.87</assert>
-    // </rule>
-    // </pattern>
-    // </schema>
-
     private final static String CONTEXT_MEASURE = "measure[@type='${MEASURE}' and (@subject != 'inputFile')]";
     private final static Namespace SCHEMATRON_NS = new Namespace("", "http://purl.oclc.org/dsdl/schematron");
 
     private Document doc;
     private Element root;
+    
 
     public QLDGenerator() {
     }
@@ -61,7 +52,13 @@ public class QLDGenerator {
         
     }
 
+    /**
+     * Generates triggers and QLDs based on decision criteria of the plan.
+     *  
+     * @param plan
+     */
     public void generateQLD(Plan plan) {
+    	
         doc = DocumentHelper.createDocument();
         root = doc.addElement("schema");
         root.clearContent();
@@ -79,15 +76,30 @@ public class QLDGenerator {
                 if (EvaluationScope.OBJECT == leaf.getMeasure().getAttribute().getCategory().getScope()) {
                     // generate QLD for Preservation Action Plan
                     addQLD(pattern, leaf);
-                } else {
-                    // generate trigger for Scout
-                    // TODO
                 }
             }
         }
 
     }
 
+
+    
+
+    /**
+     * Adds a QLD derived from the decision criteria of the given leaf to the given parent node.
+     * 
+     *  <schema xmlns="http://purl.oclc.org/dsdl/schematron">
+     *      <pattern>
+     *      <title>measures rules</title>
+     *      <rule context="measure[@type='similarity']">
+     *      	<assert test=". &gt; 0.87">Similarity score must be greater than 0.87</assert>
+     *      </rule>
+     *      </pattern>
+     *  </schema>
+     *  
+     * @param parent
+     * @param leaf
+     */
     private void addQLD(Element parent, Leaf leaf) {
         // is this a drop out criteria?
         if (leaf.getTransformer() instanceof OrdinalTransformer) {

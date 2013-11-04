@@ -317,6 +317,17 @@ public class ValidatePlanView extends AbstractView {
             log.error("There was an error deploying the plan", e);
         }
     }
+    
+    public void deployTriggers() {
+        try {
+            validatePlan.deployTriggers();
+            facesMessages.addInfo("Triggers sucessfully deployed.");
+        } catch (PlanningException e) {
+            facesMessages.addError("There was an error deploying the triggers: " + e.getMessage());
+            log.error("There was an error deploying the triggers", e);
+        }
+    	
+    }
 
     /**
      * Starts a download for the given digital object. Uses
