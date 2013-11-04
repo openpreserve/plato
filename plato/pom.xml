@@ -193,27 +193,15 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
-		
- 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-core</artifactId>
-			<version>1.13</version>
-		</dependency>		
-  		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>1.13</version>
-		</dependency>
-		
-		<!-- watch client  -->
+
+		<!-- watch client -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.10</version>
 		</dependency>
-				
 	</dependencies>
-	
+
 	<profiles>
 		<profile>
 			<!-- To speed up unit tests on Travis we exclude sources which depend 
