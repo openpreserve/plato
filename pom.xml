@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scape-project.pw</groupId>
 	<artifactId>planningsuite</artifactId>
-	<version>4.3.0-SNAPSHOT</version>
+	<version>4.3.0</version>
 	<packaging>pom</packaging>
 	<name>Planning Suite</name>
 

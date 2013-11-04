@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>eu.scape-project.pw</groupId>
+		<artifactId>planningsuite-tests</artifactId>
+		<version>4.3.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>planningsuite-tests</artifactId>
+	<name>Planningsuite Tests</name>
+	<build>
+		<!-- the currently used version of eclipse WTP plugin has a bug and ommits 
+			the version, cannot cope with finalName but we have to specify the name of 
+			this file explicitly in persistence.xml... therefore we set the filename 
+			for maven build to the eclipse WTP default -->
+		<finalName>planningsuite-tests</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<version>6</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<initializeInOrder>true</initializeInOrder>
+					<filtering>true</filtering>
+					<modules>
+						<jarModule>
+							<groupId>eu.scape-project.pw</groupId>
+							<artifactId>plato-model</artifactId>
+						</jarModule>
+						<ejbModule>
+							<groupId>eu.scape-project.pw</groupId>
+							<artifactId>planning-core</artifactId>
+						</ejbModule>
+						<webModule>
+							<groupId>eu.scape-project.pw</groupId>
+							<artifactId>plato</artifactId>
+							<contextRoot>/plato</contextRoot>
+						</webModule>
+						<webModule>
+							<groupId>eu.scape-project.pw</groupId>
+							<artifactId>kbrowser</artifactId>
+							<contextRoot>/kbrowser</contextRoot>
+						</webModule>
+					</modules>
+
+					<archive>
+						<manifestEntries>
+							<Built-By>Plato Development Team</Built-By>
+							<Build-Version>${project.version}_${maven.build.timestamp}</Build-Version>
+							<Dependencies>javaee.api, javax.faces.api, org.jboss.as.jpa,
+								org.hibernate, org.javassist, javax.persistence.api, javaee.api,
+								org.jboss.interceptor, org.jboss.as.weld, org.jboss.logging,
+								org.jboss.weld.core, org.jboss.weld.api, org.jboss.weld.spi</Dependencies>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>plato-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>planning-core</artifactId>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>plato</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>eu.scape-project.pw</groupId>
+			<artifactId>kbrowser</artifactId>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+</project>
