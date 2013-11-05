@@ -50,6 +50,7 @@
 						<rich:tabPanel switchType="client">
 							<rich:tab header="Summary">
 								<h:dataTable
+								    id="recordTable"
 									value="#{runExperiments.plan.sampleRecordsDefinition.records}"
 									var="record">
 									<h:column>
@@ -84,16 +85,19 @@
 											oncomplete="#{rich:component('uploadPanel')}.show()" />
 										<a4j:outputPanel layout="inline"
 											rendered="#{alt.experiment.results[record].dataExistent}">
-											<h:commandLink
-												value="Download '#{alt.experiment.results[record].fullname}'"
-												action="#{runExperiments.downloadResultFile(alt, record)}" />
+											<h:commandButton
+											    id="downloadResult"
+												value="Download"
+												action="#{runExperiments.downloadResultFile(alt, record)}">
+												<rich:tooltip target="downloadResult">Download result of applying #{alt.name} to #{record.shortName}</rich:tooltip>												
+											</h:commandButton>												
 	                                    (<h:outputText
 												value="#{alt.experiment.results[record].sizeInMB}">
 												<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
 											</h:outputText> MB)
 	                                    <a4j:commandButton
 												action="#{runExperiments.removeResultFile(alt, record)}"
-												value="Remove" render="alternativesTable" />
+												value="-" render="mainform" />
 										</a4j:outputPanel>
 									</h:column>
 								</h:dataTable>
@@ -124,13 +128,7 @@
 			<ui:param name="detailedExperimentInfo"
 				value="#{runExperiments.selectedDetailedExperimentInfo}" />
 		</ui:include>
-		<!-- this does not work, with ppr of a4j:poll, then experimentStatus evaluates to null
-         
-        <ui:include src="/plato/shared/runExperimentsPanel.xhtml">
-            <a4j:param name="experimentStatus" value="#{runExperiments.experimentStatus}" />
-            <a4j:param name="runExperimentsBean" value="#{runExperiments}" />
-        </ui:include>
- -->
+
 		<a4j:queue name="pollQueue"></a4j:queue>
 		<a4j:queue name="cmdQueue"></a4j:queue>
 

@@ -89,6 +89,19 @@
 	</build>
 
 	<repositories>
+		<!-- we define a local repository for scout model -->
+		<repository>
+			<id>planning core lib</id>
+			<name>Planning core libraries</name>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>file://${project.basedir}/lib</url>
+		</repository>		
 		<repository>
 			<releases />
 			<snapshots>
@@ -106,19 +119,6 @@
 			<id>mygrid-snapshot-repository</id>
 			<name>myGrid Snapshot Repository</name>
 			<url>http://www.mygrid.org.uk/maven/snapshot-repository</url>
-		</repository>
-		<!-- we define a local repository for scout model -->
-		<repository>
-			<id>planning core lib</id>
-			<name>Planning core libraries</name>
-			<releases>
-				<enabled>true</enabled>
-				<checksumPolicy>ignore</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<url>file://${project.basedir}/lib</url>
 		</repository>
 	</repositories>
 
