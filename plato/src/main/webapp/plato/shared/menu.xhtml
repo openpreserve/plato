@@ -13,24 +13,24 @@
 		<c:if test="#{viewWorkflowManager.active}">
 			<rich:toolbar width="100%" height="30px" itemSeparator="none">
 				<rich:toolbarGroup>
-					<rich:dropDownMenu mode="ajax">
+					<rich:dropDownMenu mode="client">
 						<f:facet name="label">
 							<h:panelGroup>
 								<h:outputText value="Plan" />
 							</h:panelGroup>
 						</f:facet>
-						<rich:menuItem submitMode="client">
+						<rich:menuItem>
 							<h:commandLink onclick="return mayExit_noClick();"
 								value="Close Plan" action="#{viewWorkflowManager.endWorkflow()}" />
 						</rich:menuItem>
-						<rich:menuItem submitMode="client">
+						<rich:menuItem>
 							<h:link value="Plan Settings" onclick="return mayExit_noClick();"
 								outcome="/plan/plansettings.jsf">
 								<f:param name="cid"
 									value="#{javax.enterprise.context.conversation.id}" />
 							</h:link>
 						</rich:menuItem>
-						<rich:menuItem submitMode="client">
+						<rich:menuItem>
 							<h:commandLink onclick="return mayExit_noClick();"
 								value="Download Plan" action="#{planSettings.downloadPlan()}" />
 						</rich:menuItem>
@@ -48,29 +48,26 @@
 
 				<rich:toolbarGroup rendered="#{!empty menu.mainmenuItems}">
 					<c:forEach items="#{menu.mainmenuItems}" var="mainitem">
-						<rich:dropDownMenu mode="ajax">
+						<rich:dropDownMenu mode="client">
 							<f:facet name="label">
 								<h:panelGroup>
 									<h:outputText value="#{msg[mainitem]}" />
 								</h:panelGroup>
 							</f:facet>
 							<c:forEach items="#{menu.getViewItems(mainitem)}" var="wfStep">
-								<rich:menuItem submitMode="client" onclick="">
+								<rich:menuItem>
 									<h:commandLink onclick="return mayExit_noClick();"
 										value="#{wfStep.name}"
 										action="#{viewWorkflow.goToStep(wfStep.currentPlanState)}"
 										disabled="#{not viewWorkflow.reachable(wfStep.currentPlanState)}" />
 								</rich:menuItem>
-								<ui:remove>
-									<rich:menuSeparator />
-								</ui:remove>
 							</c:forEach>
 						</rich:dropDownMenu>
 					</c:forEach>
 				</rich:toolbarGroup>
 
 				<rich:toolbarGroup location="right">
-					<rich:dropDownMenu mode="ajax">
+					<rich:dropDownMenu mode="client">
 						<f:facet name="label">
 							<h:panelGroup>
 								<p:user size="22" />
@@ -81,7 +78,8 @@
 								action="#{groups.init()}" />
 						</rich:menuItem>
 						<rich:menuItem>
-							<h:commandLink value="Logout" action="#{viewWorkflowManager.logout}">
+							<h:commandLink value="Logout"
+								action="#{viewWorkflowManager.logout}">
 							</h:commandLink>
 						</rich:menuItem>
 					</rich:dropDownMenu>
@@ -93,7 +91,7 @@
 		<c:if test="#{!viewWorkflowManager.active}">
 			<rich:toolbar width="100%" height="30px" itemSeparator="grid">
 				<rich:toolbarGroup location="right">
-					<rich:dropDownMenu mode="ajax">
+					<rich:dropDownMenu mode="client">
 						<f:facet name="label">
 							<h:panelGroup>
 								<p:user size="22" />
