@@ -11,6 +11,7 @@
 
  Changes in V4.0.2:
   * added optional attribute: repositoryidentifier to projectPropertiesType
+  * planType (FULL, FTE) is now optional (there will be no more FTE plans )
  Changes in V4.0.1:
   * added freeStringResultType, corrected reference to intRangeResultType, intRangeValueType
  
@@ -295,7 +296,7 @@
 		<xs:attribute name="name" type="nonEmptyString" use="required"/>
 		<xs:attribute name="privateProject" type="xs:boolean"/>
 		<xs:attribute name="reportPublic" type="xs:boolean"/>
-		<xs:attribute name="planType" type="planTypeType" use="required"/>
+		<xs:attribute name="planType" type="planTypeType" use="optional"/>
 		<xs:attribute name="repositoryIdentifier" type="xs:string"/>
 	</xs:complexType>
 	<xs:complexType name="projectBasisType">

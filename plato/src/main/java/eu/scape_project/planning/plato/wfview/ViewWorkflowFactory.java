@@ -24,8 +24,20 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import eu.scape_project.planning.model.Plan;
-import eu.scape_project.planning.plato.wfview.fte.*;
-import eu.scape_project.planning.plato.wfview.full.*;
+import eu.scape_project.planning.plato.wfview.full.AnalyseResultsView;
+import eu.scape_project.planning.plato.wfview.full.CreateExecutablePlanView;
+import eu.scape_project.planning.plato.wfview.full.DefineAlternativesView;
+import eu.scape_project.planning.plato.wfview.full.DefineBasisView;
+import eu.scape_project.planning.plato.wfview.full.DefinePreservationPlanView;
+import eu.scape_project.planning.plato.wfview.full.DefineSampleRecordsView;
+import eu.scape_project.planning.plato.wfview.full.DevelopExperimentsView;
+import eu.scape_project.planning.plato.wfview.full.EvaluateExperimentsView;
+import eu.scape_project.planning.plato.wfview.full.IdentifyRequirementsView;
+import eu.scape_project.planning.plato.wfview.full.RunExperimentsView;
+import eu.scape_project.planning.plato.wfview.full.SetImportanceFactorsView;
+import eu.scape_project.planning.plato.wfview.full.TakeGoDecisionView;
+import eu.scape_project.planning.plato.wfview.full.TransformMeasuredValuesView;
+import eu.scape_project.planning.plato.wfview.full.ValidatePlanView;
 
 /**
  * Factory class responsible for creating ViewWorkflow-steps.
@@ -67,12 +79,6 @@ public class ViewWorkflowFactory implements Serializable {
     @Inject
     private Instance<ValidatePlanView> validatePlanSource;
 
-    @Inject
-    private Instance<FTDefineRequirementsView> ftDefineRequirementsSource;
-    @Inject
-    private Instance<FTEvaluateAlternativesView> ftEvaluateAlternativesSource;
-    @Inject
-    private Instance<FTAnalyseResultsView> ftAnalyseResultsSource;
 
     /**
      * Method responsible for constructing the appropriate viewWorkflow-steps
@@ -85,26 +91,20 @@ public class ViewWorkflowFactory implements Serializable {
     public List<AbstractView> constructWorkflowSteps(Plan plan) {
         List<AbstractView> result = new ArrayList<AbstractView>();
 
-        if (plan.isFastTrackEvaluationPlan()) {
-            result.add(ftDefineRequirementsSource.get());
-            result.add(ftEvaluateAlternativesSource.get());
-            result.add(ftAnalyseResultsSource.get());
-        } else {
-            result.add(defineBasisSource.get());
-            result.add(defineSampleRecordsSource.get());
-            result.add(identifyRequirementsSource.get());
-            result.add(defineAlternativesSource.get());
-            result.add(takeGoDecisionSource.get());
-            result.add(developExperimentsSource.get());
-            result.add(runExperimentsSource.get());
-            result.add(evaluateExperimentsSource.get());
-            result.add(transformMeasuredValuesSource.get());
-            result.add(setImportanceFactorsSource.get());
-            result.add(analyseResultsSource.get());
-            result.add(createExecutablePlanSource.get());
-            result.add(definePreservationPlanSource.get());
-            result.add(validatePlanSource.get());
-        }
+        result.add(defineBasisSource.get());
+        result.add(defineSampleRecordsSource.get());
+        result.add(identifyRequirementsSource.get());
+        result.add(defineAlternativesSource.get());
+        result.add(takeGoDecisionSource.get());
+        result.add(developExperimentsSource.get());
+        result.add(runExperimentsSource.get());
+        result.add(evaluateExperimentsSource.get());
+        result.add(transformMeasuredValuesSource.get());
+        result.add(setImportanceFactorsSource.get());
+        result.add(analyseResultsSource.get());
+        result.add(createExecutablePlanSource.get());
+        result.add(definePreservationPlanSource.get());
+        result.add(validatePlanSource.get());
 
         return result;
     }
@@ -221,29 +221,5 @@ public class ViewWorkflowFactory implements Serializable {
 
     public void setValidatePlanSource(Instance<ValidatePlanView> validatePlanSource) {
         this.validatePlanSource = validatePlanSource;
-    }
-
-    public Instance<FTDefineRequirementsView> getFtDefineRequirementsSource() {
-        return ftDefineRequirementsSource;
-    }
-
-    public void setFtDefineRequirementsSource(Instance<FTDefineRequirementsView> ftDefineRequirementsSource) {
-        this.ftDefineRequirementsSource = ftDefineRequirementsSource;
-    }
-
-    public Instance<FTEvaluateAlternativesView> getFtEvaluateAlternativesSource() {
-        return ftEvaluateAlternativesSource;
-    }
-
-    public void setFtEvaluateAlternativesSource(Instance<FTEvaluateAlternativesView> ftEvaluateAlternativesSource) {
-        this.ftEvaluateAlternativesSource = ftEvaluateAlternativesSource;
-    }
-
-    public Instance<FTAnalyseResultsView> getFtAnalyseResultsSource() {
-        return ftAnalyseResultsSource;
-    }
-
-    public void setFtAnalyseResultsSource(Instance<FTAnalyseResultsView> ftAnalyseResultsSource) {
-        this.ftAnalyseResultsSource = ftAnalyseResultsSource;
     }
 }

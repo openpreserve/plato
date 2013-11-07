@@ -30,11 +30,6 @@ import org.junit.Test;
 
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.Plan;
-import eu.scape_project.planning.plato.wfview.AbstractView;
-import eu.scape_project.planning.plato.wfview.ViewWorkflowFactory;
-import eu.scape_project.planning.plato.wfview.fte.FTAnalyseResultsView;
-import eu.scape_project.planning.plato.wfview.fte.FTDefineRequirementsView;
-import eu.scape_project.planning.plato.wfview.fte.FTEvaluateAlternativesView;
 import eu.scape_project.planning.plato.wfview.full.AnalyseResultsView;
 import eu.scape_project.planning.plato.wfview.full.CreateExecutablePlanView;
 import eu.scape_project.planning.plato.wfview.full.DefineAlternativesView;
@@ -113,17 +108,6 @@ public class WorkflowStepFactoryTest {
 		when(validatePlanSource.get()).thenReturn(new ValidatePlanView());
 		wfStepFactory.setValidatePlanSource(validatePlanSource);
 
-		Instance<FTDefineRequirementsView> ftDefineRequirementsSource = mock(Instance.class);
-		when(ftDefineRequirementsSource.get()).thenReturn(new FTDefineRequirementsView());
-		wfStepFactory.setFtDefineRequirementsSource(ftDefineRequirementsSource);
-		
-		Instance<FTEvaluateAlternativesView> ftEvaluateAlternativesSource = mock(Instance.class);
-		when(ftEvaluateAlternativesSource.get()).thenReturn(new FTEvaluateAlternativesView());
-		wfStepFactory.setFtEvaluateAlternativesSource(ftEvaluateAlternativesSource);
-
-		Instance<FTAnalyseResultsView> ftAnalyseResultsSource = mock(Instance.class);
-		when(ftAnalyseResultsSource.get()).thenReturn(new FTAnalyseResultsView());
-		wfStepFactory.setFtAnalyseResultsSource(ftAnalyseResultsSource);
 	}
 			
 	@Test
@@ -153,19 +137,4 @@ public class WorkflowStepFactoryTest {
 		assertTrue(stepIter.next() instanceof ValidatePlanView);
 	}
 
-	@Test
-	public void constructWorkflowSteps_ftPlanReturnsAllFtSteps() throws PlanningException {
-		Plan plan = mock(Plan.class);
-		when(plan.isFastTrackEvaluationPlan()).thenReturn(true);
-		
-		// number of steps
-		List<AbstractView> result = wfStepFactory.constructWorkflowSteps(plan);
-		assertEquals(3, result.size());
-		
-		// correct steps
-		Iterator<AbstractView> stepIter = result.iterator();
-		assertTrue(stepIter.next() instanceof FTDefineRequirementsView);
-		assertTrue(stepIter.next() instanceof FTEvaluateAlternativesView);
-		assertTrue(stepIter.next() instanceof FTAnalyseResultsView);
-	}
 }

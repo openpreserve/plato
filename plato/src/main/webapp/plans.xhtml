@@ -15,10 +15,7 @@
 				rendered="#{planLister.projectSelection == 'PUBLICPROJECTS'}" />
 			<h:outputText value="All "
 				rendered="#{planLister.projectSelection == 'ALLPROJECTS'}" />
-			<h:outputText value="plans"
-				rendered="#{planLister.planType == 'FULL'}" />
-			<h:outputText value="fast track results"
-				rendered="#{planLister.planType == 'FTE'}" />
+				Plans
 		</h1>
 
 		<h:form id="listprojects">
@@ -34,13 +31,7 @@
 					rendered="#{not empty planLister.list}"
 					styleClass="tableStyle margin-top" headerClass="tableStyle-header"
 					rowClasses="plans-row1, plans-row2"
-					columnClasses="column-type,column-id,column-name,column-description,column-author,column-state,column-action">
-					<h:column>
-						<f:facet name="header">
-						   Type
-						</f:facet>
-						#{p.planType.full ? 'Full' : 'FTE'}
-					</h:column>
+					columnClasses="column-id,column-name,column-description,column-author,column-state,column-action">
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="ID" />

@@ -12,8 +12,9 @@
 			<xs:documentation>
 				Describes a preservation action plan: 
 				* Identifies the collection it was created for, 
-				* the objects it should be applied to, and 
-				* the executable plan itself.
+				* the objects it should be applied to,  
+				* the executable plan itself, and
+				* the expected quality criteria of the resulting object
 				TBD: 
 				* More information on the preservation plan? 
 				* describe when the plan has to be applied (on ingest, to existing objects...)
@@ -37,7 +38,8 @@
 	</xs:complexType>
 	<xs:complexType name="Objects">
 		<xs:annotation>
-			<xs:documentation> Defines the objects this action plan should be applied to. At the moment this is done explicit, by a list of objects, later they can also be defined by a query. </xs:documentation>
+			<xs:documentation> Defines the objects this action plan should be applied to. 
+			This can be done either explicit, by providing a list of objects, or by providing an SRU query. </xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:sequence>
@@ -49,6 +51,9 @@
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="Object">
+		<xs:annotation>
+			<xs:documentation>The object, identified by a unique identifier which must be suitable for the SCAPE Data Connector API</xs:documentation>
+		</xs:annotation>	
 		<xs:sequence/>
 		<xs:attribute name="uid" type="xs:string" use="required"/>
 	</xs:complexType>
