@@ -151,7 +151,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         prepareClient();
 
         try {
-            ssh.connect(sshConfig.getString("tavernaserver.ssh.host"));
+            if (sshConfig.getInteger("tavernaserver.ssh.port", null) != null) {
+                ssh.connect(sshConfig.getString("tavernaserver.ssh.host"), sshConfig.getInt("tavernaserver.ssh.port"));
+            } else {
+                ssh.connect(sshConfig.getString("tavernaserver.ssh.host"));
+            }
 
             if (sshConfig.getString("tavernaserver.ssh.privatekey.location") != null
                 && !"".equals(sshConfig.getString("tavernaserver.ssh.privatekey.location"))) {
