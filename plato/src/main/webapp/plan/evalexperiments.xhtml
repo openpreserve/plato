@@ -106,18 +106,11 @@
 						Since your tree contains criteria that are mapped to measures, you
 						can call the evaluation plugins here.<br />
 						<a4j:commandButton value="Evaluate all criteria"
-							action="#{evalexperiments.evaluateAll}" styleClass="save"
-							eventsQueue="ajaxQ" render="mainform" ignoreDupResponses="true" />
+							action="#{evalexperiments.evaluateAll}" render="@form"
+							ignoreDupResponses="true" />
 						<br />
 					</p>
 				</x:div>
-				<ui:remove>
-					<!--  we want to do this differently -->
-					<x:div style="width:100%">
-						<h:inputTextarea style="width:70%" rows="10"
-							value="#{evaluationMessage}" disabled="true" />
-					</x:div>
-				</ui:remove>
 				<hr />
 				<p>
 					Please make sure you check all evaluation results and approve them.
@@ -125,8 +118,8 @@
 					with a star (*). The planning process requires you to either enter
 					by yourself or confirm all evaluation results. In order to confirm
 					values that you have not entered yourself, please select<br />
-					<h:commandButton value="Approve all values"
-						action="#{evalexperiments.approve}" />
+					<a4j:commandButton value="Approve all values"
+						action="#{evalexperiments.approve}" render="@form" />
 				</p>
 			</fieldset>
 			<fieldset id="comments" class="size-full">

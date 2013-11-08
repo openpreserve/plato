@@ -244,9 +244,9 @@
 							<td>#{leaf.measure.description}</td>
 						</tr>
 					</table>
-					<a4j:commandButton id="evaluate" rendered="#{leaf.mapped}" value="Evaluate"
-						action="#{workflowstep.evaluate(leaf)}" render="evaluationLeafList"
-						type="button" />
+					<a4j:commandButton id="evaluate" rendered="#{leaf.mapped}"
+						value="Evaluate" action="#{workflowstep.evaluate(leaf)}"
+						render="@form" type="button" />
 				</div>
 			</h:panelGroup>
 			<hr />
