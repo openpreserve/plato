@@ -32,7 +32,7 @@ public class MiniREEFResolver implements Serializable {
 
     private MiniREEFResolver() {
         reef = new MiniREEF();
-        URL modelURL = Thread.currentThread().getContextClassLoader().getResource("data/p2/p2unified.rdf");
+        URL modelURL = this.getClass().getClassLoader().getResource("/data/p2/p2unified.rdf");
         reef.addModel(modelURL.getFile());
         reef.addReasoning();
     }

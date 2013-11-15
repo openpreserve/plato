@@ -242,15 +242,19 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         }
         this.plan.getSampleRecordsDefinition().setSamplesDescription(description);
         this.processSamples(repo, samples);
-
-        CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
-        profile.setCollectionID(id + "?" + key);
-        profile.setNumberOfObjects(count);
-        profile.setTypeOfObjects(typeOfObjects);
-        this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
-        this.plan.getSampleRecordsDefinition().touch();
-        this.plan.touch();
-
+        
+        log.info("processing sample objects finished");
+        try {
+            CollectionProfile profile = this.plan.getSampleRecordsDefinition().getCollectionProfile();
+            profile.setCollectionID(id + "?" + key);
+            profile.setNumberOfObjects(count);
+            profile.setTypeOfObjects(typeOfObjects);
+            this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
+            this.plan.getSampleRecordsDefinition().touch();
+            this.plan.touch();
+        } catch (Exception e) {
+            log.error("failed setting collection profile infos.", e);
+        }
     }
 
     /**
@@ -338,15 +342,18 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
                 log.info("Sample object is from repository {}. Downloading {}", repo.getRepositoryIdentifier(), uid);
                 try {
                     InputStream sampleStream = repo.downloadFile(uid);
+                    log.info("To bytestream: sample {}", sample.getFullname());
                     ByteStream bsSample = this.convertToByteStream(sampleStream);
                     sample.setData(bsSample);
 
+                    log.info("Moving to storage: sample {}", sample.getFullname());
                     digitalObjectManager.moveDataToStorage(sample);
                     addedBytestreams.add(sample.getPid());
 
                     plan.getSampleRecordsDefinition().addRecord(sample);
 
                     if (shouldCharacterise(sample)) {
+                        log.info("Characterising  sample {}", sample.getFullname());
                         characteriseFits(sample, false);
                     }
                 } catch (RepositoryConnectorException e) {

@@ -159,6 +159,7 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
                 Object value = outputData.get(p.getName());
                 Measure m = cm.getMeasure(measure);
                 Value v = m.getScale().createValue();
+                v.setComment("Evaluated by " + service.getDescriptor());
                 v.parse(value.toString());
                 results.put(measure, v);
             }

@@ -52,7 +52,7 @@ public class MiniRED implements Serializable {
         register("pcdl",    "eu.scape_project.planning.evaluation.evaluators.PCDLEvaluator");
         register("experiment", "eu.scape_project.planning.evaluation.evaluators.ExperimentEvaluator");
         register("object", "eu.scape_project.planning.evaluation.evaluators.ObjectEvaluator");
-        register("minireef", "eu.scape_project.planning.evaluation.evaluators.MiniREEFEvaluator");
+       // register("minireef", "eu.scape_project.planning.evaluation.evaluators.MiniREEFEvaluator");
         register("imagecomp", "eu.scape_project.planning.evaluation.evaluators.ImageComparisonEvaluator");
         
         register("myExperiment", "eu.scape_project.planning.services.evaluation.taverna.SSHTavernaEvaluationService");

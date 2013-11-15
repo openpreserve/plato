@@ -39,7 +39,7 @@ public final class Helper {
         Pattern p = Pattern.compile(re1 + re2 + re3 + re4 + re5 + re6 + re7 + re8 + re9 + re10 + re11 + re12 + re13
             + re14 + re15 + re16 + re17, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
         Matcher m = p.matcher(id);
-        return m.find();
+        return ((id.indexOf("demo:8080") > 0) || m.find());
 
     }
 
