@@ -78,7 +78,11 @@ public class T2FlowParserFallback extends T2FlowParser {
 
         // Check name for hints of profile
         if (profile == ComponentProfile.NoProfile) {
-            String lcName = super.getName().toLowerCase();
+            String lcName = super.getName();
+            if (lcName == null) {
+                return ComponentProfile.NoProfile;
+            }
+            lcName = lcName.toLowerCase();
 
             if (lcName.contains("migration")) {
                 return ComponentProfile.MigrationAction;
