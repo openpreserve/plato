@@ -150,21 +150,21 @@
 					Preservation Action Plan
 				</legend>
 				<a4j:outputPanel id="preservationActionPlan"
-					styleClass="mutli-button">
+					styleClass="multi-buttons">
 					<a4j:commandButton
 						action="#{createExecutablePlan.generatePreservationActionPlan()}"
 						value="Generate Preservation Action Plan"
 						rendered="#{createExecutablePlan.papGenerationPossible}"
-						type="button" />
+						type="button" render="preservationActionPlan" />
 					<h:commandLink
 						action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
 						value="Download Preservation Action Plan"
 						rendered="#{createExecutablePlan.plan.preservationActionPlan != null and createExecutablePlan.plan.preservationActionPlan.dataExistent}"
 						styleClass="default-button" />
-				</a4j:outputPanel>
-				<a4j:outputPanel
-					rendered="#{not createExecutablePlan.papGenerationPossible}">
+					<a4j:outputPanel
+						rendered="#{not createExecutablePlan.papGenerationPossible}">
 					To generate a preservation action plan, please add a collection profile and executable plan.
+				</a4j:outputPanel>
 				</a4j:outputPanel>
 			</fieldset>
 
