@@ -98,6 +98,11 @@
 							</h:panelGroup>
 						</f:facet>
 						<rich:menuItem>
+							<h:link rendered="#{user.admin}" value="Admin utils" outcome="/adminutils.jsf">
+							</h:link>
+						</rich:menuItem>
+						
+						<rich:menuItem>
 							<h:commandLink value="Group" action="#{groups.init()}" />
 						</rich:menuItem>
 						<rich:menuItem>
