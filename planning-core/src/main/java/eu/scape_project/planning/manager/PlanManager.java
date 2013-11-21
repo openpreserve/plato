@@ -36,13 +36,15 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import javax.transaction.UserTransaction;
 
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.Values;
 import eu.scape_project.planning.model.measurement.Measure;
@@ -53,9 +55,6 @@ import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.ObjectiveTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.FacesMessages;
-
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
 
 /**
  * Stateful session bean for managing plans.
@@ -87,7 +86,6 @@ public class PlanManager implements Serializable {
         private Path<PlanProperties> fromPP;
 
         private List<Predicate> visibilityPredicates;
-        private List<Predicate> planTypePredicates;
         private List<Predicate> stateFilterPredicates;
         private List<Predicate> nameFilterPredicates;
         private Predicate mappedFilterPredicate;
@@ -108,7 +106,6 @@ public class PlanManager implements Serializable {
             cq.select(fromPlan.<PlanProperties> get("planProperties"));
 
             visibilityPredicates = new ArrayList<Predicate>(2);
-            planTypePredicates = new ArrayList<Predicate>(2);
             stateFilterPredicates = new ArrayList<Predicate>();
             nameFilterPredicates = new ArrayList<Predicate>();
         }
@@ -137,23 +134,6 @@ public class PlanManager implements Serializable {
                     // Always true
                     visibilityPredicates.add(builder.conjunction());
                 }
-            }
-
-            return this;
-        }
-
-        /**
-         * Adds a plan type criteria to the query.
-         * 
-         * @param planType
-         *            the criteria to add
-         * @return this query
-         */
-        public PlanQuery addType(PlanType planType) {
-            if (planType == PlanType.FULL) {
-                planTypePredicates.add(builder.equal(fromPP.get("planType"), PlanType.FULL));
-            } else if (planType == PlanType.FTE) {
-                planTypePredicates.add(builder.equal(fromPP.get("planType"), PlanType.FTE));
             }
 
             return this;
@@ -254,7 +234,6 @@ public class PlanManager implements Serializable {
 
             // Where
             predicates.add(builder.or(visibilityPredicates.toArray(new Predicate[visibilityPredicates.size()])));
-            predicates.add(builder.or(planTypePredicates.toArray(new Predicate[planTypePredicates.size()])));
             if (stateFilterPredicates.size() > 0) {
                 predicates.add(builder.or(stateFilterPredicates.toArray(new Predicate[stateFilterPredicates.size()])));
             }

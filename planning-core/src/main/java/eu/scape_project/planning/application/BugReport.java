@@ -33,12 +33,12 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.configuration.Configuration;
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.ConfigurationLoader;
-
-import org.apache.commons.configuration.Configuration;
-import org.slf4j.Logger;
 
 /**
  * Sends a bug report.
@@ -169,7 +169,6 @@ public class BugReport implements Serializable {
             if (plan == null) {
                 builder.append("No plan available.").append("\n\n");
             } else {
-                builder.append("Plan type: ").append(plan.getPlanProperties().getPlanType()).append("\n");
                 builder.append("Plan ID: ").append(plan.getPlanProperties().getId()).append("\n");
                 builder.append("Plan name: ").append(plan.getPlanProperties().getName()).append("\n\n");
             }

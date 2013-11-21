@@ -49,8 +49,8 @@
 
 <xsl:template match="plato:properties/plato:state">
 	<xsl:choose>
-	<xsl:when test="../@plato:planType = 'FTE'">
-	<state value="0"></state>
+	<xsl:when test="../@planType = 'FTE'">
+	<state value="1"></state>
 	</xsl:when>
 	<xsl:otherwise>
 	<xsl:copy-of select="."/>

@@ -113,7 +113,6 @@ public class WorkflowStepFactoryTest {
 	@Test
 	public void constructWorkflowSteps_standardPlanReturnsAllStandardSteps() throws PlanningException {
 		Plan plan = mock(Plan.class);
-		when(plan.isFastTrackEvaluationPlan()).thenReturn(false);
 		
 		// number of steps
 		List<AbstractView> result = wfStepFactory.constructWorkflowSteps(plan);

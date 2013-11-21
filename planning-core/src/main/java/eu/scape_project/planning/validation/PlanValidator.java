@@ -268,15 +268,4 @@ public class PlanValidator implements Serializable {
         // constraints
         return true;
     }
-
-//    private boolean isFteRequirementsDefinedSatisfied(Plan plan, List<ValidationError> errors) {
-//        // FteRequirementsDefined state is satisfied when the corresponding
-//        // full-wf steps
-//        // RecordsChoosen and RequirementsDefined satisfied
-//        boolean isRecordChoosenSatisfied = isRecordsChosenSatisfied(plan, errors);
-//        boolean isRequiremensDefinedSatisfied = isRequirementsDefinedSatisfied(plan, errors);
-//
-//        boolean result = isRecordChoosenSatisfied && isRequiremensDefinedSatisfied;
-//        return result;
-//    }
 }

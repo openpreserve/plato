@@ -698,7 +698,6 @@ public class ProjectExporter implements Serializable {
             .addAttribute("name", p.getPlanProperties().getName())
             .addAttribute("privateProject", Boolean.toString(p.getPlanProperties().isPrivateProject()))
             .addAttribute("reportPublic", Boolean.toString(p.getPlanProperties().isReportPublic()))
-            .addAttribute("planType", p.getPlanProperties().getPlanType().toString())
             .addAttribute("repositoryIdentifier", p.getPlanProperties().getRepositoryIdentifier());
         addStringElement(properties, "description", p.getPlanProperties().getDescription());
         addStringElement(properties, "owner", p.getPlanProperties().getOwner());

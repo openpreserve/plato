@@ -3,19 +3,17 @@ package eu.scape_project.planning.xml;
 import java.io.InputStream;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.ExecutablePlanDefinition;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.xml.PlanParser;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 public class PlanParserTest {
     @Before
@@ -78,7 +76,6 @@ public class PlanParserTest {
         Assert.assertTrue("TUW".equals(pp.getOrganization()));
         Assert.assertTrue(pp.isPrivateProject());
         Assert.assertFalse(pp.isReportPublic());
-        Assert.assertTrue(pp.getPlanType() == PlanType.FULL);
         Assert.assertTrue(pp.getState() == PlanState.PLAN_VALIDATED);
         Assert.assertTrue("test1".equals(pp.getOwner()));
         Assert.assertNotNull(pp.getReportUpload());

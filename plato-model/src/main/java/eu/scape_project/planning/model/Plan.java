@@ -62,8 +62,6 @@ public class Plan implements Serializable, ITouchable {
 
     private static final long serialVersionUID = 7855716962826361459L;
 
-    public static final String fastTrackEvaluationPrefix = "FAST-TRACK-";
-
     /**
      * the Go/No-Go-decision
      */
@@ -394,28 +392,6 @@ public class Plan implements Serializable, ITouchable {
         }
         Collections.sort(measures);
         return measures;
-    }
-
-    public boolean isFastTrackEvaluationPlan() {
-        return PlanType.FTE == planProperties.getPlanType();
-    }
-
-    public void createPPFromFastTrack() {
-        String identifcation = projectBasis.getIdentificationCode();
-
-        int index = identifcation.indexOf(Plan.fastTrackEvaluationPrefix);
-
-        // that's not a fast track plan, identification code of a fast track
-        // plan starts with
-        // Plan.fastTrackEvaluationPrefix
-        if (index != 0) {
-            return;
-        }
-        planProperties.setPlanType(PlanType.FULL);
-
-        String newIdentificationCode = identifcation.substring(Plan.fastTrackEvaluationPrefix.length());
-
-        projectBasis.setIdentificationCode(newIdentificationCode);
     }
 
     /**

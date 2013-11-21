@@ -83,6 +83,27 @@ public class PlanMigratorTest {
         
         parser.parse(new FileInputStream(currentVersionData), new StrictDefaultHandler(schemaResolver));
     }
+    @Test
+    public void migrateFTEFromV401WithoutSamples() throws PlatoException, ParserConfigurationException, SAXException, FileNotFoundException, IOException{
+        PlanMigrator migrator = new PlanMigrator();
+        
+        
+        List<String> appliedTransformations = new ArrayList<String>();
+        String currentVersionData = migrator.getCurrentVersionData(getClass().getClassLoader().getResourceAsStream("plans/Archiving_Digital_Photographs_FTE_V4.0.1.xml"), tempPath, appliedTransformations);
+        
+        Assert.assertNotNull(currentVersionData);
+        
+        ValidatingParserFactory validatingParserFactory = new ValidatingParserFactory();
+        SAXParser parser = validatingParserFactory.getValidatingParser();
+        
+        parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, PlanXMLConstants.PLATO_SCHEMA_URI);
+        SchemaResolver schemaResolver = new SchemaResolver()
+            .addSchemaLocation(PlanXMLConstants.PLATO_SCHEMA_URI, PlanXMLConstants.PLATO_SCHEMA_LOCATION)
+            .addSchemaLocation(PlanXMLConstants.PAP_SCHEMA_URI, PlanXMLConstants.PAP_SCHEMA_LOCATION)
+            .addSchemaLocation(PlanXMLConstants.TAVERNA_SCHEMA_URI, PlanXMLConstants.TAVERNA_SCHEMA_LOCATION);
+        
+        parser.parse(new FileInputStream(currentVersionData), new StrictDefaultHandler(schemaResolver));
+    }    
     
     @Test
     @Ignore

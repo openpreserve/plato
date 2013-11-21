@@ -25,19 +25,18 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.richfaces.event.FileUploadEvent;
+import org.richfaces.model.UploadedFile;
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.manager.PlanManager.PlanQuery;
 import eu.scape_project.planning.manager.PlanManager.WhichProjects;
 import eu.scape_project.planning.model.PlanProperties;
-import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.utils.FacesMessages;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.xml.ProjectImporter;
-
-import org.richfaces.event.FileUploadEvent;
-import org.richfaces.model.UploadedFile;
-import org.slf4j.Logger;
 
 /**
  * Controller for listing plans.
@@ -70,8 +69,6 @@ public class PlanListerView implements Serializable {
      */
     private WhichProjects projectSelection = WhichProjects.ALLPROJECTS;
 
-    private PlanType planType = PlanType.FULL;
-
     private List<PlanProperties> list;
 
     private PlanQuery planQuery;
@@ -101,7 +98,6 @@ public class PlanListerView implements Serializable {
         resetTransformations();
 
         projectSelection = WhichProjects.MYPROJECTS;
-        planType = PlanType.FULL;
         createPlanQuery();
         list = planManager.list(planQuery);
 
@@ -118,41 +114,6 @@ public class PlanListerView implements Serializable {
         resetTransformations();
 
         projectSelection = WhichProjects.PUBLICPROJECTS;
-        planType = PlanType.FULL;
-        createPlanQuery();
-        list = planManager.list(planQuery);
-
-        log.debug("listing " + list.size() + " plans");
-        return "/plans.jsf";
-    }
-
-    /**
-     * Lists fast track plans of the current user.
-     * 
-     * @return the navigation target
-     */
-    public String listFTEProjects() {
-        resetTransformations();
-
-        projectSelection = WhichProjects.MYPROJECTS;
-        planType = PlanType.FTE;
-        createPlanQuery();
-        list = planManager.list(planQuery);
-
-        log.debug("listing " + list.size() + " plans");
-        return "/plans.jsf";
-    }
-
-    /**
-     * Lists public fast track plans.
-     * 
-     * @return the navigation target
-     */
-    public String listPublicFTEResults() {
-        resetTransformations();
-
-        projectSelection = WhichProjects.PUBLICPROJECTS;
-        planType = PlanType.FTE;
         createPlanQuery();
         list = planManager.list(planQuery);
 
@@ -165,7 +126,7 @@ public class PlanListerView implements Serializable {
      */
     private void createPlanQuery() {
         planQuery = planManager.createQuery();
-        planQuery.addVisibility(projectSelection).addType(planType);
+        planQuery.addVisibility(projectSelection);
     }
 
     /**
@@ -223,10 +184,6 @@ public class PlanListerView implements Serializable {
 
     public WhichProjects getProjectSelection() {
         return projectSelection;
-    }
-
-    public PlanType getPlanType() {
-        return planType;
     }
 
     public List<PlanProperties> getList() {

@@ -32,7 +32,6 @@ import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.manager.PlanManager.WhichProjects;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.model.PlanType;
 import eu.scape_project.planning.model.User;
 
 /**
@@ -76,7 +75,7 @@ public class PlanSelector implements Serializable {
     public String init() {
 
         PlanManager.PlanQuery pq = planManager.createQuery();
-        pq.addType(PlanType.FULL).filterMinState(PlanState.WEIGHTS_SET).filterNameUnlike("MY DEMO PLAN%")
+        pq.filterMinState(PlanState.WEIGHTS_SET).filterNameUnlike("MY DEMO PLAN%")
             .filterMapped();
 
         if (user.isAdmin()) {

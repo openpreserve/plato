@@ -124,9 +124,6 @@ public class PlanProperties implements Serializable, ITouchable {
     @Enumerated(EnumType.STRING)
     private PlanState state = PlanState.CREATED;
 
-    @Enumerated(EnumType.STRING)
-    private PlanType planType = PlanType.FULL;
-
     /**
      * Indicates whether the project may be realoded again. As the project is
      * locked when a user is working with it we needed a mechanism to prevent a
@@ -286,14 +283,6 @@ public class PlanProperties implements Serializable, ITouchable {
 
     public void setOpenedByUser(String openedByUser) {
         this.openedByUser = openedByUser;
-    }
-
-    public PlanType getPlanType() {
-        return planType;
-    }
-
-    public void setPlanType(PlanType planType) {
-        this.planType = planType;
     }
 
     public String getRepositoryIdentifier() {

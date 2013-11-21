@@ -47,12 +47,7 @@ public enum PlanState {
 	ANALYSED(12, "Analyzed"),
 	EXECUTEABLE_PLAN_CREATED(13, "Executable Plan Created"),
 	PLAN_DEFINED(14, "Plan Defined"),
-	PLAN_VALIDATED(15, "Plan Validated"),
-	
-//	FTE_INITIALISED(16, "Define Requirements (Fast-track evaluation)", true),
-//	FTE_REQUIREMENTS_DEFINED(17, "Evaluate Alternatives (Fast-track evaluation)", true),
-//	FTE_ALTERNATIVES_EVALUATED(18, "Analyse Results (Fast-track evaluation)", true),
-//	FTE_RESULTS_ANALYSED(19, "Completed fast-track evaluation", true)
+	PLAN_VALIDATED(15, "Plan Validated")
 	;
 	
 	private int value;
@@ -62,11 +57,6 @@ public enum PlanState {
 	private String name;
 	
 	private PlanState(int value, String name){
-		this.value = value;
-		this.name = name;
-	}
-	
-	private PlanState(int value, String name, boolean fasttrack){
 		this.value = value;
 		this.name = name;
 	}

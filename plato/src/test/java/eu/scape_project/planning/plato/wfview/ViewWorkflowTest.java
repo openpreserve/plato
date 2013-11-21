@@ -164,13 +164,6 @@ public class ViewWorkflowTest {
 	}
 	
 	@Test
-	public void goToStep_returnsNullOnInvalidState() throws PlanningException {
-		String viewURL = viewWorkflow.goToStep(PlanState.FTE_INITIALISED);
-		assertNull(viewURL);
-	}
-	
-	
-	@Test
 	public void reachable_valid() throws PlanningException{
 		// this test was not correct: the plan is in state CREATED, so it should never be possible to go to step RECORDS_CHOSEN !!!
 		// we have to advance to this step first!
