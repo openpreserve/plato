@@ -18,6 +18,7 @@ package eu.scape_project.planning.manager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -89,6 +90,7 @@ public class PlanManager implements Serializable {
         private List<Predicate> stateFilterPredicates;
         private List<Predicate> nameFilterPredicates;
         private Predicate mappedFilterPredicate;
+        
 
         /**
          * Initializes the query.
@@ -270,11 +272,24 @@ public class PlanManager implements Serializable {
     @Inject
     UserTransaction userTx;
 
+    /**
+     * Plan properties of all loaded plans in this session
+     */
+    private HashSet<Integer> sessionPlans;
+
     public PlanManager() {
+        sessionPlans = new HashSet<Integer>();
     }
 
     @Remove
     public void destroy() {
+    }
+    
+    public void unlockSessionPlans() {
+        HashSet<Integer> lockedPlans = new HashSet<Integer>(sessionPlans);
+        for (Integer planPropertiesId : lockedPlans) {
+            unlockPlan(planPropertiesId);
+        }
     }
 
     public WhichProjects getLastLoadMode() {
@@ -403,7 +418,10 @@ public class PlanManager implements Serializable {
         Object result = em.createQuery("select p.id from Plan p where p.planProperties.id = " + propertyId)
             .getSingleResult();
         if (result != null) {
-            return loadPlan((Integer) result);
+            Plan plan = loadPlan((Integer) result);
+            // and add it to the list of loaded plans, so we can unlock it in any case
+            sessionPlans.add(propertyId);
+            return plan;
         } else {
             throw new PlanningException("An unexpected error has occured while loading the plan.");
         }
@@ -484,6 +502,9 @@ public class PlanManager implements Serializable {
      *            the plan's PROPERTIES id
      */
     public void unlockPlan(int planPropertiesId) {
+        // remove from list of locked plans
+        sessionPlans.remove(planPropertiesId);
+        
         unlockQuery(planPropertiesId);
     }
 
@@ -505,9 +526,9 @@ public class PlanManager implements Serializable {
         Query q = em.createQuery("update PlanProperties pp set pp.openHandle = 0, pp.openedByUser = '' " + where);
         try {
             if (q.executeUpdate() < 1) {
-                log.debug("Unlocking plan of plans with with id [{}] failed.", pid);
+                log.error("Unlocking plan of plans with with id [{}] failed.", pid);
             } else {
-                log.debug("Unlocked plans with id [{}].", pid);
+                log.info("Unlocked plans with id [{}].", pid);
             }
         } catch (Throwable e) {
             log.error("Unlocking plans with id [{}] failed:", pid, e);

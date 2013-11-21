@@ -5,7 +5,7 @@
     version="3.0">
     <display-name>Planning Tool</display-name>
     <session-config>
-        <session-timeout>1</session-timeout>
+        <session-timeout>60</session-timeout>
     </session-config>
     
     <listener>
