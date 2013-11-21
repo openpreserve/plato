@@ -32,13 +32,19 @@
 				<div class="marks">
 					<c:if test="#{cc.attrs.required}">*</c:if>
 				</div>
+			
+				<c:if test="#{cc.attrs.helpLink}">
 				<a
 					href="../help/fields.html##{empty cc.attrs.helpid ? cc.attrs.id :
 					cc.attrs.helpid }"
 					title="Help page for #{empty cc.attrs.helpid ? cc.attrs.id : cc.attrs.helpid }"
-					target="_blank"> <h:outputText value="#{cc.attrs.labelText}"
-						class="label-text" />
+					target="_blank"> 
+					<h:outputText value="#{cc.attrs.labelText}" class="label-text" />
 				</a>
+				</c:if>
+				<c:if test="#{not cc.attrs.helpLink}">
+					<h:outputText value="#{cc.attrs.labelText}" class="label-text-nohelp" />
+				</c:if>
 			</div>
 
 			<div class="input">

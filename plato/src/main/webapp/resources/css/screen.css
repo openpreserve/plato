@@ -575,6 +575,13 @@ input.proceed-button:hover {
 	cursor: help;
 }
 
+.label-text-nohelp {
+	color: #3B3B3B;
+	font-size: 14px;
+	font-family: Helvetica;
+	font-weight: normal;
+}
+
 .label-text:hover {
 	color: #7C7C7C;
 }
