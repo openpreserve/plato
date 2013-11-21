@@ -12,7 +12,8 @@ branches:
     - integration
 
 jdk:
-  - oraclejdk6
+# Sun/Oracle JDK 6 is EOL since November 2012, and is no longer supported. Please consider upgrading...
+#  - oraclejdk6
   - oraclejdk7
   - openjdk7
 
