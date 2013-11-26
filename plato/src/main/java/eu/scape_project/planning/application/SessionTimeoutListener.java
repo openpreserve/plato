@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.jboss.weld.context.SerializableContextualInstanceImpl;
+import org.jboss.weld.context.api.ContextualInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +46,8 @@ public class SessionTimeoutListener implements HttpSessionListener {
         while (names.hasMoreElements()) {
             String name = names.nextElement();
             Object attribute = event.getSession().getAttribute(name);
-            if (attribute instanceof SerializableContextualInstanceImpl) {
-                SerializableContextualInstanceImpl s = (SerializableContextualInstanceImpl)attribute;
+            if (attribute instanceof ContextualInstance) {
+                ContextualInstance s = (ContextualInstance)attribute;
                 if (s.getInstance() instanceof PlanManager){
                     // unlock all plans opened and locked in this session
                     PlanManager planManager = (PlanManager) s.getInstance();
