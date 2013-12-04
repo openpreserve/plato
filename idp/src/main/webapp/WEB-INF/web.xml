@@ -123,6 +123,6 @@
 
 	<error-page>
 		<error-code>404</error-code>
-		<location>/index.jsf</location>
+		<location>/error/404.jsf</location>
 	</error-page>
 </web-app>
