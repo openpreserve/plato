@@ -14,7 +14,7 @@
 	<cc:attribute name="displayChangelogs" default="false" />
 	<cc:attribute name="toggleType" default="ajax" />
 	<cc:attribute name="nodestyle" />
-	<cc:attribute name="anchorPrefix" />
+	<cc:attribute name="linktoResults" />
 	<cc:facet name="panel" />
 	<cc:facet name="nodedesc" />
 </cc:interface>
@@ -43,12 +43,12 @@
 							styleClass="tree-node #{cc.attrs.usenodestyle ? node.style : ''}">
 							<div class="tree-nodename">
 								<a4j:outputPanel layout="block"
-									rendered="#{not empty cc.attrs.anchorPrefix and node.leaf}">
+									rendered="#{not empty cc.attrs.linktoResults and node.leaf}">
 									<a href="#results#{node.id}"><h:outputText
 											value="#{node.name}" /></a>
 								</a4j:outputPanel>
 								<h:outputText value="#{node.name}"
-									rendered="#{empty cc.attrs.anchorPrefix or not node.leaf}" />
+									rendered="#{(empty cc.attrs.linktoResults) or (not node.leaf)}" />
 
 								<a4j:outputPanel styleClass="tree-nodedesc" layout="block"
 									rendered="#{not empty cc.facets.nodedesc}">
@@ -80,7 +80,7 @@
 									<a4j:outputPanel layout="block" style="width: 400px;"
 										rendered="#{node.leaf and node.mapped}">
 										<br />
-										<a href="#{node.measure.uri}">#{node.measure.name}</a>
+										<a  target="_blank" href="#{node.measure.uri}">#{node.measure.name}</a>
 									</a4j:outputPanel>
 								</a4j:outputPanel>
 
@@ -94,22 +94,20 @@
 										</tr>
 										<tr>
 											<td>Created</td>
-											<td><h:outputText
-													value="#{node.changeLog.createdString}" /></td>
-											<td><h:outputText value="#{node.changeLog.createdBy}" /></td>
+											<td>#{node.changeLog.createdString}</td>
+											<td>#{node.changeLog.createdBy}</td>
 										</tr>
 										<tr>
 											<td>Changed</td>
-											<td><h:outputText
-													value="#{node.changeLog.changedString}" /></td>
-											<td><h:outputText value="#{node.changeLog.changedBy}" /></td>
+											<td>#{node.changeLog.changedString}</td>
+											<td>#{node.changeLog.changedBy}</td>
 										</tr>
 									</table>
 								</a4j:outputPanel>
 
 								<a4j:outputPanel layout="block" styleClass="tree-cell"
 									rendered="#{(node.description != null) and (node.description != '')}">
-									<h:outputText value="(#{node.description})" />
+									(#{node.description})
 								</a4j:outputPanel>
 							</div>
 						</rich:treeNode>

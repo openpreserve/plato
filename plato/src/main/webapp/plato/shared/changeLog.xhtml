@@ -1,0 +1,28 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
+	xmlns:p="http://planets-project.eu/taglibs/plato"
+	xmlns:rich="http://richfaces.org/rich">
+	<a4j:outputPanel layout="block" rendered="#{rendered}">
+		<table class="table-small">
+			<tr>
+				<th width="80px" class="tableStyle-header"></th>
+				<th width="160px" class="tableStyle-header">Date</th>
+				<th width="160px" class="tableStyle-header">User</th>
+			</tr>
+			<tr>
+				<td>Created</td>
+				<td>#{bean.changeLog.createdString}</td>
+				<td>#{bean.changeLog.createdBy}</td>
+			</tr>
+			<tr>
+				<td>Changed</td>
+				<td>#{bean.changeLog.changedString}</td>
+				<td>#{bean.changeLog.changedBy}</td>
+			</tr>
+		</table>
+	</a4j:outputPanel>
+</ui:composition>

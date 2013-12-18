@@ -13,6 +13,7 @@
 	<cc:attribute name="alternatives" required="true" />
 	<cc:attribute name="toggleType" default="ajax" />
 	<cc:attribute name="nodestyle" />
+	<cc:attribute name="linktoResults" />
 	<cc:facet name="panel" />
 	<cc:facet name="nodedesc" />
 </cc:interface>
@@ -35,11 +36,15 @@
 							expanded="#{cc.attrs.treeHelper.expandedNodes[node]}"
 							styleClass="tree-node #{cc.attrs.usenodestyle ? node.style : ''}">
 							<div class="tree-nodename">
-								<a4j:outputPanel layout="block" rendered="#{node.leaf}">
+							
+								<a4j:outputPanel layout="block"
+									rendered="#{not empty cc.attrs.linktoResults and node.leaf}">
 									<a href="#results#{node.id}"><h:outputText
 											value="#{node.name}" /></a>
 								</a4j:outputPanel>
-								<h:outputText value="#{node.name}" rendered="#{not node.leaf}" />
+
+								<h:outputText value="#{node.name}"
+									rendered="#{(empty cc.attrs.linktoResults) or (not node.leaf)}" />
 
 								<a4j:outputPanel styleClass="tree-nodedesc" layout="block"
 									rendered="#{not empty cc.facets.nodedesc}">
@@ -51,10 +56,8 @@
 									<a4j:repeat value="#{cc.attrs.alternatives}" var="a"
 										rowKeyVar="i">
 										<tr>
-											<td class="resultdiag-name"><h:outputText
-													value="#{a.name}" /></td>
-											<td class="resultdiag-value"><h:outputText
-													value="#{node.resultStrings[a.name]}" /></td>
+											<td class="resultdiag-name">#{a.name}</td>
+											<td class="resultdiag-value">#{node.resultStrings[a.name]}</td>
 											<td class="resultdiag-graph"><div class="resultdiag-bar">
 													<h:graphicImage library="gfx"
 														name="chart/chart-bar#{i}.jpg"

@@ -95,30 +95,10 @@
 		</div>
 
 		<a4j:outputPanel layout="inline" id="planChangelog">
-			<a4j:outputPanel layout="block"
-				rendered="#{validatePlan.displayChangelogs}">
-				<table class="table-small">
-					<tr>
-						<th width="80px" class="tableStyle-header"></th>
-						<th width="160px" class="tableStyle-header">Date</th>
-						<th width="160px" class="tableStyle-header">User</th>
-					</tr>
-					<tr>
-						<td>Created</td>
-						<td><h:outputText
-								value="#{validatePlan.plan.planProperties.changeLog.createdString}" /></td>
-						<td><h:outputText
-								value="#{validatePlan.plan.planProperties.changeLog.createdBy}" /></td>
-					</tr>
-					<tr>
-						<td>Changed</td>
-						<td><h:outputText
-								value="#{validatePlan.plan.planProperties.changeLog.changedString}" /></td>
-						<td><h:outputText
-								value="#{validatePlan.plan.planProperties.changeLog.changedBy}" /></td>
-					</tr>
-				</table>
-			</a4j:outputPanel>
+			<ui:include src="/plato/shared/changeLog.xhtml">
+				<ui:param name="bean" value="#{validatePlan.plan.planProperties}" />
+				<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+			</ui:include>				
 		</a4j:outputPanel>
 
 
@@ -218,30 +198,10 @@
 			</ui:include>
 		</h:form>
 		<a4j:outputPanel layout="inline" id="basisChangelog">
-			<a4j:outputPanel layout="block"
-				rendered="#{validatePlan.displayChangelogs}">
-				<table class="table-small">
-					<tr>
-						<th width="80px" class="tableStyle-header"></th>
-						<th width="160px" class="tableStyle-header">Date</th>
-						<th width="160px" class="tableStyle-header">User</th>
-					</tr>
-					<tr>
-						<td>Created</td>
-						<td><h:outputText
-								value="#{validatePlan.plan.projectBasis.changeLog.createdString}" /></td>
-						<td><h:outputText
-								value="#{validatePlan.plan.projectBasis.changeLog.createdBy}" /></td>
-					</tr>
-					<tr>
-						<td>Changed</td>
-						<td><h:outputText
-								value="#{validatePlan.plan.projectBasis.changeLog.changedString}" /></td>
-						<td><h:outputText
-								value="#{validatePlan.plan.projectBasis.changeLog.changedBy}" /></td>
-					</tr>
-				</table>
-			</a4j:outputPanel>
+			<ui:include src="/plato/shared/changeLog.xhtml">
+				<ui:param name="bean" value="#{validatePlan.plan.projectBasis}" />
+				<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+			</ui:include>				
 		</a4j:outputPanel>
 
 
@@ -345,35 +305,10 @@
 			</div>
 
 			<a4j:outputPanel layout="inline" id="collectionChangelog">
-				<a4j:outputPanel layout="block"
-					rendered="#{validatePlan.displayChangelogs}">
-					<tr>
-						<td><strong>Changelog:</strong></td>
-						<td>
-							<table class="table-small">
-								<tr>
-									<th width="80px" class="tableStyle-header"></th>
-									<th width="160px" class="tableStyle-header">Date</th>
-									<th width="160px" class="tableStyle-header">User</th>
-								</tr>
-								<tr>
-									<td>Created</td>
-									<td><h:outputText
-											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.createdString}" /></td>
-									<td><h:outputText
-											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.createdBy}" /></td>
-								</tr>
-								<tr>
-									<td>Changed</td>
-									<td><h:outputText
-											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.changedString}" /></td>
-									<td><h:outputText
-											value="#{validatePlan.plan.sampleRecordsDefinition.changeLog.changedBy}" /></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</a4j:outputPanel>
+				<ui:include src="/plato/shared/changeLog.xhtml">
+					<ui:param name="bean" value="#{validatePlan.plan.sampleRecordsDefinition}" />
+					<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+				</ui:include>				
 			</a4j:outputPanel>
 		</fieldset>
 
@@ -400,28 +335,28 @@
 
 					<h:column>
 						<f:facet name="header">
-							<h:outputText value="Short name" />
+							Short name
 						</f:facet>
-						<h:outputText value="#{sample.shortName}" />
+						#{sample.shortName}
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
-							<h:outputText value="Description" />
+							Description
 						</f:facet>
-						<h:outputText value="#{sample.description}" />
+						#{sample.description}
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
-							<h:outputText value="Original environment" />
+							Original environment
 						</f:facet>
-						<h:outputText value="#{sample.originalTechnicalEnvironment}" />
+						#{sample.originalTechnicalEnvironment}
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
-							<h:outputText value="Data" />
+							Data
 						</f:facet>
 						<h:outputText value="No data"
 							rendered="#{not sample.dataExistent}" />
@@ -431,49 +366,37 @@
 
 					<h:column>
 						<f:facet name="header">
-							<h:outputText value="Object-format" />
+							Object-format
 						</f:facet>
 						<table class="margin-bottom-huge">
 							<tr>
 								<td width="100px"><strong>PUID:</strong></td>
-								<td><h:outputText value="#{sample.formatInfo.puid}" /></td>
+								<td>#{sample.formatInfo.puid}</td>
 							</tr>
 							<tr>
 								<td><strong>Name:</strong></td>
-								<td><h:outputText value="#{sample.formatInfo.name}" /></td>
+								<td>#{sample.formatInfo.name}</td>
 							</tr>
 							<tr>
 								<td><strong>Version:</strong></td>
-								<td><h:outputText value="#{sample.formatInfo.version}" /></td>
+								<td>#{sample.formatInfo.version}</td>
 							</tr>
 							<tr>
 								<td><strong>mime-type:</strong></td>
-								<td><h:outputText value="#{sample.formatInfo.mimeType}" /></td>
+								<td>#{sample.formatInfo.mimeType}</td>
 							</tr>
 						</table>
 					</h:column>
 
 					<h:column rendered="#{validatePlan.displayChangelogs}">
 						<f:facet name="header">
-							<h:outputText value="Changelog" />
+							Changelog
 						</f:facet>
-						<table class="table-small">
-							<tr>
-								<th width="80px" class="tableStyle-header"></th>
-								<th width="160px" class="tableStyle-header">Date</th>
-								<th width="160px" class="tableStyle-header">User</th>
-							</tr>
-							<tr>
-								<td>Created</td>
-								<td><h:outputText value="#{sample.changeLog.createdString}" /></td>
-								<td><h:outputText value="#{sample.changeLog.createdBy}" /></td>
-							</tr>
-							<tr>
-								<td>Changed</td>
-								<td><h:outputText value="#{sample.changeLog.changedString}" /></td>
-								<td><h:outputText value="#{sample.changeLog.changedBy}" /></td>
-							</tr>
-						</table>
+						<ui:include src="/plato/shared/changeLog.xhtml">
+							<ui:param name="bean" value="#{sample}" />
+							<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+						</ui:include>				
+						
 					</h:column>
 
 				</h:dataTable>
@@ -493,7 +416,7 @@
 			<p:treeSummary treeHelper="#{validatePlan.requirementstreeHelper}"
 				rootNode="#{validatePlan.requirementsRoots}"
 				displayChangelogs="#{validatePlan.displayChangelogs}"
-				anchorPrefix="#{validatePlan.displayEvalTransform? 'results#' : ''}"
+				linktoResults="#{validatePlan.displayEvalTransform ? 'true' : ''}"
 				toggleType="client" />
 		</a4j:outputPanel>
 
@@ -518,61 +441,46 @@
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Name" />
+					Name
 				</f:facet>
 				<h:outputText value="#{alt.name}" class="size-max" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Description" />
+					Description
 				</f:facet>
-				<h:outputText value="#{alt.description}" />
+				#{alt.description}
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Reason for considering" />
+				Reason for considering
 				</f:facet>
-				<h:outputText
-					value="#{alt.resourceDescription.reasonForConsidering}" />
+				#{alt.resourceDescription.reasonForConsidering}
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Config settings" />
+				Config settings
 				</f:facet>
-				<h:outputText value="#{alt.resourceDescription.configSettings}" />
+				#{alt.resourceDescription.configSettings}
 			</h:column>
 
 			<h:column>
-				<f:facet name="header">
-					<h:outputText value="Necessary resources" />
+				<f:facet name="header">Necessary resources
 				</f:facet>
-				<h:outputText value="#{alt.resourceDescription.necessaryResources}" />
+				#{alt.resourceDescription.necessaryResources}
 			</h:column>
 
 			<h:column rendered="#{validatePlan.displayChangelogs}">
 				<f:facet name="header">
-					<h:outputText value="Changelog" />
+				Changelog
 				</f:facet>
-				<table>
-					<tr>
-						<th width="80px"></th>
-						<th width="160px">Date</th>
-						<th width="160px">User</th>
-					</tr>
-					<tr>
-						<td>Created</td>
-						<td><h:outputText value="#{alt.changeLog.createdString}" /></td>
-						<td><h:outputText value="#{alt.changeLog.createdBy}" /></td>
-					</tr>
-					<tr>
-						<td>Changed</td>
-						<td><h:outputText value="#{alt.changeLog.changedString}" /></td>
-						<td><h:outputText value="#{alt.changeLog.changedBy}" /></td>
-					</tr>
-				</table>
+				<ui:include src="/plato/shared/changeLog.xhtml">
+					<ui:param name="bean" value="#{alt}" />
+					<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+				</ui:include>				
 			</h:column>
 		</h:dataTable>
 		<!-- ********** go-decisions ********** -->
@@ -615,69 +523,41 @@
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Alternative" />
+					Alternative
 				</f:facet>
 				<h:outputText value="#{alt.name}" class="size-max" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Experiment description" />
+					Experiment description
 				</f:facet>
-				<h:outputText value="#{alt.experiment.description}" />
+				#{alt.experiment.description}
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Run description" />
+					Run description
 				</f:facet>
-				<h:outputText value="#{alt.experiment.detailedRunDescription}" />
+				#{alt.experiment.detailedRunDescription}
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Experiment data uploaded" />
+					Experiment data uploaded
 				</f:facet>
-
-				<h:outputText value="Yes"
-					rendered="#{alt.experiment.recordUploaded}" />
-				<h:outputText value="No"
-					rendered="#{not alt.experiment.recordUploaded}" />
+				#{alt.experiment.recordUploaded ? 'Yes' : 'No' }
 			</h:column>
-
-			<!-- TODO
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Result" />
-            </f:facet>
-            Download
-        </h:column> -->
 
 			<h:column rendered="#{validatePlan.displayChangelogs}">
 				<f:facet name="header">
 					<h:outputText value="Changelog" />
 				</f:facet>
-				<table class="table-small">
-					<tr>
-						<th width="80px" class="tableStyle-header"></th>
-						<th width="160px" class="tableStyle-header">Date</th>
-						<th width="160px" class="tableStyle-header">User</th>
-					</tr>
-					<tr>
-						<td>Created</td>
-						<td><h:outputText
-								value="#{alt.experiment.changeLog.createdString}" /></td>
-						<td><h:outputText
-								value="#{alt.experiment.changeLog.createdBy}" /></td>
-					</tr>
-					<tr>
-						<td>Changed</td>
-						<td><h:outputText
-								value="#{alt.experiment.changeLog.changedString}" /></td>
-						<td><h:outputText
-								value="#{alt.experiment.changeLog.changedBy}" /></td>
-					</tr>
-				</table>
+				<ui:include src="/plato/shared/changeLog.xhtml">
+					<ui:param name="bean" value="#{alt.experiment}" />
+					<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+				</ui:include>				
+
 			</h:column>
 		</h:dataTable>
 
@@ -695,15 +575,14 @@
 				<a4j:commandButton
 					value="#{validatePlan.displayEvalTransform? 'Hide' : 'Show'} Evaluation &amp; Transformation"
 					action="#{validatePlan.switchDisplayEvalTransform}"
-					render="evalTransformForm requirements" type="button" />
+					render="evalTransformForm requirements weightedMulResults weightedSumResults" type="button" />
 
 				<ui:fragment rendered="#{validatePlan.displayEvalTransform}">
 
 					<ui:repeat value="#{validatePlan.leafBeans}" var="bean">
 						<a name="results#{bean.leaf.id}" />
 						<h3>
-							<h:outputText
-								value="#{bean.leaf.parent.name} > #{bean.leaf.name}" />
+							#{bean.leaf.parent.name} > #{bean.leaf.name}
 						</h3>
 
 						<!-- TABLE LAYOUT! -->
@@ -717,17 +596,16 @@
 										columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big ">
 										<rich:column>
 											<f:facet name="header">
-												<h:outputText value="Alternatives" />
+												Alternatives
 											</f:facet>
-											<h:outputText value="#{alter.name}" />
+											#{alter.name}
 										</rich:column>
 
 										<rich:column rendered="#{bean.leaf.single}">
 											<f:facet name="header">
-												<h:outputText value="Result" />
+												Result
 											</f:facet>
-											<h:outputText
-												value="#{bean.leaf.valueMap[alter.name].list[0].value}" />
+											#{bean.leaf.valueMap[alter.name].list[0].value}
 										</rich:column>
 
 										<c:forEach
@@ -735,10 +613,9 @@
 											varStatus="status">
 											<rich:column rendered="#{not bean.leaf.single}">
 												<f:facet name="header">
-													<h:outputText value="#{status.index+1}" />
+													#{status.index+1}
 												</f:facet>
-												<h:outputText
-													value="#{bean.leaf.valueMap[alter.name].list[status.index].value}" />
+												#{bean.leaf.valueMap[alter.name].list[status.index].value}
 											</rich:column>
 										</c:forEach>
 
@@ -753,18 +630,16 @@
 											headerClass="rf-dt-shdr-c" columnClasses="rf-dt-c,rf-dt-c">
 											<h:column>
 												<f:facet name="header">
-													<h:outputText value="Ordinal Value" />
+													Ordinal Value
 												</f:facet>
-												<h:outputText value="#{ordinalValue}" />
+												#{ordinalValue}
 											</h:column>
 
 											<h:column>
 												<f:facet name="header">
-													<h:outputText value="Target Value" />
+													Target Value
 												</f:facet>
-												<h:outputText value="-> " />
-												<h:outputText
-													value="#{bean.leaf.transformer.mapping[ordinalValue].value}" />
+												-> #{bean.leaf.transformer.mapping[ordinalValue].value}
 											</h:column>
 										</h:dataTable>
 									</f:subview> <!-- Numerical --> <f:subview
@@ -792,34 +667,17 @@
 												unit="#{bean.leaf.scale.unit}" />
 
 										</table>
-										<h:outputText value="Threshold stepping:" />
+										Threshold stepping:
 										<br />
-										<h:outputText value="#{bean.leaf.transformer.mode}" />
-									</f:subview> <ui:fragment rendered="#{validatePlan.displayChangelogs}">
-
+										#{bean.leaf.transformer.mode}
+									</f:subview> 
+									<ui:fragment rendered="#{validatePlan.displayChangelogs}">
 										<h4>Transformer-Changelog</h4>
+										<ui:include src="/plato/shared/changeLog.xhtml">
+											<ui:param name="bean" value="#{bean.leaf.transformer}" />
+											<ui:param name="rendered" value="#{validatePlan.displayChangelogs}" />
+										</ui:include>				
 
-										<table>
-											<tr>
-												<th width="80px"></th>
-												<th width="160px">Date</th>
-												<th width="160px">User</th>
-											</tr>
-											<tr>
-												<td>Created</td>
-												<td><h:outputText
-														value="#{bean.leaf.transformer.changeLog.createdString}" /></td>
-												<td><h:outputText
-														value="#{bean.leaf.transformer.changeLog.createdBy}" /></td>
-											</tr>
-											<tr>
-												<td>Changed</td>
-												<td><h:outputText
-														value="#{bean.leaf.transformer.changeLog.changedString}" /></td>
-												<td><h:outputText
-														value="#{bean.leaf.transformer.changeLog.changedBy}" /></td>
-											</tr>
-										</table>
 									</ui:fragment>
 								</td>
 								<td class="column-validation-results">
@@ -832,15 +690,15 @@
 										columnClasses="margin-top-small margin-bottom-small margin-left-big comment-medium">
 										<rich:column>
 											<f:facet name="header">
-												<h:outputText value="Alternatives" />
+												Alternatives
 											</f:facet>
-											<h:outputText value="#{alter.name}" />
+											#{alter.name}
 										</rich:column>
 
 										<!-- <ui:fragment rendered="#{bean.leaf.single}">-->
 										<rich:column rendered="#{bean.leaf.single}">
 											<f:facet name="header">
-												<h:outputText value="Result" />
+												Result
 											</f:facet>
 											<h:outputText value="#{bean.resultValues[alter]}">
 												<f:convertNumber maxFractionDigits="2" />
@@ -854,7 +712,7 @@
 											varStatus="status">
 											<rich:column rendered="#{not bean.leaf.single}">
 												<f:facet name="header">
-													<h:outputText value="#{status.index + 1}" />
+													#{status.index + 1}
 												</f:facet>
 												<h:outputText
 													value="#{bean.transformedValues[alter].list[status.index].value}">
@@ -865,7 +723,7 @@
 
 										<rich:column rendered="#{not bean.leaf.single}">
 											<f:facet name="header">
-												<h:outputText value="Aggregated result" />
+												Aggregated result
 											</f:facet>
 											<h:outputText value="#{bean.resultValues[alter]}">
 												<f:convertNumber maxFractionDigits="2" />
@@ -877,13 +735,13 @@
 
 										<rich:column>
 											<f:facet name="header">
-												<h:outputText value="Comments" />
+												Comments
 											</f:facet>
-											<h:outputText
-												value="#{bean.leaf.valueMap[alter.name].comment}" />
+											#{bean.leaf.valueMap[alter.name].comment}
 										</rich:column>
 
-									</rich:dataTable> <h:outputText
+									</rich:dataTable> 
+									<h:outputText
 										value="Aggregation mode: #{bean.leaf.aggregationMode}"
 										rendered="#{!bean.leaf.single}" />
 								</td>
@@ -912,26 +770,29 @@
 
 			<!-- ********** results weighted multiplication ********** -->
 
-			<a name="resultsMult" />
-			<p:help text="How do the aggregation mechanisms work?"
-				url="/plato/help/aggregation.html" />
-			<div id="menu" class="menu-step">
-				<h2>Results: Weighted multiplication</h2>
-			</div>
+			<a4j:outputPanel id="weightedMulResults">
 
-			<div class="center-position">
-				<p:resultTree id="weightedMultResultsTree"
-					treeHelper="#{validatePlan.resultstreeHelper}"
-					rootNode="#{validatePlan.aggMultResultNodes}"
-					alternatives="#{validatePlan.plan.alternativesDefinition.consideredAlternatives}"
-					toggleType="client">
-					<f:facet name="panel">
-						<small>Result-Tree with all Alternatives, Aggregation
-							method: Weighted multiplication</small>
-					</f:facet>
-				</p:resultTree>
-			</div>
-
+				<a name="resultsMult" />
+				<p:help text="How do the aggregation mechanisms work?"
+					url="/plato/help/aggregation.html" />
+				<div id="menu" class="menu-step">
+					<h2>Results: Weighted multiplication</h2>
+				</div>
+	
+				<div class="center-position">
+					<p:resultTree id="weightedMultResultsTree"
+						treeHelper="#{validatePlan.resultstreeHelper}"
+						rootNode="#{validatePlan.aggMultResultNodes}"
+						alternatives="#{validatePlan.plan.alternativesDefinition.consideredAlternatives}"
+						linktoResults="#{validatePlan.displayEvalTransform ? 'true' : ''}"						
+						toggleType="client">
+						<f:facet name="panel">
+							<small>Result-Tree with all Alternatives, Aggregation
+								method: Weighted multiplication</small>
+						</f:facet>
+					</p:resultTree>
+				</div>
+			</a4j:outputPanel>
 
 			<!-- ********** results weighted sum ********** -->
 			<a name="resultsSum" />
@@ -944,42 +805,46 @@
 				<a4j:outputPanel layout="block"
 					rendered="#{empty validatePlan.acceptableAlternatives}"
 					styleClass="requiredIndicator">
-	            None of the considered
-	            alternatives have achieved acceptable values - all of them exhibit an
-	            unacceptable performance for at least one aspect of the requirements
-	            tree. However, to create a preservation plan, a feasible course of
-	            action is needed. You may want to reconsider your acceptable
-	            threshold settings in the Transformation step. You can do so by
-	            returning to that step and changing your settings, and then continue
-	            with the workflow.
-		    </a4j:outputPanel>
+		            None of the considered
+		            alternatives have achieved acceptable values - all of them exhibit an
+		            unacceptable performance for at least one aspect of the requirements
+		            tree. However, to create a preservation plan, a feasible course of
+		            action is needed. You may want to reconsider your acceptable
+		            threshold settings in the Transformation step. You can do so by
+		            returning to that step and changing your settings, and then continue
+		            with the workflow.
+			    </a4j:outputPanel>
 
 				<a4j:outputPanel layout="block"
 					rendered="#{validatePlan.showAllConsideredAlternativesForWeightedSum or not empty validatePlan.acceptableAlternatives}">
 					<p:resultTree id="weightedSumResultsTree"
 						treeHelper="#{validatePlan.resultstreeHelper}"
 						rootNode="#{validatePlan.aggSumResultNodes}"
-						alternatives="#{validatePlan.weightedSumResultTreeShownAlternatives}">
+						alternatives="#{validatePlan.weightedSumResultTreeShownAlternatives}"
+						linktoResults="#{validatePlan.displayEvalTransform ? 'true' : ''}">
 						<f:facet name="panel">
 							<div>
-								<small> <a4j:outputPanel layout="block"
-										rendered="#{!validatePlan.knockedoutAlternativePresent or validatePlan.showAllConsideredAlternativesForWeightedSum}">
-								Result-Tree with all alternatives, Aggregation
-									method: Weighted sum
-								</a4j:outputPanel> <a4j:outputPanel layout="block"
-										rendered="#{validatePlan.knockedoutAlternativePresent and !validatePlan.showAllConsideredAlternativesForWeightedSum}">
-								Result-Tree with alternatives without knock-out
-									evaluation criteria, Aggregation method: Weighted sum
-							</a4j:outputPanel> <a4j:outputPanel layout="block"
-										rendered="#{validatePlan.knockedoutAlternativePresent}">
-										<h:selectBooleanCheckbox
-											value="#{validatePlan.showAllConsideredAlternativesForWeightedSum}">
-											<a4j:ajax event="click"
-												listener="#{validatePlan.switchShowAllConsideredAlternativesForWeightedSum()}"
-												render="weightedSumResults" />
-										</h:selectBooleanCheckbox>
-								Show all alternatives
-							</a4j:outputPanel>
+								<small> 
+									<a4j:outputPanel layout="block"
+											rendered="#{!validatePlan.knockedoutAlternativePresent or validatePlan.showAllConsideredAlternativesForWeightedSum}">
+									Result-Tree with all alternatives, Aggregation
+										method: Weighted sum
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block"
+											rendered="#{validatePlan.knockedoutAlternativePresent and !validatePlan.showAllConsideredAlternativesForWeightedSum}">
+									Result-Tree with alternatives without knock-out
+										evaluation criteria, Aggregation method: Weighted sum
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block"
+											rendered="#{validatePlan.knockedoutAlternativePresent}">
+											<h:selectBooleanCheckbox
+												value="#{validatePlan.showAllConsideredAlternativesForWeightedSum}">
+												<a4j:ajax event="click"
+													listener="#{validatePlan.switchShowAllConsideredAlternativesForWeightedSum()}"
+													render="weightedSumResults" />
+											</h:selectBooleanCheckbox>
+									Show all alternatives
+									</a4j:outputPanel>
 								</small>
 							</div>
 						</f:facet>
@@ -1147,7 +1012,8 @@
 				</tr>
 				<tr>
 					<td style="padding-top: 10px">Remarks</td>
-					<td style="padding-top: 10px"><h:outputText id="costremarks"
+					<td style="padding-top: 10px">
+						<h:outputText id="costremarks"
 							value="#{validatePlan.plan.planDefinition.costsRemarks}" /><br /></td>
 				</tr>
 			</table>
@@ -1282,8 +1148,7 @@
 				<rich:popupPanel id="deployPopup" width="600" height="150"
 					onmaskclick="#{rich:component('deployPopup')}.hide();">
 					<f:facet name="header">
-						<h:outputText
-							value="Deploy to #{validatePlan.user.userGroup.repository.url}" />
+						Deploy to #{validatePlan.user.userGroup.repository.url}
 					</f:facet>
 					<f:facet name="controls">
 						<h:outputLink value="#"
