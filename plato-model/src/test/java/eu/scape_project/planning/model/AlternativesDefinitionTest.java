@@ -28,6 +28,15 @@ public class AlternativesDefinitionTest {
     public AlternativesDefinitionTest() {
         alternativesDefinition = new AlternativesDefinition();
     }
+    
+    @Test
+    public void createUniqueOfLongNameContainingSpaces() throws PlanningException {
+        Alternative alt1 = new Alternative("alt1", "alt1");
+        
+        alternativesDefinition.addAlternative(alt1);
+        String uniqueName = alternativesDefinition.createUniqueName("alt1                            too long");
+        assertEquals("alt1-1", uniqueName);
+    }
 
     @Test(expected = PlanningException.class)
     public void addAlternative_addAlternativeWithAlreadyExistingNameThrowsException() throws PlanningException {

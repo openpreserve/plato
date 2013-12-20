@@ -198,7 +198,10 @@ public class AlternativesDefinition implements Serializable, ITouchable {
     public String createUniqueName(String name) {
         List<String> usedNames = getUsedNames();
 
-        String shortname = name.substring(0, Math.min(30, name.length()));
+        // Note: not all databases consider trailing whitespace for comparison (unique key constraints)
+        // and it is hard to make out the difference in the UI,
+        // therefore we remove trailing whitespace before checking for uniqueness 
+        String shortname = name.substring(0, Math.min(30, name.length())).trim();
         if (!usedNames.contains(shortname.toLowerCase())) {
             return shortname;
         } else {
@@ -209,15 +212,16 @@ public class AlternativesDefinition implements Serializable, ITouchable {
             if (shortname.length() <= 28)
                 base = shortname;
             else
-                base = shortname.substring(0, 28);
+                // note that the name could contain whitespace, remove trailing whitespace(again)
+                base = shortname.substring(0, 28).trim();
             String newName = base + "-" + i;
             while (usedNames.contains(newName.toLowerCase())) {
                 i++;
                 if ((int) Math.log10(i) > exp) {
                     // i-digits are not enough - extend the postfix
                     exp = (int) Math.log10(i);
-                    // and reduce the length of the base if necessary
-                    base = shortname.substring(0, Math.min(shortname.length(), 28 - exp));
+                    // and reduce the length of the base if necessary, and remove trailing whitespace(again)
+                    base = shortname.substring(0, Math.min(shortname.length(), 28 - exp)).trim();
                 }
                 newName = base + "-" + i;
             }
