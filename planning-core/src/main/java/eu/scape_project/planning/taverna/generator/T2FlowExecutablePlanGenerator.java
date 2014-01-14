@@ -26,6 +26,7 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
+import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.taverna.generator.model.Dataflow;
@@ -57,11 +58,7 @@ public class T2FlowExecutablePlanGenerator {
      *            the author of the plan
      */
     public T2FlowExecutablePlanGenerator(String name, String author) {
-        String semanticAnnotations = "&lt;&gt; &lt;http://purl.org/DP/components#fits&gt; &lt;http://purl.org/DP/components#ExecutablePlan&gt; .\n"
-            + "&lt;&gt; &lt;http://purl.org/DP/components#migrates&gt;\n"
-            + "  [ a &lt;http://purl.org/DP/components#MigrationPath&gt; ;\n"
-            + "    &lt;http://purl.org/DP/components#sourceMimetype&gt; \"image/tiff\" ;\n"
-            + "    &lt;http://purl.org/DP/components#targetMimetype&gt; \"image/tiff\" ] .";
+        String semanticAnnotations = "&lt;&gt; &lt;http://purl.org/DP/components#fits&gt; &lt;http://purl.org/DP/components#ExecutablePlan&gt; .\n";
 
         workflow = new Workflow(name, author, semanticAnnotations);
     }
@@ -83,8 +80,8 @@ public class T2FlowExecutablePlanGenerator {
      */
     public void addSourcePort(int depth) {
         InputPort inputPort = new InputPort(SOURCE_PORT_NAME, depth,
-            "&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;\n"
-                + "              &lt;http://purl.org/DP/components#SourcePathPort&gt; .");
+            "&lt;&gt;    &lt;http://purl.org/DP/components#accepts&gt;\n"
+                + "              &lt;http://purl.org/DP/components#SourceObject&gt; .");
         workflow.addInputPort(inputPort);
     }
 
@@ -93,7 +90,7 @@ public class T2FlowExecutablePlanGenerator {
      */
     public void addTargetPort() {
         OutputPort outputPort = new OutputPort(TARGET_PORT_NAME,
-            "&lt;&gt; &lt;http://purl.org/DP/components#portType&gt; &lt;http://purl.org/DP/components#TargetPathPort&gt; .");
+            "&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/components#TargetObject&gt; .");
         workflow.addOutputPort(outputPort);
     }
 
@@ -108,8 +105,8 @@ public class T2FlowExecutablePlanGenerator {
         if (portName == null) {
             throw new IllegalArgumentException("The provided measure " + measure + " is not valid");
         }
-        OutputPort outputPort = new OutputPort(portName,
-            "&lt;&gt; &lt;http://purl.org/DP/components#providesMeasure&gt; &lt;" + measure + "&gt; .");
+        OutputPort outputPort = new OutputPort(portName, "&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;"
+            + measure + "&gt; .");
         workflow.addOutputPort(outputPort);
     }
 
@@ -138,10 +135,10 @@ public class T2FlowExecutablePlanGenerator {
         // Input ports
         List<Port> inputPorts = workflowDescription.getInputPorts();
         for (Port p : inputPorts) {
-            if ("http://purl.org/DP/components#SourcePathPort".equals(p.getPortType())) {
+            if (ComponentConstants.VALUE_SOURCE_OBJECT.equals(p.getValue())) {
                 migration.addInputPort(new InputPort(p.getName(), 0));
                 workflow.addDatalink(new Datalink(workflow, SOURCE_PORT_NAME, migration, p.getName()));
-            } else if ("http://purl.org/DP/components#ParameterPort".equals(p.getPortType())) {
+            } else if (ComponentConstants.VALUE_PARAMETER.equals(p.getValue())) {
                 migration.addInputPort(new InputPort(p.getName(), 0));
                 TextConstant c = new TextConstant(p.getName(), parameters.get(p.getName()));
                 workflow.addProcessor(c);
@@ -152,7 +149,7 @@ public class T2FlowExecutablePlanGenerator {
         // Output ports
         List<Port> outputPorts = workflowDescription.getOutputPorts();
         for (Port p : outputPorts) {
-            if ("http://purl.org/DP/components#TargetPathPort".equals(p.getPortType())) {
+            if (ComponentConstants.VALUE_TARGET_OBJECT.equals(p.getValue())) {
                 migration.addOutputPort(new OutputPort(p.getName()));
                 workflow.addDatalink(new Datalink(migration, p.getName(), workflow, TARGET_PORT_NAME));
             }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workflow uri="http://sandbox.myexperiment.org/workflow.xml?id=3372" resource="http://sandbox.myexperiment.org/workflows/3372" version="1">
-  <id>3372</id>
+<workflow uri="http://sandbox.myexperiment.org/workflow.xml?id=3379" resource="http://sandbox.myexperiment.org/workflows/3379" id="3379" version="1">
+  <id>3379</id>
   <title>Imagemagick convert - tiff2tiff - compression</title>
   <description>Converts tiff to tiff using imagemagick convert with the provided compression</description>
-  <type resource="http://sandbox.myexperiment.org/content_types/2" uri="http://sandbox.myexperiment.org/type.xml?id=2">Taverna 2</type>
-  <uploader resource="http://sandbox.myexperiment.org/users/20122" uri="http://sandbox.myexperiment.org/user.xml?id=20122">Markus Plangg</uploader>
-  <preview>http://sandbox.myexperiment.org/workflows/3372/versions/1/previews/full</preview>
-  <svg>http://sandbox.myexperiment.org/workflows/3372/versions/1/previews/svg</svg>
-  <license-type resource="http://sandbox.myexperiment.org/licenses/2" uri="http://sandbox.myexperiment.org/license.xml?id=2">by-sa</license-type>
-  <content-uri>http://sandbox.myexperiment.org/workflows/3372/download/imagemagick_convert_-_tiff2tiff_-_compression_480171.t2flow</content-uri>
+  <type resource="http://sandbox.myexperiment.org/content_types/2" uri="http://sandbox.myexperiment.org/type.xml?id=2" id="2">Taverna 2</type>
+  <uploader resource="http://sandbox.myexperiment.org/users/20122" uri="http://sandbox.myexperiment.org/user.xml?id=20122" id="20122">Markus Plangg</uploader>
+  <preview>http://sandbox.myexperiment.org/workflows/3379/versions/1/previews/full</preview>
+  <svg>http://sandbox.myexperiment.org/workflows/3379/versions/1/previews/svg</svg>
+  <license-type resource="http://sandbox.myexperiment.org/licenses/2" uri="http://sandbox.myexperiment.org/license.xml?id=2" id="2">by-sa</license-type>
+  <content-uri>http://sandbox.myexperiment.org/workflows/3379/download/imagemagick_convert_-_tiff2tiff_-_compression_800942.t2flow</content-uri>
   <content-type>application/vnd.taverna.t2flow+xml</content-type>
   <tags>
-    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=618" resource="http://sandbox.myexperiment.org/tags/618">test</tag>
-    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=3214" resource="http://sandbox.myexperiment.org/tags/3214">component</tag>
+    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=618" resource="http://sandbox.myexperiment.org/tags/618" id="618">test</tag>
+    <tag uri="http://sandbox.myexperiment.org/tag.xml?id=3214" resource="http://sandbox.myexperiment.org/tags/3214" id="3214">component</tag>
   </tags>
   <ratings/>
   <components>
@@ -29,8 +29,8 @@
             </examples>
             <semantic_annotation>
               <type>text/rdf+n3</type>
-              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
-              &lt;http://purl.org/DP/components#SourcePathPort&gt; .
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#accepts&gt;
+              &lt;http://purl.org/DP/components#SourceObject&gt; .
 </content>
             </semantic_annotation>
           </source>
@@ -44,27 +44,27 @@
             </examples>
             <semantic_annotation>
               <type>text/rdf+n3</type>
-              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
-              &lt;http://purl.org/DP/components#ParameterPort&gt; .
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#accepts&gt;
+              &lt;http://purl.org/DP/components#Parameter&gt; .
 
-&lt;&gt;    &lt;http://purl.org/DP/components#acceptsPredefinedParameter&gt;
-              [ a       &lt;http://purl.org/DP/components#PredefinedParameter&gt; ;
+&lt;&gt;    &lt;http://purl.org/DP/components#accepts&gt;
+              [ a       &lt;http://purl.org/DP/components#PredefinedParameterValue&gt; ;
                 &lt;http://purl.org/DP/components#parameterDescription&gt;
                         "no compression" ;
                 &lt;http://purl.org/DP/components#parameterValue&gt;
                         "none"
               ] .
 
-&lt;&gt;    &lt;http://purl.org/DP/components#acceptsPredefinedParameter&gt;
-              [ a       &lt;http://purl.org/DP/components#PredefinedParameter&gt; ;
+&lt;&gt;    &lt;http://purl.org/DP/components#accepts&gt;
+              [ a       &lt;http://purl.org/DP/components#PredefinedParameterValue&gt; ;
                 &lt;http://purl.org/DP/components#parameterDescription&gt;
                         "CCITT Group 4" ;
                 &lt;http://purl.org/DP/components#parameterValue&gt;
                         "Group4"
               ] .
 
-&lt;&gt;    &lt;http://purl.org/DP/components#acceptsPredefinedParameter&gt;
-              [ a       &lt;http://purl.org/DP/components#PredefinedParameter&gt; ;
+&lt;&gt;    &lt;http://purl.org/DP/components#accepts&gt;
+              [ a       &lt;http://purl.org/DP/components#PredefinedParameterValue&gt; ;
                 &lt;http://purl.org/DP/components#parameterDescription&gt;
                         "run length encoding" ;
                 &lt;http://purl.org/DP/components#parameterValue&gt;
@@ -83,8 +83,8 @@
             <examples/>
             <semantic_annotation>
               <type>text/rdf+n3</type>
-              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
-              &lt;http://purl.org/DP/components#ActionStatusPort&gt; .
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#provides&gt;
+              &lt;http://purl.org/DP/components#StatusValue&gt; .
 </content>
             </semantic_annotation>
           </sink>
@@ -96,8 +96,8 @@
             <examples/>
             <semantic_annotation>
               <type>text/rdf+n3</type>
-              <content>&lt;&gt;    &lt;http://purl.org/DP/components#portType&gt;
-              &lt;http://purl.org/DP/components#TargetPathPort&gt; .
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#provides&gt;
+              &lt;http://purl.org/DP/components#TargetObject&gt; .
 </content>
             </semantic_annotation>
           </sink>
@@ -111,10 +111,10 @@
               <content>&lt;&gt; &lt;http://purl.org/DP/components#requiresInstallation&gt; 
       [ a &lt;http://purl.org/DP/components#Installation&gt; ;
     &lt;http://purl.org/DP/components#hasEnvironment&gt; &lt;http://purl.org/DP/components#Debian&gt; ;
-    &lt;http://purl.org/DP/components#hasPackageManagerConfig&gt; 
-        [ a &lt;http://purl.org/DP/components#DpkgConfig&gt; ;
+    &lt;http://purl.org/DP/components#hasSourceConfiguration&gt; 
+        [ a &lt;http://purl.org/DP/components#DpkgConfiguration&gt; ;
             &lt;http://purl.org/DP/components#installsDpkgs&gt; "imagemagick" ;
-            &lt;http://purl.org/DP/components#requiresSource&gt; "deb http://scape.keep.pt/apt stable main"
+            &lt;http://purl.org/DP/components#requiresAptSource&gt; "deb http://scape.keep.pt/apt stable main"
         ] ;
     &lt;http://purl.org/DP/components#dependsOn&gt;
         [ a &lt;http://purl.org/DP/components#Dependency&gt; ;

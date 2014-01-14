@@ -144,7 +144,7 @@ public class MyExperimentRESTClient {
          * @return this query
          */
         private ComponentQuery addPrefix(String prefix, String iri) {
-            if (prefix != null && !prefix.equals("") && iri != null && !iri.equals("")) {
+            if (prefix != null && !prefix.isEmpty() && iri != null && !iri.isEmpty()) {
                 prefixes += "PREFIX " + prefix + ":<" + iri + ">\n";
                 prefixMapping.setNsPrefix(prefix, iri);
             }
@@ -171,7 +171,7 @@ public class MyExperimentRESTClient {
          * @return this query
          */
         public ComponentQuery addProfile(String profile) {
-            if (profile != null && !profile.equals("")) {
+            if (profile != null && !profile.isEmpty()) {
                 Triple t = new Triple(wfNode, NodeFactory.createURI(ONTOLOGY_IRI + "fits"),
                     NodeFactory.createURI(profile));
                 query.addTriplePattern(t);
@@ -189,18 +189,18 @@ public class MyExperimentRESTClient {
          * @return this query
          */
         public ComponentQuery addMigrationPath(String sourceMimetype, String targetMimetype) {
-            if ((sourceMimetype != null && !sourceMimetype.equals(""))
-                || (targetMimetype != null && !targetMimetype.equals(""))) {
+            if ((sourceMimetype != null && !sourceMimetype.isEmpty())
+                || (targetMimetype != null && !targetMimetype.isEmpty())) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(ONTOLOGY_IRI + "migrates"), node));
                 group.addTriplePattern(new Triple(node, NodeFactory.createURI(TYPE_IRI), NodeFactory
                     .createURI(ONTOLOGY_IRI + "MigrationPath")));
-                if (sourceMimetype != null && !sourceMimetype.equals("")) {
+                if (sourceMimetype != null && !sourceMimetype.isEmpty()) {
                     group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "sourceMimetype"),
                         NodeFactory.createLiteral(sourceMimetype)));
                 }
-                if (targetMimetype != null && !targetMimetype.equals("")) {
+                if (targetMimetype != null && !targetMimetype.isEmpty()) {
                     group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "targetMimetype"),
                         NodeFactory.createLiteral(targetMimetype)));
                 }
@@ -221,7 +221,7 @@ public class MyExperimentRESTClient {
         }
 
         /**
-         * Sets a migration path to pattern to the query.
+         * Sets a migration path pattern for the query.
          * 
          * @param pattern
          *            the pattern
@@ -299,24 +299,24 @@ public class MyExperimentRESTClient {
          * {@link #addHandlesMimetypesWildcard(String, String)} will be
          * concatenated using UNION.
          * 
-         * @param mimetype1
-         *            the first mimetype
-         * @param mimetype2
-         *            the second mimetype
+         * @param leftMimetype
+         *            the left mimetype
+         * @param rightMimetype
+         *            the right mimetype
          * @return this query
          */
-        public ComponentQuery addHandlesMimetypes(String mimetype1, String mimetype2) {
-            if (mimetype1 != null && !mimetype1.equals("") && mimetype2 != null && !mimetype2.equals("")) {
+        public ComponentQuery addHandlesMimetypes(String leftMimetype, String rightMimetype) {
+            if (leftMimetype != null && !leftMimetype.isEmpty() && rightMimetype != null && !rightMimetype.isEmpty()) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(ONTOLOGY_IRI + "handlesMimetypes"),
                     node));
                 group.addTriplePattern(new Triple(node, NodeFactory.createURI(TYPE_IRI), NodeFactory
                     .createURI(ONTOLOGY_IRI + "AcceptedMimetypes")));
-                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "handlesMimetype1"),
-                    NodeFactory.createLiteral(mimetype1)));
-                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "handlesMimetype2"),
-                    NodeFactory.createLiteral(mimetype2)));
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "handlesLeftMimetype"),
+                    NodeFactory.createLiteral(leftMimetype)));
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "handlesRightMimetype"),
+                    NodeFactory.createLiteral(rightMimetype)));
 
                 handlesMimetypes.addElement(group);
             }
@@ -334,18 +334,18 @@ public class MyExperimentRESTClient {
          * {@link #addHandlesMimetypesWildcard(String, String)} will be
          * concatenated using UNION.
          * 
-         * @param mimetype1
-         *            the first mimetype
-         * @param mimetype2
-         *            the second mimetype
+         * @param leftMimetype
+         *            the left mimetype
+         * @param rightMimetype
+         *            the right mimetype
          * @return this query
          */
-        public ComponentQuery addHandlesMimetypesWildcard(String mimetype1, String mimetype2) {
-            if (mimetype1 != null && !mimetype1.equals("") && mimetype2 != null && !mimetype2.equals("")) {
-                String wildcard1 = getMimetypeWildcard(mimetype1);
-                String wildcard2 = getMimetypeWildcard(mimetype2);
-                addHandlesMimetypes(mimetype1, wildcard2);
-                addHandlesMimetypes(wildcard1, mimetype2);
+        public ComponentQuery addHandlesMimetypesWildcard(String leftMimetype, String rightMimetype) {
+            if (leftMimetype != null && !leftMimetype.isEmpty() && rightMimetype != null && !rightMimetype.isEmpty()) {
+                String leftWildcard = getMimetypeWildcard(leftMimetype);
+                String rightWildcard = getMimetypeWildcard(rightMimetype);
+                addHandlesMimetypes(leftMimetype, rightWildcard);
+                addHandlesMimetypes(leftWildcard, rightMimetype);
             }
             return this;
         }
@@ -353,17 +353,17 @@ public class MyExperimentRESTClient {
         /**
          * Adds an input port type restriction to the query.
          * 
-         * @param portType
+         * @param accepts
          *            the port type
          * @return this query
          */
-        public ComponentQuery addInputPort(String portType) {
-            if (portType != null && !portType.equals("")) {
+        public ComponentQuery addInputPort(String accepts) {
+            if (accepts != null && !accepts.isEmpty()) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(WFDESC_IRI + "hasInput"), node));
-                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "portType"), NodeFactory
-                    .createURI(portType)));
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "accepts"), NodeFactory
+                    .createURI(accepts)));
                 query.addElement(group);
             }
             return this;
@@ -372,40 +372,53 @@ public class MyExperimentRESTClient {
         /**
          * Adds a measures input port restriction to the query.
          * 
-         * @param acceptsMeasures
+         * @param relatedObject
+         *            the object related to the measures
+         * @param measure
          *            the measure
          * @return this query
          */
-        public ComponentQuery addMeasureInputPort(String... acceptsMeasures) {
-            if (acceptsMeasures != null) {
+        public ComponentQuery addMeasureInputPort(String relatedObject, String measure) {
+            if (measure != null && !measure.isEmpty()) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(WFDESC_IRI + "hasInput"), node));
-                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "portType"), NodeFactory
-                    .createURI(ONTOLOGY_IRI + "MeasurePortType")));
-                for (String acceptsMeasure : acceptsMeasures) {
-                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "acceptsMeasure"),
-                        NodeFactory.createURI(acceptsMeasure)));
+                if (relatedObject != null && !relatedObject.isEmpty()) {
+                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "relatesTo"),
+                        NodeFactory.createURI(ONTOLOGY_IRI + relatedObject)));
                 }
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "accepts"), NodeFactory
+                    .createURI(measure)));
                 query.addElement(group);
             }
             return this;
         }
 
         /**
+         * Adds a measures input port restriction to the query.
+         * 
+         * @param acceptsMeasure
+         *            the measures
+         * @return this query
+         */
+        public ComponentQuery addMeasureInputPort(String acceptsMeasure) {
+            return addMeasureInputPort(null, acceptsMeasure);
+        }
+
+        /**
          * Adds an output port type restriction to the query.
          * 
-         * @param portType
+         * @param provides
          *            the port type
          * @return this query
          */
-        public ComponentQuery addOutputPort(String portType) {
-            if (portType != null && !portType.equals("")) {
+        public ComponentQuery addOutputPort(String provides) {
+            if (provides != null && !provides.isEmpty()) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(WFDESC_IRI + "hasOutput"), node));
-                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "portType"), NodeFactory
-                    .createURI(portType)));
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "provides"), NodeFactory
+                    .createURI(provides)));
                 query.addElement(group);
             }
             return this;
@@ -414,22 +427,37 @@ public class MyExperimentRESTClient {
         /**
          * Adds a measure output port restriction to the query.
          * 
-         * @param providesMeasures
+         * @param relatedObject
+         *            the object related to the measures
+         * @param measure
          *            the measure
          * @return this query
          */
-        public ComponentQuery addMeasureOutputPort(String... providesMeasures) {
-            if (providesMeasures != null) {
+        public ComponentQuery addMeasureOutputPort(String relatedObject, String measure) {
+            if (measure != null && !measure.isEmpty()) {
                 Node node = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
                 group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(WFDESC_IRI + "hasOutput"), node));
-                for (String providesMeasure : providesMeasures) {
-                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "providesMeasure"),
-                        NodeFactory.createURI(providesMeasure)));
+                if (relatedObject != null && !relatedObject.isEmpty()) {
+                    group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "relatesTo"),
+                        NodeFactory.createURI(ONTOLOGY_IRI + relatedObject)));
                 }
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "provides"), NodeFactory
+                    .createURI(measure)));
                 query.addElement(group);
             }
             return this;
+        }
+
+        /**
+         * Adds a measure output port restriction to the query.
+         * 
+         * @param measure
+         *            the measure
+         * @return this query
+         */
+        public ComponentQuery addMeasureOutputPort(String measure) {
+            return addMeasureOutputPort(null, measure);
         }
 
         /**
@@ -452,7 +480,7 @@ public class MyExperimentRESTClient {
          * @return this query
          */
         public ComponentQuery addInstallationEnvironment(String environment) {
-            if (environment != null && !environment.equals("")) {
+            if (environment != null && !environment.isEmpty()) {
                 Node processNode = NodeFactory.createAnon();
                 Node installationNode = NodeFactory.createAnon();
                 ElementGroup group = new ElementGroup();
@@ -470,12 +498,12 @@ public class MyExperimentRESTClient {
         /**
          * Adds an environment restriction to the query.
          * 
-         * @param environmentType
-         *            the environment type
+         * @param environmentClass
+         *            the environment class
          * @return this query
          */
-        public ComponentQuery addInstallationEnvironmentType(String environmentType) {
-            if (environmentType != null && !environmentType.equals("")) {
+        public ComponentQuery addInstallationEnvironmentType(String environmentClass) {
+            if (environmentClass != null && !environmentClass.isEmpty()) {
                 Node processNode = NodeFactory.createAnon();
                 Node installationNode = NodeFactory.createAnon();
                 Node environmentNode = NodeFactory.createAnon();
@@ -486,8 +514,8 @@ public class MyExperimentRESTClient {
                     + "requiresInstallation"), installationNode));
                 group.addTriplePattern(new Triple(installationNode, NodeFactory.createURI(ONTOLOGY_IRI
                     + "hasEnvironment"), environmentNode));
-                group.addTriplePattern(new Triple(environmentNode, NodeFactory.createURI(ONTOLOGY_IRI
-                    + "hasEnvironmentType"), NodeFactory.createURI(environmentType)));
+                group.addTriplePattern(new Triple(environmentNode, NodeFactory.createURI(TYPE_IRI), NodeFactory
+                    .createURI(environmentClass)));
                 query.addElement(group);
             }
             return this;
@@ -497,7 +525,7 @@ public class MyExperimentRESTClient {
          * Finishes the migration path to filter.
          */
         private void finishMigrationPathFilter() {
-            if (migrationPathTargetPattern != null && !migrationPathTargetPattern.equals("")) {
+            if (migrationPathTargetPattern != null && !migrationPathTargetPattern.isEmpty()) {
                 Node migrationPath = NodeFactory.createAnon();
                 Node toMimetype = NodeFactory.createVariable("migrationPathTarget");
                 ElementGroup group = new ElementGroup();
@@ -518,7 +546,7 @@ public class MyExperimentRESTClient {
          * Finishes the dependency label filter.
          */
         private void finishDependencyLabelFilter() {
-            if (dependencyLabelPattern != null && !dependencyLabelPattern.equals("")) {
+            if (dependencyLabelPattern != null && !dependencyLabelPattern.isEmpty()) {
                 Node processNode = NodeFactory.createAnon();
                 Node installationNode = NodeFactory.createAnon();
                 Node dependencyNode = NodeFactory.createAnon();

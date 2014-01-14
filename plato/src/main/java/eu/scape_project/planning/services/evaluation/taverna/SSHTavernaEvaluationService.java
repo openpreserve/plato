@@ -36,6 +36,7 @@ import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient.ComponentQuery;
+import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
@@ -151,11 +152,9 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
 
         Map<String, ?> outputData = tavernaExecutor.getOutputData();
         for (Port p : outputPorts) {
-            String measure = p.getMeasure();
+            String measure = p.getValue();
             // Ignore non-measures, measures for sample object
-            if (measure != null && !"".equals(measure)
-                && !"http://purl.org/DP/components#Measure1Port".equalsIgnoreCase(p.getPortType())
-                && measureUris.contains(measure)) {
+            if (measure != null && !measure.isEmpty() && measureUris.contains(measure)) {
                 Object value = outputData.get(p.getName());
                 Measure m = cm.getMeasure(measure);
                 Value v = m.getScale().createValue();
@@ -187,14 +186,14 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
         List<Port> inputPorts = workflowDescription.getInputPorts();
 
         for (Port p : inputPorts) {
-            if ("http://purl.org/DP/components#SourcePathPort".equals(p.getPortType())) {
+            if (ComponentConstants.VALUE_SOURCE_OBJECT.equals(p.getValue())) {
                 inputData.put(p.getName(),
                     tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject.getFullname()),
                         digitalObject.getData().getData()));
             } else {
-                log.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getPortType());
-                throw new EvaluatorException("The workflow has an unsupported port " + p.getName() + " of type "
-                    + p.getPortType());
+                log.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getValue());
+                throw new EvaluatorException("The workflow has an unsupported port " + p.getName() + " that accepts "
+                    + p.getValue());
             }
         }
 
@@ -222,19 +221,19 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
         List<Port> inputPorts = workflowDescription.getInputPorts();
 
         for (Port p : inputPorts) {
-            if ("http://purl.org/DP/components#SourcePath1Port".equals(p.getPortType())) {
+            if (ComponentConstants.VALUE_LEFT_OBJECT.equals(p.getValue())) {
                 inputData.put(p.getName(),
                     tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject1.getFullname()),
                         digitalObject1.getData().getData()));
             } else {
-                if ("http://purl.org/DP/components#SourcePath2Port".equals(p.getPortType())) {
+                if (ComponentConstants.VALUE_RIGHT_OBJECT.equals(p.getValue())) {
                     inputData.put(p.getName(),
                         tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject2.getFullname()),
                             digitalObject2.getData().getData()));
                 } else {
-                    log.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getPortType());
-                    throw new EvaluatorException("The workflow has an unsupported port " + p.getName() + " of type "
-                        + p.getPortType());
+                    log.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getValue());
+                    throw new EvaluatorException("The workflow has an unsupported port " + p.getName()
+                        + " that accepts " + p.getValue());
                 }
             }
         }
@@ -261,7 +260,9 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
 
         q.addHandlesMimetype(sampleMimetype, resultMimetype).addHandlesMimetypeWildcard(sampleMimetype, resultMimetype)
             .addHandlesMimetypes(sampleMimetype, resultMimetype)
-            .addHandlesMimetypesWildcard(sampleMimetype, resultMimetype).addMeasureOutputPort(measure).finishQuery();
+            .addHandlesMimetypesWildcard(sampleMimetype, resultMimetype)
+            .addInputPort(ComponentConstants.VALUE_LEFT_OBJECT).addInputPort(ComponentConstants.VALUE_RIGHT_OBJECT)
+            .addMeasureOutputPort(measure).finishQuery();
 
         return myExperiment.searchComponents(q);
     }

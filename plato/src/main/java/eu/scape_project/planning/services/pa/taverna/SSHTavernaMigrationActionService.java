@@ -34,6 +34,7 @@ import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient;
+import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.taverna.executor.SSHInMemoryTempFile;
@@ -81,11 +82,11 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
         List<Port> inputPorts = workflowDescription.getInputPorts();
 
         for (Port p : inputPorts) {
-            if ("http://purl.org/DP/components#SourcePathPort".equals(p.getPortType())) {
+            if (ComponentConstants.VALUE_SOURCE_OBJECT.equals(p.getValue())) {
                 inputData.put(p.getName(),
                     tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject.getFullname()),
                         digitalObject.getData().getData()));
-            } else if ("http://purl.org/DP/components#ParameterPort".equals(p.getPortType()) || p.getPortType() == null) {
+            } else if (ComponentConstants.VALUE_PARAMETER.equals(p.getValue()) || p.getValue() == null) {
                 String value = action.getParamByName(p.getName());
                 if (value == null) {
                     value = "";
@@ -94,7 +95,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
             } else {
                 result.setSuccessful(false);
                 result.setReport("The workflow " + action.getUrl() + " has unsupported port " + p.getName()
-                    + " of type " + p.getPortType());
+                    + " that accepts " + p.getValue());
                 return result;
             }
         }
@@ -110,7 +111,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
         for (Port p : outputPorts) {
             outputPortNames.add(p.getName());
 
-            if ("http://purl.org/DP/components#TargetPathPort".equals(p.getPortType())) {
+            if (ComponentConstants.VALUE_TARGET_OBJECT.equals(p.getValue())) {
                 targetPathPort = p.getName();
             }
         }

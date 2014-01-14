@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import eu.scape_project.planning.annotation.ManualTest;
 import eu.scape_project.planning.utils.RepositoryConnectorException;
 
-@ManualTest
+@Category(ManualTest.class)
 public class SCAPEDataConnectorIT {
 
     /**

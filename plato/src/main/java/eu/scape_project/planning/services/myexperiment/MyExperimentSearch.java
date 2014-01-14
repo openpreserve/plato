@@ -21,6 +21,7 @@ import java.util.List;
 
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient.ComponentQuery;
+import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
 import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
 
@@ -60,6 +61,7 @@ public class MyExperimentSearch {
         // Create query
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();
         query.addProfile(profile).addMigrationPath(fromMimetype).setMigrationPathTargetPattern(migrationPathTo)
+            .addInputPort(ComponentConstants.VALUE_SOURCE_OBJECT).addOutputPort(ComponentConstants.VALUE_TARGET_OBJECT)
             .addInstallationEnvironment(environment).addInstallationEnvironmentType(environmentType);
 
         query.setDependencyLabelPattern(dependencyLabel);

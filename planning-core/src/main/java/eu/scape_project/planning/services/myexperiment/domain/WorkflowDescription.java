@@ -307,15 +307,11 @@ public class WorkflowDescription extends WorkflowInfo {
 
         }
 
-        private static final String PARAMETER_PORT_TYPE = "http://purl.org/DP/components#ParameterPort";
-
         private String name;
 
         private String description;
 
-        private String portType;
-
-        private String measure;
+        private String value;
 
         private List<PredefinedParameter> predefinedParameters;
 
@@ -345,12 +341,12 @@ public class WorkflowDescription extends WorkflowInfo {
          *            the port name
          * @param description
          *            the port description
-         * @param portType
+         * @param value
          *            port type
          */
-        public Port(String name, String description, String portType) {
+        public Port(String name, String description, String value) {
             this(name, description);
-            this.portType = portType;
+            this.value = value;
         }
 
         /**
@@ -359,7 +355,7 @@ public class WorkflowDescription extends WorkflowInfo {
          * @return true if this port is a parameter port, false otherwise
          */
         public boolean isParameterPort() {
-            return PARAMETER_PORT_TYPE.equals(portType) || predefinedParameters != null;
+            return ComponentConstants.VALUE_PARAMETER.equals(value) || predefinedParameters != null;
         }
 
         public String getName() {
@@ -370,16 +366,8 @@ public class WorkflowDescription extends WorkflowInfo {
             return description;
         }
 
-        public String getPortType() {
-            return portType;
-        }
-
-        public String getMeasure() {
-            return measure;
-        }
-
-        private void setMeasure(String measure) {
-            this.measure = measure;
+        public String getValue() {
+            return value;
         }
 
         public List<PredefinedParameter> getPredefinedParameters() {
@@ -389,7 +377,6 @@ public class WorkflowDescription extends WorkflowInfo {
         private void setPredefinedParameters(List<PredefinedParameter> predefinedParameters) {
             this.predefinedParameters = predefinedParameters;
         }
-
     }
 
     @XmlElement
@@ -487,8 +474,9 @@ public class WorkflowDescription extends WorkflowInfo {
 
                         // @formatter:off
                         String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                            + "PREFIX comp: <http://purl.org/DP/components#> " + "SELECT ?profile WHERE { "
-                            + "?wf comp:fits ?profile }";
+                            + "PREFIX dpc: <http://purl.org/DP/components#> " 
+                            + "SELECT ?profile WHERE { "
+                            + "?wf dpc:fits ?profile }";
                         // @formatter:on
 
                         Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
@@ -541,11 +529,11 @@ public class WorkflowDescription extends WorkflowInfo {
 
                         // @formatter:off
                         String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                            + "PREFIX comp: <http://purl.org/DP/components#> "
+                            + "PREFIX dpc: <http://purl.org/DP/components#> "
                             + "SELECT ?sourceMimetype ?targetMimetype WHERE { "
-                            + "?migrationPath rdf:type comp:MigrationPath ."
-                            + "?migrationPath comp:sourceMimetype ?sourceMimetype ."
-                            + "?migrationPath comp:targetMimetype ?targetMimetype } ";
+                            + "?migrationPath rdf:type dpc:MigrationPath ."
+                            + "?migrationPath dpc:sourceMimetype ?sourceMimetype ."
+                            + "?migrationPath dpc:targetMimetype ?targetMimetype } ";
                         // @formatter:on
 
                         Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
@@ -605,15 +593,15 @@ public class WorkflowDescription extends WorkflowInfo {
 
                     // @formatter:off
                     String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                        + "PREFIX comp: <http://purl.org/DP/components#> "
+                        + "PREFIX dpc: <http://purl.org/DP/components#> "
                         + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
                         + "PREFIX cc: <http://creativecommons.org/ns#> "
                         + "SELECT ?installation ?environment ?depTitle ?depVersion ?depLicense WHERE { "
-                        + "?installation rdf:type comp:Installation ."
-                        + "OPTIONAL { ?installation comp:hasEnvironment ?environment } ."
-                        + "OPTIONAL { ?installation comp:dependsOn ?dependency } ."
+                        + "?installation rdf:type dpc:Installation ."
+                        + "OPTIONAL { ?installation dpc:hasEnvironment ?environment } ."
+                        + "OPTIONAL { ?installation dpc:dependsOn ?dependency } ."
                         + "OPTIONAL { ?dependency skos:prefLabel ?depTitle } ."
-                        + "OPTIONAL { ?dependency comp:dependencyVersion ?depVersion } ."
+                        + "OPTIONAL { ?dependency dpc:dependencyVersion ?depVersion } ."
                         + "OPTIONAL { ?dependency cc:license ?depLicense } . } " + "ORDER BY ?installation";
                     // @formatter:on
 
@@ -747,12 +735,16 @@ public class WorkflowDescription extends WorkflowInfo {
 
             // @formatter:off
             String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-                + "PREFIX comp: <http://purl.org/DP/components#> "
+                + "PREFIX dpc: <http://purl.org/DP/components#> "
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-                + "PREFIX cc: <http://creativecommons.org/ns#> " + "SELECT ?port ?portType ?parameter WHERE { { "
-                + "  ?port comp:portType ?portType ." + "} UNION { { "
-                + "    ?port comp:acceptsPredefinedParameter ?parameter" + "  } MINUS { "
-                + "    ?port comp:portType comp:ParameterPort" + "} } . }";
+                + "PREFIX cc: <http://creativecommons.org/ns#> " 
+                + "SELECT ?port ?value ?type WHERE { { "
+                + "  ?port dpc:accepts ?value ." 
+                + "} UNION { "
+                + "  ?port dpc:provides ?value ."
+                + "}. "
+                + "FILTER (!isBlank(?value))"
+                + "}";
             // @formatter:on
 
             Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
@@ -760,16 +752,11 @@ public class WorkflowDescription extends WorkflowInfo {
             ResultSet results = qe.execSelect();
 
             try {
-                if ((results != null) && (results.hasNext())) {
-                    while ((results != null) && (results.hasNext())) {
+                if (results != null && results.hasNext()) {
+                    while (results != null && results.hasNext()) {
                         QuerySolution qs = results.next();
-                        Resource portType = qs.getResource("portType");
-                        port = new Port(portName, portDescription, portType.getURI());
-
-                        Resource parameter = qs.getResource("parameter");
-                        if (Port.PARAMETER_PORT_TYPE.equals(portType.getURI()) || parameter != null) {
-                            addPredefinedParameters(model, port);
-                        }
+                        Resource value = qs.getResource("value");
+                        port = new Port(portName, portDescription, value.getURI());
                     }
                 } else {
                     port = new Port(portName, portDescription);
@@ -778,48 +765,13 @@ public class WorkflowDescription extends WorkflowInfo {
                 qe.close();
             }
 
-            // Measures
-            addMeasures(model, port);
-
+            // Predefined parameters
+            addPredefinedParameters(model, port);
         } catch (XPathExpressionException e) {
             LOG.warn("Error extracting port definition from myExperiment response", e);
         }
 
         return port;
-    }
-
-    /**
-     * Adds the measures of the provided model to the port.
-     * 
-     * @param model
-     *            the model containing the measures
-     * @param port
-     *            the port
-     */
-    private void addMeasures(Model model, Port port) {
-        // @formatter:off
-        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX comp: <http://purl.org/DP/components#> " + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX cc: <http://creativecommons.org/ns#> " + "SELECT ?port ?measure WHERE { { "
-            + "  ?port comp:acceptsMeasure ?measure ." + "} UNION { " + "  ?port comp:providesMeasure ?measure ."
-            + "} }";
-        // @formatter:on
-
-        Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
-        QueryExecution qe = QueryExecutionFactory.create(query, model);
-        ResultSet results = qe.execSelect();
-
-        try {
-            if ((results != null) && (results.hasNext())) {
-                QuerySolution qs = results.next();
-                Resource measure = qs.getResource("measure");
-                if (measure != null) {
-                    port.setMeasure(measure.getURI());
-                }
-            }
-        } finally {
-            qe.close();
-        }
     }
 
     /**
@@ -833,10 +785,13 @@ public class WorkflowDescription extends WorkflowInfo {
     private void addPredefinedParameters(Model model, Port port) {
         // @formatter:off
         String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX comp: <http://purl.org/DP/components#> " + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX cc: <http://creativecommons.org/ns#> " + "SELECT ?port ?value ?description WHERE { "
-            + "  ?port comp:acceptsPredefinedParameter ?parameter ." + "  ?parameter comp:parameterValue ?value ."
-            + "  ?parameter comp:parameterDescription ?description }";
+            + "PREFIX dpc: <http://purl.org/DP/components#> " 
+            + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
+            + "PREFIX cc: <http://creativecommons.org/ns#> " 
+            + "SELECT ?port ?value ?description WHERE { "
+            + "  ?port dpc:accepts ?parameter ." 
+            + "  ?parameter dpc:parameterValue ?value ."
+            + "  ?parameter dpc:parameterDescription ?description }";
         // @formatter:on
 
         Query query = QueryFactory.create(statement, Syntax.syntaxARQ);
