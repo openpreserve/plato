@@ -540,7 +540,7 @@ public class WorkflowDescription extends WorkflowInfo {
                         QueryExecution qe = QueryExecutionFactory.create(q, model);
                         ResultSet results = qe.execSelect();
                         try {
-                            if ((results != null) && (results.hasNext())) {
+                            while ((results != null) && (results.hasNext())) {
                                 QuerySolution orgQs = results.next();
                                 String sourceMimetype = orgQs.getLiteral("sourceMimetype").getString();
                                 String targetMimetype = orgQs.getLiteral("targetMimetype").getString();
