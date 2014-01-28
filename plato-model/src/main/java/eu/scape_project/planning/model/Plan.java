@@ -115,6 +115,13 @@ public class Plan implements Serializable, ITouchable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
+    
+    /**
+     * States if the plan was opened in read only mode
+     */
+    @Transient
+    private boolean readOnly = false;
+    
 
     public Plan() {
         TreeNode root = new Node();
@@ -537,5 +544,13 @@ public class Plan implements Serializable, ITouchable {
                 }
             }
         }
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

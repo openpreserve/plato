@@ -126,11 +126,20 @@ span.rf-trn-ico {
 
 .rf-trn-ico-exp,.rf-trn-ico-colps {
 	background: url("#{resource['gfx/icons/icon-folder.png']}") no-repeat
-		center;
+		center; 
+/*	background: url("#{resource['gfx/icons/picol/category.svg']}") no-repeat center;
+	background-size: 16px;
+	*/		
 }
 
 .rf-trn-ico-lf {
 	background:
 		url("#{resource['gfx/icons/icon-text-x-generic-template.png']}")
-		no-repeat center;
+		no-repeat center; 
+/*		
+	background:
+		url("#{resource['gfx/icons/picol/relevance.svg']}")
+		no-repeat center;*/
+	background-size: 16px;		
+
 }

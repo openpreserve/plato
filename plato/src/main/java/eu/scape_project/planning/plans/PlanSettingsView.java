@@ -34,6 +34,7 @@ import org.richfaces.model.UploadedFile;
 import org.slf4j.Logger;
 
 import eu.scape_project.planning.LoadedPlan;
+import eu.scape_project.planning.application.AdminActions;
 import eu.scape_project.planning.bean.PrepareChangesForPersist;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
@@ -82,6 +83,9 @@ public class PlanSettingsView implements Serializable {
 
     @Inject
     private ProjectExportAction projectExport;
+    
+    @Inject
+    private AdminActions adminActions;
     
     @Inject
     private PlanManager planManager;
@@ -152,6 +156,7 @@ public class PlanSettingsView implements Serializable {
     public void save() {
         if (isUserAllowedToModifyPlanSettings(user, plan)) {
             save(plan, user);
+            facesMessages.addInfo("Settings have been saved.");
         } else {
             facesMessages.addError("You are not the owner of this plan and thus not allowed to change it.");
         }
@@ -313,6 +318,15 @@ public class PlanSettingsView implements Serializable {
      */
     public boolean isUserAllowedToModifyPlanSettings(User user, Plan plan) {
         return (user != null) && (user.isAdmin() || user.getUsername().equals(plan.getPlanProperties().getOwner()));
+    }
+    
+    public void copyPlan() {
+        boolean success = adminActions.clonePlan(plan.getPlanProperties().getId(), user.getUsername());
+        if (success) {
+            facesMessages.addInfo("A copy of this plan has been created.");
+        } else {
+            facesMessages.addError("Could not create copy of this plan.");
+        }
     }
     
 

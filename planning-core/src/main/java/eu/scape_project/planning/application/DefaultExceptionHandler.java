@@ -72,7 +72,6 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext externalContext = fc.getExternalContext();
-
             String targetLocation = null;
 
             // Check if we're inside render response and if the response is

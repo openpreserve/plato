@@ -192,7 +192,7 @@ public class AdminActionsView implements Serializable {
             return;
         }
 
-        boolean success = adminActions.clonePlan(planId);
+        boolean success = adminActions.clonePlan(planId, null);
 
         if (success) {
             facesMessages.addInfo("clonePlan", "Clone successful");

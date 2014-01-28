@@ -19,6 +19,7 @@ package eu.scape_project.planning.application;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.bean.PrepareChangesForPersist;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
@@ -41,7 +43,6 @@ import eu.scape_project.planning.utils.MemoryTest;
 import eu.scape_project.planning.utils.OS;
 import eu.scape_project.planning.xml.PlanXMLConstants;
 import eu.scape_project.planning.xml.ProjectExportAction;
-import eu.scape_project.planning.xml.ProjectExporter;
 import eu.scape_project.planning.xml.ProjectImporter;
 
 @Stateless
@@ -190,36 +191,45 @@ public class AdminActions implements Serializable {
      *            PlanProperties-id of the plan to clone.
      * @return True if cloning was successful, false otherwise.
      */
-    public boolean clonePlan(Integer planPropertiesId) {
+    public boolean clonePlan(Integer planPropertiesId, String newOwner) {
+        boolean success = false;
         Plan selectedPlan;
         try {
             selectedPlan = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId).getSingleResult();
-            File tempFile = new File(OS.getTmpPath() + "cloneplans_" + System.currentTimeMillis() + ".xml");
-            tempFile.deleteOnExit();
-            ProjectExporter exporter = new ProjectExporter();
-            
-            boolean success = false;
-            
+
+            String binarydataTempPath = OS.getTmpPath() + "cloneplan_" + System.currentTimeMillis() + "/";
+            File binarydataTempDir = new File(binarydataTempPath);
+            binarydataTempDir.mkdirs();
             try {
-                exporter.exportToFile(selectedPlan, tempFile);
+                String tempFile= binarydataTempPath + "plan.xml";
+                projectExportAction.exportComplete(planPropertiesId, new FileOutputStream(tempFile), binarydataTempPath);
                 List<Plan> plans = projectImporter.importPlans(new FileInputStream(tempFile));
+                if (newOwner != null) {
+                    for (Plan p : plans) {
+                        PlanProperties prop = p.getPlanProperties();
+                        prop.setOwner(newOwner);
+                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription());
+                        prop.setDescription(prop.getDescription());
+                        prop.touch();
+                        PrepareChangesForPersist prep = new PrepareChangesForPersist(newOwner);
+                        prep.prepare(prop);
+                    }
+                }
                 // store project
                 storePlans(plans);
                 success = true;
                 log.debug("Plan '" + selectedPlan.getPlanProperties().getName() + "' successfully cloned.");
             } catch (Exception e) {
                 log.error("Could not clone project: '" + selectedPlan.getPlanProperties().getName() + "'.", e);
+            } finally {
+                OS.deleteDirectory(binarydataTempDir);
             }
-            
-            tempFile.delete();
-        
             return success;
 
         } catch (Exception e1) {
             log.error("Failed to retrieve plan for cloning: " + planPropertiesId);
         }
         return false;
-
     }
 
     /**

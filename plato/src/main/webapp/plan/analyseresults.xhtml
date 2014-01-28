@@ -388,7 +388,7 @@
 						</f:facet>
 						<h:outputText rendered="#{not sample.dataExistent}"
 							value="#{sample.fullname}" />
-						<h:commandLink rendered="#{sample.dataExistent}"
+						<h:commandLink rendered="#{sample.dataExistent}" 
 							action="#{analyseResults.download(sample)}">
 							<h:outputText value="#{sample.fullname}" />
 						</h:commandLink>

@@ -134,10 +134,10 @@
 							<div id="data" class="nonwrapped ">
 								<h:selectBooleanCheckbox id="datayes" disabled="true"
 									value="#{row.dataExistent}" />
-								<h:outputText disabled="true" value=" #{row.sizeInMB} MB" />
-								<h:commandButton value="Download"
+								<h:outputText disabled="true" value=" #{row.sizeInMB} MB" /> 
+								<h:commandLink 
 									action="#{defineSampleRecords.download(row)}"
-									rendered="#{row.dataExistent}" />
+									rendered="#{row.dataExistent}" styleClass="download-link"/>
 							</div>
 						</h:column>
 						<h:column>
@@ -147,13 +147,13 @@
 
 							<p:formatInfo id="formatInfo" formatInfo="#{row.formatInfo}" />
 							<div>
-								<a4j:commandButton value="Characterisation Info"
+								<a4j:commandLink value="Characterisation Info"
 									action="#{defineSampleRecords.generateCharacterisationReport(row)}"
 									oncomplete="#{rich:component('characterizationPanel')}.show()"
-									render="characterizationPanel" style="vertical-align: middle;" />
+									render="characterizationPanel" style="vertical-align: middle;" styleClass="show-meta-data"/>
 							</div>
 							<div class="margin-top-big margin-bottom-big">
-								<a4j:commandButton id="cbutton#{row.id}" value="Remove sample"
+								<a4j:commandLink id="cbutton#{row.id}" value="Remove sample" styleClass="trash"
 									action="#{defineSampleRecords.askRemoveSample(row)}"
 									rendered="#{defineSampleRecords.allowRemove != row.id}"
 									execute="@this" onclick="changed();" render="sampleRecordsList" />
@@ -161,8 +161,8 @@
 									rendered="#{defineSampleRecords.allowRemove == row.id}"
 									value="This sample has associated evaluation values. These will be removed as well. Are you sure?"
 									class="size-max" />
-								<a4j:commandButton
-									rendered="#{defineSampleRecords.allowRemove == row.id}"
+								<a4j:commandLink
+									rendered="#{defineSampleRecords.allowRemove == row.id}" styleClass="trash"
 									value="Yes, remove it."
 									action="#{defineSampleRecords.removeSample(row)}"
 									onclick="changed();" render="sampleRecordsList" />

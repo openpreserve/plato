@@ -95,7 +95,7 @@
 											<rich:inputNumberSlider id="weightSlider"
 												value="#{node.weight}" minValue="0" maxValue="1" step="0.01"
 												showInput="true" showToolTip="true"
-												enableManualInput="false" disabled="#{!node.child}">
+												enableManualInput="false" disabled="#{!node.child  or setImportanceFactors.plan.readOnly}">
 												<a4j:ajax
 													disabled="#{!setImportanceFactors.autoBalancingEnabled}"
 													event="change"

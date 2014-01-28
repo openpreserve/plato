@@ -66,18 +66,24 @@
 						<f:facet name="header">
 							<h:outputText value="Action" />
 						</f:facet>
-						<a4j:outputPanel rendered="#{not p.readOnly}"
+						<a4j:outputPanel
 							styleClass="plan-action">
-							<h:commandButton id="loadPlan" value="Load"
-								action="#{viewWorkflowManager.startWorkflow(p.id)}"
-								rendered="#{p.open or (not p.allowReload)}"
-								disabled="#{not p.open}" />
-
+							<h:commandLink id="viewPlan"  
+								action="#{viewWorkflowManager.startWorkflow(p.id, true)}" >
+								<h:graphicImage library="gfx" name="icons/picol/view.svg" width="26" title="View"/>							
+							</h:commandLink>
+							<h:commandLink id="loadPlan" 
+								action="#{viewWorkflowManager.startWorkflow(p.id, false)}"
+								rendered="#{p.mayEdit }"
+								disabled="#{not p.mayEdit}">
+								<h:graphicImage library="gfx" name="icons/picol/edit.svg" width="24" title="Edit"/>								
+							</h:commandLink>
 							<h:graphicImage library="gfx" name="icons/locked.png"
-								title="locked by #{p.openedByUser}" rendered="#{not p.open}"/>
-							<a4j:commandButton action="#{planLister.unlock(p.id)}"
-								value="Unlock" rendered="#{not p.open and p.allowReload}"
-								render="planListPanel" />
+								title="Locked by #{p.openedByUser}" rendered="#{not p.closed and not p.allowUnlock}"/>
+							<a4j:commandLink action="#{planLister.unlock(p.id)}" rendered="#{not p.closed and p.allowUnlock}"
+								render="planListPanel">
+								<h:graphicImage library="gfx" name="icons/picol/security_open.svg" width="26" title="Locked by #{p.openedByUser} - Unlock"/>								
+							</a4j:commandLink>
 						</a4j:outputPanel>
 					</h:column>
 				</h:dataTable>

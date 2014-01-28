@@ -73,6 +73,31 @@ public class PlanManager implements Serializable {
         ALLPROJECTS, PUBLICPROJECTS, MYPROJECTS;
     }
 
+    @Inject
+    private Logger log;
+
+    @Inject
+    private EntityManager em;
+
+    @Inject
+    private ByteStreamManager bytestreamManager;
+
+    private WhichProjects lastLoadMode = WhichProjects.MYPROJECTS;
+
+    @Inject
+    private User user;
+
+    @Inject
+    private FacesMessages facesMessages;
+
+    @Inject
+    UserTransaction userTx;
+
+    /**
+     * Plan properties of all loaded plans in this session
+     */
+    private HashSet<Integer> sessionPlans;
+    
     /**
      * Query to get PlanProperties.
      */
@@ -250,32 +275,7 @@ public class PlanManager implements Serializable {
             // Order by
             cq.orderBy(builder.asc(fromPP.get("id")));
         }
-    }
-
-    @Inject
-    private Logger log;
-
-    @Inject
-    private EntityManager em;
-
-    @Inject
-    private ByteStreamManager bytestreamManager;
-
-    private WhichProjects lastLoadMode = WhichProjects.MYPROJECTS;
-
-    @Inject
-    private User user;
-
-    @Inject
-    private FacesMessages facesMessages;
-
-    @Inject
-    UserTransaction userTx;
-
-    /**
-     * Plan properties of all loaded plans in this session
-     */
-    private HashSet<Integer> sessionPlans;
+    }    
 
     public PlanManager() {
         sessionPlans = new HashSet<Integer>();
@@ -324,27 +324,21 @@ public class PlanManager implements Serializable {
         TypedQuery<PlanProperties> query = em.createQuery(planQuery.cq);
         List<PlanProperties> planProperties = query.getResultList();
 
-        // Set transient fields readOnly and allowReload
         List<String> usernames = em
             .createQuery("SELECT u.username from User u WHERE u.userGroup = :userGroup", String.class)
             .setParameter("userGroup", user.getUserGroup()).getResultList();
 
         for (PlanProperties pp : planProperties) {
 
-            // A project may NOT be loaded when
-            // ... it is set to private
-            // ... AND the user currently logged in is not the administrator
-            // ... AND the user currently logged in is not the owner of that
-            // ... AND the user currently logged in is not in the group of the
-            // owner of that
-            // project
-            boolean readOnly = pp.isPrivateProject() && !user.isAdmin() && !user.getUsername().equals(pp.getOwner())
-                && !usernames.contains(pp.getOwner());
-
-            boolean allowReload = pp.getOpenedByUser().equals(user.getUsername()) || user.isAdmin();
-
-            pp.setReadOnly(readOnly);
-            pp.setAllowReload(allowReload);
+            // A plan may be edited:
+            //     user currently logged in is administrator
+            //     or user currently logged in is the owner
+            //     or user currently logged in is in the group of the owner
+            boolean mayEdit = pp.isClosed() && ( user.isAdmin() || user.getUsername().equals(pp.getOwner()) ||
+                  usernames.contains(pp.getOwner()));
+                
+            pp.setMayEdit(mayEdit);
+            pp.setAllowUnlock(pp.getOpenedByUser().equals(user.getUsername()) || user.isAdmin());
         }
 
         return planProperties;
@@ -391,53 +385,60 @@ public class PlanManager implements Serializable {
         Plan plan = em.find(Plan.class, planId);
 
         this.initializePlan(plan);
-        log.info("Plan " + plan.getPlanProperties().getName() + " loaded!");
+        log.info("Plan %i : %s loaded!",  plan.getPlanProperties().getId(), plan.getPlanProperties().getName() );
         return plan;
     }
 
     /**
-     * Loads the given plan from the database and locks it.
+     * Loads the given plan from the database and locks it if requested.
      * 
      * @param propertyId
      *            the plan's PROPERTIES id!
+     * @param readOnly
+     *            states if the plan should be opened in read only mode
      * @return the loaded plan
      * @throws PlanningException
      *             if the plan could not be loaded
      */
-    public Plan load(int propertyId) throws PlanningException {
-        // try to lock the project
+    public Plan load(int propertyId, boolean readOnly) throws PlanningException {
 
-        Query q = em
-            .createQuery("update PlanProperties pp set pp.openHandle = 1, pp.openedByUser = :user where (pp.openHandle is null or pp.openHandle = 0) and pp.id = :propid");
-        q.setParameter("user", user.getUsername());
-        q.setParameter("propid", propertyId);
-        int num = q.executeUpdate();
-        if (num < 1) {
-            throw new PlanningException("The plan has been loaded by another user. Please choose another plan.");
+        if (!readOnly) {
+            // try to lock the plan
+            Query q = em
+                .createQuery("update PlanProperties pp set pp.openHandle = 1, pp.openedByUser = :user where (pp.openHandle is null or pp.openHandle = 0) and pp.id = :propid");
+            q.setParameter("user", user.getUsername());
+            q.setParameter("propid", propertyId);
+            int num = q.executeUpdate();
+            if (num < 1) {
+                throw new PlanningException("The plan has been loaded by another user. Please choose another plan.");
+            }
+            // and add it to the list of loaded plans, so we can unlock it in any case
+            sessionPlans.add(propertyId);
         }
+        // then load the plan
         Object result = em.createQuery("select p.id from Plan p where p.planProperties.id = " + propertyId)
             .getSingleResult();
         if (result != null) {
             Plan plan = loadPlan((Integer) result);
-            // and add it to the list of loaded plans, so we can unlock it in any case
-            sessionPlans.add(propertyId);
+            plan.setReadOnly(readOnly);
+            log.info("Plan %i : %s loaded.",  propertyId, plan.getPlanProperties().getName() );
             return plan;
         } else {
             throw new PlanningException("An unexpected error has occured while loading the plan.");
         }
     }
 
-    /**
-     * Stores the provided plan.
-     * 
-     * @param plan
-     *            the plan to store
-     * @throws PlanningException
-     *             if an error occured
-     */
-    public void store(Plan plan) throws PlanningException {
-        em.persist(em.merge(plan));
-    }
+//    /**
+//     * Stores the provided plan.
+//     * 
+//     * @param plan
+//     *            the plan to store
+//     * @throws PlanningException
+//     *             if an error occured
+//     */
+//    public void store(Plan plan) throws PlanningException {
+//        em.persist(em.merge(plan));
+//    }
 
     /**
      * Hibernate initializes project and its parts.
@@ -592,6 +593,9 @@ public class PlanManager implements Serializable {
      *             if the plan could not be deleted
      */
     public void deletePlan(Plan plan) throws PlanningException {
+        if (plan.isReadOnly()) {
+            throw new PlanningException("Plans opened in read only mode cannot be deleted!");
+        }
         log.info("Deleting plan " + plan.getPlanProperties().getName() + " with id " + plan.getId());
         List<DigitalObject> digitalObjects = plan.getDigitalObjects();
         try {

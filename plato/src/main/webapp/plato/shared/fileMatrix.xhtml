@@ -24,38 +24,39 @@
 		<tr>
 			<td></td>
 			<ui:repeat var="sample" value="#{samples}" varStatus="status">
-				<td align="center"><h:outputText id="sample"
-						value="#{status.index + 1}"
-						rendered="#{not sample.dataExistent}" /> <br /> <rich:tooltip
-						value="#{sample.shortName}" target="sample" /> <a4j:outputPanel>
-						<h:commandLink id="downloadSample"
-							rendered="#{sample.dataExistent}"
-							action="#{workflowstep.downloadSampleObject(sample)}">
-							<h:outputText value="Sample #{status.index + 1}" />
-						</h:commandLink>
-						<rich:tooltip target="downloadSample">Download #{sample.shortName}</rich:tooltip>
-					</a4j:outputPanel></td>
-
+				<td align="center">
+					<h:outputText id="sample" value="Sample #{status.index + 1}" /> <br /> 
+					<rich:tooltip value="#{sample.shortName}" target="sample" />
+					<h:commandLink id="downloadSample" styleClass="download-link"
+						rendered="#{sample.dataExistent}"
+						action="#{workflowstep.downloadSampleObject(sample)}">
+					</h:commandLink>
+				</td>
 			</ui:repeat>
 		</tr>
 		<ui:repeat var="altern" value="#{consideredAlternatives}">
 			<tr
-				style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8;">
+				style="border-style: solid; border-width: 1px; border-color: #d2c8c8;">
 				<td><h:outputText value="#{altern.name}" /></td>
 				<ui:repeat var="sample" value="#{samples}">
 					<td
-						style="width: 350px; border-style: solid; border-width: 1px; border-color: #d2c8c8; text-align: center;">
-						<h:commandButton id="downloadResult" value="Download"
-							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
-							action="#{workflowstep.downloadResultFile(altern, sample)}" /> <rich:tooltip
-							target="downloadResult">Download result of applying #{altern.name} to #{sample.shortName}</rich:tooltip>
-						<a4j:commandButton
+						style="border-style: solid; border-width: 1px; border-color: #d2c8c8; text-align: center;">
+						<a4j:commandLink id="compareMetadata"
 							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
 							action="#{workflowstep.generateCharacterisationReports(sample,altern)}"
-							styleClass="small" value="Compare" eventsQueue="ajaxQ"
+							  eventsQueue="ajaxQ"
 							ignoreDupResponses="true"
 							oncomplete="#{rich:component('characterisationReports')}.show();"
-							render="characterisationReports" />
+							render="characterisationReports" styleClass="show-meta-data"/>
+						<rich:tooltip 
+							target="compareMetadata">Compare metadata of sample and result.</rich:tooltip>
+						
+						<h:commandLink id="downloadResult" styleClass="download-link"
+							rendered="#{sample!=null and altern.experiment.results[sample]!=null  and altern.experiment.results[sample].dataExistent}"
+							action="#{workflowstep.downloadResultFile(altern, sample)}" /> 
+							<rich:tooltip
+							target="downloadResult">Download result of applying #{altern.name} to #{sample.shortName}</rich:tooltip>
+							
 					</td>
 				</ui:repeat>
 			</tr>

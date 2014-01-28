@@ -212,7 +212,7 @@
 					</ui:remove>
 				</a4j:outputPanel>
 			</h:panelGroup>
-			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
+			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" rendered="#{not viewWorkflow.plan.readOnly}"/>
 		</h:form>
 
 		<h:form>

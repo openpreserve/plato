@@ -93,26 +93,25 @@ public class ProjectExporter implements Serializable {
     public ProjectExporter() {
     }
 
-    /**
-     * Returns the xml-representation of the given project as a String. NOTE: It
-     * writes all data - including encoded binary data - directly to the DOM
-     * tree this may result in performance problems for large amounts of data.
-     * 
-     * @param p
-     *            the plan to export
-     * @return the XML representation of the plan
-     * @throws PlanningException
-     *             if an error occured during export
-     */
-    public String exportToString(Plan p) throws PlanningException {
-        return exportToXml(p).asXML();
-    }
+//    /**
+//     * Returns the xml-representation of the given project as a String. NOTE: It
+//     * writes all data - including encoded binary data - directly to the DOM
+//     * tree this may result in performance problems for large amounts of data.
+//     * 
+//     * @param p
+//     *            the plan to export
+//     * @return the XML representation of the plan
+//     * @throws PlanningException
+//     *             if an error occured during export
+//     */
+//    public String exportToString(Plan p) throws PlanningException {
+//        return exportToXml(p).asXML();
+//    }
 
     /**
      * Takes the given project and turns it into a dom4j-xml-representation.
-     * NOTE: It writes all data - including encoded binary data - directly to
-     * the DOM tree this may result in performance problems for large amounts of
-     * data.
+     *
+     * NOTE: It does NOT write the binary data, but only the ids instead !
      * 
      * @param p
      *            the plan to export
@@ -264,25 +263,25 @@ public class ProjectExporter implements Serializable {
         }
     }
 
-    /**
-     * Writes the xml-representation of the given project into a temporary file
-     * and returns the java-representation of this file. NOTE: It writes all
-     * data - including encoded binary data - directly to the DOM tree this may
-     * result in performance problems for large amounts of data.
-     * 
-     * @param p
-     *            the plan to export
-     * @throws IOException
-     *             if an error occured during export
-     * @throws PlanningException
-     *             if an error occured during export
-     * 
-     */
-    public File exportToFile(Plan p) throws IOException, PlanningException {
-        File temp = File.createTempFile("plato-plan-export-", ".xml");
-        exportToFile(p, temp);
-        return temp;
-    }
+//    /**
+//     * Writes the xml-representation of the given project into a temporary file
+//     * and returns the java-representation of this file. NOTE: It writes all
+//     * data - including encoded binary data - directly to the DOM tree this may
+//     * result in performance problems for large amounts of data.
+//     * 
+//     * @param p
+//     *            the plan to export
+//     * @throws IOException
+//     *             if an error occured during export
+//     * @throws PlanningException
+//     *             if an error occured during export
+//     * 
+//     */
+//    public File exportToFile(Plan p) throws IOException, PlanningException {
+//        File temp = File.createTempFile("plato-plan-export-", ".xml");
+//        exportToFile(p, temp);
+//        return temp;
+//    }
 
     /*
      * public static File exportTemplatesToFile(List<TemplateTree> trees) throws

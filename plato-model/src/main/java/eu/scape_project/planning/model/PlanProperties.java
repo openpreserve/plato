@@ -57,14 +57,6 @@ public class PlanProperties implements Serializable, ITouchable {
     private String author;
 
     /**
-     * This flag is used to be able to determine if a user is allowed to load a
-     * project. It is set in
-     * {@link eu.scape_project.planning.manager.PlanManager PlanManager}.
-     */
-    @Transient
-    private boolean readOnly = false;
-
-    /**
      * Hibernate note: standard length for a string column is 255 validation is
      * broken because we use facelet templates (issue resolved in Seam 2.0)
      * therefore allow "long" entries
@@ -125,15 +117,18 @@ public class PlanProperties implements Serializable, ITouchable {
     private PlanState state = PlanState.CREATED;
 
     /**
-     * Indicates whether the project may be realoded again. As the project is
+     * Indicates whether the plan may be unlocked. As the plan is
      * locked when a user is working with it we needed a mechanism to prevent a
-     * project from being permanently locked. This may occur when the user
-     * doesn't logout properly or some unexpected error occurs. When a project
-     * may be reloaded is determined in
+     * plan from being permanently locked. This may occur when the user
+     * doesn't logout properly or some unexpected error occurs. 
+     * If a plan may be unlocked is determined in
      * {@link eu.scape_project.planning.action.project.LoadPlanAction#list()}
      */
     @Transient
-    private boolean allowReload = false;
+    private boolean allowUnlock = false;
+    
+    @Transient
+    private boolean mayEdit = false;
 
     public PlanProperties() {
         this.reportUpload = new DigitalObject();
@@ -229,11 +224,11 @@ public class PlanProperties implements Serializable, ITouchable {
     }
 
     /**
-     * Actually, this is a "may open" or an "is closed"
+     * States if the plan is currently closed.
      * 
-     * @return true if plan may be opened, false otherwise
+     * @return 
      */
-    public boolean isOpen() {
+    public boolean isClosed() {
         return (openHandle == 0);
     }
 
@@ -261,20 +256,12 @@ public class PlanProperties implements Serializable, ITouchable {
         this.reportPublic = reportPublic;
     }
 
-    public boolean isReadOnly() {
-        return readOnly;
+    public boolean isAllowUnlock() {
+        return allowUnlock;
     }
 
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
-    }
-
-    public boolean isAllowReload() {
-        return allowReload;
-    }
-
-    public void setAllowReload(boolean allowReload) {
-        this.allowReload = allowReload;
+    public void setAllowUnlock(boolean value) {
+        this.allowUnlock = value;
     }
 
     public String getOpenedByUser() {
@@ -291,5 +278,13 @@ public class PlanProperties implements Serializable, ITouchable {
 
     public void setRepositoryIdentifier(String repositoryIdentifier) {
         this.repositoryIdentifier = repositoryIdentifier;
+    }
+
+    public boolean isMayEdit() {
+        return mayEdit;
+    }
+
+    public void setMayEdit(boolean mayEdit) {
+        this.mayEdit = mayEdit;
     }
 }

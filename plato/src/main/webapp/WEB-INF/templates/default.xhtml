@@ -144,6 +144,34 @@
 			href="mailto:plato@ifs.tuwien.ac.at?subject=[SCAPE-PlanningSuite:]">
 			off-ice bears </a> &#187;
 	</div>
+   <c:if test="#{viewWorkflow.plan.readOnly}">
+		<script type="text/javascript">
+		function onPageUpdated() {
+	        $('input[type != hidden]').each(function() {
+                $(this).attr({
+                    'disabled': 'disabled'
+                });
+	        });
+	        $('textarea').each(function() {
+                $(this).attr({
+                    'disabled': 'disabled'
+                });
+	        });
+	        $('select').each(function() {
+                $(this).attr({
+                    'disabled': 'disabled'
+                });
+	        });
+		};
+		$().ready(onPageUpdated());
+		</script>
+		<a4j:status id="generalStatus" onstop="javascript:onPageUpdated();" />		
+	</c:if>	
+    <c:if test="#{not viewWorkflow.plan.readOnly}">
+		<script type="text/javascript">
+		function onPageUpdated() {};
+		</script>
+    </c:if>
 
 </h:body>
 </html>

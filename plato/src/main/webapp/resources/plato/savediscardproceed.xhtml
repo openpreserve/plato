@@ -12,19 +12,21 @@
 </cc:interface>
 
 <cc:implementation>
-	<div class="save-discard-proceed-buttons">
-		<h:commandButton id="saveButton" value="Save"
-			action="#{cc.attrs.bean.save}" styleClass="save-button"
-			style="min-width: 150px;"
-			onclick="toggleLoadingOverlay();return true" />
-		<h:commandButton id="discardButton" value="Discard changes"
-			action="#{cc.attrs.bean.discard}" immediate="true"
-			styleClass="discard-button" style="min-width: 150px;"
-			onclick="toggleLoadingOverlay();return true" />
-		<h:commandButton id="submitButton" value="Save and proceed"
-			action="#{cc.attrs.bean.proceed}" styleClass="proceed-button"
-			style="min-width:150px;" onclick="toggleLoadingOverlay();return true" />
-	</div>
+	<c:if test="#{not cc.attrs.bean.plan.readOnly}">
+		<div class="save-discard-proceed-buttons">
+			<h:commandButton id="saveButton" value="Save"
+				action="#{cc.attrs.bean.save}" styleClass="save-button"
+				style="min-width: 150px;"
+				onclick="toggleLoadingOverlay();return true" />
+			<h:commandButton id="discardButton" value="Discard changes"
+				action="#{cc.attrs.bean.discard}" immediate="true"
+				styleClass="discard-button" style="min-width: 150px;"
+				onclick="toggleLoadingOverlay();return true" />
+			<h:commandButton id="submitButton" value="Save and proceed"
+				action="#{cc.attrs.bean.proceed}" styleClass="proceed-button"
+				style="min-width:150px;" onclick="toggleLoadingOverlay();return true" />
+		</div>
+	</c:if>
 </cc:implementation>
 
 </html>

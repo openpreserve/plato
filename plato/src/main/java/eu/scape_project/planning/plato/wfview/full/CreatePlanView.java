@@ -117,7 +117,7 @@ public class CreatePlanView implements Serializable {
     public String savePlan() {
         planManager.save(plan, PlanState.INITIALISED, plan);
         conversation.end();
-        return viewWorkflowManager.startWorkflow(plan.getPlanProperties().getId());
+        return viewWorkflowManager.startWorkflow(plan.getPlanProperties().getId(), false);
     }
 
     /**

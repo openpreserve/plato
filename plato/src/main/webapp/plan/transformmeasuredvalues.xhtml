@@ -43,7 +43,8 @@
 						<rich:treeNode>
 							<a4j:commandLink id="select" value="#{node.name}"
 								action="#{transform.selectTreeNode(node)}"
-								render="editLeavesPanel" />
+								render="editLeavesPanel" 
+								oncomplete="onPageUpdated()" />
 						</rich:treeNode>
 					</rich:treeModelRecursiveAdaptor>
 				</rich:tree>
@@ -60,16 +61,6 @@
 				<fieldset class="size-full">
 					<legend class="fieldset-full-size-legend">Define the
 						transformation functions</legend>
-
-					<!-- Does not work property at expanding/folding nodes because of this bug: https://issues.jboss.org/browse/RF-11111 -->
-					<a4j:status>
-						<f:facet name="start">
-							<h:graphicImage value="/resources/gfx/processing.gif"
-								alt="Processing, please wait...." />
-						</f:facet>
-						<f:facet name="stop">
-						</f:facet>
-					</a4j:status>
 
 					<h:outputText value="No leaves selected"
 						rendered="#{(empty transform.leaves) and (empty transform.errorLeaves)}" />

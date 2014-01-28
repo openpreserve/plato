@@ -50,7 +50,7 @@
 			<fieldset id="navigationtreeSet" style="width: 50%;"
 				class="size-full">
 				<legend class="fieldset-full-size-legend">
-					<h:outputText value="Select the tree parts to display" />
+					Select the tree parts to display
 				</legend>
 				<rich:tree id="navigationtree" selectionType="client"
 					immediate="true" var="node">
@@ -59,11 +59,9 @@
 						leaf="#{node.leaf}">
 						<rich:treeNode highlightedClass="highlighted"
 							expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
-
-							<a4j:commandLink id="select" render="leavesLists"
-								action="#{evalexperiments.select(node)}">
-								<h:outputText value="#{node.name}" />
-							</a4j:commandLink>
+							<a4j:commandLink id="select" value="#{node.name}" render="leavesLists"
+								action="#{evalexperiments.select(node)}"
+								oncomplete="onPageUpdated()" />
 						</rich:treeNode>
 					</rich:treeModelRecursiveAdaptor>
 				</rich:tree>
@@ -84,10 +82,6 @@
 					<h:outputText value="No leaves selected"
 						rendered="#{empty evalexperiments.leaves}" />
 
-					<div style="height: 20px; font-weight: bold;">
-						<a4j:status startStyleClass="ajaxStatus"
-							startText="Processing, please wait.... " />
-					</div>
 
 					<ui:include src="/plato/shared/evaluationLeafList.xhtml"
 						rendered="#{not empty evalexperiments.leaves}">

@@ -72,12 +72,14 @@ public class ViewWorkflowManager implements Serializable {
      * 
      * @param planPropertiesId
      *            PlanPropertiesId of the plan to start the viewWorkflow for.
+     * @param readOnly
+     *            States if the plan should be opened in read-only mode.
      * @return Outcome-string of the current viewWorkflow page to show.
      */
-    public String startWorkflow(Integer planPropertiesId) {
+    public String startWorkflow(Integer planPropertiesId, boolean readOnly) {
         plan = null;
         try {
-            plan = planManager.load(planPropertiesId);
+            plan = planManager.load(planPropertiesId, readOnly);
         } catch (PlanningException e) {
             log.warn("Could not load plan with planPropertiesId " + planPropertiesId, e);
             facesMessages.addError("Could not load plan: " + e.getMessage());
@@ -133,7 +135,9 @@ public class ViewWorkflowManager implements Serializable {
      * @return URL to redirect after closing.
      */
     public String endWorkflow() {
-        planManager.unlockPlan(viewWorkflow.getPlan().getPlanProperties().getId());
+        if (!viewWorkflow.getPlan().isReadOnly()) {
+            planManager.unlockPlan(viewWorkflow.getPlan().getPlanProperties().getId());
+        }
         plan = null;
         conversation.end();
         log.info("Ended viewWorkflow conversation");

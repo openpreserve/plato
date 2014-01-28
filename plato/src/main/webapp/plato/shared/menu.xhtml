@@ -32,7 +32,11 @@
 						</rich:menuItem>
 						<rich:menuItem>
 							<h:commandLink onclick="return mayExit_noClick();"
-								value="Download Plan" action="#{planSettings.downloadPlan()}" />
+								value="Download Plan" action="#{planSettings.downloadPlan()}" 
+								rendered="#{not viewWorkflow.plan.readOnly}"/>
+							<h:commandLink onclick="return mayExit_noClick();"
+								value="Copy plan" action="#{planSettings.copyPlan()}" 
+								rendered="#{viewWorkflow.plan.readOnly}"/>
 						</rich:menuItem>
 					</rich:dropDownMenu>
 				</rich:toolbarGroup>
