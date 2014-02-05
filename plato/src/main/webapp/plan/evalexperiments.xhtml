@@ -52,14 +52,14 @@
 				<legend class="fieldset-full-size-legend">
 					Select the tree parts to display
 				</legend>
-				<rich:tree id="navigationtree" selectionType="client"
-					immediate="true" var="node">
+				<rich:tree id="navigationtree" selectionType="client" immediate="true" var="node">
 					<rich:treeModelRecursiveAdaptor id="model"
 						roots="#{evalexperiments.treeRoot}" nodes="#{node.children}"
 						leaf="#{node.leaf}">
 						<rich:treeNode highlightedClass="highlighted"
 							expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
 							<a4j:commandLink id="select" value="#{node.name}" render="leavesLists"
+							    onclick="onPageSubmit()"
 								action="#{evalexperiments.select(node)}"
 								oncomplete="onPageUpdated()" />
 						</rich:treeNode>
@@ -76,7 +76,7 @@
 
 			<fieldset id="leafSet" class="size-full">
 				<legend class="fieldset-full-size-legend">
-					<h:outputText value="Leaves to evaluate" />
+					Leaves to evaluate
 				</legend>
 				<a4j:outputPanel id="leavesLists">
 					<h:outputText value="No leaves selected"
@@ -135,7 +135,7 @@
 				minHeight="700" resizeable="true" domElementAttachment="form">
 
 				<f:facet name="header">
-					<h:outputText value="Comparison of characterisation info" />
+					Comparison of characterisation info
 				</f:facet>
 				<f:facet name="controls">
 					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png"
@@ -166,8 +166,5 @@
 			</rich:popupPanel>
 			<!-- / characterisationReports -->
 		</h:form>
-
-
-
 	</ui:define>
 </ui:composition>

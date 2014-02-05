@@ -147,20 +147,16 @@
    <c:if test="#{viewWorkflow.plan.readOnly}">
 		<script type="text/javascript">
 		function onPageUpdated() {
-	        $('input[type != hidden]').each(function() {
+	        $('input[type != hidden],textarea,select').each(function() {
                 $(this).attr({
                     'disabled': 'disabled'
                 });
 	        });
-	        $('textarea').each(function() {
-                $(this).attr({
-                    'disabled': 'disabled'
-                });
-	        });
-	        $('select').each(function() {
-                $(this).attr({
-                    'disabled': 'disabled'
-                });
+	        
+		};
+		function onPageSubmit() {
+	        $('input[type != hidden],textarea,select').each(function() {
+                $(this).removeAttr('disabled');
 	        });
 		};
 		$().ready(onPageUpdated());
@@ -170,6 +166,7 @@
     <c:if test="#{not viewWorkflow.plan.readOnly}">
 		<script type="text/javascript">
 		function onPageUpdated() {};
+		function onPageSubmit() {};
 		</script>
     </c:if>
 

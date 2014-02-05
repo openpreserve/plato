@@ -155,14 +155,14 @@
 							<div class="margin-top-big margin-bottom-big">
 								<a4j:commandLink id="cbutton#{row.id}" value="Remove sample" styleClass="trash"
 									action="#{defineSampleRecords.askRemoveSample(row)}"
-									rendered="#{defineSampleRecords.allowRemove != row.id}"
+									rendered="#{not viewWorkflow.plan.readOnly and defineSampleRecords.allowRemove != row.id}"
 									execute="@this" onclick="changed();" render="sampleRecordsList" />
 								<h:outputText
 									rendered="#{defineSampleRecords.allowRemove == row.id}"
 									value="This sample has associated evaluation values. These will be removed as well. Are you sure?"
 									class="size-max" />
 								<a4j:commandLink
-									rendered="#{defineSampleRecords.allowRemove == row.id}" styleClass="trash"
+									rendered="#{not viewWorkflow.plan.readOnly and defineSampleRecords.allowRemove == row.id}" styleClass="trash modifying"
 									value="Yes, remove it."
 									action="#{defineSampleRecords.removeSample(row)}"
 									onclick="changed();" render="sampleRecordsList" />

@@ -33,17 +33,17 @@
 				style="display:none" />
 
 			<fieldset id="treenavigationset" class="size-full">
-				<legend class="fieldset-full-size-legend"> Select the tree
-					parts to display </legend>
-				<rich:tree id="navigationtree" switchType="client" immediate="true"
-					var="node">
+				<legend class="fieldset-full-size-legend">
+				     Select the tree parts to display
+				</legend>
+				<rich:tree id="navigationtree" switchType="client" immediate="true"	var="node">
 					<rich:treeModelRecursiveAdaptor id="model"
 						roots="#{transform.treeRoots}" nodes="#{node.children}"
 						leaf="#{node.leaf}">
 						<rich:treeNode>
-							<a4j:commandLink id="select" value="#{node.name}"
+							<a4j:commandLink id="select" value="#{node.name}" render="editLeavesPanel"
+							    onclick="onPageSubmit()"
 								action="#{transform.selectTreeNode(node)}"
-								render="editLeavesPanel" 
 								oncomplete="onPageUpdated()" />
 						</rich:treeNode>
 					</rich:treeModelRecursiveAdaptor>

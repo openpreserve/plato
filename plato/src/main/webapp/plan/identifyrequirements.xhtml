@@ -122,7 +122,7 @@
 											layout="block"
 											rendered="#{not identifyRequirements.editingNodeComments}">
 											<div class="tree-cell" style="width: 60px;">
-												<h:panelGrid id="menuPanel" columns="2" border="0">
+												<h:panelGrid id="menuPanel" columns="2" border="0" rendered="#{not viewWorkflow.plan.readOnly}">
 													<rich:dropDownMenu event="onclick" mode="ajax"
 														direction="bottomLeft" jointPoint="topLeft"
 														hideDelay="500" style="z-index: 50; position: relative;">
