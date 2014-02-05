@@ -149,8 +149,8 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
                 List<Plan> plans = importPlans(file);
                 for (Plan p : plans) {
                     try {
-                        em.persist(p);
                         storeDigitalObjects(p);
+                        em.persist(p);
                         count++;
                     } catch (Exception e) {
                         log.error("failed to import plan: " + p.getPlanProperties().getId() + "-"

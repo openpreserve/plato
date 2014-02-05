@@ -329,25 +329,24 @@ public class AdminActions implements Serializable {
         try {
             plansToImport = projectImporter.importPlans(new ByteArrayInputStream(fileData));
             nrOrPlans = plansToImport.size();
+            // if the plans are imported by a NORMAL USER in the web interface, they
+            // will be
+            // assigned to this user, i.e. the owner is set to the current user.
+            // If they are imported by an ADMIN, they stay property of the original
+            // user,
+            // unless the admin uses a different button
+            if (!user.isAdmin() || changeUser) {
+                for (Plan p : plansToImport) {
+                    p.getPlanProperties().setOwner(user.getUsername());
+                }
+            }
+            
+            // store plans
+            storePlans(plansToImport);
         } catch (Exception e) {
             log.error("failed to import plans from file.", e);
             return 0;
         }
-
-        // if the plans are imported by a NORMAL USER in the web interface, they
-        // will be
-        // assigned to this user, i.e. the owner is set to the current user.
-        // If they are imported by an ADMIN, they stay property of the original
-        // user,
-        // unless the admin uses a different button
-        if (!user.isAdmin() || changeUser) {
-            for (Plan p : plansToImport) {
-                p.getPlanProperties().setOwner(user.getUsername());
-            }
-        }
-
-        // store plans
-        storePlans(plansToImport);
 
         return nrOrPlans;
     }
@@ -366,13 +365,13 @@ public class AdminActions implements Serializable {
 
         try {
             plansToImport = projectImporter.importPlans(new ByteArrayInputStream(xml.getBytes(PlanXMLConstants.ENCODING)));
+            importedPlans = plansToImport.size();
+            storePlans(plansToImport);
         } catch (Exception e) {
             log.error("failed to import plans from xml.", e);
             return 0;
         }
 
-        importedPlans = plansToImport.size();
-        storePlans(plansToImport);
 
         return importedPlans;
     }
@@ -415,10 +414,12 @@ public class AdminActions implements Serializable {
      * 
      * @param plans
      *            Plans to store.
+     * @throws PlatoException 
      */
-    private void storePlans(List<Plan> plans) {
+    private void storePlans(List<Plan> plans) throws PlatoException {
         while (!plans.isEmpty()) {
             Plan plan = plans.get(0);
+            projectImporter.storeDigitalObjects(plan);            
             em.persist(plan);
             em.flush();
 
