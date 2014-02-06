@@ -47,74 +47,31 @@
 			        <configuration>
 			      <target>
 						<echo message="preparing persistence.xml for integration tests"/>			      
-			        	<copy file="src/test/resources/META-INF/persistence.xml"
+			        	<copy file="${project.build.testOutputDirectory}/META-INF/persistence.xml"
 			        	      tofile="${project.build.outputDirectory}/META-INF/persistence.xml" />
+		                <delete>
+		                    <fileset dir="${project.build.testOutputDirectory}/META-INF/" includes="persistence.xml" />
+		                </delete>
 			      </target>
 			        </configuration>
 			    </execution>
-<!-- 			    <execution>
+ 			    <execution>
                     <id>remove-test-persistence.xml</id>
 			        <phase>post-integration-test</phase>
 			        <goals> <goal>run</goal></goals>
 			        <configuration>
 			        <target>
 						<echo message="clean up persistence.xml from integration tests"/>			      
+			        	<copy file="${project.build.outputDirectory}/META-INF/persistence.xml"
+			        	      tofile="${project.build.testOutputDirectory}/META-INF/persistence.xml" />
 		                <delete>
 		                    <fileset dir="${project.build.outputDirectory}/META-INF/" includes="persistence.xml" />
 		                </delete>
 					</target>
 			        </configuration>
 			    </execution>
- -->			</executions>
+   			</executions>
 		</plugin>			
-			<!-- 
-			<plugin>
-				<groupId>com.github.goldin</groupId>
-				<artifactId>copy-maven-plugin</artifactId>
-				<version>0.2.5</version>
-				<executions>
-					<execution>
-						<id>add-test-persistence.xml</id>
-
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<targetPath>${project.build.outputDirectory}/META-INF</targetPath>
-									<directory>${project.build.testOutputDirectory}/META-INF</directory>
-									<includes>
-										<include>*.xml</include>
-									</includes>
-									<move>true</move>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>remove-test-persistence.xml</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<targetPath>${project.build.outputDirectory}/test-classes</targetPath>
-									<directory>${project.build.outputDirectory}/META-INF</directory>
-									<includes>
-										<include>*.xml</include>
-									</includes>
-									<move>true</move>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
- -->			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
