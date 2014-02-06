@@ -36,6 +36,39 @@
 				</executions>
 			</plugin>
 			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.7</version>
+			<executions>
+			    <execution>
+                    <id>add-test-persistence.xml</id>
+			        <phase>pre-integration-test</phase>
+			        <goals> <goal>run</goal></goals>
+			        <configuration>
+			      <target>
+						<echo message="preparing persistence.xml for integration tests"/>			      
+			        	<copy file="src/test/resources/META-INF/persistence.xml"
+			        	      tofile="${project.build.outputDirectory}/META-INF/persistence.xml" />
+			      </target>
+			        </configuration>
+			    </execution>
+<!-- 			    <execution>
+                    <id>remove-test-persistence.xml</id>
+			        <phase>post-integration-test</phase>
+			        <goals> <goal>run</goal></goals>
+			        <configuration>
+			        <target>
+						<echo message="clean up persistence.xml from integration tests"/>			      
+		                <delete>
+		                    <fileset dir="${project.build.outputDirectory}/META-INF/" includes="persistence.xml" />
+		                </delete>
+					</target>
+			        </configuration>
+			    </execution>
+ -->			</executions>
+		</plugin>			
+			<!-- 
+			<plugin>
 				<groupId>com.github.goldin</groupId>
 				<artifactId>copy-maven-plugin</artifactId>
 				<version>0.2.5</version>
@@ -44,7 +77,6 @@
 						<id>add-test-persistence.xml</id>
 
 						<phase>pre-integration-test</phase>
-						<!-- <phase>process-test-resources</phase> -->
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -64,7 +96,6 @@
 					<execution>
 						<id>remove-test-persistence.xml</id>
 						<phase>post-integration-test</phase>
-						<!-- <phase>prepare-package</phase> -->
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -83,6 +114,7 @@
 					</execution>
 				</executions>
 			</plugin>
+ -->			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -113,6 +145,7 @@
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
+					
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -123,16 +156,16 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>
-											com.github.goldin
+											org.apache.maven.plugins
 										</groupId>
 										<artifactId>
-											copy-maven-plugin
+											maven-antrun-plugin
 										</artifactId>
 										<versionRange>
-											[0.2.5,)
+											[1.7,)
 										</versionRange>
 										<goals>
-											<goal>copy</goal>
+											<goal>run</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
