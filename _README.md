@@ -22,16 +22,20 @@ During this process Plato collects all the information to enable the planner to 
 
 Plato is for:
 
-* Content holders? (specify if possible)
-* Preservation experts? (specify if possible)
+* Content holders
+* Preservation experts
 * Institutions that would like to ... (be as specific as possible)
 
 ## Features and roadmap
 
 ### Version 4.4
 
-* Generation of Preservation Action Plan template
+* Policy aware
+* Content profiles
+* Integration of myExperiment
+* Connects to repositories via Data Connector API and Plan Management API
 * Read only view for public plans
+* Deploy of executable Preservation Action Plan
 
 ### Roadmap
 
@@ -56,33 +60,101 @@ At the moment there are no precompiled versions available, please refer to secti
 
 To install follow these steps:
 
-1. Setup Database for Planning Suite
-	If you run Planning Suite and IDP on the same domain, you can use a predefined script:
+1. Install and setup MySQL server 
+	1. Install MySQL 5 Server (tested with version 5.1.54)
+	2. Set UTF8 as a default encoding/collation. 
+	   Check appropriate MySQL 5.X reference manual for instruction on how to do this. There were some changes so it might not be the same for all versions. 
+	3. Configuration
+	   Make the following changes in your MySQL config file (on Linux it is my.cnf and on Windows my.ini)
+	    <pre>
+	     #in the Server Section [mysqld] 
+	     max_allowed_packet = 128M
+	     max_sp_recursion_depth = 255
+	     thread_stack = 512K
+	    </pre> 
+	4. Restart MySQL server 
 
+2. Setup Database for Planning Suite
+	If you run Planning Suite and IDP on the same domain, you can use a predefined script:
+	
 	1. Switch to the _tools_ directory, there you will find the script setup-database.sh.
 	   It creates DB users and databases for IDP and Plato, and prepares a config file for your JBoss AS 7 server. 
 	2. Run it via
 	   `./setup-database.sh <MySQL root password> <Plato DB password> <IDP DB password>`
 	3. You will find two new files in this directory: standalone.xml for your production environment, adjust it to your needs, and additionally standalone-test.xml - the configuration for your test server.
-2. Second step
+
+3. Install and setup JBoss AS 7
+	1. Download and install JBoss AS 7.1.0.Final. 
+	   You can use JBoss AS 7.1.1.Final, but there are [issues with the included JSF implementation] (https://issues.jboss.org/browse/AS7-4366), so you have to replace the corresponding modules yourself.
+	2. Copy the file standalone.xml you have generated during database setup to  [JBOSS_HOME]/standalone/configuration/standalone.xml
+
+
+4. Install MySQL Drivers
+	1. Download [MySQL Connector/J] (http://dev.mysql.com/downloads/connector/j)
+	2. Create a driver module as described in [Installing a JDBC driver as a module] (https://community.jboss.org/wiki/DataSourceConfigurationInAS7#Installing_a_JDBC_driver_as_a_module)
+
+5. Install and setup PicketLink 
+	1. Go to the modules/org/picketlink/main directory and delete all jar files in it.
+	2. Download Picketlink 2.1.4 jars for JBoss AS 7.1.x here: [picketlink-core-2.1.4.Final.jar](https://repository.jboss.org/nexus/content/groups/public/org/picketlink/picketlink-core/2.1.4.Final/picketlink-core-2.1.4.Final.jar) and 
+	[picketlink-jbas7-2.1.4.Final.jar](https://repository.jboss.org/nexus/content/groups/public/org/picketlink/distribution/picketlink-jbas7/2.1.4.Final/picketlink-jbas7-2.1.4.Final.jar)
+	3. Copy both Picketlink 2.1.4 jars into modules/org/picketlink/main directory
+	4. In modules/org/picketlink/main do the following changes to the module.xml file :
+	   <pre> 
+	&lt;module xmlns="urn:jboss:module:1.1" name="org.picketlink"&gt;
+	    &lt;resources&gt;
+	        &lt;resource-root path="picketlink-core-2.1.4.Final.jar"/&gt;
+	        &lt;resource-root path="picketlink-jbas7-2.1.4.Final.jar"/&gt;
+	    &lt;/resources&gt;
+	    &lt;dependencies&gt;
+	        &lt;module name="javax.api"/&gt;
+	        &lt;module name="javax.security.auth.message.api"/&gt;
+	        &lt;module name="javax.security.jacc.api"/&gt;
+	        &lt;module name="javax.transaction.api"/&gt;
+	        &lt;module name="javax.xml.bind.api"/&gt;
+	        &lt;module name="javax.xml.stream.api"/&gt;
+	        &lt;module name="javax.servlet.api"/&gt;
+	        &lt;module name="org.jboss.common-core"/&gt;
+	        &lt;module name="org.jboss.logging"/&gt;
+	        &lt;module name="org.jboss.as.web"/&gt;
+	        &lt;module name="org.jboss.security.xacml"/&gt;
+	        &lt;module name="org.picketbox"/&gt;
+	        &lt;module name="javax.xml.ws.api"/&gt;
+	        &lt;module name="org.apache.log4j"/&gt;
+	        &lt;module name="org.apache.santuario.xmlsec"/&gt;
+	    &lt;/dependencies&gt;
+	&lt;/module&gt;
+	  </pre>
+
+6. Install UTF8EncodingValve
+
+	Please refer to the [readme of jboss-utils] (https://github.com/openplanets/plato/blob/integration/jboss-util/README.md)
+
+
+8. Configure Plato
+Some aspects of Plato can be configured using configuration files. See [Plato configuration](https://github.com/openplanets/plato/wiki/Plato-configuration) for further information.
+
+9. Optional: FITS
+	* Install FITS Tool from [http://code.google.com/p/fits](http://code.google.com/p/fits) .
+	* Set environment variable FITS_HOME to install directory. 
 
 ### Use
 
-To use the tool, open it with your browser, e.g. at http://localhost:8080/plato
+To use the tool, start up JBoss 7 and navigate with your browser to e.g. at http://localhost:8080/plato
 
-
-refer to help page
 
 ### Troubleshooting
 
-Problems and workarounds will be here when needed.
+If you encounter problems please use the built in feedback functionality in Plato (on the right side of the page),
+or refer to [github](https://github.com/openplanets/plato/issues)
 
 ## More information
 
 ### Publications
 
-* Publication 1
-* Publication 2
+* Kraxner, Plangg, Duretec, Becker, Faria: [The SCAPE planning and watch suite: supporting the preservation lifecycle in repositories.](http://hdl.handle.net/1822/25215) In: iPRES 2013, Lisbon, Portugal.
+* ..
+* ..
+* ..
 
 ### Licence
 
@@ -105,34 +177,79 @@ This tool is supported by the [Open Planets Foundation](http://www.openplanetsfo
 To build you require:
 
 * Git client
-* Apache Maven
-* Java Developers Kit (e.g. OpenJDK 6)
+* Apache Maven 3
+* Java Developers Kit 7 (e.g. OpenJDK 7)
 
 For using the recommended IDE you require:
 
-* Eclipse of Java
+* [Eclipse for Java(Eclipse Indigo)](http://www.eclipse.org/downloads/index-developer.php)
+* [Eclipse checkstyle plugin](http://marketplace.eclipse.org/node/150)
+* [Eclipse m2e plugin](http://marketplace.eclipse.org/content/maven-integration-eclipse)
 
 ### Setup IDE
 
 1. Start Eclipse
-2. Select "File > Import". Then, select "Maven > Existing Maven Projects" and click "Next"
-3. In the "Root Directory", browse to RODA source code directory on your filesystem and select "Open"
-4. Optionally, you can add it to a "Working set"
-5. Click "Finish"
+2. Install the m2e plugin
+3. Install the checkstyle plugin
+4. Import the projects
+	1. Select "File > Import". Then, select "Maven > Existing Maven Projects" and click "Next"
+	2. In the "Root Directory", browse to Plato source code directory on your filesystem and select "Open"
+	3. Optionally, you can add it to a "Working set"
+	4. Click "Finish"
+5. Setting up Checkstyle
+If you are planning to contribute please setup the provided eclipse_formatter, cleanup_profile and checkstyle config file
+(in the build-tools-config project). To do this for all projects in this eclipse instance follow these steps:
+
+	1. Select Window > Preferences. In the new window select Java > Code Style > Clean Up
+	and import the cleanup_profile.xml (mentioned above). Do the same for the Formatter in
+	Java > Code Style > Formatter 
+	
+	2. For Checkstyle open again the preferences window and select Checkstyle. Click on the New button and select
+	Project Relative Configuration. Afterwards give a name and browse to the checkstyle.xml file provided in the build-tools-config
+	maven module. At the end select this to be the default checkstyle config.
+	
+	3. To activate checkstyle for a certain project just right click on it select checkstyle > activate checkstyle.
+	This will continouosly check the code as you type and mark the bad spots with yellow and will provide
+	warnings.
 
 ### Build
 
-To compile go to the sources folder and execute the command:
+1. Setup Test Server
+To setup the test server make a copy of the already configured main instance, replace the standalone.xml with the generated standalone-test.xml, and rename it to standalone.xml.
 
-```bash
-$ mvn clean install
-```
+2. Build
+	1. Install maven version 3
+	2. Install git client
+	3. Clone Plato source from the Github: <pre>git clone git@github.com:openplanets/plato.git</pre>
+	4. Go into the folder plato and start the build process: 
+	   <pre>mvn clean install -Dps.port=80 -Dsp.domain=your.planningsuite.domain.org -Didp.domain=your.idp.domain.org -DskipTests</pre>
+	  Parameters:
+	  * ps.port=80: port on which the web-applications will be available (defaults to _8080_)
+	  * sp.domain: specifies the domain of the service provider - where Planning Suite will be available (defaults to _localhost_)
+	  * idp.domain: the domain where your identity provider will be available(defaults to _localhost_)
+	
+	NOTE: If your database is set up for the first time, you have to:
 
-After successful compile the binary will be available at `target/binary.jar`.
+	1. Build plannginsuite.ear with the additional parameter: <pre> -Ddatabase.schema.generation=create </pre>
+	   and deploy it to JBoss (like described above)
+	2. Stop JBoss
+	3. Build plannginsuite.ear once more without the additional parameter and deploy it again.
+	   This is **important**, otherwise the database gets re-created with each start - and your data gets lost
+
+	To run tests:
+
+	* Instead of parameter -DskipTests you have to provide the path to your local JBoss server (the one you have prepared for testing):
+	  <pre> -DjbossHomeTest=&lt; path to local jboss server &gt; </pre>
+
+
+After successful compile the generated artifacts are available in the _target_ sub-folders of planningsuite-ear and idp
 
 ### Deploy
 
-To deploy do ...
+You have to use the war and ear files. (you cannot deploy the exploded archives, because there is a bug in the maven-war plugin)
+
+1. Copy planningsuite-ear/target/planningsuite-ear.ear to your JBoss deployments folder
+2. Copy idp/target/idp.war to your JBoss deployments folder.
 
 ### Contribute
 
