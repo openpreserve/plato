@@ -15,11 +15,11 @@ Plato brings you the following benefits:
 * Guidance through the preservation planning process
 * Trustability through controlled experiments and documentation
 * Policy aware planning
-* Using standardized measures
-* myExperiment and Taverna integration: Share migration, quality assurance, and characterisation components with the community
-* Connects to repositories using open interfaces
+* Using [standardized measures](purl.org/DP/quality/measures)
+* [myExperiment](http://www.myexperiment.org/) and Taverna integration: Share migration, quality assurance, and characterisation components with the community
+* Connects to repositories using [open interfaces](https://github.com/openplanets/scape-apis)
 * Provides a plan executable on your content
-* Enables on-going monitoring by creating triggers for Scout
+* Enables on-going monitoring by creating triggers for [Scout](https://github.com/openplanets/scout)
 
 ### Who is the intended audience?
 
