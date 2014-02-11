@@ -173,7 +173,7 @@ Part of this work was supported by the European Union in the 7th Framework Progr
 
 ### Support
 
-This tool is supported by the [Open Planets Foundation](http://www.openplanetsfoundation.org). Commercial support is provided by company X.
+This tool is supported by the [Open Planets Foundation](http://www.openplanetsfoundation.org).
 
 ## Develop
 
