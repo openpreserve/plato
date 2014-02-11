@@ -10,13 +10,16 @@ During this process Plato collects all the information to enable the planner to 
 
 ### What are the benefits for the end user?
 
+Plato brings you the following benefits:
+
+* Guidance through the preservation planning process
 * Trustability through controlled experiments and documentation
-* Policy aware
+* Policy aware planning
 * Using standardized measures
-* myExperiment and Taverna integration: Share components with the community
+* myExperiment and Taverna integration: Share migration, quality assurance, and characterisation components with the community
 * Connects to repositories using open interfaces
-* Provides an executable plan
-* Creates triggers for monitoring via Scout
+* Provides a plan executable on your content
+* Enables on-going monitoring by creating triggers for Scout
 
 ### Who is the intended audience?
 
@@ -24,23 +27,26 @@ Plato is for:
 
 * Content holders
 * Preservation experts
-* Institutions that would like to ... (be as specific as possible)
 
 ## Features and roadmap
 
 ### Version 4.4
 
 * Policy aware
-* Content profiles
+* Reads content profiles
 * Integration of myExperiment
-* Connects to repositories via Data Connector API and Plan Management API
+* Connects to repositories via open APIs (Data Connector API and Plan Management API)
 * Read only view for public plans
 * Deploy of executable Preservation Action Plan
 
 ### Roadmap
 
-* Feature 3
-* Feature 4
+* Improved template creation for Executable Plan (based on used migration and quality assurance components)
+* Smarter triggers for monitoring
+* Implementation of Notification API to recieve planning requests
+* Policy-based improvements to increase efficiency
+* Implementation of Reassessment API
+
 
 ## How to install and use
 
@@ -151,10 +157,11 @@ or refer to [github](https://github.com/openplanets/plato/issues)
 
 ### Publications
 
+* Christoph Becker, Hannes Kulovits, and Andreas Rauber: [Trustworthy Preservation Planning with Plato](http://ercim-news.ercim.eu/images/stories/EN80/EN80-web.pdf) ERCIM News 80,p.24-25, January 2010.
 * Kraxner, Plangg, Duretec, Becker, Faria: [The SCAPE planning and watch suite: supporting the preservation lifecycle in repositories.](http://hdl.handle.net/1822/25215) In: iPRES 2013, Lisbon, Portugal.
-* ..
-* ..
-* ..
+* Christoph Becker, Hannes Kulovits, Mark Guttenbrunner, Stephan Strodl, Andreas Rauber, and Hans Hofman: [Systematic planning for digital preservation: Evaluating potential strategies and building preservation plans](http://www.ifs.tuwien.ac.at/~becker/pubs/becker-ijdl2009.pdf) International Journal on Digital Libraries (IJDL), December 2009.
+
+Check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/intro_documentation.html) for more publications.
 
 ### Licence
 
