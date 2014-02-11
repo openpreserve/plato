@@ -60,7 +60,7 @@ To install you need:
 
 ### Download
 
-At the moment there are no precompiled versions available, please refer to section Build.
+At the moment there are no precompiled versions available, please refer to section [Build](#build).
 
 ### Install instructions
 
