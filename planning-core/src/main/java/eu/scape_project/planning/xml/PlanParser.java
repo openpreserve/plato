@@ -549,7 +549,7 @@ public class PlanParser {
         // r);
         // // use attribute "key" as first param
         // digester.addCallParam("*/experiment/xcdlDescriptions/xcdlDescription",
-        // 0 , "key");
+        // 0 , "key");http://fue.onb.ac.at/abo/data
         // // and the object on stack (DigitalObject) as the second
         // digester.addCallParam("*/experiment/xcdlDescriptions/xcdlDescription",1,true);
 

@@ -13,19 +13,14 @@
 
 		<h:form id="mainform">
 
-			<a4j:outputPanel layout="block" id="newsTable" rendered="#{!empty allMessages.news}">
-			<div class="menu-container-information">			
-				<h2>News:</h2>
-				<ul>
-				<ui:repeat var="news" value="#{allMessages.news}">
-					<li>#{news.news} <I>(#{news.author} #{news.timestamp})</I>
-					</li>
-				</ui:repeat>
-				</ul>
-
-			</div>
-			</a4j:outputPanel>
-			
+			<a4j:outputPanel id="notifications" layout="block">
+			<ui:repeat var="note" value="#{notifications.notifications}">
+				<div class="alert-box #{note.source == 'Scout'?'scout':'info'}">
+				<h:outputText value="#{note.timestamp}"><f:convertDateTime pattern="dd.MM.yyyy HH:mm" /></h:outputText> 
+				#{note.source}: #{note.message} <a4j:commandLink styleClass="close" action="#{notifications.acceptNotification(note)}" render="notifications" value="x"/>
+				</div>
+			</ui:repeat>
+		    </a4j:outputPanel>		
 			<a4j:outputPanel layout="block"
 				rendered="#{param['sessionExpired'] == 'true'}" styleClass="warning">
                 Your session has expired because of a long inactivity period. <br />

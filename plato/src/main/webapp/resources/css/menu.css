@@ -115,6 +115,39 @@ div.menu-container-actions {
 	text-align:center;
 }
 
+.alert-box{
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	font-weight: normal;
+	margin-bottom: 1rem;
+	position: relative;
+	padding: 0.77778rem 1.33333rem 0.77778rem 0.77778rem;
+	font-size: 0.72222rem;
+	background-color: #008cba;
+	border-color: #007ba0;
+	color: white;	
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.alert-box.info {
+    background-color: #a0d3e8;
+    border-color: #74bfdd;
+    color: #4f4f4f;
+}
+.close {
+font-size: 1.22222rem;
+padding: 9px 6px 4px;
+line-height: 0;
+position: absolute;
+top: 50%;
+margin-top: -0.61111rem;
+right: 0.22222rem;
+color: #333333;
+opacity: 0.3;
+}
+
+/* xxx remove */
 div.menu-container-information {
 	margin-left:auto;
 	margin-right:auto;
@@ -131,7 +164,7 @@ div.menu-container-information {
 	box-shadow: 0px 1px 3px 2px #888;
 	font-family: Helvetica;
 }
-
+/* remove before*/
 
 ul.actions {
 	list-style-type: none;

@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -35,6 +36,7 @@ import eu.scape_project.planning.bean.PrepareChangesForPersist;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.Notification;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanProperties;
 import eu.scape_project.planning.model.PlatoException;
@@ -429,4 +431,15 @@ public class AdminActions implements Serializable {
             System.gc();
         }
     }
+
+    public void addNotification(String source, String message) {
+        Date now = new Date();
+        List<User> users = em.createQuery("select p from User p", User.class).getResultList();
+        for (User u : users) {
+            Notification note = new Notification(now, source, message, u);
+            em.persist(note);
+        }
+        
+    }
+    
 }

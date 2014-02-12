@@ -28,6 +28,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -62,6 +63,9 @@ public class User implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private UserGroup userGroup;
+	
+	@OneToMany
+	private List<Notification> notifications;
 
 	// ---------- getter/setter ----------
 
@@ -142,6 +146,14 @@ public class User implements Serializable {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
 	/*
 	 * public User clone() { User u = new User(); u.setEmail(email);

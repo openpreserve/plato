@@ -47,17 +47,8 @@ public class Messages implements Serializable {
 	 */
 	private List<ErrorMessage> errors = new ArrayList<ErrorMessage>();
 	
-	/**
-	 * List of news since server start.
-	 */
-	private List<NewsMessage> news = new ArrayList<NewsMessage>();
-
 	public void clearErrors(){
 		errors.clear();
-	}
-	
-	public void clearNews(){
-		news.clear();
 	}
 	
 	/**
@@ -69,14 +60,6 @@ public class Messages implements Serializable {
         errors.add(0, error);
     }
 
-    /**
-     * Inserts a news message at the beginning of the list.
-     *  
-     * @param news
-     */
-    public void addNewsMessage(NewsMessage news) {
-        this.news.add(0, news);
-    }
 
     /**
      * NOTE: do not try to alter the returned list  
@@ -86,13 +69,5 @@ public class Messages implements Serializable {
     public List<ErrorMessage> getErrors() {
         return errors;
     }
-
-    /**
-     * NOTE: do not try to alter the returned list
-     * @return
-     */
-    public List<NewsMessage> getNews() {
-        return news;
-    }	
 
 }

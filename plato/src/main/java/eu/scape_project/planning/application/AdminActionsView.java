@@ -88,7 +88,7 @@ public class AdminActionsView implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
-
+    
     /**
      * Method responsible for exporting all plans in zipped format.
      */
@@ -249,8 +249,7 @@ public class AdminActionsView implements Serializable {
         if (!isAdminPasswordCorrect()) {
             return;
         }
-
-        messages.addNewsMessage(new NewsMessage(newsText, "Info", newsAuthor));
+        adminActions.addNotification(newsAuthor, newsText);
         newsText = "";
     }
 
@@ -263,7 +262,7 @@ public class AdminActionsView implements Serializable {
             return;
         }
 
-        messages.clearNews();
+//        messages.clearNews();
     }
 
     /**
@@ -404,7 +403,7 @@ public class AdminActionsView implements Serializable {
         }
         return true;
     }
-
+    
     public void reloadMinimee(){
         ToolRegistry.getInstance().reload();
     }
