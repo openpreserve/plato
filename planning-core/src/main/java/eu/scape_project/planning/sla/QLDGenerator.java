@@ -21,7 +21,7 @@ import eu.scape_project.planning.validation.ValidationError;
 
 public class QLDGenerator {
 
-    private final static String CONTEXT_MEASURE = "measure[@type='${MEASURE}' and (@subject != 'TargetObject')]";
+    private final static String CONTEXT_MEASURE = "measure[@type='${MEASURE}' and (@subject != 'SourceObject')]";
     private final static Namespace SCHEMATRON_NS = new Namespace("", "http://purl.oclc.org/dsdl/schematron");
 
     private Document doc;
