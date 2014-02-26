@@ -46,10 +46,10 @@
 								<!-- Ordinal --> <x:div id="singleOrdinal"
 									renderthis='#{leaf.scale.type == "ordinal" and leaf.single}'>
 									<!-- For ordinal scales, we use the dropdown -->
-									<h:selectOneMenu rendered="#{leaf.scale.restricted}"
+									<h:selectOneMenu rendered="#{leaf.scale.restricted}" disabled="#{readOnly}"
 										id="ordinalMenu"
 										value="#{leaf.valueMap[alter.name].list[0].value}"
-										converter="#{emptyStringToNullConverter}">
+										converter="#{emptyStringToNullConverter}" >
 										<f:selectItem itemValue="" />
 										<f:selectItems value="#{leaf.scale.list}" />
 										<a4j:ajax onbeforesubmit="changed()" event="change"
@@ -66,16 +66,18 @@
 									<p:inputTextArea id="valuecommentO" helpLink="true"
 										input="#{leaf.valueMap[alter.name].list[0].comment}"
 										touchable="#{leaf}" />
-								</x:div> <!-- Numerical --> <x:div id="singleNumeric"
+								</x:div> 
+								<!-- Numerical --> 
+								<x:div id="singleNumeric"
 									renderthis='#{leaf.single and not (leaf.scale.type == "ordinal")}'>
 									<div class="nonwrapped">
-										<p:inputNumber id="number" helpLink="true"
+										<p:inputNumber id="number" helpLink="false"
 											labelText="Evaluation value:"
 											input="#{leaf.valueMap[alter.name].list[0].value}"
 											maxlength="20" rendered="#{not leaf.scale.integer}"
 											touchable="#{leaf.valueMap[alter.name].list[0]}"
 											rerender="evalstatus" />
-										<p:inputInteger id="integer" helpLink="true"
+										<p:inputInteger id="integer" helpLink="false"
 											input="#{leaf.valueMap[alter.name].list[0].value}"
 											maxlength="20" rendered="#{leaf.scale.integer}"
 											touchable="#{leaf.valueMap[alter.name].list[0]}"
@@ -129,7 +131,8 @@
 										<!-- DON'T ADD COMMENTS INSIDE THE selectOneMenu, DOING SO BREAKS IT!!11 -->
 										<!-- For ordinal scales, we use the dropdown -->
 										<h:selectOneMenu
-											rendered="#{leaf.scale.type == 'ordinal' and leaf.scale.restricted}"
+											rendered="#{leaf.scale.type == 'ordinal' and leaf.scale.restricted}" 
+											disabled="#{readOnly}"
 											id="ordinalMenu"
 											value="#{leaf.valueMap[alter.name].list[status.index].value}"
 											converter="#{emptyStringToNullConverter}">

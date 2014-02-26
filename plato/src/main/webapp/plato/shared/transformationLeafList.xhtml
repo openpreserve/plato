@@ -9,9 +9,8 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-			<h:dataTable style="width:100%" value="#{leaves}" var="leaf">
+			<h:dataTable id="transformationLeafList" style="width:100%" value="#{leaves}" var="leaf">
 			    <h:column>
-			    
                 <h2>
                    <h:outputText value="#{leaf.parent.name} > #{leaf.name}" />
                 </h2>
@@ -28,22 +27,21 @@
                                columnClasses="margin-top-small margin-bottom-small margin-left-small margin-right-small">
                                <h:column>
                                   <f:facet name="header">
-                                     <h:outputText  value="Ordinal Value" />
+                                     Ordinal Value
                                   </f:facet>
-                                  <h:outputText
-                                     value="#{ordinalValue}" />
+                                  #{ordinalValue}
                                </h:column>
                                <h:column>
                                   <f:facet name="header">
-                                     <h:outputText value="Target Value" />
+                                     Target Value
                                   </f:facet>
-                                     <h:outputText  value="-> " />
+                                     -> 
                                      <h:inputText maxlength="20"
                                         id="targetval"
                                         value="#{leaf.transformer.mapping[ordinalValue].value}">
                                         <f:validator validatorId="TargetValueValidator"/>
                                         <f:converter converterId="NumberConverter" />
-                                        <a4j:ajax event="change" listener="#{leaf.transformer.touch}" onbeforesubmit="changed()" execute="@this"/>
+                                        <a4j:ajax event="change" listener="#{leaf.transformer.touch}" onbeforesubmit="changed()"/>
                                      </h:inputText>
                                      <h:outputText styleClass="requiredIndicator"
                                         rendered="#{not leaf.transformer.changed}"
@@ -56,9 +54,9 @@
                          </a4j:outputPanel>
                          
                          <!-- Numerical -->
-                         <a4j:outputPanel layout="block" rendered='#{leaf.scale.type != "ordinal"}'>
+                         <a4j:outputPanel layout="block" rendered="#{leaf.scale.type != 'ordinal'}">
                             <table style="width:100%">
-                               <tr>
+                            	<tr>
                                   <th  class="margin-top-small margin-bottom-small margin-left-big margin-right-big border nowrap">
                                      Threshold
                                   </th>
@@ -74,11 +72,8 @@
                                <p:threshold leaf="#{leaf}" threshold="#{leaf.transformer.threshold5}" textid="num5" index="5"/>                  
                             </table>
                             
-                            <h3>
-                               <h:outputText
-                                  value="Threshold stepping:" />
-                            </h3>
-                            <h:selectOneRadio style="width:450px;" value="#{leaf.transformer.mode}" required="true">
+                            <h3>Threshold stepping:</h3>
+                            <h:selectOneRadio style="width:450px;" value="#{leaf.transformer.mode}" required="true" disabled="#{readOnly}">
                                <f:selectItems value="#{leaf.transformer.mode.enumValues}" var="enumValue" itemLabel="#{enumValue.name}" />
                                <a4j:ajax event="change" listener="#{leaf.transformer.touch}" onbeforesubmit="changed()" execute="@this"/>
                             </h:selectOneRadio>
@@ -99,15 +94,13 @@
                             columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big">
                             <h:column>
                                <f:facet name="header">
-                                  <h:outputText
-                                     value="Results" />
+                                  Results
                                </f:facet>
-                               <h:outputText
-                                  value="#{alter.name}" />
+                               #{alter.name}
                             </h:column>
                                   <h:column rendered="#{leaf.single}">
                                      <f:facet name="header">
-                                        <h:outputText value="Single" />
+                                        Single
                                      </f:facet>
                                      <h:outputText value="#{leaf.valueMap[alter.name].list[0].value}">
                                         <f:convertNumber maxFractionDigits="2" />
@@ -117,13 +110,10 @@
 								  <!-- rendered is only possible inside the c:foreach at the column level.
 							           so iteration happens a bit too oft, but that's ok, nothing is rendered
 									   if it is a single leaf -->
-                                  <c:forEach items="#{samples}"
-                                     varStatus="status">
+                                  <c:forEach items="#{samples}" varStatus="status">
                                      <h:column rendered="#{not leaf.single}">
-                                        <f:facet
-                                           name="header">
-                                           <h:outputText
-                                              value="#{status.index + 1}" />
+                                        <f:facet name="header">                                           
+                                            #{status.index + 1}
                                         </f:facet>
                                         <h:outputText value="#{leaf.valueMap[alter.name].list[status.index].value}">
                                            <f:convertNumber maxFractionDigits="2" />
@@ -135,18 +125,16 @@
                    </tr>
                 </table>
                 
-                <c:if test="#{!leaf.single}">
-                   <h3>
-                      <h:outputText value="Aggregation mode: " />
-                   </h3>
+                <x:div renderthis="#{!leaf.single}">
+                   <h3>Aggregation mode:</h3>
                    <!-- Default value for the scale type is selected automatically by the model -->
-                   <h:selectOneRadio style="width:500px;" value="#{leaf.aggregationMode}" required="true">
+                   <h:selectOneRadio style="width:500px;" value="#{leaf.aggregationMode}" required="true" disabled="#{readOnly}">
                       <f:selectItems value="#{leaf.aggregationMode.enumValues}" var="enumValue" itemLabel="#{enumValue.name}" />
                       <a4j:ajax event="change" listener="#{leaf.touch}" onbeforesubmit="changed()" execute="@this"/>
                    </h:selectOneRadio>
-                </c:if>
+                </x:div>
                 
-                <div class="margin-top-small margin-bottom-small border-bottom big" />
+                <hr/>
                 
                 </h:column>
             </h:dataTable>

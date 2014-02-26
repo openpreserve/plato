@@ -34,6 +34,7 @@ import eu.scape_project.planning.model.transform.Transformer;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.Node;
 import eu.scape_project.planning.model.tree.TreeNode;
+import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.TransformMeasuredValues;
 import eu.scape_project.planning.plato.wfview.AbstractView;
@@ -60,11 +61,10 @@ public class TransformMeasuredValuesView extends AbstractView {
      */
     private List<Leaf> leaves;
 
-    /**
-     * Leaves which caused validation errors
-     */
-    private List<Leaf> errorLeaves;
 
+    @Inject
+    private TreeHelperBean treeHelper;
+    
     /**
      * Variable encapsulating the ObjectiveTree-Root in a list. This is
      * required, because <rich:treeModelRecursiveAdaptor> root variable requires
@@ -79,7 +79,6 @@ public class TransformMeasuredValuesView extends AbstractView {
         group = "menu.analyseResults";
 
         leaves = new ArrayList<Leaf>();
-        errorLeaves = new ArrayList<Leaf>();
         treeRoots = new ArrayList<TreeNode>();
     }
 
@@ -92,7 +91,8 @@ public class TransformMeasuredValuesView extends AbstractView {
 
         // reset leaf lists
         leaves.clear();
-        errorLeaves.clear();
+        
+        treeHelper.resetAllNodes();
 
         // This is not needed any more because this part is already done in the
         // previous step (Evaluate Experiments)
@@ -108,19 +108,18 @@ public class TransformMeasuredValuesView extends AbstractView {
      * under that selected node will be subsequently displayed to the user for
      * input reasons.
      * 
-     * @param treeNode
+     * @param node
      *            Clicked treeNode in the objective tree.
      */
-    public void selectTreeNode(Object treeNode) {
+    public void selectTreeNode(Object node) {
         leaves.clear();
-        errorLeaves.clear();
 
-        if (treeNode instanceof Node) {
-            log.debug("Setting all Leaves under Node: " + treeNode.toString());
-            leaves = ((Node) treeNode).getAllLeaves();
-        } else if (treeNode instanceof Leaf) {
-            log.debug("Setting Leaf: " + treeNode.toString());
-            leaves.add((Leaf) treeNode);
+        if (node instanceof Node) {
+            log.debug("Setting all Leaves under Node: " + node.toString());
+            leaves = ((Node) node).getAllLeaves();
+        } else if (node instanceof Leaf) {
+            log.debug("Setting Leaf: " + node.toString());
+            leaves.add((Leaf) node);
         }
 
         logTransformers();
@@ -132,7 +131,6 @@ public class TransformMeasuredValuesView extends AbstractView {
      */
     public void approve() {
         transformMeasuredValues.approve(leaves);
-        transformMeasuredValues.approve(errorLeaves);
         logTransformers();
         facesMessages.addInfo("confirmTransformationSettings", "Confirmed transformation settings");
     }
@@ -153,12 +151,12 @@ public class TransformMeasuredValuesView extends AbstractView {
         // editing
         if (!success) {
             leaves.clear();
-            errorLeaves.clear();
 
             for (ValidationError error : errors) {
                 if (error.getInvalidObject() instanceof Leaf) {
                     Leaf errorLeaf = (Leaf) error.getInvalidObject();
-                    errorLeaves.add(errorLeaf);
+                    leaves.add(errorLeaf);
+                    treeHelper.expandNode(errorLeaf);                    
                 }
             }
         }
@@ -184,9 +182,6 @@ public class TransformMeasuredValuesView extends AbstractView {
             log.debug("Couldn't get SessionID");
         }
         for (Leaf leaf : leaves) {
-            logTransformer(id, leaf.getName(), leaf.getTransformer());
-        }
-        for (Leaf leaf : errorLeaves) {
             logTransformer(id, leaf.getName(), leaf.getTransformer());
         }
     }
@@ -220,19 +215,15 @@ public class TransformMeasuredValuesView extends AbstractView {
         this.treeRoots = treeRoots;
     }
 
-    public List<Leaf> getErrorLeaves() {
-        return errorLeaves;
-    }
-
-    public void setErrorLeaves(List<Leaf> errorLeaves) {
-        this.errorLeaves = errorLeaves;
-    }
-
     public List<Leaf> getLeaves() {
         return leaves;
     }
 
     public void setLeaves(List<Leaf> leaves) {
         this.leaves = leaves;
+    }
+
+    public TreeHelperBean getTreeHelper() {
+        return treeHelper;
     }
 }

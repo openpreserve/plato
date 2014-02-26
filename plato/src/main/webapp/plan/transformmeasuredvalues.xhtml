@@ -11,7 +11,6 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
-
 	<ui:define name="content">
 		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div class="wfstepinfo">
@@ -40,9 +39,9 @@
 					<rich:treeModelRecursiveAdaptor id="model"
 						roots="#{transform.treeRoots}" nodes="#{node.children}"
 						leaf="#{node.leaf}">
-						<rich:treeNode>
+						<rich:treeNode highlightedClass="highlighted"
+							expanded="#{transform.treeHelper.expandedNodes[node]}">
 							<a4j:commandLink id="select" value="#{node.name}" render="editLeavesPanel"
-							    onclick="onPageSubmit()"
 								action="#{transform.selectTreeNode(node)}"
 								oncomplete="onPageUpdated()" />
 						</rich:treeNode>
@@ -57,13 +56,13 @@
 					touchable="#{transform.plan.transformation}" />
 			</fieldset>
 
-			<a4j:outputPanel layout="block" id="editLeavesPanel">
-				<fieldset class="size-full">
-					<legend class="fieldset-full-size-legend">Define the
-						transformation functions</legend>
+			<fieldset class="size-full">
+				<legend class="fieldset-full-size-legend">Define the
+					transformation functions</legend>
+				<a4j:outputPanel id="editLeavesPanel">
 
 					<h:outputText value="No leaves selected"
-						rendered="#{(empty transform.leaves) and (empty transform.errorLeaves)}" />
+						rendered="#{empty transform.leaves}" />
 
 					<ui:include src="/plato/shared/transformationLeafList.xhtml"
 						rendered="#{not empty transform.leaves}">
@@ -72,18 +71,12 @@
 							value="#{transform.plan.alternativesDefinition.consideredAlternatives}" />
 						<ui:param name="samples"
 							value="#{transform.plan.sampleRecordsDefinition.records}" />
-					</ui:include>
-					<ui:include src="/plato/shared/transformationLeafList.xhtml"
-						rendered="#{not empty transform.errorLeaves}">
-						<ui:param name="leaves" value="#{transform.errorLeaves}" />
-						<ui:param name="consideredAlternatives"
-							value="#{transform.plan.alternativesDefinition.consideredAlternatives}" />
-						<ui:param name="samples"
-							value="#{transform.plan.sampleRecordsDefinition.records}" />
+						<ui:param name="readOnly"
+							value="#{transform.plan.readOnly}" />
 					</ui:include>
 
-				</fieldset>
-			</a4j:outputPanel>
+				</a4j:outputPanel>
+			</fieldset>
 
 			<fieldset class="size-full">
 				<p>
