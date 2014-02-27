@@ -73,22 +73,6 @@ public class AdminActions implements Serializable {
     private MemoryTest memoryTest;
 
     /**
-     * Predefined hash coded passcode computed by SHA-1
-     */
-    private String adminPasscode = "responsibility";
-
-    /**
-     * Method responsible for checking if the given admin-password is correct.
-     * 
-     * @param password
-     *            Password to check for correctness.
-     * @return True if the password is correct, false otherwise.
-     */
-    public boolean isAdminPasswordCorrect(String password) {
-        return adminPasscode.equals(password);
-    }
-
-    /**
      * Exports all plans into a single xml file.
      * 
      * @return True if export was successful, false otherwise.
@@ -209,8 +193,8 @@ public class AdminActions implements Serializable {
                 if (newOwner != null) {
                     for (Plan p : plans) {
                         PlanProperties prop = p.getPlanProperties();
+                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription() + " - originally created by " + prop.getOwner());
                         prop.setOwner(newOwner);
-                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription());
                         prop.setDescription(prop.getDescription());
                         prop.touch();
                         PrepareChangesForPersist prep = new PrepareChangesForPersist(newOwner);
@@ -410,6 +394,35 @@ public class AdminActions implements Serializable {
             return 0;
         }
     }
+    
+    public boolean fixAlternativeNames(int pid) {
+        Plan p = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
+        log.debug("fixing alternative names of plan %i, %s",pid, p.getPlanProperties().getName());
+        
+        boolean fixed = false;
+        for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
+            String oldName = a.getName();
+            String name = oldName.trim();
+            if (!name.equals(oldName)) {
+                name = p.getAlternativesDefinition().createUniqueName(name);
+                try {
+                    log.debug("Renaming alternative %s to %s", oldName, name);
+                    p.renameAlternative(a, name);
+                    a.setDescription(a.getDescription() + "\\r\\nPLATO: renamed alternative from " +oldName+" to " + name);
+                    fixed = true;
+                } catch (PlanningException e) {
+                    log.error("Failed to rename alternative for plan " + pid, e);
+                    return false;
+                }
+            }
+        }            
+        if (fixed) {
+            em.persist(p.getAlternativesDefinition());
+            em.persist(p.getTree());
+        }
+        return true;
+    }
+    
 
     /**
      * Method responsible for storing plans in database.

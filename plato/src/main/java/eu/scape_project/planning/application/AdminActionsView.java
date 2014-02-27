@@ -42,8 +42,6 @@ public class AdminActionsView implements Serializable {
     @Inject
     private Logger log;
 
-    private String password;
-
     private Integer exportPlanRangeFromId;
 
     private Integer exportPlanRangeToId;
@@ -93,11 +91,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for exporting all plans in zipped format.
      */
     public void exportAllPlansToZip() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         boolean success = adminActions.exportAllPlansToZip();
 
         if (success) {
@@ -112,11 +105,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for exporting a range of plans in zipped format.
      */
     public void exportSomePlansToZip() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         boolean success = adminActions.exportSomePlansToZip(exportPlanRangeFromId, exportPlanRangeToId);
 
         if (success) {
@@ -128,11 +116,6 @@ public class AdminActionsView implements Serializable {
     }
 
     public void deleteAllPlans() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         if (adminActions.deleteAllPlans()) {
             facesMessages.addInfo("deleteAllPlans", "All plans deleted!");
         } else {
@@ -141,32 +124,17 @@ public class AdminActionsView implements Serializable {
     }
 
     public void cleanUpLoosePlanValues() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         int nrOfValuesRemoved = adminActions.cleanUpLoosePlanValues();
         log.info("Admin: Cleaned up " + nrOfValuesRemoved + " loose plan values");
         facesMessages.addInfo("cleanUpLoosePlanValues", "Cleaned up " + nrOfValuesRemoved + " loose plan values");
     }
 
     public void unlockAllPlans() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         adminActions.unlockAllPlans();
         facesMessages.addInfo("unlockAllPlans", "All plans are unlocked now.");
     }
 
     public void unlockPlan() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         if (planId == 0) {
             facesMessages.addError("planId", "Please provide a valid value");
             return;
@@ -182,11 +150,6 @@ public class AdminActionsView implements Serializable {
     }
 
     public void clonePlan() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         if (planId == 0) {
             facesMessages.addError("planId", "Please provide a valid value");
             return;
@@ -202,11 +165,6 @@ public class AdminActionsView implements Serializable {
     }
 
     public void deletePlan() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         if (planId == 0) {
             facesMessages.addError("planId", "Please provide a valid value");
             return;
@@ -217,6 +175,20 @@ public class AdminActionsView implements Serializable {
         } else {
             facesMessages.addError("deletePlan", "Failed to delete plan. See log file for details.");
         }
+    }
+    
+    public void fixAlternativeNames(){
+        if (planId == 0) {
+            facesMessages.addError("planId", "Please provide a valid value");
+            return;
+        }
+
+        if (adminActions.fixAlternativeNames(planId)) {
+            facesMessages.addInfo("fixAlt", "Alternative names fixed");
+        } else {
+            facesMessages.addError("fixAlt", "Failed to fix alternative names. See log file for details.");
+        }
+        
     }
 
     /**
@@ -233,11 +205,6 @@ public class AdminActionsView implements Serializable {
      * occured during Plato runtime.
      */
     public void clearErrors() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         messages.clearErrors();
     }
 
@@ -245,10 +212,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for adding a news entry.
      */
     public void addNews() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
         adminActions.addNotification(newsAuthor, newsText);
         newsText = "";
     }
@@ -257,11 +220,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for clearing all news messages.
      */
     public void clearNews() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
 //        messages.clearNews();
     }
 
@@ -269,11 +227,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for munching 500 MB of memory.
      */
     public void munch500MBofMemory() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         adminActions.munchMem(500);
         facesMessages.addInfo("memtestAdd", "Munched 500 MB of memory");
     }
@@ -282,11 +235,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for releasing memory.
      */
     public void releaseMemory() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         adminActions.releaseMem();
         facesMessages.addInfo("memtestRelease", "Released memory");
     }
@@ -295,11 +243,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for importing plans from a directory.
      */
     public void importPlansFromDirectory() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         if (xmlImportDirectory == null || xmlImportDirectory.length() == 0) {
             facesMessages.addError("importDir", "You have to enter a valid import directory.");
             return;
@@ -318,11 +261,6 @@ public class AdminActionsView implements Serializable {
      * Method responsible for importing plans via a given xml.
      */
     public void importFromXml() {
-        // stop if the user is not allowed to execute this action
-        if (!isAdminPasswordCorrect()) {
-            return;
-        }
-
         if (xmlStringToImport == null || xmlStringToImport.length() == 0) {
             facesMessages.addError("importXml", "You have to enter a valid xml.");
             return;
@@ -390,20 +328,6 @@ public class AdminActionsView implements Serializable {
         importFileData = event.getUploadedFile().getData();
     }
 
-    /**
-     * Method responsible for checking the given admin-password for correctness.
-     * 
-     * @return True if the password is correct, false otherwise.
-     */
-    private boolean isAdminPasswordCorrect() {
-        if (!adminActions.isAdminPasswordCorrect(password)) {
-            facesMessages.addError("This is not valid, no admin actions available.");
-            log.error("This is not valid, no admin actions available.");
-            return false;
-        }
-        return true;
-    }
-    
     public void reloadMinimee(){
         ToolRegistry.getInstance().reload();
     }
@@ -423,14 +347,6 @@ public class AdminActionsView implements Serializable {
 
     public void setExportPlanRangeToId(Integer exportPlanRangeToId) {
         this.exportPlanRangeToId = exportPlanRangeToId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Integer getPlanId() {

@@ -18,9 +18,6 @@
 		<h:form id="adminform">
 			<rich:messages globalOnly="false" ajaxRendered="true" />
 			<hr />
-            With great power comes great ...
-            <h:inputSecret value="#{admin.password}" id="passwordField" />
-			<hr />
 			<rich:tabPanel switchType="client">
 				<rich:tab header="Export">
 					<fieldset id="exportimport">
@@ -110,8 +107,6 @@
 							oncomplete="this.disabled=false;toggleLoadingOverlay();"
 							render="deleteAllPlans" />
 						<br />
-
-
 						<a4j:commandButton id="unlockAllPlans" value="Unlock all plans"
 							onclick="toggleLoadingOverlay();this.disabled=true;"
 							oncomplete="this.disabled=false;toggleLoadingOverlay();"
@@ -139,6 +134,14 @@
 							oncomplete="this.disabled=false;toggleLoadingOverlay();"
 							render="unlockPlan" />
 						<br />
+						<a4j:commandButton id="fixAlt"
+							value="Fix alternative names of plan"
+							action="#{admin.fixAlternativeNames()}"
+							onclick="toggleLoadingOverlay();this.disabled=true;"
+							oncomplete="this.disabled=false;toggleLoadingOverlay();"
+							render="fixAlt" />
+						<br />
+						
 						<a4j:commandButton id="clonePlan" action="#{admin.clonePlan()}"
 							value="Clone plan using id"
 							onclick="toggleLoadingOverlay();this.disabled=true;"
