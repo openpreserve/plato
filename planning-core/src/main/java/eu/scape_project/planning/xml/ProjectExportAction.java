@@ -417,7 +417,8 @@ public class ProjectExportAction implements Serializable {
             if (object.isDataExistent()) {
                 counter += object.getData().getSize();
                 File f = new File(aTempDir + object.getId() + ".xml");
-                DigitalObject dataFilledObject = digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
+                DigitalObject dataFilledObject = null;
+                dataFilledObject = digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
                 writeBinaryData(id, new ByteArrayInputStream(dataFilledObject.getData().getData()), f);
                 dataFilledObject = null;
             } else {

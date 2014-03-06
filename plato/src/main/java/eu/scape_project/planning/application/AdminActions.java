@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -190,21 +191,35 @@ public class AdminActions implements Serializable {
                 String tempFile= binarydataTempPath + "plan.xml";
                 projectExportAction.exportComplete(planPropertiesId, new FileOutputStream(tempFile), binarydataTempPath);
                 List<Plan> plans = projectImporter.importPlans(new FileInputStream(tempFile));
+                Notification notification = null;
                 if (newOwner != null) {
+                    User user = em.createQuery("Select u from User u where u.username = :username", User.class).
+                        setParameter("username", newOwner).getSingleResult();
+                        
                     for (Plan p : plans) {
                         PlanProperties prop = p.getPlanProperties();
-                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription() + " - originally created by " + prop.getOwner());
+                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription() + " (originally created by " + prop.getOwner() +")");
                         prop.setOwner(newOwner);
-                        prop.setDescription(prop.getDescription());
+                        // mark this plan as a playground copy
+                        prop.setPlayground(true);
                         prop.touch();
                         PrepareChangesForPersist prep = new PrepareChangesForPersist(newOwner);
                         prep.prepare(prop);
+                        
+                        String message = 
+                            "A copy has been created: <em>" + prop.getName() + " - " + prop.getDescription() + "</em>" +
+                            "<br/>It is marked as playground. If you want to use it for serious planning, please change this in Plan Settings.";
+                        notification = new Notification(UUID.randomUUID().toString(), new Date(), "PLATO", message, user);
                     }
                 }
                 // store project
                 storePlans(plans);
                 success = true;
                 log.debug("Plan '" + selectedPlan.getPlanProperties().getName() + "' successfully cloned.");
+                if (notification != null) {
+                    // and store notification as well
+                    em.persist(notification);
+                }
             } catch (Exception e) {
                 log.error("Could not clone project: '" + selectedPlan.getPlanProperties().getName() + "'.", e);
             } finally {
@@ -397,7 +412,7 @@ public class AdminActions implements Serializable {
     
     public boolean fixAlternativeNames(int pid) {
         Plan p = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
-        log.debug("fixing alternative names of plan %i, %s",pid, p.getPlanProperties().getName());
+        log.debug("fixing alternative names of plan {}, {}",pid, p.getPlanProperties().getName());
         
         boolean fixed = false;
         for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
@@ -406,9 +421,9 @@ public class AdminActions implements Serializable {
             if (!name.equals(oldName)) {
                 name = p.getAlternativesDefinition().createUniqueName(name);
                 try {
-                    log.debug("Renaming alternative %s to %s", oldName, name);
+                    log.debug("Renaming alternative {} to {}", oldName, name);
                     p.renameAlternative(a, name);
-                    a.setDescription(a.getDescription() + "\\r\\nPLATO: renamed alternative from " +oldName+" to " + name);
+                    a.setDescription(a.getDescription() + "\r\n(PLATO: Alternative name normalization: '" +oldName+"' to '" + name +"')");
                     fixed = true;
                 } catch (PlanningException e) {
                     log.error("Failed to rename alternative for plan " + pid, e);
@@ -447,9 +462,10 @@ public class AdminActions implements Serializable {
 
     public void addNotification(String source, String message) {
         Date now = new Date();
+        String uuid = UUID.randomUUID().toString();
         List<User> users = em.createQuery("select p from User p", User.class).getResultList();
         for (User u : users) {
-            Notification note = new Notification(now, source, message, u);
+            Notification note = new Notification(uuid, now, source, message, u);
             em.persist(note);
         }
         

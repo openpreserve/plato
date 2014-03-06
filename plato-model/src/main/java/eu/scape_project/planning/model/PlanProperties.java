@@ -115,6 +115,12 @@ public class PlanProperties implements Serializable, ITouchable {
 
     @Enumerated(EnumType.STRING)
     private PlanState state = PlanState.CREATED;
+    
+    /**
+     * Indicates that this plan is only for playing around.
+     * Note: This property is not exported/imported, as soon as it is stored externally, it is seen as important.  
+     */
+    private boolean playground = false;
 
     /**
      * Indicates whether the plan may be unlocked. As the plan is
@@ -286,5 +292,13 @@ public class PlanProperties implements Serializable, ITouchable {
 
     public void setMayEdit(boolean mayEdit) {
         this.mayEdit = mayEdit;
+    }
+
+    public boolean isPlayground() {
+        return playground;
+    }
+
+    public void setPlayground(boolean playground) {
+        this.playground = playground;
     }
 }

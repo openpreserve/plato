@@ -29,21 +29,34 @@
 	            Plan '#{planSettings.plan.planProperties.name}' is owned by: #{planSettings.plan.planProperties.owner}.
 	            
 	            <a4j:outputPanel rendered="#{planSettings.userAllowedToModify}" layout="block" id="modifySettings">
+					<hr/>	            
 	                Private:
 	                <h:selectBooleanCheckbox value="#{planSettings.plan.planProperties.privateProject}">
 	                   <a4j:ajax event="change" render="reportPublicCheckbox" listener="#{planSettings.resetPublishReportIfNecessary}"/>
 	                </h:selectBooleanCheckbox>
-	                <br/>
+					<hr/>
 	                Publish report: <h:selectBooleanCheckbox id="reportPublicCheckbox" value="#{planSettings.plan.planProperties.reportPublic}" disabled="#{planSettings.publishReportDisabled}"/>
+	                <p>
 	                <span style="font-size:8pt">
-	                    (This option requires the plan to be set to private. 
-	                    It makes your report publicly available to other Plato users while prohibiting them from loading and editing your plan.)
+	                    This option requires the plan to be set to private. 
+	                    It makes your report publicly available to other Plato users while prohibiting them from loading and editing your plan.
 	                </span>
-	                <br/><br/>
+	                </p>
+	                <hr/>
+	                This plan is used as playground only: <h:selectBooleanCheckbox id="planIsPlaygroundCheckbox" value="#{planSettings.plan.planProperties.playground}" />
+	                <p> 
+	                <span style="font-size:8pt">
+	                    Mark your plan as playground, if you use it <em>only</em> to try out new features, 
+	                    and <em>not</em> for your own planning scenario.
+	                    This helps maintenance of this test instance of Plato, as unimportant plans can be identified and marked for clean up more easily.
+	                </span>
+                    </p>
+	                <hr/>
+	                <a4j:commandButton id="saveButton" value="Save changes" action="#{planSettings.save}" render="facesMessages"/>
+	                <hr/>
 	                Permanently delete this plan:
 	                <h:commandButton value="Delete" action="#{planSettings.deletePlan}" 
 	                                 onclick="if (!confirm('Are you sure you want to delete this plan?')) return false;"/> <br/><br/>
-	                <a4j:commandButton id="saveButton" value="Save changes" action="#{planSettings.save}" render="facesMessages"/>
 	            </a4j:outputPanel>            
 	            <a4j:outputPanel rendered="#{!planSettings.userAllowedToModify}" layout="block" id="modifySettingsDisabled">
 	               Sorry, You are not the owner of this plan and thus not allowed to change it.
@@ -69,14 +82,5 @@
             </fieldset>
         </h:form>
         
-        <h:form id="authForm">
-            <fieldset class="size-full">
-                <legend class="fieldset-full-size-legend">Authentication</legend>
-                <p>Some actions need separated authentication. Enter your personal code here.</p>
-                <h:inputSecret value="#{planSettings.authPassword}" />
-                <a4j:commandButton action="#{planSettings.authenticate()}" value="Authenticate" render="facesMessages" />
-            </fieldset>
-        </h:form>        
-
     </ui:define>
 </ui:composition>

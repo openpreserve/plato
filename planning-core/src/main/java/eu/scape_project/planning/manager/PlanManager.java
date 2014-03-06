@@ -274,6 +274,7 @@ public class PlanManager implements Serializable {
 
             // Order by
             cq.orderBy(builder.asc(fromPP.get("id")));
+            //            cq.orderBy(builder.asc(fromPP.<ChangeLog> get("changeLog").get("created")));
         }
     }    
 
@@ -385,7 +386,6 @@ public class PlanManager implements Serializable {
         Plan plan = em.find(Plan.class, planId);
 
         this.initializePlan(plan);
-        log.info("Plan %i : %s loaded!",  plan.getPlanProperties().getId(), plan.getPlanProperties().getName() );
         return plan;
     }
 
@@ -421,7 +421,7 @@ public class PlanManager implements Serializable {
         if (result != null) {
             Plan plan = loadPlan((Integer) result);
             plan.setReadOnly(readOnly);
-            log.info("Plan %i : %s loaded.",  propertyId, plan.getPlanProperties().getName() );
+            log.info("Plan {} : {} loaded.",  propertyId, plan.getPlanProperties().getName() );
             return plan;
         } else {
             throw new PlanningException("An unexpected error has occured while loading the plan.");
@@ -596,7 +596,7 @@ public class PlanManager implements Serializable {
         if (plan.isReadOnly()) {
             throw new PlanningException("Plans opened in read only mode cannot be deleted!");
         }
-        log.info("Deleting plan " + plan.getPlanProperties().getName() + " with id " + plan.getId());
+        log.info("Deleting plan {} with pid {}", plan.getPlanProperties().getName(), plan.getPlanProperties().getId());
         List<DigitalObject> digitalObjects = plan.getDigitalObjects();
         try {
             em.remove(em.merge(plan));

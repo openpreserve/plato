@@ -487,9 +487,6 @@ public class Plan implements Serializable, ITouchable {
         for (Alternative a : getAlternativesDefinition().getAlternatives()) {
             for (DigitalObject r : a.getExperiment().getResults().values()) {
                 list.add(r);
-                if (r.getXcdlDescription() != null) {
-                    list.add(r.getXcdlDescription());
-                }
             }
         }
         if (getExecutablePlanDefinition().getT2flowExecutablePlan() != null) {
@@ -502,6 +499,13 @@ public class Plan implements Serializable, ITouchable {
             && getSampleRecordsDefinition().getCollectionProfile().getProfile() != null) {
             list.add(getSampleRecordsDefinition().getCollectionProfile().getProfile());
         }
+        List<DigitalObject> xcdlObjects = new ArrayList<DigitalObject>();
+        for (DigitalObject object : list) {
+            if (object.getXcdlDescription() != null) {
+                xcdlObjects.add(object.getXcdlDescription());
+            }
+        }
+        list.addAll(xcdlObjects);
         return list;
     }
 

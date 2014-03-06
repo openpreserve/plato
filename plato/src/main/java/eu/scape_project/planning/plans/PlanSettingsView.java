@@ -41,7 +41,6 @@ import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.manager.DigitalObjectManager;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.manager.StorageException;
-import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
@@ -96,10 +95,6 @@ public class PlanSettingsView implements Serializable {
     @Inject
     private ByteStreamManager byteStreamManager;
 
-    private String authPassword;
-    
-    private final static int pwCode = -3425080;
-
     /**
      * Method responsible for returning if the publish report feature should be
      * disabled or not.
@@ -133,15 +128,15 @@ public class PlanSettingsView implements Serializable {
      */
     public String deletePlan() {
         if (isUserAllowedToModifyPlanSettings(user, plan)) {
-            int planId = plan.getId();
+            int planId = plan.getPlanProperties().getId();
             try {
                 planManager.deletePlan(plan);
-                log.info("Plan with id " + planId + " successfully deleted.");
+                log.info("Plan with pid {} successfully deleted.", planId);
                 plan = null;
                 return viewWorkflowManager.endWorkflow();
             } catch (PlanningException e) {
                 facesMessages.addError("Failed to delete the plan.");
-                log.error("Failed to delete the plan with id " + planId, e);
+                log.error("Failed to delete the plan with pid " + planId, e);
                 return null;
             }
         } else {
@@ -221,27 +216,6 @@ public class PlanSettingsView implements Serializable {
         } catch (StorageException e) {
             log.error("Error at fetching report for plan with id " + plan.getId(), e);
             facesMessages.addError("Unable to fetch report");
-        }
-    }
-
-    /**
-     * Method responsible for activating action executions based on password
-     * authentication.
-     */
-    public void authenticate() {
-        if (authPassword.hashCode() == pwCode) {
-            int count = 0;
-            for (Alternative alt : plan.getAlternativesDefinition().getAlternatives()) {
-                if (alt.getAction() != null && alt.getAction().getActionIdentifier().toLowerCase().contains("minimee")) {
-                    alt.getAction().setExecute(true);
-                    count++;
-                }
-            }
-            log.debug("Activated execution of " + count + " actions in plan with id " + plan.getId());
-            facesMessages.addInfo("Activated action execution for plan");
-            save(plan, user);
-        } else {
-            facesMessages.addInfo("Wrong code");
         }
     }
 
@@ -346,13 +320,5 @@ public class PlanSettingsView implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getAuthPassword() {
-        return authPassword;
-    }
-
-    public void setAuthPassword(String authPassword) {
-        this.authPassword = authPassword;
     }
 }

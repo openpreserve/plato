@@ -6,12 +6,14 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * 
+ * Class for user centered notifications. 
+ *  
  * @author Michael Kraxner
  *
  */
@@ -21,12 +23,27 @@ public class Notification implements Serializable {
     
     @Id @GeneratedValue
     private long id;
-    
+
+    /**
+     * Identifies notifications which are sent to multiple users.
+     */
+    private String uuid;
+
+    /**
+     * The message sent to the user.
+     */
+    @Lob
     private String message;
     
+    /**
+     * Timestamp of message creation. 
+     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
     
+    /**
+     * Specifies the source of the information. 
+     */
     private String source;
     
     // regarding plan
@@ -39,7 +56,8 @@ public class Notification implements Serializable {
     public Notification() {
     }
     
-    public Notification(final Date timestamp, final String source, final String message, final User recipient) {
+    public Notification(final String uuid, final Date timestamp, final String source, final String message, final User recipient) {
+        this.uuid = uuid;
         this.timestamp = timestamp;
         this.source = source;
         this.message = message;
@@ -85,6 +103,14 @@ public class Notification implements Serializable {
 
     public void setSource(String sender) {
         this.source = sender;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(final String uuid) {
+        this.uuid = uuid;
     }
 
 }

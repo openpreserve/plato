@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.PlanManager;
 import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.FacesMessages;
 
 /**
@@ -66,6 +67,9 @@ public class ViewWorkflowManager implements Serializable {
 
     @Inject
     private FacesMessages facesMessages;
+    
+    @Inject
+    private User user;
 
     /**
      * Method responsible for starting a viewWorkflow for a given plan.
@@ -100,7 +104,7 @@ public class ViewWorkflowManager implements Serializable {
         this.plan = plan;
 
         startConversation();
-        log.info("Started viewWorkflow conversation with id " + conversation.getId());
+        log.info("User {} started viewWorkflow conversation with id {}", user.getUsername(), conversation.getId());
 
         // construct and initialize viewWorkflow-steps
         List<AbstractView> workflowSteps = viewWorkflowFactory.constructWorkflowSteps(plan);

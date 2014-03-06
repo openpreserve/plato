@@ -102,7 +102,7 @@
 								<p:user size="22" />
 							</h:panelGroup>
 						</f:facet>
-						<rich:menuItem>
+						<rich:menuItem rendered="#{user.admin}">
 							<h:link rendered="#{user.admin}" value="Admin utils" outcome="/adminutils.jsf">
 							</h:link>
 						</rich:menuItem>

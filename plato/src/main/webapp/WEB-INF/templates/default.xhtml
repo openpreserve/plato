@@ -6,6 +6,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:rich="http://richfaces.org/rich">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -126,6 +127,18 @@
 		</div>
 
 		<div id="content">
+			<h:form id="notificationForm">
+				<a4j:outputPanel id="notifications" layout="block">
+				<ui:repeat var="note" value="#{notifications.notifications}">
+					<div class="alert-box #{note.source == 'Scout'?'scout':'info'}">
+					<h:outputText value="#{note.message}" escape="false"  />
+					<h:outputText value="#{note.timestamp}"><f:convertDateTime pattern=" [#{note.source} dd.MM.yyyy HH:mm]" /></h:outputText> 
+					 
+					<a4j:commandLink styleClass="close" action="#{notifications.acceptNotification(note)}" render="notifications" value="x"/>
+					</div>
+				</ui:repeat>
+			    </a4j:outputPanel>		
+			</h:form>
 			<a4j:outputPanel id="messages-panel" ajaxRendered="true">
 				<h:messages id="messages" globalOnly="true" showDetail="true"
 					errorClass="error" warnClass="warning" infoClass="info" />
