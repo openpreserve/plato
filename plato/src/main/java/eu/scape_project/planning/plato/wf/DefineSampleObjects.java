@@ -318,6 +318,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         for (SampleObject sample : samples) {
             String uid = sample.getFullname();
 
+            boolean loadedData = false;
             if (Helper.isLocalIdentifier(uid)) {
                 log.info("Sample object is from local filesystem {}", uid);
                 try {
@@ -327,12 +328,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
 
                     digitalObjectManager.moveDataToStorage(sample);
                     addedBytestreams.add(sample.getPid());
-
-                    plan.getSampleRecordsDefinition().addRecord(sample);
-
-                    if (shouldCharacterise(sample)) {
-                        characteriseFits(sample, false);
-                    }
+                    loadedData = true;
                 } catch (FileNotFoundException e) {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
                 } catch (MalformedURLException e) {
@@ -349,16 +345,21 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
                     log.info("Moving to storage: sample {}", sample.getFullname());
                     digitalObjectManager.moveDataToStorage(sample);
                     addedBytestreams.add(sample.getPid());
-
-                    plan.getSampleRecordsDefinition().addRecord(sample);
-
-                    if (shouldCharacterise(sample)) {
-                        log.info("Characterising  sample {}", sample.getFullname());
-                        characteriseFits(sample, false);
-                    }
+                    loadedData = true;
                 } catch (RepositoryConnectorException e) {
                     log.error("An error occurred while downloading sample {}", sample.getFullname(), e);
                 }
+            }
+            // the sample should be added even if no data can be recieved!
+            if (!loadedData) {
+                // but he have to mark that there is no data
+                sample.setSizeInBytes(0);
+            }
+            plan.getSampleRecordsDefinition().addRecord(sample);
+            
+            if (shouldCharacterise(sample)) {
+                log.info("Characterising  sample {}", sample.getFullname());
+                characteriseFits(sample, false);
             }
         }
 
@@ -375,6 +376,9 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
      *         to do that
      */
     private boolean shouldCharacterise(SampleObject sample) {
+        if (!sample.isDataExistent()) {
+            return false;
+        }
         String fullName = sample.getFullname();
         if (fullName.toUpperCase().endsWith(".CR2") || fullName.toUpperCase().endsWith(".NEF")
             || fullName.toUpperCase().endsWith(".CRW")) {
