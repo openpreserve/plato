@@ -346,6 +346,7 @@ public class MyExperimentRESTClient {
                 String rightWildcard = getMimetypeWildcard(rightMimetype);
                 addHandlesMimetypes(leftMimetype, rightWildcard);
                 addHandlesMimetypes(leftWildcard, rightMimetype);
+                addHandlesMimetypes(leftWildcard, rightWildcard);
             }
             return this;
         }
