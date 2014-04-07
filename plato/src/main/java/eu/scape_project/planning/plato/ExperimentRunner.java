@@ -40,6 +40,9 @@ import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 import eu.scape_project.planning.plato.bean.ExperimentStatus;
 import eu.scape_project.planning.services.pa.PreservationActionServiceFactory;
 
+/**
+ * Experiment runner to asynchronously execute experiments.
+ */
 @Stateful
 public class ExperimentRunner implements Serializable {
 
@@ -55,7 +58,12 @@ public class ExperimentRunner implements Serializable {
     private ExperimentStatus experimentStatus;
 
     /**
-     * runs all experiments scheduled in experimentStatus
+     * Runs all experiments scheduled in experimentStatus.
+     * 
+     * @param plan
+     *            the plan of the experiments
+     * @param experimentStatus
+     *            the experiment status to run
      */
     @Asynchronous
     public void startExperiments(Plan plan, ExperimentStatus experimentStatus) {
@@ -70,6 +78,12 @@ public class ExperimentRunner implements Serializable {
         System.gc();
     }
 
+    /**
+     * Runs experiments for the provided alternative.
+     * 
+     * @param a
+     *            the alternative to run
+     */
     private void runSingle(Alternative a) {
         if (!a.isExecutable()) {
             // this alternative has to be evaluated manually, nothing to do here
@@ -80,11 +94,10 @@ public class ExperimentRunner implements Serializable {
         // if the action is null the service isn't accessible (anymore)
         // we have to set an error message for each sample record
         if (action == null) {
-            String msg =
-                String
-                    .format(
-                        "Preservation action %s - %s is not registered or accessible and cant be executed. (Please check the registry.)",
-                        a.getAction().getShortname(), a.getAction().getInfo());
+            String msg = String
+                .format(
+                    "Preservation action %s - %s is not registered or accessible and cant be executed. (Please check the registry.)",
+                    a.getAction().getShortname(), a.getAction().getInfo());
 
             setProgramOutputForAlternative(a, msg, false);
         }
@@ -139,10 +152,13 @@ public class ExperimentRunner implements Serializable {
 
                                 experimentResultObject = a.getExperiment().getResults().get(record);
                                 experimentResultObject.setContentType(migrationResultObject.getContentType());
+                                experimentResultObject.setData(migrationResultObject.getData());
+                                experimentResultObject.setFitsXMLString(migrationResultObject.getFitsXMLString());
                                 experimentResultObject.getFormatInfo().assignValues(
                                     migrationResultObject.getFormatInfo());
-                                experimentResultObject.setData(migrationResultObject.getData());
                                 experimentResultObject.setFullname(migrationResultObject.getFullname());
+                                experimentResultObject.setJhoveXMLString(migrationResultObject.getJhoveXMLString());
+                                experimentResultObject.setXcdlDescription(migrationResultObject.getXcdlDescription());
 
                                 digitalObjectManager.moveDataToStorage(experimentResultObject);
                                 // addedBytestreams.add(experimentResultObject.getPid());
@@ -172,9 +188,15 @@ public class ExperimentRunner implements Serializable {
     }
 
     /**
-     * for the given alternative the program output of all experiment infos is
-     * set to <param>msg</param>.
+     * For the given alternative the program output of all experiment infos is
+     * set to {@code msg}.
      * 
+     * @param a
+     *            the alternative to update
+     * @param msg
+     *            the message to set
+     * @param successful
+     *            successful flag to set
      */
     private void setProgramOutputForAlternative(Alternative a, String msg, boolean successful) {
         List<SampleObject> sampleObjects = plan.getSampleRecordsDefinition().getRecords();
@@ -192,9 +214,16 @@ public class ExperimentRunner implements Serializable {
     }
 
     /**
-     * stores {@link MigrationResult migration results} for the given sample
+     * Stores {@link MigrationResult migration results} for the given sample
      * object in {@link DetailedExperimentInfo experiment info} of experiment
-     * <param>e</param>.
+     * {@code e}.
+     * 
+     * @param e
+     *            the experiment
+     * @param sample
+     *            sample object
+     * @param migrationResult
+     *            migration result to store
      */
     private void extractDetailedInfos(Experiment e, SampleObject sample, MigrationResult migrationResult) {
         DetailedExperimentInfo info = e.getDetailedInfo().get(sample);
@@ -209,7 +238,7 @@ public class ExperimentRunner implements Serializable {
             // nothing to add
             return;
         }
-        // write info of migration result to experiment's detailedInfo
+        // Write info of migration result to experiment's detailedInfo
         info.getMeasurements().putAll(migrationResult.getMeasurements());
         info.setSuccessful(migrationResult.isSuccessful());
 
@@ -219,19 +248,16 @@ public class ExperimentRunner implements Serializable {
             info.setProgramOutput(migrationResult.getReport());
         }
 
-        // if the executing programme claims to have migrated the object, but
-        // the result file has size 0 than something must have
-        // gone wrong. so we set the migration result to 'false' and add some
-        // text to the program output.
-        long sizeMigratedObject =
-            (migrationResult.getMigratedObject() == null) ? 0 : migrationResult.getMigratedObject().getData().getSize();
-
+        // If the executing program claims to have migrated the object, but the
+        // result file has size 0 than something must have gone wrong. so we set
+        // the migration result to 'false' and add some text to the program
+        // output.
+        long sizeMigratedObject = (migrationResult.getMigratedObject() == null) ? 0 : migrationResult
+            .getMigratedObject().getData().getSize();
         if (migrationResult.isSuccessful() && sizeMigratedObject == 0) {
             info.setSuccessful(false);
             String programOutput = info.getProgramOutput();
-
             programOutput += "\nSomething went wrong during migration. No result file has been generated.";
-
             info.setProgramOutput(programOutput);
         }
     }

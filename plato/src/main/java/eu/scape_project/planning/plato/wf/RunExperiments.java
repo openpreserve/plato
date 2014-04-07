@@ -55,11 +55,15 @@ public class RunExperiments extends AbstractWorkflowStep {
 
     private ExperimentStatus experimentStatus = new ExperimentStatus();
 
+    /**
+     * Creates a new run experiments step.
+     */
     public RunExperiments() {
         requiredPlanState = PlanState.EXPERIMENT_DEFINED;
         correspondingPlanState = PlanState.EXPERIMENT_PERFORMED;
     }
 
+    @Override
     public void init(Plan p) {
         super.init(p);
 
@@ -82,9 +86,11 @@ public class RunExperiments extends AbstractWorkflowStep {
     }
 
     /**
-     * Sets up the experiment for a single alternative
+     * Sets up the experiment for a single alternative.
      * 
      * @param alternative
+     *            the alternative to set up
+     * @return the current experiment status
      */
     public ExperimentStatus setupExperiment(Alternative alternative) {
         experimentStatus.experimentSetup(Arrays.asList(alternative), plan.getSampleRecordsDefinition().getRecords());
@@ -92,7 +98,9 @@ public class RunExperiments extends AbstractWorkflowStep {
     }
 
     /**
-     * Sets up the experiment for all selected, runnable alternatives
+     * Sets up the experiment for all selected, runnable alternatives.
+     * 
+     * @return the current experiment status
      */
     public ExperimentStatus setupAllExperiments() {
         List<Alternative> runnableAlternatives = getRunnableAlternatives();
@@ -100,6 +108,11 @@ public class RunExperiments extends AbstractWorkflowStep {
         return experimentStatus;
     }
 
+    /**
+     * Returns all runnable alternatives.
+     * 
+     * @return the runnable alternatives
+     */
     private List<Alternative> getRunnableAlternatives() {
         List<Alternative> runnableAlternatives = new ArrayList<Alternative>();
         for (Alternative a : plan.getAlternativesDefinition().getAlternatives()) {
@@ -155,15 +168,18 @@ public class RunExperiments extends AbstractWorkflowStep {
         alternative.getExperiment().getResults().put(sampleObject, new DigitalObject());
     }
 
+    /**
+     * Characterises results for all alternatives.
+     */
     public void characteriseResults() {
         List<Alternative> runnableAlternatives = getRunnableAlternatives();
         List<SampleObject> allRecords = plan.getSampleRecordsDefinition().getRecords();
         for (Alternative alternative : runnableAlternatives) {
             Experiment exp = alternative.getExperiment();
-
+            
             for (SampleObject record : allRecords) {
                 DigitalObject u = exp.getResults().get(record);
-
+                
                 if (u.isDataExistent() && (u.getFitsXMLString() == null)) {
                     characteriseFits(u);
                 }
