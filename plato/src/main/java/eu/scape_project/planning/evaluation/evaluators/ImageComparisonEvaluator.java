@@ -26,10 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.tuwien.minimee.migration.evaluators.ImageCompareEvaluator;
 import eu.scape_project.planning.evaluation.EvaluatorException;
 import eu.scape_project.planning.evaluation.IObjectEvaluator;
 import eu.scape_project.planning.evaluation.IStatusListener;
@@ -38,7 +39,6 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.measurement.MeasureConstants;
 import eu.scape_project.planning.model.scales.BooleanScale;
-import eu.scape_project.planning.model.scales.FloatScale;
 import eu.scape_project.planning.model.scales.PositiveFloatScale;
 import eu.scape_project.planning.model.scales.Scale;
 import eu.scape_project.planning.model.values.BooleanValue;
@@ -47,23 +47,19 @@ import eu.scape_project.planning.model.values.PositiveFloatValue;
 import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.utils.OS;
 
+/**
+ * Object evaluator for image comparison.
+ */
 public class ImageComparisonEvaluator implements IObjectEvaluator {
-    // private static final String NAME = "imagecompare (imagemagick)";
-    // private static final String SOURCE = " - evaluated by " + NAME;
     private static Logger log = LoggerFactory.getLogger(ImageComparisonEvaluator.class);
 
     private File tempDir = null;
     private Map<DigitalObject, String> tempFiles = new HashMap<DigitalObject, String>();
 
-    public ImageComparisonEvaluator() {
-    }
-
+    @Override
     public HashMap<String, Value> evaluate(Alternative alternative, SampleObject sample, DigitalObject result,
         List<String> measureUris, IStatusListener listener) throws EvaluatorException {
 
-        // listener.updateStatus(NAME + ": Start evaluation");
-        // //" for alternative: %s, sample: %s", NAME, alternative.getName(),
-        // sample.getFullname()));
         setUp();
         try {
             HashMap<String, Value> results = new HashMap<String, Value>();
@@ -71,9 +67,8 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
             saveTempFile(sample);
             saveTempFile(result);
 
-            // NOTE: imageEvaluator is still called once per criterion !
-            // -> could be optimized, but the used minimee evaluator will do
-            // separate calls anyway
+            // NOTE: imageEvaluator is called once per criterion as the used
+            // minimee evaluator will do separate calls anyway
             ImageCompareEvaluator imageEvaluator = new ImageCompareEvaluator();
 
             for (String measureUri : measureUris) {
@@ -99,35 +94,24 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                     scale = new PositiveFloatScale();
                 } else if (MeasureConstants.IMAGE_DISTANCE_RMSE.equals(measureUri)) {
                     mode = "rmse";
-                } else if (MeasureConstants.IMAGE_DISTANCE_SSIM.equals(measureUri)) {
-                    mode = "ssimSimple";
-                    scale = new FloatScale();
+                    scale = new PositiveFloatScale();
                 }
 
                 if (mode != null) {
-                    Value v = null;
                     if (mode.equals("equal")) {
                         Double d = imageEvaluator.evaluate(tempDir.getAbsolutePath(), tempFiles.get(sample),
                             tempFiles.get(result), "AE");
-
-                        if (d.compareTo(Scale.MAX_VALUE) == 0) {
-                            // No: only evaluation results are returned, no
-                            // error messages
-                            // v.setComment("ImageMagick compare failed or could not be called");
-                        } else {
-                            v = scale.createValue();
+                        if (d != null && d.compareTo(Scale.MAX_VALUE) != 0) {
+                            Value v = scale.createValue();
                             ((BooleanValue) v).bool(d.compareTo(0.0) == 0);
                             v.setComment("ImageMagick compare returned " + Double.toString(d) + " different pixels");
+                            results.put(measureUri, v);
                         }
                     } else {
                         Double d = imageEvaluator.evaluate(tempDir.getAbsolutePath(), tempFiles.get(sample),
                             tempFiles.get(result), mode);
-                        if (d == null) {
-                            // No: only evaluation results are returned, no
-                            // error messages
-                            // v.setComment("ImageMagick comparison failed");
-                        } else {
-                            v = scale.createValue();
+                        if (d != null && d.compareTo(Scale.MAX_VALUE) != 0) {
+                            Value v = scale.createValue();
                             if (v instanceof FloatValue) {
                                 ((FloatValue) v).setValue(d);
                                 v.setComment("computed by ImageMagick compare");
@@ -137,11 +121,8 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
                             } else {
                                 v.setComment("ImageMagick comparison failed - wrong Scale defined.");
                             }
+                            results.put(measureUri, v);
                         }
-                    }
-                    if (v != null) {
-                        // add the value to the result set
-                        results.put(measureUri, v);
                     }
                 }
             }
@@ -151,19 +132,11 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
         }
     }
 
-    protected void doClearEm() {
-        OS.deleteDirectory(tempDir);
-        tempFiles.clear();
-    }
-
     /**
+     * Writes the provided digital object to the temporary directoy.
      * 
-     * @param migratedObject
-     *            the object that shall be used as KEY for storing the result
-     *            bytestream
-     * @param resultObject
-     *            the object that contains the actual bytestream to be stored
-     * @return the size of the bytestream
+     * @param object
+     *            the object to write
      */
     private void saveTempFile(DigitalObject object) {
         String tempFileName = tempDir.getAbsolutePath() + "/" + System.nanoTime();
@@ -186,6 +159,9 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
         }
     }
 
+    /**
+     * Set up environment for image comparison.
+     */
     private void setUp() {
         if (tempDir != null) {
             tearDown();
@@ -198,6 +174,9 @@ public class ImageComparisonEvaluator implements IObjectEvaluator {
 
     }
 
+    /**
+     * Tear down environment for image comparison.
+     */
     private void tearDown() {
         if (tempDir != null) {
             OS.deleteDirectory(tempDir);
