@@ -471,4 +471,13 @@ public class AdminActions implements Serializable {
         
     }
     
+    public void removeNotification(String uuid) {
+        int numRemoved = em.createQuery("delete from Notification where uuid = :uuid").setParameter("uuid", uuid).executeUpdate();
+        log.debug("Removed {} notifications with uuid = {}", numRemoved, uuid);
+    }
+    
+    public List<Notification> getNotifications() {
+        return em.createQuery("select n from Notification n group by n.uuid order by n.timestamp", Notification.class).getResultList();
+    }
+    
 }

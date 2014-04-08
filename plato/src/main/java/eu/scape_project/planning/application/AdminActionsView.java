@@ -17,7 +17,10 @@
 package eu.scape_project.planning.application;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +30,7 @@ import org.richfaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 
 import at.tuwien.minimee.registry.ToolRegistry;
+import eu.scape_project.planning.model.Notification;
 import eu.scape_project.planning.utils.FacesMessages;
 
 /**
@@ -51,7 +55,7 @@ public class AdminActionsView implements Serializable {
     /**
      * Author of the news to add.
      */
-    private String newsAuthor;
+    private String recipient;
 
     /**
      * Text of the news to add.
@@ -87,6 +91,13 @@ public class AdminActionsView implements Serializable {
     @Inject
     private FacesMessages facesMessages;
     
+    private List<Notification> notifications = new ArrayList<Notification>();
+    
+    @PostConstruct
+    public void init() {
+        refreshNotifications();
+    }
+    
     /**
      * Method responsible for exporting all plans in zipped format.
      */
@@ -97,7 +108,7 @@ public class AdminActionsView implements Serializable {
             facesMessages.addInfo("exportAllPlansToZip",
                 "Exported successful to directory: " + adminActions.getLastProjectExportPath());
         } else {
-            facesMessages.addError("exportAllPlansToZip", "Export failed");
+            facesMessages.addError("expornotificationstAllPlansToZip", "Export failed");
         }
     }
 
@@ -181,7 +192,9 @@ public class AdminActionsView implements Serializable {
         if (planId == 0) {
             facesMessages.addError("planId", "Please provide a valid value");
             return;
-        }
+        }        notifications.clear();
+        notifications.addAll(adminActions.getNotifications());
+
 
         if (adminActions.fixAlternativeNames(planId)) {
             facesMessages.addInfo("fixAlt", "Alternative names fixed");
@@ -207,20 +220,27 @@ public class AdminActionsView implements Serializable {
     public void clearErrors() {
         messages.clearErrors();
     }
+    
+    public void refreshNotifications(){
+        notifications.clear();
+        notifications.addAll(adminActions.getNotifications());
+    }
 
     /**
      * Method responsible for adding a news entry.
      */
-    public void addNews() {
-        adminActions.addNotification(newsAuthor, newsText);
+    public void addNotification() {
+        adminActions.addNotification(recipient, newsText);
+        refreshNotifications();
         newsText = "";
     }
 
     /**
      * Method responsible for clearing all news messages.
      */
-    public void clearNews() {
-//        messages.clearNews();
+    public void removeNotification(String uuid) {
+        adminActions.removeNotification(uuid);
+        refreshNotifications();        
     }
 
     /**
@@ -357,12 +377,12 @@ public class AdminActionsView implements Serializable {
         this.planId = planId;
     }
 
-    public String getNewsAuthor() {
-        return newsAuthor;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setNewsAuthor(String newsAuthor) {
-        this.newsAuthor = newsAuthor;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getNewsText() {
@@ -403,5 +423,9 @@ public class AdminActionsView implements Serializable {
 
     public void setImportFileData(byte[] importFileData) {
         this.importFileData = importFileData;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
     }
 }

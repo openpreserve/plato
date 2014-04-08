@@ -19,6 +19,136 @@
 			<rich:messages globalOnly="false" ajaxRendered="true" />
 			<hr />
 			<rich:tabPanel switchType="client">
+				<rich:tab header="Messages">
+					<fieldset id="notifications">
+						<legend>Notifications</legend>
+		
+						<h:outputLabel for="recipient" value="Recipient (leave blank to notify all users)" />
+						<h:inputText id="recipient" value="#{admin.recipient}" />
+						
+						<br />
+						<h:outputLabel for="notification" value="Notification" />
+						<h:inputTextarea id="notification" value="#{admin.newsText}"
+							styleClass="p-input-textarea"/>
+						<a4j:commandButton value="Add notification" action="#{admin.addNotification}"
+							render="notificationTable, source, notification, notifications" />
+						<br />
+		
+						<a4j:commandButton value="Refresh"
+							action="#{admin.refreshNotifications()}" render="notificationTable, notifications" />
+		
+						<a4j:outputPanel layout="block" id="notificationTable">
+							<h:dataTable value="#{admin.notifications}" var="notification"
+								headerClasses="tableStyle-header"
+								rowClasses="tableStyle-row" styleClass="size-full"
+								rendered="#{!empty admin.notifications}">
+								<h:column>
+									<f:facet name="header">
+										Timestamp
+									</f:facet>
+									#{notification.timestamp}
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										Source
+									</f:facet>
+									#{notification.source}
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										Message
+									</f:facet>
+									#{notification.message}
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										Delete
+									</f:facet>
+									<h:commandLink value="Delete" action="#{admin.removeNotification(notification.uuid)}" render="notificationTable, notifications" />
+								</h:column>
+							</h:dataTable>
+						</a4j:outputPanel>
+					</fieldset>		
+									
+					<fieldset id="errors">
+						<legend>Error Messages</legend>
+		
+						<a4j:commandButton value="Clear list"
+							action="#{admin.clearErrors}" render="errorTable" />
+		
+						<a4j:outputPanel layout="block" id="errorTable">
+							<h:dataTable value="#{allMessages.errors}" var="error"
+								columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xxl, margin-top-small margin-bottom-small margin-left-big margin-right-big border, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-l, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs"
+								headerClass="margin-left-big margin-right-big border nowrap"
+								rowClasses="border" styleClass="size-max"
+								rendered="#{!empty allMessages.errors}">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Type" />
+									</f:facet>
+									<h:outputText value="#{error.type}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Message" />
+									</f:facet>
+									<h:outputText value="#{error.message}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Timestamp" />
+									</f:facet>
+									<h:outputText value="#{error.timestamp}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Session ID" />
+									</f:facet>
+									<h:outputText value="#{error.sessionID}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="User" />
+									</f:facet>
+									<h:outputText value="#{error.user}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Browser" />
+									</f:facet>
+									<h:outputText value="#{error.userAgent}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Site" />
+									</f:facet>
+									<h:outputText value="#{error.site}" />
+								</h:column>
+								<ui:remove>
+									<!--
+			                        <h:column>
+			                            <f:facet name="header">
+			                                <h:outputText value="Step" />
+			                            </f:facet>
+			                            <h:outputText value="#{error.step}" />
+			                        </h:column>
+						            <h:column>
+						                <f:facet name="header">
+						                    <h:outputText value="PlanId" />
+						                </f:facet>
+						                <h:outputText value="#{error.projectId}" />
+						            </h:column>
+						            <h:column>
+						                <f:facet name="header">
+						                    <h:outputText value="PlanName" />
+						                </f:facet>
+						                <h:outputText value="#{error.projectName}" />
+						            </h:column> -->
+								</ui:remove>
+							</h:dataTable>
+						</a4j:outputPanel>
+					</fieldset>
+				</rich:tab>				
 				<rich:tab header="Export">
 					<fieldset id="exportimport">
 						<legend> export </legend>
@@ -210,136 +340,14 @@
 					</fieldset>
 
 				</rich:tab>
+			
 			</rich:tabPanel>
 
 
 
 			<br />
 
-			<fieldset id="errors">
-				<legend>Error Messages</legend>
 
-				<a4j:commandButton value="Clear Error Message List"
-					action="#{admin.clearErrors}" render="errorTable" />
-
-				<a4j:outputPanel layout="block" id="errorTable">
-					<h:dataTable value="#{allMessages.errors}" var="error"
-						columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xxl, margin-top-small margin-bottom-small margin-left-big margin-right-big border, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-l, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs"
-						headerClass="margin-left-big margin-right-big border nowrap"
-						rowClasses="border" styleClass="size-max"
-						rendered="#{!empty allMessages.errors}">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Type" />
-							</f:facet>
-							<h:outputText value="#{error.type}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Message" />
-							</f:facet>
-							<h:outputText value="#{error.message}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Timestamp" />
-							</f:facet>
-							<h:outputText value="#{error.timestamp}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Session ID" />
-							</f:facet>
-							<h:outputText value="#{error.sessionID}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="User" />
-							</f:facet>
-							<h:outputText value="#{error.user}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Browser" />
-							</f:facet>
-							<h:outputText value="#{error.userAgent}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Site" />
-							</f:facet>
-							<h:outputText value="#{error.site}" />
-						</h:column>
-						<ui:remove>
-							<!--
-	                        <h:column>
-	                            <f:facet name="header">
-	                                <h:outputText value="Step" />
-	                            </f:facet>
-	                            <h:outputText value="#{error.step}" />
-	                        </h:column>
-				            <h:column>
-				                <f:facet name="header">
-				                    <h:outputText value="PlanId" />
-				                </f:facet>
-				                <h:outputText value="#{error.projectId}" />
-				            </h:column>
-				            <h:column>
-				                <f:facet name="header">
-				                    <h:outputText value="PlanName" />
-				                </f:facet>
-				                <h:outputText value="#{error.projectName}" />
-				            </h:column> -->
-						</ui:remove>
-					</h:dataTable>
-				</a4j:outputPanel>
-			</fieldset>
-
-			<fieldset id="news">
-				<legend>News</legend>
-
-				<h:outputLabel for="newsAuthor" value="Author" />
-				<h:inputText id="newsAuthor" value="#{admin.newsAuthor}" />
-				<br />
-				<h:outputLabel for="newsText" value="News" />
-				<h:inputTextarea id="newsText" value="#{admin.newsText}"
-					class="size-max" />
-				<a4j:commandButton value="Add News" action="#{admin.addNews}"
-					render="newsTable, newsAuthor, newsText" />
-				<br />
-
-<ui:remove>
-				<a4j:commandButton value="Clear News List"
-					action="#{admin.clearNews}" render="newsTable" />
-
-				<a4j:outputPanel layout="block" id="newsTable">
-					<h:dataTable value="#{allMessages.news}" var="news"
-						columnClasses="margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xxl, margin-top-small margin-bottom-small margin-left-big margin-right-big border, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-l, margin-top-small margin-bottom-small margin-left-big margin-right-big border size-xs"
-						headerClass="margin-left-big margin-right-big border nowrap"
-						rowClasses="border" styleClass="size-max"
-						rendered="#{!empty allMessages.news}">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Timestamp" />
-							</f:facet>
-							<h:outputText value="#{news.timestamp}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Author" />
-							</f:facet>
-							<h:outputText value="#{news.author}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="News" />
-							</f:facet>
-							<h:outputText value="#{news.news}" />
-						</h:column>
-					</h:dataTable>
-				</a4j:outputPanel>
-</ui:remove>				
-			</fieldset>
 
 
 
