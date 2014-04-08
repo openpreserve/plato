@@ -75,7 +75,7 @@
 							<h:commandLink id="loadPlan" 
 								action="#{viewWorkflowManager.startWorkflow(p.id, false)}"
 								rendered="#{p.mayEdit }"
-								disabled="#{not p.mayEdit}">
+								disabled="#{not p.mayEdit}" onclick="toggleLoadingOverlay();">
 								<h:graphicImage library="gfx" name="icons/picol/edit.svg" width="24" title="Edit"/>								
 							</h:commandLink>
 							<h:graphicImage library="gfx" name="icons/locked.png"
