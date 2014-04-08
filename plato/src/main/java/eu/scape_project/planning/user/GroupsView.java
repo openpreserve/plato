@@ -67,7 +67,8 @@ public class GroupsView implements Serializable {
      */
     public String save() {
         groups.save();
-        return "/index.jsp";
+        // why return to index page, we might have been working on a plan... "/index.jsp";
+        return null; 
     }
 
     /**
@@ -77,7 +78,8 @@ public class GroupsView implements Serializable {
      */
     public String discard() {
         groups.discard();
-        return "/index.jsp";
+        // why return to index page, we might have been working on a plan... "/index.jsp";
+        return null;
     }
 
     /**

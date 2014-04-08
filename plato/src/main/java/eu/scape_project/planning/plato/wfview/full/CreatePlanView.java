@@ -84,6 +84,10 @@ public class CreatePlanView implements Serializable {
      * @return the navigation target
      */
     public String createPlan() {
+        if (!conversation.isTransient()) {
+            viewWorkflowManager.endWorkflow();
+        }
+        
         conversation.begin();
 
         plan = new Plan();

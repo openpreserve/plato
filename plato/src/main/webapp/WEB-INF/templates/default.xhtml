@@ -132,7 +132,7 @@
 				<ui:repeat var="note" value="#{notifications.notifications}">
 					<div class="alert-box #{note.source == 'Scout'?'scout':'info'}">
 					<h:outputText value="#{note.message}" escape="false"  />
-					<h:outputText value="#{note.timestamp}"><f:convertDateTime pattern=" [#{note.source} dd.MM.yyyy HH:mm]" /></h:outputText> 
+					 [#{note.source}<h:outputText value="#{note.timestamp}"><f:convertDateTime pattern="dd.MM.yyyy HH:mm" /></h:outputText>] 
 					 
 					<a4j:commandLink styleClass="close" action="#{notifications.acceptNotification(note)}" render="notifications" value="x"/>
 					</div>
