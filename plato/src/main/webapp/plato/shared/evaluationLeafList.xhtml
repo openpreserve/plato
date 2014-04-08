@@ -63,9 +63,11 @@
 										touchable="#{leaf.valueMap[alter.name].list[0]}"
 										rerender="evalstatus" />
 									<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
+									<ui:remove>
 									<p:inputTextArea id="valuecommentO" helpLink="true"
 										input="#{leaf.valueMap[alter.name].list[0].comment}"
 										touchable="#{leaf}" />
+									</ui:remove>										
 								</x:div> 
 								<!-- Numerical --> 
 								<x:div id="singleNumeric"
@@ -101,11 +103,11 @@
 										styleClass="discreet-error" for="singleInteger" />
                                  -->
 									</ui:remove>
-									<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-									<p:inputTextArea id="valuecomment" helpLink="true"
-										input="#{leaf.valueMap[alter.name].list[0].comment}"
-										touchable="#{leaf}" />
 								</x:div>
+								<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
+								<p:inputTextArea id="valuecomment" helpLink="true"
+									input="#{leaf.valueMap[alter.name].list[0].comment}"
+									touchable="#{leaf}" />
 							</td>
 						</tr>
 					</table>
@@ -157,11 +159,6 @@
 												style="color:red" value="* &nbsp;" />
 										</h:panelGroup>
 										<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-
-										<p:inputTextArea id="valuecommentO_#{status.index}"
-											helpLink="false"
-											input="#{leaf.valueMap[alter.name].list[0].comment}"
-											touchable="#{leaf}" />
 									</x:div> <!-- Numerical --> <x:div id="multiNumeric_ix#{status.index}"
 										renderthis='#{not (leaf.scale.type == "ordinal")  and (not leaf.single)}'>
 										<p:inputNumber id="number" helpLink="false"
@@ -195,11 +192,11 @@
 									 -->
 										</ui:remove>
 										<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-										<p:inputTextArea id="valuecomment_#{status.index}"
-											helpLink="false"
-											input="#{leaf.valueMap[alter.name].list[status.index].comment}"
-											touchable="#{leaf}" />
 									</x:div>
+									<p:inputTextArea id="valuecomment_#{status.index}"
+										helpLink="false"
+										input="#{leaf.valueMap[alter.name].list[status.index].comment}"
+										touchable="#{leaf}" />
 								</td>
 							</tr>
 						</c:forEach>
