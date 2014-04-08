@@ -22,8 +22,10 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
@@ -32,10 +34,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
 
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 
+import eu.scape_project.planning.model.Notification;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.utils.ConfigurationLoader;
@@ -62,6 +68,14 @@ public class BugReport implements Serializable {
 
     @Inject
     private ConfigurationLoader configurationLoader;
+
+    @PersistenceContext
+    private EntityManager em;
+    
+    @Resource
+    private UserTransaction utx;
+    
+    
 
     private Configuration config;
 
@@ -202,10 +216,20 @@ public class BugReport implements Serializable {
             message.saveChanges();
 
             Transport.send(message);
-            log.debug("Bug report mail sent successfully to {}", config.getString("mail.feedback"));
+            log.debug("Bug report mail from user {} sent successfully to {}", user.getUsername(), config.getString("mail.feedback"));
+            
+            String userMessage = "Bugreport sent. Thank you for your feedback. We will try to analyse and resolve the issue as soon as possible.";
+            Notification notification = new Notification(UUID.randomUUID().toString(), new Date(), "PLATO", userMessage, user);
+            try {
+                utx.begin();            
+                em.persist(notification);
+                utx.commit();
+            } catch (Exception e) {
+                log.error("Failed to store user notification for bugreport of {}", user.getUsername(), e);
+            }
+
         } catch (MessagingException e) {
-            log.error("Error sending bug report mail to {}", config.getString("mail.feedback"), e);
-            throw new MailException("Error sending bug report mail to " + config.getString("mail.feedback"), e);
+            throw new MailException("Error sending bug report mail from user " + user.getUsername() + " to " + config.getString("mail.feedback"), e);
         }
     }
 

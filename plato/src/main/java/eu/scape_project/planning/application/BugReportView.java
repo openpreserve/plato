@@ -27,12 +27,11 @@ import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.LoadedPlan;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.utils.FacesMessages;
-
-import org.slf4j.Logger;
 
 /**
  * View bean for bug report.
@@ -46,9 +45,6 @@ public class BugReportView implements Serializable {
     private Logger log;
 
     @Inject
-    private FacesMessages facesMessages;
-
-    @Inject
     private BugReport bugReport;
 
     @Inject
@@ -57,7 +53,7 @@ public class BugReportView implements Serializable {
     @Inject
     @LoadedPlan
     private Plan plan;
-
+    
     private Throwable throwable;
 
     private String errorRequestUri;
@@ -113,7 +109,7 @@ public class BugReportView implements Serializable {
      * Method responsible for sending a bug-report per mail based on the last
      * reported error.
      */
-    public void sendBugReport() {
+    public String sendBugReport() {
         String location = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
             .getLocalName();
         location += ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest())
@@ -127,13 +123,10 @@ public class BugReportView implements Serializable {
                 bugReport.sendBugReport(userEmail, userDescription, throwable, errorRequestUri, location, "Plato");
             }
 
-            log.debug("Bugreport sent from user " + user.getUsername() + " with email " + userEmail);
-            facesMessages
-                .addInfo("Bugreport sent. Thank you for your feedback. We will try to analyse and resolve the issue as soon as possible.");
         } catch (MailException e) {
-            log.error("Error sending bugreport from user " + user.getUsername() + " with email " + userEmail);
-            facesMessages.addError("Sorry, there was an error sending your report.");
+            log.error("Error sending bugreport from user " + user.getUsername() + " with email " + userEmail, e);
         }
+        return "/index.jsf" + "?faces-redirect=true&GLO=true";
     }
 
     // --------------- getter/setter ---------------

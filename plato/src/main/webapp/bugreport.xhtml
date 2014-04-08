@@ -19,10 +19,13 @@
 
 		<h:form>
 			<fieldset>
+			<p>
 				Dear user, please help us improving Plato by sending us more
 				information about what happened.<br /> Your message will be
 				received by the developers and contribute to fixing the encountered
-				error.<br /> <b>Thank you!</b>
+				error.
+			</p>
+			<p><b>Thank you!</b></p>
 			</fieldset>
 
 			<p:inputText labelText="Your email" input="#{bugReport.userEmail}"
@@ -35,7 +38,7 @@
 				<div class="label">&nbsp;</div>
 				<div class="input">
 					<h:commandButton id="sendBugReport"
-						action="#{bugReport.sendBugReport()}" value="Send bug report" />
+						action="#{bugReport.sendBugReport()}" value="Send bug report and login again" />
 				</div>
 			</div>
 		</h:form>

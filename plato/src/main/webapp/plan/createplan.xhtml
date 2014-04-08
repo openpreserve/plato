@@ -46,11 +46,11 @@
                           disabled="false"
                           value="#{createPlan.plan.planProperties.privateProject}" />
                   </div>
-
-                  <h:commandButton value="Create Plan" id="createProject"
-                     action="#{createPlan.savePlan}" />
-                  <h:commandButton value="Discard Plan" id="discardChanges"
-                     action="#{createPlan.discardPlan}" immediate="true"/>
+					
+                  <h:commandButton value="Create Plan" id="createProject" 
+                     action="#{createPlan.savePlan}" onclick="toggleLoadingOverlay();"/>
+                  <h:commandButton value="Discard Plan" id="discardChanges" onclick="toggleLoadingOverlay();"
+                     action="#{createPlan.discardPlan}" immediate="true" />
             </fieldset>
          </h:form>
     </ui:define>
