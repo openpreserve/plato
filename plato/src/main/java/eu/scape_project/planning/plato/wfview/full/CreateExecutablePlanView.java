@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -202,7 +203,9 @@ public class CreateExecutablePlanView extends AbstractView {
 
         String name = plan.getPlanProperties().getName() + " - " + plan.getRecommendation().getAlternative().getName();
 
-        T2FlowExecutablePlanGenerator gen = new T2FlowExecutablePlanGenerator(name, user.getFullName());
+        // FIXME: HARD CODED TEST VALUES
+        T2FlowExecutablePlanGenerator gen = new T2FlowExecutablePlanGenerator(name, user.getFullName(), "image/tiff",
+            "image/tiff");
 
         gen.addSourcePort();
         gen.addTargetPort();
@@ -224,7 +227,7 @@ public class CreateExecutablePlanView extends AbstractView {
                 }
                 wf.readMetadata();
                 String workflowContent = MyExperimentRESTClient.getWorkflowContent(wf);
-                gen.addMigrationComponent(wf, workflowContent, parameters);
+                gen.setMigrationComponent(wf, workflowContent, parameters);
             } catch (Exception e) {
                 log.warn("An error occured querying myExperiment migration component.", e.getMessage());
                 facesMessages

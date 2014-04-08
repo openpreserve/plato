@@ -19,6 +19,11 @@ package eu.scape_project.planning.taverna.generator.model;
  * A datalink definition.
  */
 public class Datalink {
+    /**
+     * Link type for merge links.
+     */
+    public static final String LINKTYPE_MERGE = "merge";
+
     private static final String WORKFLOW_TYPE = "dataflow";
 
     private String sourceType;
@@ -82,5 +87,9 @@ public class Datalink {
 
     public String getSinkProcessor() {
         return sinkProcessor;
+    }
+
+    public void setSinkType(String sinkType) {
+        this.sinkType = sinkType;
     }
 }

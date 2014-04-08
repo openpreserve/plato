@@ -188,6 +188,41 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
+     * Accepted mimetypes.
+     */
+    public static class AcceptedMimetypes {
+        private String leftMimetype;
+        private String rightMimetype;
+
+        /**
+         * Empty constructor needed for JAXB.
+         */
+        public AcceptedMimetypes() {
+        }
+
+        /**
+         * Creates a new accepted mimetypes.
+         * 
+         * @param leftMimetype
+         *            the left mimetype
+         * @param rightMimetype
+         *            the right mimetype
+         */
+        public AcceptedMimetypes(String leftMimetype, String rightMimetype) {
+            this.leftMimetype = leftMimetype;
+            this.rightMimetype = rightMimetype;
+        }
+
+        public String getLeftMimetype() {
+            return leftMimetype;
+        }
+
+        public String getRightMimetype() {
+            return rightMimetype;
+        }
+    }
+
+    /**
      * Installation.
      */
     public static class Installation {
@@ -405,6 +440,8 @@ public class WorkflowDescription extends WorkflowInfo {
 
     private String profile = null;
     private List<MigrationPath> migrationPaths = null;
+    private List<String> acceptedMimetype = null;
+    private List<AcceptedMimetypes> acceptedMimetypes = null;
     private List<Installation> installations = null;
     private List<Port> inputPorts = null;
     private List<Port> outputPorts = null;
@@ -420,6 +457,8 @@ public class WorkflowDescription extends WorkflowInfo {
         readOutputPorts();
         readInstallations();
         readMigrationPaths();
+        readAcceptedMimetype();
+        readAcceptedMimetypes();
     }
 
     /**
@@ -502,9 +541,6 @@ public class WorkflowDescription extends WorkflowInfo {
 
     /**
      * Reads the migration paths of the top dataflow.
-     * 
-     * @throws XPathExpressionException
-     * @throws IOException
      */
     public void readMigrationPaths() {
         migrationPaths = new ArrayList<MigrationPath>();
@@ -563,10 +599,121 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
+     * Reads the handled mimetype of the top dataflow.
+     */
+    public void readAcceptedMimetype() {
+        acceptedMimetype = new ArrayList<String>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate(
+                        "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
+                        XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+
+                        Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+                        String semanticAnnotation = pel.getTextContent();
+                        semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
+                        Reader reader = new StringReader(semanticAnnotation);
+                        model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+                        reader.close();
+
+                        // @formatter:off
+                        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                            + "PREFIX dpc: <http://purl.org/DP/components#> "
+                            + "SELECT ?mimetype WHERE { "
+                            + "?wf dpc:handlesMimetype ?mimetype }";
+                        // @formatter:on
+
+                        Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
+                        QueryExecution qe = QueryExecutionFactory.create(q, model);
+                        ResultSet results = qe.execSelect();
+                        try {
+                            while ((results != null) && (results.hasNext())) {
+                                QuerySolution orgQs = results.next();
+                                String mimetype = orgQs.getLiteral("mimetype").getString();
+
+                                acceptedMimetype.add(mimetype);
+                            }
+                        } finally {
+                            qe.close();
+                        }
+
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting accepted mimetype from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading accepted mimetype annotations from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads the handled mimetype of the top dataflow.
+     */
+    public void readAcceptedMimetypes() {
+        acceptedMimetypes = new ArrayList<AcceptedMimetypes>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate(
+                        "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
+                        XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+
+                        Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+                        String semanticAnnotation = pel.getTextContent();
+                        semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
+                        Reader reader = new StringReader(semanticAnnotation);
+                        model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+                        reader.close();
+
+                        // @formatter:off
+                        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                            + "PREFIX dpc: <http://purl.org/DP/components#> "
+                            + "SELECT ?leftMimetype ?rightMimetype WHERE { "
+                            + "?acceptedMimetypes rdf:type dpc:AcceptedMimetypes ."
+                            + "?acceptedMimetypes dpc:handlesLeftMimetype ?leftMimetype ."
+                            + "?acceptedMimetypes dpc:handlesRightMimetype ?rightMimetype } ";
+                        // @formatter:on
+
+                        Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
+                        QueryExecution qe = QueryExecutionFactory.create(q, model);
+                        ResultSet results = qe.execSelect();
+                        try {
+                            while ((results != null) && (results.hasNext())) {
+                                QuerySolution orgQs = results.next();
+                                String leftMimetype = orgQs.getLiteral("leftMimetype").getString();
+                                String rightMimetype = orgQs.getLiteral("rightMimetype").getString();
+
+                                AcceptedMimetypes m = new AcceptedMimetypes(leftMimetype, rightMimetype);
+                                acceptedMimetypes.add(m);
+                            }
+                        } finally {
+                            qe.close();
+                        }
+
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting accepted mimetypes from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading accepted mimetypes annotations from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
      * Reads the found installations paths of all workflows.
-     * 
-     * @throws XPathExpressionException
-     * @throws IOException
      */
     public void readInstallations() {
         installations = new ArrayList<Installation>();
@@ -925,6 +1072,14 @@ public class WorkflowDescription extends WorkflowInfo {
         return migrationPaths;
     }
 
+    public List<String> getAcceptedMimetype() {
+        return acceptedMimetype;
+    }
+    
+    public List<AcceptedMimetypes> getAcceptedMimetypes() {
+        return acceptedMimetypes;
+    }
+    
     public List<Installation> getInstallations() {
         return installations;
     }

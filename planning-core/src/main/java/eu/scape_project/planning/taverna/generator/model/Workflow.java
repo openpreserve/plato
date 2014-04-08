@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
+import com.google.common.base.Objects;
+
 import eu.scape_project.planning.taverna.generator.model.processor.NestedWorkflow;
 import eu.scape_project.planning.taverna.generator.model.processor.Processor;
 
@@ -77,7 +78,8 @@ public class Workflow extends LinkableElement {
     }
 
     /**
-     * Adds a dataflow to this workflow.
+     * Adds a dataflow to this workflow if no workflow with the dataflow's ID
+     * exists.
      * 
      * Note that this method only adds the dataflow itself, not the
      * {@link NestedWorkflow} processor.
@@ -86,16 +88,30 @@ public class Workflow extends LinkableElement {
      *            the dataflow to add
      */
     public void addDataflow(Dataflow dataflow) {
+        for (Dataflow d : dataflows) {
+            if (d.getId().equals(dataflow.getId())) {
+                return;
+            }
+        }
         dataflows.add(dataflow);
     }
 
     /**
-     * Adds a datalink to this workflow.
+     * Adds a datalink to this workflow. If a link to the sink already exists,
+     * changes the provided {@code datalink} and the existing link element to
+     * "merge".
      * 
      * @param datalink
      *            the datalink to add
      */
     public void addDatalink(Datalink datalink) {
+        for (Datalink d : datalinks) {
+            if (Objects.equal(d.getSinkProcessor(), datalink.getSinkProcessor())
+                && Objects.equal(d.getSinkPort(), datalink.getSinkPort())) {
+                d.setSinkType(Datalink.LINKTYPE_MERGE);
+                datalink.setSinkType(Datalink.LINKTYPE_MERGE);
+            }
+        }
         datalinks.add(datalink);
     }
 

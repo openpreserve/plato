@@ -46,13 +46,13 @@ public abstract class LinkableElement {
     /**
      * Checks if this element has a source with the provided name.
      * 
-     * @param name
+     * @param sourceName
      *            the name to check
      * @return true if a source was added, false otherwise
      */
-    public boolean hasSource(String name) {
+    public boolean hasSource(String sourceName) {
         for (OutputPort p : outputPorts) {
-            if (p.getName().equals(name)) {
+            if (p.getName().equals(sourceName)) {
                 return true;
             }
         }
@@ -62,13 +62,13 @@ public abstract class LinkableElement {
     /**
      * Checks if this element has a sink with the provided name.
      * 
-     * @param name
+     * @param sinkName
      *            the name to check
      * @return true if a sink was added, false otherwise
      */
-    public boolean hasSink(String name) {
+    public boolean hasSink(String sinkName) {
         for (InputPort p : inputPorts) {
-            if (p.getName().equals(name)) {
+            if (p.getName().equals(sinkName)) {
                 return true;
             }
         }

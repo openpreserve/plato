@@ -62,34 +62,34 @@ public class MyExperimentRESTClient {
     private static final int WORKFLOW_URL_GROUP = 1;
 
     /**
-     * Pattern for guessing descriptor URL
+     * Pattern for guessing descriptor URL.
      */
     private static final Pattern WORKFLOW_DL_PATTERN = Pattern
         .compile("(.+\\:\\/\\/.+)workflows\\/(\\d+)(\\.html|/download)(/.+?)?([?&]version=(\\d+))?");
 
     /**
-     * Pattern group number for id
+     * Pattern group number for id.
      */
     private static final int WORKFLOW_PATH_ID_GROUP = 2;
 
     /**
-     * Pattern group number for version
+     * Pattern group number for version.
      */
     private static final int WORKFLOW_PATH_VERSION_GROUP = 4;
 
     /**
-     * Pattern for guessing descriptor URL
+     * Pattern for guessing descriptor URL.
      */
     private static final Pattern WORKFLOW_PATH_PATTERN = Pattern
         .compile("(.+\\:\\/\\/.+)workflows\\/(\\d+)(/versions/(\\d+))?/?");
 
     /**
-     * Pattern group number for id
+     * Pattern group number for id.
      */
     private static final int WORKFLOW_DL_ID_GROUP = 2;
 
     /**
-     * Pattern group number for version
+     * Pattern group number for version.
      */
     private static final int WORKFLOW_DL_VERSION_GROUP = 6;
 
