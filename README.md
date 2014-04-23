@@ -6,26 +6,6 @@ Efficient and trustworthy preservation planning.
 
 ## [More information](MORE.md)
 
-## Features and roadmap
-
-### Version 4.4
-
-* Policy aware
-* Reads content profiles
-* Integration of myExperiment
-* Connects to repositories via open APIs (Data Connector API and Plan Management API)
-* Read only view for public plans
-* Deploy of executable Preservation Action Plan
-
-### Roadmap
-
-* Improved template creation for Executable Plan (based on used migration and quality assurance components)
-* Smarter triggers for monitoring
-* Implementation of Notification API to recieve planning requests
-* Policy-based improvements to increase efficiency
-* Implementation of Reassessment API
-
-
 ## How to install and use
 
 ### Requirements
@@ -238,3 +218,22 @@ To increase the changes of you code being accepted and merged into the official 
 * Has unit tests (that covers at least 80% of the code)
 * Has documentation (at least 80% of public API)
 * Agrees to contributor license agreement, certifying that any contributed code is original work and that the copyright is turned over to the project
+
+## Features and roadmap
+
+### Version 4.4
+
+* Policy aware
+* Reads content profiles
+* Integration of myExperiment
+* Connects to repositories via open APIs (Data Connector API and Plan Management API)
+* Read only view for public plans
+* Deploy of executable Preservation Action Plan
+
+### Roadmap
+
+* Improved template creation for Executable Plan (based on used migration and quality assurance components)
+* Smarter triggers for monitoring
+* Implementation of Notification API to recieve planning requests
+* Policy-based improvements to increase efficiency
+* Implementation of Reassessment API
