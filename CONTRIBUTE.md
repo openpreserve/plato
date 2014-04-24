@@ -1,3 +1,7 @@
+# Plato: The Preservation Planning Tool
+
+Efficient and trustworthy preservation planning.
+
 ## Develop
 
 [![Build Status](https://travis-ci.org/openplanets/plato.png)](https://travis-ci.org/openplanets/plato)
