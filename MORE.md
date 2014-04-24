@@ -1,4 +1,8 @@
-# More about Plato - The Preservation Planning Tool
+# Plato: The Preservation Planning Tool
+
+Efficient and trustworthy preservation planning.
+
+## More about Plato
 
 Please check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/intro_documentation.html) where you can find more information on Plato in general, its documentation, and case studies.
 
