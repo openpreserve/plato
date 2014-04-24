@@ -2,10 +2,6 @@
 
 Efficient and trustworthy preservation planning.
 
-## [About Plato](ABOUT.md)
-
-## [More information](MORE.md)
-
 ## How to install and use
 
 ### Requirements
