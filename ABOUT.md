@@ -40,6 +40,7 @@ Plato is for:
 
 ### Official Website
 Check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/) for more information, like:
+
 * [Publications](http://ifs.tuwien.ac.at/dp/plato/documentation#publications)
 * [Documentation](http://ifs.tuwien.ac.at/dp/plato/documentation/)
 * [Case studies](http://ifs.tuwien.ac.at/dp/plato/casestudies/)
