@@ -51,24 +51,26 @@ mkdir -p $JBOSS_HOME/modules/com/mysql/main
 cp /tmp/plato/provisional/mysql/* $JBOSS_HOME/modules/com/mysql/main/
 
 rm -r $JBOSS_HOME/modules/org/picketlink/main/*
+cp /tmp/plato/provisional/picketlink/* $JBOSS_HOME/modules/org/picketlink/main/
+
+
 
 cd /tmp/plato/tools
 ./setup-database.sh plato123 plato idp
 
 cp standalone.xml $JBOSS_HOME/standalone/configuration/
 
-adduser appserver
-chown -R appserver $JBOSS_HOME
+# adduser appserver
+# chown -R appserver $JBOSS_HOME
 
 
-cd plato
+cd /tmp/plato
 mvn clean install -DskipTests
 
 
+cp /tmp/plato/idp/target/idp.war $JBOSS_HOME/standalone/deployments/
+cp /tmp/plato/planningsuite-ear/target/planningsuite-ear.ear $JBOSS_HOME/standalone/deployments/
 
+# su -c "nohup $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 &" - appserver
 
-
-cp /tmp/plato/idp/target/idp.war /usr/local/share/jboss/standalone/deployments/
-cp /tmp/plato/planningsuite-ear/target/planningsuite-ear.ear /usr/local/share/jboss/standalone/deployments/
-
-su -c "nohup /home/jboss/jboss7/7.1.0/bin/standalone.sh -b=0.0.0.0 &" - appserver
+nohup $JBOSS_HOME/bin/standalone.sh -b=0.0.0.0 &
