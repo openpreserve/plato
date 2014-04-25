@@ -15,8 +15,8 @@ Plato brings you the following benefits:
 * Guidance through the preservation planning process
 * Trustability through controlled experiments and documentation
 * Policy aware planning
-* Using [standardized measures](purl.org/DP/quality/measures)
-* [myExperiment](http://www.myexperiment.org/) and Taverna integration: Share migration, quality assurance, and characterisation components with the community
+* Using [standardized measures](http://purl.org/DP/quality/measures)
+* [myExperiment](http://www.myexperiment.org/) and Taverna integration: Share migration, quality assurance, and characterisation [components](https://openplanets.github.io/scape-component-profiles/) with the community
 * Connects to repositories using [open interfaces](https://github.com/openplanets/scape-apis)
 * Provides a plan executable on your content
 * Enables on-going monitoring by creating triggers for [Scout](https://github.com/openplanets/scout)
@@ -39,7 +39,7 @@ Plato is for:
 * Christoph Becker, Hannes Kulovits, Mark Guttenbrunner, Stephan Strodl, Andreas Rauber, and Hans Hofman: [Systematic planning for digital preservation: Evaluating potential strategies and building preservation plans](http://www.ifs.tuwien.ac.at/~becker/pubs/becker-ijdl2009.pdf) International Journal on Digital Libraries (IJDL), December 2009.
 
 ### Official Website
-Check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/intro_documentation.html) for more information, like:
-* Publications
-* Documentation
-* Case studies
+Check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/) for more information, like:
+* [Publications](http://ifs.tuwien.ac.at/dp/plato/documentation#publications)
+* [Documentation](http://ifs.tuwien.ac.at/dp/plato/documentation/)
+* [Case studies](http://ifs.tuwien.ac.at/dp/plato/casestudies/)
