@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
 JBOSS_HOME=/usr/local/share/jboss
+export JBOSS_HOME
 
-apt-get update
+sudo apt-get update
 
-apt-get install openjdk-7-jdk
-sudo echo "JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre" >> /etc/environment
+sudo apt-get install -y openjdk-7-jdk
+# update-alternatives --set javac /usr/lib/jvm/java-7-openjdk/bin/javac
 
+sudo echo "JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64" >> /etc/environment
+
+source /etc/environment
 
 echo "Setting up mysql..."
 
@@ -28,8 +32,7 @@ sed -i.bak -e 's/max_allowed_packet[ \t]*=[ \t]*16M/max_allowed_packet = 128M/g'
 # collation-server=utf8_general_ci
 sed -i.utf8.bak -e 's/\[mysqld\]/\[mysqld\]\ncharacter-set-server=utf8\ncollation-server=utf8_general_ci\n/g' /etc/mysql/my.cnf
 
-mysql stop
-mysql start
+/etc/init.d/mysql restart
 
 
 echo "Setting up Plato"
@@ -39,8 +42,8 @@ apt-get install -y maven
 
 cd /tmp
 git clone https://github.com/openplanets/plato.git
-git checkout vagrant_dev
-
+cd plato
+git checkout vagrant-dev
 
 
 wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.0.Final/jboss-as-7.1.0.Final.tar.gz
@@ -53,7 +56,11 @@ cp /tmp/plato/provisional/mysql/* $JBOSS_HOME/modules/com/mysql/main/
 rm -r $JBOSS_HOME/modules/org/picketlink/main/*
 cp /tmp/plato/provisional/picketlink/* $JBOSS_HOME/modules/org/picketlink/main/
 
-
+mkdir -p $JBOSS_HOME/modules/eu/scape_project/planning/util/
+cd /tmp/plato/jboss-utils
+mvn package
+cp target/*.jar  $JBOSS_HOME/modules/eu/scape_project/planning/util/
+cp target/classes/module.xml  $JBOSS_HOME/modules/eu/scape_project/planning/util/
 
 cd /tmp/plato/tools
 ./setup-database.sh plato123 plato idp
