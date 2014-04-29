@@ -61,7 +61,8 @@ public class T2FlowExecutablePlanGenerator {
     private static final String SOURCE_PORT_NAME = "source";
     private static final String TARGET_PORT_NAME = "target";
 
-    private static final Pattern PURL_DP_MEASURE_PORT_PATTERN = Pattern.compile("http:\\/\\/purl\\.org\\/DP\\/quality\\/(measures)#(\\d+)");
+    private static final Pattern PURL_DP_MEASURE_PORT_PATTERN = Pattern
+        .compile("http:\\/\\/purl\\.org\\/DP\\/quality\\/(measures)#(\\d+)");
     private static final Pattern MEASURE_PORT_PATTERN = Pattern.compile("http.?:\\/\\/(.+)");
 
     private final String sourceMimetype;
@@ -79,19 +80,32 @@ public class T2FlowExecutablePlanGenerator {
      *            the name of the plan
      * @param author
      *            the author of the plan
+     */
+    public T2FlowExecutablePlanGenerator(String name, String author) {
+        this(name, author, null, null);
+    }
+
+    /**
+     * Creates a new Executable Plan generator as t2flow workflow.
+     * 
+     * @param name
+     *            the name of the plan
+     * @param author
+     *            the author of the plan
      * @param sourceMimetype
      *            the source mimetype of the plan
      * @param targetMimetype
      *            the target mimetype of the plan
      */
     public T2FlowExecutablePlanGenerator(String name, String author, String sourceMimetype, String targetMimetype) {
-        String semanticAnnotations = "&lt;&gt; &lt;http://purl.org/DP/components#fits&gt; &lt;http://purl.org/DP/components#ExecutablePlan&gt; .\n"
-            + "&lt;&gt; &lt;http://purl.org/DP/components#migrates&gt;"
-            + "[ a &lt;http://purl.org/DP/components#MigrationPath&gt; ;"
-            + "&lt;http://purl.org/DP/components#sourceMimetype&gt; \""
-            + sourceMimetype
-            + "\" ;"
-            + "&lt;http://purl.org/DP/components#targetMimetype&gt; \"" + targetMimetype + "\" ] .";
+        String semanticAnnotations = "&lt;&gt; &lt;http://purl.org/DP/components#fits&gt; &lt;http://purl.org/DP/components#ExecutablePlan&gt; .\n";
+
+        if (sourceMimetype != null && targetMimetype != null) {
+            semanticAnnotations += "&lt;&gt; &lt;http://purl.org/DP/components#migrates&gt;"
+                + "[ a &lt;http://purl.org/DP/components#MigrationPath&gt; ;"
+                + "&lt;http://purl.org/DP/components#sourceMimetype&gt; \"" + sourceMimetype + "\" ;"
+                + "&lt;http://purl.org/DP/components#targetMimetype&gt; \"" + targetMimetype + "\" ] .";
+        }
 
         this.sourceMimetype = sourceMimetype;
         this.targetMimetype = targetMimetype;
@@ -219,10 +233,10 @@ public class T2FlowExecutablePlanGenerator {
         boolean targetToLeft = false;
         boolean sourceToRight = false;
         boolean targetToRight = false;
-        if (acceptsMimetypes(workflowDescription, sourceMimetype, targetMimetype)) {
+        if (hasMigration() && acceptsMimetypes(workflowDescription, sourceMimetype, targetMimetype)) {
             sourceToLeft = true;
             targetToRight = true;
-        } else if (acceptsMimetypes(workflowDescription, targetMimetype, sourceMimetype)) {
+        } else if (hasMigration() && acceptsMimetypes(workflowDescription, targetMimetype, sourceMimetype)) {
             sourceToRight = true;
             targetToLeft = true;
         } else if (acceptsLeftMimetype(workflowDescription, sourceMimetype)) {
@@ -387,7 +401,7 @@ public class T2FlowExecutablePlanGenerator {
         if (purlMatcher.matches()) {
             return purlMatcher.group(1) + "_" + purlMatcher.group(2);
         }
-        
+
         Matcher genericMatcher = MEASURE_PORT_PATTERN.matcher(measure);
         if (genericMatcher.matches()) {
             return genericMatcher.group(1).replaceAll("\\s", "_").replaceAll("\\W", "_");
@@ -434,23 +448,23 @@ public class T2FlowExecutablePlanGenerator {
      */
     private boolean acceptsMimetypes(final WorkflowDescription workflowDescription, final String leftMimetype,
         final String rightMimetype) {
-        if (!hasMigration()) {
-            return false;
-        }
 
         String leftWildcard = getMimetypeWildcard(leftMimetype);
         String rightWildcard = getMimetypeWildcard(leftMimetype);
 
         List<String> acceptedMimetype = workflowDescription.getAcceptedMimetype();
-        if ((acceptedMimetype.contains(leftMimetype) || acceptedMimetype.contains(leftWildcard))
-            && (acceptedMimetype.contains(rightMimetype) || acceptedMimetype.contains(rightWildcard))) {
+        if ((leftMimetype == null || acceptedMimetype.contains(leftMimetype) || acceptedMimetype.contains(leftWildcard))
+            && (rightMimetype == null || acceptedMimetype.contains(rightMimetype) || acceptedMimetype
+                .contains(rightWildcard))) {
             return true;
         }
 
         List<AcceptedMimetypes> acceptedMimetypes = workflowDescription.getAcceptedMimetypes();
         for (AcceptedMimetypes m : acceptedMimetypes) {
-            if ((m.getLeftMimetype().equals(leftMimetype) || m.getLeftMimetype().equals(leftWildcard))
-                && (m.getRightMimetype().equals(rightMimetype) || m.getRightMimetype().equals(rightWildcard))) {
+            if ((leftMimetype == null || m.getLeftMimetype().equals(leftMimetype) || m.getLeftMimetype().equals(
+                leftWildcard))
+                && (rightMimetype == null || m.getRightMimetype().equals(rightMimetype) || m.getRightMimetype().equals(
+                    rightWildcard))) {
                 return true;
             }
         }
@@ -468,6 +482,10 @@ public class T2FlowExecutablePlanGenerator {
      * @return true if the left part can handle the mimetype, false otherwise
      */
     private boolean acceptsLeftMimetype(final WorkflowDescription workflowDescritpion, final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
         String wildcardMimetype = getMimetypeWildcard(mimetype);
 
         List<String> acceptedMimetype = workflowDescritpion.getAcceptedMimetype();
@@ -495,6 +513,10 @@ public class T2FlowExecutablePlanGenerator {
      * @return true if the right part can handle the mimetype, false otherwise
      */
     private boolean acceptsRightMimetype(final WorkflowDescription workflowDescription, final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
         String wildcardMimetype = getMimetypeWildcard(mimetype);
 
         List<String> acceptedMimetype = workflowDescription.getAcceptedMimetype();
@@ -521,6 +543,10 @@ public class T2FlowExecutablePlanGenerator {
      * @return true if the left part can handle the mimetype, false otherwise
      */
     private boolean handlesSourceMimetype(final WorkflowDescription wf, final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+        
         String wildcardMimetype = getMimetypeWildcard(mimetype);
 
         List<String> acceptedMimetype = wf.getAcceptedMimetype();

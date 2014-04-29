@@ -203,9 +203,7 @@ public class CreateExecutablePlanView extends AbstractView {
 
         String name = plan.getPlanProperties().getName() + " - " + plan.getRecommendation().getAlternative().getName();
 
-        // FIXME: HARD CODED TEST VALUES
-        T2FlowExecutablePlanGenerator gen = new T2FlowExecutablePlanGenerator(name, user.getFullName(), "image/tiff",
-            "image/tiff");
+        T2FlowExecutablePlanGenerator gen = new T2FlowExecutablePlanGenerator(name, user.getFullName());
 
         gen.addSourcePort();
         gen.addTargetPort();
