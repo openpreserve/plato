@@ -38,7 +38,7 @@ import org.hibernate.annotations.IndexColumn;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * Definition of a preservation action
+ * Definition of a preservation action.
  * 
  * @author Michael Kraxner
  */

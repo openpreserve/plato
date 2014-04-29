@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,  
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,14 +36,9 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ForeignKey;
-import org.hibernate.validator.constraints.Length;
 
 /**
- * An experiment is where all configuration is, or rather will be stored
- * concerning the actual execution of PLANETS services like PA migration
- * services, etc. At the moment it is only a textual description, but this will
- * be complimented by (probably quite complicated ;) service description objects
- * also containing parameter settings and the like.
+ * An experiment is where all configuration is stored.
  * 
  * @author Christoph Becker
  */
@@ -57,56 +51,44 @@ public class Experiment implements Serializable, ITouchable {
     @GeneratedValue
     private int id;
 
-    /**
-     * standard length for a string column is 255 validation is broken because
-     * we use facelet templates (issue resolved in Seam 2.0) therefore allow
-     * "long" entries
-     */
-    @Length(max = 2000000)
-    @Column(length = 2000000)
+    @Lob
     private String description;
 
     @Lob
     private String settings;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private DigitalObject workflow;
+
+    private String workflowUri;
+
     /**
      * Experiment result files, e.g. migration result. Each SampleObject can
      * have one result file.
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "Experiment_Result")
-    @ForeignKey(name="FK_EXP_RESULTS")    
+    @ForeignKey(name = "FK_EXP_RESULTS")
     @Fetch(FetchMode.SUBSELECT)
     private Map<SampleObject, DigitalObject> results = new HashMap<SampleObject, DigitalObject>();
 
     /**
-     * detailed experiment info
+     * Detailed experiment info
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "Experiment_DetailedInfo")
-    @ForeignKey(name="FK_EXP_DETAILEDINFOS")    
+    @ForeignKey(name = "FK_EXP_DETAILEDINFOS")
     @Fetch(FetchMode.SUBSELECT)
     private Map<SampleObject, DetailedExperimentInfo> detailedInfo = new HashMap<SampleObject, DetailedExperimentInfo>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     * Creates a description of the experiment output.
+     * 
+     * @return the output description
+     */
     @Transient
     public String getDetailedRunDescription() {
         StringBuffer returnCompleteOutput = new StringBuffer();
@@ -117,34 +99,17 @@ public class Experiment implements Serializable, ITouchable {
     }
 
     /**
-     * Get the runDescription if initialized: it means that some errors have
-     * been thrown, else returns all programOutputs of all samplerecords of this
-     * experiment
-     * 
-     * @author riccardo
-     * @return
+     * @see ITouchable#isChanged()
      */
-    // public String getRunDescription() {
-    //
-    // return runDescription;
-    // }
-    //
-    // public void setRunDescription(String runDescription) {
-    // this.runDescription = runDescription;
-    // }
-
-    public ChangeLog getChangeLog() {
-        return changeLog;
-    }
-
-    public void setChangeLog(ChangeLog value) {
-        changeLog = value;
-    }
-
+    @Override
     public boolean isChanged() {
         return changeLog.isAltered();
     }
 
+    /**
+     * @see ITouchable#touch()
+     */
+    @Override
     public void touch() {
         changeLog.touch();
     }
@@ -152,6 +117,7 @@ public class Experiment implements Serializable, ITouchable {
     /**
      * @see ITouchable#handleChanges(IChangesHandler)
      */
+    @Override
     public void handleChanges(IChangesHandler h) {
         h.visit(this);
         for (DigitalObject u : results.values()) {
@@ -159,22 +125,41 @@ public class Experiment implements Serializable, ITouchable {
         }
     }
 
+    /**
+     * @see ITouchable#getChangeLog()
+     */
+    @Override
+    public ChangeLog getChangeLog() {
+        return changeLog;
+    }
+
+    /**
+     * Removes the result record with the provided index.
+     * 
+     * @param i
+     *            index of the record to remove.
+     */
     public void removeRecord(int i) {
         this.results.remove(i);
     }
 
+    /**
+     * Adds a result record.
+     * 
+     * @param record
+     *            the record to add
+     */
     public void addRecord(SampleObject record) {
         this.results.put(record, new DigitalObject());
     }
 
-    public Map<SampleObject, DigitalObject> getResults() {
-        return results;
-    }
-
-    public void setResults(Map<SampleObject, DigitalObject> uploads) {
-        this.results = uploads;
-    }
-
+    /**
+     * Checks if this experiment contains the provided record.
+     * 
+     * @param record
+     *            the record to search
+     * @return true if the record is in this experiment, false otherwise
+     */
     public boolean containsUpload(SampleObject record) {
         return results.containsKey(record);
     }
@@ -195,12 +180,21 @@ public class Experiment implements Serializable, ITouchable {
         return existent;
     }
 
-    public Map<SampleObject, DetailedExperimentInfo> getDetailedInfo() {
-        return detailedInfo;
+    // ********** getter/setter **********
+    public int getId() {
+        return id;
     }
 
-    public void setDetailedInfo(Map<SampleObject, DetailedExperimentInfo> detailedInfo) {
-        this.detailedInfo = detailedInfo;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getSettings() {
@@ -210,4 +204,41 @@ public class Experiment implements Serializable, ITouchable {
     public void setSettings(String settings) {
         this.settings = settings;
     }
+
+    public DigitalObject getWorkflow() {
+        return workflow;
+    }
+
+    public void setWorkflow(DigitalObject workflow) {
+        this.workflow = workflow;
+    }
+
+    public String getWorkflowUri() {
+        return workflowUri;
+    }
+
+    public void setWorkflowUrl(String workflowUri) {
+        this.workflowUri = workflowUri;
+    }
+
+    public Map<SampleObject, DigitalObject> getResults() {
+        return results;
+    }
+
+    public void setResults(Map<SampleObject, DigitalObject> uploads) {
+        this.results = uploads;
+    }
+
+    public Map<SampleObject, DetailedExperimentInfo> getDetailedInfo() {
+        return detailedInfo;
+    }
+
+    public void setDetailedInfo(Map<SampleObject, DetailedExperimentInfo> detailedInfo) {
+        this.detailedInfo = detailedInfo;
+    }
+
+    public void setChangeLog(ChangeLog value) {
+        changeLog = value;
+    }
+
 }

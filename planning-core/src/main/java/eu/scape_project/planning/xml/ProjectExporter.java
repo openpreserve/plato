@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -816,9 +816,9 @@ public class ProjectExporter implements Serializable {
             Element experiment = alt.addElement("experiment");
             Experiment exp = a.getExperiment();
             addStringElement(experiment, "description", exp.getDescription());
-            // addStringElement(experiment, "runDescription",
-            // exp.getRunDescription());
             addStringElement(experiment, "settings", exp.getSettings());
+            addStringElement(experiment, "workflowUri", exp.getWorkflowUri());
+            addUpload(exp.getWorkflow(), experiment, "workflow", addDigitalObjectData);
             Element results = experiment.addElement("results");
             for (Entry<SampleObject, DigitalObject> entry : exp.getResults().entrySet()) {
                 Element result = addUpload(entry.getValue(), results, "result",  addDigitalObjectData);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@ package eu.scape_project.planning.xml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
-import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.manager.IByteStreamStorage;
 import eu.scape_project.planning.model.DigitalObject;
@@ -46,6 +44,9 @@ import eu.scape_project.planning.model.tree.TemplateTree;
 import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.utils.OS;
 
+/**
+ * Importer for Plato projects.
+ */
 @Stateful
 @SessionScoped
 @Named
@@ -70,11 +71,13 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
     private PlanParser planParser = new PlanParser();
 
     /**
-     * Deserializes the plans stored in the given file.
+     * Deserializes the plans in the provided inputstream.
      * 
-     * @param file
-     * @return
+     * @param plans
+     *            the plans to import
+     * @return a list of imported plans
      * @throws PlatoException
+     *             if an error occurred
      */
     public List<Plan> importPlans(final InputStream plans) throws PlatoException {
         appliedTransformations.clear();
@@ -100,6 +103,15 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
         }
     }
 
+    /**
+     * Deserializes the plans in the provided file.
+     * 
+     * @param file
+     *            the plans to import
+     * @return a list of imported plans
+     * @throws PlatoException
+     *             if an error occurred
+     */
     public List<Plan> importPlans(final String file) throws PlatoException {
         try {
             return importPlans(new FileInputStream(file));
@@ -109,10 +121,12 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
     }
 
     /**
-     * Imports all plans from the given file and stores them in the database
+     * Imports all plans from the given file and stores them in the database.
      * 
      * @param file
+     *            the file to import
      * @throws PlatoException
+     *             if an error occured during import
      */
     public void importPlans(final File file) throws PlatoException {
         log.debug("importing file: " + file.getName());
@@ -123,11 +137,13 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
     }
 
     /**
-     * Imports all plans in the given directory and stores them in the database
+     * Imports all plans in the given directory and stores them in the database.
      * 
      * @param dir
-     * @return
+     *            directory to import from
+     * @return the number of successfully imported files
      * @throws PlatoException
+     *             if the import directory is not valid
      */
     public int importAllProjectsFromDir(final String dir) throws PlatoException {
         int count = 0;
@@ -135,7 +151,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
         if (!f.exists()) {
             throw new PlatoException("Directory not found: " + dir);
         }
-        String files[] = f.list();
+        String[] files = f.list();
         if (files == null) {
             throw new PlatoException("Directory is empty: " + dir);
         }
@@ -154,7 +170,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
                         count++;
                     } catch (Exception e) {
                         log.error("failed to import plan: " + p.getPlanProperties().getId() + "-"
-                            + p.getPlanProperties().getName(),e );
+                            + p.getPlanProperties().getName(), e);
                     }
                 }
             }
@@ -164,10 +180,12 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
     }
 
     /**
-     * stores byte streams of digital objects
+     * Stores byte streams of digital objects.
      * 
      * @param p
+     *            the plan to process
      * @throws PlatoException
+     *             if an error occurred
      */
     public void storeDigitalObjects(final Plan p) throws PlatoException {
         try {
@@ -184,6 +202,9 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
         }
     }
 
+    /**
+     * Destroy method.
+     */
     @Remove
     public void destroy() {
 
@@ -202,8 +223,9 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
      * the respective template library, in this case 'Public Fragments'
      * 
      * @param xml
-     * @throws SAXException
-     * @throws IOException
+     *            the templates as XML input stream
+     * @throws PlatoException
+     *             if an error occurred
      */
     public void storeTemplatesInLibrary(final InputStream xml) throws PlatoException {
 
@@ -238,6 +260,7 @@ public class ProjectImporter extends PlanXMLConstants implements Serializable {
         }
     }
 
+    // ********** getter/setter **********
     public List<String> getAppliedTransformations() {
         return appliedTransformations;
     }

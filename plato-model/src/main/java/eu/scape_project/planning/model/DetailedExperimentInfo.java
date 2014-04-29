@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,  
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,19 +23,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.validator.constraints.Length;
-
 import eu.scape_project.planning.model.measurement.Measurement;
-
 
 @Entity
 public class DetailedExperimentInfo implements Serializable, ITouchable {
@@ -44,15 +41,14 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
     @Id
     @GeneratedValue
     private int id;
-    
-    private Boolean successful=false;
-    
-    @Length(max = 2000000)
-    @Column(length = 2000000)
+
+    private Boolean successful = false;
+
+    @Lob
     private String programOutput;
 
     /**
-     * Outcome of last automated comparision, one per SampleObject.
+     * Outcome of last automated comparison, one per SampleObject.
      */
     private String cpr;
 
@@ -66,21 +62,21 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "detailedInfo_values")
-    private Map<String,Measurement> measurements = new HashMap<String, Measurement>();
-    
+    private Map<String, Measurement> measurements = new HashMap<String, Measurement>();
+
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
 
-    
     /**
-     * Puts measurement m to map measurements, uses the name of m's property as key
-     *  
-     * @param m
+     * Puts measurement m to map measurements, uses the name of m's property as
+     * key
+     * 
+     * @param m measurement
      */
     public void put(Measurement m) {
-    	if (m != null) {
+        if (m != null) {
             measurements.put(m.getMeasureId(), m);
-    	}
+        }
     }
 
     public Map<String, Measurement> getMeasurements() {
@@ -98,10 +94,11 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
     public void setId(int id) {
         this.id = id;
     }
-    
-    public void clear(){
+
+    public void clear() {
         measurements.clear();
     }
+
     public void put(DetailedExperimentInfo info) {
         measurements.putAll(info.getMeasurements());
     }
@@ -121,15 +118,16 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
     public void setProgramOutput(String programOutput) {
         this.programOutput = programOutput;
     }
-    
+
     public ChangeLog getChangeLog() {
         return changeLog;
     }
+
     public void setChangeLog(ChangeLog value) {
         changeLog = value;
     }
 
-    public boolean isChanged(){
+    public boolean isChanged() {
         return changeLog.isAltered();
     }
 

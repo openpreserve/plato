@@ -57,7 +57,7 @@ import eu.scape_project.planning.utils.RepositoryConnectorException;
 import eu.scape_project.planning.xml.C3POProfileParser;
 
 /**
- * Business logic for workflow step Define Sample Objects
+ * Business logic for workflow step Define Sample Objects.
  * 
  * @author Michael Kraxner, Markus Hamm, Petar Petrov - <me@petarpetrov.org>
  * 
