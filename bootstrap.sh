@@ -10,7 +10,7 @@ sudo apt-get install -y openjdk-7-jdk
 
 sudo echo "JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64" >> /etc/environment
 
-source /etc/environment
+sudo source /etc/environment
 
 echo "Setting up mysql..."
 
@@ -57,7 +57,7 @@ rm -r $JBOSS_HOME/modules/org/picketlink/main/*
 cp /tmp/plato/provisional/picketlink/* $JBOSS_HOME/modules/org/picketlink/main/
 
 mkdir -p $JBOSS_HOME/modules/eu/scape_project/planning/util/
-cd /tmp/plato/jboss-utils
+cd /tmp/plato/jboss-util
 mvn package
 cp target/*.jar  $JBOSS_HOME/modules/eu/scape_project/planning/util/
 cp target/classes/module.xml  $JBOSS_HOME/modules/eu/scape_project/planning/util/
