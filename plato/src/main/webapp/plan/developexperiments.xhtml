@@ -62,6 +62,34 @@
 									alternative="#{alternative}"
 									rendered="#{alternative.action.actionIdentifier eq 'myExperiment'}" />
 							</div>
+
+							<a4j:outputPanel id="generate-experiment"
+								rendered="#{alternative.action.actionIdentifier eq 'myExperiment'}">
+								<fieldset class="size-full">
+									<legend class="fieldset-full-size-legend">
+										<h:outputText value="Experiment workflow" />
+									</legend>
+									<div>
+										<h:outputText value="#{developExperiments.sourceMimetype}" />
+										&#8605;
+										<h:inputText
+											value="#{developExperiments.targetMimetypes[alternative]}" />
+									</div>
+
+									<div class="multi-buttons">
+										<a4j:commandButton value="Generate Experiment Workflow"
+											onclick="toggleLoadingOverlay();"
+											oncomplete="toggleLoadingOverlay();"
+											action="#{developExperiments.generateExperimentWorkflow(alternative)}"
+											render="generate-experiment" />
+										<h:commandLink
+											action="#{developExperiments.downloadExperimentWorkflow(alternative)}"
+											value="Download Experiment Workflow"
+											styleClass="download-link"
+											rendered="#{not empty alternative.experiment.workflow}" />
+									</div>
+								</fieldset>
+							</a4j:outputPanel>
 						</div>
 					</rich:column>
 				</rich:dataTable>

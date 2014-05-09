@@ -64,12 +64,20 @@ public class T2FlowExecutablePlanGenerator {
         /**
          * The left object of the workflow.
          */
-        LEFT_OBJECT,
+        LEFT_OBJECT {
+            public String toString() {
+                return ComponentConstants.VALUE_LEFT_OBJECT;
+            }
+        },
 
         /**
          * The right object of the workflow.
          */
-        RIGHT_OBJECT
+        RIGHT_OBJECT {
+            public String toString() {
+                return ComponentConstants.VALUE_RIGHT_OBJECT;
+            }
+        }
     }
 
     private static final String SOURCE_PORT_NAME = "source";
@@ -251,6 +259,9 @@ public class T2FlowExecutablePlanGenerator {
      * If an output port specifies a related object, the port will only be
      * connected if the {@code relatedObject} matches.
      * 
+     * The sources for the left and right inputs are set according to supported
+     * mimetypes of the workflow.
+     * 
      * @param workflowDescription
      *            workflow description of the migration component
      * @param workflowContent
@@ -261,9 +272,62 @@ public class T2FlowExecutablePlanGenerator {
      *            measures of output ports to connect the component to
      * @param relatedObject
      *            the related object of measures to use if present
+     * @see {@link #addQaComponent(WorkflowDescription, String, InputSource, InputSource, Map, List, RelatedObject)}
      */
     public void addQaComponent(final WorkflowDescription workflowDescription, final String workflowContent,
         final Map<String, String> parameters, final List<String> measures, RelatedObject relatedObject) {
+
+        InputSource leftSource = null;
+        InputSource rightSource = null;
+
+        if (hasMigration() && workflowDescription.acceptsMimetypes(sourceMimetype, targetMimetype)) {
+            leftSource = InputSource.SOURCE_OBJECT;
+            rightSource = InputSource.TARGET_OBJECT;
+        } else if (hasMigration() && workflowDescription.acceptsMimetypes(targetMimetype, sourceMimetype)) {
+            leftSource = InputSource.TARGET_OBJECT;
+            rightSource = InputSource.SOURCE_OBJECT;
+        } else if (workflowDescription.acceptsLeftMimetype(sourceMimetype)) {
+            leftSource = InputSource.SOURCE_OBJECT;
+        } else if (workflowDescription.acceptsRightMimetype(sourceMimetype)) {
+            rightSource = InputSource.SOURCE_OBJECT;
+        } else if (hasMigration() && workflowDescription.acceptsLeftMimetype(targetMimetype)) {
+            leftSource = InputSource.TARGET_OBJECT;
+        } else if (hasMigration() && workflowDescription.acceptsRightMimetype(targetMimetype)) {
+            rightSource = InputSource.TARGET_OBJECT;
+        }
+
+        addQaComponent(workflowDescription, workflowContent, leftSource, rightSource, parameters, measures,
+            relatedObject);
+    }
+
+    /**
+     * Adds a QA component.
+     * 
+     * The source for the left input is set to {@code leftSource}, the source
+     * for the right input is set to {@code rightSource}. If these parameters
+     * are null, the input are not connected.
+     * 
+     * Adds measure ports for the provided {@code measures} to the workflow if
+     * they are provided by the QA component and are not already present.
+     * 
+     * @param workflowDescription
+     *            workflow description of the migration component
+     * @param workflowContent
+     *            the actual workflow content of the component
+     * @param leftSource
+     *            the source of the left input or null
+     * @param rightSource
+     *            the source of the right input or null
+     * @param parameters
+     *            map with parameters of the component
+     * @param measures
+     *            measures of output ports to connect the component to
+     * @param relatedObject
+     *            the related object of measures to use if present
+     */
+    public void addQaComponent(final WorkflowDescription workflowDescription, final String workflowContent,
+        final InputSource leftSource, final InputSource rightSource, final Map<String, String> parameters,
+        final List<String> measures, RelatedObject relatedObject) {
 
         // Dataflow
         NestedWorkflow qa = new NestedWorkflow(createProcessorName(workflowDescription.getName()),
@@ -273,42 +337,22 @@ public class T2FlowExecutablePlanGenerator {
         String dataflowContent = convertWorkflowToNested(workflowContent);
         workflow.addDataflow(new Dataflow(workflowDescription.getDataflowId(), dataflowContent));
 
-        boolean sourceToLeft = false;
-        boolean targetToLeft = false;
-        boolean sourceToRight = false;
-        boolean targetToRight = false;
-        if (hasMigration() && workflowDescription.acceptsMimetypes(sourceMimetype, targetMimetype)) {
-            sourceToLeft = true;
-            targetToRight = true;
-        } else if (hasMigration() && workflowDescription.acceptsMimetypes(targetMimetype, sourceMimetype)) {
-            sourceToRight = true;
-            targetToLeft = true;
-        } else if (workflowDescription.acceptsLeftMimetype(sourceMimetype)) {
-            sourceToLeft = true;
-        } else if (workflowDescription.acceptsRightMimetype(sourceMimetype)) {
-            sourceToRight = true;
-        } else if (hasMigration() && workflowDescription.acceptsLeftMimetype(targetMimetype)) {
-            targetToLeft = true;
-        } else if (hasMigration() && workflowDescription.acceptsRightMimetype(targetMimetype)) {
-            targetToRight = true;
-        }
-
         // Input ports
         List<Port> inputPorts = workflowDescription.getInputPorts();
         for (Port p : inputPorts) {
             if (ComponentConstants.VALUE_LEFT_OBJECT.equals(p.getValue())) {
-                if (sourceToLeft) {
+                if (leftSource == InputSource.SOURCE_OBJECT) {
                     qa.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(workflow, SOURCE_PORT_NAME, qa, p.getName()));
-                } else if (targetToLeft) {
+                } else if (leftSource == InputSource.TARGET_OBJECT) {
                     qa.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(migration, migrationTargetPortName, qa, p.getName()));
                 }
             } else if (ComponentConstants.VALUE_RIGHT_OBJECT.equals(p.getValue())) {
-                if (sourceToRight) {
+                if (rightSource == InputSource.SOURCE_OBJECT) {
                     qa.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(workflow, SOURCE_PORT_NAME, qa, p.getName()));
-                } else if (targetToRight) {
+                } else if (rightSource == InputSource.TARGET_OBJECT) {
                     qa.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(migration, migrationTargetPortName, qa, p.getName()));
                 }
@@ -324,12 +368,14 @@ public class T2FlowExecutablePlanGenerator {
         List<Port> outputPorts = workflowDescription.getOutputPorts();
         for (Port p : outputPorts) {
             if (measures.contains(p.getValue())) {
-                String measurePortName = createMeasurePortName(p.getValue());
-                if (!workflow.hasSink(measurePortName)) {
-                    addMeasurePort(p.getValue());
+                if (p.getRelatedObject() == null || p.getRelatedObject().equals(relatedObject.toString())) {
+                    String measurePortName = createMeasurePortName(p.getValue());
+                    if (!workflow.hasSink(measurePortName)) {
+                        addMeasurePort(p.getValue());
+                    }
+                    qa.addOutputPort(new OutputPort(p.getName()));
+                    workflow.addDatalink(new Datalink(qa, p.getName(), workflow, measurePortName));
                 }
-                qa.addOutputPort(new OutputPort(p.getName()));
-                workflow.addDatalink(new Datalink(qa, p.getName(), workflow, measurePortName));
             }
         }
     }
@@ -387,8 +433,7 @@ public class T2FlowExecutablePlanGenerator {
         List<Port> inputPorts = workflowDescription.getInputPorts();
         for (Port p : inputPorts) {
             if (ComponentConstants.VALUE_SOURCE_OBJECT.equals(p.getValue())) {
-                if (inputSource == InputSource.SOURCE_OBJECT
-                    && workflowDescription.handlesMimetype(sourceMimetype)) {
+                if (inputSource == InputSource.SOURCE_OBJECT && workflowDescription.handlesMimetype(sourceMimetype)) {
                     cc.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(workflow, SOURCE_PORT_NAME, cc, p.getName()));
                 } else if (inputSource == InputSource.TARGET_OBJECT

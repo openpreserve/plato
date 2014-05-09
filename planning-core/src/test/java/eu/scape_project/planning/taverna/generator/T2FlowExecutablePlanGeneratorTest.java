@@ -20,11 +20,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.dom4j.Document;
@@ -41,13 +40,14 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
 import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.taverna.generator.T2FlowExecutablePlanGenerator.InputSource;
+import eu.scape_project.planning.taverna.generator.T2FlowExecutablePlanGenerator.RelatedObject;
 
 /**
  * Unit tests for T2FlowExecutablePlanGenerator.
@@ -61,9 +61,13 @@ public class T2FlowExecutablePlanGeneratorTest {
     private static final String TOP_WF = "/t2f:workflow/t2f:dataflow[@role='top']";
     private static final String NESTED_WF = "/t2f:workflow/t2f:dataflow[@role='nested']";
 
-    @Before
-    public void setup() {
+    private static final List<String> DEFAULT_MEASURES = new ArrayList<String>();
+    protected static final Map<String, String> DEFAULT_PARAMETERS = new HashMap<String, String>();
+
+    @BeforeClass
+    public static void setup() {
         T2FLOW_NAMESPACE_MAP.put("t2f", "http://taverna.sf.net/2008/xml/t2flow");
+        DEFAULT_MEASURES.add("http://purl.org/DP/quality/measures#1");
     }
 
     @Test
@@ -129,7 +133,8 @@ public class T2FlowExecutablePlanGeneratorTest {
     }
 
     @Test
-    public void addMeasurePort_purlDp() throws IOException, ParserConfigurationException, SAXException, DocumentException {
+    public void addMeasurePort_purlDp() throws IOException, ParserConfigurationException, SAXException,
+        DocumentException {
         T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
             "image/jp2");
         planGenerator.addMeasurePort("http://purl.org/DP/quality/measures#1");
@@ -142,9 +147,10 @@ public class T2FlowExecutablePlanGeneratorTest {
         String portAnnotations = getSemanticAnnotation(doc, TOP_WF + "/t2f:outputPorts/t2f:port");
         assertThat(portAnnotations, containsString("http://purl.org/DP/quality/measures#1"));
     }
-    
+
     @Test
-    public void addMeasurePort_generic() throws IOException, ParserConfigurationException, SAXException, DocumentException {
+    public void addMeasurePort_generic() throws IOException, ParserConfigurationException, SAXException,
+        DocumentException {
         T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
             "image/jp2");
         planGenerator.addMeasurePort("http://example.com/DP/measures#1");
@@ -199,7 +205,9 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addSourcePort();
         planGenerator.addTargetPort();
 
-        addQaMock(planGenerator, "QA component", "image/tiff", "image/jp2");
+        WorkflowDescription wf = mockQaAny("QA component");
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -223,6 +231,69 @@ public class T2FlowExecutablePlanGeneratorTest {
     }
 
     @Test
+    public void addQaComponent_set_sourceLeft_targetRight() throws IOException, ParserConfigurationException,
+        SAXException, DocumentException {
+        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
+            "image/jp2");
+
+        planGenerator.addSourcePort();
+        planGenerator.addTargetPort();
+
+        addMigrationMock(planGenerator);
+        WorkflowDescription wf = mockQaAny("QA component");
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), InputSource.SOURCE_OBJECT,
+            InputSource.TARGET_OBJECT, DEFAULT_PARAMETERS, DEFAULT_MEASURES, RelatedObject.RIGHT_OBJECT);
+
+        Document doc = getDocument(planGenerator);
+
+        assertThat(
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
+        assertThat(
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), notNullValue());
+        assertThat(
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
+                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
+        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(5));
+    }
+
+    @Test
+    public void addQaComponent_set_sourceRight_targetLeft() throws IOException, ParserConfigurationException,
+        SAXException, DocumentException {
+        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
+            "image/jp2");
+
+        planGenerator.addSourcePort();
+        planGenerator.addTargetPort();
+
+        addMigrationMock(planGenerator);
+
+        WorkflowDescription wf = mockQaAny("QA component");
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), InputSource.TARGET_OBJECT,
+            InputSource.SOURCE_OBJECT, DEFAULT_PARAMETERS, DEFAULT_MEASURES, RelatedObject.RIGHT_OBJECT);
+
+        Document doc = getDocument(planGenerator);
+
+        assertThat(
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), notNullValue());
+        assertThat(
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
+        assertThat(
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
+                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
+        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(5));
+    }
+
+    @Test
     public void addQaComponent_mimetypePair_sourceLeft_targetRight() throws IOException, ParserConfigurationException,
         SAXException, DocumentException {
         T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
@@ -232,7 +303,13 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/tiff", "image/jp2");
+
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsMimetypes("image/tiff", "image/jp2")).thenReturn(true);
+        when(wf.acceptsLeftMimetype("image/tiff")).thenReturn(true);
+        when(wf.acceptsRightMimetype("image/jp2")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -261,7 +338,13 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/jp2", "image/tiff");
+
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsMimetypes("image/jp2", "image/tiff")).thenReturn(true);
+        when(wf.acceptsLeftMimetype("image/jp2")).thenReturn(true);
+        when(wf.acceptsRightMimetype("image/tiff")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -291,11 +374,15 @@ public class T2FlowExecutablePlanGeneratorTest {
 
         addMigrationMock(planGenerator);
 
-        List<WorkflowDescription.AcceptedMimetypes> acceptedMimetypes = new ArrayList<WorkflowDescription.AcceptedMimetypes>(
-            1);
-        acceptedMimetypes.add(new WorkflowDescription.AcceptedMimetypes("image/tiff", "image/jp2"));
-        acceptedMimetypes.add(new WorkflowDescription.AcceptedMimetypes("image/jp2", "image/tiff"));
-        addQaMock(planGenerator, "QA component", "image/tiff", "image/jp2");
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsMimetypes("image/jp2", "image/tiff")).thenReturn(true);
+        when(wf.acceptsMimetypes("image/tiff", "image/jp2")).thenReturn(true);
+        when(wf.acceptsLeftMimetype("image/jp2")).thenReturn(true);
+        when(wf.acceptsLeftMimetype("image/tiff")).thenReturn(true);
+        when(wf.acceptsRightMimetype("image/jp2")).thenReturn(true);
+        when(wf.acceptsRightMimetype("image/tiff")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -324,12 +411,15 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-
-        List<WorkflowDescription.AcceptedMimetypes> acceptedMimetypes = new ArrayList<WorkflowDescription.AcceptedMimetypes>(
-            1);
-        acceptedMimetypes.add(new WorkflowDescription.AcceptedMimetypes("image/tiff", "image/tiff"));
-        acceptedMimetypes.add(new WorkflowDescription.AcceptedMimetypes("image/jp2", "image/jp2"));
-        addQaMock(planGenerator, "QA component", acceptedMimetypes);
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsMimetypes("image/tiff", "image/tiff")).thenReturn(true);
+        when(wf.acceptsMimetypes("image/jp2", "image/jp2")).thenReturn(true);
+        when(wf.acceptsLeftMimetype("image/jp2")).thenReturn(true);
+        when(wf.acceptsLeftMimetype("image/tiff")).thenReturn(true);
+        when(wf.acceptsRightMimetype("image/jp2")).thenReturn(true);
+        when(wf.acceptsRightMimetype("image/tiff")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -362,7 +452,10 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/tiff", "image/bmp");
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsLeftMimetype("image/tiff")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -395,7 +488,10 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/bmp", "image/tiff");
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsRightMimetype("image/tiff")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -428,7 +524,10 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/jp2", "image/bmp");
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsLeftMimetype("image/jp2")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -461,7 +560,10 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/bmp", "image/jp2");
+        WorkflowDescription wf = mockQa("QA component");
+        when(wf.acceptsRightMimetype("image/jp2")).thenReturn(true);
+        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, "QA component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -482,168 +584,6 @@ public class T2FlowExecutablePlanGeneratorTest {
                 + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
                 + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
         assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(4));
-    }
-
-    @Test
-    public void addQaComponent_mimetypePair_sourceWildcard_targetWildcard() throws IOException,
-        ParserConfigurationException, SAXException, DocumentException {
-        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
-            "image/jp2");
-
-        planGenerator.addSourcePort();
-        planGenerator.addTargetPort();
-
-        addMigrationMock(planGenerator);
-        addQaMock(planGenerator, "QA component", "image/*", "image/*");
-
-        Document doc = getDocument(planGenerator);
-
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
-                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
-        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(5));
-    }
-
-    @Test
-    public void addQaComponent_mimetype_source_target() throws IOException, ParserConfigurationException, SAXException,
-        DocumentException {
-        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
-            "image/jp2");
-
-        planGenerator.addSourcePort();
-        planGenerator.addTargetPort();
-
-        addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(2);
-        acceptedMimetypes.add("image/tiff");
-        acceptedMimetypes.add("image/jp2");
-        addQaMimetypeMock(planGenerator, "QA component", acceptedMimetypes);
-
-        Document doc = getDocument(planGenerator);
-
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
-                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
-        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(5));
-    }
-
-    @Test
-    public void addQaComponent_mimetype_source() throws IOException, ParserConfigurationException, SAXException,
-        DocumentException {
-        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
-            "image/jp2");
-
-        planGenerator.addSourcePort();
-        planGenerator.addTargetPort();
-
-        addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(2);
-        acceptedMimetypes.add("image/tiff");
-        addQaMimetypeMock(planGenerator, "QA component", acceptedMimetypes);
-
-        Document doc = getDocument(planGenerator);
-
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), nullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), nullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
-                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
-        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(4));
-    }
-
-    @Test
-    public void addQaComponent_mimetype_target() throws IOException, ParserConfigurationException, SAXException,
-        DocumentException {
-        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
-            "image/jp2");
-
-        planGenerator.addSourcePort();
-        planGenerator.addTargetPort();
-
-        addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(2);
-        acceptedMimetypes.add("image/jp2");
-        addQaMimetypeMock(planGenerator, "QA component", acceptedMimetypes);
-
-        Document doc = getDocument(planGenerator);
-
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), nullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), nullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
-                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
-        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(4));
-    }
-
-    @Test
-    public void addQaComponent_mimetype_wildcard() throws IOException, ParserConfigurationException, SAXException,
-        DocumentException {
-        T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
-            "image/jp2");
-
-        planGenerator.addSourcePort();
-        planGenerator.addTargetPort();
-
-        addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(1);
-        acceptedMimetypes.add("image/*");
-        addQaMimetypeMock(planGenerator, "QA component", acceptedMimetypes);
-
-        Document doc = getDocument(planGenerator);
-
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='left']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
-                + "t2f:sink[@type='processor' and t2f:port/text()='right']]"), notNullValue());
-        assertThat(
-            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
-                + "[t2f:source[@type='processor' and t2f:port/text()='qa_output']" + " and "
-                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
-        assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(5));
     }
 
     @Test
@@ -656,10 +596,12 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(1);
-        acceptedMimetypes.add("image/*");
-        addQaMimetypeMock(planGenerator, "QA1", acceptedMimetypes);
-        addQaMimetypeMock(planGenerator, "QA2", acceptedMimetypes);
+        WorkflowDescription wf1 = mockQaAny("QA component 1");
+        planGenerator.addQaComponent(wf1, generateQaContent(QA_DATAFLOW_ID, "QA component 1"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
+        WorkflowDescription wf2 = mockQaAny("QA component 2");
+        planGenerator.addQaComponent(wf2, generateQaContent(QA_DATAFLOW_ID, "QA component 2"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES);
 
         Document doc = getDocument(planGenerator);
 
@@ -683,33 +625,32 @@ public class T2FlowExecutablePlanGeneratorTest {
     }
 
     @Test
-    public void addCcComponent_source() throws IOException, ParserConfigurationException, SAXException, DocumentException {
+    public void addCcComponent_source() throws IOException, ParserConfigurationException, SAXException,
+        DocumentException {
         T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
             "image/jp2");
 
         planGenerator.addSourcePort();
-
-        List<String> acceptedMimetypes = new ArrayList<String>(1);
-        acceptedMimetypes.add("image/*");
-        addCcMock(planGenerator, "CC", acceptedMimetypes, InputSource.SOURCE_OBJECT);
+        WorkflowDescription wf = mockCcAny("CC Component");
+        planGenerator.addCcComponent(wf, generateCcContent(CC_DATAFLOW_ID, "CC Component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES, InputSource.SOURCE_OBJECT);
 
         Document doc = getDocument(planGenerator);
 
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='dataflow' and t2f:port/text()='source']"
-                    + " and " + "t2f:sink[@type='processor' and t2f:port/text()='source']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='source']]"), notNullValue());
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='processor' and t2f:port/text()='cc_output']"
-                    + " and " + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_2']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='cc_output']" + " and "
+                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
         assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(2));
     }
-    
+
     @Test
-    public void addCcComponent_target() throws IOException, ParserConfigurationException, SAXException, DocumentException {
+    public void addCcComponent_target() throws IOException, ParserConfigurationException, SAXException,
+        DocumentException {
         T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
             "image/jp2");
 
@@ -717,27 +658,26 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(1);
-        acceptedMimetypes.add("image/*");
-        addCcMock(planGenerator, "CC", acceptedMimetypes, InputSource.TARGET_OBJECT);
+        WorkflowDescription wf = mockCcAny("CC Component");
+        planGenerator.addCcComponent(wf, generateCcContent(CC_DATAFLOW_ID, "CC Component"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES, InputSource.TARGET_OBJECT);
 
         Document doc = getDocument(planGenerator);
 
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='processor' and t2f:port/text()='target']"
-                    + " and " + "t2f:sink[@type='processor' and t2f:port/text()='source']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='source']]"), notNullValue());
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='processor' and t2f:port/text()='cc_output']"
-                    + " and " + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_2']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='cc_output']" + " and "
+                + "t2f:sink[@type='dataflow' and t2f:port/text()='measures_1']]"), notNullValue());
         assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(4));
     }
-    
+
     @Test
-    public void addCcComponent_twoComponents() throws IOException, ParserConfigurationException, SAXException, DocumentException {
+    public void addCcComponent_twoComponents() throws IOException, ParserConfigurationException, SAXException,
+        DocumentException {
         T2FlowExecutablePlanGenerator planGenerator = new T2FlowExecutablePlanGenerator("Name", "Author", "image/tiff",
             "image/jp2");
 
@@ -745,36 +685,36 @@ public class T2FlowExecutablePlanGeneratorTest {
         planGenerator.addTargetPort();
 
         addMigrationMock(planGenerator);
-        List<String> acceptedMimetypes = new ArrayList<String>(1);
-        acceptedMimetypes.add("image/*");
-        addCcMock(planGenerator, "CC1", acceptedMimetypes, InputSource.SOURCE_OBJECT);
-        addCcMock(planGenerator, "CC2", acceptedMimetypes, InputSource.TARGET_OBJECT);
+        WorkflowDescription wf1 = mockCcAny("CC Component 1");
+        planGenerator.addCcComponent(wf1, generateCcContent(CC_DATAFLOW_ID, "CC Component 1"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES, InputSource.SOURCE_OBJECT);
+        WorkflowDescription wf2 = mockCcAny("CC Component 2");
+        planGenerator.addCcComponent(wf2, generateCcContent(CC_DATAFLOW_ID, "CC Component 2"), DEFAULT_PARAMETERS,
+            DEFAULT_MEASURES, InputSource.TARGET_OBJECT);
 
         Document doc = getDocument(planGenerator);
 
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='dataflow' and t2f:port/text()='source']"
-                    + " and " + "t2f:sink[@type='processor' and t2f:port/text()='source' and t2f:processor/text()='CC1']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='dataflow' and t2f:port/text()='source']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='source' and t2f:processor/text()='CC_Component_1']]"),
+            notNullValue());
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='processor' and t2f:port/text()='cc_output' and t2f:processor/text()='CC1']"
-                    + " and " + "t2f:sink[@type='merge' and t2f:port/text()='measures_2']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='cc_output' and t2f:processor/text()='CC_Component_1']"
+                + " and " + "t2f:sink[@type='merge' and t2f:port/text()='measures_1']]"), notNullValue());
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='processor' and t2f:port/text()='target']"
-                    + " and " + "t2f:sink[@type='processor' and t2f:port/text()='source' and t2f:processor/text()='CC2']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='target']" + " and "
+                + "t2f:sink[@type='processor' and t2f:port/text()='source' and t2f:processor/text()='CC_Component_2']]"),
+            notNullValue());
         assertThat(
-            getSingleNode(
-                doc,
-                TOP_WF + "/t2f:datalinks/t2f:datalink" + "[t2f:source[@type='processor' and t2f:port/text()='cc_output' and t2f:processor/text()='CC2']"
-                    + " and " + "t2f:sink[@type='merge' and t2f:port/text()='measures_2']]"), notNullValue());
+            getSingleNode(doc, TOP_WF + "/t2f:datalinks/t2f:datalink"
+                + "[t2f:source[@type='processor' and t2f:port/text()='cc_output' and t2f:processor/text()='CC_Component_2']"
+                + " and " + "t2f:sink[@type='merge' and t2f:port/text()='measures_1']]"), notNullValue());
         assertThat(getNodes(doc, TOP_WF + "/t2f:datalinks/t2f:datalink").size(), is(6));
     }
-    
+
     /**
      * Returns a document generated by the provided plan generator.
      * 
@@ -915,7 +855,7 @@ public class T2FlowExecutablePlanGeneratorTest {
             + "</workflow>";
         // @formatter:on
     }
-    
+
     /**
      * Generates a very simple CC workflow.
      * 
@@ -970,37 +910,13 @@ public class T2FlowExecutablePlanGeneratorTest {
     }
 
     /**
-     * Adds a mock of a QA component to the plan generator.
+     * Mock a QA component without accepted mimetypes.
      * 
-     * @param planGenerator
-     *            the plan generator to use
      * @param name
      *            the component name
-     * @param leftMimetype
-     *            the left accepted mimetype
-     * @param rightMimetype
-     *            the right accepted mimetype
+     * @return a mock of a QA component
      */
-    private void addQaMock(T2FlowExecutablePlanGenerator planGenerator, String name, String leftMimetype,
-        String rightMimetype) {
-        List<WorkflowDescription.AcceptedMimetypes> acceptedMimetypes = new ArrayList<WorkflowDescription.AcceptedMimetypes>(
-            1);
-        acceptedMimetypes.add(new WorkflowDescription.AcceptedMimetypes(leftMimetype, rightMimetype));
-        addQaMock(planGenerator, name, acceptedMimetypes);
-    }
-
-    /**
-     * Adds a mock of a QA component to the plan generator.
-     * 
-     * @param planGenerator
-     *            the plan generator to use
-     * @param name
-     *            the component name
-     * @param acceptedMimetypes
-     *            a list of accepted mimetypes
-     */
-    private void addQaMock(T2FlowExecutablePlanGenerator planGenerator, String name,
-        List<WorkflowDescription.AcceptedMimetypes> acceptedMimetypes) {
+    private WorkflowDescription mockQa(String name) {
         WorkflowDescription wf = mock(WorkflowDescription.class);
         when(wf.getName()).thenReturn(name);
         when(wf.getDataflowId()).thenReturn(QA_DATAFLOW_ID);
@@ -1011,65 +927,40 @@ public class T2FlowExecutablePlanGeneratorTest {
         when(wf.getInputPorts()).thenReturn(inputPorts);
 
         List<WorkflowDescription.Port> outputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        outputPorts.add(new WorkflowDescription.Port("qa_output", "Description", "http://purl.org/DP/quality/measures#1"));
+        outputPorts.add(new WorkflowDescription.Port("qa_output", "Description",
+            "http://purl.org/DP/quality/measures#1"));
         when(wf.getOutputPorts()).thenReturn(outputPorts);
-
-        when(wf.getAcceptedMimetypes()).thenReturn(acceptedMimetypes);
 
         List<String> measures = new ArrayList<String>(1);
         measures.add("http://purl.org/DP/quality/measures#1");
 
-        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, name), new HashMap<String, String>(0),
-            measures);
+        return wf;
     }
 
     /**
-     * Adds a mock of a QA component to the plan generator.
+     * Mock a QA component that accepts any mimetypes.
      * 
-     * @param planGenerator
-     *            the plan generator to use
      * @param name
      *            the component name
-     * @param mimetypes
-     *            a list of mimetypes
+     * @return a mock of the QA component
      */
-    private void addQaMimetypeMock(T2FlowExecutablePlanGenerator planGenerator, String name, List<String> mimetypes) {
-        WorkflowDescription wf = mock(WorkflowDescription.class);
-        when(wf.getName()).thenReturn(name);
-        when(wf.getDataflowId()).thenReturn(QA_DATAFLOW_ID);
-
-        List<WorkflowDescription.Port> inputPorts = new ArrayList<WorkflowDescription.Port>(2);
-        inputPorts.add(new WorkflowDescription.Port("left", "Description", ComponentConstants.VALUE_LEFT_OBJECT));
-        inputPorts.add(new WorkflowDescription.Port("right", "Description", ComponentConstants.VALUE_RIGHT_OBJECT));
-        when(wf.getInputPorts()).thenReturn(inputPorts);
-
-        List<WorkflowDescription.Port> outputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        outputPorts.add(new WorkflowDescription.Port("qa_output", "Description", "http://purl.org/DP/quality/measures#1"));
-        when(wf.getOutputPorts()).thenReturn(outputPorts);
-
-        when(wf.getAcceptedMimetype()).thenReturn(mimetypes);
-
-        List<String> measures = new ArrayList<String>(1);
-        measures.add("http://purl.org/DP/quality/measures#1");
-
-        planGenerator.addQaComponent(wf, generateQaContent(QA_DATAFLOW_ID, name), new HashMap<String, String>(0),
-            measures);
+    private WorkflowDescription mockQaAny(String name) {
+        WorkflowDescription wf = mockQa(name);
+        when(wf.acceptsMimetypes(any(String.class), any(String.class))).thenReturn(true);
+        when(wf.acceptsLeftMimetype(any(String.class))).thenReturn(true);
+        when(wf.acceptsRightMimetype(any(String.class))).thenReturn(true);
+        when(wf.handlesMimetype(any(String.class))).thenReturn(true);
+        return wf;
     }
 
     /**
      * Adds a mock of a CC component to the plan generator.
      * 
-     * @param planGenerator
-     *            the plan generator to use
      * @param name
      *            the component name
-     * @param acceptedMimetype
-     *            a list of accepted mimetype
-     * @param inputSource
-     *            the input source of the CC component
+     * @return a mock of the CC component
      */
-    private void addCcMock(T2FlowExecutablePlanGenerator planGenerator, String name, List<String> acceptedMimetype,
-        InputSource inputSource) {
+    private WorkflowDescription mockCcAny(String name) {
         WorkflowDescription wf = mock(WorkflowDescription.class);
         when(wf.getName()).thenReturn(name);
         when(wf.getDataflowId()).thenReturn(CC_DATAFLOW_ID);
@@ -1079,15 +970,11 @@ public class T2FlowExecutablePlanGeneratorTest {
         when(wf.getInputPorts()).thenReturn(inputPorts);
 
         List<WorkflowDescription.Port> outputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        outputPorts.add(new WorkflowDescription.Port("cc_output", "Description", "http://purl.org/DP/quality/measures#2"));
+        outputPorts.add(new WorkflowDescription.Port("cc_output", "Description",
+            "http://purl.org/DP/quality/measures#1"));
         when(wf.getOutputPorts()).thenReturn(outputPorts);
 
-        when(wf.getAcceptedMimetype()).thenReturn(acceptedMimetype);
-
-        List<String> measures = new ArrayList<String>(1);
-        measures.add("http://purl.org/DP/quality/measures#2");
-
-        planGenerator.addCcComponent(wf, generateCcContent(CC_DATAFLOW_ID, name), new HashMap<String, String>(0),
-            measures, inputSource);
+        when(wf.handlesMimetype(any(String.class))).thenReturn(true);
+        return wf;
     }
 }

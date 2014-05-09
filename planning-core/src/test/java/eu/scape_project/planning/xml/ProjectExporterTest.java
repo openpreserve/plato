@@ -255,7 +255,7 @@ public class ProjectExporterTest {
         experiment.setDescription("Description");
         experiment.setSettings("Settings");
         experiment.setWorkflow(generateDigitalObject());
-        experiment.setWorkflowUrl("Workflow uri");
+        experiment.setWorkflowUri("Workflow uri");
 
         Map<SampleObject, DetailedExperimentInfo> detailedInfo = experiment.getDetailedInfo();
         SampleObject sample1 = new SampleObject("Short name");

@@ -217,7 +217,7 @@ public class Experiment implements Serializable, ITouchable {
         return workflowUri;
     }
 
-    public void setWorkflowUrl(String workflowUri) {
+    public void setWorkflowUri(String workflowUri) {
         this.workflowUri = workflowUri;
     }
 

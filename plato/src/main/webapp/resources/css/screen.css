@@ -230,17 +230,11 @@ fieldset.size-full {
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	/*background:yellow;*/
 	padding-top: 0px;
 }
 
 .label {
 	width: 30%;
-	/*position: relative;
-	display: inline-block; 
-	top: 0;
-	left: 0;*/
-	/*background:red;*/
 	text-align: right;
 	margin-left: 0px;
 	margin-right: 0px;
