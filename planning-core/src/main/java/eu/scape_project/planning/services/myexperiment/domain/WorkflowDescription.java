@@ -348,6 +348,8 @@ public class WorkflowDescription extends WorkflowInfo {
 
         private String value;
 
+        private String relatedObject;
+
         private List<PredefinedParameter> predefinedParameters;
 
         /**
@@ -385,6 +387,23 @@ public class WorkflowDescription extends WorkflowInfo {
         }
 
         /**
+         * Creates a new port.
+         * 
+         * @param name
+         *            the port name
+         * @param description
+         *            the port description
+         * @param value
+         *            port type
+         * @param relatedObject
+         *            the related object
+         */
+        public Port(String name, String description, String value, String relatedObject) {
+            this(name, description, value);
+            this.relatedObject = relatedObject;
+        }
+
+        /**
          * Checks if this port is a parameter port.
          * 
          * @return true if this port is a parameter port, false otherwise
@@ -403,6 +422,10 @@ public class WorkflowDescription extends WorkflowInfo {
 
         public String getValue() {
             return value;
+        }
+
+        public String getRelatedObject() {
+            return relatedObject;
         }
 
         public List<PredefinedParameter> getPredefinedParameters() {
@@ -873,8 +896,8 @@ public class WorkflowDescription extends WorkflowInfo {
             String portDescription = (String) xPath
                 .evaluate("descriptions/description", element, XPathConstants.STRING);
 
-            String semanticAnnotations = (String) xPath.evaluate("semantic_annotation/content", element,
-                XPathConstants.STRING);
+            String semanticAnnotations = replaceBlankNodes((String) xPath.evaluate("semantic_annotation/content",
+                element, XPathConstants.STRING));
 
             Model model = ModelFactory.createMemModelMaker().createDefaultModel();
             Reader reader = new StringReader(semanticAnnotations);
@@ -885,11 +908,12 @@ public class WorkflowDescription extends WorkflowInfo {
                 + "PREFIX dpc: <http://purl.org/DP/components#> "
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
                 + "PREFIX cc: <http://creativecommons.org/ns#> " 
-                + "SELECT ?port ?value ?type WHERE { { "
+                + "SELECT ?port ?value ?relatedObject WHERE { { { "
                 + "  ?port dpc:accepts ?value ." 
                 + "} UNION { "
                 + "  ?port dpc:provides ?value ."
-                + "}. "
+                + "} } "
+                + "OPTIONAL { ?port dpc:relatesTo ?relatedObject }"
                 + "FILTER (!isBlank(?value))"
                 + "}";
             // @formatter:on
@@ -904,6 +928,10 @@ public class WorkflowDescription extends WorkflowInfo {
                         QuerySolution qs = results.next();
                         Resource value = qs.getResource("value");
                         port = new Port(portName, portDescription, value.getURI());
+                        Resource relatedObject = qs.getResource("relatedObject");
+                        if (relatedObject != null) {
+                            port.relatedObject = relatedObject.getURI();
+                        }
                     }
                 } else {
                     port = new Port(portName, portDescription);
@@ -1027,6 +1055,129 @@ public class WorkflowDescription extends WorkflowInfo {
         return null;
     }
 
+    /**
+     * Checks whether the provided workflow accepts the left and right mimetype.
+     * 
+     * @param leftMimetype
+     *            left mimetype to check
+     * @param rightMimetype
+     *            right mimetype to check
+     * @return true if the workflow accepts the mimetypes, false otherwise
+     */
+    public boolean acceptsMimetypes(final String leftMimetype, final String rightMimetype) {
+        String leftWildcard = getMimetypeWildcard(leftMimetype);
+        String rightWildcard = getMimetypeWildcard(leftMimetype);
+
+        if ((leftMimetype == null || acceptedMimetype.contains(leftMimetype) || acceptedMimetype.contains(leftWildcard))
+            && (rightMimetype == null || acceptedMimetype.contains(rightMimetype) || acceptedMimetype
+                .contains(rightWildcard))) {
+            return true;
+        }
+
+        for (AcceptedMimetypes m : acceptedMimetypes) {
+            if ((leftMimetype == null || m.getLeftMimetype().equals(leftMimetype) || m.getLeftMimetype().equals(
+                leftWildcard))
+                && (rightMimetype == null || m.getRightMimetype().equals(rightMimetype) || m.getRightMimetype().equals(
+                    rightWildcard))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the left part of the provided workflow can handle the mimetype.
+     * 
+     * @param mimetype
+     *            the mimetype
+     * @return true if the left part can handle the mimetype, false otherwise
+     */
+    public boolean acceptsLeftMimetype(final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
+        String wildcardMimetype = getMimetypeWildcard(mimetype);
+
+        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
+            return true;
+        }
+
+        for (AcceptedMimetypes m : acceptedMimetypes) {
+            if (m.getLeftMimetype().equals(mimetype) || m.getLeftMimetype().equals(wildcardMimetype)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the right part of the provided workflow can handle the
+     * mimetype.
+     * 
+     * @param mimetype
+     *            the mimetype
+     * @return true if the right part can handle the mimetype, false otherwise
+     */
+    public boolean acceptsRightMimetype(final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
+        String wildcardMimetype = getMimetypeWildcard(mimetype);
+
+        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
+            return true;
+        }
+
+        for (AcceptedMimetypes m : acceptedMimetypes) {
+            if (m.getRightMimetype().equals(mimetype) || m.getRightMimetype().equals(wildcardMimetype)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the provided workflow can handle the mimetype.
+     * 
+     * @param mimetype
+     *            the mimetype
+     * @return true if the left part can handle the mimetype, false otherwise
+     */
+    public boolean handlesMimetype(final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
+        String wildcardMimetype = getMimetypeWildcard(mimetype);
+
+        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Creates a wildcard mimetype by using the type of the provided mimetype
+     * and '*' as subtype.
+     * 
+     * @param mimetype
+     *            the base mimetype
+     * @return the wildcard mimetype
+     */
+    private String getMimetypeWildcard(String mimetype) {
+        if (mimetype == null) {
+            return null;
+        } else if ("".equals(mimetype)) {
+            return "";
+        }
+
+        int position = mimetype.indexOf('/');
+        return mimetype.substring(0, position >= 0 ? position : mimetype.length()) + "/*";
+    }
+
     // ---------- getter/setter ----------
     public WorkflowDescription.Type getType() {
         return type;
@@ -1075,11 +1226,11 @@ public class WorkflowDescription extends WorkflowInfo {
     public List<String> getAcceptedMimetype() {
         return acceptedMimetype;
     }
-    
+
     public List<AcceptedMimetypes> getAcceptedMimetypes() {
         return acceptedMimetypes;
     }
-    
+
     public List<Installation> getInstallations() {
         return installations;
     }

@@ -691,7 +691,7 @@ public class T2FlowExecutablePlanGeneratorTest {
 
         List<String> acceptedMimetypes = new ArrayList<String>(1);
         acceptedMimetypes.add("image/*");
-        addCcMock(planGenerator, "CC", acceptedMimetypes, InputSource.sourceObject);
+        addCcMock(planGenerator, "CC", acceptedMimetypes, InputSource.SOURCE_OBJECT);
 
         Document doc = getDocument(planGenerator);
 
@@ -719,7 +719,7 @@ public class T2FlowExecutablePlanGeneratorTest {
         addMigrationMock(planGenerator);
         List<String> acceptedMimetypes = new ArrayList<String>(1);
         acceptedMimetypes.add("image/*");
-        addCcMock(planGenerator, "CC", acceptedMimetypes, InputSource.targetObject);
+        addCcMock(planGenerator, "CC", acceptedMimetypes, InputSource.TARGET_OBJECT);
 
         Document doc = getDocument(planGenerator);
 
@@ -747,8 +747,8 @@ public class T2FlowExecutablePlanGeneratorTest {
         addMigrationMock(planGenerator);
         List<String> acceptedMimetypes = new ArrayList<String>(1);
         acceptedMimetypes.add("image/*");
-        addCcMock(planGenerator, "CC1", acceptedMimetypes, InputSource.sourceObject);
-        addCcMock(planGenerator, "CC2", acceptedMimetypes, InputSource.targetObject);
+        addCcMock(planGenerator, "CC1", acceptedMimetypes, InputSource.SOURCE_OBJECT);
+        addCcMock(planGenerator, "CC2", acceptedMimetypes, InputSource.TARGET_OBJECT);
 
         Document doc = getDocument(planGenerator);
 

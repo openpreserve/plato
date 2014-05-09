@@ -28,7 +28,6 @@ import com.github.mustachejava.MustacheFactory;
 
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.AcceptedMimetypes;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.taverna.generator.model.Dataflow;
 import eu.scape_project.planning.taverna.generator.model.Datalink;
@@ -50,12 +49,27 @@ public class T2FlowExecutablePlanGenerator {
         /**
          * The source object of the workflow.
          */
-        sourceObject,
+        SOURCE_OBJECT,
 
         /**
          * The target object of the workflow.
          */
-        targetObject
+        TARGET_OBJECT
+    }
+
+    /**
+     * The related object of a port.
+     */
+    public enum RelatedObject {
+        /**
+         * The left object of the workflow.
+         */
+        LEFT_OBJECT,
+
+        /**
+         * The right object of the workflow.
+         */
+        RIGHT_OBJECT
     }
 
     private static final String SOURCE_PORT_NAME = "source";
@@ -209,6 +223,9 @@ public class T2FlowExecutablePlanGenerator {
      * Adds measure ports for the provided {@code measures} to the workflow if
      * they are provided by the QA component and are not already present.
      * 
+     * If a port specifies the related object, only
+     * {@link RelatedObject#RIGHT_OBJECT} is considered.
+     * 
      * @param workflowDescription
      *            workflow description of the migration component
      * @param workflowContent
@@ -217,9 +234,36 @@ public class T2FlowExecutablePlanGenerator {
      *            map with parameters of the component
      * @param measures
      *            measures of output ports to connect the component to
+     * 
+     * @see {@link #addQaComponent(WorkflowDescription, String, Map, List, RelatedObject)}
      */
     public void addQaComponent(final WorkflowDescription workflowDescription, final String workflowContent,
         final Map<String, String> parameters, final List<String> measures) {
+        addQaComponent(workflowDescription, workflowContent, parameters, measures, RelatedObject.RIGHT_OBJECT);
+    }
+
+    /**
+     * Adds a QA component.
+     * 
+     * Adds measure ports for the provided {@code measures} to the workflow if
+     * they are provided by the QA component and are not already present.
+     * 
+     * If an output port specifies a related object, the port will only be
+     * connected if the {@code relatedObject} matches.
+     * 
+     * @param workflowDescription
+     *            workflow description of the migration component
+     * @param workflowContent
+     *            the actual workflow content of the component
+     * @param parameters
+     *            map with parameters of the component
+     * @param measures
+     *            measures of output ports to connect the component to
+     * @param relatedObject
+     *            the related object of measures to use if present
+     */
+    public void addQaComponent(final WorkflowDescription workflowDescription, final String workflowContent,
+        final Map<String, String> parameters, final List<String> measures, RelatedObject relatedObject) {
 
         // Dataflow
         NestedWorkflow qa = new NestedWorkflow(createProcessorName(workflowDescription.getName()),
@@ -233,19 +277,19 @@ public class T2FlowExecutablePlanGenerator {
         boolean targetToLeft = false;
         boolean sourceToRight = false;
         boolean targetToRight = false;
-        if (hasMigration() && acceptsMimetypes(workflowDescription, sourceMimetype, targetMimetype)) {
+        if (hasMigration() && workflowDescription.acceptsMimetypes(sourceMimetype, targetMimetype)) {
             sourceToLeft = true;
             targetToRight = true;
-        } else if (hasMigration() && acceptsMimetypes(workflowDescription, targetMimetype, sourceMimetype)) {
+        } else if (hasMigration() && workflowDescription.acceptsMimetypes(targetMimetype, sourceMimetype)) {
             sourceToRight = true;
             targetToLeft = true;
-        } else if (acceptsLeftMimetype(workflowDescription, sourceMimetype)) {
+        } else if (workflowDescription.acceptsLeftMimetype(sourceMimetype)) {
             sourceToLeft = true;
-        } else if (acceptsRightMimetype(workflowDescription, sourceMimetype)) {
+        } else if (workflowDescription.acceptsRightMimetype(sourceMimetype)) {
             sourceToRight = true;
-        } else if (hasMigration() && acceptsLeftMimetype(workflowDescription, targetMimetype)) {
+        } else if (hasMigration() && workflowDescription.acceptsLeftMimetype(targetMimetype)) {
             targetToLeft = true;
-        } else if (hasMigration() && acceptsRightMimetype(workflowDescription, targetMimetype)) {
+        } else if (hasMigration() && workflowDescription.acceptsRightMimetype(targetMimetype)) {
             targetToRight = true;
         }
 
@@ -309,7 +353,7 @@ public class T2FlowExecutablePlanGenerator {
      */
     public void addCcComponent(final WorkflowDescription workflowDescription, final String workflowContent,
         final Map<String, String> parameters, final List<String> measures) {
-        addCcComponent(workflowDescription, workflowContent, parameters, measures, InputSource.targetObject);
+        addCcComponent(workflowDescription, workflowContent, parameters, measures, InputSource.TARGET_OBJECT);
     }
 
     /**
@@ -343,12 +387,12 @@ public class T2FlowExecutablePlanGenerator {
         List<Port> inputPorts = workflowDescription.getInputPorts();
         for (Port p : inputPorts) {
             if (ComponentConstants.VALUE_SOURCE_OBJECT.equals(p.getValue())) {
-                if (inputSource == InputSource.sourceObject
-                    && handlesSourceMimetype(workflowDescription, sourceMimetype)) {
+                if (inputSource == InputSource.SOURCE_OBJECT
+                    && workflowDescription.handlesMimetype(sourceMimetype)) {
                     cc.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(workflow, SOURCE_PORT_NAME, cc, p.getName()));
-                } else if (inputSource == InputSource.targetObject
-                    && handlesSourceMimetype(workflowDescription, targetMimetype)) {
+                } else if (inputSource == InputSource.TARGET_OBJECT
+                    && workflowDescription.handlesMimetype(targetMimetype)) {
                     cc.addInputPort(new InputPort(p.getName(), 0));
                     workflow.addDatalink(new Datalink(migration, migrationTargetPortName, cc, p.getName()));
                 }
@@ -433,146 +477,6 @@ public class T2FlowExecutablePlanGenerator {
     private String convertWorkflowToNested(final String workflowContent) {
         return workflowContent.replaceAll("<\\?xml.*>", "").replaceAll("<workflow.+?>", "")
             .replaceAll("</workflow>", "").replaceAll("role=\"top\"", "role=\"nested\"");
-    }
-
-    /**
-     * Checks whether the provided workflow accepts the left and right mimetype.
-     * 
-     * @param workflowDescription
-     *            description of the workflow
-     * @param leftMimetype
-     *            left mimetype to check
-     * @param rightMimetype
-     *            right mimetype to check
-     * @return true if the workflow accepts the mimetypes, false otherwise
-     */
-    private boolean acceptsMimetypes(final WorkflowDescription workflowDescription, final String leftMimetype,
-        final String rightMimetype) {
-
-        String leftWildcard = getMimetypeWildcard(leftMimetype);
-        String rightWildcard = getMimetypeWildcard(leftMimetype);
-
-        List<String> acceptedMimetype = workflowDescription.getAcceptedMimetype();
-        if ((leftMimetype == null || acceptedMimetype.contains(leftMimetype) || acceptedMimetype.contains(leftWildcard))
-            && (rightMimetype == null || acceptedMimetype.contains(rightMimetype) || acceptedMimetype
-                .contains(rightWildcard))) {
-            return true;
-        }
-
-        List<AcceptedMimetypes> acceptedMimetypes = workflowDescription.getAcceptedMimetypes();
-        for (AcceptedMimetypes m : acceptedMimetypes) {
-            if ((leftMimetype == null || m.getLeftMimetype().equals(leftMimetype) || m.getLeftMimetype().equals(
-                leftWildcard))
-                && (rightMimetype == null || m.getRightMimetype().equals(rightMimetype) || m.getRightMimetype().equals(
-                    rightWildcard))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks if the left part of the provided workflow can handle the mimetype.
-     * 
-     * @param workflowDescritpion
-     *            the workflow to check
-     * @param mimetype
-     *            the mimetype
-     * @return true if the left part can handle the mimetype, false otherwise
-     */
-    private boolean acceptsLeftMimetype(final WorkflowDescription workflowDescritpion, final String mimetype) {
-        if (mimetype == null) {
-            return true;
-        }
-
-        String wildcardMimetype = getMimetypeWildcard(mimetype);
-
-        List<String> acceptedMimetype = workflowDescritpion.getAcceptedMimetype();
-        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
-            return true;
-        }
-
-        List<AcceptedMimetypes> acceptedMimetypes = workflowDescritpion.getAcceptedMimetypes();
-        for (AcceptedMimetypes m : acceptedMimetypes) {
-            if (m.getLeftMimetype().equals(mimetype) || m.getLeftMimetype().equals(wildcardMimetype)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the right part of the provided workflow can handle the
-     * mimetype.
-     * 
-     * @param workflowDescription
-     *            the workflow to check
-     * @param mimetype
-     *            the mimetype
-     * @return true if the right part can handle the mimetype, false otherwise
-     */
-    private boolean acceptsRightMimetype(final WorkflowDescription workflowDescription, final String mimetype) {
-        if (mimetype == null) {
-            return true;
-        }
-
-        String wildcardMimetype = getMimetypeWildcard(mimetype);
-
-        List<String> acceptedMimetype = workflowDescription.getAcceptedMimetype();
-        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
-            return true;
-        }
-
-        List<AcceptedMimetypes> acceptedMimetypes = workflowDescription.getAcceptedMimetypes();
-        for (AcceptedMimetypes m : acceptedMimetypes) {
-            if (m.getRightMimetype().equals(mimetype) || m.getRightMimetype().equals(wildcardMimetype)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the provided workflow can handle the mimetype.
-     * 
-     * @param wf
-     *            the workflow to check
-     * @param mimetype
-     *            the mimetype
-     * @return true if the left part can handle the mimetype, false otherwise
-     */
-    private boolean handlesSourceMimetype(final WorkflowDescription wf, final String mimetype) {
-        if (mimetype == null) {
-            return true;
-        }
-        
-        String wildcardMimetype = getMimetypeWildcard(mimetype);
-
-        List<String> acceptedMimetype = wf.getAcceptedMimetype();
-        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Creates a wildcard mimetype by using the type of the provided mimetype
-     * and '*' as subtype.
-     * 
-     * @param mimetype
-     *            the base mimetype
-     * @return the wildcard mimetype
-     */
-    private String getMimetypeWildcard(String mimetype) {
-        if (mimetype == null) {
-            return null;
-        } else if ("".equals(mimetype)) {
-            return "";
-        }
-
-        int position = mimetype.indexOf('/');
-        return mimetype.substring(0, position >= 0 ? position : mimetype.length()) + "/*";
     }
 
     /**
