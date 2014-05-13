@@ -27,7 +27,7 @@ Plato is for:
 
 * Content holders: academic and national libraries, archives, galleries, museums
 * Preservation experts
-* Practicioners who wants to get familiar with the preservation planning workflow
+* Practitioners who want to gain familiarity with the preservation planning workflow
 
 
 ## More information
@@ -39,7 +39,7 @@ Plato is for:
 * Christoph Becker, Hannes Kulovits, Mark Guttenbrunner, Stephan Strodl, Andreas Rauber, and Hans Hofman: [Systematic planning for digital preservation: Evaluating potential strategies and building preservation plans](http://www.ifs.tuwien.ac.at/~becker/pubs/becker-ijdl2009.pdf) International Journal on Digital Libraries (IJDL), December 2009.
 
 ### Official Website
-Check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/intro_documentation.html) for more information, like:
-* Publications
-* Documentation
-* Case studies
+Please check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/intro_documentation.html) where you can find more information on Plato in general, its documentation, and case studies.
+
+There is also the link to the [public test instance](http://plato.ifs.tuwien.ac.at/plato) where you take a look at existing plans,
+or create your own preservation plans.
