@@ -46,9 +46,9 @@ import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
-import eu.scape_project.planning.taverna.generator.T2FlowExecutablePlanGenerator;
-import eu.scape_project.planning.taverna.generator.T2FlowExecutablePlanGenerator.InputSource;
-import eu.scape_project.planning.taverna.generator.T2FlowExecutablePlanGenerator.RelatedObject;
+import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator;
+import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator.InputSource;
+import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator.RelatedObject;
 import eu.scape_project.planning.utils.FileUtils;
 
 /**

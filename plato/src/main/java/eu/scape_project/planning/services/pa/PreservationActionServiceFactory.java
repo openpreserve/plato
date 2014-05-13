@@ -65,7 +65,7 @@ public class PreservationActionServiceFactory {
         preservationActionServices.put("MiniMEE-emulation",
             "eu.scape_project.planning.services.action.minimee.MiniMeeEmulationService");
         // preservationActionServices.put("myExperiment",
-        // "eu.scape_project.planning.taverna.migrationaction.SSHTavernaMigrationActionService");
+        // "eu.scape_project.planning.services.taverna.migrationaction.SSHTavernaMigrationActionService");
         preservationActionServices.put("myExperiment",
             "eu.scape_project.planning.services.pa.taverna.SSHTavernaMigrationActionService");
 

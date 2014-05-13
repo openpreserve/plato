@@ -34,9 +34,9 @@ import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.ExecutablePlanDefinition;
 import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.services.taverna.parser.T2FlowParser;
+import eu.scape_project.planning.services.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.sla.QLDGenerator;
-import eu.scape_project.planning.taverna.parser.T2FlowParser;
-import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.ParserException;
 
 /**

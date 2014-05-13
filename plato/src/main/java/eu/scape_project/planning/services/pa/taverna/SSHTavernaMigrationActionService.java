@@ -37,9 +37,9 @@ import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient;
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
-import eu.scape_project.planning.taverna.executor.SSHInMemoryTempFile;
-import eu.scape_project.planning.taverna.executor.SSHTavernaExecutor;
-import eu.scape_project.planning.taverna.executor.TavernaExecutorException;
+import eu.scape_project.planning.services.taverna.executor.SSHInMemoryTempFile;
+import eu.scape_project.planning.services.taverna.executor.SSHTavernaExecutor;
+import eu.scape_project.planning.services.taverna.executor.TavernaExecutorException;
 import eu.scape_project.planning.utils.FileUtils;
 
 /**
