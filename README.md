@@ -14,7 +14,7 @@ To install you need:
 
 ### Download
 
-At the moment there are no precompiled versions available, please refer to section [Build](#build).
+At the moment there are no precompiled versions available, please refer to the instructions for building Plato on the contribute page.
 
 ### Install instructions
 
@@ -114,8 +114,7 @@ Plato is released under [Apache version 2.0 license](LICENSE.txt).
 
 ### Acknowledgements
 
-Part of this work was supported by the European Union in the 7th Framework Program, IST, through the SCAPE project, Contract 270137.
-
+This work was partially supported by the [SCAPE project](http://scape-project.eu/). The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137)
 ### Support
 
 This tool is supported by the [Open Planets Foundation](http://www.openplanetsfoundation.org). If you require support, feel free to contact plato [at] ifs.tuwien.ac.at.
