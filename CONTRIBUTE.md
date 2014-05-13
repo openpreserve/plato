@@ -43,7 +43,7 @@ If you are planning to contribute please setup the provided eclipse_formatter, c
 	maven module. At the end select this to be the default checkstyle config.
 	
 	3. To activate checkstyle for a certain project just right click on it select checkstyle > activate checkstyle.
-	This will continouosly check the code as you type and mark the bad spots with yellow and will provide
+	This will continuously check the code as you type and mark the bad spots with yellow and will provide
 	warnings.
 
 ### Build
@@ -64,10 +64,10 @@ To setup the test server make a copy of the already configured main instance, re
 	
 	NOTE: If your database is set up for the first time, you have to:
 
-	1. Build plannginsuite.ear with the additional parameter: <pre> -Ddatabase.schema.generation=create </pre>
+	1. Build planningsuite.ear with the additional parameter: <pre> -Ddatabase.schema.generation=create </pre>
 	   and deploy it to JBoss (like described above)
 	2. Stop JBoss
-	3. Build plannginsuite.ear once more without the additional parameter and deploy it again.
+	3. Build planningsuite.ear once more without the additional parameter and deploy it again.
 	   This is **important**, otherwise the database gets re-created with each start - and your data gets lost
 
 	To run tests:
@@ -80,10 +80,10 @@ After successful compile the generated artifacts are available in the _target_ s
 
 ### Deploy
 
-You have to use the war and ear files. (you cannot deploy the exploded archives, because there is a bug in the maven-war plugin)
+You have to use the war and ear files, you cannot deploy the exploded archives, because there is a bug in the maven-war plugin.
 
 1. Copy planningsuite-ear/target/planningsuite-ear.ear to your JBoss deployments folder
-2. Copy idp/target/idp.war to your JBoss deployments folder.
+2. Copy idp/target/idp.war to your JBoss deployments folder
 
 ### Contribute
 
@@ -91,7 +91,7 @@ You have to use the war and ear files. (you cannot deploy the exploded archives,
 2. Change the code and push into the forked project
 3. [Submit a pull request](https://help.github.com/articles/using-pull-requests)
 
-To increase the changes of you code being accepted and merged into the official source here's a checklist of things to go over before submitting a contribution. For example:
+To increase the chances of your changes being accepted and merged into the official source here's a checklist of things to go over before submitting a contribution. For example:
 
 * Has unit tests (that covers at least 80% of the code)
 * Has documentation (at least 80% of public API)
