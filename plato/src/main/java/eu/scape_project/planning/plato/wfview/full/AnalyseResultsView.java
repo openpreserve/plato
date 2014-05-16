@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,8 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
@@ -42,8 +44,6 @@ import eu.scape_project.planning.plato.wf.AnalyseResults;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 import eu.scape_project.planning.utils.Downloader;
-
-import org.slf4j.Logger;
 
 /**
  * View bean for the workflow step analyse results.
@@ -67,8 +67,10 @@ public class AnalyseResultsView extends AbstractView {
 
     @Inject
     private TreeHelperBean policytreeHelper;
+
     @Inject
     private TreeHelperBean requirementstreeHelper;
+
     @Inject
     private TreeHelperBean resultstreeHelper;
 
@@ -135,7 +137,7 @@ public class AnalyseResultsView extends AbstractView {
     private String recommendedAlternativeAsString;
 
     /**
-     * Creates a new object.
+     * Constructs a new view bean.
      */
     public AnalyseResultsView() {
         currentPlanState = PlanState.WEIGHTS_SET;
@@ -155,12 +157,7 @@ public class AnalyseResultsView extends AbstractView {
         recommendedAlternativeAsString = "";
     }
 
-    /**
-     * Initialises this object with data from the provided plan.
-     * 
-     * @param plan
-     *            the plan to initialise with
-     */
+    @Override
     public void init(Plan plan) {
         super.init(plan);
 
@@ -210,10 +207,18 @@ public class AnalyseResultsView extends AbstractView {
         }
     }
 
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return analyseResults;
+    }
+
     /**
      * Starts a download for the given digital object. Uses
      * {@link eu.scape_project.planning.util.Downloader} to perform the
      * download.
+     * 
+     * @param object
+     *            the digital object to download
      */
     public void download(final DigitalObject object) {
         File file = bytestreamManager.getTempFile(object.getPid());
@@ -252,9 +257,15 @@ public class AnalyseResultsView extends AbstractView {
         return SimpleDateFormat.getDateTimeInstance().format(new Date());
     }
 
-    @Override
-    protected AbstractWorkflowStep getWfStep() {
-        return analyseResults;
+    /**
+     * Sets the recommended alternative identified by the alternative name.
+     * 
+     * @param recommendedAlternativeAsString
+     *            the name of the recommended alternative
+     */
+    public void setRecommendedAlternativeAsString(String recommendedAlternativeAsString) {
+        this.recommendedAlternativeAsString = recommendedAlternativeAsString;
+        updateAlternativeRecommendation(recommendedAlternativeAsString);
     }
 
     /**
@@ -325,11 +336,6 @@ public class AnalyseResultsView extends AbstractView {
 
     public String getRecommendedAlternativeAsString() {
         return recommendedAlternativeAsString;
-    }
-
-    public void setRecommendedAlternativeAsString(String recommendedAlternativeAsString) {
-        this.recommendedAlternativeAsString = recommendedAlternativeAsString;
-        updateAlternativeRecommendation(recommendedAlternativeAsString);
     }
 
     public TreeHelperBean getPolicytreeHelper() {

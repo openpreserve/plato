@@ -180,19 +180,19 @@
 					<h:outputText value="More Actions" />
 				</legend>
 				<div id="description">
-					<p>You have three options here: upload your own samples
-						objects, manually fill in the sample information or upload a c3po
-						xml profile.</p>
+					<p>Manually fill in sample information, upload your own samples
+						objects, or upload a c3po XML profile.</p>
 				</div>
-				<div id="sampleactions" class="multi-buttons">
-					<a4j:commandButton value="Add sample" id="addRecord"
-						action="#{defineSampleRecords.newSample}" onclick="changed()"
-						render="sampleRecordsList" />
-					<input
+				<div id="sampleactions" class="separator-or-vertical">
+					<span><a4j:commandButton value="Add sample" id="addRecord"
+				  	action="#{defineSampleRecords.newSample}" onclick="changed()"
+					  render="sampleRecordsList" /></span><!--  
+		   --><span><input
 						onclick="$('#uploadSample').toggle('normal');$('#uploadProfile').hide('normal');"
-						type="button" value="Upload sample" /> <input
-						onclick="$('#uploadSample').hide('normal');$('#uploadProfile').toggle('normal');"
-						type="button" value="Upload profile" />
+						type="button" value="Upload sample" /></span><!--  
+			 --><span><input
+				     onclick="$('#uploadSample').hide('normal');$('#uploadProfile').toggle('normal');"
+					   type="button" value="Upload profile" /></span>
 				</div>
 				<div id="sampleforms">
 					<div id="uploadSample" class="sampleform">

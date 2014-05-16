@@ -26,6 +26,8 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
@@ -38,8 +40,6 @@ import eu.scape_project.planning.model.sensitivity.SimpleIterativeWeightModifier
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.plato.wfview.beans.ReportLeaf;
 
-import org.slf4j.Logger;
-
 /**
  * Class containing business logic for workflow-step AnalyseResults.
  * 
@@ -49,11 +49,16 @@ import org.slf4j.Logger;
 @ConversationScoped
 public class AnalyseResults extends AbstractWorkflowStep {
 
+    private static final int MAX_SENSITIVITY_ANALYSIS_LEAVES = 40;
+
     private static final long serialVersionUID = -756737838773396705L;
 
     @Inject
     private Logger log;
 
+    /**
+     * Constructs a new object.
+     */
     public AnalyseResults() {
         this.requiredPlanState = PlanState.WEIGHTS_SET;
         this.correspondingPlanState = PlanState.ANALYSED;
@@ -64,6 +69,7 @@ public class AnalyseResults extends AbstractWorkflowStep {
         prepareChangesForPersist.prepare(plan);
 
         saveEntity(plan.getRecommendation());
+        saveEntity(plan.getExecutablePlanDefinition());
     }
 
     /**
@@ -112,7 +118,7 @@ public class AnalyseResults extends AbstractWorkflowStep {
         long start = System.currentTimeMillis();
 
         // FIXME HK reintroduce SENSITIVITY analysis for large trees - Plato 3.1
-        if (plan.getTree().getRoot().getAllLeaves().size() < 40) {
+        if (plan.getTree().getRoot().getAllLeaves().size() < MAX_SENSITIVITY_ANALYSIS_LEAVES) {
             log.debug("Starting sensitivity analysis ... ");
             rootNode.analyseSensitivity(new SimpleIterativeWeightModifier(), new OrderChangeCountTest(plan.getTree()
                 .getRoot(), new WeightedSum(), alternatives));
@@ -130,6 +136,11 @@ public class AnalyseResults extends AbstractWorkflowStep {
      */
     public void recommendAlternative(Alternative recommendedAlternative) {
         plan.getRecommendation().setAlternative(recommendedAlternative);
+        DigitalObject executablePlan = plan.getExecutablePlanDefinition().getT2flowExecutablePlan();
+        if (executablePlan != null) {
+            plan.getExecutablePlanDefinition().setT2flowExecutablePlan(null);
+            bytestreamsToRemove.add(executablePlan.getPid());
+        }
         plan.getRecommendation().touch();
     }
 }

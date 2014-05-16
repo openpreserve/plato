@@ -27,6 +27,9 @@
 		</div>
 
 		<h:form id="mainform">
+			<h:inputText id="changedflag" value="#{developExperiments.changed}"
+				style="display:none" />
+		
 			<div class="full-size">
 				<rich:dataTable value="#{developExperiments.alternatives}"
 					var="alternative" id="alternativesTable" styleClass="tableStyle"
@@ -78,7 +81,7 @@
 
 									<div class="multi-buttons">
 										<a4j:commandButton value="Generate Experiment Workflow"
-											onclick="toggleLoadingOverlay();"
+											onclick="toggleLoadingOverlay(); changed();"
 											oncomplete="toggleLoadingOverlay();"
 											action="#{developExperiments.generateExperimentWorkflow(alternative)}"
 											render="generate-experiment" />

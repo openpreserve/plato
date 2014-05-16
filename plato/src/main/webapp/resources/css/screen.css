@@ -1152,31 +1152,60 @@ td.service-info {
 	overflow: hidden;
 }
 
-.service-parameter-or {
+.separator-or {
+	position: relative;
+	text-align: center;
+	margin: 10px;
+}
+
+.separator-or:after {
+	position: absolute;
+	top: 50%;
+	margin-top: -10px;
+	left: 46%;
+	display: block;
+	text-align: center;
+	background: #FFF;
+	content: 'or';
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border:1px solid #C4C0B9;
+	border-radius:100%;
+}
+
+fieldset .separator-or:after {
+	background: #F2F2F2;
+}
+
+
+ul.separator-or-vertical {
+	padding: 0px;
+}
+
+.separator-or-vertical span {
 	position: relative;
 	display: inline-block;
-	width: 100%;
-	text-align: center;
+	padding-right: 15px;
 }
 
-.service-parameter-or:before {
+.separator-or-vertical span:nth-child(n+2) {
+	padding-left: 15px;
+}
+
+.separator-or-vertical span:nth-child(n+2):after {
 	position: absolute;
-	left: 0%;
 	top: 50%;
-	height: 1px;
-	background: #ccc;
-	content: "";
-	width: 100%;
-}
-
-.service-parameter-or:after {
-	position: absolute;
-	top: 0%;
-	left: 46%;
-	background: #fff;
+	margin-top: -10px;
+	left: -11px;
 	display: block;
+	text-align: center;
 	content: 'or';
-	width: 8%;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border:1px solid #C4C0B9;
+	border-radius:100%;
 }
 
 /* Confirmation panel */

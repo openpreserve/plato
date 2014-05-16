@@ -15,6 +15,17 @@
 	<ui:define name="content">
 		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div class="wfstepinfo">
+			<div id="anchors">
+				<ul class="anchors">
+					<li class="anchors"><a href="#when_fieldset" class="anchors">When</a></li>
+					<li class="anchors"><a href="#what_fieldset" class="anchors">What</a></li>
+					<li class="anchors"><a href="#executable_plan_fieldset"
+						class="anchors">Executable Plan</a></li>
+					<li class="anchors"><a
+						href="#preservation_action_plan_fieldset" class="anchors">Preservation
+							Action Plan</a></li>
+				</ul>
+			</div>
 			<div class="wfdescription">
 				This step of the workflow defines the triggers for the execution and
 				under what conditions the preservation action will be carried out.
@@ -32,11 +43,10 @@
 		</div>
 
 		<h:form id="mainform">
-
 			<h:inputText id="changedflag" value="#{createExecutablePlan.changed}"
 				style="display:none" />
 
-			<fieldset class="size-full">
+			<fieldset id="when_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					When
@@ -53,7 +63,7 @@
 					touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
 			</fieldset>
 
-			<fieldset class="size-full">
+			<fieldset id="what_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					What
@@ -114,37 +124,44 @@
 					touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
 			</fieldset>
 
-			<fieldset class="size-full">
+			<fieldset id="executable_plan_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					Executable Plan (Preservation Component)
 				</legend>
 				<a4j:outputPanel id="executablePlan">
-					<div class="multi-buttons">
-						<h:commandLink action="#{createExecutablePlan.downloadTemplate()}"
-							value="Download Executable Plan Template"
-							styleClass="download-link" />
-						<input
+					<div class="separator-or-vertical">
+						<span><input
 							onclick="$('#uploadT2flowExecutablePlanPanel').toggle('normal');"
-							value="Upload Executable Plan (Preservation Component)"
-							type="button" />
+							value="Upload Executable Plan" type="button" /></span><!--  
+				 --><a4j:outputPanel layout="inline" 
+							rendered="#{not empty createExecutablePlan.plan.recommendation.alternative.experiment.workflow}">
+							<a4j:commandButton
+									action="#{createExecutablePlan.copyRecommendedExperimentWorkflow()}"
+									value="Copy alternative workflow"
+									onclick="toggleLoadingOverlay(); changed();"
+									oncomplete="toggleLoadingOverlay();"
+									render="executablePlan preservationActionPlan" />
+						</a4j:outputPanel>
+					</div>
+					<p>
 						<h:commandLink
 							action="#{createExecutablePlan.download(createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan)}"
-							value="Download Executable Plan (Preservation Component)"
+							value="Download current Executable Plan"
 							rendered="#{createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan != null and createExecutablePlan.plan.executablePlanDefinition.t2flowExecutablePlan.dataExistent}"
-							styleClass="download-link" />  
-
-					</div>
+							styleClass="download-link" />
+					</p>
 					<div id="uploadT2flowExecutablePlanPanel" class="sampleform">
 						<rich:fileUpload id="uploadT2flowExecutablePlan"
 							fileUploadListener="#{createExecutablePlan.uploadT2flowExecutablePlan}"
 							acceptedTypes="t2flow"
+							onuploadcomplete="changed();"
 							render="executablePlan preservationActionPlan" />
 					</div>
 				</a4j:outputPanel>
 			</fieldset>
 
-			<fieldset class="size-full">
+			<fieldset id="preservation_action_plan_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					Preservation Action Plan
@@ -154,6 +171,8 @@
 					<a4j:commandButton
 						action="#{createExecutablePlan.generatePreservationActionPlan()}"
 						value="Generate Preservation Action Plan"
+						onclick="toggleLoadingOverlay(); changed();"
+						oncomplete="toggleLoadingOverlay();"
 						rendered="#{createExecutablePlan.papGenerationPossible}"
 						type="button" render="preservationActionPlan" />
 					<h:commandLink
