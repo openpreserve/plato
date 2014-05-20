@@ -76,24 +76,12 @@ public class DevelopExperiments extends AbstractWorkflowStep {
                 bytestreamsToRemove.add(oldWorkflow.getPid());
             }
 
-            plan.setAlternativeWorkflow(alternative, workflow);
+            plan.setExperimentWorkflow(alternative, workflow);
+            alternative.getAction().setActionIdentifier("myExperiment-plan");
             addedBytestreams.add(workflow.getPid());
         } catch (StorageException e) {
             log.error("An error occurred while storing the executable plan: {}", e.getMessage());
             throw new PlanningException("An error occurred while storing the profile", e);
         }
     }
-
-    /**
-     * Sets the experiment workflow URI to the alternative.
-     * 
-     * @param alternative
-     *            the alternative
-     * @param workflowUri
-     *            the workflow URI to set
-     */
-    public void setAlternativeWorkflowUri(final Alternative alternative, final String workflowUri) {
-        plan.setAlternativeWorkflowUri(alternative, workflowUri);
-    }
-
 }

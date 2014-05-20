@@ -176,10 +176,10 @@ public class RunExperiments extends AbstractWorkflowStep {
         List<SampleObject> allRecords = plan.getSampleRecordsDefinition().getRecords();
         for (Alternative alternative : runnableAlternatives) {
             Experiment exp = alternative.getExperiment();
-            
+
             for (SampleObject record : allRecords) {
                 DigitalObject u = exp.getResults().get(record);
-                
+
                 if (u.isDataExistent() && (u.getFitsXMLString() == null)) {
                     characteriseFits(u);
                 }
@@ -192,10 +192,6 @@ public class RunExperiments extends AbstractWorkflowStep {
     protected void saveStepSpecific() {
         prepareChangesForPersist.prepare(plan);
         characteriseResults();
-
-        // init tree values for all considered alternatives
-        plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(),
-            plan.getSampleRecordsDefinition().getRecords().size());
 
         plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
         saveEntity(plan.getTree());

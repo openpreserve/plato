@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,9 +30,7 @@ import eu.scape_project.planning.model.values.Value;
 
 @Entity
 public class Measurement implements Serializable {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1189511961248081431L;
 
     @Id
@@ -44,20 +42,48 @@ public class Measurement implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Value value;
 
+    /**
+     * Constructs an empty measurement.
+     */
     public Measurement() {
-
     }
 
+    /**
+     * Constructs a measurement with the provided values.
+     * 
+     * @param measureId
+     *            the measurement id
+     * @param value
+     *            the value
+     */
     public Measurement(String measureId, String value) {
         this.measureId = measureId;
         this.value = new FreeStringValue();
         ((FreeStringValue) this.value).setValue(value);
     }
 
+    /**
+     * Constructs a measurement with the provided values.
+     * 
+     * @param measureId
+     *            the measurement id
+     * @param value
+     *            the value
+     */
     public Measurement(String measureId, double value) {
         this.measureId = measureId;
         this.value = new PositiveFloatValue();
         ((PositiveFloatValue) this.value).setValue(value);
+    }
+
+    // ---------- getter/setter ----------
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Value getValue() {
@@ -66,14 +92,6 @@ public class Measurement implements Serializable {
 
     public void setValue(Value value) {
         this.value = value;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getMeasureId() {

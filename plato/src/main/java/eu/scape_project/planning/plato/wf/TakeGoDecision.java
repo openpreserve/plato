@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,16 +26,18 @@ import eu.scape_project.planning.model.AlternativesDefinition;
 import eu.scape_project.planning.model.PlanState;
 
 /**
- * Business logic for workflow step Take Go Decision
+ * Business logic for workflow step Take Go Decision.
  * 
  * @author Markus Hamm, Michael Kraxner
- * 
  */
 @Stateful
 @ConversationScoped
 public class TakeGoDecision extends AbstractWorkflowStep {
     private static final long serialVersionUID = 2756349796229463787L;
 
+    /**
+     * Constructs a new workflow step object.
+     */
     public TakeGoDecision() {
         requiredPlanState = PlanState.ALTERNATIVES_DEFINED;
         correspondingPlanState = PlanState.GO_CHOSEN;
@@ -51,8 +53,14 @@ public class TakeGoDecision extends AbstractWorkflowStep {
     @Override
     protected void saveStepSpecific() {
         prepareChangesForPersist.prepare(plan);
+
+        // init tree values for all considered alternatives
+        plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(),
+            plan.getSampleRecordsDefinition().getRecords().size());
+        saveEntity(plan.getTree());
+
         // alternatives might have been discarded
-        plan.setAlternativesDefinition((AlternativesDefinition)saveEntity(plan.getAlternativesDefinition()));
+        plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
         saveEntity(plan.getDecision());
     }
 

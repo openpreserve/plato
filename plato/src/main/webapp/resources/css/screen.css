@@ -1024,6 +1024,10 @@ td.service-marker-myExperiment {
 	background-color: #ce0434;
 }
 
+td.service-marker-myExperiment-plan {
+	background-color: #940325;
+}
+
 td.service-marker-MiniMEE-migration {
 	background-color: white;
 }

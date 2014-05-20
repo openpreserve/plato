@@ -382,25 +382,10 @@ public class Plan implements Serializable, ITouchable {
      * @param workflow
      *            the workflow to set
      */
-    public void setAlternativeWorkflow(Alternative alternative, DigitalObject workflow) {
+    public void setExperimentWorkflow(Alternative alternative, DigitalObject workflow) {
         alternative.getExperiment().setWorkflow(workflow);
         alternative.getExperiment().touch();
-        tree.removeValues(alternative);
-    }
-
-    /**
-     * Sets the experiment workflow URI and removes associated evaluation values
-     * of the alternative.
-     * 
-     * @param alternative
-     *            alternative to modify
-     * @param workflowUri
-     *            the workflow URI to set
-     */
-    public void setAlternativeWorkflowUri(Alternative alternative, String workflowUri) {
-        alternative.getExperiment().setWorkflowUri(workflowUri);
-        alternative.getExperiment().touch();
-        tree.removeValues(alternative);
+//        tree.removeValues(alternative);
     }
 
     /**

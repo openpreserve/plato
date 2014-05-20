@@ -129,7 +129,7 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
         }
 
         // Workflow
-        tavernaExecutor.setWorkflowUrl(service.getContentUri());
+        tavernaExecutor.setWorkflow(service.getContentUri());
 
         // Output ports to receive
         List<Port> outputPorts = workflowDescription.getOutputPorts();

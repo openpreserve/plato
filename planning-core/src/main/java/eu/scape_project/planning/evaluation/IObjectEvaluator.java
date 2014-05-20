@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ import eu.scape_project.planning.model.values.Value;
  * belong to the categories
  * <ul>
  * <li>outcome object and</li>
- * <li>action runtime.</li>
+ * <li>action runtime</li>
  * </ul>
  * The interface defines constant URIs for core properties that are implemented
  * and integrated in Plato.
@@ -41,8 +41,8 @@ import eu.scape_project.planning.model.values.Value;
 public interface IObjectEvaluator extends IEvaluator {
 
     /**
-     * evaluates result and sample object with regard to the given critera
-     * defined in leaves returns a list of values, one per leaf
+     * Evaluates result and sample object with regard to the given criteria
+     * defined in leaves returns a list of values, one per leaf.
      * 
      * It is not nice that leaves are passed to the evaluator, and a map of
      * leaves to values is returned

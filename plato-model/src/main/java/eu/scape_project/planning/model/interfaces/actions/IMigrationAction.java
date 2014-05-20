@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,  
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +18,26 @@
  ******************************************************************************/
 package eu.scape_project.planning.model.interfaces.actions;
 
+import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.beans.MigrationResult;
 
+/**
+ * A migration action capable of performing the action on a digital object.
+ */
 public interface IMigrationAction extends IPreservationAction {
-    MigrationResult migrate(PreservationActionDefinition action, DigitalObject digitalObject) throws PlatoException ;
-    MigrationResult getLastResult();
+
+    /**
+     * Migrates the digital object using the migration action.
+     * 
+     * @param alternative
+     *            the alternative
+     * @param digitalObject
+     *            the digital object to perform the action on
+     * @return a migration result
+     * @throws PlatoException
+     *             if an exception occurred during performing the migration
+     */
+    MigrationResult migrate(Alternative alternative, DigitalObject digitalObject) throws PlatoException;
 }

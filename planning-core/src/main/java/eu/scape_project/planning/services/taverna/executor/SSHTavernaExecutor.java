@@ -97,8 +97,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /*
      * Executor parameters
      */
-    private String workflowUrl;
-    private File workflowFile;
+    private Object workflow;
     private Map<String, Object> inputData = new HashMap<String, Object>();
     private Set<String> outputPorts = new HashSet<String>();
     private HashMap<String, ?> outputFiles = new HashMap<String, Object>();
@@ -142,7 +141,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /*
      * (non-Javadoc)
      * 
-     * @see eu.scape_project.planning.services.taverna.executor.TavernaExecutor#execute()
+     * @see
+     * eu.scape_project.planning.services.taverna.executor.TavernaExecutor#execute
+     * ()
      */
     @Override
     public void execute() throws IOException, TavernaExecutorException {
@@ -200,10 +201,10 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     /**
-     * Prepares the ssh client.
+     * Prepares the SSH client.
      * 
      * @throws IOException
-     *             if an error occured during setting up the client
+     *             if an error occurred during setting up the client
      */
     private void prepareClient() throws IOException {
         ssh = new SSHClient();
@@ -219,7 +220,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * Prepares the server for execution.
      * 
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the server cannot be prepared
      */
     private void prepareServer() throws IOException, TavernaExecutorException {
         outputDocPath = workingDir + File.separator + OUTPUT_DOC_FILENAME;
@@ -232,7 +235,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * 
      * @return the server path of the input document
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the inputs cannot be prepared
      */
     private String prepareInputs() throws IOException, TavernaExecutorException {
         Element rootElement = new Element("dataThingMap", NAMESPACE);
@@ -240,7 +245,6 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
         for (Entry<String, Object> entry : inputData.entrySet()) {
             String portName = entry.getKey();
-
             Object value = entry.getValue();
             Object dereferencedInput = dereferenceInput(portName, value);
 
@@ -278,20 +282,37 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      *             if the file cannot be dereferenced
      */
     private Object dereferenceInput(String portName, Object value) throws IOException, TavernaExecutorException {
-        if (value instanceof Collection<?>) {
-            ArrayList<Object> results = new ArrayList<Object>(((Collection<?>) value).size());
-            for (Object object : (Collection<?>) value) {
-                results.add(dereferenceInput(portName, object));
+        return dereferenceObject(portName, value);
+    }
+
+    /**
+     * Dereferences an input object of the provided port recursively.
+     * 
+     * @param prefix
+     *            the prefix for the dereferenced object
+     * @param object
+     *            input object
+     * @return a dereferenced object
+     * @throws IOException
+     *             if the file cannot be read
+     * @throws TavernaExecutorException
+     *             if the file cannot be dereferenced
+     */
+    private Object dereferenceObject(String prefix, Object object) throws IOException, TavernaExecutorException {
+        if (object instanceof Collection<?>) {
+            ArrayList<Object> results = new ArrayList<Object>(((Collection<?>) object).size());
+            for (Object o : (Collection<?>) object) {
+                results.add(dereferenceInput(prefix, o));
             }
             return results;
-        } else if (value instanceof File) {
-            return uploadFile((File) value, portName);
-        } else if (value instanceof ByteArraySourceFile) {
-            return uploadFile((ByteArraySourceFile) value, portName);
-        } else if (value instanceof SSHTempFile) {
-            return registerTempPath((SSHTempFile) value, portName);
+        } else if (object instanceof File) {
+            return uploadFile((File) object, prefix);
+        } else if (object instanceof ByteArraySourceFile) {
+            return uploadFile((ByteArraySourceFile) object, prefix);
+        } else if (object instanceof SSHTempFile) {
+            return registerTempPath((SSHTempFile) object, prefix);
         } else {
-            return value;
+            return object;
         }
     }
 
@@ -315,7 +336,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
             targetPath = workingDir + File.separator + file.getName();
         } else {
             targetPath = workingDir + File.separator + targetDir + File.separator + file.getName();
-            createDir(targetDir);
+            createDir(workingDir + File.separator + targetDir);
         }
 
         if (file.canRead()) {
@@ -337,7 +358,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      *            the target directory name
      * @return the path of the file on the server
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the file cannot be uploaded
      */
     private String uploadFile(InMemorySourceFile file, String targetDir) throws IOException, TavernaExecutorException {
         String targetPath;
@@ -354,8 +377,8 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     /**
-     * Registers the the temporary file in the provided target directory and
-     * returns the server path to it.
+     * Registers the temporary file in the provided target directory and returns
+     * the server path to it.
      * 
      * @param file
      *            the file
@@ -363,7 +386,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      *            the target directory name
      * @return the path of the file on the server
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the path cannot be registered
      */
     private String registerTempPath(SSHTempFile file, String targetDir) throws IOException, TavernaExecutorException {
         String targetPath;
@@ -385,14 +410,16 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * 
      * @return the directory
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the directory cannot be createdo
      */
     private String createWorkingDir() throws IOException, TavernaExecutorException {
         final Session session = ssh.startSession();
         try {
             final Command cmd = session.exec("mktemp -d -t plato.XXXXXXXXXXXXXXXXXXXX");
             String tempDir = IOUtils.readFully(cmd.getInputStream()).toString();
-            cmd.join(5, TimeUnit.SECONDS);
+            cmd.join(commandTimeout, TimeUnit.SECONDS);
             if (cmd.getExitStatus().equals(0)) {
                 tempDir = tempDir.trim();
                 LOG.debug("Created working directory " + tempDir);
@@ -413,14 +440,16 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * @param dir
      *            name of the directory to create
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the directory cannot be created
      */
     private void createDir(String dir) throws IOException, TavernaExecutorException {
         if (!createdDirsCache.contains(dir)) {
             final Session session = ssh.startSession();
             try {
                 final Command cmd = session.exec("mkdir -p \"" + dir + "\"");
-                cmd.join(5, TimeUnit.SECONDS);
+                cmd.join(commandTimeout, TimeUnit.SECONDS);
 
                 if (cmd.getExitStatus().equals(0)) {
                     LOG.debug("Created directory " + dir);
@@ -438,10 +467,12 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     /**
-     * Executes a prepared workfow.
+     * Executes a prepared workflow.
      * 
      * @throws IOException
+     *             if the server communication failed
      * @throws TavernaExecutorException
+     *             if the workflow cannot be executed
      */
     private void executeWorkflow() throws IOException, TavernaExecutorException {
         final Session session = ssh.startSession();
@@ -468,23 +499,26 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * 
      * @return the workflow identifier for execution
      * @throws IOException
+     *             if the workflow cannot be uploaded
      * @throws TavernaExecutorException
+     *             if the workflow was not specified
      */
     private String prepareWorkflow() throws IOException, TavernaExecutorException {
-        if (workflowFile != null) {
-            return uploadFile(workflowFile, "");
-        } else if (workflowUrl != null && !workflowUrl.equals("")) {
-            return workflowUrl;
-        } else {
+        if (workflow == null) {
             throw new TavernaExecutorException("No workflow specified");
         }
+
+        return (String) dereferenceObject("", workflow);
     }
 
     /**
-     * Reads the results of ports specified in outputPorts.
+     * Reads the results of ports specified in outputPorts or of all ports if no
+     * output ports is null.
      * 
      * @throws IOException
+     *             if the results cannot be retrieved
      * @throws TavernaExecutorException
+     *             if the results cannot be read
      */
     private void getResults() throws IOException, TavernaExecutorException {
 
@@ -503,15 +537,19 @@ public class SSHTavernaExecutor implements TavernaExecutor {
 
                 Map<String, DataThing> outputDataThings = DataThingXMLFactory.parseDataDocument(outputDocument);
 
-                for (String portName : outputPorts) {
-                    DataThing outputDataThing = outputDataThings.get(portName);
-
-                    if (outputDataThing == null) {
-                        outputData.put(portName, null);
-                    } else {
-                        outputData.put(portName, outputDataThing.getDataObject());
+                if (outputPorts == null) {
+                    for (Entry<String, DataThing> outputDataThing : outputDataThings.entrySet()) {
+                        outputData.put(outputDataThing.getKey(), outputDataThing.getValue().getDataObject());
                     }
-
+                } else {
+                    for (String portName : outputPorts) {
+                        DataThing outputDataThing = outputDataThings.get(portName);
+                        if (outputDataThing == null) {
+                            outputData.put(portName, null);
+                        } else {
+                            outputData.put(portName, outputDataThing.getDataObject());
+                        }
+                    }
                 }
 
             } catch (JDOMException e) {
@@ -586,6 +624,8 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /**
      * Downloads a registered tmp file.
      * 
+     * @param path
+     *            path to the file to download
      * @param tempFile
      *            the tmp file
      * @throws IOException
@@ -612,7 +652,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         final Session session = ssh.startSession();
         try {
             final Command cmd = session.exec("rm -rf " + workingDir);
-            cmd.join(5, TimeUnit.SECONDS);
+            cmd.join(commandTimeout, TimeUnit.SECONDS);
 
             if (!cmd.getExitStatus().equals(0)) {
                 String stderr = IOUtils.readFully(cmd.getErrorStream()).toString();
@@ -627,20 +667,12 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     }
 
     // --------------- getter/setter ---------------
-    public String getWorkflowUrl() {
-        return workflowUrl;
+    public Object getWorkflow() {
+        return workflow;
     }
 
-    public void setWorkflowUrl(String workflowUrl) {
-        this.workflowUrl = workflowUrl;
-    }
-
-    public File getWorkflowFile() {
-        return workflowFile;
-    }
-
-    public void setWorkflowFile(File workflowFile) {
-        this.workflowFile = workflowFile;
+    public void setWorkflow(Object workflow) {
+        this.workflow = workflow;
     }
 
     public Map<String, Object> getInputData() {
@@ -654,9 +686,8 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * eu.scape_project.planning.services.taverna.executor.TavernaExecutor#getOutputData
-     * ()
+     * @see eu.scape_project.planning.services.taverna.executor.TavernaExecutor#
+     * getOutputData ()
      */
     @Override
     public Map<String, ?> getOutputData() {
@@ -670,9 +701,8 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * eu.scape_project.planning.services.taverna.executor.TavernaExecutor#getOutputFiles
-     * ()
+     * @see eu.scape_project.planning.services.taverna.executor.TavernaExecutor#
+     * getOutputFiles ()
      */
     @Override
     public HashMap<String, ?> getOutputFiles() {

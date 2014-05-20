@@ -180,7 +180,8 @@ public class Experiment implements Serializable, ITouchable {
         return existent;
     }
 
-    // ********** getter/setter **********
+    // ---------- getter/setter ----------
+    
     public int getId() {
         return id;
     }

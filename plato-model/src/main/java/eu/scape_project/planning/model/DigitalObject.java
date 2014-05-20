@@ -120,6 +120,8 @@ public class DigitalObject implements Serializable, ITouchable {
         pid = source.getPid();
         fitsXMLString = source.getFitsXMLString();
         formatInfo.assignValues(source.getFormatInfo());
+        jhoveXMLString = source.getJhoveXMLString();
+        xcdlDescription = source.getXcdlDescription();
     }
 
     /**

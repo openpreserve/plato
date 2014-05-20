@@ -65,6 +65,11 @@ public class T2FlowExecutablePlanGenerator {
          * The left object of the workflow.
          */
         LEFT_OBJECT {
+            /**
+             * Returns a string representation of the enum.
+             * 
+             * @return the enum as string
+             */
             public String toString() {
                 return ComponentConstants.VALUE_LEFT_OBJECT;
             }
@@ -74,6 +79,11 @@ public class T2FlowExecutablePlanGenerator {
          * The right object of the workflow.
          */
         RIGHT_OBJECT {
+            /**
+             * Returns a string representation of the enum.
+             * 
+             * @return the enum as string
+             */
             public String toString() {
                 return ComponentConstants.VALUE_RIGHT_OBJECT;
             }
@@ -83,9 +93,10 @@ public class T2FlowExecutablePlanGenerator {
     private static final String SOURCE_PORT_NAME = "source";
     private static final String TARGET_PORT_NAME = "target";
 
-    private static final Pattern PURL_DP_MEASURE_PORT_PATTERN = Pattern
+    private static final Pattern PURL_DP_MEASURE_PATTERN = Pattern
         .compile("http:\\/\\/purl\\.org\\/DP\\/quality\\/(measures)#(\\d+)");
-    private static final Pattern MEASURE_PORT_PATTERN = Pattern.compile("http.?:\\/\\/(.+)");
+    private static final Pattern GENERIC_MEASURE_PATTERN = Pattern.compile("http.?:\\/\\/(.+)");
+    private static final Pattern PURL_DP_PORTNAME_PATTERN = Pattern.compile("(measures)_(\\d+)");
 
     private final String sourceMimetype;
     private final String targetMimetype;
@@ -485,15 +496,30 @@ public class T2FlowExecutablePlanGenerator {
      *            the measure to use
      * @return the port name or null if the measure format is not recognised
      */
-    private String createMeasurePortName(final String measure) {
-        Matcher purlMatcher = PURL_DP_MEASURE_PORT_PATTERN.matcher(measure);
+    public static String createMeasurePortName(final String measure) {
+        Matcher purlMatcher = PURL_DP_MEASURE_PATTERN.matcher(measure);
         if (purlMatcher.matches()) {
             return purlMatcher.group(1) + "_" + purlMatcher.group(2);
         }
 
-        Matcher genericMatcher = MEASURE_PORT_PATTERN.matcher(measure);
+        Matcher genericMatcher = GENERIC_MEASURE_PATTERN.matcher(measure);
         if (genericMatcher.matches()) {
             return genericMatcher.group(1).replaceAll("\\s", "_").replaceAll("\\W", "_");
+        }
+        return null;
+    }
+
+    /**
+     * Creates a measure URL from the provided port name.
+     * 
+     * @param portName
+     *            the port name
+     * @return the port name or null if the measure format is not recognised
+     */
+    public static String guessMeasureUrl(final String portName) {
+        Matcher purlMatcher = PURL_DP_PORTNAME_PATTERN.matcher(portName);
+        if (purlMatcher.matches()) {
+            return "http://purl.org/DP/quality/" + purlMatcher.group(1) + "#" + purlMatcher.group(2);
         }
         return null;
     }

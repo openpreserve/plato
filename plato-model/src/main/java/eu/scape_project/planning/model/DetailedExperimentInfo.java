@@ -34,6 +34,9 @@ import javax.persistence.OneToOne;
 
 import eu.scape_project.planning.model.measurement.Measurement;
 
+/**
+ * Describes the outcome of an experiment.
+ */
 @Entity
 public class DetailedExperimentInfo implements Serializable, ITouchable {
     private static final long serialVersionUID = 1482455823876161765L;
@@ -52,14 +55,6 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
      */
     private String cpr;
 
-    public String getCpr() {
-        return cpr;
-    }
-
-    public void setCpr(String cpr) {
-        this.cpr = cpr;
-    }
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "detailedInfo_values")
     private Map<String, Measurement> measurements = new HashMap<String, Measurement>();
@@ -68,10 +63,11 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
     private ChangeLog changeLog = new ChangeLog();
 
     /**
-     * Puts measurement m to map measurements, uses the name of m's property as
-     * key
+     * Puts measurement {@code m} to the measurements map with the measure ID as
+     * key.
      * 
-     * @param m measurement
+     * @param m
+     *            measurement to add
      */
     public void put(Measurement m) {
         if (m != null) {
@@ -79,13 +75,50 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
         }
     }
 
-    public Map<String, Measurement> getMeasurements() {
-        return measurements;
+    /**
+     * Puts all measurements of the provided experiment info to the measurements
+     * map.
+     * 
+     * @param info
+     *            the detailed experiment info to use
+     */
+    public void put(DetailedExperimentInfo info) {
+        measurements.putAll(info.getMeasurements());
     }
 
-    public void setMeasurements(Map<String, Measurement> measurements) {
-        this.measurements = measurements;
+    /**
+     * Clears the data of this object.
+     */
+    public void clear() {
+        measurements.clear();
+        programOutput = "";
+        cpr = "";
     }
+
+    @Override
+    public ChangeLog getChangeLog() {
+        return changeLog;
+    }
+
+    @Override
+    public boolean isChanged() {
+        return changeLog.isAltered();
+    }
+
+    @Override
+    public void touch() {
+        changeLog.touch();
+    }
+
+    /**
+     * @see ITouchable#handleChanges(IChangesHandler)
+     */
+    @Override
+    public void handleChanges(IChangesHandler h) {
+        h.visit(this);
+    }
+
+    // ---------- getter/setter ----------
 
     public int getId() {
         return id;
@@ -93,14 +126,6 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void clear() {
-        measurements.clear();
-    }
-
-    public void put(DetailedExperimentInfo info) {
-        measurements.putAll(info.getMeasurements());
     }
 
     public Boolean getSuccessful() {
@@ -119,26 +144,23 @@ public class DetailedExperimentInfo implements Serializable, ITouchable {
         this.programOutput = programOutput;
     }
 
-    public ChangeLog getChangeLog() {
-        return changeLog;
+    public String getCpr() {
+        return cpr;
+    }
+
+    public void setCpr(String cpr) {
+        this.cpr = cpr;
+    }
+
+    public Map<String, Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(Map<String, Measurement> measurements) {
+        this.measurements = measurements;
     }
 
     public void setChangeLog(ChangeLog value) {
         changeLog = value;
-    }
-
-    public boolean isChanged() {
-        return changeLog.isAltered();
-    }
-
-    public void touch() {
-        changeLog.touch();
-    }
-
-    /**
-     * @see ITouchable#handleChanges(IChangesHandler)
-     */
-    public void handleChanges(IChangesHandler h) {
-        h.visit(this);
     }
 }

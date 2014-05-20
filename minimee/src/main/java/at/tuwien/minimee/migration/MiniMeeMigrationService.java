@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
  ******************************************************************************/
 package at.tuwien.minimee.migration;
 
+import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.model.PreservationActionDefinition;
@@ -24,62 +25,59 @@ import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
 import eu.scape_project.planning.model.measurement.Measurement;
 
+/**
+ * A MiniMee migration action.
+ */
 public class MiniMeeMigrationService implements IMigrationAction {
 
-    /**
-     * @return null
-     */
-    public MigrationResult getLastResult() {
-        return null;
-    }
+    @Override
+    public MigrationResult migrate(Alternative alternative, DigitalObject digitalObject) throws PlatoException {
+        PreservationActionDefinition action = alternative.getAction();
 
-    public MigrationResult migrate(PreservationActionDefinition action,
-            DigitalObject digitalObject) throws PlatoException {
         MigrationService service = new MigrationService();
         long start = System.nanoTime();
         String settings = "";
         if (action.isExecute()) {
             settings = action.getParamByName("settings");
         }
-        MigrationResult result = service.migrate(digitalObject.getData().getData(),
-                        action.getUrl(),
-                        settings);
-        // provide a nice name for the resulting object 
+        MigrationResult result = service.migrate(digitalObject.getData().getData(), action.getUrl(), settings);
         setResultName(result, digitalObject);
-        long duration = (System.nanoTime()-start)/(1000000);
-        service.addExperience(result.getFeedbackKey(), action.getUrl(), 
-                new Measurement("roundtripTimeMS",new Double(duration)));
+
+        long duration = (System.nanoTime() - start) / (1000000);
+        service.addExperience(result.getFeedbackKey(), action.getUrl(), new Measurement("roundtripTimeMS", new Double(
+            duration)));
         return result;
     }
-    
+
     /**
-     * The name of the resultObject is not very nice, and sometime not set at all.
-     * Therefore we create a new name, based on the name of the sampleObject 
-     * and the name of the target format 
+     * The name of the resultObject is not very nice, and sometime not set at
+     * all. Therefore we create a new name, based on the name of the
+     * sampleObject and the name of the target format.
      * 
      * @param result
+     *            the result object
      * @param sampleObject
+     *            the sample object
      */
     private void setResultName(MigrationResult result, DigitalObject sampleObject) {
         DigitalObject resultObject = result.getMigratedObject();
         if (resultObject != null) {
-            
             String resultName = "result.";
             if (sampleObject.getFullname() != null) {
                 resultName = sampleObject.getFullname() + ".";
-            } 
+            }
             if (result.getTargetFormat() != null) {
                 resultName = resultName + result.getTargetFormat().getDefaultExtension();
                 resultObject.getFormatInfo().assignValues(result.getTargetFormat());
             }
             resultObject.setFullname(resultName);
-        }        
+        }
     }
 
-    public boolean perform(PreservationActionDefinition action,
-            SampleObject sampleObject) throws PlatoException {
-        migrate(action,sampleObject);
-       return true;
+    @Override
+    public boolean perform(Alternative alternative, SampleObject sampleObject) throws PlatoException {
+        MigrationResult result = migrate(alternative, sampleObject);
+        return result.isSuccessful();
     }
 
 }

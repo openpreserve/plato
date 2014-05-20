@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +37,9 @@ import eu.scape_project.planning.plato.wf.RunExperiments;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.utils.Downloader;
 
+/**
+ * Bean for the viewWorkflow step 'Run Experiments'.
+ */
 @Named("runExperiments")
 @ConversationScoped
 public class RunExperimentsView extends AbstractView {
@@ -70,6 +73,9 @@ public class RunExperimentsView extends AbstractView {
 
     private ExperimentStatus experimentStatus = new ExperimentStatus();
 
+    /**
+     * Construct a new object.
+     */
     public RunExperimentsView() {
         currentPlanState = PlanState.EXPERIMENT_DEFINED;
         name = "Run Experiments";
@@ -77,9 +83,7 @@ public class RunExperimentsView extends AbstractView {
         group = "menu.evaluateAlternatives";
     }
 
-    /**
-     * Method responsible for initializing parameters used in this view
-     */
+    @Override
     public void init(Plan plan) {
         super.init(plan);
 
@@ -96,23 +100,39 @@ public class RunExperimentsView extends AbstractView {
         }
     }
 
+    @Override
+    protected AbstractWorkflowStep getWfStep() {
+        return runExperiments;
+    }
+
     /**
-     * Seth
+     * Sets up experiments for the provided {@code alternative} for later
+     * execution.
      * 
      * @param alternative
      *            The alternative to run the experiment for.
+     * 
+     * @see #startExperiments()
      */
     public void setupExperiment(Alternative alternative) {
         experimentStatus = runExperiments.setupExperiment(alternative);
     }
 
     /**
-     * Method responsible for running all executable experiments
+     * Set up experiments for all alternatives for later execution.
+     * 
+     * @see #startExperiments()
      */
     public void setupAllExperiments() {
         experimentStatus = runExperiments.setupAllExperiments();
     }
 
+    /**
+     * Starts set up experiments.
+     * 
+     * @see #setupExperiment(Alternative)
+     * @see #setupAllExperiments()
+     */
     public void startExperiments() {
         experimentStatus.setStarted(true);
         runExperiments.startExperiments();
@@ -127,9 +147,9 @@ public class RunExperimentsView extends AbstractView {
      * Method responsible for updating the selected experiment info based on
      * user interaction.
      * 
-     * @param alternative
+     * @param alt
      *            Experiment alternative.
-     * @param sampleObject
+     * @param sampleObj
      *            Experiment sample object.
      */
     public void updateSelectedDetailedExperimentInfo(Object alt, Object sampleObj) {
@@ -141,11 +161,11 @@ public class RunExperimentsView extends AbstractView {
 
     /**
      * Method responsible for setting the appropriate Alternative and
-     * SampleObject for the next file-upload
+     * SampleObject for the next file-upload.
      * 
-     * @param alternative
+     * @param alt
      *            Alternative corresponding to the next file-upload.
-     * @param sampleObject
+     * @param sampleObj
      *            SampleObject corresponding to the next file-upload.
      */
     public void updateDataForNextUpload(Object alt, Object sampleObj) {
@@ -157,10 +177,12 @@ public class RunExperimentsView extends AbstractView {
     }
 
     /**
-     * Method responsible for uploading result files.
+     * Method responsible for uploading result files for the set up alternative
+     * and sample object.
      * 
      * @param event
      *            Richfaces FileUploadEvent class.
+     * @see #updateDataForNextUpload(Object, Object)
      */
     public void uploadResultFile(FileUploadEvent event) {
         UploadedFile file = event.getUploadedFile();
@@ -180,7 +202,7 @@ public class RunExperimentsView extends AbstractView {
     }
 
     /**
-     * Method responsible for starting the download of a given result file
+     * Method responsible for starting the download of a given result file.
      * 
      * @param alt
      *            Alternative of the wanted result file.
@@ -203,7 +225,6 @@ public class RunExperimentsView extends AbstractView {
 
         if (resultFile != null) {
             downloader.download(resultFile);
-            return;
         } else {
             log.debug("No result file exists for alternative " + alternative.getName() + " and sample "
                 + sampleObject.getFullname());
@@ -213,9 +234,9 @@ public class RunExperimentsView extends AbstractView {
     /**
      * Removes a previously uploaded result file.
      * 
-     * @param alternative
+     * @param alt
      *            Alternative the file was uploaded for.
-     * @param sampleObject
+     * @param sampleObj
      *            Sample the file was uploaded for.
      */
     public void removeResultFile(Object alt, Object sampleObj) {
@@ -223,11 +244,6 @@ public class RunExperimentsView extends AbstractView {
         SampleObject sampleObject = (SampleObject) sampleObj;
 
         runExperiments.removeResultFile(alternative, sampleObject);
-    }
-
-    @Override
-    protected AbstractWorkflowStep getWfStep() {
-        return runExperiments;
     }
 
     // --------------- getter/setter ---------------
