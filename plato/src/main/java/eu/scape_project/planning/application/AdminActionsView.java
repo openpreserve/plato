@@ -16,20 +16,30 @@
  ******************************************************************************/
 package eu.scape_project.planning.application;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.directory.InvalidAttributesException;
+import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
 
 import org.richfaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 
 import at.tuwien.minimee.registry.ToolRegistry;
+import eu.scape_project.planning.efficiency.PlanStatisticsGenerator;
+import eu.scape_project.planning.efficiency.StateChangeLogGenerator;
 import eu.scape_project.planning.model.Notification;
 import eu.scape_project.planning.utils.FacesMessages;
 
@@ -93,11 +103,67 @@ public class AdminActionsView implements Serializable {
     
     private List<Notification> notifications = new ArrayList<Notification>();
     
+    @Inject
+    EntityManager em;
+
     @PostConstruct
     public void init() {
         refreshNotifications();
     }
     
+    
+    public void downloadStatistics() {
+        // convert project-name to a filename, add date:
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_kkmmss");
+
+        String filename = "statistics-" + formatter.format(new Date());
+
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+            .getResponse();
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachement; filename=\"" + filename + ".csv\"");
+        // the length of the resulting XML file is unknown due to
+        // formatting: response.setContentLength(xml.length());
+        try {
+            Writer writer = new OutputStreamWriter(response.getOutputStream());
+            
+            PlanStatisticsGenerator statstics = new PlanStatisticsGenerator(writer, em);
+            
+            statstics.writeCompleteStatistics();
+
+        } catch (IOException e) {
+            facesMessages.addError("An error occured while generating statistics.");
+            log.error("An error occured while generating statistics.", e);
+        }
+        FacesContext.getCurrentInstance().responseComplete();
+    }    
+
+    public void downloadStageStatistics() {
+        // convert project-name to a filename, add date:
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_kkmmss");
+
+        String filename = "stage-statistics-" + formatter.format(new Date());
+
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+            .getResponse();
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachement; filename=\"" + filename + ".csv\"");
+        // the length of the resulting XML file is unknown due to
+        // formatting: response.setContentLength(xml.length());
+        try {
+            Writer writer = new OutputStreamWriter(response.getOutputStream());
+            
+            StateChangeLogGenerator statstics = new StateChangeLogGenerator(writer, em);
+            
+            statstics.writeCompleteStatistics();
+
+        } catch (IOException e) {
+            facesMessages.addError("An error occured while generating stage statistics.");
+            log.error("An error occured while generating stage statistics.", e);
+        }
+        FacesContext.getCurrentInstance().responseComplete();
+    }    
+
     /**
      * Method responsible for exporting all plans in zipped format.
      */

@@ -153,6 +153,15 @@
 					<fieldset id="exportimport">
 						<legend> export </legend>
 
+						<h:commandButton id="exportStatistics"
+							action="#{admin.downloadStatistics()}"
+							value="Export plan statistics (Table 1)"/>
+						<br /> <br />
+						<h:commandButton id="exportStageStatistics"
+							action="#{admin.downloadStageStatistics()}"
+							value="Export stage statistics (Table 2)"/>
+						<br /> <br />
+						
 						<a4j:commandButton id="exportAllPlansToZip"
 							onclick="toggleLoadingOverlay();this.disabled=true;"
 							oncomplete="this.disabled=false;toggleLoadingOverlay();"

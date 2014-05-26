@@ -1,0 +1,2913 @@
+<?xml version="1.0" encoding="UTF-8"?><plans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ifs.tuwien.ac.at/dp/plato" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://ifs.tuwien.ac.at/dp/plato plato-V4.xsd" version="4.0.2">
+<plan>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:22:06" changedBy="kraxner"/>
+<properties author="Michael Kraxner" organization="SCAPE" name="Test Plan execution" privateProject="true" reportPublic="false" repositoryIdentifier="85ee7de2-2d8b-4465-b2c1-0daba2729e98">
+<state value="15"/>
+<description>A simple Plan solely to test plan execution</description>
+<owner>kraxner</owner>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-05-20T18:34:08" changedBy="kraxner"/>
+</properties>
+<basis identificationCode="">
+<documentTypes>http://www.bl.uk/policies/JISC1_newspapers</documentTypes>
+<applyingPolicies>. Automated QA must be possible: Measure 'automated QA supported' must have a value equal true &#13;
+. Format Documentation freely available: Measure 'format documentation availability' should have a value equal yes-free &#13;
+. Comparative file size must be less then 10: Measure 'comparative file size' must have a value lower than 10 &#13;
+. Action software licence must be open source: Measure 'software licence source code' must have a value equal openSource &#13;
+. Format should be international standard: Measure 'format standardization' should have a value equal international standard &#13;
+. Ease of integration: Measure 'ease of integration' should have a value equal good &#13;
+. Number of tools greater 0: Measure 'number of tools' must have a value greater than 0 &#13;
+. Elapsed time per MB: Measure 'elapsed time per MB' must have a value lower than 2000 &#13;
+. Image width must be unchanged: Measure 'image width equal' must have a value equal true &#13;
+. Action tool usability should be good: Measure 'ease of use' should have a value equal openSource &#13;
+. Quantitative archival storage costs: Measure 'quantitative archival storage costs' must have a value lower than 0.24 &#13;
+. Action should be stable: Measure 'stability judgement' should have a value equal stable &#13;
+. Identification  possibilities must be automatic: Measure 'identification possibilities' must have a value equal automatic_specific &#13;
+. Image height must be unchanged: Measure 'image height equal' must have a value equal true &#13;
+. Compression type must be none: Measure 'compression type' must have a value equal none &#13;
+. All Tiff data must be retained: Measure 'EXIF: all tiff data retained' must have a value equal true &#13;
+. Colour model must be preserved: Measure 'colour model preserved' must have a value equal true &#13;
+. Format complexity should be low: Measure 'format complexity' should have a value equal low &#13;
+. Running costs per object: Measure 'Running costs per object' must have a value lower than 0.24</applyingPolicies>
+<designatedCommunity>researchers,genealogists</designatedCommunity>
+<mandate/>
+<organisationalProcedures/>
+<planningPurpose/>
+<planRelations/>
+<preservationRights/>
+<referenceToAgreements/>
+<triggers>
+<trigger type="NEW_COLLECTION" active="false" description=""/>
+<trigger type="PERIODIC_REVIEW" active="false" description=""/>
+<trigger type="CHANGED_ENVIRONMENT" active="false" description=""/>
+<trigger type="CHANGED_OBJECTIVE" active="false" description=""/>
+<trigger type="CHANGED_COLLECTION_PROFILE" active="false" description=""/>
+</triggers>
+<policyTree/>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</basis>
+<sampleRecords>
+<samplesDescription>The sample objects were chosen by c3po using the size'o'matic 3000 algorithm.</samplesDescription>
+<collectionProfile>
+<collectionID>demo?1214cea2-d4c4-4653-bd78-76c2495034ea</collectionID>
+<description/>
+<expectedGrowthRate/>
+<numberOfObjects>72</numberOfObjects>
+<typeOfObjects>The collection consists of 100.0% 'Tagged Image File Format' files.</typeOfObjects>
+<retentionPeriod/>
+<profile fullname="demo_1214cea2-d4c4-4653-bd78-76c2495034ea.xml" contentType="application/xml">
+<data xmlns:plato="http://ifs.tuwien.ac.at/dp/plato" hasData="true" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KCjxwcm9maWxlIHhtbG5zPSJo
+dHRwOi8vaWZzLnR1d2llbi5hYy5hdC9kcC9jM3BvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMu
+b3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBjb2xsZWN0aW9uPSJkZW1vIiBkYXRlPSJGcmkg
+QXByIDI1IDEzOjMxOjMyIFdFU1QgMjAxNCIgY291bnQ9IjE3MCI+CiAgPHBhcnRpdGlvbiBjb3Vu
+dD0iNzIiPgogICAgPGZpbHRlciBpZD0iMTIxNGNlYTItZDRjNC00NjUzLWJkNzgtNzZjMjQ5NTAz
+NGVhIj4KICAgICAgPHBhcmFtZXRlcnM+CiAgICAgICAgPHBhcmFtZXRlcj4KICAgICAgICAgIDxu
+YW1lPmNvbGxlY3Rpb248L25hbWU+CiAgICAgICAgICA8dmFsdWU+ZGVtbzwvdmFsdWU+CiAgICAg
+ICAgPC9wYXJhbWV0ZXI+CiAgICAgICAgPHBhcmFtZXRlcj4KICAgICAgICAgIDxuYW1lPm1ldGFk
+YXRhLm1pbWV0eXBlLnZhbHVlPC9uYW1lPgogICAgICAgICAgPHZhbHVlPmltYWdlL3RpZmY8L3Zh
+bHVlPgogICAgICAgIDwvcGFyYW1ldGVyPgogICAgICA8L3BhcmFtZXRlcnM+CiAgICA8L2ZpbHRl
+cj4KICAgIDxwcm9wZXJ0aWVzPgogICAgICA8cHJvcGVydHkgaWQ9ImZvcm1hdCIgdHlwZT0iU1RS
+SU5HIiBjb3VudD0iNzIiPgogICAgICAgIDxpdGVtIGlkPSJUYWdnZWQgSW1hZ2UgRmlsZSBGb3Jt
+YXQiIHZhbHVlPSI3MiIvPgogICAgICA8L3Byb3BlcnR5PgogICAgICA8cHJvcGVydHkgaWQ9Im1p
+bWV0eXBlIiB0eXBlPSJTVFJJTkciIGNvdW50PSI3MiI+CiAgICAgICAgPGl0ZW0gaWQ9ImltYWdl
+L3RpZmYiIHZhbHVlPSI3MiIvPgogICAgICA8L3Byb3BlcnR5PgogICAgICA8cHJvcGVydHkgaWQ9
+Imxhc3Rtb2RpZmllZCIgdHlwZT0iREFURSIgY291bnQ9IjcyIj4KICAgICAgICA8aXRlbSBpZD0i
+MjAxMyIgdmFsdWU9IjcyIi8+CiAgICAgIDwvcHJvcGVydHk+CiAgICAgIDxwcm9wZXJ0eSBpZD0i
+Y3JlYXRpbmdfYXBwbGljYXRpb25fbmFtZSIgdHlwZT0iU1RSSU5HIiBjb3VudD0iNzIiLz4KICAg
+ICAgPHByb3BlcnR5IGlkPSJzaXplIiB0eXBlPSJJTlRFR0VSIiBjb3VudD0iNzIiIHN1bT0iMS4x
+NjE0NTIxNjhFOSIgbWluPSIxLjIyMTQ2NDNFNyIgbWF4PSIyLjE0MjE4NzlFNyIgYXZnPSIxLjYx
+MzEyODAxMTExMTExMTJFNyIgdmFyPSI3LjgzMTQ2NjgxNzczNDg3OUUxMiIgc2Q9IjI3OTg0NzUu
+ODAyNTk5NDkzNCIvPgogICAgICA8cHJvcGVydHkgaWQ9ImNoZWNrc3VtX21kNSIgdHlwZT0iU1RS
+SU5HIiBjb3VudD0iNzIiLz4KICAgICAgPHByb3BlcnR5IGlkPSJsYXN0bW9kaWZpZWRfZnMiIHR5
+cGU9IkRBVEUiIGNvdW50PSI3MiI+CiAgICAgICAgPGl0ZW0gaWQ9IjIwMTMiIHZhbHVlPSI3MiIv
+PgogICAgICA8L3Byb3BlcnR5PgogICAgICA8cHJvcGVydHkgaWQ9Im9yaWdpbmFsIiB0eXBlPSJT
+VFJJTkciIGNvdW50PSI3MiIvPgogICAgICA8cHJvcGVydHkgaWQ9ImNvbXByZXNzaW9uX3NjaGVt
+ZSIgdHlwZT0iU1RSSU5HIiBjb3VudD0iNzIiPgogICAgICAgIDxpdGVtIGlkPSJMWlciIHZhbHVl
+PSI3MiIvPgogICAgICA8L3Byb3BlcnR5PgogICAgICA8cHJvcGVydHkgaWQ9ImltYWdlX3dpZHRo
+IiB0eXBlPSJJTlRFR0VSIiBjb3VudD0iNzIiIHN1bT0iMzMxNjQ4IiBtaW49IjQ0MTYiIG1heD0i
+NDY3MiIgYXZnPSI0NjA2LjIyMjIyMjIyMjIyMyIgdmFyPSI2MjgzLjA2MTcyODM5NTA2OCIgc2Q9
+Ijc5LjI2NTc2NjQzNDE2MTY1Ii8+CiAgICAgIDxwcm9wZXJ0eSBpZD0iaW1hZ2VfaGVpZ2h0IiB0
+eXBlPSJJTlRFR0VSIiBjb3VudD0iNzIiIHN1bT0iNDI5MDQwIiBtaW49IjU4NzIiIG1heD0iNjAx
+NiIgYXZnPSI1OTU4Ljg4ODg4ODg4ODg4OSIgdmFyPSIxNjUyLjA5ODc2NTQzMjA5NDUiIHNkPSI0
+MC42NDYwMTc4Mjk5NDM2MiIvPgogICAgICA8cHJvcGVydHkgaWQ9ImNvbG9yc3BhY2UiIHR5cGU9
+IlNUUklORyIgY291bnQ9IjcyIj4KICAgICAgICA8aXRlbSBpZD0iQmxhY2tJc1plcm8iIHZhbHVl
+PSI3MiIvPgogICAgICA8L3Byb3BlcnR5PgogICAgICA8cHJvcGVydHkgaWQ9Im9yaWVudGF0aW9u
+IiB0eXBlPSJTVFJJTkciIGNvdW50PSI3MiIvPgogICAgICA8cHJvcGVydHkgaWQ9InNhbXBsaW5n
+X2ZyZXF1ZW5jeV91bml0IiB0eXBlPSJTVFJJTkciIGNvdW50PSI3MiIvPgogICAgICA8cHJvcGVy
+dHkgaWQ9InNhbXBsaW5nX2ZyZXF1ZW5jeV94IiB0eXBlPSJGTE9BVCIgY291bnQ9IjcyIiBzdW09
+IjIxNjAwIiBtaW49IjMwMCIgbWF4PSIzMDAiIGF2Zz0iMzAwIiB2YXI9IjAiIHNkPSIwIi8+CiAg
+ICAgIDxwcm9wZXJ0eSBpZD0ic2FtcGxpbmdfZnJlcXVlbmN5X3kiIHR5cGU9IkZMT0FUIiBjb3Vu
+dD0iNzIiIHN1bT0iMjE2MDAiIG1pbj0iMzAwIiBtYXg9IjMwMCIgYXZnPSIzMDAiIHZhcj0iMCIg
+c2Q9IjAiLz4KICAgICAgPHByb3BlcnR5IGlkPSJiaXRzcGVyc2FtcGxlIiB0eXBlPSJTVFJJTkci
+IGNvdW50PSI3MiIvPgogICAgICA8cHJvcGVydHkgaWQ9InNhbXBsZXNwZXJwaXhlbCIgdHlwZT0i
+SU5URUdFUiIgY291bnQ9IjcyIiBzdW09IjcyIiBtaW49IjEiIG1heD0iMSIgYXZnPSIxIiB2YXI9
+IjAiIHNkPSIwIi8+CiAgICAgIDxwcm9wZXJ0eSBpZD0ic2Nhbm5lcl9tYW51ZmFjdHVyZXIiIHR5
+cGU9IlNUUklORyIgY291bnQ9IjcyIi8+CiAgICAgIDxwcm9wZXJ0eSBpZD0ic2Nhbm5lcl9tb2Rl
+bG5hbWUiIHR5cGU9IlNUUklORyIgY291bnQ9IjcyIi8+CiAgICAgIDxwcm9wZXJ0eSBpZD0ic2Nh
+bm5lcl9zb2Z0d2FyZW5hbWUiIHR5cGU9IlNUUklORyIgY291bnQ9IjcyIi8+CiAgICA8L3Byb3Bl
+cnRpZXM+CiAgICA8c2FtcGxlcyB0eXBlPSJzaXplJ28nbWF0aWMgMzAwMCI+CiAgICAgIDxzYW1w
+bGUgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjg0L0YwIj4K
+ICAgICAgICA8cmVjb3JkIG5hbWU9InB1aWQiIHZhbHVlPSJmbXQvNyIgdG9vbD0iRHJvaWQgMy4w
+Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJwdWlkIiB2YWx1ZT0iZm10LzgiIHRvb2w9IkRyb2lk
+IDMuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0icHVpZCIgdmFsdWU9ImZtdC85IiB0b29sPSJE
+cm9pZCAzLjAiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InB1aWQiIHZhbHVlPSJmbXQvMTAiIHRv
+b2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iZm9ybWF0IiB2YWx1ZT0iVGFn
+Z2VkIEltYWdlIEZpbGUgRm9ybWF0IiB0b29sPSJmaWxlIHV0aWxpdHkgNS4wOSIvPgogICAgICAg
+IDxyZWNvcmQgbmFtZT0ibWltZXR5cGUiIHZhbHVlPSJpbWFnZS90aWZmIiB0b29sPSJmaWxlIHV0
+aWxpdHkgNS4wOSIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ibGFzdG1vZGlmaWVkIiB2YWx1ZT0i
+TW9uIEFwciAwMSAxMjowNzozMiBXRVNUIDIwMTMiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAg
+ICAgICA8cmVjb3JkIG5hbWU9ImNyZWF0aW5nX2FwcGxpY2F0aW9uX25hbWUiIHZhbHVlPSJSb2xs
+RmlsbSBWZXIgMi4ybiIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFt
+ZT0ic2l6ZSIgdmFsdWU9IjEyMjE0NjQzIiB0b29sPSJPSVMgRmlsZSBJbmZvcm1hdGlvbiAwLjEi
+Lz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImNoZWNrc3VtX21kNSIgdmFsdWU9IjU2NDBkZDcxYmFl
+Y2ZiNjFlYjk0MTRlODM3YmZjNTY3IiB0b29sPSJPSVMgRmlsZSBJbmZvcm1hdGlvbiAwLjEiLz4K
+ICAgICAgICA8cmVjb3JkIG5hbWU9Imxhc3Rtb2RpZmllZF9mcyIgdmFsdWU9Ik1vbiBBcHIgMDEg
+MTI6MDc6MzIgV0VTVCAyMDEzIiB0b29sPSJPSVMgRmlsZSBJbmZvcm1hdGlvbiAwLjEiLz4KICAg
+ICAgICA8cmVjb3JkIG5hbWU9Im9yaWdpbmFsIiB2YWx1ZT0idHJ1ZSIgdG9vbD0iUk9EQSAxLjAu
+MCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iY29tcHJlc3Npb25fc2NoZW1lIiB2YWx1ZT0iTFpX
+IiB0b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJpbWFnZV93aWR0
+aCIgdmFsdWU9IjQ2NzIiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5h
+bWU9ImltYWdlX2hlaWdodCIgdmFsdWU9IjU5NDQiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAg
+ICAgICA8cmVjb3JkIG5hbWU9ImNvbG9yc3BhY2UiIHZhbHVlPSJCbGFja0lzWmVybyIgdG9vbD0i
+RXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ib3JpZW50YXRpb24iIHZhbHVl
+PSJub3JtYWwqIiB0b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJz
+YW1wbGluZ19mcmVxdWVuY3lfdW5pdCIgdmFsdWU9ImluY2hlcyIgdG9vbD0iRXhpZnRvb2wgOS4w
+NiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2FtcGxpbmdfZnJlcXVlbmN5X3giIHZhbHVlPSIz
+MDAuMCIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2FtcGxp
+bmdfZnJlcXVlbmN5X3kiIHZhbHVlPSIzMDAuMCIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAg
+ICAgIDxyZWNvcmQgbmFtZT0iYml0c3BlcnNhbXBsZSIgdmFsdWU9IjgiIHRvb2w9IkV4aWZ0b29s
+IDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InNhbXBsZXNwZXJwaXhlbCIgdmFsdWU9IjEi
+IHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InNjYW5uZXJfbWFu
+dWZhY3R1cmVyIiB2YWx1ZT0iV2lja3MgYW5kIFdpbHNvbiIgdG9vbD0iRXhpZnRvb2wgOS4wNiIv
+PgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2Nhbm5lcl9tb2RlbG5hbWUiIHZhbHVlPSJSUzMwMCIg
+dG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2Nhbm5lcl9zb2Z0
+d2FyZW5hbWUiIHZhbHVlPSJSb2xsRmlsbSBWZXIgMi4ybiIgdG9vbD0iRXhpZnRvb2wgOS4wNiIv
+PgogICAgICAgIDxyZWNvcmQgbmFtZT0iZm9ybWF0X3ZlcnNpb24iIHZhbHVlPSIzIiB0b29sPSJE
+cm9pZCAzLjAiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImZvcm1hdF92ZXJzaW9uIiB2YWx1ZT0i
+NCIgdG9vbD0iRHJvaWQgMy4wIi8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJmb3JtYXRfdmVyc2lv
+biIgdmFsdWU9IjUiIHRvb2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iZm9y
+bWF0X3ZlcnNpb24iIHZhbHVlPSI2IiB0b29sPSJEcm9pZCAzLjAiLz4KICAgICAgPC9zYW1wbGU+
+CiAgICAgIDxzYW1wbGUgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9y
+b2RhOjcyL0Y2Ij4KICAgICAgICA8cmVjb3JkIG5hbWU9InB1aWQiIHZhbHVlPSJmbXQvNyIgdG9v
+bD0iRHJvaWQgMy4wIi8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJwdWlkIiB2YWx1ZT0iZm10Lzgi
+IHRvb2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0icHVpZCIgdmFsdWU9ImZt
+dC85IiB0b29sPSJEcm9pZCAzLjAiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InB1aWQiIHZhbHVl
+PSJmbXQvMTAiIHRvb2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iZm9ybWF0
+IiB2YWx1ZT0iVGFnZ2VkIEltYWdlIEZpbGUgRm9ybWF0IiB0b29sPSJmaWxlIHV0aWxpdHkgNS4w
+OSIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ibWltZXR5cGUiIHZhbHVlPSJpbWFnZS90aWZmIiB0
+b29sPSJmaWxlIHV0aWxpdHkgNS4wOSIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ibGFzdG1vZGlm
+aWVkIiB2YWx1ZT0iTW9uIEFwciAwMSAxMjoyMTowOSBXRVNUIDIwMTMiIHRvb2w9IkV4aWZ0b29s
+IDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImNyZWF0aW5nX2FwcGxpY2F0aW9uX25hbWUi
+IHZhbHVlPSJSb2xsRmlsbSBWZXIgMi4ybiIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAg
+IDxyZWNvcmQgbmFtZT0ic2l6ZSIgdmFsdWU9IjE1OTYxMzgzIiB0b29sPSJPSVMgRmlsZSBJbmZv
+cm1hdGlvbiAwLjEiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImNoZWNrc3VtX21kNSIgdmFsdWU9
+ImJkYzdjNjA2NTQxZTFlODFjN2RmZTdjODZkZGUzNDNkIiB0b29sPSJPSVMgRmlsZSBJbmZvcm1h
+dGlvbiAwLjEiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9Imxhc3Rtb2RpZmllZF9mcyIgdmFsdWU9
+Ik1vbiBBcHIgMDEgMTI6MjE6MDkgV0VTVCAyMDEzIiB0b29sPSJPSVMgRmlsZSBJbmZvcm1hdGlv
+biAwLjEiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9Im9yaWdpbmFsIiB2YWx1ZT0idHJ1ZSIgdG9v
+bD0iUk9EQSAxLjAuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iY29tcHJlc3Npb25fc2NoZW1l
+IiB2YWx1ZT0iTFpXIiB0b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1l
+PSJpbWFnZV93aWR0aCIgdmFsdWU9IjQ2NzIiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAg
+ICA8cmVjb3JkIG5hbWU9ImltYWdlX2hlaWdodCIgdmFsdWU9IjU5MzYiIHRvb2w9IkV4aWZ0b29s
+IDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImNvbG9yc3BhY2UiIHZhbHVlPSJCbGFja0lz
+WmVybyIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ib3JpZW50
+YXRpb24iIHZhbHVlPSJub3JtYWwqIiB0b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJl
+Y29yZCBuYW1lPSJzYW1wbGluZ19mcmVxdWVuY3lfdW5pdCIgdmFsdWU9ImluY2hlcyIgdG9vbD0i
+RXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2FtcGxpbmdfZnJlcXVlbmN5
+X3giIHZhbHVlPSIzMDAuMCIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQg
+bmFtZT0ic2FtcGxpbmdfZnJlcXVlbmN5X3kiIHZhbHVlPSIzMDAuMCIgdG9vbD0iRXhpZnRvb2wg
+OS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iYml0c3BlcnNhbXBsZSIgdmFsdWU9IjgiIHRv
+b2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InNhbXBsZXNwZXJwaXhl
+bCIgdmFsdWU9IjEiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9
+InNjYW5uZXJfbWFudWZhY3R1cmVyIiB2YWx1ZT0iV2lja3MgYW5kIFdpbHNvbiIgdG9vbD0iRXhp
+ZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2Nhbm5lcl9tb2RlbG5hbWUiIHZh
+bHVlPSJSUzMwMCIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0i
+c2Nhbm5lcl9zb2Z0d2FyZW5hbWUiIHZhbHVlPSJSb2xsRmlsbSBWZXIgMi4ybiIgdG9vbD0iRXhp
+ZnRvb2wgOS4wNiIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0iZm9ybWF0X3ZlcnNpb24iIHZhbHVl
+PSIzIiB0b29sPSJEcm9pZCAzLjAiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImZvcm1hdF92ZXJz
+aW9uIiB2YWx1ZT0iNCIgdG9vbD0iRHJvaWQgMy4wIi8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJm
+b3JtYXRfdmVyc2lvbiIgdmFsdWU9IjUiIHRvb2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxyZWNv
+cmQgbmFtZT0iZm9ybWF0X3ZlcnNpb24iIHZhbHVlPSI2IiB0b29sPSJEcm9pZCAzLjAiLz4KICAg
+ICAgPC9zYW1wbGU+CiAgICAgIDxzYW1wbGUgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9k
+YS1jb3JlL2dldC9yb2RhOjY4L0YxMyI+CiAgICAgICAgPHJlY29yZCBuYW1lPSJwdWlkIiB2YWx1
+ZT0iZm10LzciIHRvb2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxyZWNvcmQgbmFtZT0icHVpZCIg
+dmFsdWU9ImZtdC84IiB0b29sPSJEcm9pZCAzLjAiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InB1
+aWQiIHZhbHVlPSJmbXQvOSIgdG9vbD0iRHJvaWQgMy4wIi8+CiAgICAgICAgPHJlY29yZCBuYW1l
+PSJwdWlkIiB2YWx1ZT0iZm10LzEwIiB0b29sPSJEcm9pZCAzLjAiLz4KICAgICAgICA8cmVjb3Jk
+IG5hbWU9ImZvcm1hdCIgdmFsdWU9IlRhZ2dlZCBJbWFnZSBGaWxlIEZvcm1hdCIgdG9vbD0iZmls
+ZSB1dGlsaXR5IDUuMDkiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9Im1pbWV0eXBlIiB2YWx1ZT0i
+aW1hZ2UvdGlmZiIgdG9vbD0iZmlsZSB1dGlsaXR5IDUuMDkiLz4KICAgICAgICA8cmVjb3JkIG5h
+bWU9Imxhc3Rtb2RpZmllZCIgdmFsdWU9Ik1vbiBBcHIgMDEgMTI6MjM6MTAgV0VTVCAyMDEzIiB0
+b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJjcmVhdGluZ19hcHBs
+aWNhdGlvbl9uYW1lIiB2YWx1ZT0iUm9sbEZpbG0gVmVyIDIuMm4iIHRvb2w9IkV4aWZ0b29sIDku
+MDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InNpemUiIHZhbHVlPSIyMTQyMTg3OSIgdG9vbD0i
+T0lTIEZpbGUgSW5mb3JtYXRpb24gMC4xIi8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJjaGVja3N1
+bV9tZDUiIHZhbHVlPSIyNzlmNDUxMDE5MDBmNTllNDNjMGRjMmU3YzhkYWNlMCIgdG9vbD0iT0lT
+IEZpbGUgSW5mb3JtYXRpb24gMC4xIi8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJsYXN0bW9kaWZp
+ZWRfZnMiIHZhbHVlPSJNb24gQXByIDAxIDEyOjIzOjEwIFdFU1QgMjAxMyIgdG9vbD0iT0lTIEZp
+bGUgSW5mb3JtYXRpb24gMC4xIi8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJvcmlnaW5hbCIgdmFs
+dWU9InRydWUiIHRvb2w9IlJPREEgMS4wLjAiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImNvbXBy
+ZXNzaW9uX3NjaGVtZSIgdmFsdWU9IkxaVyIgdG9vbD0iRXhpZnRvb2wgOS4wNiIvPgogICAgICAg
+IDxyZWNvcmQgbmFtZT0iaW1hZ2Vfd2lkdGgiIHZhbHVlPSI0NTQ0IiB0b29sPSJFeGlmdG9vbCA5
+LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJpbWFnZV9oZWlnaHQiIHZhbHVlPSI1OTc2IiB0
+b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJjb2xvcnNwYWNlIiB2
+YWx1ZT0iQmxhY2tJc1plcm8iIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3Jk
+IG5hbWU9Im9yaWVudGF0aW9uIiB2YWx1ZT0ibm9ybWFsKiIgdG9vbD0iRXhpZnRvb2wgOS4wNiIv
+PgogICAgICAgIDxyZWNvcmQgbmFtZT0ic2FtcGxpbmdfZnJlcXVlbmN5X3VuaXQiIHZhbHVlPSJp
+bmNoZXMiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InNhbXBs
+aW5nX2ZyZXF1ZW5jeV94IiB2YWx1ZT0iMzAwLjAiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAg
+ICAgICA8cmVjb3JkIG5hbWU9InNhbXBsaW5nX2ZyZXF1ZW5jeV95IiB2YWx1ZT0iMzAwLjAiIHRv
+b2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImJpdHNwZXJzYW1wbGUi
+IHZhbHVlPSI4IiB0b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAgPHJlY29yZCBuYW1lPSJz
+YW1wbGVzcGVycGl4ZWwiIHZhbHVlPSIxIiB0b29sPSJFeGlmdG9vbCA5LjA2Ii8+CiAgICAgICAg
+PHJlY29yZCBuYW1lPSJzY2FubmVyX21hbnVmYWN0dXJlciIgdmFsdWU9IldpY2tzIGFuZCBXaWxz
+b24iIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9InNjYW5uZXJf
+bW9kZWxuYW1lIiB2YWx1ZT0iUlMzMDAiIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8
+cmVjb3JkIG5hbWU9InNjYW5uZXJfc29mdHdhcmVuYW1lIiB2YWx1ZT0iUm9sbEZpbG0gVmVyIDIu
+Mm4iIHRvb2w9IkV4aWZ0b29sIDkuMDYiLz4KICAgICAgICA8cmVjb3JkIG5hbWU9ImZvcm1hdF92
+ZXJzaW9uIiB2YWx1ZT0iMyIgdG9vbD0iRHJvaWQgMy4wIi8+CiAgICAgICAgPHJlY29yZCBuYW1l
+PSJmb3JtYXRfdmVyc2lvbiIgdmFsdWU9IjQiIHRvb2w9IkRyb2lkIDMuMCIvPgogICAgICAgIDxy
+ZWNvcmQgbmFtZT0iZm9ybWF0X3ZlcnNpb24iIHZhbHVlPSI1IiB0b29sPSJEcm9pZCAzLjAiLz4K
+ICAgICAgICA8cmVjb3JkIG5hbWU9ImZvcm1hdF92ZXJzaW9uIiB2YWx1ZT0iNiIgdG9vbD0iRHJv
+aWQgMy4wIi8+CiAgICAgIDwvc2FtcGxlPgogICAgPC9zYW1wbGVzPgogICAgPGVsZW1lbnRzPgog
+ICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3Jv
+ZGE6ODAvRjUiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9k
+YS1jb3JlL2dldC9yb2RhOjgwL0YxMCIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2Nh
+bGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODAvRjEyIi8+CiAgICAgIDxlbGVtZW50IHVp
+ZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo4MC9GNyIvPgogICAg
+ICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6
+ODAvRjAiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1j
+b3JlL2dldC9yb2RhOjgwL0YxMSIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhv
+c3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODAvRjYiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJo
+dHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjgwL0Y5Ii8+CiAgICAgIDxl
+bGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo4MC9G
+MTUiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3Jl
+L2dldC9yb2RhOjgwL0YzIi8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4
+MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo4MC9GMTMiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRw
+Oi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjgwL0YyIi8+CiAgICAgIDxlbGVt
+ZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo4MC9GNCIv
+PgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0
+L3JvZGE6ODAvRjE0Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgw
+L3JvZGEtY29yZS9nZXQvcm9kYTo4MC9GOCIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9s
+b2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODAvRjEiLz4KICAgICAgPGVsZW1lbnQg
+dWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjcyL0Y3Ii8+CiAg
+ICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9k
+YTo3Mi9GMyIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2Rh
+LWNvcmUvZ2V0L3JvZGE6NzIvRjUiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxo
+b3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjcyL0YwIi8+CiAgICAgIDxlbGVtZW50IHVpZD0i
+aHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo3Mi9GMiIvPgogICAgICA8
+ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NzIv
+RjYiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3Jl
+L2dldC9yb2RhOjcyL0Y0Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4
+MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo3Mi9GMSIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6
+Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NjgvRjYiLz4KICAgICAgPGVsZW1l
+bnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjY4L0YxMiIv
+PgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0
+L3JvZGE6NjgvRjUiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAv
+cm9kYS1jb3JlL2dldC9yb2RhOjY4L0YxMSIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9s
+b2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NjgvRjAiLz4KICAgICAgPGVsZW1lbnQg
+dWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjY4L0Y5Ii8+CiAg
+ICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9k
+YTo2OC9GNyIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2Rh
+LWNvcmUvZ2V0L3JvZGE6NjgvRjEwIi8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2Fs
+aG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo2OC9GMTQiLz4KICAgICAgPGVsZW1lbnQgdWlk
+PSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjY4L0Y4Ii8+CiAgICAg
+IDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo2
+OC9GMTMiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1j
+b3JlL2dldC9yb2RhOjY4L0YzIi8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9z
+dDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo2OC9GMiIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0
+dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NjgvRjE1Ii8+CiAgICAgIDxl
+bGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo2OC9G
+NCIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUv
+Z2V0L3JvZGE6NjgvRjEiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0Ojgw
+ODAvcm9kYS1jb3JlL2dldC9yb2RhOjc2L0Y1Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDov
+L2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo3Ni9GMCIvPgogICAgICA8ZWxlbWVu
+dCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NzYvRjciLz4K
+ICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9y
+b2RhOjc2L0Y2Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3Jv
+ZGEtY29yZS9nZXQvcm9kYTo3Ni9GMyIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2Nh
+bGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NzYvRjQiLz4KICAgICAgPGVsZW1lbnQgdWlk
+PSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjc2L0YxIi8+CiAgICAg
+IDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo3
+Ni9GMiIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNv
+cmUvZ2V0L3JvZGE6ODQvRjkiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0
+OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjg0L0YxMSIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0
+dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODQvRjAiLz4KICAgICAgPGVs
+ZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjg0L0Y1
+Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9n
+ZXQvcm9kYTo4NC9GMTIiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0Ojgw
+ODAvcm9kYS1jb3JlL2dldC9yb2RhOjg0L0Y3Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDov
+L2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo4NC9GNiIvPgogICAgICA8ZWxlbWVu
+dCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODQvRjEwIi8+
+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQv
+cm9kYTo4NC9GMTMiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAv
+cm9kYS1jb3JlL2dldC9yb2RhOjg0L0YxNCIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9s
+b2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODQvRjMiLz4KICAgICAgPGVsZW1lbnQg
+dWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjg0L0Y0Ii8+CiAg
+ICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9k
+YTo4NC9GMiIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2Rh
+LWNvcmUvZ2V0L3JvZGE6ODQvRjE1Ii8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2Fs
+aG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo4NC9GOCIvPgogICAgICA8ZWxlbWVudCB1aWQ9
+Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6ODQvRjEiLz4KICAgICAg
+PGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjY0
+L0YwIi8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29y
+ZS9nZXQvcm9kYTo2NC9GNSIvPgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6
+ODA4MC9yb2RhLWNvcmUvZ2V0L3JvZGE6NjQvRjciLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRw
+Oi8vbG9jYWxob3N0OjgwODAvcm9kYS1jb3JlL2dldC9yb2RhOjY0L0Y0Ii8+CiAgICAgIDxlbGVt
+ZW50IHVpZD0iaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo2NC9GNiIv
+PgogICAgICA8ZWxlbWVudCB1aWQ9Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yb2RhLWNvcmUvZ2V0
+L3JvZGE6NjQvRjMiLz4KICAgICAgPGVsZW1lbnQgdWlkPSJodHRwOi8vbG9jYWxob3N0OjgwODAv
+cm9kYS1jb3JlL2dldC9yb2RhOjY0L0YxIi8+CiAgICAgIDxlbGVtZW50IHVpZD0iaHR0cDovL2xv
+Y2FsaG9zdDo4MDgwL3JvZGEtY29yZS9nZXQvcm9kYTo2NC9GMiIvPgogICAgPC9lbGVtZW50cz4K
+ICA8L3BhcnRpdGlvbj4KPC9wcm9maWxlPgo=
+</data>
+<formatInfo>
+<changelog created="2014-04-25T14:22:05" changed="2014-04-25T14:22:05"/>
+</formatInfo>
+<changelog created="2014-04-25T14:22:05" changed="2014-04-25T14:22:05"/>
+</profile>
+</collectionProfile>
+<record fullname="http://roda.scape.keep.pt/roda-core/get/roda:84/F0" contentType="image/tiff" shortName="http://localhost:8080/roda-core/get/roda:84/F0">
+<data hasData="false"/>
+<formatInfo puid="Conflict" name="Tagged Image File Format" version="Conflict" mimeType="image/tiff" defaultExtension="">
+<changelog created="2014-04-25T14:22:05" createdBy="kraxner" changed="2014-04-25T14:22:05"/>
+</formatInfo>
+<changelog created="2014-04-25T14:22:05" createdBy="kraxner" changed="2014-04-25T14:22:05"/>
+<description/>
+<originalTechnicalEnvironment/>
+</record>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:22:16" changedBy="kraxner"/>
+</sampleRecords>
+<requirementsDefinition>
+<description/>
+<uploads/>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</requirementsDefinition>
+<alternatives>
+<description/>
+<alternative discarded="false" name="Imagemagick convert - tiff2tif">
+<description>Converts tiff to tiff using imagemagick convert with the provided compression using service at: http://www.myexperiment.org/workflows/4064/download/imagemagick_convert_-_tiff2tiff_-_compression_168727.t2flow?version=1</description>
+<action shortname="Imagemagick convert - tiff2tiff - compression" url="http://www.myexperiment.org/workflows/4064/download/imagemagick_convert_-_tiff2tiff_-_compression_168727.t2flow?version=1" actionIdentifier="myExperiment" info="Converts tiff to tiff using imagemagick convert with the provided compression" executable="true">
+<descriptor>http://www.myexperiment.org/workflow.xml?id=4064&amp;version=1</descriptor>
+<params>
+<param name="compression" value="none"/>
+</params>
+<changelog created="2014-04-25T14:17:33" createdBy="kraxner" changed="2014-04-25T14:17:33"/>
+</action>
+<resourceDescription>
+<changelog created="2014-04-25T14:17:33" createdBy="kraxner" changed="2014-04-25T14:17:33"/>
+</resourceDescription>
+<experiment>
+<description/>
+<results/>
+<detailedInfos>
+<detailedInfo key="http://localhost:8080/roda-core/get/roda:84/F0" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2014-04-25T14:17:33" createdBy="kraxner" changed="2014-04-25T14:17:33"/>
+</experiment>
+<changelog created="2014-04-25T14:17:33" createdBy="kraxner" changed="2014-04-25T14:17:33"/>
+</alternative>
+<alternative discarded="false" name="Keep status quo">
+<description>Keep the objects as they are.</description>
+<resourceDescription>
+<changelog created="2014-05-20T18:31:27" createdBy="kraxner" changed="2014-05-20T18:31:27"/>
+</resourceDescription>
+<experiment>
+<description>do nothing and wait </description>
+<settings/>
+<results/>
+<detailedInfos>
+<detailedInfo key="http://localhost:8080/roda-core/get/roda:84/F0" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2014-05-20T18:31:27" createdBy="kraxner" changed="2014-05-20T18:33:03" changedBy="kraxner"/>
+</experiment>
+<changelog created="2014-05-20T18:31:27" createdBy="kraxner" changed="2014-05-20T18:31:27"/>
+</alternative>
+<alternative discarded="true" name="trash everything">
+<description>delete all objects</description>
+<resourceDescription>
+<necessaryResources/>
+<configSettings/>
+<reasonForConsidering>to test report generation</reasonForConsidering>
+<changelog created="2014-05-20T18:32:17" createdBy="kraxner" changed="2014-05-20T18:32:17"/>
+</resourceDescription>
+<experiment>
+<results/>
+<detailedInfos>
+<detailedInfo key="http://localhost:8080/roda-core/get/roda:84/F0" successful="false">
+<programOutput/>
+<measurements/>
+</detailedInfo>
+</detailedInfos>
+<changelog created="2014-05-20T18:32:17" createdBy="kraxner" changed="2014-05-20T18:32:17"/>
+</experiment>
+<changelog created="2014-05-20T18:32:17" createdBy="kraxner" changed="2014-05-20T18:32:39" changedBy="kraxner"/>
+</alternative>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:22:16" changedBy="kraxner"/>
+</alternatives>
+<decision>
+<reason>go</reason>
+<actionNeeded>no</actionNeeded>
+<goDecision value="GO"/>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:17:48" changedBy="kraxner"/>
+</decision>
+<evaluation>
+<comment/>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</evaluation>
+<importanceWeighting>
+<comment/>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</importanceWeighting>
+<recommendation alternativeName="Imagemagick convert - tiff2tif">
+<reasoning>removes compression, affordable</reasoning>
+<effects>migration required</effects>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-05-20T18:34:01" changedBy="kraxner"/>
+</recommendation>
+<transformation>
+<comment/>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</transformation>
+<tree weightsInitialized="true">
+<node name="JISC1 newspapers" weight="1.0" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:13:46"/>
+<node name="Functional correctness: Representation Instance Property" weight="0.33" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<node name="file size" weight="0.5" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<leaf name="comparative file size" weight="1.0" single="false" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="LINEAR"/>
+<thresholds>
+<threshold1>10.0</threshold1>
+<threshold2>3.0</threshold2>
+<threshold3>2.0</threshold3>
+<threshold4>1.0</threshold4>
+<threshold5>0.1</threshold5>
+</thresholds>
+<changelog created="2014-04-25T14:13:54" createdBy="kraxner" changed="2014-04-25T14:18:59" changedBy="kraxner"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#123">
+<name>comparative file size</name>
+<description>Factor for relative output file size, calculated as: (size of output file / size of input file)</description>
+<attribute ID="http://purl.org/DP/quality/attributes#41">
+<name>file size</name>
+<description>What happened to the size of the file?</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_representation_instance_property" scope="OBJECT">
+<name>Functional correctness: Representation Instance Property</name>
+</category>
+</attribute>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</positiveFloatScale>
+</measure>
+<evaluation>
+<alternative key="Imagemagick convert - tiff2tif">
+<positiveFloatResult>
+<value>1.0</value>
+<comment/>
+<changelog created="2014-04-25T14:22:34" changed="2014-05-20T18:33:37"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="Keep status quo">
+<positiveFloatResult>
+<value>0.0</value>
+<comment/>
+<changelog created="2014-05-20T18:33:06" changed="2014-05-20T18:33:37"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+<node name="compression" weight="0.5" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<leaf name="compression type" weight="1.0" single="false" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<aggregationMode value="WORST"/>
+<ordinalScale unit="" restriction="none/lossless/lossy">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</ordinalScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="lossless" target="3.33"/>
+<mapping ordinal="lossy" target="0.0"/>
+<mapping ordinal="none" target="5.0"/>
+</mappings>
+<changelog created="2014-04-25T14:13:54" createdBy="kraxner" changed="2014-04-25T14:19:08" changedBy="kraxner"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#117">
+<name>compression type</name>
+<description>Type of compression used in the outcome object</description>
+<attribute ID="http://purl.org/DP/quality/attributes#39">
+<name>compression</name>
+<description>Compression used in outcome object.</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_representation_instance_property" scope="OBJECT">
+<name>Functional correctness: Representation Instance Property</name>
+</category>
+</attribute>
+<ordinalScale unit="" restriction="none/lossless/lossy">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</ordinalScale>
+</measure>
+<evaluation>
+<alternative key="Imagemagick convert - tiff2tif">
+<ordinalResult>
+<value>none</value>
+<comment/>
+<changelog created="2014-04-25T14:22:34" changed="2014-05-20T18:33:37"/>
+</ordinalResult>
+</alternative>
+<alternative key="Keep status quo">
+<ordinalResult>
+<value>lossy</value>
+<comment/>
+<changelog created="2014-05-20T18:33:06" changed="2014-05-20T18:33:37"/>
+</ordinalResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Time behaviour" weight="0.34" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<node name="processing time" weight="1.0" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<leaf name="elapsed time per MB" weight="1.0" single="true" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<aggregationMode value="AVERAGE"/>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</positiveFloatScale>
+<numericTransformer>
+<mode value="LINEAR"/>
+<thresholds>
+<threshold1>100.0</threshold1>
+<threshold2>40.0</threshold2>
+<threshold3>30.0</threshold3>
+<threshold4>10.0</threshold4>
+<threshold5>2.0</threshold5>
+</thresholds>
+<changelog created="2014-04-25T14:13:54" createdBy="kraxner" changed="2014-04-25T14:19:19" changedBy="kraxner"/>
+</numericTransformer>
+<measure ID="http://purl.org/DP/quality/measures#10">
+<name>elapsed time per MB</name>
+<description>elapsed processing time per Megabyte of input data, measured in milliseconds</description>
+<attribute ID="http://purl.org/DP/quality/attributes#6">
+<name>processing time</name>
+<description>processing time</description>
+<category ID="http://purl.org/DP/quality/categories#time_behaviour" scope="ALTERNATIVE_ACTION">
+<name>Time behaviour</name>
+</category>
+</attribute>
+<positiveFloatScale unit="" restriction="">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</positiveFloatScale>
+</measure>
+<evaluation>
+<alternative key="Imagemagick convert - tiff2tif">
+<positiveFloatResult>
+<value>2.0</value>
+<comment/>
+<changelog created="2014-04-25T14:22:34" changed="2014-05-20T18:33:37"/>
+</positiveFloatResult>
+</alternative>
+<alternative key="Keep status quo">
+<positiveFloatResult>
+<value>0.0</value>
+<comment/>
+<changelog created="2014-05-20T18:33:06" changed="2014-05-20T18:33:37"/>
+</positiveFloatResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+<node name="Functional correctness: Transformation Independent Property" weight="0.33" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<node name="image size" weight="1.0" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<leaf name="image width equal" weight="0.5" single="false" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2014-04-25T14:13:54" createdBy="kraxner" changed="2014-04-25T14:19:25" changedBy="kraxner"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#51">
+<name>image width equal</name>
+<description>true iff image width has been preserved.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#19">
+<name>image size</name>
+<description>Dimensions of a digital image</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_transformation_independent_property" scope="OBJECT">
+<name>Functional correctness: Transformation Independent Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Imagemagick convert - tiff2tif">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2014-04-25T14:22:34" changed="2014-05-20T18:33:37"/>
+</booleanResult>
+</alternative>
+<alternative key="Keep status quo">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2014-05-20T18:33:06" changed="2014-05-20T18:33:37"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+<leaf name="image height equal" weight="0.5" single="false" lock="false">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:19:29" changedBy="kraxner"/>
+<aggregationMode value="WORST"/>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</booleanScale>
+<ordinalTransformer>
+<mappings>
+<mapping ordinal="Yes" target="5.0"/>
+<mapping ordinal="No" target="0.0"/>
+</mappings>
+<changelog created="2014-04-25T14:13:54" createdBy="kraxner" changed="2014-04-25T14:19:27" changedBy="kraxner"/>
+</ordinalTransformer>
+<measure ID="http://purl.org/DP/quality/measures#53">
+<name>image height equal</name>
+<description>true iff image height has been preserved.</description>
+<attribute ID="http://purl.org/DP/quality/attributes#19">
+<name>image size</name>
+<description>Dimensions of a digital image</description>
+<category ID="http://purl.org/DP/quality/categories#functional_correctness_transformation_independent_property" scope="OBJECT">
+<name>Functional correctness: Transformation Independent Property</name>
+</category>
+</attribute>
+<booleanScale unit="" restriction="Yes/No">
+<changelog created="2014-04-25T14:12:55" createdBy="kraxner" changed="2014-04-25T14:12:55"/>
+</booleanScale>
+</measure>
+<evaluation>
+<alternative key="Imagemagick convert - tiff2tif">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2014-04-25T14:22:34" changed="2014-05-20T18:33:37"/>
+</booleanResult>
+</alternative>
+<alternative key="Keep status quo">
+<booleanResult>
+<value>Yes</value>
+<comment/>
+<changelog created="2014-05-20T18:33:06" changed="2014-05-20T18:33:37"/>
+</booleanResult>
+</alternative>
+</evaluation>
+</leaf>
+</node>
+</node>
+</node>
+</tree>
+<executablePlan>
+<toolParameters/>
+<triggersConditions/>
+<validateQA/>
+<workflow fullname="Test_Plan_execution_-_Imagemagick_convert_-_tiff2tif.t2flow" contentType="application/vnd.taverna.t2flow+xml">
+<data xmlns:plato="http://ifs.tuwien.ac.at/dp/plato" hasData="true" encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHdvcmtmbG93IHhtbG5zPSJo
+dHRwOi8vdGF2ZXJuYS5zZi5uZXQvMjAwOC94bWwvdDJmbG93IiB2ZXJzaW9uPSIxIiBwcm9kdWNl
+ZEJ5PSJ0YXZlcm5hLTIuNC4wIj4KICA8ZGF0YWZsb3cgaWQ9ImY5ZTc2ZjY2LTdlMTQtNDgyMS1h
+OTg0LTNjYmI2NDI0OGU2YSIgcm9sZT0idG9wIj4KICAgIDxuYW1lPlRlc3QgUGxhbiBleGVjdXRp
+b24gLSBJbWFnZW1hZ2ljayBjb252ZXJ0IC0gdGlmZjJ0aWY8L25hbWU+CiAgICA8aW5wdXRQb3J0
+cz4KICAgICAgPHBvcnQ+CiAgICAgICAgPG5hbWU+c291cmNlPC9uYW1lPgogICAgICAgIDxkZXB0
+aD4wPC9kZXB0aD4KICAgICAgICA8Z3JhbnVsYXJEZXB0aD4wPC9ncmFudWxhckRlcHRoPgogICAg
+ICAgIDxhbm5vdGF0aW9ucz4KICAgICAgICAgIDxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGlu
+Zz0ieHN0cmVhbSI+CiAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNo
+YWluSW1wbCB4bWxucz0iIj4KICAgIDxhbm5vdGF0aW9uQXNzZXJ0aW9ucz4KICAgICAgPG5ldC5z
+Zi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+CiAgICAgICAg
+PGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90
+YXRpb25iZWFucy5TZW1hbnRpY0Fubm90YXRpb24iPgogICAgICAgICAgPG1pbWVUeXBlPnRleHQv
+cmRmK24zPC9taW1lVHlwZT4KICAgICAgICAgIDxjb250ZW50PiZsdDsmZ3Q7ICAgICZsdDtodHRw
+Oi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNhY2NlcHRzJmd0OwogICAgICAgICAgICAgICZsdDto
+dHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNTb3VyY2VPYmplY3QmZ3Q7IC48L2NvbnRlbnQ+
+CiAgICAgICAgPC9hbm5vdGF0aW9uQmVhbj4KICAgICAgICA8ZGF0ZT4yMDE0LTA0LTI1IDEyOjIw
+OjEzLjgxMiBVVEM8L2RhdGU+CiAgICAgICAgPGNyZWF0b3JzIC8+CiAgICAgICAgPGN1cmF0aW9u
+RXZlbnRMaXN0IC8+CiAgICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0
+aW9uQXNzZXJ0aW9uSW1wbD4KICAgIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+CiAgPC9uZXQuc2Yu
+dGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+CjwvYW5ub3RhdGlvbl9j
+aGFpbl8yXzI+CgogICAgICAgIDwvYW5ub3RhdGlvbnM+CiAgICAgIDwvcG9ydD4KICAgIDwvaW5w
+dXRQb3J0cz4KICAgIDxvdXRwdXRQb3J0cz4KICAgICAgPHBvcnQ+CiAgICAgICAgPG5hbWU+dGFy
+Z2V0PC9uYW1lPgogICAgICAgIDxhbm5vdGF0aW9ucz4KICAgICAgICAgIDxhbm5vdGF0aW9uX2No
+YWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+CiAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRp
+b24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4KICAgIDxhbm5vdGF0aW9uQXNzZXJ0aW9u
+cz4KICAgICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlv
+bkltcGw+CiAgICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5TZW1hbnRpY0Fubm90YXRpb24iPgogICAgICAgICAg
+PG1pbWVUeXBlPnRleHQvcmRmK24zPC9taW1lVHlwZT4KICAgICAgICAgIDxjb250ZW50PiZsdDsm
+Z3Q7ICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNwcm92aWRlcyZndDsgJmx0O2h0
+dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI1RhcmdldE9iamVjdCZndDsgLjwvY29udGVudD4K
+ICAgICAgICA8L2Fubm90YXRpb25CZWFuPgogICAgICAgIDxkYXRlPjIwMTQtMDQtMjUgMTI6MjA6
+MTMuODEyIFVUQzwvZGF0ZT4KICAgICAgICA8Y3JlYXRvcnMgLz4KICAgICAgICA8Y3VyYXRpb25F
+dmVudExpc3QgLz4KICAgICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRp
+b25Bc3NlcnRpb25JbXBsPgogICAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4KICA8L25ldC5zZi50
+YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD4KPC9hbm5vdGF0aW9uX2No
+YWluXzJfMj4KCiAgICAgICAgPC9hbm5vdGF0aW9ucz4KICAgICAgPC9wb3J0PgogICAgICA8cG9y
+dD4KICAgICAgICA8bmFtZT5tZWFzdXJlc18xMjM8L25hbWU+CiAgICAgICAgPGFubm90YXRpb25z
+PgogICAgICAgICAgPGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj4KICA8
+bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIi
+PgogICAgPGFubm90YXRpb25Bc3NlcnRpb25zPgogICAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5u
+b3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgICAgICA8YW5ub3RhdGlvbkJlYW4g
+Y2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLlNlbWFu
+dGljQW5ub3RhdGlvbiI+CiAgICAgICAgICA8bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBl
+PgogICAgICAgICAgPGNvbnRlbnQ+Jmx0OyZndDsgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21w
+b25lbnRzI3Byb3ZpZGVzJmd0OyAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL3F1YWxpdHkvbWVhc3Vy
+ZXMjMTIzJmd0OyAuPC9jb250ZW50PgogICAgICAgIDwvYW5ub3RhdGlvbkJlYW4+CiAgICAgICAg
+PGRhdGU+MjAxNC0wNC0yNSAxMjoyMDoxMy44MTIgVVRDPC9kYXRlPgogICAgICAgIDxjcmVhdG9y
+cyAvPgogICAgICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPgogICAgICA8L25ldC5zZi50YXZlcm5h
+LnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+CiAgICA8L2Fubm90YXRpb25B
+c3NlcnRpb25zPgogIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hh
+aW5JbXBsPgo8L2Fubm90YXRpb25fY2hhaW5fMl8yPgoKICAgICAgICA8L2Fubm90YXRpb25zPgog
+ICAgICA8L3BvcnQ+CiAgICAgIDxwb3J0PgogICAgICAgIDxuYW1lPm1lYXN1cmVzXzExNzwvbmFt
+ZT4KICAgICAgICA8YW5ub3RhdGlvbnM+CiAgICAgICAgICA8YW5ub3RhdGlvbl9jaGFpbl8yXzIg
+ZW5jb2Rpbmc9InhzdHJlYW0iPgogIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90
+YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+CiAgICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+CiAgICAg
+IDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPgog
+ICAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlv
+bi5hbm5vdGF0aW9uYmVhbnMuU2VtYW50aWNBbm5vdGF0aW9uIj4KICAgICAgICAgIDxtaW1lVHlw
+ZT50ZXh0L3JkZituMzwvbWltZVR5cGU+CiAgICAgICAgICA8Y29udGVudD4mbHQ7Jmd0OyAmbHQ7
+aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjcHJvdmlkZXMmZ3Q7ICZsdDtodHRwOi8vcHVy
+bC5vcmcvRFAvcXVhbGl0eS9tZWFzdXJlcyMxMTcmZ3Q7IC48L2NvbnRlbnQ+CiAgICAgICAgPC9h
+bm5vdGF0aW9uQmVhbj4KICAgICAgICA8ZGF0ZT4yMDE0LTA0LTI1IDEyOjIwOjEzLjgxMiBVVEM8
+L2RhdGU+CiAgICAgICAgPGNyZWF0b3JzIC8+CiAgICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+
+CiAgICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9u
+SW1wbD4KICAgIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+CiAgPC9uZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+CjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+Cgog
+ICAgICAgIDwvYW5ub3RhdGlvbnM+CiAgICAgIDwvcG9ydD4KICAgICAgPHBvcnQ+CiAgICAgICAg
+PG5hbWU+bWVhc3VyZXNfMTA8L25hbWU+CiAgICAgICAgPGFubm90YXRpb25zPgogICAgICAgICAg
+PGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj4KICA8bmV0LnNmLnRhdmVy
+bmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIiPgogICAgPGFubm90
+YXRpb25Bc3NlcnRpb25zPgogICAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5v
+dGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgICAgICA8YW5ub3RhdGlvbkJlYW4gY2xhc3M9Im5ldC5z
+Zi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLlNlbWFudGljQW5ub3RhdGlv
+biI+CiAgICAgICAgICA8bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBlPgogICAgICAgICAg
+PGNvbnRlbnQ+Jmx0OyZndDsgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI3Byb3Zp
+ZGVzJmd0OyAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL3F1YWxpdHkvbWVhc3VyZXMjMTAmZ3Q7IC48
+L2NvbnRlbnQ+CiAgICAgICAgPC9hbm5vdGF0aW9uQmVhbj4KICAgICAgICA8ZGF0ZT4yMDE0LTA0
+LTI1IDEyOjIwOjEzLjgxMiBVVEM8L2RhdGU+CiAgICAgICAgPGNyZWF0b3JzIC8+CiAgICAgICAg
+PGN1cmF0aW9uRXZlbnRMaXN0IC8+CiAgICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlv
+bi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+CiAg
+PC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+CjwvYW5u
+b3RhdGlvbl9jaGFpbl8yXzI+CgogICAgICAgIDwvYW5ub3RhdGlvbnM+CiAgICAgIDwvcG9ydD4K
+ICAgICAgPHBvcnQ+CiAgICAgICAgPG5hbWU+bWVhc3VyZXNfNTE8L25hbWU+CiAgICAgICAgPGFu
+bm90YXRpb25zPgogICAgICAgICAgPGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3Ry
+ZWFtIj4KICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBs
+IHhtbG5zPSIiPgogICAgPGFubm90YXRpb25Bc3NlcnRpb25zPgogICAgICA8bmV0LnNmLnRhdmVy
+bmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgICAgICA8YW5ub3Rh
+dGlvbkJlYW4gY2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJl
+YW5zLlNlbWFudGljQW5ub3RhdGlvbiI+CiAgICAgICAgICA8bWltZVR5cGU+dGV4dC9yZGYrbjM8
+L21pbWVUeXBlPgogICAgICAgICAgPGNvbnRlbnQ+Jmx0OyZndDsgJmx0O2h0dHA6Ly9wdXJsLm9y
+Zy9EUC9jb21wb25lbnRzI3Byb3ZpZGVzJmd0OyAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL3F1YWxp
+dHkvbWVhc3VyZXMjNTEmZ3Q7IC48L2NvbnRlbnQ+CiAgICAgICAgPC9hbm5vdGF0aW9uQmVhbj4K
+ICAgICAgICA8ZGF0ZT4yMDE0LTA0LTI1IDEyOjIwOjEzLjgxMiBVVEM8L2RhdGU+CiAgICAgICAg
+PGNyZWF0b3JzIC8+CiAgICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+CiAgICAgIDwvbmV0LnNm
+LnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgIDwvYW5u
+b3RhdGlvbkFzc2VydGlvbnM+CiAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90
+YXRpb25DaGFpbkltcGw+CjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+CgogICAgICAgIDwvYW5ub3Rh
+dGlvbnM+CiAgICAgIDwvcG9ydD4KICAgICAgPHBvcnQ+CiAgICAgICAgPG5hbWU+bWVhc3VyZXNf
+NTM8L25hbWU+CiAgICAgICAgPGFubm90YXRpb25zPgogICAgICAgICAgPGFubm90YXRpb25fY2hh
+aW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj4KICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlv
+bi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIiPgogICAgPGFubm90YXRpb25Bc3NlcnRpb25z
+PgogICAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9u
+SW1wbD4KICAgICAgICA8YW5ub3RhdGlvbkJlYW4gY2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFu
+bm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLlNlbWFudGljQW5ub3RhdGlvbiI+CiAgICAgICAgICA8
+bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBlPgogICAgICAgICAgPGNvbnRlbnQ+Jmx0OyZn
+dDsgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI3Byb3ZpZGVzJmd0OyAmbHQ7aHR0
+cDovL3B1cmwub3JnL0RQL3F1YWxpdHkvbWVhc3VyZXMjNTMmZ3Q7IC48L2NvbnRlbnQ+CiAgICAg
+ICAgPC9hbm5vdGF0aW9uQmVhbj4KICAgICAgICA8ZGF0ZT4yMDE0LTA0LTI1IDEyOjIwOjEzLjgx
+MiBVVEM8L2RhdGU+CiAgICAgICAgPGNyZWF0b3JzIC8+CiAgICAgICAgPGN1cmF0aW9uRXZlbnRM
+aXN0IC8+CiAgICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNz
+ZXJ0aW9uSW1wbD4KICAgIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+CiAgPC9uZXQuc2YudGF2ZXJu
+YS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+CjwvYW5ub3RhdGlvbl9jaGFpbl8y
+XzI+CgogICAgICAgIDwvYW5ub3RhdGlvbnM+CiAgICAgIDwvcG9ydD4KICAgIDwvb3V0cHV0UG9y
+dHM+CiAgICA8cHJvY2Vzc29ycz4gICAgICA8cHJvY2Vzc29yPgogIDxuYW1lPk1pZ3JhdGlvbjwv
+bmFtZT4KICA8aW5wdXRQb3J0cz4KICAgIDxwb3J0PgogICAgICA8bmFtZT5zb3VyY2VfcGF0aDwv
+bmFtZT4KICAgICAgPGRlcHRoPjA8L2RlcHRoPgogICAgPC9wb3J0PgogICAgPHBvcnQ+CiAgICAg
+IDxuYW1lPmNvbXByZXNzaW9uPC9uYW1lPgogICAgICA8ZGVwdGg+MDwvZGVwdGg+CiAgICA8L3Bv
+cnQ+CiAgPC9pbnB1dFBvcnRzPgogIDxvdXRwdXRQb3J0cz4KICAgIDxwb3J0PgogICAgICA8bmFt
+ZT50YXJnZXRfcGF0aDwvbmFtZT4KICAgICAgPGRlcHRoPjA8L2RlcHRoPgogICAgICA8Z3JhbnVs
+YXJEZXB0aD4wPC9ncmFudWxhckRlcHRoPgogICAgPC9wb3J0PgogIDwvb3V0cHV0UG9ydHM+CiAg
+PGFubm90YXRpb25zIC8+CjxhY3Rpdml0aWVzPgogIDxhY3Rpdml0eT4KICAgIDxyYXZlbj4KICAg
+ICAgPGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmFjdGl2aXRpZXM8L2dyb3VwPgogICAgICA8YXJ0
+aWZhY3Q+ZGF0YWZsb3ctYWN0aXZpdHk8L2FydGlmYWN0PgogICAgICA8dmVyc2lvbj4xLjQ8L3Zl
+cnNpb24+CiAgICA8L3JhdmVuPgogICAgPGNsYXNzPm5ldC5zZi50YXZlcm5hLnQyLmFjdGl2aXRp
+ZXMuZGF0YWZsb3cuRGF0YWZsb3dBY3Rpdml0eTwvY2xhc3M+CiAgICA8aW5wdXRNYXA+CiAgICAg
+IDxtYXAgZnJvbT0ic291cmNlX3BhdGgiIHRvPSJzb3VyY2VfcGF0aCIgLz4KICAgICAgPG1hcCBm
+cm9tPSJjb21wcmVzc2lvbiIgdG89ImNvbXByZXNzaW9uIiAvPgogICAgPC9pbnB1dE1hcD4KICAg
+IDxvdXRwdXRNYXA+CiAgICAgIDxtYXAgZnJvbT0idGFyZ2V0X3BhdGgiIHRvPSJ0YXJnZXRfcGF0
+aCIgLz4KICAgIDwvb3V0cHV0TWFwPgogICAgPGNvbmZpZ0JlYW4gZW5jb2Rpbmc9ImRhdGFmbG93
+Ij4KICAgICAgPGRhdGFmbG93IHJlZj0iNGQ2ODA3MjktMDlkZS00ZGY2LWFlMjgtMjYzMGYxODJj
+YTE5IiAvPgogICAgPC9jb25maWdCZWFuPgogICAgPGFubm90YXRpb25zIC8+CiAgPC9hY3Rpdml0
+eT4KPC9hY3Rpdml0aWVzPgogIDxkaXNwYXRjaFN0YWNrPgogICAgPGRpc3BhdGNoTGF5ZXI+CiAg
+ICAgIDxyYXZlbj4KICAgICAgICA8Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3JvdXA+
+CiAgICAgICAgPGFydGlmYWN0PndvcmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+CiAgICAgICAg
+PHZlcnNpb24+MS40PC92ZXJzaW9uPgogICAgICA8L3JhdmVuPgogICAgICA8Y2xhc3M+bmV0LnNm
+LnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLlBhcmFs
+bGVsaXplPC9jbGFzcz4KICAgICAgPGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJlYW0iPgogICAg
+ICAgIDxuZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5s
+YXllcnMuUGFyYWxsZWxpemVDb25maWc+CiAgICAgICAgICA8bWF4Sm9icz4xPC9tYXhKb2JzPgog
+ICAgICAgIDwvbmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0
+Y2gubGF5ZXJzLlBhcmFsbGVsaXplQ29uZmlnPgogICAgICA8L2NvbmZpZ0JlYW4+CiAgICA8L2Rp
+c3BhdGNoTGF5ZXI+CiAgICA8ZGlzcGF0Y2hMYXllcj4KICAgICAgPHJhdmVuPgogICAgICAgIDxn
+cm91cD5uZXQuc2YudGF2ZXJuYS50Mi5jb3JlPC9ncm91cD4KICAgICAgICA8YXJ0aWZhY3Q+d29y
+a2Zsb3dtb2RlbC1pbXBsPC9hcnRpZmFjdD4KICAgICAgICA8dmVyc2lvbj4xLjQ8L3ZlcnNpb24+
+CiAgICAgIDwvcmF2ZW4+CiAgICAgIDxjbGFzcz5uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21v
+ZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5sYXllcnMuRXJyb3JCb3VuY2U8L2NsYXNzPgogICAgICA8
+Y29uZmlnQmVhbiBlbmNvZGluZz0ieHN0cmVhbSI+CiAgICAgICAgPG51bGwgLz4KICAgICAgPC9j
+b25maWdCZWFuPgogICAgPC9kaXNwYXRjaExheWVyPgogICAgPGRpc3BhdGNoTGF5ZXI+CiAgICAg
+IDxyYXZlbj4KICAgICAgICA8Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3JvdXA+CiAg
+ICAgICAgPGFydGlmYWN0PndvcmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+CiAgICAgICAgPHZl
+cnNpb24+MS40PC92ZXJzaW9uPgogICAgICA8L3JhdmVuPgogICAgICA8Y2xhc3M+bmV0LnNmLnRh
+dmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLkZhaWxvdmVy
+PC9jbGFzcz4KICAgICAgPGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJlYW0iPgogICAgICAgIDxu
+dWxsIC8+CiAgICAgIDwvY29uZmlnQmVhbj4KICAgIDwvZGlzcGF0Y2hMYXllcj4KICAgIDxkaXNw
+YXRjaExheWVyPgogICAgICA8cmF2ZW4+CiAgICAgICAgPGdyb3VwPm5ldC5zZi50YXZlcm5hLnQy
+LmNvcmU8L2dyb3VwPgogICAgICAgIDxhcnRpZmFjdD53b3JrZmxvd21vZGVsLWltcGw8L2FydGlm
+YWN0PgogICAgICAgIDx2ZXJzaW9uPjEuNDwvdmVyc2lvbj4KICAgICAgPC9yYXZlbj4KICAgICAg
+PGNsYXNzPm5ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29yLmRpc3BhdGNo
+LmxheWVycy5SZXRyeTwvY2xhc3M+CiAgICAgIDxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3RyZWFt
+Ij4KICAgICAgICA8bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlz
+cGF0Y2gubGF5ZXJzLlJldHJ5Q29uZmlnPgogICAgICAgICAgPGJhY2tvZmZGYWN0b3I+MS4wPC9i
+YWNrb2ZmRmFjdG9yPgogICAgICAgICAgPGluaXRpYWxEZWxheT4xMDAwPC9pbml0aWFsRGVsYXk+
+CiAgICAgICAgICA8bWF4RGVsYXk+NTAwMDwvbWF4RGVsYXk+CiAgICAgICAgICA8bWF4UmV0cmll
+cz4wPC9tYXhSZXRyaWVzPgogICAgICAgIDwvbmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2Rl
+bC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLlJldHJ5Q29uZmlnPgogICAgICA8L2NvbmZpZ0Jl
+YW4+CiAgICA8L2Rpc3BhdGNoTGF5ZXI+CiAgICA8ZGlzcGF0Y2hMYXllcj4KICAgICAgPHJhdmVu
+PgogICAgICAgIDxncm91cD5uZXQuc2YudGF2ZXJuYS50Mi5jb3JlPC9ncm91cD4KICAgICAgICA8
+YXJ0aWZhY3Q+d29ya2Zsb3dtb2RlbC1pbXBsPC9hcnRpZmFjdD4KICAgICAgICA8dmVyc2lvbj4x
+LjQ8L3ZlcnNpb24+CiAgICAgIDwvcmF2ZW4+CiAgICAgIDxjbGFzcz5uZXQuc2YudGF2ZXJuYS50
+Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5sYXllcnMuSW52b2tlPC9jbGFzcz4K
+ICAgICAgPGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJlYW0iPgogICAgICAgIDxudWxsIC8+CiAg
+ICAgIDwvY29uZmlnQmVhbj4KICAgIDwvZGlzcGF0Y2hMYXllcj4KICA8L2Rpc3BhdGNoU3RhY2s+
+CiAgPGl0ZXJhdGlvblN0cmF0ZWd5U3RhY2s+CiAgICA8aXRlcmF0aW9uPgogICAgICA8c3RyYXRl
+Z3k+CiAgICAgICAgPGNyb3NzPgogICAgICAgICAgPHBvcnQgbmFtZT0ic291cmNlX3BhdGgiIGRl
+cHRoPSIwIiAvPgogICAgICAgICAgPHBvcnQgbmFtZT0iY29tcHJlc3Npb24iIGRlcHRoPSIwIiAv
+PgogICAgICAgIDwvY3Jvc3M+CiAgICAgIDwvc3RyYXRlZ3k+CiAgICA8L2l0ZXJhdGlvbj4KICA8
+L2l0ZXJhdGlvblN0cmF0ZWd5U3RhY2s+CjwvcHJvY2Vzc29yPiAKICAgICAgPHByb2Nlc3Nvcj4K
+ICA8bmFtZT5jb21wcmVzc2lvbjwvbmFtZT4KICA8aW5wdXRQb3J0cz4KICA8L2lucHV0UG9ydHM+
+CiAgPG91dHB1dFBvcnRzPgogICAgPHBvcnQ+CiAgICAgIDxuYW1lPnZhbHVlPC9uYW1lPgogICAg
+ICA8ZGVwdGg+MDwvZGVwdGg+CiAgICAgIDxncmFudWxhckRlcHRoPjA8L2dyYW51bGFyRGVwdGg+
+CiAgICA8L3BvcnQ+CiAgPC9vdXRwdXRQb3J0cz4KICA8YW5ub3RhdGlvbnMgLz4KPGFjdGl2aXRp
+ZXM+CiAgPGFjdGl2aXR5PgogICAgPHJhdmVuPgogICAgICA8Z3JvdXA+bmV0LnNmLnRhdmVybmEu
+dDIuYWN0aXZpdGllczwvZ3JvdXA+CiAgICAgIDxhcnRpZmFjdD5zdHJpbmdjb25zdGFudC1hY3Rp
+dml0eTwvYXJ0aWZhY3Q+CiAgICAgIDx2ZXJzaW9uPjEuNDwvdmVyc2lvbj4KICAgIDwvcmF2ZW4+
+CiAgICA8Y2xhc3M+bmV0LnNmLnRhdmVybmEudDIuYWN0aXZpdGllcy5zdHJpbmdjb25zdGFudC5T
+dHJpbmdDb25zdGFudEFjdGl2aXR5PC9jbGFzcz4KICAgIDxpbnB1dE1hcCAvPgogICAgPG91dHB1
+dE1hcD4KICAgICAgPG1hcCBmcm9tPSJ2YWx1ZSIgdG89InZhbHVlIiAvPgogICAgPC9vdXRwdXRN
+YXA+CiAgICA8Y29uZmlnQmVhbiBlbmNvZGluZz0ieHN0cmVhbSI+CiAgICAgIDxuZXQuc2YudGF2
+ZXJuYS50Mi5hY3Rpdml0aWVzLnN0cmluZ2NvbnN0YW50LlN0cmluZ0NvbnN0YW50Q29uZmlndXJh
+dGlvbkJlYW4+CiAgICAgICAgPHZhbHVlPm5vbmU8L3ZhbHVlPgogICAgICA8L25ldC5zZi50YXZl
+cm5hLnQyLmFjdGl2aXRpZXMuc3RyaW5nY29uc3RhbnQuU3RyaW5nQ29uc3RhbnRDb25maWd1cmF0
+aW9uQmVhbj4KICAgIDwvY29uZmlnQmVhbj4KICAgIDxhbm5vdGF0aW9ucyAvPgogIDwvYWN0aXZp
+dHk+CjwvYWN0aXZpdGllcz4KICA8ZGlzcGF0Y2hTdGFjaz4KICAgIDxkaXNwYXRjaExheWVyPgog
+ICAgICA8cmF2ZW4+CiAgICAgICAgPGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmNvcmU8L2dyb3Vw
+PgogICAgICAgIDxhcnRpZmFjdD53b3JrZmxvd21vZGVsLWltcGw8L2FydGlmYWN0PgogICAgICAg
+IDx2ZXJzaW9uPjEuNDwvdmVyc2lvbj4KICAgICAgPC9yYXZlbj4KICAgICAgPGNsYXNzPm5ldC5z
+Zi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29yLmRpc3BhdGNoLmxheWVycy5QYXJh
+bGxlbGl6ZTwvY2xhc3M+CiAgICAgIDxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3RyZWFtIj4KICAg
+ICAgICA8bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gu
+bGF5ZXJzLlBhcmFsbGVsaXplQ29uZmlnPgogICAgICAgICAgPG1heEpvYnM+MTwvbWF4Sm9icz4K
+ICAgICAgICA8L25ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29yLmRpc3Bh
+dGNoLmxheWVycy5QYXJhbGxlbGl6ZUNvbmZpZz4KICAgICAgPC9jb25maWdCZWFuPgogICAgPC9k
+aXNwYXRjaExheWVyPgogICAgPGRpc3BhdGNoTGF5ZXI+CiAgICAgIDxyYXZlbj4KICAgICAgICA8
+Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3JvdXA+CiAgICAgICAgPGFydGlmYWN0Pndv
+cmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+CiAgICAgICAgPHZlcnNpb24+MS40PC92ZXJzaW9u
+PgogICAgICA8L3JhdmVuPgogICAgICA8Y2xhc3M+bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dt
+b2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLkVycm9yQm91bmNlPC9jbGFzcz4KICAgICAg
+PGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJlYW0iPgogICAgICAgIDxudWxsIC8+CiAgICAgIDwv
+Y29uZmlnQmVhbj4KICAgIDwvZGlzcGF0Y2hMYXllcj4KICAgIDxkaXNwYXRjaExheWVyPgogICAg
+ICA8cmF2ZW4+CiAgICAgICAgPGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmNvcmU8L2dyb3VwPgog
+ICAgICAgIDxhcnRpZmFjdD53b3JrZmxvd21vZGVsLWltcGw8L2FydGlmYWN0PgogICAgICAgIDx2
+ZXJzaW9uPjEuNDwvdmVyc2lvbj4KICAgICAgPC9yYXZlbj4KICAgICAgPGNsYXNzPm5ldC5zZi50
+YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29yLmRpc3BhdGNoLmxheWVycy5GYWlsb3Zl
+cjwvY2xhc3M+CiAgICAgIDxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3RyZWFtIj4KICAgICAgICA8
+bnVsbCAvPgogICAgICA8L2NvbmZpZ0JlYW4+CiAgICA8L2Rpc3BhdGNoTGF5ZXI+CiAgICA8ZGlz
+cGF0Y2hMYXllcj4KICAgICAgPHJhdmVuPgogICAgICAgIDxncm91cD5uZXQuc2YudGF2ZXJuYS50
+Mi5jb3JlPC9ncm91cD4KICAgICAgICA8YXJ0aWZhY3Q+d29ya2Zsb3dtb2RlbC1pbXBsPC9hcnRp
+ZmFjdD4KICAgICAgICA8dmVyc2lvbj4xLjQ8L3ZlcnNpb24+CiAgICAgIDwvcmF2ZW4+CiAgICAg
+IDxjbGFzcz5uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRj
+aC5sYXllcnMuUmV0cnk8L2NsYXNzPgogICAgICA8Y29uZmlnQmVhbiBlbmNvZGluZz0ieHN0cmVh
+bSI+CiAgICAgICAgPG5ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29yLmRp
+c3BhdGNoLmxheWVycy5SZXRyeUNvbmZpZz4KICAgICAgICAgIDxiYWNrb2ZmRmFjdG9yPjEuMDwv
+YmFja29mZkZhY3Rvcj4KICAgICAgICAgIDxpbml0aWFsRGVsYXk+MTAwMDwvaW5pdGlhbERlbGF5
+PgogICAgICAgICAgPG1heERlbGF5PjUwMDA8L21heERlbGF5PgogICAgICAgICAgPG1heFJldHJp
+ZXM+MDwvbWF4UmV0cmllcz4KICAgICAgICA8L25ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9k
+ZWwucHJvY2Vzc29yLmRpc3BhdGNoLmxheWVycy5SZXRyeUNvbmZpZz4KICAgICAgPC9jb25maWdC
+ZWFuPgogICAgPC9kaXNwYXRjaExheWVyPgogICAgPGRpc3BhdGNoTGF5ZXI+CiAgICAgIDxyYXZl
+bj4KICAgICAgICA8Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3JvdXA+CiAgICAgICAg
+PGFydGlmYWN0PndvcmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+CiAgICAgICAgPHZlcnNpb24+
+MS40PC92ZXJzaW9uPgogICAgICA8L3JhdmVuPgogICAgICA8Y2xhc3M+bmV0LnNmLnRhdmVybmEu
+dDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLkludm9rZTwvY2xhc3M+
+CiAgICAgIDxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3RyZWFtIj4KICAgICAgICA8bnVsbCAvPgog
+ICAgICA8L2NvbmZpZ0JlYW4+CiAgICA8L2Rpc3BhdGNoTGF5ZXI+CiAgPC9kaXNwYXRjaFN0YWNr
+PgogIDxpdGVyYXRpb25TdHJhdGVneVN0YWNrPgogICAgPGl0ZXJhdGlvbj4KICAgICAgPHN0cmF0
+ZWd5PgogICAgICAgIDxjcm9zcz4KICAgICAgICA8L2Nyb3NzPgogICAgICA8L3N0cmF0ZWd5Pgog
+ICAgPC9pdGVyYXRpb24+CiAgPC9pdGVyYXRpb25TdHJhdGVneVN0YWNrPgo8L3Byb2Nlc3Nvcj4g
+CjwvcHJvY2Vzc29ycz4KICAgIDxjb25kaXRpb25zIC8+CiAgICA8ZGF0YWxpbmtzPgogICAgICA8
+ZGF0YWxpbms+CiAgICAgICAgPHNpbmsgdHlwZT0icHJvY2Vzc29yIj4KICAgICAgICAgIDxwcm9j
+ZXNzb3I+TWlncmF0aW9uPC9wcm9jZXNzb3I+CiAgICAgICAgICA8cG9ydD5zb3VyY2VfcGF0aDwv
+cG9ydD4KICAgICAgICA8L3Npbms+CiAgICAgICAgPHNvdXJjZSB0eXBlPSJkYXRhZmxvdyI+CiAg
+ICAgICAgICA8cG9ydD5zb3VyY2U8L3BvcnQ+CiAgICAgICAgPC9zb3VyY2U+CiAgICAgIDwvZGF0
+YWxpbms+CiAgICAgIDxkYXRhbGluaz4KICAgICAgICA8c2luayB0eXBlPSJwcm9jZXNzb3IiPgog
+ICAgICAgICAgPHByb2Nlc3Nvcj5NaWdyYXRpb248L3Byb2Nlc3Nvcj4KICAgICAgICAgIDxwb3J0
+PmNvbXByZXNzaW9uPC9wb3J0PgogICAgICAgIDwvc2luaz4KICAgICAgICA8c291cmNlIHR5cGU9
+InByb2Nlc3NvciI+CiAgICAgICAgICA8cHJvY2Vzc29yPmNvbXByZXNzaW9uPC9wcm9jZXNzb3I+
+CiAgICAgICAgICA8cG9ydD52YWx1ZTwvcG9ydD4KICAgICAgICA8L3NvdXJjZT4KICAgICAgPC9k
+YXRhbGluaz4KICAgICAgPGRhdGFsaW5rPgogICAgICAgIDxzaW5rIHR5cGU9ImRhdGFmbG93Ij4K
+ICAgICAgICAgIDxwb3J0PnRhcmdldDwvcG9ydD4KICAgICAgICA8L3Npbms+CiAgICAgICAgPHNv
+dXJjZSB0eXBlPSJwcm9jZXNzb3IiPgogICAgICAgICAgPHByb2Nlc3Nvcj5NaWdyYXRpb248L3By
+b2Nlc3Nvcj4KICAgICAgICAgIDxwb3J0PnRhcmdldF9wYXRoPC9wb3J0PgogICAgICAgIDwvc291
+cmNlPgogICAgICA8L2RhdGFsaW5rPgogICAgPC9kYXRhbGlua3M+CiAgICA8YW5ub3RhdGlvbnM+
+CiAgICAgIDxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+CiAgICAgICAg
+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0i
+Ij4KICAgICAgICAgIDxhbm5vdGF0aW9uQXNzZXJ0aW9ucz4KICAgICAgICAgICAgPG5ldC5zZi50
+YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+CiAgICAgICAgICAg
+ICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFu
+bm90YXRpb25iZWFucy5JZGVudGlmaWNhdGlvbkFzc2VydGlvbiI+CiAgICAgICAgICAgICAgICA8
+aWRlbnRpZmljYXRpb24+ZjllNzZmNjYtN2UxNC00ODIxLWE5ODQtM2NiYjY0MjQ4ZTZhPC9pZGVu
+dGlmaWNhdGlvbj4KICAgICAgICAgICAgICA8L2Fubm90YXRpb25CZWFuPgogICAgICAgICAgICAg
+IDxkYXRlPjIwMTQtMDQtMjUgMTI6MjA6MTMuODEyIFVUQzwvZGF0ZT4KICAgICAgICAgICAgICA8
+Y3JlYXRvcnMgLz4KICAgICAgICAgICAgICA8Y3VyYXRpb25FdmVudExpc3QgLz4KICAgICAgICAg
+ICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBs
+PgogICAgICAgICAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4KICAgICAgICA8L25ldC5zZi50YXZl
+cm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD4KICAgICAgPC9hbm5vdGF0aW9u
+X2NoYWluXzJfMj4KICAgICAgPGFubm90YXRpb25fY2hhaW4gZW5jb2Rpbmc9InhzdHJlYW0iPgog
+ICAgICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwg
+eG1sbnM9IiI+CiAgICAgICAgICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+CiAgICAgICAgICAgIDxu
+ZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPgogICAg
+ICAgICAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEudDIuYW5ub3Rh
+dGlvbi5hbm5vdGF0aW9uYmVhbnMuQXV0aG9yIj4KICAgICAgICAgICAgICAgIDx0ZXh0Pk1pY2hh
+ZWwgS3JheG5lcjwvdGV4dD4KICAgICAgICAgICAgICA8L2Fubm90YXRpb25CZWFuPgogICAgICAg
+ICAgICAgIDxkYXRlPjIwMTQtMDQtMjUgMTI6MjA6MTMuODEyIFVUQzwvZGF0ZT4KICAgICAgICAg
+ICAgICA8Y3JlYXRvcnMgLz4KICAgICAgICAgICAgICA8Y3VyYXRpb25FdmVudExpc3QgLz4KICAg
+ICAgICAgICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRp
+b25JbXBsPgogICAgICAgICAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4KICAgICAgICA8L25ldC5z
+Zi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD4KICAgICAgPC9hbm5v
+dGF0aW9uX2NoYWluPgogICAgICA8YW5ub3RhdGlvbl9jaGFpbiBlbmNvZGluZz0ieHN0cmVhbSI+
+CiAgICAgICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1w
+bCB4bWxucz0iIj4KICAgICAgICAgIDxhbm5vdGF0aW9uQXNzZXJ0aW9ucz4KICAgICAgICAgICAg
+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+CiAg
+ICAgICAgICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5v
+dGF0aW9uLmFubm90YXRpb25iZWFucy5EZXNjcmlwdGl2ZVRpdGxlIj4KICAgICAgICAgICAgICAg
+IDx0ZXh0PlRlc3QgUGxhbiBleGVjdXRpb24gLSBJbWFnZW1hZ2ljayBjb252ZXJ0IC0gdGlmZjJ0
+aWY8L3RleHQ+CiAgICAgICAgICAgICAgPC9hbm5vdGF0aW9uQmVhbj4KICAgICAgICAgICAgICA8
+ZGF0ZT4yMDE0LTA0LTI1IDEyOjIwOjEzLjgxMiBVVEM8L2RhdGU+CiAgICAgICAgICAgICAgPGNy
+ZWF0b3JzIC8+CiAgICAgICAgICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+CiAgICAgICAgICAg
+IDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4K
+ICAgICAgICAgIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+CiAgICAgICAgPC9uZXQuc2YudGF2ZXJu
+YS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+CiAgICAgIDwvYW5ub3RhdGlvbl9j
+aGFpbj4KICAgICAgPGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj4KICA8
+bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIi
+PgogICAgPGFubm90YXRpb25Bc3NlcnRpb25zPgogICAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5u
+b3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgICAgICA8YW5ub3RhdGlvbkJlYW4g
+Y2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLlNlbWFu
+dGljQW5ub3RhdGlvbiI+CiAgICAgICAgICA8bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBl
+PgogICAgICAgICAgPGNvbnRlbnQ+Jmx0OyZndDsgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21w
+b25lbnRzI2ZpdHMmZ3Q7ICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNFeGVjdXRh
+YmxlUGxhbiZndDsgLgo8L2NvbnRlbnQ+CiAgICAgICAgPC9hbm5vdGF0aW9uQmVhbj4KICAgICAg
+ICA8ZGF0ZT4yMDE0LTA0LTI1IDEyOjIwOjEzLjgxMiBVVEM8L2RhdGU+CiAgICAgICAgPGNyZWF0
+b3JzIC8+CiAgICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+CiAgICAgIDwvbmV0LnNmLnRhdmVy
+bmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4KICAgIDwvYW5ub3RhdGlv
+bkFzc2VydGlvbnM+CiAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25D
+aGFpbkltcGw+CjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+CgogICAgPC9hbm5vdGF0aW9ucz4KICA8
+L2RhdGFmbG93PgogIDxkYXRhZmxvdyBpZD0iNGQ2ODA3MjktMDlkZS00ZGY2LWFlMjgtMjYzMGYx
+ODJjYTE5IiByb2xlPSJuZXN0ZWQiPjxuYW1lPkltYWdlbWFnaWNrX2NvbnZlcnRfPC9uYW1lPjxp
+bnB1dFBvcnRzPjxwb3J0PjxuYW1lPnNvdXJjZV9wYXRoPC9uYW1lPjxkZXB0aD4wPC9kZXB0aD48
+Z3JhbnVsYXJEZXB0aD4wPC9ncmFudWxhckRlcHRoPjxhbm5vdGF0aW9ucz48YW5ub3RhdGlvbl9j
+aGFpbiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5u
+b3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAg
+IDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0K
+ICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9u
+LmFubm90YXRpb25iZWFucy5FeGFtcGxlVmFsdWUiPg0KICAgICAgICA8dGV4dD5pbi50aWZmPC90
+ZXh0Pg0KICAgICAgPC9hbm5vdGF0aW9uQmVhbj4NCiAgICAgIDxkYXRlPjIwMTMtMDMtMDYgMTU6
+NTg6MzQuNDMxIFVUQzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9ycyAvPg0KICAgICAgPGN1cmF0aW9u
+RXZlbnRMaXN0IC8+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRp
+b25Bc3NlcnRpb25JbXBsPg0KICA8L2Fubm90YXRpb25Bc3NlcnRpb25zPg0KPC9uZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+PC9hbm5vdGF0aW9uX2NoYWlu
+Pjxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5h
+LnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRp
+b25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRp
+b25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5TZW1hbnRpY0Fubm90YXRpb24iPg0K
+ICAgICAgICA8bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBlPg0KICAgICAgICA8Y29udGVu
+dD4mbHQ7Jmd0OyAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjYWNjZXB0cyZn
+dDsNCiAgICAgICAgICAgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI1NvdXJj
+ZU9iamVjdCZndDsgLg0KPC9jb250ZW50Pg0KICAgICAgPC9hbm5vdGF0aW9uQmVhbj4NCiAgICAg
+IDxkYXRlPjIwMTMtMDMtMDYgMTU6MzY6MTcuODU2IFVUQzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9y
+cyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50
+Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICA8L2Fubm90YXRpb25Bc3Nl
+cnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbklt
+cGw+PC9hbm5vdGF0aW9uX2NoYWluXzJfMj48YW5ub3RhdGlvbl9jaGFpbiBlbmNvZGluZz0ieHN0
+cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4
+bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50
+Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25C
+ZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5G
+cmVlVGV4dERlc2NyaXB0aW9uIj4NCiAgICAgICAgPHRleHQ+UGF0aCB0byB0aGUgbWlncmF0aW9u
+IHNvdXJjZTwvdGV4dD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4yMDEz
+LTA4LTEzIDE2OjI5OjQ2LjIzMSBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAg
+IDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlv
+bi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwv
+bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3Rh
+dGlvbl9jaGFpbj48L2Fubm90YXRpb25zPjwvcG9ydD48cG9ydD48bmFtZT5jb21wcmVzc2lvbjwv
+bmFtZT48ZGVwdGg+MDwvZGVwdGg+PGdyYW51bGFyRGVwdGg+MDwvZ3JhbnVsYXJEZXB0aD48YW5u
+b3RhdGlvbnM+PGFubm90YXRpb25fY2hhaW4gZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxhbm5v
+dGF0aW9uQXNzZXJ0aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5v
+dGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNm
+LnRhdmVybmEudDIuYW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuRXhhbXBsZVZhbHVlIj4NCiAg
+ICAgICAgPHRleHQ+bm9uZTwvdGV4dD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8
+ZGF0ZT4yMDEzLTAzLTA2IDE1OjU3OjQyLjEwOSBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMg
+Lz4NCiAgICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIu
+YW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0
+aW9ucz4NCjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBs
+PjwvYW5ub3RhdGlvbl9jaGFpbj48YW5ub3RhdGlvbl9jaGFpbiBlbmNvZGluZz0ieHN0cmVhbSI+
+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0i
+Ij4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5v
+dGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNs
+YXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5GcmVlVGV4
+dERlc2NyaXB0aW9uIj4NCiAgICAgICAgPHRleHQ+SW1hZ2VtYWdpY2sgY29udmVydCBjb21wcmVz
+cyBwYXJhbWV0ZXI8L3RleHQ+DQogICAgICA8L2Fubm90YXRpb25CZWFuPg0KICAgICAgPGRhdGU+
+MjAxMy0wMy0wNiAxNTo1NzozOS4xNjcgVVRDPC9kYXRlPg0KICAgICAgPGNyZWF0b3JzIC8+DQog
+ICAgICA8Y3VyYXRpb25FdmVudExpc3QgLz4NCiAgICA8L25ldC5zZi50YXZlcm5hLnQyLmFubm90
+YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+
+DQo8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD48L2Fu
+bm90YXRpb25fY2hhaW4+PGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj48
+bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIi
+Pg0KICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+DQogICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90
+YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogICAgICA8YW5ub3RhdGlvbkJlYW4gY2xh
+c3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLlNlbWFudGlj
+QW5ub3RhdGlvbiI+DQogICAgICAgIDxtaW1lVHlwZT50ZXh0L3JkZituMzwvbWltZVR5cGU+DQog
+ICAgICAgIDxjb250ZW50PiZsdDsmZ3Q7ICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9u
+ZW50cyNhY2NlcHRzJmd0Ow0KICAgICAgICAgICAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2Nv
+bXBvbmVudHMjUGFyYW1ldGVyJmd0OyAuDQoNCiZsdDsmZ3Q7ICAgICZsdDtodHRwOi8vcHVybC5v
+cmcvRFAvY29tcG9uZW50cyNhY2NlcHRzJmd0Ow0KICAgICAgICAgICAgICBbIGEgICAgICAgJmx0
+O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI1ByZWRlZmluZWRQYXJhbWV0ZXJWYWx1ZSZn
+dDsgOw0KICAgICAgICAgICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNw
+YXJhbWV0ZXJEZXNjcmlwdGlvbiZndDsNCiAgICAgICAgICAgICAgICAgICAgICAgICJubyBjb21w
+cmVzc2lvbiIgOw0KICAgICAgICAgICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9u
+ZW50cyNwYXJhbWV0ZXJWYWx1ZSZndDsNCiAgICAgICAgICAgICAgICAgICAgICAgICJub25lIg0K
+ICAgICAgICAgICAgICBdIC4NCg0KJmx0OyZndDsgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9j
+b21wb25lbnRzI2FjY2VwdHMmZ3Q7DQogICAgICAgICAgICAgIFsgYSAgICAgICAmbHQ7aHR0cDov
+L3B1cmwub3JnL0RQL2NvbXBvbmVudHMjUHJlZGVmaW5lZFBhcmFtZXRlclZhbHVlJmd0OyA7DQog
+ICAgICAgICAgICAgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI3BhcmFtZXRl
+ckRlc2NyaXB0aW9uJmd0Ow0KICAgICAgICAgICAgICAgICAgICAgICAgIkNDSVRUIEdyb3VwIDQi
+IDsNCiAgICAgICAgICAgICAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjcGFy
+YW1ldGVyVmFsdWUmZ3Q7DQogICAgICAgICAgICAgICAgICAgICAgICAiR3JvdXA0Ig0KICAgICAg
+ICAgICAgICBdIC4NCg0KJmx0OyZndDsgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25l
+bnRzI2FjY2VwdHMmZ3Q7DQogICAgICAgICAgICAgIFsgYSAgICAgICAmbHQ7aHR0cDovL3B1cmwu
+b3JnL0RQL2NvbXBvbmVudHMjUHJlZGVmaW5lZFBhcmFtZXRlclZhbHVlJmd0OyA7DQogICAgICAg
+ICAgICAgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI3BhcmFtZXRlckRlc2Ny
+aXB0aW9uJmd0Ow0KICAgICAgICAgICAgICAgICAgICAgICAgInJ1biBsZW5ndGggZW5jb2Rpbmci
+IDsNCiAgICAgICAgICAgICAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjcGFy
+YW1ldGVyVmFsdWUmZ3Q7DQogICAgICAgICAgICAgICAgICAgICAgICAiUkxFIg0KICAgICAgICAg
+ICAgICBdIC4NCjwvY29udGVudD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0
+ZT4yMDEzLTAzLTEyIDE0OjM5OjQ0LjM0MyBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4N
+CiAgICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5u
+b3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9u
+cz4NCjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwv
+YW5ub3RhdGlvbl9jaGFpbl8yXzI+PC9hbm5vdGF0aW9ucz48L3BvcnQ+PC9pbnB1dFBvcnRzPjxv
+dXRwdXRQb3J0cz48cG9ydD48bmFtZT5zdGF0dXM8L25hbWU+PGFubm90YXRpb25zPjxhbm5vdGF0
+aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90
+YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRp
+b25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRp
+b25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5TZW1hbnRpY0Fubm90YXRpb24iPg0KICAgICAgICA8
+bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBlPg0KICAgICAgICA8Y29udGVudD4mbHQ7Jmd0
+OyAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjcHJvdmlkZXMmZ3Q7DQogICAg
+ICAgICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNTdGF0dXMmZ3Q7IC4N
+CjwvY29udGVudD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4yMDEzLTAz
+LTA2IDE1OjM1OjQ4Ljg4MiBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAgIDxj
+dXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5B
+bm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwvbmV0
+LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3RhdGlv
+bl9jaGFpbl8yXzI+PGFubm90YXRpb25fY2hhaW4gZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2Yu
+dGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxh
+bm5vdGF0aW9uQXNzZXJ0aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5B
+bm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0
+LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuRnJlZVRleHREZXNjcmlw
+dGlvbiI+DQogICAgICAgIDx0ZXh0PlNURE9VVCBhbmQgU1RERVJSIG9mIHRoZSBhY3Rpb248L3Rl
+eHQ+DQogICAgICA8L2Fubm90YXRpb25CZWFuPg0KICAgICAgPGRhdGU+MjAxMy0wMy0wNiAxNTo1
+OToxNi4zNjMgVVRDPC9kYXRlPg0KICAgICAgPGNyZWF0b3JzIC8+DQogICAgICA8Y3VyYXRpb25F
+dmVudExpc3QgLz4NCiAgICA8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlv
+bkFzc2VydGlvbkltcGw+DQogIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+DQo8L25ldC5zZi50YXZl
+cm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD48L2Fubm90YXRpb25fY2hhaW4+
+PC9hbm5vdGF0aW9ucz48L3BvcnQ+PHBvcnQ+PG5hbWU+dGFyZ2V0X3BhdGg8L25hbWU+PGFubm90
+YXRpb25zPjxhbm5vdGF0aW9uX2NoYWluIGVuY29kaW5nPSJ4c3RyZWFtIj48bmV0LnNmLnRhdmVy
+bmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIiPg0KICA8YW5ub3Rh
+dGlvbkFzc2VydGlvbnM+DQogICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3Rh
+dGlvbkFzc2VydGlvbkltcGw+DQogICAgICA8YW5ub3RhdGlvbkJlYW4gY2xhc3M9Im5ldC5zZi50
+YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLkZyZWVUZXh0RGVzY3JpcHRpb24i
+Pg0KICAgICAgICA8dGV4dD5QYXRoIHRvIHRoZSBtaWdyYXRpb24gdGFyZ2V0PC90ZXh0Pg0KICAg
+ICAgPC9hbm5vdGF0aW9uQmVhbj4NCiAgICAgIDxkYXRlPjIwMTMtMDgtMTMgMTY6Mjk6MzQuNTY4
+IFVUQzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9ycyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0
+IC8+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRp
+b25JbXBsPg0KICA8L2Fubm90YXRpb25Bc3NlcnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+PC9hbm5vdGF0aW9uX2NoYWluPjxhbm5vdGF0
+aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90
+YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRp
+b25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRp
+b25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5TZW1hbnRpY0Fubm90YXRpb24iPg0KICAgICAgICA8
+bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBlPg0KICAgICAgICA8Y29udGVudD4mbHQ7Jmd0
+OyAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjcHJvdmlkZXMmZ3Q7DQogICAg
+ICAgICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNUYXJnZXRPYmplY3Qm
+Z3Q7IC4NCjwvY29udGVudD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4y
+MDEzLTAzLTA2IDE1OjM2OjE3Ljg1NiBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAg
+ICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3Rh
+dGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4N
+CjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5u
+b3RhdGlvbl9jaGFpbl8yXzI+PC9hbm5vdGF0aW9ucz48L3BvcnQ+PC9vdXRwdXRQb3J0cz48cHJv
+Y2Vzc29ycz48cHJvY2Vzc29yPjxuYW1lPmNvbnZlcnQ8L25hbWU+PGlucHV0UG9ydHM+PHBvcnQ+
+PG5hbWU+ZnJvbV91cmk8L25hbWU+PGRlcHRoPjA8L2RlcHRoPjwvcG9ydD48cG9ydD48bmFtZT5j
+b21wcmVzc2lvbjwvbmFtZT48ZGVwdGg+MDwvZGVwdGg+PC9wb3J0Pjxwb3J0PjxuYW1lPnRvX3Vy
+aTwvbmFtZT48ZGVwdGg+MDwvZGVwdGg+PC9wb3J0PjwvaW5wdXRQb3J0cz48b3V0cHV0UG9ydHM+
+PHBvcnQ+PG5hbWU+U1RET1VUPC9uYW1lPjxkZXB0aD4wPC9kZXB0aD48Z3JhbnVsYXJEZXB0aD4w
+PC9ncmFudWxhckRlcHRoPjwvcG9ydD48cG9ydD48bmFtZT5TVERFUlI8L25hbWU+PGRlcHRoPjA8
+L2RlcHRoPjxncmFudWxhckRlcHRoPjA8L2dyYW51bGFyRGVwdGg+PC9wb3J0Pjwvb3V0cHV0UG9y
+dHM+PGFubm90YXRpb25zPjxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+
+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0i
+Ij4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5v
+dGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNs
+YXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5TZW1hbnRp
+Y0Fubm90YXRpb24iPg0KICAgICAgICA8bWltZVR5cGU+dGV4dC9yZGYrbjM8L21pbWVUeXBlPg0K
+ICAgICAgICA8Y29udGVudD4mbHQ7Jmd0OyAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVu
+dHMjcmVxdWlyZXNJbnN0YWxsYXRpb24mZ3Q7IA0KICAgICAgWyBhICZsdDtodHRwOi8vcHVybC5v
+cmcvRFAvY29tcG9uZW50cyNJbnN0YWxsYXRpb24mZ3Q7IDsNCiAgICAmbHQ7aHR0cDovL3B1cmwu
+b3JnL0RQL2NvbXBvbmVudHMjaGFzRW52aXJvbm1lbnQmZ3Q7ICZsdDtodHRwOi8vcHVybC5vcmcv
+RFAvY29tcG9uZW50cyNEZWJpYW4mZ3Q7IDsNCiAgICAmbHQ7aHR0cDovL3B1cmwub3JnL0RQL2Nv
+bXBvbmVudHMjaGFzU291cmNlQ29uZmlndXJhdGlvbiZndDsgDQogICAgICAgIFsgYSAmbHQ7aHR0
+cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjRHBrZ0NvbmZpZ3VyYXRpb24mZ3Q7IDsNCiAgICAg
+ICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNpbnN0YWxsc0Rwa2dzJmd0
+OyAiaW1hZ2VtYWdpY2siIDsNCiAgICAgICAgXSA7DQogICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9E
+UC9jb21wb25lbnRzI2RlcGVuZHNPbiZndDsNCiAgICAgICAgWyBhICZsdDtodHRwOi8vcHVybC5v
+cmcvRFAvY29tcG9uZW50cyNEZXBlbmRlbmN5Jmd0OyA7DQogICAgICAgICAgICAmbHQ7aHR0cDov
+L3d3dy53My5vcmcvMjAwNC8wMi9za29zL2NvcmUjcHJlZkxhYmVsJmd0OyAiaW1hZ2VtYWdpY2si
+IDsNCiAgICAgICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNkZXBlbmRl
+bmN5VmVyc2lvbiZndDsgIjUiIDsNCiAgICAgICAgICAgICZsdDtodHRwOi8veG1sbnMuY29tL2Zv
+YWYvMC4xL3BhZ2UmZ3Q7ICZsdDtodHRwOi8vd3d3LmltYWdlbWFnaWNrLm9yZyZndDsgOw0KICAg
+ICAgICAgICAgJmx0O2h0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zI2xpY2Vuc2UmZ3Q7ICZs
+dDtodHRwOi8vb3BlbnNvdXJjZS5vcmcvbGljZW5zZXMvQXBhY2hlLTIuMCZndDsNCiAgICAgICAg
+XSBdIC4NCjwvY29udGVudD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4y
+MDEzLTAzLTA2IDE5OjU5OjQ3LjYxMSBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAg
+ICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3Rh
+dGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4N
+CjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5u
+b3RhdGlvbl9jaGFpbl8yXzI+PC9hbm5vdGF0aW9ucz48YWN0aXZpdGllcz48YWN0aXZpdHk+PHJh
+dmVuPjxncm91cD5uZXQuc2YudGF2ZXJuYS50Mi5hY3Rpdml0aWVzPC9ncm91cD48YXJ0aWZhY3Q+
+ZXh0ZXJuYWwtdG9vbC1hY3Rpdml0eTwvYXJ0aWZhY3Q+PHZlcnNpb24+MS40PC92ZXJzaW9uPjwv
+cmF2ZW4+PGNsYXNzPm5ldC5zZi50YXZlcm5hLnQyLmFjdGl2aXRpZXMuZXh0ZXJuYWx0b29sLkV4
+dGVybmFsVG9vbEFjdGl2aXR5PC9jbGFzcz48aW5wdXRNYXA+PG1hcCBmcm9tPSJ0b191cmkiIHRv
+PSJ0b191cmkiIC8+PG1hcCBmcm9tPSJjb21wcmVzc2lvbiIgdG89ImNvbXByZXNzaW9uIiAvPjxt
+YXAgZnJvbT0iZnJvbV91cmkiIHRvPSJmcm9tX3VyaSIgLz48L2lucHV0TWFwPjxvdXRwdXRNYXA+
+PG1hcCBmcm9tPSJTVERFUlIiIHRvPSJTVERFUlIiIC8+PG1hcCBmcm9tPSJTVERPVVQiIHRvPSJT
+VERPVVQiIC8+PC9vdXRwdXRNYXA+PGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQu
+c2YudGF2ZXJuYS50Mi5hY3Rpdml0aWVzLmV4dGVybmFsdG9vbC5FeHRlcm5hbFRvb2xBY3Rpdml0
+eUNvbmZpZ3VyYXRpb25CZWFuIHhtbG5zPSIiPg0KICA8bWVjaGFuaXNtVHlwZT43ODk2NjNCOC1E
+QTkxLTQyOEEtOUY3RC1CM0YzREExODVGRDQ8L21lY2hhbmlzbVR5cGU+DQogIDxtZWNoYW5pc21O
+YW1lPmRlZmF1bHQgbG9jYWw8L21lY2hhbmlzbU5hbWU+DQogIDxtZWNoYW5pc21YTUw+Jmx0Oz94
+bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPyZndDsmI3hEOw0KJmx0O2xvY2FsSW52
+b2NhdGlvbiZndDsmbHQ7c2hlbGxQcmVmaXgmZ3Q7L2Jpbi9zaCAtYyZsdDsvc2hlbGxQcmVmaXgm
+Z3Q7Jmx0O2xpbmtDb21tYW5kJmd0Oy9iaW4vbG4gLXMgJSVQQVRIX1RPX09SSUdJTkFMJSUgJSVU
+QVJHRVRfTkFNRSUlJmx0Oy9saW5rQ29tbWFuZCZndDsmbHQ7L2xvY2FsSW52b2NhdGlvbiZndDsm
+I3hEOw0KPC9tZWNoYW5pc21YTUw+DQogIDxleHRlcm5hbHRvb2xpZD5hNjkwODllOS1mMGU5LTRj
+YTgtYjE1MS0zYWE5MzYyMWE5N2I8L2V4dGVybmFsdG9vbGlkPg0KICA8dXNlQ2FzZURlc2NyaXB0
+aW9uPg0KICAgIDx1c2VjYXNlaWQgLz4NCiAgICA8ZGVzY3JpcHRpb24gLz4NCiAgICA8Y29tbWFu
+ZD5jb252ZXJ0IC1jb21wcmVzcyAiJSVjb21wcmVzc2lvbiUlIiAiJSVmcm9tX3VyaSUlIiB0aWZm
+OiIlJXRvX3VyaSUlIjwvY29tbWFuZD4NCiAgICA8cHJlcGFyaW5nVGltZW91dEluU2Vjb25kcz4x
+MjAwPC9wcmVwYXJpbmdUaW1lb3V0SW5TZWNvbmRzPg0KICAgIDxleGVjdXRpb25UaW1lb3V0SW5T
+ZWNvbmRzPjE4MDA8L2V4ZWN1dGlvblRpbWVvdXRJblNlY29uZHM+DQogICAgPHRhZ3M+DQogICAg
+ICA8c3RyaW5nPmNvbXByZXNzaW9uPC9zdHJpbmc+DQogICAgICA8c3RyaW5nPmZyb21fdXJpPC9z
+dHJpbmc+DQogICAgICA8c3RyaW5nPnRvX3VyaTwvc3RyaW5nPg0KICAgIDwvdGFncz4NCiAgICA8
+UkVzIC8+DQogICAgPHF1ZXVlX19wcmVmZXJyZWQgLz4NCiAgICA8cXVldWVfX2RlbnkgLz4NCiAg
+ICA8c3RhdGljX19pbnB1dHMgLz4NCiAgICA8aW5wdXRzPg0KICAgICAgPGVudHJ5Pg0KICAgICAg
+ICA8c3RyaW5nPnRvX3VyaTwvc3RyaW5nPg0KICAgICAgICA8ZGUudW5pX19sdWViZWNrLmluYi5r
+bm93YXJjLnVzZWNhc2VzLlNjcmlwdElucHV0VXNlcj4NCiAgICAgICAgICA8dGFnPnRvX3VyaTwv
+dGFnPg0KICAgICAgICAgIDxmaWxlPmZhbHNlPC9maWxlPg0KICAgICAgICAgIDx0ZW1wRmlsZT5m
+YWxzZTwvdGVtcEZpbGU+DQogICAgICAgICAgPGJpbmFyeT5mYWxzZTwvYmluYXJ5Pg0KICAgICAg
+ICAgIDxjaGFyc2V0TmFtZT5VVEYtODwvY2hhcnNldE5hbWU+DQogICAgICAgICAgPGZvcmNlQ29w
+eT5mYWxzZTwvZm9yY2VDb3B5Pg0KICAgICAgICAgIDxsaXN0PmZhbHNlPC9saXN0Pg0KICAgICAg
+ICAgIDxjb25jYXRlbmF0ZT5mYWxzZTwvY29uY2F0ZW5hdGU+DQogICAgICAgICAgPG1pbWUgLz4N
+CiAgICAgICAgPC9kZS51bmlfX2x1ZWJlY2suaW5iLmtub3dhcmMudXNlY2FzZXMuU2NyaXB0SW5w
+dXRVc2VyPg0KICAgICAgPC9lbnRyeT4NCiAgICAgIDxlbnRyeT4NCiAgICAgICAgPHN0cmluZz5j
+b21wcmVzc2lvbjwvc3RyaW5nPg0KICAgICAgICA8ZGUudW5pX19sdWViZWNrLmluYi5rbm93YXJj
+LnVzZWNhc2VzLlNjcmlwdElucHV0VXNlcj4NCiAgICAgICAgICA8dGFnPmNvbXByZXNzaW9uPC90
+YWc+DQogICAgICAgICAgPGZpbGU+ZmFsc2U8L2ZpbGU+DQogICAgICAgICAgPHRlbXBGaWxlPmZh
+bHNlPC90ZW1wRmlsZT4NCiAgICAgICAgICA8YmluYXJ5PmZhbHNlPC9iaW5hcnk+DQogICAgICAg
+ICAgPGNoYXJzZXROYW1lPlVURi04PC9jaGFyc2V0TmFtZT4NCiAgICAgICAgICA8Zm9yY2VDb3B5
+PmZhbHNlPC9mb3JjZUNvcHk+DQogICAgICAgICAgPGxpc3Q+ZmFsc2U8L2xpc3Q+DQogICAgICAg
+ICAgPGNvbmNhdGVuYXRlPmZhbHNlPC9jb25jYXRlbmF0ZT4NCiAgICAgICAgICA8bWltZSAvPg0K
+ICAgICAgICA8L2RlLnVuaV9fbHVlYmVjay5pbmIua25vd2FyYy51c2VjYXNlcy5TY3JpcHRJbnB1
+dFVzZXI+DQogICAgICA8L2VudHJ5Pg0KICAgICAgPGVudHJ5Pg0KICAgICAgICA8c3RyaW5nPmZy
+b21fdXJpPC9zdHJpbmc+DQogICAgICAgIDxkZS51bmlfX2x1ZWJlY2suaW5iLmtub3dhcmMudXNl
+Y2FzZXMuU2NyaXB0SW5wdXRVc2VyPg0KICAgICAgICAgIDx0YWc+ZnJvbV91cmk8L3RhZz4NCiAg
+ICAgICAgICA8ZmlsZT5mYWxzZTwvZmlsZT4NCiAgICAgICAgICA8dGVtcEZpbGU+ZmFsc2U8L3Rl
+bXBGaWxlPg0KICAgICAgICAgIDxiaW5hcnk+ZmFsc2U8L2JpbmFyeT4NCiAgICAgICAgICA8Y2hh
+cnNldE5hbWU+VVRGLTg8L2NoYXJzZXROYW1lPg0KICAgICAgICAgIDxmb3JjZUNvcHk+ZmFsc2U8
+L2ZvcmNlQ29weT4NCiAgICAgICAgICA8bGlzdD5mYWxzZTwvbGlzdD4NCiAgICAgICAgICA8Y29u
+Y2F0ZW5hdGU+ZmFsc2U8L2NvbmNhdGVuYXRlPg0KICAgICAgICAgIDxtaW1lIC8+DQogICAgICAg
+IDwvZGUudW5pX19sdWViZWNrLmluYi5rbm93YXJjLnVzZWNhc2VzLlNjcmlwdElucHV0VXNlcj4N
+CiAgICAgIDwvZW50cnk+DQogICAgPC9pbnB1dHM+DQogICAgPG91dHB1dHMgLz4NCiAgICA8aW5j
+bHVkZVN0ZEluPmZhbHNlPC9pbmNsdWRlU3RkSW4+DQogICAgPGluY2x1ZGVTdGRPdXQ+dHJ1ZTwv
+aW5jbHVkZVN0ZE91dD4NCiAgICA8aW5jbHVkZVN0ZEVycj50cnVlPC9pbmNsdWRlU3RkRXJyPg0K
+ICAgIDx2YWxpZFJldHVybkNvZGVzPg0KICAgICAgPGludD4wPC9pbnQ+DQogICAgPC92YWxpZFJl
+dHVybkNvZGVzPg0KICA8L3VzZUNhc2VEZXNjcmlwdGlvbj4NCiAgPGVkaXRlZD5mYWxzZTwvZWRp
+dGVkPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5hY3Rpdml0aWVzLmV4dGVybmFsdG9vbC5FeHRlcm5h
+bFRvb2xBY3Rpdml0eUNvbmZpZ3VyYXRpb25CZWFuPjwvY29uZmlnQmVhbj48YW5ub3RhdGlvbnMg
+Lz48L2FjdGl2aXR5PjwvYWN0aXZpdGllcz48ZGlzcGF0Y2hTdGFjaz48ZGlzcGF0Y2hMYXllcj48
+cmF2ZW4+PGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmNvcmU8L2dyb3VwPjxhcnRpZmFjdD53b3Jr
+Zmxvd21vZGVsLWltcGw8L2FydGlmYWN0Pjx2ZXJzaW9uPjEuNDwvdmVyc2lvbj48L3JhdmVuPjxj
+bGFzcz5uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5s
+YXllcnMuUGFyYWxsZWxpemU8L2NsYXNzPjxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3RyZWFtIj48
+bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJz
+LlBhcmFsbGVsaXplQ29uZmlnIHhtbG5zPSIiPg0KICA8bWF4Sm9icz4xPC9tYXhKb2JzPg0KPC9u
+ZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5sYXllcnMu
+UGFyYWxsZWxpemVDb25maWc+PC9jb25maWdCZWFuPjwvZGlzcGF0Y2hMYXllcj48ZGlzcGF0Y2hM
+YXllcj48cmF2ZW4+PGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmNvcmU8L2dyb3VwPjxhcnRpZmFj
+dD53b3JrZmxvd21vZGVsLWltcGw8L2FydGlmYWN0Pjx2ZXJzaW9uPjEuNDwvdmVyc2lvbj48L3Jh
+dmVuPjxjbGFzcz5uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNw
+YXRjaC5sYXllcnMuRXJyb3JCb3VuY2U8L2NsYXNzPjxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3Ry
+ZWFtIj48bnVsbCB4bWxucz0iIiAvPjwvY29uZmlnQmVhbj48L2Rpc3BhdGNoTGF5ZXI+PGRpc3Bh
+dGNoTGF5ZXI+PHJhdmVuPjxncm91cD5uZXQuc2YudGF2ZXJuYS50Mi5jb3JlPC9ncm91cD48YXJ0
+aWZhY3Q+d29ya2Zsb3dtb2RlbC1pbXBsPC9hcnRpZmFjdD48dmVyc2lvbj4xLjQ8L3ZlcnNpb24+
+PC9yYXZlbj48Y2xhc3M+bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3Iu
+ZGlzcGF0Y2gubGF5ZXJzLkZhaWxvdmVyPC9jbGFzcz48Y29uZmlnQmVhbiBlbmNvZGluZz0ieHN0
+cmVhbSI+PG51bGwgeG1sbnM9IiIgLz48L2NvbmZpZ0JlYW4+PC9kaXNwYXRjaExheWVyPjxkaXNw
+YXRjaExheWVyPjxyYXZlbj48Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3JvdXA+PGFy
+dGlmYWN0PndvcmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+PHZlcnNpb24+MS40PC92ZXJzaW9u
+PjwvcmF2ZW4+PGNsYXNzPm5ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29y
+LmRpc3BhdGNoLmxheWVycy5SZXRyeTwvY2xhc3M+PGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJl
+YW0iPjxuZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5s
+YXllcnMuUmV0cnlDb25maWcgeG1sbnM9IiI+DQogIDxiYWNrb2ZmRmFjdG9yPjEuMDwvYmFja29m
+ZkZhY3Rvcj4NCiAgPGluaXRpYWxEZWxheT4xMDAwPC9pbml0aWFsRGVsYXk+DQogIDxtYXhEZWxh
+eT41MDAwPC9tYXhEZWxheT4NCiAgPG1heFJldHJpZXM+MDwvbWF4UmV0cmllcz4NCjwvbmV0LnNm
+LnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLlJldHJ5
+Q29uZmlnPjwvY29uZmlnQmVhbj48L2Rpc3BhdGNoTGF5ZXI+PGRpc3BhdGNoTGF5ZXI+PHJhdmVu
+Pjxncm91cD5uZXQuc2YudGF2ZXJuYS50Mi5jb3JlPC9ncm91cD48YXJ0aWZhY3Q+d29ya2Zsb3dt
+b2RlbC1pbXBsPC9hcnRpZmFjdD48dmVyc2lvbj4xLjQ8L3ZlcnNpb24+PC9yYXZlbj48Y2xhc3M+
+bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2RlbC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJz
+Lkludm9rZTwvY2xhc3M+PGNvbmZpZ0JlYW4gZW5jb2Rpbmc9InhzdHJlYW0iPjxudWxsIHhtbG5z
+PSIiIC8+PC9jb25maWdCZWFuPjwvZGlzcGF0Y2hMYXllcj48L2Rpc3BhdGNoU3RhY2s+PGl0ZXJh
+dGlvblN0cmF0ZWd5U3RhY2s+PGl0ZXJhdGlvbj48c3RyYXRlZ3k+PGNyb3NzPjxwb3J0IG5hbWU9
+ImZyb21fdXJpIiBkZXB0aD0iMCIgLz48cG9ydCBuYW1lPSJjb21wcmVzc2lvbiIgZGVwdGg9IjAi
+IC8+PHBvcnQgbmFtZT0idG9fdXJpIiBkZXB0aD0iMCIgLz48L2Nyb3NzPjwvc3RyYXRlZ3k+PC9p
+dGVyYXRpb24+PC9pdGVyYXRpb25TdHJhdGVneVN0YWNrPjwvcHJvY2Vzc29yPjxwcm9jZXNzb3I+
+PG5hbWU+Y3JlYXRlVGFyZ2V0UGF0aDwvbmFtZT48aW5wdXRQb3J0cyAvPjxvdXRwdXRQb3J0cz48
+cG9ydD48bmFtZT50YXJnZXRQYXRoPC9uYW1lPjxkZXB0aD4wPC9kZXB0aD48Z3JhbnVsYXJEZXB0
+aD4wPC9ncmFudWxhckRlcHRoPjwvcG9ydD48L291dHB1dFBvcnRzPjxhbm5vdGF0aW9ucyAvPjxh
+Y3Rpdml0aWVzPjxhY3Rpdml0eT48cmF2ZW4+PGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmFjdGl2
+aXRpZXM8L2dyb3VwPjxhcnRpZmFjdD5iZWFuc2hlbGwtYWN0aXZpdHk8L2FydGlmYWN0Pjx2ZXJz
+aW9uPjEuNDwvdmVyc2lvbj48L3JhdmVuPjxjbGFzcz5uZXQuc2YudGF2ZXJuYS50Mi5hY3Rpdml0
+aWVzLmJlYW5zaGVsbC5CZWFuc2hlbGxBY3Rpdml0eTwvY2xhc3M+PGlucHV0TWFwIC8+PG91dHB1
+dE1hcD48bWFwIGZyb209InRhcmdldFBhdGgiIHRvPSJ0YXJnZXRQYXRoIiAvPjwvb3V0cHV0TWFw
+Pjxjb25maWdCZWFuIGVuY29kaW5nPSJ4c3RyZWFtIj48bmV0LnNmLnRhdmVybmEudDIuYWN0aXZp
+dGllcy5iZWFuc2hlbGwuQmVhbnNoZWxsQWN0aXZpdHlDb25maWd1cmF0aW9uQmVhbiB4bWxucz0i
+Ij4NCiAgPGlucHV0cyAvPg0KICA8b3V0cHV0cz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIud29y
+a2Zsb3dtb2RlbC5wcm9jZXNzb3IuYWN0aXZpdHkuY29uZmlnLkFjdGl2aXR5T3V0cHV0UG9ydERl
+ZmluaXRpb25CZWFuPg0KICAgICAgPG5hbWU+dGFyZ2V0UGF0aDwvbmFtZT4NCiAgICAgIDxkZXB0
+aD4wPC9kZXB0aD4NCiAgICAgIDxtaW1lVHlwZXMgLz4NCiAgICAgIDxncmFudWxhckRlcHRoPjA8
+L2dyYW51bGFyRGVwdGg+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnBy
+b2Nlc3Nvci5hY3Rpdml0eS5jb25maWcuQWN0aXZpdHlPdXRwdXRQb3J0RGVmaW5pdGlvbkJlYW4+
+DQogIDwvb3V0cHV0cz4NCiAgPGNsYXNzTG9hZGVyU2hhcmluZz53b3JrZmxvdzwvY2xhc3NMb2Fk
+ZXJTaGFyaW5nPg0KICA8bG9jYWxEZXBlbmRlbmNpZXMgLz4NCiAgPGFydGlmYWN0RGVwZW5kZW5j
+aWVzIC8+DQogIDxzY3JpcHQ+RmlsZSB0YXJnZXQgPSBGaWxlLmNyZWF0ZVRlbXBGaWxlKCJjb252
+ZXJ0LXRvLXRpZmYtIiArIExvbmcudG9TdHJpbmcoU3lzdGVtLm5hbm9UaW1lKCkpLCAiLnRpZmYi
+KTsNClN0cmluZyB0YXJnZXRQYXRoID0gdGFyZ2V0LmdldEFic29sdXRlUGF0aCgpOzwvc2NyaXB0
+Pg0KICA8ZGVwZW5kZW5jaWVzIC8+DQo8L25ldC5zZi50YXZlcm5hLnQyLmFjdGl2aXRpZXMuYmVh
+bnNoZWxsLkJlYW5zaGVsbEFjdGl2aXR5Q29uZmlndXJhdGlvbkJlYW4+PC9jb25maWdCZWFuPjxh
+bm5vdGF0aW9ucyAvPjwvYWN0aXZpdHk+PC9hY3Rpdml0aWVzPjxkaXNwYXRjaFN0YWNrPjxkaXNw
+YXRjaExheWVyPjxyYXZlbj48Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3JvdXA+PGFy
+dGlmYWN0PndvcmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+PHZlcnNpb24+MS40PC92ZXJzaW9u
+PjwvcmF2ZW4+PGNsYXNzPm5ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29y
+LmRpc3BhdGNoLmxheWVycy5QYXJhbGxlbGl6ZTwvY2xhc3M+PGNvbmZpZ0JlYW4gZW5jb2Rpbmc9
+InhzdHJlYW0iPjxuZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNw
+YXRjaC5sYXllcnMuUGFyYWxsZWxpemVDb25maWcgeG1sbnM9IiI+DQogIDxtYXhKb2JzPjE8L21h
+eEpvYnM+DQo8L25ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29yLmRpc3Bh
+dGNoLmxheWVycy5QYXJhbGxlbGl6ZUNvbmZpZz48L2NvbmZpZ0JlYW4+PC9kaXNwYXRjaExheWVy
+PjxkaXNwYXRjaExheWVyPjxyYXZlbj48Z3JvdXA+bmV0LnNmLnRhdmVybmEudDIuY29yZTwvZ3Jv
+dXA+PGFydGlmYWN0PndvcmtmbG93bW9kZWwtaW1wbDwvYXJ0aWZhY3Q+PHZlcnNpb24+MS40PC92
+ZXJzaW9uPjwvcmF2ZW4+PGNsYXNzPm5ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJv
+Y2Vzc29yLmRpc3BhdGNoLmxheWVycy5FcnJvckJvdW5jZTwvY2xhc3M+PGNvbmZpZ0JlYW4gZW5j
+b2Rpbmc9InhzdHJlYW0iPjxudWxsIHhtbG5zPSIiIC8+PC9jb25maWdCZWFuPjwvZGlzcGF0Y2hM
+YXllcj48ZGlzcGF0Y2hMYXllcj48cmF2ZW4+PGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmNvcmU8
+L2dyb3VwPjxhcnRpZmFjdD53b3JrZmxvd21vZGVsLWltcGw8L2FydGlmYWN0Pjx2ZXJzaW9uPjEu
+NDwvdmVyc2lvbj48L3JhdmVuPjxjbGFzcz5uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVs
+LnByb2Nlc3Nvci5kaXNwYXRjaC5sYXllcnMuRmFpbG92ZXI8L2NsYXNzPjxjb25maWdCZWFuIGVu
+Y29kaW5nPSJ4c3RyZWFtIj48bnVsbCB4bWxucz0iIiAvPjwvY29uZmlnQmVhbj48L2Rpc3BhdGNo
+TGF5ZXI+PGRpc3BhdGNoTGF5ZXI+PHJhdmVuPjxncm91cD5uZXQuc2YudGF2ZXJuYS50Mi5jb3Jl
+PC9ncm91cD48YXJ0aWZhY3Q+d29ya2Zsb3dtb2RlbC1pbXBsPC9hcnRpZmFjdD48dmVyc2lvbj4x
+LjQ8L3ZlcnNpb24+PC9yYXZlbj48Y2xhc3M+bmV0LnNmLnRhdmVybmEudDIud29ya2Zsb3dtb2Rl
+bC5wcm9jZXNzb3IuZGlzcGF0Y2gubGF5ZXJzLlJldHJ5PC9jbGFzcz48Y29uZmlnQmVhbiBlbmNv
+ZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLndvcmtmbG93bW9kZWwucHJvY2Vzc29y
+LmRpc3BhdGNoLmxheWVycy5SZXRyeUNvbmZpZyB4bWxucz0iIj4NCiAgPGJhY2tvZmZGYWN0b3I+
+MS4wPC9iYWNrb2ZmRmFjdG9yPg0KICA8aW5pdGlhbERlbGF5PjEwMDA8L2luaXRpYWxEZWxheT4N
+CiAgPG1heERlbGF5PjUwMDA8L21heERlbGF5Pg0KICA8bWF4UmV0cmllcz4wPC9tYXhSZXRyaWVz
+Pg0KPC9uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNwYXRjaC5s
+YXllcnMuUmV0cnlDb25maWc+PC9jb25maWdCZWFuPjwvZGlzcGF0Y2hMYXllcj48ZGlzcGF0Y2hM
+YXllcj48cmF2ZW4+PGdyb3VwPm5ldC5zZi50YXZlcm5hLnQyLmNvcmU8L2dyb3VwPjxhcnRpZmFj
+dD53b3JrZmxvd21vZGVsLWltcGw8L2FydGlmYWN0Pjx2ZXJzaW9uPjEuNDwvdmVyc2lvbj48L3Jh
+dmVuPjxjbGFzcz5uZXQuc2YudGF2ZXJuYS50Mi53b3JrZmxvd21vZGVsLnByb2Nlc3Nvci5kaXNw
+YXRjaC5sYXllcnMuSW52b2tlPC9jbGFzcz48Y29uZmlnQmVhbiBlbmNvZGluZz0ieHN0cmVhbSI+
+PG51bGwgeG1sbnM9IiIgLz48L2NvbmZpZ0JlYW4+PC9kaXNwYXRjaExheWVyPjwvZGlzcGF0Y2hT
+dGFjaz48aXRlcmF0aW9uU3RyYXRlZ3lTdGFjaz48aXRlcmF0aW9uPjxzdHJhdGVneSAvPjwvaXRl
+cmF0aW9uPjwvaXRlcmF0aW9uU3RyYXRlZ3lTdGFjaz48L3Byb2Nlc3Nvcj48L3Byb2Nlc3NvcnM+
+PGNvbmRpdGlvbnMgLz48ZGF0YWxpbmtzPjxkYXRhbGluaz48c2luayB0eXBlPSJwcm9jZXNzb3Ii
+Pjxwcm9jZXNzb3I+Y29udmVydDwvcHJvY2Vzc29yPjxwb3J0PmZyb21fdXJpPC9wb3J0Pjwvc2lu
+az48c291cmNlIHR5cGU9ImRhdGFmbG93Ij48cG9ydD5zb3VyY2VfcGF0aDwvcG9ydD48L3NvdXJj
+ZT48L2RhdGFsaW5rPjxkYXRhbGluaz48c2luayB0eXBlPSJwcm9jZXNzb3IiPjxwcm9jZXNzb3I+
+Y29udmVydDwvcHJvY2Vzc29yPjxwb3J0PmNvbXByZXNzaW9uPC9wb3J0Pjwvc2luaz48c291cmNl
+IHR5cGU9ImRhdGFmbG93Ij48cG9ydD5jb21wcmVzc2lvbjwvcG9ydD48L3NvdXJjZT48L2RhdGFs
+aW5rPjxkYXRhbGluaz48c2luayB0eXBlPSJwcm9jZXNzb3IiPjxwcm9jZXNzb3I+Y29udmVydDwv
+cHJvY2Vzc29yPjxwb3J0PnRvX3VyaTwvcG9ydD48L3Npbms+PHNvdXJjZSB0eXBlPSJwcm9jZXNz
+b3IiPjxwcm9jZXNzb3I+Y3JlYXRlVGFyZ2V0UGF0aDwvcHJvY2Vzc29yPjxwb3J0PnRhcmdldFBh
+dGg8L3BvcnQ+PC9zb3VyY2U+PC9kYXRhbGluaz48ZGF0YWxpbms+PHNpbmsgdHlwZT0ibWVyZ2Ui
+Pjxwb3J0PnN0YXR1czwvcG9ydD48L3Npbms+PHNvdXJjZSB0eXBlPSJwcm9jZXNzb3IiPjxwcm9j
+ZXNzb3I+Y29udmVydDwvcHJvY2Vzc29yPjxwb3J0PlNURE9VVDwvcG9ydD48L3NvdXJjZT48L2Rh
+dGFsaW5rPjxkYXRhbGluaz48c2luayB0eXBlPSJtZXJnZSI+PHBvcnQ+c3RhdHVzPC9wb3J0Pjwv
+c2luaz48c291cmNlIHR5cGU9InByb2Nlc3NvciI+PHByb2Nlc3Nvcj5jb252ZXJ0PC9wcm9jZXNz
+b3I+PHBvcnQ+U1RERVJSPC9wb3J0Pjwvc291cmNlPjwvZGF0YWxpbms+PGRhdGFsaW5rPjxzaW5r
+IHR5cGU9ImRhdGFmbG93Ij48cG9ydD50YXJnZXRfcGF0aDwvcG9ydD48L3Npbms+PHNvdXJjZSB0
+eXBlPSJwcm9jZXNzb3IiPjxwcm9jZXNzb3I+Y3JlYXRlVGFyZ2V0UGF0aDwvcHJvY2Vzc29yPjxw
+b3J0PnRhcmdldFBhdGg8L3BvcnQ+PC9zb3VyY2U+PC9kYXRhbGluaz48L2RhdGFsaW5rcz48YW5u
+b3RhdGlvbnM+PGFubm90YXRpb25fY2hhaW4gZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxhbm5v
+dGF0aW9uQXNzZXJ0aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5v
+dGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNm
+LnRhdmVybmEudDIuYW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuRGVzY3JpcHRpdmVUaXRsZSI+
+DQogICAgICAgIDx0ZXh0PkltYWdlbWFnaWNrIGNvbnZlcnQgLSB0aWZmMnRpZmYgLSBjb21wcmVz
+c2lvbjwvdGV4dD4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4yMDEzLTAz
+LTA2IDE1OjU2OjIyLjYyOCBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAgIDxj
+dXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5B
+bm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwvbmV0
+LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3RhdGlv
+bl9jaGFpbj48YW5ub3RhdGlvbl9jaGFpbiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZl
+cm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90
+YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90
+YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2Yu
+dGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5BdXRob3IiPg0KICAgICAgICA8
+dGV4dD5NYXJrdXM8L3RleHQ+DQogICAgICA8L2Fubm90YXRpb25CZWFuPg0KICAgICAgPGRhdGU+
+MjAxMy0wMy0wNiAxNTo1NjowNy40MzAgVVRDPC9kYXRlPg0KICAgICAgPGNyZWF0b3JzIC8+DQog
+ICAgICA8Y3VyYXRpb25FdmVudExpc3QgLz4NCiAgICA8L25ldC5zZi50YXZlcm5hLnQyLmFubm90
+YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+
+DQo8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD48L2Fu
+bm90YXRpb25fY2hhaW4+PGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj48
+bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIi
+Pg0KICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+DQogICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90
+YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogICAgICA8YW5ub3RhdGlvbkJlYW4gY2xh
+c3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLklkZW50aWZp
+Y2F0aW9uQXNzZXJ0aW9uIj4NCiAgICAgICAgPGlkZW50aWZpY2F0aW9uPjhkMmY5ZWYwLTA5Y2Et
+NDEwMy1iNGZkLTBlZTBhNDBkODI2MzwvaWRlbnRpZmljYXRpb24+DQogICAgICA8L2Fubm90YXRp
+b25CZWFuPg0KICAgICAgPGRhdGU+MjAxMy0wMy0wNiAyMTo0MTo1MS4yODQgVVRDPC9kYXRlPg0K
+ICAgICAgPGNyZWF0b3JzIC8+DQogICAgICA8Y3VyYXRpb25FdmVudExpc3QgLz4NCiAgICA8L25l
+dC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogIDwv
+YW5ub3RhdGlvbkFzc2VydGlvbnM+DQo8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5u
+b3RhdGlvbkNoYWluSW1wbD48L2Fubm90YXRpb25fY2hhaW5fMl8yPjxhbm5vdGF0aW9uX2NoYWlu
+XzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5u
+b3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAg
+IDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0K
+ICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9u
+LmFubm90YXRpb25iZWFucy5JZGVudGlmaWNhdGlvbkFzc2VydGlvbiI+DQogICAgICAgIDxpZGVu
+dGlmaWNhdGlvbj5mNTYxY2ZmNi00MGJmLTQ3NTktOTVkMy0yNWFjN2E1MDUwOGM8L2lkZW50aWZp
+Y2F0aW9uPg0KICAgICAgPC9hbm5vdGF0aW9uQmVhbj4NCiAgICAgIDxkYXRlPjIwMTMtMDgtMTMg
+MTY6Mjc6MDguMzY1IFVUQzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9ycyAvPg0KICAgICAgPGN1cmF0
+aW9uRXZlbnRMaXN0IC8+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90
+YXRpb25Bc3NlcnRpb25JbXBsPg0KICA8L2Fubm90YXRpb25Bc3NlcnRpb25zPg0KPC9uZXQuc2Yu
+dGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+PC9hbm5vdGF0aW9uX2No
+YWluXzJfMj48YW5ub3RhdGlvbl9jaGFpbl8yXzIgZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2Yu
+dGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxh
+bm5vdGF0aW9uQXNzZXJ0aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5B
+bm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0
+LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuSWRlbnRpZmljYXRpb25B
+c3NlcnRpb24iPg0KICAgICAgICA8aWRlbnRpZmljYXRpb24+NzBmZWFhOWItYzU0Yi00MzE3LThm
+MjAtZjk0ZWI1MTU3NzFiPC9pZGVudGlmaWNhdGlvbj4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+
+DQogICAgICA8ZGF0ZT4yMDEzLTA4LTEzIDE2OjI5OjU4LjE5OCBVVEM8L2RhdGU+DQogICAgICA8
+Y3JlYXRvcnMgLz4NCiAgICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRh
+dmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0
+aW9uQXNzZXJ0aW9ucz4NCjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9u
+Q2hhaW5JbXBsPjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+PGFubm90YXRpb25fY2hhaW5fMl8yIGVu
+Y29kaW5nPSJ4c3RyZWFtIj48bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9u
+Q2hhaW5JbXBsIHhtbG5zPSIiPg0KICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+DQogICAgPG5ldC5z
+Zi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogICAgICA8
+YW5ub3RhdGlvbkJlYW4gY2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3Rh
+dGlvbmJlYW5zLklkZW50aWZpY2F0aW9uQXNzZXJ0aW9uIj4NCiAgICAgICAgPGlkZW50aWZpY2F0
+aW9uPjQ0ZjM3NWM0LThjYzktNDIwZC1iZTVhLTNkMjc1ZGE3ODYwZDwvaWRlbnRpZmljYXRpb24+
+DQogICAgICA8L2Fubm90YXRpb25CZWFuPg0KICAgICAgPGRhdGU+MjAxMy0wOC0xMyAxNjoyNzo1
+Ny4zMzcgVVRDPC9kYXRlPg0KICAgICAgPGNyZWF0b3JzIC8+DQogICAgICA8Y3VyYXRpb25FdmVu
+dExpc3QgLz4NCiAgICA8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFz
+c2VydGlvbkltcGw+DQogIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+DQo8L25ldC5zZi50YXZlcm5h
+LnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD48L2Fubm90YXRpb25fY2hhaW5fMl8y
+Pjxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5h
+LnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRp
+b25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRp
+b25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5JZGVudGlmaWNhdGlvbkFzc2VydGlv
+biI+DQogICAgICAgIDxpZGVudGlmaWNhdGlvbj5kZmM0ZWRiYi01ODJmLTQ4NTMtYmI0Ny0wMmI0
+M2FiZDgyZWU8L2lkZW50aWZpY2F0aW9uPg0KICAgICAgPC9hbm5vdGF0aW9uQmVhbj4NCiAgICAg
+IDxkYXRlPjIwMTMtMDMtMDYgMTU6NDk6NTUuNDc3IFVUQzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9y
+cyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50
+Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICA8L2Fubm90YXRpb25Bc3Nl
+cnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbklt
+cGw+PC9hbm5vdGF0aW9uX2NoYWluXzJfMj48YW5ub3RhdGlvbl9jaGFpbl8yXzIgZW5jb2Rpbmc9
+InhzdHJlYW0iPjxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25DaGFpbklt
+cGwgeG1sbnM9IiI+DQogIDxhbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVy
+bmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0
+aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVh
+bnMuSWRlbnRpZmljYXRpb25Bc3NlcnRpb24iPg0KICAgICAgICA8aWRlbnRpZmljYXRpb24+NjE5
+MGE0ZmEtNTE3OC00M2NmLTliNDMtZGJiYzY0NzZlZTAwPC9pZGVudGlmaWNhdGlvbj4NCiAgICAg
+IDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4yMDEzLTAzLTA2IDE1OjQ4OjU3LjgxNCBV
+VEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAv
+Pg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9u
+SW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwvbmV0LnNmLnRhdmVybmEudDIuYW5u
+b3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+PGFubm90
+YXRpb25fY2hhaW4gZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0
+aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxhbm5vdGF0aW9uQXNzZXJ0aW9u
+cz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9u
+SW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEudDIuYW5u
+b3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuRnJlZVRleHREZXNjcmlwdGlvbiI+DQogICAgICAgIDx0
+ZXh0PkNvbnZlcnRzIHRpZmYgdG8gdGlmZiB1c2luZyBpbWFnZW1hZ2ljayBjb252ZXJ0IHdpdGgg
+dGhlIHByb3ZpZGVkIGNvbXByZXNzaW9uPC90ZXh0Pg0KICAgICAgPC9hbm5vdGF0aW9uQmVhbj4N
+CiAgICAgIDxkYXRlPjIwMTMtMDMtMDYgMTU6NTY6NDYuOTI0IFVUQzwvZGF0ZT4NCiAgICAgIDxj
+cmVhdG9ycyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+DQogICAgPC9uZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICA8L2Fubm90YXRp
+b25Bc3NlcnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25D
+aGFpbkltcGw+PC9hbm5vdGF0aW9uX2NoYWluPjxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGlu
+Zz0ieHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWlu
+SW1wbCB4bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2
+ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90
+YXRpb25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25i
+ZWFucy5JZGVudGlmaWNhdGlvbkFzc2VydGlvbiI+DQogICAgICAgIDxpZGVudGlmaWNhdGlvbj40
+NzJiMTVjMi0wYjE2LTRlYmQtYjg2NS0wYzI2OGQ1ZjQyYjQ8L2lkZW50aWZpY2F0aW9uPg0KICAg
+ICAgPC9hbm5vdGF0aW9uQmVhbj4NCiAgICAgIDxkYXRlPjIwMTMtMDMtMDYgMTU6NTk6NDkuNjcz
+IFVUQzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9ycyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0
+IC8+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRp
+b25JbXBsPg0KICA8L2Fubm90YXRpb25Bc3NlcnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+PC9hbm5vdGF0aW9uX2NoYWluXzJfMj48YW5u
+b3RhdGlvbl9jaGFpbl8yXzIgZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2YudGF2ZXJuYS50Mi5h
+bm5vdGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxhbm5vdGF0aW9uQXNz
+ZXJ0aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNz
+ZXJ0aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEu
+dDIuYW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuU2VtYW50aWNBbm5vdGF0aW9uIj4NCiAgICAg
+ICAgPG1pbWVUeXBlPnRleHQvcmRmK24zPC9taW1lVHlwZT4NCiAgICAgICAgPGNvbnRlbnQ+Jmx0
+OyZndDsgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRzI2ZpdHMmZ3Q7DQogICAg
+ICAgICAgICAgICZsdDtodHRwOi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyNNaWdyYXRpb25BY3Rp
+b24mZ3Q7IC4NCg0KJmx0OyZndDsgICAgJmx0O2h0dHA6Ly9wdXJsLm9yZy9EUC9jb21wb25lbnRz
+I21pZ3JhdGVzJmd0Ow0KICAgICAgICAgICAgICBbIGEgICAgICAgJmx0O2h0dHA6Ly9wdXJsLm9y
+Zy9EUC9jb21wb25lbnRzI01pZ3JhdGlvblBhdGgmZ3Q7IDsNCiAgICAgICAgICAgICAgICAmbHQ7
+aHR0cDovL3B1cmwub3JnL0RQL2NvbXBvbmVudHMjc291cmNlTWltZXR5cGUmZ3Q7DQogICAgICAg
+ICAgICAgICAgICAgICAgICAiaW1hZ2UvdGlmZiIgOw0KICAgICAgICAgICAgICAgICZsdDtodHRw
+Oi8vcHVybC5vcmcvRFAvY29tcG9uZW50cyN0YXJnZXRNaW1ldHlwZSZndDsNCiAgICAgICAgICAg
+ICAgICAgICAgICAgICJpbWFnZS90aWZmIg0KICAgICAgICAgICAgICBdIC4NCjwvY29udGVudD4N
+CiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4yMDEzLTAzLTA2IDIxOjQxOjM1
+Ljg5MCBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAgIDxjdXJhdGlvbkV2ZW50
+TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNz
+ZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwvbmV0LnNmLnRhdmVybmEu
+dDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+
+PGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj48bmV0LnNmLnRhdmVybmEu
+dDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIiPg0KICA8YW5ub3RhdGlv
+bkFzc2VydGlvbnM+DQogICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlv
+bkFzc2VydGlvbkltcGw+DQogICAgICA8YW5ub3RhdGlvbkJlYW4gY2xhc3M9Im5ldC5zZi50YXZl
+cm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLklkZW50aWZpY2F0aW9uQXNzZXJ0aW9u
+Ij4NCiAgICAgICAgPGlkZW50aWZpY2F0aW9uPjgwNWU5NWZmLWQ2YzgtNDhhMi1iMjJlLWYyODdi
+N2M5ZjdlMzwvaWRlbnRpZmljYXRpb24+DQogICAgICA8L2Fubm90YXRpb25CZWFuPg0KICAgICAg
+PGRhdGU+MjAxMy0wMy0xMiAxNDozOTo1MS4zMTcgVVRDPC9kYXRlPg0KICAgICAgPGNyZWF0b3Jz
+IC8+DQogICAgICA8Y3VyYXRpb25FdmVudExpc3QgLz4NCiAgICA8L25ldC5zZi50YXZlcm5hLnQy
+LmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogIDwvYW5ub3RhdGlvbkFzc2Vy
+dGlvbnM+DQo8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1w
+bD48L2Fubm90YXRpb25fY2hhaW5fMl8yPjxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGluZz0i
+eHN0cmVhbSI+PG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1w
+bCB4bWxucz0iIj4NCiAgPGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJu
+YS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRp
+b25CZWFuIGNsYXNzPSJuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFu
+cy5JZGVudGlmaWNhdGlvbkFzc2VydGlvbiI+DQogICAgICAgIDxpZGVudGlmaWNhdGlvbj4zODky
+M2UxZi03NThjLTRlNmEtOGM3MC05NGM3ZWUxOTAxZTA8L2lkZW50aWZpY2F0aW9uPg0KICAgICAg
+PC9hbm5vdGF0aW9uQmVhbj4NCiAgICAgIDxkYXRlPjIwMTMtMDgtMTMgMTY6MjA6MTUuMjI0IFVU
+QzwvZGF0ZT4NCiAgICAgIDxjcmVhdG9ycyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+
+DQogICAgPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25J
+bXBsPg0KICA8L2Fubm90YXRpb25Bc3NlcnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5v
+dGF0aW9uLkFubm90YXRpb25DaGFpbkltcGw+PC9hbm5vdGF0aW9uX2NoYWluXzJfMj48YW5ub3Rh
+dGlvbl9jaGFpbl8yXzIgZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2YudGF2ZXJuYS50Mi5hbm5v
+dGF0aW9uLkFubm90YXRpb25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxhbm5vdGF0aW9uQXNzZXJ0
+aW9ucz4NCiAgICA8bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0
+aW9uSW1wbD4NCiAgICAgIDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEudDIu
+YW5ub3RhdGlvbi5hbm5vdGF0aW9uYmVhbnMuSWRlbnRpZmljYXRpb25Bc3NlcnRpb24iPg0KICAg
+ICAgICA8aWRlbnRpZmljYXRpb24+NGQ2ODA3MjktMDlkZS00ZGY2LWFlMjgtMjYzMGYxODJjYTE5
+PC9pZGVudGlmaWNhdGlvbj4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4y
+MDEzLTA4LTE2IDE2OjUyOjI3LjQwMCBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAg
+ICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3Rh
+dGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4N
+CjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5u
+b3RhdGlvbl9jaGFpbl8yXzI+PGFubm90YXRpb25fY2hhaW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFt
+Ij48bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5z
+PSIiPg0KICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+DQogICAgPG5ldC5zZi50YXZlcm5hLnQyLmFu
+bm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+DQogICAgICA8YW5ub3RhdGlvbkJlYW4g
+Y2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uYW5ub3RhdGlvbmJlYW5zLklkZW50
+aWZpY2F0aW9uQXNzZXJ0aW9uIj4NCiAgICAgICAgPGlkZW50aWZpY2F0aW9uPjU4ZmMzYmIzLTkw
+MjAtNGZlNS04M2RiLTE5ZmEyZTEwMTdlMTwvaWRlbnRpZmljYXRpb24+DQogICAgICA8L2Fubm90
+YXRpb25CZWFuPg0KICAgICAgPGRhdGU+MjAxMy0wMy0wNiAxNTo0ODoyNS43MyBVVEM8L2RhdGU+
+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAgIDxjdXJhdGlvbkV2ZW50TGlzdCAvPg0KICAgIDwv
+bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAg
+PC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5B
+bm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3RhdGlvbl9jaGFpbl8yXzI+PGFubm90YXRpb25fY2hh
+aW5fMl8yIGVuY29kaW5nPSJ4c3RyZWFtIj48bmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5B
+bm5vdGF0aW9uQ2hhaW5JbXBsIHhtbG5zPSIiPg0KICA8YW5ub3RhdGlvbkFzc2VydGlvbnM+DQog
+ICAgPG5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkFzc2VydGlvbkltcGw+
+DQogICAgICA8YW5ub3RhdGlvbkJlYW4gY2xhc3M9Im5ldC5zZi50YXZlcm5hLnQyLmFubm90YXRp
+b24uYW5ub3RhdGlvbmJlYW5zLklkZW50aWZpY2F0aW9uQXNzZXJ0aW9uIj4NCiAgICAgICAgPGlk
+ZW50aWZpY2F0aW9uPjhjNzQxNjMwLWFjNzQtNDJmMi04MjdhLTUwMWZhN2U1M2JkNzwvaWRlbnRp
+ZmljYXRpb24+DQogICAgICA8L2Fubm90YXRpb25CZWFuPg0KICAgICAgPGRhdGU+MjAxMy0wMy0w
+NiAxNTo0NDowMy40NTkgVVRDPC9kYXRlPg0KICAgICAgPGNyZWF0b3JzIC8+DQogICAgICA8Y3Vy
+YXRpb25FdmVudExpc3QgLz4NCiAgICA8L25ldC5zZi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5u
+b3RhdGlvbkFzc2VydGlvbkltcGw+DQogIDwvYW5ub3RhdGlvbkFzc2VydGlvbnM+DQo8L25ldC5z
+Zi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbD48L2Fubm90YXRpb25f
+Y2hhaW5fMl8yPjxhbm5vdGF0aW9uX2NoYWluXzJfMiBlbmNvZGluZz0ieHN0cmVhbSI+PG5ldC5z
+Zi50YXZlcm5hLnQyLmFubm90YXRpb24uQW5ub3RhdGlvbkNoYWluSW1wbCB4bWxucz0iIj4NCiAg
+PGFubm90YXRpb25Bc3NlcnRpb25zPg0KICAgIDxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9u
+LkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICAgICAgPGFubm90YXRpb25CZWFuIGNsYXNzPSJu
+ZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLmFubm90YXRpb25iZWFucy5JZGVudGlmaWNhdGlv
+bkFzc2VydGlvbiI+DQogICAgICAgIDxpZGVudGlmaWNhdGlvbj40OWQxNWU5MC05OWE4LTQ5NzAt
+ODRiMy01ZDI2ZDc3YTFhNTg8L2lkZW50aWZpY2F0aW9uPg0KICAgICAgPC9hbm5vdGF0aW9uQmVh
+bj4NCiAgICAgIDxkYXRlPjIwMTMtMDMtMDYgMTk6NTk6NTkuODA5IFVUQzwvZGF0ZT4NCiAgICAg
+IDxjcmVhdG9ycyAvPg0KICAgICAgPGN1cmF0aW9uRXZlbnRMaXN0IC8+DQogICAgPC9uZXQuc2Yu
+dGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRpb25Bc3NlcnRpb25JbXBsPg0KICA8L2Fubm90
+YXRpb25Bc3NlcnRpb25zPg0KPC9uZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRp
+b25DaGFpbkltcGw+PC9hbm5vdGF0aW9uX2NoYWluXzJfMj48YW5ub3RhdGlvbl9jaGFpbl8yXzIg
+ZW5jb2Rpbmc9InhzdHJlYW0iPjxuZXQuc2YudGF2ZXJuYS50Mi5hbm5vdGF0aW9uLkFubm90YXRp
+b25DaGFpbkltcGwgeG1sbnM9IiI+DQogIDxhbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCiAgICA8bmV0
+LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQXNzZXJ0aW9uSW1wbD4NCiAgICAg
+IDxhbm5vdGF0aW9uQmVhbiBjbGFzcz0ibmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5hbm5v
+dGF0aW9uYmVhbnMuSWRlbnRpZmljYXRpb25Bc3NlcnRpb24iPg0KICAgICAgICA8aWRlbnRpZmlj
+YXRpb24+ODkwYmIwNTUtNjI4ZC00MmFkLWJjZWUtNjEwNzdlM2U3NjNjPC9pZGVudGlmaWNhdGlv
+bj4NCiAgICAgIDwvYW5ub3RhdGlvbkJlYW4+DQogICAgICA8ZGF0ZT4yMDEzLTAzLTA2IDE2OjEw
+OjQwLjc1MyBVVEM8L2RhdGU+DQogICAgICA8Y3JlYXRvcnMgLz4NCiAgICAgIDxjdXJhdGlvbkV2
+ZW50TGlzdCAvPg0KICAgIDwvbmV0LnNmLnRhdmVybmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9u
+QXNzZXJ0aW9uSW1wbD4NCiAgPC9hbm5vdGF0aW9uQXNzZXJ0aW9ucz4NCjwvbmV0LnNmLnRhdmVy
+bmEudDIuYW5ub3RhdGlvbi5Bbm5vdGF0aW9uQ2hhaW5JbXBsPjwvYW5ub3RhdGlvbl9jaGFpbl8y
+XzI+PC9hbm5vdGF0aW9ucz48L2RhdGFmbG93Pgo8L3dvcmtmbG93Pg==
+</data>
+<formatInfo>
+<changelog created="2014-04-25T14:20:28" changed="2014-04-25T14:20:28"/>
+</formatInfo>
+<changelog created="2014-04-25T14:20:28" changed="2014-04-25T14:20:28"/>
+</workflow>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</executablePlan>
+<preservationActionPlan xmlns:plato="http://ifs.tuwien.ac.at/dp/plato">
+<collection uid="demo?1214cea2-d4c4-4653-bd78-76c2495034ea"/>
+<objects>
+    <object uid="http://localhost:8080/roda-core/get/roda:80/F5"/>
+    <object uid="http://localhost:8080/roda-core/get/roda:80/F10"/>
+  </objects>
+<executablePlan type="t2flow">
+    <workflow xmlns="http://taverna.sf.net/2008/xml/t2flow" producedBy="taverna-2.4.0" version="1">
+      <dataflow id="f9e76f66-7e14-4821-a984-3cbb64248e6a" role="top">
+        <name>Test Plan execution - Imagemagick convert - tiff2tif</name>
+        <inputPorts>
+          <port>
+            <name>source</name>
+            <depth>0</depth>
+            <granularDepth>0</granularDepth>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; &lt;http://purl.org/DP/components#SourceObject&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+        </inputPorts>
+        <outputPorts>
+          <port>
+            <name>target</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/components#TargetObject&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+          <port>
+            <name>measures_123</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/quality/measures#123&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+          <port>
+            <name>measures_117</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/quality/measures#117&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+          <port>
+            <name>measures_10</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/quality/measures#10&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+          <port>
+            <name>measures_51</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/quality/measures#51&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+          <port>
+            <name>measures_53</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/quality/measures#53&gt; .</content>
+                      </annotationBean>
+                      <date>2014-04-25 12:20:13.812 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+        </outputPorts>
+        <processors>
+          <processor>
+            <name>Migration</name>
+            <inputPorts>
+              <port>
+                <name>source_path</name>
+                <depth>0</depth>
+              </port>
+              <port>
+                <name>compression</name>
+                <depth>0</depth>
+              </port>
+            </inputPorts>
+            <outputPorts>
+              <port>
+                <name>target_path</name>
+                <depth>0</depth>
+                <granularDepth>0</granularDepth>
+              </port>
+            </outputPorts>
+            <annotations/>
+            <activities>
+              <activity>
+                <raven>
+                  <group>net.sf.taverna.t2.activities</group>
+                  <artifact>dataflow-activity</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.activities.dataflow.DataflowActivity</class>
+                <inputMap>
+                  <map from="source_path" to="source_path"/>
+                  <map from="compression" to="compression"/>
+                </inputMap>
+                <outputMap>
+                  <map from="target_path" to="target_path"/>
+                </outputMap>
+                <configBean encoding="dataflow">
+                  <dataflow ref="4d680729-09de-4df6-ae28-2630f182ca19"/>
+                </configBean>
+                <annotations/>
+              </activity>
+            </activities>
+            <dispatchStack>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Parallelize</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+                    <maxJobs>1</maxJobs>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ErrorBounce</class>
+                <configBean encoding="xstream">
+                  <null/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Failover</class>
+                <configBean encoding="xstream">
+                  <null/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Retry</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+                    <backoffFactor>1.0</backoffFactor>
+                    <initialDelay>1000</initialDelay>
+                    <maxDelay>5000</maxDelay>
+                    <maxRetries>0</maxRetries>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class>
+                <configBean encoding="xstream">
+                  <null/>
+                </configBean>
+              </dispatchLayer>
+            </dispatchStack>
+            <iterationStrategyStack>
+              <iteration>
+                <strategy>
+                  <cross>
+                    <port depth="0" name="source_path"/>
+                    <port depth="0" name="compression"/>
+                  </cross>
+                </strategy>
+              </iteration>
+            </iterationStrategyStack>
+          </processor>
+          <processor>
+            <name>compression</name>
+            <inputPorts/>
+            <outputPorts>
+              <port>
+                <name>value</name>
+                <depth>0</depth>
+                <granularDepth>0</granularDepth>
+              </port>
+            </outputPorts>
+            <annotations/>
+            <activities>
+              <activity>
+                <raven>
+                  <group>net.sf.taverna.t2.activities</group>
+                  <artifact>stringconstant-activity</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.activities.stringconstant.StringConstantActivity</class>
+                <inputMap/>
+                <outputMap>
+                  <map from="value" to="value"/>
+                </outputMap>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.activities.stringconstant.StringConstantConfigurationBean>
+                    <value>none</value>
+                  </net.sf.taverna.t2.activities.stringconstant.StringConstantConfigurationBean>
+                </configBean>
+                <annotations/>
+              </activity>
+            </activities>
+            <dispatchStack>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Parallelize</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+                    <maxJobs>1</maxJobs>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ErrorBounce</class>
+                <configBean encoding="xstream">
+                  <null/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Failover</class>
+                <configBean encoding="xstream">
+                  <null/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Retry</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+                    <backoffFactor>1.0</backoffFactor>
+                    <initialDelay>1000</initialDelay>
+                    <maxDelay>5000</maxDelay>
+                    <maxRetries>0</maxRetries>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class>
+                <configBean encoding="xstream">
+                  <null/>
+                </configBean>
+              </dispatchLayer>
+            </dispatchStack>
+            <iterationStrategyStack>
+              <iteration>
+                <strategy>
+                  <cross/>
+                </strategy>
+              </iteration>
+            </iterationStrategyStack>
+          </processor>
+        </processors>
+        <conditions/>
+        <datalinks>
+          <datalink>
+            <sink type="processor">
+              <processor>Migration</processor>
+              <port>source_path</port>
+            </sink>
+            <source type="dataflow">
+              <port>source</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="processor">
+              <processor>Migration</processor>
+              <port>compression</port>
+            </sink>
+            <source type="processor">
+              <processor>compression</processor>
+              <port>value</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="dataflow">
+              <port>target</port>
+            </sink>
+            <source type="processor">
+              <processor>Migration</processor>
+              <port>target_path</port>
+            </source>
+          </datalink>
+        </datalinks>
+        <annotations>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>f9e76f66-7e14-4821-a984-3cbb64248e6a</identification>
+                  </annotationBean>
+                  <date>2014-04-25 12:20:13.812 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.Author">
+                    <text>Michael Kraxner</text>
+                  </annotationBean>
+                  <date>2014-04-25 12:20:13.812 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain>
+          <annotation_chain encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.DescriptiveTitle">
+                    <text>Test Plan execution - Imagemagick convert - tiff2tif</text>
+                  </annotationBean>
+                  <date>2014-04-25 12:20:13.812 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                    <mimeType>text/rdf+n3</mimeType>
+                    <content>&lt;&gt; &lt;http://purl.org/DP/components#fits&gt; &lt;http://purl.org/DP/components#ExecutablePlan&gt; .</content>
+                  </annotationBean>
+                  <date>2014-04-25 12:20:13.812 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+        </annotations>
+      </dataflow>
+      <dataflow id="4d680729-09de-4df6-ae28-2630f182ca19" role="nested">
+        <name>Imagemagick_convert_</name>
+        <inputPorts>
+          <port>
+            <name>source_path</name>
+            <depth>0</depth>
+            <granularDepth>0</granularDepth>
+            <annotations>
+              <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.ExampleValue">
+                        <text>in.tiff</text>
+                      </annotationBean>
+                      <date>2013-03-06 15:58:34.431 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; &lt;http://purl.org/DP/components#SourceObject&gt; .</content>
+                      </annotationBean>
+                      <date>2013-03-06 15:36:17.856 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+              <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription">
+                        <text>Path to the migration source</text>
+                      </annotationBean>
+                      <date>2013-08-13 16:29:46.231 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain>
+            </annotations>
+          </port>
+          <port>
+            <name>compression</name>
+            <depth>0</depth>
+            <granularDepth>0</granularDepth>
+            <annotations>
+              <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.ExampleValue">
+                        <text>none</text>
+                      </annotationBean>
+                      <date>2013-03-06 15:57:42.109 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain>
+              <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription">
+                        <text>Imagemagick convert compress parameter</text>
+                      </annotationBean>
+                      <date>2013-03-06 15:57:39.167 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; &lt;http://purl.org/DP/components#Parameter&gt; . &lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; [ a &lt;http://purl.org/DP/components#PredefinedParameterValue&gt; ; &lt;http://purl.org/DP/components#parameterDescription&gt; "no compression" ; &lt;http://purl.org/DP/components#parameterValue&gt; "none" ] . &lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; [ a &lt;http://purl.org/DP/components#PredefinedParameterValue&gt; ; &lt;http://purl.org/DP/components#parameterDescription&gt; "CCITT Group 4" ; &lt;http://purl.org/DP/components#parameterValue&gt; "Group4" ] . &lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; [ a &lt;http://purl.org/DP/components#PredefinedParameterValue&gt; ; &lt;http://purl.org/DP/components#parameterDescription&gt; "run length encoding" ; &lt;http://purl.org/DP/components#parameterValue&gt; "RLE" ] .</content>
+                      </annotationBean>
+                      <date>2013-03-12 14:39:44.343 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+        </inputPorts>
+        <outputPorts>
+          <port>
+            <name>status</name>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/components#Status&gt; .</content>
+                      </annotationBean>
+                      <date>2013-03-06 15:35:48.882 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+              <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription">
+                        <text>STDOUT and STDERR of the action</text>
+                      </annotationBean>
+                      <date>2013-03-06 15:59:16.363 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain>
+            </annotations>
+          </port>
+          <port>
+            <name>target_path</name>
+            <annotations>
+              <annotation_chain encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription">
+                        <text>Path to the migration target</text>
+                      </annotationBean>
+                      <date>2013-08-13 16:29:34.568 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/components#TargetObject&gt; .</content>
+                      </annotationBean>
+                      <date>2013-03-06 15:36:17.856 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+          </port>
+        </outputPorts>
+        <processors>
+          <processor>
+            <name>convert</name>
+            <inputPorts>
+              <port>
+                <name>from_uri</name>
+                <depth>0</depth>
+              </port>
+              <port>
+                <name>compression</name>
+                <depth>0</depth>
+              </port>
+              <port>
+                <name>to_uri</name>
+                <depth>0</depth>
+              </port>
+            </inputPorts>
+            <outputPorts>
+              <port>
+                <name>STDOUT</name>
+                <depth>0</depth>
+                <granularDepth>0</granularDepth>
+              </port>
+              <port>
+                <name>STDERR</name>
+                <depth>0</depth>
+                <granularDepth>0</granularDepth>
+              </port>
+            </outputPorts>
+            <annotations>
+              <annotation_chain_2_2 encoding="xstream">
+                <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+                  <annotationAssertions>
+                    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                        <mimeType>text/rdf+n3</mimeType>
+                        <content>&lt;&gt; &lt;http://purl.org/DP/components#requiresInstallation&gt; [ a &lt;http://purl.org/DP/components#Installation&gt; ; &lt;http://purl.org/DP/components#hasEnvironment&gt; &lt;http://purl.org/DP/components#Debian&gt; ; &lt;http://purl.org/DP/components#hasSourceConfiguration&gt; [ a &lt;http://purl.org/DP/components#DpkgConfiguration&gt; ; &lt;http://purl.org/DP/components#installsDpkgs&gt; "imagemagick" ; ] ; &lt;http://purl.org/DP/components#dependsOn&gt; [ a &lt;http://purl.org/DP/components#Dependency&gt; ; &lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; "imagemagick" ; &lt;http://purl.org/DP/components#dependencyVersion&gt; "5" ; &lt;http://xmlns.com/foaf/0.1/page&gt; &lt;http://www.imagemagick.org&gt; ; &lt;http://creativecommons.org/ns#license&gt; &lt;http://opensource.org/licenses/Apache-2.0&gt; ] ] .</content>
+                      </annotationBean>
+                      <date>2013-03-06 19:59:47.611 UTC</date>
+                      <creators/>
+                      <curationEventList/>
+                    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  </annotationAssertions>
+                </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+              </annotation_chain_2_2>
+            </annotations>
+            <activities>
+              <activity>
+                <raven>
+                  <group>net.sf.taverna.t2.activities</group>
+                  <artifact>external-tool-activity</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.activities.externaltool.ExternalToolActivity</class>
+                <inputMap>
+                  <map from="to_uri" to="to_uri"/>
+                  <map from="compression" to="compression"/>
+                  <map from="from_uri" to="from_uri"/>
+                </inputMap>
+                <outputMap>
+                  <map from="STDERR" to="STDERR"/>
+                  <map from="STDOUT" to="STDOUT"/>
+                </outputMap>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.activities.externaltool.ExternalToolActivityConfigurationBean xmlns="">
+                    <mechanismType>789663B8-DA91-428A-9F7D-B3F3DA185FD4</mechanismType>
+                    <mechanismName>default local</mechanismName>
+                    <mechanismXML>&lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;localInvocation&gt;&lt;shellPrefix&gt;/bin/sh -c&lt;/shellPrefix&gt;&lt;linkCommand&gt;/bin/ln -s %%PATH_TO_ORIGINAL%% %%TARGET_NAME%%&lt;/linkCommand&gt;&lt;/localInvocation&gt;</mechanismXML>
+                    <externaltoolid>a69089e9-f0e9-4ca8-b151-3aa93621a97b</externaltoolid>
+                    <useCaseDescription>
+                      <usecaseid/>
+                      <description/>
+                      <command>convert -compress "%%compression%%" "%%from_uri%%" tiff:"%%to_uri%%"</command>
+                      <preparingTimeoutInSeconds>1200</preparingTimeoutInSeconds>
+                      <executionTimeoutInSeconds>1800</executionTimeoutInSeconds>
+                      <tags>
+                        <string>compression</string>
+                        <string>from_uri</string>
+                        <string>to_uri</string>
+                      </tags>
+                      <REs/>
+                      <queue__preferred/>
+                      <queue__deny/>
+                      <static__inputs/>
+                      <inputs>
+                        <entry>
+                          <string>to_uri</string>
+                          <de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+                            <tag>to_uri</tag>
+                            <file>false</file>
+                            <tempFile>false</tempFile>
+                            <binary>false</binary>
+                            <charsetName>UTF-8</charsetName>
+                            <forceCopy>false</forceCopy>
+                            <list>false</list>
+                            <concatenate>false</concatenate>
+                            <mime/>
+                          </de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+                        </entry>
+                        <entry>
+                          <string>compression</string>
+                          <de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+                            <tag>compression</tag>
+                            <file>false</file>
+                            <tempFile>false</tempFile>
+                            <binary>false</binary>
+                            <charsetName>UTF-8</charsetName>
+                            <forceCopy>false</forceCopy>
+                            <list>false</list>
+                            <concatenate>false</concatenate>
+                            <mime/>
+                          </de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+                        </entry>
+                        <entry>
+                          <string>from_uri</string>
+                          <de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+                            <tag>from_uri</tag>
+                            <file>false</file>
+                            <tempFile>false</tempFile>
+                            <binary>false</binary>
+                            <charsetName>UTF-8</charsetName>
+                            <forceCopy>false</forceCopy>
+                            <list>false</list>
+                            <concatenate>false</concatenate>
+                            <mime/>
+                          </de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+                        </entry>
+                      </inputs>
+                      <outputs/>
+                      <includeStdIn>false</includeStdIn>
+                      <includeStdOut>true</includeStdOut>
+                      <includeStdErr>true</includeStdErr>
+                      <validReturnCodes>
+                        <int>0</int>
+                      </validReturnCodes>
+                    </useCaseDescription>
+                    <edited>false</edited>
+                  </net.sf.taverna.t2.activities.externaltool.ExternalToolActivityConfigurationBean>
+                </configBean>
+                <annotations/>
+              </activity>
+            </activities>
+            <dispatchStack>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Parallelize</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig xmlns="">
+                    <maxJobs>1</maxJobs>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ErrorBounce</class>
+                <configBean encoding="xstream">
+                  <null xmlns=""/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Failover</class>
+                <configBean encoding="xstream">
+                  <null xmlns=""/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Retry</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig xmlns="">
+                    <backoffFactor>1.0</backoffFactor>
+                    <initialDelay>1000</initialDelay>
+                    <maxDelay>5000</maxDelay>
+                    <maxRetries>0</maxRetries>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class>
+                <configBean encoding="xstream">
+                  <null xmlns=""/>
+                </configBean>
+              </dispatchLayer>
+            </dispatchStack>
+            <iterationStrategyStack>
+              <iteration>
+                <strategy>
+                  <cross>
+                    <port depth="0" name="from_uri"/>
+                    <port depth="0" name="compression"/>
+                    <port depth="0" name="to_uri"/>
+                  </cross>
+                </strategy>
+              </iteration>
+            </iterationStrategyStack>
+          </processor>
+          <processor>
+            <name>createTargetPath</name>
+            <inputPorts/>
+            <outputPorts>
+              <port>
+                <name>targetPath</name>
+                <depth>0</depth>
+                <granularDepth>0</granularDepth>
+              </port>
+            </outputPorts>
+            <annotations/>
+            <activities>
+              <activity>
+                <raven>
+                  <group>net.sf.taverna.t2.activities</group>
+                  <artifact>beanshell-activity</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.activities.beanshell.BeanshellActivity</class>
+                <inputMap/>
+                <outputMap>
+                  <map from="targetPath" to="targetPath"/>
+                </outputMap>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.activities.beanshell.BeanshellActivityConfigurationBean xmlns="">
+                    <inputs/>
+                    <outputs>
+                      <net.sf.taverna.t2.workflowmodel.processor.activity.config.ActivityOutputPortDefinitionBean>
+                        <name>targetPath</name>
+                        <depth>0</depth>
+                        <mimeTypes/>
+                        <granularDepth>0</granularDepth>
+                      </net.sf.taverna.t2.workflowmodel.processor.activity.config.ActivityOutputPortDefinitionBean>
+                    </outputs>
+                    <classLoaderSharing>workflow</classLoaderSharing>
+                    <localDependencies/>
+                    <artifactDependencies/>
+                    <script>File target = File.createTempFile("convert-to-tiff-" + Long.toString(System.nanoTime()), ".tiff"); String targetPath = target.getAbsolutePath();</script>
+                    <dependencies/>
+                  </net.sf.taverna.t2.activities.beanshell.BeanshellActivityConfigurationBean>
+                </configBean>
+                <annotations/>
+              </activity>
+            </activities>
+            <dispatchStack>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Parallelize</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig xmlns="">
+                    <maxJobs>1</maxJobs>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ParallelizeConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.ErrorBounce</class>
+                <configBean encoding="xstream">
+                  <null xmlns=""/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Failover</class>
+                <configBean encoding="xstream">
+                  <null xmlns=""/>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Retry</class>
+                <configBean encoding="xstream">
+                  <net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig xmlns="">
+                    <backoffFactor>1.0</backoffFactor>
+                    <initialDelay>1000</initialDelay>
+                    <maxDelay>5000</maxDelay>
+                    <maxRetries>0</maxRetries>
+                  </net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig>
+                </configBean>
+              </dispatchLayer>
+              <dispatchLayer>
+                <raven>
+                  <group>net.sf.taverna.t2.core</group>
+                  <artifact>workflowmodel-impl</artifact>
+                  <version>1.4</version>
+                </raven>
+                <class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class>
+                <configBean encoding="xstream">
+                  <null xmlns=""/>
+                </configBean>
+              </dispatchLayer>
+            </dispatchStack>
+            <iterationStrategyStack>
+              <iteration>
+                <strategy/>
+              </iteration>
+            </iterationStrategyStack>
+          </processor>
+        </processors>
+        <conditions/>
+        <datalinks>
+          <datalink>
+            <sink type="processor">
+              <processor>convert</processor>
+              <port>from_uri</port>
+            </sink>
+            <source type="dataflow">
+              <port>source_path</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="processor">
+              <processor>convert</processor>
+              <port>compression</port>
+            </sink>
+            <source type="dataflow">
+              <port>compression</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="processor">
+              <processor>convert</processor>
+              <port>to_uri</port>
+            </sink>
+            <source type="processor">
+              <processor>createTargetPath</processor>
+              <port>targetPath</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="merge">
+              <port>status</port>
+            </sink>
+            <source type="processor">
+              <processor>convert</processor>
+              <port>STDOUT</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="merge">
+              <port>status</port>
+            </sink>
+            <source type="processor">
+              <processor>convert</processor>
+              <port>STDERR</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink type="dataflow">
+              <port>target_path</port>
+            </sink>
+            <source type="processor">
+              <processor>createTargetPath</processor>
+              <port>targetPath</port>
+            </source>
+          </datalink>
+        </datalinks>
+        <annotations>
+          <annotation_chain encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.DescriptiveTitle">
+                    <text>Imagemagick convert - tiff2tiff - compression</text>
+                  </annotationBean>
+                  <date>2013-03-06 15:56:22.628 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain>
+          <annotation_chain encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.Author">
+                    <text>Markus</text>
+                  </annotationBean>
+                  <date>2013-03-06 15:56:07.430 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>8d2f9ef0-09ca-4103-b4fd-0ee0a40d8263</identification>
+                  </annotationBean>
+                  <date>2013-03-06 21:41:51.284 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>f561cff6-40bf-4759-95d3-25ac7a50508c</identification>
+                  </annotationBean>
+                  <date>2013-08-13 16:27:08.365 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>70feaa9b-c54b-4317-8f20-f94eb515771b</identification>
+                  </annotationBean>
+                  <date>2013-08-13 16:29:58.198 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>44f375c4-8cc9-420d-be5a-3d275da7860d</identification>
+                  </annotationBean>
+                  <date>2013-08-13 16:27:57.337 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>dfc4edbb-582f-4853-bb47-02b43abd82ee</identification>
+                  </annotationBean>
+                  <date>2013-03-06 15:49:55.477 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>6190a4fa-5178-43cf-9b43-dbbc6476ee00</identification>
+                  </annotationBean>
+                  <date>2013-03-06 15:48:57.814 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.FreeTextDescription">
+                    <text>Converts tiff to tiff using imagemagick convert with the provided compression</text>
+                  </annotationBean>
+                  <date>2013-03-06 15:56:46.924 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>472b15c2-0b16-4ebd-b865-0c268d5f42b4</identification>
+                  </annotationBean>
+                  <date>2013-03-06 15:59:49.673 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.SemanticAnnotation">
+                    <mimeType>text/rdf+n3</mimeType>
+                    <content>&lt;&gt; &lt;http://purl.org/DP/components#fits&gt; &lt;http://purl.org/DP/components#MigrationAction&gt; . &lt;&gt; &lt;http://purl.org/DP/components#migrates&gt; [ a &lt;http://purl.org/DP/components#MigrationPath&gt; ; &lt;http://purl.org/DP/components#sourceMimetype&gt; "image/tiff" ; &lt;http://purl.org/DP/components#targetMimetype&gt; "image/tiff" ] .</content>
+                  </annotationBean>
+                  <date>2013-03-06 21:41:35.890 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>805e95ff-d6c8-48a2-b22e-f287b7c9f7e3</identification>
+                  </annotationBean>
+                  <date>2013-03-12 14:39:51.317 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>38923e1f-758c-4e6a-8c70-94c7ee1901e0</identification>
+                  </annotationBean>
+                  <date>2013-08-13 16:20:15.224 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>4d680729-09de-4df6-ae28-2630f182ca19</identification>
+                  </annotationBean>
+                  <date>2013-08-16 16:52:27.400 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>58fc3bb3-9020-4fe5-83db-19fa2e1017e1</identification>
+                  </annotationBean>
+                  <date>2013-03-06 15:48:25.73 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>8c741630-ac74-42f2-827a-501fa7e53bd7</identification>
+                  </annotationBean>
+                  <date>2013-03-06 15:44:03.459 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>49d15e90-99a8-4970-84b3-5d26d77a1a58</identification>
+                  </annotationBean>
+                  <date>2013-03-06 19:59:59.809 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+          <annotation_chain_2_2 encoding="xstream">
+            <net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+              <annotationAssertions>
+                <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+                  <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+                    <identification>890bb055-628d-42ad-bcee-61077e3e763c</identification>
+                  </annotationBean>
+                  <date>2013-03-06 16:10:40.753 UTC</date>
+                  <creators/>
+                  <curationEventList/>
+                </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+              </annotationAssertions>
+            </net.sf.taverna.t2.annotation.AnnotationChainImpl>
+          </annotation_chain_2_2>
+        </annotations>
+      </dataflow>
+    </workflow>
+  </executablePlan>
+<qualityLevelDescription>
+    <schema xmlns="http://purl.oclc.org/dsdl/schematron">
+      <pattern>
+        <title>QLDs based on plan Test Plan execution</title>
+        <rule context="measure[@type='http://purl.org/DP/quality/measures#123' and (@subject != 'SourceObject')]">
+          <assert test=" .  &lt;=  10.0">comparative file size must be less than or equal to 10.0</assert>
+        </rule>
+        <rule context="measure[@type='http://purl.org/DP/quality/measures#117' and (@subject != 'SourceObject')]">
+          <assert test="(. != 'lossy')">compression type must have (one) of the the following values: [lossless, none]</assert>
+        </rule>
+        <rule context="measure[@type='http://purl.org/DP/quality/measures#51' and (@subject != 'SourceObject')]">
+          <assert test="(. != 'No')">image width equal must have (one) of the the following values: [Yes]</assert>
+        </rule>
+        <rule context="measure[@type='http://purl.org/DP/quality/measures#53' and (@subject != 'SourceObject')]">
+          <assert test="(. != 'No')">image height equal must have (one) of the the following values: [Yes]</assert>
+        </rule>
+      </pattern>
+    </schema>
+  </qualityLevelDescription>
+</preservationActionPlan>
+<planDefinition currency="EUR">
+<costsIG/>
+<costsPA/>
+<costsPE/>
+<costsQA/>
+<costsREI/>
+<costsRemarks/>
+<costsRM/>
+<costsTCO/>
+<responsibleExecution/>
+<responsibleMonitoring/>
+<triggers>
+<trigger type="NEW_COLLECTION" active="false"/>
+<trigger type="PERIODIC_REVIEW" active="false" description=""/>
+<trigger type="CHANGED_ENVIRONMENT" active="false" description=""/>
+<trigger type="CHANGED_OBJECTIVE" active="false" description=""/>
+<trigger type="CHANGED_COLLECTION_PROFILE" active="false" description=""/>
+</triggers>
+<changelog created="2014-04-25T14:09:39" createdBy="kraxner" changed="2014-04-25T14:09:39"/>
+</planDefinition>
+</plan>
+</plans>

@@ -189,6 +189,22 @@ public abstract class TreeNode implements ITreeNode, Serializable, ITouchable, C
         }
         return list;
     }
+    
+
+    /**
+     * 
+     * @return a List with all nodes that are contained in this branch of the tree
+     */
+    public List<TreeNode> getAllChildren() {
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        for (TreeNode n : children) {
+            list.add(n);
+            if (! (n instanceof Leaf)) {
+                list.addAll(n.getAllChildren());
+            }
+        }
+        return list;
+    }
 
     /**
      * Initializes the weights for all leaves of this TreeNode, i.e.
