@@ -36,54 +36,46 @@
 						<div class="service-info-panel">
 							<div class="service-info-header">#{alt.name}</div>
 							<div class="service-info-info">
-
-								<rich:tabPanel switchType="client">
-									<rich:tab header="Summary">
-										<h:dataTable id="recordTable" value="#{runExperiments.plan.sampleRecordsDefinition.records}" var="record">
-											<h:column>
-												<f:facet name="header">Record</f:facet>
-                                    #{record.fullname}
-                                </h:column>
-											<h:column>
-												<f:facet name="header">Status</f:facet>
-												<h:graphicImage rendered="#{alt.experiment.detailedInfo[record] == null}"
-													value="/resources/gfx/icons/small/not-known.png" />
-												<h:graphicImage
-													rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==true)}"
-													value="/resources/gfx/icons/small/true.png" />
-												<h:graphicImage
-													rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==false)}"
-													value="/resources/gfx/icons/small/false.png" />
-											</h:column>
-											<h:column>
-												<f:facet name="header">Report</f:facet>
-												<a4j:commandButton value="Edit Report"
-													action="#{runExperiments.updateSelectedDetailedExperimentInfo(alt, record)}" render="reportPanel"
-													oncomplete="#{rich:component('reportPanel')}.show()" />
-											</h:column>
-											<h:column>
-												<f:facet name="header">Resulting Object</f:facet>
-												<a4j:commandButton action="#{runExperiments.updateDataForNextUpload(alt, record)}"
-													value="Upload result file" rendered="#{!alt.experiment.results[record].dataExistent}"
-													oncomplete="#{rich:component('uploadPanel')}.show()" />
-												<a4j:outputPanel layout="inline" rendered="#{alt.experiment.results[record].dataExistent}">
-													<h:commandButton id="downloadResult" value="Download"
-														action="#{runExperiments.downloadResultFile(alt, record)}">
-														<rich:tooltip target="downloadResult">Download result of applying #{alt.name} to #{record.shortName}</rich:tooltip>
-													</h:commandButton>												
+								<rich:dataTable id="recordTable" value="#{runExperiments.plan.sampleRecordsDefinition.records}" var="record">
+									<rich:column>
+										<f:facet name="header">Record</f:facet>
+                    	#{record.fullname}
+                  </rich:column>
+									<rich:column>
+										<f:facet name="header">Status</f:facet>
+										<h:graphicImage rendered="#{alt.experiment.detailedInfo[record] == null}"
+											value="/resources/gfx/icons/icomoon/question.svg" styleClass="icon" />
+										<h:graphicImage
+											rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==true)}"
+											value="/resources/gfx/icons/icomoon/checkmark.svg" styleClass="icon" />
+										<h:graphicImage
+											rendered="#{(alt.experiment.detailedInfo[record] != null) and (alt.experiment.detailedInfo[record].successful==false)}"
+											value="/resources/gfx/icons/icomoon/cancel-circle.svg" styleClass="icon" />
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">Report</f:facet>
+										<a4j:commandButton value="Edit Report"
+											action="#{runExperiments.updateSelectedDetailedExperimentInfo(alt, record)}" render="reportPanel"
+											oncomplete="#{rich:component('reportPanel')}.show()" />
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">Resulting Object</f:facet>
+										<a4j:commandButton action="#{runExperiments.updateDataForNextUpload(alt, record)}" value="Upload result file"
+											rendered="#{!alt.experiment.results[record].dataExistent}"
+											oncomplete="#{rich:component('uploadPanel')}.show()" />
+										<a4j:outputPanel layout="inline" rendered="#{alt.experiment.results[record].dataExistent}">
+											<h:commandButton id="downloadResult" value="Download"
+												action="#{runExperiments.downloadResultFile(alt, record)}" styleClass="download-link">
+												<rich:tooltip target="downloadResult">Download result of applying #{alt.name} to #{record.shortName}</rich:tooltip>
+											</h:commandButton>												
 	                                    (<h:outputText value="#{alt.experiment.results[record].sizeInMB}">
-														<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
-													</h:outputText> MB)
+												<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											</h:outputText> MB)
 	                                    <a4j:commandButton action="#{runExperiments.removeResultFile(alt, record)}"
-														value="-" render="mainform" />
-												</a4j:outputPanel>
-											</h:column>
-										</h:dataTable>
-									</rich:tab>
-									<rich:tab header="Report">
-										<p:inputTextArea id="experimentReport" input="#{alt.experiment.detailedRunDescription}" readonly="true" />
-									</rich:tab>
-								</rich:tabPanel>
+												value="-" render="mainform" />
+										</a4j:outputPanel>
+									</rich:column>
+								</rich:dataTable>
 							</div>
 						</div>
 					</rich:column>

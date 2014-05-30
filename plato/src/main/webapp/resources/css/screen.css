@@ -243,6 +243,11 @@ fieldset.size-full {
 	padding-right: 5px;
 }
 
+.icon {
+	width: 28px;
+	height: 28px;
+}
+
 /* 
 Defines the input text fields and text areas.
 Creates the blue bar on the left and adds the
@@ -352,8 +357,8 @@ input[type=submit],input[type=button],.default-button,.download-link,.show-meta-
 	text-decoration: none;
 	text-shadow: 1px 1px 0px #D8D6D6;
 	margin: 0px 0px;
-	min-height: 32px;
-	line-height : 32px;	
+	min-height: 30px;
+	line-height : 30px;	
 	vertical-align: middle;
 
 }
@@ -366,68 +371,54 @@ input[type=submit]:hover,input[type=button]:hover,.default-button:hover,.downloa
 	color: #525151;
 }
 
-.download-link {
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
-		), color-stop(1, #B0AEAE) );
+a.download-link, input.download-link {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-.download-link:hover{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
-		), color-stop(1, #CFCDCD) );
+a.download-link:hover, input.download-link:hover {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, linear-gradient(top, #B0AEAE, #CFCDCD);
-
-	padding: 0px 5px 0px 38px;
 }
 
-.show-meta-data {
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
-		), color-stop(1, #B0AEAE) );
+a.show-meta-data, input.show-meta-data {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-.show-meta-data:hover {
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
-		), color-stop(1, #CFCDCD) );
+a.show-meta-data:hover, .show-meta-data:hover {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, linear-gradient(top, #B0AEAE, #CFCDCD);
-
-	padding: 0px 5px 0px 38px;
 }
 
-.trash {
+a.trash, .trash {
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-.trash:hover {
+a.trash:hover, .trash:hover {
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, linear-gradient(top, #B0AEAE, #CFCDCD);
-
-	padding: 0px 5px 0px 38px;
 }
 
-input.play {
+a.play, input.play {
 	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-input.play:hover {
+a.play:hover, input.play:hover {
 	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, linear-gradient(top, #B0AEAE, #CFCDCD);
+}
 
+a.download-link, a.show-meta-data, a.trash, a.play, input.download-link, input.show-meta-data, input.trash, input.play,
+a.download-link:hover, a.show-meta-data:hover, a.trash:hover, a.play:hover, input.download-link:hover, input.show-meta-data:hover, input.trash:hover, input.play:hover {
 	padding: 0px 5px 0px 38px;
+	background-size: contain;
 }
 
 /*

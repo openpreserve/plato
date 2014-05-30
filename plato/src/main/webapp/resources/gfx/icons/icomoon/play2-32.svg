@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32.070419"
-   height="32.070419"
-   viewBox="0 0 32.070419 32.070419"
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="play2-32.svg"
+   sodipodi:docname="play2.svg"
    style="fill:#000000">
   <metadata
      id="metadata73">
@@ -25,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -44,19 +44,19 @@
      inkscape:window-height="1026"
      id="namedview69"
      showgrid="false"
-     fit-margin-top="2"
-     fit-margin-left="2"
-     fit-margin-right="2"
-     fit-margin-bottom="2"
-     inkscape:zoom="8.9693878"
-     inkscape:cx="17"
-     inkscape:cy="13"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="16"
+     inkscape:cy="16"
      inkscape:window-x="0"
      inkscape:window-y="119"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="svg2"
+     fit-margin-top="2"
+     fit-margin-left="2"
+     fit-margin-right="2"
+     fit-margin-bottom="2" />
   <path
-     d="m 16.03521,2.0625 c -7.71692,0 -13.97271,6.25579 -13.97271,13.97271 0,7.71692 6.25579,13.97271 13.97271,13.97271 7.71692,0 13.97271,-6.25579 13.97271,-13.97271 0,-7.71692 -6.25579,-13.97271 -13.97271,-13.97271 z m 0,25.32554 c -6.26998,0 -11.35283,-5.08285 -11.35283,-11.35283 0,-6.26998 5.08285,-11.35283 11.35283,-11.35283 6.26998,0 11.35283,5.08285 11.35283,11.35283 0,6.26998 -5.08285,11.35283 -11.35283,11.35283 z M 12.54203,9.92215 23.02156,16.03521 12.54203,22.14827 z"
+     d="M 16,2 C 8.26801,2 2,8.26801 2,16 2,23.73199 8.26801,30 16,30 23.73199,30 30,23.73199 30,16 30,8.26801 23.73199,2 16,2 z m 0,25.375 C 9.71777,27.375 4.625,22.28223 4.625,16 4.625,9.71777 9.71777,4.625 16,4.625 22.28223,4.625 27.375,9.71777 27.375,16 27.375,22.28223 22.28223,27.375 16,27.375 z M 12.5,9.875 23,16 12.5,22.125 z"
      id="path67"
      inkscape:connector-curvature="0" />
 </svg>

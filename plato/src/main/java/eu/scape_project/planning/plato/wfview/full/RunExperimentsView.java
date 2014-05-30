@@ -227,7 +227,7 @@ public class RunExperimentsView extends AbstractView {
             downloader.download(resultFile);
         } else {
             log.debug("No result file exists for alternative " + alternative.getName() + " and sample "
-                + sampleObject.getFullname());
+                + sampleObject.getFullname() + ".");
         }
     }
 
