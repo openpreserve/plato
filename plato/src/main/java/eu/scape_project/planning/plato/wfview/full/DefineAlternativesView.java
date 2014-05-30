@@ -190,6 +190,7 @@ public class DefineAlternativesView extends AbstractView {
         }
 
         serviceLoaders.put("myExperiment", myExperimentServices);
+        serviceLoaders.put("myExperiment-plan", myExperimentServices);
         myExperimentServices.clear();
 
         showCustomAlternatives();
