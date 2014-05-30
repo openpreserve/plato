@@ -1,14 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-	xmlns:p="http://java.sun.com/jsf/composite/plato"
-	template="/WEB-INF/templates/default.xhtml"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml" xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
@@ -17,28 +12,22 @@
 		<div class="wfstepinfo">
 			<div id="anchors">
 				<ul class="anchors">
-					<li class="anchors"><a href="#collectionprofile"
-						class="anchors">Collection Profile</a></li>
-					<li class="anchors"><a href="#samples" class="anchors">Sample
-							Objects</a></li>
+					<li class="anchors"><a href="#collectionprofile" class="anchors">Collection Profile</a></li>
+					<li class="anchors"><a href="#samples" class="anchors">Sample Objects</a></li>
 					<li class="anchors"><a href="#more" class="anchors">More</a></li>
 				</ul>
 			</div>
 			<div class="wfdescription">
-				In this step, You should define the collection profile of the
-				objects you want to preserve. You can either upload a content
-				profile created by c3po, or fill the information manually. Defining
-				the collection profile and some sample objects is important for the
-				experiments and their evaluation.
+				In this step, You should define the collection profile of the objects you want to preserve. You can either upload a
+				content profile created by c3po, or fill the information manually. Defining the collection profile and some sample
+				objects is important for the experiments and their evaluation.
 				<div class="more">
-					<a href="../help/workflow.html#define_sample_objects"
-						target="_blank">more</a>
+					<a href="../help/workflow.html#define_sample_objects" target="_blank">more</a>
 				</div>
 			</div>
 		</div>
 		<h:form id="mainform">
-			<h:inputText id="changedflag" value="#{defineSampleRecords.changed}"
-				style="display:none" />
+			<h:inputText id="changedflag" value="#{defineSampleRecords.changed}" style="display:none" />
 
 			<a4j:outputPanel layout="block" id="profile">
 				<fieldset id="collectionprofile" class="size-full">
@@ -49,24 +38,19 @@
 					<p:inputTextArea labelText="Collection ID:" id="collectionID"
 						input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.collectionID}"
 						touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
-					<p:inputTextArea labelText="Description:"
-						id="collectionDescription"
+					<p:inputTextArea labelText="Description:" id="collectionDescription"
 						input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.description}"
 						touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
-					<p:inputTextArea labelText="Type of objects:"
-						id="collectionTypeOfObjects"
+					<p:inputTextArea labelText="Type of objects:" id="collectionTypeOfObjects"
 						input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.typeOfObjects}"
 						touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
-					<p:inputTextArea labelText="Number of objects:"
-						id="collectionNumberOfObjects"
+					<p:inputTextArea labelText="Number of objects:" id="collectionNumberOfObjects"
 						input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.numberOfObjects}"
 						touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
-					<p:inputTextArea labelText="Expected growth rate:"
-						id="collectionExpectedGrowthRate"
+					<p:inputTextArea labelText="Expected growth rate:" id="collectionExpectedGrowthRate"
 						input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.expectedGrowthRate}"
 						touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
-					<p:inputTextArea labelText="Retention period (time horizon):"
-						id="collectionRetentionPeriod"
+					<p:inputTextArea labelText="Retention period (time horizon):" id="collectionRetentionPeriod"
 						input="#{defineSampleRecords.sampleRecordsDefintion.collectionProfile.retentionPeriod}"
 						touchable="#{defineSampleRecords.sampleRecordsDefintion}" />
 				</fieldset>
@@ -82,46 +66,36 @@
 
 				<a4j:outputPanel layout="block" id="sampleRecordsList">
 					<div>
-						<p:inputTextArea labelText="Description of sample objects:"
-							id="samplesDescription"
+						<p:inputTextArea labelText="Description of sample objects:" id="samplesDescription"
 							input="#{defineSampleRecords.sampleRecordsDefintion.samplesDescription}"
-							touchable="#{defineSampleRecords.sampleRecordsDefintion}"
-							required="true" />
+							touchable="#{defineSampleRecords.sampleRecordsDefintion}" required="true" />
 					</div>
 					<!-- div class="margin-bottom-big">< in case the project doesn't have any samples so far, we display a message -->
-					<h:outputText value="No samples added so far"
-						rendered="#{defineSampleRecords.samples == null}" />
+					<h:outputText value="No samples added so far" rendered="#{defineSampleRecords.samples == null}" />
 
 					<!-- we display all records -->
-					<h:dataTable id="allrecords" value="#{defineSampleRecords.samples}"
-						var="row" rendered="#{defineSampleRecords.samples != null}"
-						styleClass="tableStyle" headerClass="tableStyle-header"
-						rowClasses="tableStyle-row"
-						columnClasses="sampleobject, objectformat">
+					<h:dataTable id="allrecords" value="#{defineSampleRecords.samples}" var="row"
+						rendered="#{defineSampleRecords.samples != null}" styleClass="tableStyle" headerClass="tableStyle-header"
+						rowClasses="tableStyle-row" columnClasses="sampleobject, objectformat">
 						<h:column>
 							<f:facet name="header">
 								<h:outputText value="Sample Object" />
 							</f:facet>
 							<!-- the question is if this samplesample already has a name, "row.data == null" is useless -->
 							<div class="nonwrapped">
-								<p:inputText labelText="Full name:" id="fullName"
-									input="#{row.fullname}" touchable="#{row}"
+								<p:inputText labelText="Full name:" id="fullName" input="#{row.fullname}" touchable="#{row}"
 									disabled="#{row.dataExistent}" required="true" />
 							</div>
 							<div class="nonwrapped">
-								<p:inputText labelText="Short name:" id="shortName"
-									input="#{row.shortName}" maxlength="255" required="true"
+								<p:inputText labelText="Short name:" id="shortName" input="#{row.shortName}" maxlength="255" required="true"
 									touchable="#{row}" />
 							</div>
 							<div class="float-off">
-								<p:inputTextArea labelText="Original technical environment:"
-									id="originalTechnicalEnvironment"
-									input="#{row.originalTechnicalEnvironment}" maxlength="5000"
-									touchable="#{row}" />
+								<p:inputTextArea labelText="Original technical environment:" id="originalTechnicalEnvironment"
+									input="#{row.originalTechnicalEnvironment}" maxlength="5000" touchable="#{row}" />
 							</div>
 							<div class="float-off">
-								<p:inputTextArea labelText="Description:"
-									id="sampleRecordDescription" input="#{row.description}"
+								<p:inputTextArea labelText="Description:" id="sampleRecordDescription" input="#{row.description}"
 									maxlength="5000" touchable="#{row}" />
 							</div>
 							<div class="label">
@@ -132,12 +106,10 @@
 							<!-- we would like to show a tooltip text for this element but unfortunately it is not  -->
 							<!-- maybe the data-object is there but empty -->
 							<div id="data" class="nonwrapped ">
-								<h:selectBooleanCheckbox id="datayes" disabled="true"
-									value="#{row.dataExistent}" />
-								<h:outputText disabled="true" value=" #{row.sizeInMB} MB" /> 
-								<h:commandLink 
-									action="#{defineSampleRecords.download(row)}"
-									rendered="#{row.dataExistent}" styleClass="download-link"/>
+								<h:selectBooleanCheckbox id="datayes" disabled="true" value="#{row.dataExistent}" />
+								<h:outputText disabled="true" value=" #{row.sizeInMB} MB" />
+								<h:commandLink action="#{defineSampleRecords.download(row)}" rendered="#{row.dataExistent}"
+									styleClass="download-link" />
 							</div>
 						</h:column>
 						<h:column>
@@ -149,22 +121,19 @@
 							<div>
 								<a4j:commandLink value="Characterisation Info"
 									action="#{defineSampleRecords.generateCharacterisationReport(row)}"
-									oncomplete="#{rich:component('characterizationPanel')}.show()"
-									render="characterizationPanel" style="vertical-align: middle;" styleClass="show-meta-data"/>
+									oncomplete="#{rich:component('characterizationPanel')}.show()" render="characterizationPanel"
+									style="vertical-align: middle;" styleClass="show-meta-data" />
 							</div>
 							<div class="margin-top-big margin-bottom-big">
 								<a4j:commandLink id="cbutton#{row.id}" value="Remove sample" styleClass="trash"
 									action="#{defineSampleRecords.askRemoveSample(row)}"
-									rendered="#{not viewWorkflow.plan.readOnly and defineSampleRecords.allowRemove != row.id}"
-									execute="@this" onclick="changed();" render="sampleRecordsList" />
-								<h:outputText
-									rendered="#{defineSampleRecords.allowRemove == row.id}"
+									rendered="#{not viewWorkflow.plan.readOnly and defineSampleRecords.allowRemove != row.id}" execute="@this"
+									onclick="changed();" render="sampleRecordsList" />
+								<h:outputText rendered="#{defineSampleRecords.allowRemove == row.id}"
 									value="This sample has associated evaluation values. These will be removed as well. Are you sure?"
 									class="size-max" />
-								<a4j:commandLink
-									rendered="#{not viewWorkflow.plan.readOnly and defineSampleRecords.allowRemove == row.id}" styleClass="trash modifying"
-									value="Yes, remove it."
-									action="#{defineSampleRecords.removeSample(row)}"
+								<a4j:commandLink rendered="#{not viewWorkflow.plan.readOnly and defineSampleRecords.allowRemove == row.id}"
+									styleClass="trash modifying" value="Yes, remove it." action="#{defineSampleRecords.removeSample(row)}"
 									onclick="changed();" render="sampleRecordsList" />
 							</div>
 						</h:column>
@@ -180,42 +149,36 @@
 					<h:outputText value="More Actions" />
 				</legend>
 				<div id="description">
-					<p>Manually fill in sample information, upload your own samples
-						objects, or upload a c3po XML profile.</p>
+					<p>Manually fill in sample information, upload your own samples objects, or upload a c3po XML profile.</p>
 				</div>
-				<div id="sampleactions" class="separator-or-vertical">
-					<span><a4j:commandButton value="Add sample" id="addRecord"
-				  	action="#{defineSampleRecords.newSample}" onclick="changed()"
-					  render="sampleRecordsList" /></span><!--  
-		   --><span><input
-						onclick="$('#uploadSample').toggle('normal');$('#uploadProfile').hide('normal');"
-						type="button" value="Upload sample" /></span><!--  
-			 --><span><input
-				     onclick="$('#uploadSample').hide('normal');$('#uploadProfile').toggle('normal');"
-					   type="button" value="Upload profile" /></span>
+				<div id="sampleactions">
+					<a4j:commandButton value="Add sample" id="addRecord" action="#{defineSampleRecords.newSample}" onclick="changed()"
+						render="sampleRecordsList" />
+					<span class="separator-or-vertical">or</span>
+					<input onclick="$('#uploadSample').toggle('normal');$('#uploadProfile').hide('normal');" type="button"
+						value="Upload sample" />
+					<span class="separator-or-vertical">or</span>
+					<input onclick="$('#uploadSample').hide('normal');$('#uploadProfile').toggle('normal');" type="button"
+						value="Upload profile" />
 				</div>
 				<div id="sampleforms">
 					<div id="uploadSample" class="sampleform">
 						<h3>Upload Sample</h3>
-						<rich:fileUpload
-							fileUploadListener="#{defineSampleRecords.uploadSample}"
-							render="sampleRecordsList" />
+						<rich:fileUpload fileUploadListener="#{defineSampleRecords.uploadSample}" render="sampleRecordsList" />
 					</div>
 
 					<div id="uploadProfile" class="sampleform">
 						<div>
 							<h3>Upload Profile</h3>
-							<p>Please provide username and password if you want to create
-								samples from the representatives in the profile.</p>
-							<p>Objects are downloaded from repository:
-								#{defineSampleRecords.user.userGroup.repository.url}</p>
+							<p>Please provide username and password if you want to create samples from the representatives in the
+								profile.</p>
+							<p>Objects are downloaded from repository: #{defineSampleRecords.user.userGroup.repository.url}</p>
 							<div class="component">
 								<div class="label">
 									<h:outputText value="Username" class="label-text" />
 								</div>
 								<div class="input">
-									<h:inputText id="repositoryUsername_input"
-										value="#{defineSampleRecords.repositoryUsername}"
+									<h:inputText id="repositoryUsername_input" value="#{defineSampleRecords.repositoryUsername}"
 										class="p-input-text" label="Username">
 										<a4j:ajax event="change" />
 									</h:inputText>
@@ -227,8 +190,7 @@
 									<h:outputText value="Password" class="label-text" />
 								</div>
 								<div class="input">
-									<h:inputSecret id="repositoryPassword_input"
-										value="#{defineSampleRecords.repositoryPassword}"
+									<h:inputSecret id="repositoryPassword_input" value="#{defineSampleRecords.repositoryPassword}"
 										class="p-input-text" label="Password">
 										<a4j:ajax event="change" />
 									</h:inputSecret>
@@ -236,10 +198,8 @@
 							</div>
 						</div>
 
-						<rich:fileUpload id="uploadProfile"
-							fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}"
-							acceptedTypes="xml"
-							render="profile samplesDescription sampleRecordsList" />
+						<rich:fileUpload id="uploadProfile" fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}"
+							acceptedTypes="xml" render="profile samplesDescription sampleRecordsList" />
 					</div>
 				</div>
 			</fieldset>
@@ -249,15 +209,14 @@
 
 		<h:form>
 			<!-- characterisationReports -->
-			<rich:popupPanel id="characterizationPanel" minWidth="400"
-				minHeight="700" resizeable="true" domElementAttachment="form">
+			<rich:popupPanel id="characterizationPanel" minWidth="400" minHeight="700" resizeable="true"
+				domElementAttachment="form">
 
 				<f:facet name="header">
 					<h:outputText value="Characterisation Info" />
 				</f:facet>
 				<f:facet name="controls">
-					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png"
-						title="Close" width="16" height="16"
+					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
 						onclick="#{rich:component('characterizationPanel')}.hide()" />
 				</f:facet>
 				<div class="container">
@@ -265,9 +224,7 @@
 						<button type="button">Toggle Toolinfo</button>
 					</div>
 					<div class="leftcolumn">
-						<h:outputText
-							value="#{defineSampleRecords.sampleCharacterisationReportAsHTML}"
-							escape="false" />
+						<h:outputText value="#{defineSampleRecords.sampleCharacterisationReportAsHTML}" escape="false" />
 					</div>
 					<div class="clear"></div>
 				</div>

@@ -1,15 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://java.sun.com/jsf/composite/plato"
-	template="/WEB-INF/templates/default.xhtml"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://java.sun.com/jsf/composite/plato" template="/WEB-INF/templates/default.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
@@ -19,32 +14,24 @@
 				<ul class="anchors">
 					<li class="anchors"><a href="#when_fieldset" class="anchors">When</a></li>
 					<li class="anchors"><a href="#what_fieldset" class="anchors">What</a></li>
-					<li class="anchors"><a href="#executable_plan_fieldset"
-						class="anchors">Executable Plan</a></li>
-					<li class="anchors"><a
-						href="#preservation_action_plan_fieldset" class="anchors">Preservation
-							Action Plan</a></li>
+					<li class="anchors"><a href="#executable_plan_fieldset" class="anchors">Executable Plan</a></li>
+					<li class="anchors"><a href="#preservation_action_plan_fieldset" class="anchors">Preservation Action Plan</a></li>
 				</ul>
 			</div>
 			<div class="wfdescription">
-				This step of the workflow defines the triggers for the execution and
-				under what conditions the preservation action will be carried out.
-				Hard- and software requirements as well as dependencies to other
-				systems are documented. For execution of the preservation plan tool
-				settings and details about the location of the collection on which
-				the action is to be performed are defined.
+				This step of the workflow defines the triggers for the execution and under what conditions the preservation action
+				will be carried out. Hard- and software requirements as well as dependencies to other systems are documented. For
+				execution of the preservation plan tool settings and details about the location of the collection on which the
+				action is to be performed are defined.
 				<div class="more">
-					<a href="../help/workflow.html#create_executable_plan"
-						target="_blank">more</a>
+					<a href="../help/workflow.html#create_executable_plan" target="_blank">more</a>
 				</div>
 			</div>
-			<p:help text="What exactly is a preservation plan?"
-				url="/plato/help/plan-template.pdf" />
+			<p:help text="What exactly is a preservation plan?" url="/plato/help/plan-template.pdf" />
 		</div>
 
 		<h:form id="mainform">
-			<h:inputText id="changedflag" value="#{createExecutablePlan.changed}"
-				style="display:none" />
+			<h:inputText id="changedflag" value="#{createExecutablePlan.changed}" style="display:none" />
 
 			<fieldset id="when_fieldset" class="size-full">
 				<legend class="fieldset-full-size-legend">
@@ -52,13 +39,11 @@
 					When
 				</legend>
 
-				<p:inputTextArea labelText="Triggers and conditions:"
-					id="triggerscond" required="false"
+				<p:inputTextArea labelText="Triggers and conditions:" id="triggerscond" required="false"
 					input="#{createExecutablePlan.plan.executablePlanDefinition.triggersConditions}"
 					touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
 
-				<p:inputTextArea labelText="Validate and QA:" id="validateQA"
-					required="false"
+				<p:inputTextArea labelText="Validate and QA:" id="validateQA" required="false"
 					input="#{createExecutablePlan.plan.executablePlanDefinition.validateQA}"
 					touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
 			</fieldset>
@@ -69,42 +54,34 @@
 					What
 				</legend>
 
-				<p:inputText labelText="Tool:" id="recommendation" required="false"
-					disabled="true"
+				<p:inputText labelText="Tool:" id="recommendation" required="false" disabled="true"
 					input="#{createExecutablePlan.plan.recommendation.alternative.name}">
-					<h:outputLink target="_new"
-						value="#{createExecutablePlan.plan.recommendation.alternative.action.descriptor}"
+					<h:outputLink target="_new" value="#{createExecutablePlan.plan.recommendation.alternative.action.descriptor}"
 						rendered="#{createExecutablePlan.plan.recommendation.alternative.action.actionIdentifier == 'myExperiment'}">
 						Open in myExperiments
 					</h:outputLink>
 				</p:inputText>
 
-				<p:inputText labelText="Location of records:" id="path"
-					required="false"
+				<p:inputText labelText="Location of records:" id="path" required="false"
 					input="#{createExecutablePlan.plan.executablePlanDefinition.objectPath}"
 					touchable="#{createExecutablePlan.plan.executablePlanDefinition}"
 					rendered="#{not createExecutablePlan.collectionProfileDefined}" />
 
-				<a4j:outputPanel
-					rendered="#{createExecutablePlan.collectionProfileDefined}">
+				<a4j:outputPanel rendered="#{createExecutablePlan.collectionProfileDefined}">
 					<div class="component">
 						<div class="label">Records:</div>
 						<div class="input">
 							<a4j:outputPanel id="collectionRecords">
-								<a4j:commandButton value="Show records"
-									render="collectionRecords"
+								<a4j:commandButton value="Show records" render="collectionRecords"
 									action="#{createExecutablePlan.loadCollectionProfileElements()}"
 									rendered="#{createExecutablePlan.collectionProfileElements == null}" />
 								<a4j:outputPanel
 									rendered="#{createExecutablePlan.collectionProfileElements != null and createExecutablePlan.collectionProfileElements.size() > 0}">
 									<div class="paged-list">
-										<rich:dataScroller for="collectionProfileElementsTable"
-											maxPages="5" boundaryControls="show" fastControls="hide"
-											renderIfSinglePage="false" stepControls="show" />
-										<rich:dataGrid
-											value="#{createExecutablePlan.collectionProfileElements}"
-											var="element" id="collectionProfileElementsTable" rows="20"
-											columns="1">
+										<rich:dataScroller for="collectionProfileElementsTable" maxPages="5" boundaryControls="show"
+											fastControls="hide" renderIfSinglePage="false" stepControls="show" />
+										<rich:dataGrid value="#{createExecutablePlan.collectionProfileElements}" var="element"
+											id="collectionProfileElementsTable" rows="20" columns="1">
 											<h:outputText value="#{element}" />
 										</rich:dataGrid>
 									</div>
@@ -118,8 +95,7 @@
 					</div>
 				</a4j:outputPanel>
 
-				<p:inputTextArea labelText="Parameters for tool:" id="parameters"
-					required="false"
+				<p:inputTextArea labelText="Parameters for tool:" id="parameters" required="false"
 					input="#{createExecutablePlan.plan.executablePlanDefinition.toolParameters}"
 					touchable="#{createExecutablePlan.plan.executablePlanDefinition}" />
 			</fieldset>
@@ -130,19 +106,16 @@
 					Executable Plan (Preservation Component)
 				</legend>
 				<a4j:outputPanel id="executablePlan">
-					<div class="separator-or-vertical">
-						<span><input
-							onclick="$('#uploadT2flowExecutablePlanPanel').toggle('normal');"
-							value="Upload Executable Plan" type="button" /></span><!--  
-				 --><a4j:outputPanel layout="inline" 
+					<div>
+						<a4j:outputPanel layout="inline"
 							rendered="#{not empty createExecutablePlan.plan.recommendation.alternative.experiment.workflow}">
-							<a4j:commandButton
-									action="#{createExecutablePlan.copyRecommendedExperimentWorkflow()}"
-									value="Copy alternative workflow"
-									onclick="toggleLoadingOverlay(); changed();"
-									oncomplete="toggleLoadingOverlay();"
-									render="executablePlan preservationActionPlan" />
+							<a4j:commandButton action="#{createExecutablePlan.copyRecommendedExperimentWorkflow()}"
+								value="Copy alternative workflow" onclick="toggleLoadingOverlay(); changed();"
+								oncomplete="toggleLoadingOverlay();" render="executablePlan preservationActionPlan" />
+							<span class="separator-or-vertical">or</span>
 						</a4j:outputPanel>
+						<span><input onclick="$('#uploadT2flowExecutablePlanPanel').toggle('normal');"
+							value="Upload Executable Plan" type="button" /></span>
 					</div>
 					<p>
 						<h:commandLink
@@ -153,10 +126,8 @@
 					</p>
 					<div id="uploadT2flowExecutablePlanPanel" class="sampleform">
 						<rich:fileUpload id="uploadT2flowExecutablePlan"
-							fileUploadListener="#{createExecutablePlan.uploadT2flowExecutablePlan}"
-							acceptedTypes="t2flow"
-							onuploadcomplete="changed();"
-							render="executablePlan preservationActionPlan" />
+							fileUploadListener="#{createExecutablePlan.uploadT2flowExecutablePlan}" acceptedTypes="t2flow"
+							onuploadcomplete="changed();" render="executablePlan preservationActionPlan" />
 					</div>
 				</a4j:outputPanel>
 			</fieldset>
@@ -166,22 +137,16 @@
 					<ui:include src="/plato/shared/legend_nav.xhtml" />
 					Preservation Action Plan
 				</legend>
-				<a4j:outputPanel id="preservationActionPlan"
-					styleClass="multi-buttons">
-					<a4j:commandButton
-						action="#{createExecutablePlan.generatePreservationActionPlan()}"
-						value="Generate Preservation Action Plan"
-						onclick="toggleLoadingOverlay(); changed();"
-						oncomplete="toggleLoadingOverlay();"
-						rendered="#{createExecutablePlan.papGenerationPossible}"
-						type="button" render="preservationActionPlan" />
-					<h:commandLink
-						action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
+				<a4j:outputPanel id="preservationActionPlan" styleClass="multi-buttons">
+					<a4j:commandButton action="#{createExecutablePlan.generatePreservationActionPlan()}"
+						value="Generate Preservation Action Plan" onclick="toggleLoadingOverlay(); changed();"
+						oncomplete="toggleLoadingOverlay();" rendered="#{createExecutablePlan.papGenerationPossible}" type="button"
+						render="preservationActionPlan" />
+					<h:commandLink action="#{createExecutablePlan.download(createExecutablePlan.plan.preservationActionPlan)}"
 						value="Download Preservation Action Plan"
 						rendered="#{createExecutablePlan.plan.preservationActionPlan != null and createExecutablePlan.plan.preservationActionPlan.dataExistent}"
 						styleClass="download-link" />
-					<a4j:outputPanel
-						rendered="#{not createExecutablePlan.papGenerationPossible}">
+					<a4j:outputPanel rendered="#{not createExecutablePlan.papGenerationPossible}">
 					To generate a preservation action plan, please add a collection profile and executable plan.
 				</a4j:outputPanel>
 				</a4j:outputPanel>
