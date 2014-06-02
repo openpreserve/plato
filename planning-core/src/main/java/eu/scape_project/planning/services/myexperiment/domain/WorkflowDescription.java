@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -54,8 +53,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation.Dependency;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port.PredefinedParameter;
+import eu.scape_project.planning.services.myexperiment.domain.Installation.Dependency;
+import eu.scape_project.planning.services.myexperiment.domain.Port.PredefinedParameter;
 
 /**
  * Description of a workflow of a myExperiment REST API response.
@@ -67,388 +66,18 @@ public class WorkflowDescription extends WorkflowInfo {
 
     private static final Logger LOG = LoggerFactory.getLogger(WorkflowDescription.class);
 
-    /**
-     * Type of a workflow.
-     */
-    @XmlRootElement(name = "type")
-    public static class Type extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * Uploader of a workflow.
-     */
-    @XmlRootElement(name = "uploader")
-    public static class Uploader extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String content) {
-            this.name = content;
-        }
-    }
-
-    /**
-     * License type of a workflow.
-     */
-    @XmlRootElement(name = "license-type")
-    public static class LicenseType extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * Tag of a workflow.
-     */
-    @XmlRootElement(name = "tag")
-    public static class Tag extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * License type of a workflow.
-     */
-    @XmlRootElement(name = "rating")
-    public static class Rating extends ResourceDescription {
-        @XmlValue
-        private String rating;
-
-        public String getRating() {
-            return rating;
-        }
-
-        public void setRating(String rating) {
-            this.rating = rating;
-        }
-    }
-
-    /**
-     * Migration path.
-     */
-    public static class MigrationPath {
-        private String sourceMimetype;
-        private String targetMimetype;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public MigrationPath() {
-        }
-
-        /**
-         * Creates a new migration path.
-         * 
-         * @param sourceMimetype
-         *            the source mimetype
-         * @param targetMimetype
-         *            the target mimetype
-         */
-        public MigrationPath(String sourceMimetype, String targetMimetype) {
-            this.sourceMimetype = sourceMimetype;
-            this.targetMimetype = targetMimetype;
-        }
-
-        public String getSourceMimetype() {
-            return sourceMimetype;
-        }
-
-        public String getTargetMimetype() {
-            return targetMimetype;
-        }
-    }
-
-    /**
-     * Accepted mimetypes.
-     */
-    public static class AcceptedMimetypes {
-        private String leftMimetype;
-        private String rightMimetype;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public AcceptedMimetypes() {
-        }
-
-        /**
-         * Creates a new accepted mimetypes.
-         * 
-         * @param leftMimetype
-         *            the left mimetype
-         * @param rightMimetype
-         *            the right mimetype
-         */
-        public AcceptedMimetypes(String leftMimetype, String rightMimetype) {
-            this.leftMimetype = leftMimetype;
-            this.rightMimetype = rightMimetype;
-        }
-
-        public String getLeftMimetype() {
-            return leftMimetype;
-        }
-
-        public String getRightMimetype() {
-            return rightMimetype;
-        }
-    }
-
-    /**
-     * Installation.
-     */
-    public static class Installation {
-
-        /**
-         * Dependency.
-         */
-        public static class Dependency {
-            private String name;
-            private String version;
-            private String license;
-
-            /**
-             * Empty constructor needed for JAXB.
-             */
-            public Dependency() {
-            }
-
-            /**
-             * Creates a new dependency.
-             * 
-             * @param name
-             *            the dependency name
-             * @param version
-             *            the version
-             * @param license
-             *            the license
-             */
-            public Dependency(String name, String version, String license) {
-                this.name = name;
-                this.version = version;
-                this.license = license;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public String getVersion() {
-                return version;
-            }
-
-            public String getLicense() {
-                return license;
-            }
-        }
-
-        private List<Dependency> dependencies;
-        private String environment;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public Installation() {
-        }
-
-        /**
-         * Creates a new installation.
-         * 
-         * @param dependencies
-         *            the dependencies
-         * @param environment
-         *            the environment
-         */
-        public Installation(List<Dependency> dependencies, String environment) {
-            this.dependencies = dependencies;
-            this.environment = environment;
-        }
-
-        public List<Dependency> getDependencies() {
-            return dependencies;
-        }
-
-        public String getEnvironment() {
-            return environment;
-        }
-    }
-
-    /**
-     * Port.
-     */
-    public static class Port {
-
-        /**
-         * Predefined parameters.
-         */
-        public static class PredefinedParameter {
-            private String value;
-            private String description;
-
-            /**
-             * Empty constructor needed for JAXB.
-             */
-            public PredefinedParameter() {
-            }
-
-            /**
-             * Creates a new predefined parameter.
-             * 
-             * @param value
-             *            the value of the parameter
-             * @param description
-             *            the description of the parameter
-             */
-            public PredefinedParameter(String value, String description) {
-                this.value = value;
-                this.description = description;
-            }
-
-            public String getValue() {
-                return value;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-
-        }
-
-        private String name;
-
-        private String description;
-
-        private String value;
-
-        private String relatedObject;
-
-        private List<PredefinedParameter> predefinedParameters;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public Port() {
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         */
-        public Port(String name, String description) {
-            this.name = name;
-            this.description = description;
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         * @param value
-         *            port type
-         */
-        public Port(String name, String description, String value) {
-            this(name, description);
-            this.value = value;
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         * @param value
-         *            port type
-         * @param relatedObject
-         *            the related object
-         */
-        public Port(String name, String description, String value, String relatedObject) {
-            this(name, description, value);
-            this.relatedObject = relatedObject;
-        }
-
-        /**
-         * Checks if this port is a parameter port.
-         * 
-         * @return true if this port is a parameter port, false otherwise
-         */
-        public boolean isParameterPort() {
-            return ComponentConstants.VALUE_PARAMETER.equals(value) || predefinedParameters != null;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public String getRelatedObject() {
-            return relatedObject;
-        }
-
-        public List<PredefinedParameter> getPredefinedParameters() {
-            return predefinedParameters;
-        }
-
-        private void setPredefinedParameters(List<PredefinedParameter> predefinedParameters) {
-            this.predefinedParameters = predefinedParameters;
-        }
-    }
+    @XmlElement
+    private Type type;
 
     @XmlElement
-    private WorkflowDescription.Type type;
-
-    @XmlElement
-    private WorkflowDescription.Uploader uploader;
+    private Uploader uploader;
 
     private String preview;
 
     private String svg;
 
     @XmlElement(name = "license-type")
-    private WorkflowDescription.LicenseType licenseType;
+    private LicenseType licenseType;
 
     @XmlElementWrapper
     @XmlElement(name = "tag")
@@ -1179,11 +808,12 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     // ---------- getter/setter ----------
-    public WorkflowDescription.Type getType() {
+
+    public Type getType() {
         return type;
     }
 
-    public WorkflowDescription.Uploader getUploader() {
+    public Uploader getUploader() {
         return uploader;
     }
 
@@ -1195,7 +825,7 @@ public class WorkflowDescription extends WorkflowInfo {
         return svg;
     }
 
-    public WorkflowDescription.LicenseType getLicenseType() {
+    public LicenseType getLicenseType() {
         return licenseType;
     }
 

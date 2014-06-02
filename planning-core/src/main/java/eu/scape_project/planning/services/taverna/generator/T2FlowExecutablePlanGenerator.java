@@ -27,8 +27,8 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
+import eu.scape_project.planning.services.myexperiment.domain.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.taverna.generator.model.Dataflow;
 import eu.scape_project.planning.services.taverna.generator.model.Datalink;
 import eu.scape_project.planning.services.taverna.generator.model.InputPort;

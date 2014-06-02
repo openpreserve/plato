@@ -16,49 +16,39 @@
  ******************************************************************************/
 package eu.scape_project.planning.services.myexperiment.domain;
 
-import java.net.URI;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
- * Resources description of a myExperiment REST API response.
+ * Migration path.
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlTransient
-public class ResourceDescription {
-
-    private static final String ID_PARAMETER = "id=";
-    @XmlAttribute
-    private URI uri;
-    @XmlAttribute
-    private URI resource;
+public class MigrationPath {
+    private String sourceMimetype;
+    private String targetMimetype;
 
     /**
-     * Creates a new resource description.
+     * Empty constructor needed for JAXB.
      */
-    public ResourceDescription() {
-        super();
+    public MigrationPath() {
     }
 
     /**
-     * Returns the ID of the resource on the myExperiment instance.
+     * Creates a new migration path.
      * 
-     * @return the ID of the resource
+     * @param sourceMimetype
+     *            the source mimetype
+     * @param targetMimetype
+     *            the target mimetype
      */
-    public String getId() {
-        return uri.toString().substring(uri.toString().indexOf(ID_PARAMETER) + ID_PARAMETER.length());
+    public MigrationPath(String sourceMimetype, String targetMimetype) {
+        this.sourceMimetype = sourceMimetype;
+        this.targetMimetype = targetMimetype;
     }
 
     // ---------- getter/setter ----------
 
-    public URI getUri() {
-        return uri;
+    public String getSourceMimetype() {
+        return sourceMimetype;
     }
 
-    public URI getResource() {
-        return resource;
+    public String getTargetMimetype() {
+        return targetMimetype;
     }
 }

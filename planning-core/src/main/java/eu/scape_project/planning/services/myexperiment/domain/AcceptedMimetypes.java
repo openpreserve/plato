@@ -16,49 +16,39 @@
  ******************************************************************************/
 package eu.scape_project.planning.services.myexperiment.domain;
 
-import java.net.URI;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
- * Resources description of a myExperiment REST API response.
+ * Accepted mimetypes.
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlTransient
-public class ResourceDescription {
-
-    private static final String ID_PARAMETER = "id=";
-    @XmlAttribute
-    private URI uri;
-    @XmlAttribute
-    private URI resource;
+public class AcceptedMimetypes {
+    private String leftMimetype;
+    private String rightMimetype;
 
     /**
-     * Creates a new resource description.
+     * Empty constructor needed for JAXB.
      */
-    public ResourceDescription() {
-        super();
+    public AcceptedMimetypes() {
     }
 
     /**
-     * Returns the ID of the resource on the myExperiment instance.
+     * Creates a new accepted mimetypes.
      * 
-     * @return the ID of the resource
+     * @param leftMimetype
+     *            the left mimetype
+     * @param rightMimetype
+     *            the right mimetype
      */
-    public String getId() {
-        return uri.toString().substring(uri.toString().indexOf(ID_PARAMETER) + ID_PARAMETER.length());
+    public AcceptedMimetypes(String leftMimetype, String rightMimetype) {
+        this.leftMimetype = leftMimetype;
+        this.rightMimetype = rightMimetype;
     }
 
     // ---------- getter/setter ----------
 
-    public URI getUri() {
-        return uri;
+    public String getLeftMimetype() {
+        return leftMimetype;
     }
 
-    public URI getResource() {
-        return resource;
+    public String getRightMimetype() {
+        return rightMimetype;
     }
 }

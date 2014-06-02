@@ -77,7 +77,6 @@
 								</ui:repeat>
 							</div>
 						</ui:repeat>
-
 					</a4j:outputPanel>
 
 					<!-- Migration paths -->
@@ -87,6 +86,18 @@
 							<ui:repeat value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).migrationPaths}" varStatus="loop"
 								var="migrationPath">
 								<li>#{migrationPath.sourceMimetype} &#8605; #{migrationPath.targetMimetype}</li>
+							</ui:repeat>
+						</ul>
+					</a4j:outputPanel>
+
+					<!-- Accepted mimetypes -->
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetypes}"
+						styleClass="service-info-metadata">
+						<ul>
+							<ui:repeat value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetypes}"
+								varStatus="loop" var="acceptedMimetypes">
+								<li>#{acceptedMimetypes.leftMimetype} &#9878; #{acceptedMimetypes.rightMimetype}</li>
 							</ui:repeat>
 						</ul>
 					</a4j:outputPanel>

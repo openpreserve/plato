@@ -16,31 +16,24 @@
  ******************************************************************************/
 package eu.scape_project.planning.services.myexperiment.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
 
 /**
- * Result of a search response of the myExperiment REST API.
+ * License type of a workflow.
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "workflows")
-public class SearchResult {
-
-    @XmlElement(name = "workflow")
-    private List<WorkflowInfo> workflows = new ArrayList<WorkflowInfo>();
+@XmlRootElement(name = "rating")
+public class Rating extends ResourceDescription {
+    @XmlValue
+    private String rating;
 
     // ---------- getter/setter ----------
 
-    public List<WorkflowInfo> getWorkflows() {
-        return workflows;
+    public String getRating() {
+        return rating;
     }
 
-    public void setWorkflows(List<WorkflowInfo> workflows) {
-        this.workflows = workflows;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

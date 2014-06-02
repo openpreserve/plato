@@ -45,6 +45,8 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
+import eu.scape_project.planning.services.myexperiment.domain.MigrationPath;
+import eu.scape_project.planning.services.myexperiment.domain.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator;
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator.InputSource;
@@ -894,16 +896,16 @@ public class T2FlowExecutablePlanGeneratorTest {
         WorkflowDescription wf = mock(WorkflowDescription.class);
         when(wf.getDataflowId()).thenReturn(MIGRATION_DATAFLOW_ID);
 
-        List<WorkflowDescription.Port> inputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        inputPorts.add(new WorkflowDescription.Port("source", "Description", ComponentConstants.VALUE_SOURCE_OBJECT));
+        List<Port> inputPorts = new ArrayList<Port>(1);
+        inputPorts.add(new Port("source", "Description", ComponentConstants.VALUE_SOURCE_OBJECT));
         when(wf.getInputPorts()).thenReturn(inputPorts);
 
-        List<WorkflowDescription.Port> outputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        outputPorts.add(new WorkflowDescription.Port("target", "Description", ComponentConstants.VALUE_TARGET_OBJECT));
+        List<Port> outputPorts = new ArrayList<Port>(1);
+        outputPorts.add(new Port("target", "Description", ComponentConstants.VALUE_TARGET_OBJECT));
         when(wf.getOutputPorts()).thenReturn(outputPorts);
 
-        List<WorkflowDescription.MigrationPath> migrationPaths = new ArrayList<WorkflowDescription.MigrationPath>(1);
-        migrationPaths.add(new WorkflowDescription.MigrationPath("image/tiff", "image/jp2"));
+        List<MigrationPath> migrationPaths = new ArrayList<MigrationPath>(1);
+        migrationPaths.add(new MigrationPath("image/tiff", "image/jp2"));
         when(wf.getMigrationPaths()).thenReturn(migrationPaths);
 
         planGenerator.setMigrationComponent(wf, generateMigrationContent(MIGRATION_DATAFLOW_ID, "Migration component"),
@@ -922,13 +924,13 @@ public class T2FlowExecutablePlanGeneratorTest {
         when(wf.getName()).thenReturn(name);
         when(wf.getDataflowId()).thenReturn(QA_DATAFLOW_ID);
 
-        List<WorkflowDescription.Port> inputPorts = new ArrayList<WorkflowDescription.Port>(2);
-        inputPorts.add(new WorkflowDescription.Port("left", "Description", ComponentConstants.VALUE_LEFT_OBJECT));
-        inputPorts.add(new WorkflowDescription.Port("right", "Description", ComponentConstants.VALUE_RIGHT_OBJECT));
+        List<Port> inputPorts = new ArrayList<Port>(2);
+        inputPorts.add(new Port("left", "Description", ComponentConstants.VALUE_LEFT_OBJECT));
+        inputPorts.add(new Port("right", "Description", ComponentConstants.VALUE_RIGHT_OBJECT));
         when(wf.getInputPorts()).thenReturn(inputPorts);
 
-        List<WorkflowDescription.Port> outputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        outputPorts.add(new WorkflowDescription.Port("qa_output", "Description",
+        List<Port> outputPorts = new ArrayList<Port>(1);
+        outputPorts.add(new Port("qa_output", "Description",
             "http://purl.org/DP/quality/measures#1"));
         when(wf.getOutputPorts()).thenReturn(outputPorts);
 
@@ -966,12 +968,12 @@ public class T2FlowExecutablePlanGeneratorTest {
         when(wf.getName()).thenReturn(name);
         when(wf.getDataflowId()).thenReturn(CC_DATAFLOW_ID);
 
-        List<WorkflowDescription.Port> inputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        inputPorts.add(new WorkflowDescription.Port("source", "Description", ComponentConstants.VALUE_SOURCE_OBJECT));
+        List<Port> inputPorts = new ArrayList<Port>(1);
+        inputPorts.add(new Port("source", "Description", ComponentConstants.VALUE_SOURCE_OBJECT));
         when(wf.getInputPorts()).thenReturn(inputPorts);
 
-        List<WorkflowDescription.Port> outputPorts = new ArrayList<WorkflowDescription.Port>(1);
-        outputPorts.add(new WorkflowDescription.Port("cc_output", "Description",
+        List<Port> outputPorts = new ArrayList<Port>(1);
+        outputPorts.add(new Port("cc_output", "Description",
             "http://purl.org/DP/quality/measures#1"));
         when(wf.getOutputPorts()).thenReturn(outputPorts);
 
