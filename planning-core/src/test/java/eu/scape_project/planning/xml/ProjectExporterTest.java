@@ -172,7 +172,6 @@ public class ProjectExporterTest {
         Element ex1Element = getElement(alt1Element, "p:experiment");
         checkContentByName(ex1Element, "p:description");
         checkContentByName(ex1Element, "p:settings");
-        checkContentByName(ex1Element, "p:workflowUri");
         checkDigitalObject(getElement(ex1Element, "p:workflow"), alt1.getExperiment().getWorkflow());
 
         Element detailedInfo1Element = getElement(ex1Element, "p:detailedInfos/p:detailedInfo");
@@ -193,7 +192,6 @@ public class ProjectExporterTest {
         Element ex2Element = getElement(alt1Element, "p:experiment");
         checkContentByName(ex2Element, "p:description");
         checkContentByName(ex2Element, "p:settings");
-        checkContentByName(ex2Element, "p:workflowUri");
         checkDigitalObject(getElement(ex2Element, "p:workflow"), alt1.getExperiment().getWorkflow());
 
         assertThat(getContent(doc, "/plans/p:plan/p:alternatives/p:alternative[@name='Alternative 1']/p:experiment"),
@@ -255,7 +253,6 @@ public class ProjectExporterTest {
         experiment.setDescription("Description");
         experiment.setSettings("Settings");
         experiment.setWorkflow(generateDigitalObject());
-        experiment.setWorkflowUri("Workflow uri");
 
         Map<SampleObject, DetailedExperimentInfo> detailedInfo = experiment.getDetailedInfo();
         SampleObject sample1 = new SampleObject("Short name");

@@ -10,8 +10,7 @@
  www.ifs.tuwien.ac.at/dp 
 
 Changes in V4.0.3
-  * added optional attribute worflow to experiment
-  * added optional attribute workflowUri to experiment
+  * added optional attribute workflow to experiment
   * removed numberOfObjects
  Changes in V4.0.2:
   * added optional attribute: repositoryidentifier to projectPropertiesType
@@ -107,7 +106,6 @@ Changes in V4.0.3
 		<xs:all>
 			<xs:element name="description" type="hugeString" minOccurs="0"/>
 			<xs:element name="settings" type="maxLengthString" minOccurs="0"/>
-			<xs:element name="workflowUri" type="xs:string" minOccurs="0"/>
 			<xs:element name="workflow" type="digitalObjectType" minOccurs="0"/>
 			<xs:element name="results" minOccurs="0">
 				<xs:complexType>

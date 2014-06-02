@@ -60,8 +60,6 @@ public class Experiment implements Serializable, ITouchable {
     @OneToOne(cascade = CascadeType.ALL)
     private DigitalObject workflow;
 
-    private String workflowUri;
-
     /**
      * Experiment result files, e.g. migration result. Each SampleObject can
      * have one result file.
@@ -212,14 +210,6 @@ public class Experiment implements Serializable, ITouchable {
 
     public void setWorkflow(DigitalObject workflow) {
         this.workflow = workflow;
-    }
-
-    public String getWorkflowUri() {
-        return workflowUri;
-    }
-
-    public void setWorkflowUri(String workflowUri) {
-        this.workflowUri = workflowUri;
     }
 
     public Map<SampleObject, DigitalObject> getResults() {

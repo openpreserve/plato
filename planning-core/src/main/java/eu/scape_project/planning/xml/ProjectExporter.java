@@ -817,7 +817,6 @@ public class ProjectExporter implements Serializable {
             Experiment exp = a.getExperiment();
             addStringElement(experiment, "description", exp.getDescription());
             addStringElement(experiment, "settings", exp.getSettings());
-            addStringElement(experiment, "workflowUri", exp.getWorkflowUri());
             addUpload(exp.getWorkflow(), experiment, "workflow", addDigitalObjectData);
             Element results = experiment.addElement("results");
             for (Entry<SampleObject, DigitalObject> entry : exp.getResults().entrySet()) {
