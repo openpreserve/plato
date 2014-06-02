@@ -101,6 +101,18 @@
 							</ui:repeat>
 						</ul>
 					</a4j:outputPanel>
+					
+					<!-- Accepted mimetype -->
+					<a4j:outputPanel
+						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetype}"
+						styleClass="service-info-metadata">
+						<ul>
+							<ui:repeat value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetype}"
+								varStatus="loop" var="acceptedMimetype">
+								<li>#{acceptedMimetype}</li>
+							</ui:repeat>
+						</ul>
+					</a4j:outputPanel>
 
 					<h:outputText value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).description}" />
 				</div>

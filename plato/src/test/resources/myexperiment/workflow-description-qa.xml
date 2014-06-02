@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow uri="http://www.myexperiment.org/workflow.xml?id=4246" resource="http://www.myexperiment.org/workflows/4246" id="4246" version="3">
+  <id>4246</id>
+  <title>Detect similarity in images using peak absolute error</title>
+  <description>SCAPE QA Object Component</description>
+  <type resource="http://www.myexperiment.org/content_types/2" uri="http://www.myexperiment.org/type.xml?id=2" id="2">Taverna 2</type>
+  <uploader resource="http://www.myexperiment.org/users/20122" uri="http://www.myexperiment.org/user.xml?id=20122" id="20122">Markus Plangg</uploader>
+  <preview>http://www.myexperiment.org/workflows/4246/versions/3/previews/full</preview>
+  <svg>http://www.myexperiment.org/workflows/4246/versions/3/previews/svg</svg>
+  <license-type resource="http://www.myexperiment.org/licenses/2" uri="http://www.myexperiment.org/license.xml?id=2" id="2">by-sa</license-type>
+  <content-uri>http://www.myexperiment.org/workflows/4246/download/detect_similarity_in_images_using_peak_absolute_error_725586.t2flow</content-uri>
+  <content-type>application/vnd.taverna.t2flow+xml</content-type>
+  <tags>
+    <tag uri="http://www.myexperiment.org/tag.xml?id=3214" resource="http://www.myexperiment.org/tags/3214" id="3214">component</tag>
+  </tags>
+  <ratings/>
+  <components>
+    <dataflows>
+      <dataflow id="8e18f3f8-cca8-4d52-bc75-b6d607fbc092" role="top">
+        <sources>
+          <source>
+            <name>leftimage</name>
+            <descriptions>
+              <description>Path to the left image</description>
+            </descriptions>
+            <examples/>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; &lt;http://purl.org/DP/components#LeftObject&gt; . </content>
+            </semantic_annotation>
+          </source>
+          <source>
+            <name>rightimage</name>
+            <descriptions>
+              <description>Path to the right image</description>
+            </descriptions>
+            <examples/>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt; &lt;http://purl.org/DP/components#accepts&gt; &lt;http://purl.org/DP/components#RightObject&gt; . </content>
+            </semantic_annotation>
+          </source>
+        </sources>
+        <sinks>
+          <sink>
+            <name>PAE</name>
+            <descriptions/>
+            <examples/>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>&lt;&gt;    &lt;http://purl.org/DP/components#provides&gt; &lt;http://purl.org/DP/quality/measures#7&gt; . </content>
+            </semantic_annotation>
+          </sink>
+        </sinks>
+        <processors>
+          <processor>
+            <name>commandline_tool_invocation</name>
+            <type>externaltool</type>
+            <semantic_annotation>
+              <type>text/rdf+n3</type>
+              <content>
+		&lt;&gt; &lt;http://purl.org/DP/components#requiresInstallation&gt; [ 
+			a &lt;http://purl.org/DP/components#Installation&gt; ;
+			&lt;http://purl.org/DP/components#hasEnvironment&gt; &lt;http://purl.org/DP/components#Debian&gt; ;
+			&lt;http://purl.org/DP/components#hasSourceConfiguration&gt; [ 
+				a &lt;http://purl.org/DP/components#DpkgConfiguration&gt; ;
+				&lt;http://purl.org/DP/components#installsDpkgs&gt; "digital-preservation-qaobject-image-photohawk-pae" ;
+            	&lt;http://purl.org/DP/components#requiresAptSource&gt; "deb http://ftp.de.debian.org/debian wheezy main"
+        	] ;
+    		&lt;http://purl.org/DP/components#dependsOn&gt; [ 
+    			a &lt;http://purl.org/DP/components#Dependency&gt; ;
+            	&lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; "default-jre" ;
+            	&lt;http://creativecommons.org/ns#license&gt; &lt;http://opensource.org/licenses/GPL-2.0&gt;
+        	]
+        	;    		&lt;http://purl.org/DP/components#dependsOn&gt; [ 
+    			a &lt;http://purl.org/DP/components#Dependency&gt; ;
+            	&lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; "dcraw" ;
+            	&lt;http://creativecommons.org/ns#license&gt; &lt;http://opensource.org/licenses/GPL-2.0&gt;
+        	]
+        	        ] .
+										</content>
+            </semantic_annotation>
+          </processor>
+          <processor>
+            <name>computeUsingJava_PAE</name>
+            <type>beanshell</type>
+          </processor>
+        </processors>
+        <datalinks>
+          <datalink>
+            <sink>
+              <node>commandline_tool_invocation</node>
+              <port>leftimage_inner</port>
+            </sink>
+            <source>
+              <node>leftimage</node>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>commandline_tool_invocation</node>
+              <port>rightimage_inner</port>
+            </sink>
+            <source>
+              <node>rightimage</node>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>PAE</node>
+            </sink>
+            <source>
+              <node>computeUsingJava_PAE</node>
+              <port>PAE</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>computeUsingJava_PAE</node>
+              <port>STDERR_IN</port>
+            </sink>
+            <source>
+              <node>commandline_tool_invocation</node>
+              <port>STDERR</port>
+            </source>
+          </datalink>
+          <datalink>
+            <sink>
+              <node>computeUsingJava_PAE</node>
+              <port>STDOUT_IN</port>
+            </sink>
+            <source>
+              <node>commandline_tool_invocation</node>
+              <port>STDOUT</port>
+            </source>
+          </datalink>
+        </datalinks>
+        <semantic_annotation>
+          <type>text/rdf+n3</type>
+          <content>&lt;&gt;    &lt;http://purl.org/DP/components#fits&gt;
+              &lt;http://purl.org/DP/components#QAObjectComparison&gt; .
+              &lt;&gt; &lt;http://purl.org/DP/components#handlesMimetype&gt; "image/tiff" .
+              &lt;&gt; &lt;http://purl.org/DP/components#handlesMimetypes&gt;
+    			[ a &lt;http://purl.org/DP/components#AcceptedMimetypes&gt;
+					; &lt;http://purl.org/DP/components#handlesLeftMimetype&gt; "image/*"
+					; &lt;http://purl.org/DP/components#handlesRightMimetype&gt; "image/*"
+				] .
+								</content>
+        </semantic_annotation>
+      </dataflow>
+    </dataflows>
+  </components>
+</workflow>
