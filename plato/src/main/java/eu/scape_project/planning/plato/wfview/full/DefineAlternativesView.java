@@ -342,7 +342,7 @@ public class DefineAlternativesView extends AbstractView {
         clearAvailableServices();
         selectedRegistry = SelectedRegistry.MY_EXPERIMENT;
 
-        myExperimentSearch.setFromMimetype(getSampleWithFormat().getFormatInfo().getMimeType());
+        myExperimentSearch.setSourceMimetype(getSampleWithFormat().getFormatInfo().getMimeType());
         filterMyExperimentAlternatives();
     }
 
@@ -351,7 +351,7 @@ public class DefineAlternativesView extends AbstractView {
      */
     public void filterMyExperimentAlternatives() {
         availableActions.clear();
-        availableActions.addAll(myExperimentSearch.search());
+        availableActions.addAll(myExperimentSearch.searchMigrationAction());
         serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
     }
 

@@ -58,7 +58,7 @@ public class ReCaptchaValidator implements Validator {
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
         reCaptcha.setPrivateKey(config.getString("recaptcha.privatekey"));
 
-        String challenge = request.getParameter("recaptcha_challenge_field");
+        String challenge = null;//request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");
         ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
 

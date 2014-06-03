@@ -41,11 +41,10 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.User;
-import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient.ComponentQuery;
+import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator;
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator.InputSource;
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator.RelatedObject;
@@ -62,8 +61,14 @@ public class MyExperimentAsyncBuilder {
     @Inject
     private User user;
 
-    @Inject
-    private MyExperimentRESTClient myExperiment;
+    private MyExperimentSearch myExperimentSearch;
+
+    /**
+     * Constructs a new async builder.
+     */
+    public MyExperimentAsyncBuilder() {
+        myExperimentSearch = new MyExperimentSearch();
+    }
 
     /**
      * Generates an executable plan.
@@ -174,7 +179,6 @@ public class MyExperimentAsyncBuilder {
             } else {
                 log.debug("Component search returned component with invalid or no profile.");
             }
-
         }
     }
 
@@ -196,10 +200,10 @@ public class MyExperimentAsyncBuilder {
 
         for (String measure : measures) {
             if (!processedMeasures.contains(measure)) {
-                List<WorkflowInfo> qaWfs = queryQaComponents(measure, sourceMimetype, targetMimetype);
-                Iterator<WorkflowInfo> qaIt = qaWfs.iterator();
+                List<IServiceInfo> qaWfs = queryQaComponents(measure, sourceMimetype, targetMimetype);
+                Iterator<IServiceInfo> qaIt = qaWfs.iterator();
                 if (qaIt.hasNext()) {
-                    WorkflowInfo wfi = qaIt.next();
+                    IServiceInfo wfi = qaIt.next();
                     WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(wfi.getDescriptor());
                     wfd.readMetadata();
                     List<Port> outputPorts = wfd.getOutputPorts();
@@ -266,10 +270,10 @@ public class MyExperimentAsyncBuilder {
      */
     private void recommendCcComponents(List<RecommendedComponent> recommendedComponents, Set<String> processedMeasures,
         final List<String> measures, final String measure, final String targetMimetype) {
-        List<WorkflowInfo> ccWfs = queryCcComponents(measure, targetMimetype);
-        Iterator<WorkflowInfo> ccIt = ccWfs.iterator();
+        List<IServiceInfo> ccWfs = queryCcComponents(measure, targetMimetype);
+        Iterator<IServiceInfo> ccIt = ccWfs.iterator();
         if (ccIt.hasNext()) {
-            WorkflowInfo wfi = ccIt.next();
+            IServiceInfo wfi = ccIt.next();
             WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(wfi.getDescriptor());
             wfd.readMetadata();
             List<Port> outputPorts = wfd.getOutputPorts();
@@ -297,20 +301,11 @@ public class MyExperimentAsyncBuilder {
      *            the target mimetype
      * @return a list of workflows
      */
-    private List<WorkflowInfo> queryQaComponents(String measure, String sourceMimetype, String targetMimetype) {
-        ComponentQuery q = myExperiment.createComponentQuery();
-
-        q.addHandlesMimetype(sourceMimetype, targetMimetype).addHandlesMimetypeWildcard(sourceMimetype, targetMimetype)
-            .addHandlesMimetypes(sourceMimetype, targetMimetype)
-            .addHandlesMimetypesWildcard(sourceMimetype, targetMimetype);
-        if (!sourceMimetype.equals(targetMimetype)) {
-            q.addHandlesMimetypes(targetMimetype, sourceMimetype).addHandlesMimetypesWildcard(targetMimetype,
-                sourceMimetype);
-        }
-        q.addInputPort(ComponentConstants.VALUE_LEFT_OBJECT).addInputPort(ComponentConstants.VALUE_RIGHT_OBJECT)
-            .addMeasureOutputPort(measure).finishQuery();
-
-        return myExperiment.searchComponents(q);
+    private List<IServiceInfo> queryQaComponents(String measure, String sourceMimetype, String targetMimetype) {
+        myExperimentSearch.setMeasure(measure);
+        myExperimentSearch.setSourceMimetype(sourceMimetype);
+        myExperimentSearch.setTargetMimetype(targetMimetype);
+        return myExperimentSearch.searchObjectQa();
     }
 
     /**
@@ -323,61 +318,9 @@ public class MyExperimentAsyncBuilder {
      *            the target mimetype
      * @return a list of workflows
      */
-    private List<WorkflowInfo> queryCcComponents(String measure, String targetMimetype) {
-        ComponentQuery q = myExperiment.createComponentQuery();
-
-        q.addHandlesMimetype(targetMimetype).addHandlesMimetypeWildcard(targetMimetype)
-            .addInputPort(ComponentConstants.VALUE_SOURCE_OBJECT).addMeasureOutputPort(measure).finishQuery();
-
-        return myExperiment.searchComponents(q);
-    }
-
-    /**
-     * Describes a recommended component and related data.
-     */
-    public static final class RecommendedComponent {
-        /**
-         * Description of the recommended component workflow.
-         */
-        public final WorkflowDescription workflow;
-
-        /**
-         * Measures recommended that this component is used for.
-         */
-        public final List<String> measures;
-
-        /**
-         * The related object of the measures for the component.
-         */
-        public final RelatedObject relatedObject;
-
-        /**
-         * Source for left input.
-         */
-        public final InputSource leftSource;
-
-        /**
-         * Source for right input.
-         */
-        public final InputSource rightSource;
-
-        /**
-         * Creates a new recommended component.
-         * 
-         * @param workflowDescription
-         *            the workflow description
-         * @param measures
-         *            the measures of this recommended component
-         * @param relatedObject
-         *            the related object or null
-         */
-        private RecommendedComponent(final WorkflowDescription workflowDescription, final List<String> measures,
-            final InputSource leftSource, final InputSource rightSource, final RelatedObject relatedObject) {
-            this.workflow = workflowDescription;
-            this.measures = measures;
-            this.leftSource = leftSource;
-            this.rightSource = rightSource;
-            this.relatedObject = relatedObject;
-        }
+    private List<IServiceInfo> queryCcComponents(String measure, String targetMimetype) {
+        myExperimentSearch.setMeasure(measure);
+        myExperimentSearch.setTargetMimetype(targetMimetype);
+        return myExperimentSearch.searchObjectQa();
     }
 }

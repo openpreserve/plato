@@ -79,6 +79,19 @@
 						</ui:repeat>
 					</a4j:outputPanel>
 
+					<!-- Outputs -->
+					<a4j:outputPanel rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).outputPorts}"
+						styleClass="service-info-metadata">
+						<ul>
+							<ui:repeat value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).outputPorts}" varStatus="loop"
+								var="outputPort">
+								<ui:fragment rendered="#{not empty outputPort.value}">
+									<li><h:outputLink value="#{outputPort.value}" target="_blank">#{fn:replace(outputPort.value, 'http://purl.org/DP/quality/measures#', 'measures#')}</h:outputLink></li>
+								</ui:fragment>
+							</ui:repeat>
+						</ul>
+					</a4j:outputPanel>
+
 					<!-- Migration paths -->
 					<a4j:outputPanel rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).migrationPaths}"
 						styleClass="service-info-metadata">
@@ -101,14 +114,13 @@
 							</ui:repeat>
 						</ul>
 					</a4j:outputPanel>
-					
+
 					<!-- Accepted mimetype -->
-					<a4j:outputPanel
-						rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetype}"
+					<a4j:outputPanel rendered="#{not empty cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetype}"
 						styleClass="service-info-metadata">
 						<ul>
-							<ui:repeat value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetype}"
-								varStatus="loop" var="acceptedMimetype">
+							<ui:repeat value="#{cc.attrs.data.getWorkflowDescription(cc.attrs.actionInfo).acceptedMimetype}" varStatus="loop"
+								var="acceptedMimetype">
 								<li>#{acceptedMimetype}</li>
 							</ui:repeat>
 						</ul>
