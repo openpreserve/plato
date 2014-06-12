@@ -35,6 +35,7 @@ import eu.scape_project.planning.services.taverna.generator.model.InputPort;
 import eu.scape_project.planning.services.taverna.generator.model.OutputPort;
 import eu.scape_project.planning.services.taverna.generator.model.Workflow;
 import eu.scape_project.planning.services.taverna.generator.model.processor.NestedWorkflow;
+import eu.scape_project.planning.services.taverna.generator.model.processor.Processor;
 import eu.scape_project.planning.services.taverna.generator.model.processor.TextConstant;
 
 /**
@@ -532,7 +533,31 @@ public class T2FlowExecutablePlanGenerator {
      * @return a valid processor name
      */
     private String createProcessorName(final String name) {
-        return name.replaceAll("\\s", "_").replaceAll("\\W", "");
+        String baseName = name.replaceAll("\\s", "_").replaceAll("\\W", "");
+        String processorName = baseName;
+        int postfix = 1;
+        while (containsProcessorName(processorName)) {
+            postfix++;
+            processorName = baseName + "_" + postfix;
+        }
+        return processorName;
+    }
+
+    /**
+     * Checks if the workflow contains a processor with the provided
+     * {@code name}.
+     * 
+     * @param name
+     *            the processor name
+     * @return true if a processor with the name exists, false otherwise
+     */
+    private boolean containsProcessorName(final String name) {
+        for (Processor p : workflow.getProcessors()) {
+            if (p.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
