@@ -1163,9 +1163,6 @@ td.service-info {
 }
 
 .separator-or-vertical {
-	top: 50%;
-	margin-top: -10px;
-	left: -11px;
 	display: inline-block;
 	text-align: center;
 	content: 'or';
