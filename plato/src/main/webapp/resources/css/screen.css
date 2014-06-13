@@ -151,7 +151,17 @@ h1 {
 h2 {
 	margin-left: 10px;
 	margin-top: 10px;
-	font-size: medium;
+	font-size: 16px;
+}
+
+h3 {
+	margin-left: 10px;
+	margin-top: 10px;
+	font-size: 14px;
+}
+
+h1 img, h2 img, h3 img {
+	vertical-align: middle;
 }
 
 ul.anchors {

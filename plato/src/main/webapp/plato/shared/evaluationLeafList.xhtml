@@ -5,9 +5,8 @@
 
   <h:dataTable id="evaluationLeafList" style="width:100%" value="#{leaves}" var="leaf">
     <h:column style="width:100%">
-      <h:graphicImage value="../img/treetable/add-leaf.png" width="16" height="16" />
-      <h:outputText style="font-weight:bold;padding-left:10px" value="#{leaf.parent.name} > #{leaf.name}" />
-      <br />
+      <h3><h:graphicImage library="gfx" name="treetable/add-leaf.png" width="16" height="16" alt="leaf"/><h:outputText value="#{leaf.parent.name} > #{leaf.name}" /></h3>
+
       <h:outputText value="#{leaf.scale.displayName}" />
       <h:outputText value="(#{leaf.scale.readableRestriction})"
         rendered="#{leaf.scale.restricted and not empty leaf.scale.readableRestriction}" />
