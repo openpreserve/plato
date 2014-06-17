@@ -19,9 +19,11 @@ package eu.scape_project.planning.plato.wfview.full;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -39,9 +41,11 @@ import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.Leaf;
+import eu.scape_project.planning.model.tree.TreeNode;
 import eu.scape_project.planning.plato.bean.IServiceLoader;
 import eu.scape_project.planning.plato.bean.MyExperimentServices;
 import eu.scape_project.planning.plato.bean.ServiceInfoDataModel;
+import eu.scape_project.planning.plato.bean.TreeHelperBean;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DevelopExperiments;
 import eu.scape_project.planning.plato.wfview.AbstractView;
@@ -113,7 +117,15 @@ public class DevelopExperimentsView extends AbstractView {
     private MyExperimentAsyncBuilder asyncBuilder;
 
     /**
-     * Default constructor.
+     * This is a pseudo list which only contains the tree's root node.
+     */
+    private List<TreeNode> treeRoot;
+
+    @Inject
+    private TreeHelperBean treeHelper;
+
+    /**
+     * Constructs a new object.
      */
     public DevelopExperimentsView() {
         currentPlanState = PlanState.GO_CHOSEN;
@@ -161,6 +173,10 @@ public class DevelopExperimentsView extends AbstractView {
 
         serviceLoaders.put("myExperiment", myExperimentServices);
         serviceLoaders.put("myExperiment-plan", myExperimentServices);
+
+        treeRoot = new ArrayList<TreeNode>();
+        treeRoot.add(plan.getTree().getRoot());
+        treeHelper.expandAll(plan.getTree().getRoot());
     }
 
     /**
@@ -170,7 +186,7 @@ public class DevelopExperimentsView extends AbstractView {
      *            the alternative
      */
     public void generateExperimentWorkflow(Alternative alternative) {
-        if (targetMimetypes.get(alternative) == null || targetMimetypes.get(alternative).isEmpty()) {
+        if (!targetMimetypeValid(alternative)) {
             facesMessages.addError("Target mimetype is empty. Please specify a target mimetype.");
             return;
         }
@@ -204,22 +220,49 @@ public class DevelopExperimentsView extends AbstractView {
         downloader.download(workflow, file);
     }
 
+    /**
+     * Selects an alternative to create a workflow.
+     * 
+     * @param alternative
+     *            the alternative to select
+     */
     public void selectAlternative(Alternative alternative) {
+        if (!targetMimetypeValid(alternative)) {
+            facesMessages.addError("Target mimetype is empty. Please specify a target mimetype.");
+            return;
+        }
+
         selectedAlternative = alternative;
+        selectedLeaf = null;
         recommendedComponents.clear();
         openMeasures.clear();
         openMeasures.addAll(measures);
-        selectedLeaf = null;
+        serviceInfoData = null;
     }
 
+    /**
+     * Selects a leaf for adding components.
+     * 
+     * @param leaf
+     *            the leaf to select
+     */
     public void selectLeaf(Leaf leaf) {
         this.selectedLeaf = leaf;
         myExperimentSearch.setMeasure(leaf.getMeasure().getUri());
         myExperimentSearch.setSourceMimetype(sourceMimetype);
         myExperimentSearch.setTargetMimetype(targetMimetypes.get(selectedAlternative));
-        serviceInfoData = new ServiceInfoDataModel(myExperimentSearch.searchObjectQa(), serviceLoaders);
+        List<IServiceInfo> searchResults = new ArrayList<IServiceInfo>();
+        searchResults.addAll(myExperimentSearch.searchObjectQa());
+        searchResults.addAll(myExperimentSearch.searchCc());
+        serviceInfoData = new ServiceInfoDataModel(searchResults, serviceLoaders);
     }
 
+    /**
+     * Adds a component for the selected alternative and leaf.
+     * 
+     * @param serviceInfo
+     *            the component info to add
+     */
     public void addComponent(IServiceInfo serviceInfo) {
         String currentMeasure = selectedLeaf.getMeasure().getUri();
         if (!openMeasures.contains(currentMeasure)) {
@@ -233,6 +276,9 @@ public class DevelopExperimentsView extends AbstractView {
         openMeasures.removeAll(recommendedComponent.measures);
     }
 
+    /**
+     * Builds an experiment workflow from the recommended components.
+     */
     public void buildExperimentWorkflow() {
         MyExperimentExecutablePlanGenerator planGenerator = new MyExperimentExecutablePlanGenerator(
             selectedAlternative.getName(), user.getFullName());
@@ -244,19 +290,37 @@ public class DevelopExperimentsView extends AbstractView {
         }
 
         try {
-            planGenerator.addMigrationAction(actionInfos.get(selectedAlternative), parameters);
+            planGenerator.setMigrationAction(actionInfos.get(selectedAlternative), parameters);
             planGenerator.addQaComponent(recommendedComponents);
             DigitalObject workflow = planGenerator.generateExecutablePlan();
-            downloader.download(workflow);
+            developExperiments.setAlternativeWorkflow(selectedAlternative, workflow);
         } catch (PlanningException e) {
             facesMessages.addError("Could not generate workflow from the selected components: " + e.getMessage());
         }
     }
 
+    /**
+     * Remove a measure from the commended components.
+     * 
+     * @param measure
+     *            the measure URI to remove
+     */
     private void removeMeasureRecommendation(String measure) {
         for (RecommendedComponent c : recommendedComponents) {
             c.measures.remove(measure);
         }
+    }
+
+    /**
+     * Checks if the target mimetype of the alternative is valid.
+     * 
+     * @param alternative
+     *            the alternative to check
+     * @return true if it is valid, false otherwise
+     */
+    private boolean targetMimetypeValid(Alternative alternative) {
+        String targetMimetype = targetMimetypes.get(alternative);
+        return targetMimetype != null && !targetMimetype.isEmpty();
     }
 
     // --------------- getter/setter ---------------
@@ -311,5 +375,13 @@ public class DevelopExperimentsView extends AbstractView {
 
     public List<String> getOpenMeasures() {
         return openMeasures;
+    }
+
+    public List<TreeNode> getTreeRoot() {
+        return treeRoot;
+    }
+
+    public TreeHelperBean getTreeHelper() {
+        return treeHelper;
     }
 }

@@ -258,6 +258,10 @@ fieldset.size-full {
 	height: 28px;
 }
 
+.icon-textsize {
+	height: 1em;
+}
+
 /* 
 Defines the input text fields and text areas.
 Creates the blue bar on the left and adds the

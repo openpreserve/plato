@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright 2006 - 2014 Vienna University of Technology,
+ * Department of Software Technology and Interactive Systems, IFS
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.scape_project.planning.services.myexperiment;
 
 import java.io.ByteArrayOutputStream;
@@ -24,6 +40,9 @@ import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlan
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator.RelatedObject;
 import eu.scape_project.planning.utils.FileUtils;
 
+/**
+ * Plan generator based on recommended components from myExperiment.
+ */
 public class MyExperimentExecutablePlanGenerator {
 
     @Inject
@@ -33,6 +52,15 @@ public class MyExperimentExecutablePlanGenerator {
 
     private String name;
 
+    /**
+     * Constructs a new plan generator with the provided parameters for the
+     * executable plan.
+     * 
+     * @param name
+     *            the plan name
+     * @param author
+     *            the plan author
+     */
     public MyExperimentExecutablePlanGenerator(final String name, final String author) {
         this.name = name;
         generator = new T2FlowExecutablePlanGenerator(name, author);
@@ -40,6 +68,13 @@ public class MyExperimentExecutablePlanGenerator {
         generator.addTargetPort();
     }
 
+    /**
+     * Generate the executable plan.
+     * 
+     * @return the executable plan as digital object
+     * @throws PlanningException
+     *             if an error occurred during generation
+     */
     public DigitalObject generateExecutablePlan() throws PlanningException {
         DigitalObject workflow = new DigitalObject();
 
@@ -74,7 +109,17 @@ public class MyExperimentExecutablePlanGenerator {
         return workflow;
     }
 
-    public void addMigrationAction(IServiceInfo migrationAction, Map<String, String> parameters)
+    /**
+     * Sets the migration action of the executable plan.
+     * 
+     * @param migrationAction
+     *            the migration action to set
+     * @param parameters
+     *            parameters for the migration action
+     * @throws PlanningException
+     *             if an error occurred while setting the migration action
+     */
+    public void setMigrationAction(IServiceInfo migrationAction, Map<String, String> parameters)
         throws PlanningException {
         try {
             WorkflowDescription wf = MyExperimentRESTClient.getWorkflow(migrationAction.getDescriptor());
@@ -83,14 +128,26 @@ public class MyExperimentExecutablePlanGenerator {
             generator.setMigrationComponent(wf, workflowContent, parameters);
         } catch (Exception e) {
             log.warn("An error occured querying myExperiment migration component.", e.getMessage());
-            throw new PlanningException("An error occured querying myExperiment migration component", e);
+            throw new PlanningException("An error occurred querying myExperiment migration component", e);
         }
     }
 
+    /**
+     * Adds the recommended components to the executable plan.
+     * 
+     * @param recommendedComponents
+     *            the recommended components to add
+     */
     public void addQaComponent(List<RecommendedComponent> recommendedComponents) {
         addQaComponent(recommendedComponents.toArray(new RecommendedComponent[recommendedComponents.size()]));
     }
 
+    /**
+     * Adds the recommended components to the executable plan.
+     * 
+     * @param recommendedComponents
+     *            the recommended components to add
+     */
     public void addQaComponent(RecommendedComponent... recommendedComponents) {
         for (RecommendedComponent recommendedComponent : recommendedComponents) {
             String workflowContent = MyExperimentRESTClient.getWorkflowContent(recommendedComponent.workflow);
@@ -107,11 +164,23 @@ public class MyExperimentExecutablePlanGenerator {
         }
     }
 
-    public static RecommendedComponent recommendComponent(IServiceInfo workflowInfo, List<String> measures,
+    /**
+     * Creates a component recommendation for the provided component based on
+     * the required measures and target mimetype.
+     * 
+     * @param component
+     *            the component to recommend
+     * @param measures
+     *            a list of measures required
+     * @param targetMimetype
+     *            the target mimetype
+     * @return a component recommendation
+     */
+    public static RecommendedComponent recommendComponent(IServiceInfo component, List<String> measures,
         String targetMimetype) {
         RecommendedComponent recommendedComponent = null;
 
-        WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(workflowInfo.getDescriptor());
+        WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(component.getDescriptor());
         wfd.readMetadata();
         List<Port> outputPorts = wfd.getOutputPorts();
 
