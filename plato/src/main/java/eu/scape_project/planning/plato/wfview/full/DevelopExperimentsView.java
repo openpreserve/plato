@@ -251,10 +251,10 @@ public class DevelopExperimentsView extends AbstractView {
         myExperimentSearch.setMeasure(leaf.getMeasure().getUri());
         myExperimentSearch.setSourceMimetype(sourceMimetype);
         myExperimentSearch.setTargetMimetype(targetMimetypes.get(selectedAlternative));
-        List<IServiceInfo> searchResults = new ArrayList<IServiceInfo>();
+        Set<IServiceInfo> searchResults = new HashSet<IServiceInfo>();
         searchResults.addAll(myExperimentSearch.searchObjectQa());
         searchResults.addAll(myExperimentSearch.searchCc());
-        serviceInfoData = new ServiceInfoDataModel(searchResults, serviceLoaders);
+        serviceInfoData = new ServiceInfoDataModel(new ArrayList<IServiceInfo>(searchResults), serviceLoaders);
     }
 
     /**
