@@ -68,7 +68,7 @@
                         render="alternativesTable" /></span>
                     <span class="separator-or-vertical">or</span>
                     <span><a4j:commandButton
-                        value="Manually create experiment workflow" action="#{developExperiments.selectAlternative(alternative)}"
+                        value="Manually build experiment workflow" action="#{developExperiments.selectAlternative(alternative)}"
                         render="createWorkflowPanel" oncomplete="if (#{developExperiments.targetMimetypeValid(alternative)}) #{rich:component('createWorkflowPanel')}.show()" /></span>
                   </div>
                   <p>
@@ -159,7 +159,8 @@
         </a4j:outputPanel>
         
         <p>
-          <a4j:commandButton value="Generate Workflow" action="#{developExperiments.buildExperimentWorkflow()}"
+          <a4j:commandButton value="Build Workflow" action="#{developExperiments.buildExperimentWorkflow()}"
+            render="alternativesTable"
             onclick="toggleLoadingOverlay();" oncomplete="toggleLoadingOverlay(); #{rich:component('createWorkflowPanel')}.hide();"/>
         </p>
       </rich:popupPanel>

@@ -294,6 +294,7 @@ public class DevelopExperimentsView extends AbstractView {
             planGenerator.addQaComponent(recommendedComponents);
             DigitalObject workflow = planGenerator.generateExecutablePlan();
             developExperiments.setAlternativeWorkflow(selectedAlternative, workflow);
+            facesMessages.addInfo("Experiment workflow built.");
         } catch (PlanningException e) {
             facesMessages.addError("Could not generate workflow from the selected components: " + e.getMessage());
         }
