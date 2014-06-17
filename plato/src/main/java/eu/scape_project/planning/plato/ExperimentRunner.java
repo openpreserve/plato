@@ -246,7 +246,6 @@ public class ExperimentRunner implements Serializable {
             info.setProgramOutput(String.format("Applying action %s to sample %s failed.",
                 a.getAction().getShortname(), sample.getFullname()));
         } else {
-            info.getMeasurements().putAll(migrationResult.getMeasurements());
             info.setSuccessful(migrationResult.isSuccessful());
 
             if (migrationResult.getReport() == null) {
@@ -261,6 +260,10 @@ public class ExperimentRunner implements Serializable {
                 info.setSuccessful(false);
                 info.setProgramOutput(info.getProgramOutput()
                     + "\nSomething went wrong during migration. No result file has been generated.");
+            }
+            
+            if (info.getSuccessful()) {
+                info.getMeasurements().putAll(migrationResult.getMeasurements());                
             }
         }
     }
