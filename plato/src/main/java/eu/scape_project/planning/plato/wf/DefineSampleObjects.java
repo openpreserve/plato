@@ -301,7 +301,7 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
             plan.getSampleRecordsDefinition().getCollectionProfile().setProfile(object);
             addedBytestreams.add(object.getPid());
         } catch (StorageException e) {
-            log.error("An error occurred while storing the profile: {}", e.getMessage());
+            log.error("An error occurred while storing the profile: {}", e);
             throw new PlanningException("An error occurred while storing the profile");
         }
     }
