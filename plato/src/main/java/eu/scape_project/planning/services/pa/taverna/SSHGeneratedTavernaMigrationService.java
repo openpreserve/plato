@@ -38,6 +38,7 @@ import eu.scape_project.planning.services.taverna.executor.SSHInMemoryTempFile;
 import eu.scape_project.planning.services.taverna.executor.SSHTavernaExecutor;
 import eu.scape_project.planning.services.taverna.executor.TavernaExecutorException;
 import eu.scape_project.planning.services.taverna.generator.T2FlowExecutablePlanGenerator;
+import eu.scape_project.planning.utils.FileUtils;
 
 /**
  * Migration action that executes generated Taverna executable plans.
@@ -74,13 +75,13 @@ public class SSHGeneratedTavernaMigrationService implements IMigrationAction {
         SSHTavernaExecutor tavernaExecutor = new SSHTavernaExecutor();
         tavernaExecutor.init();
         SSHTavernaExecutor.ByteArraySourceFile workflowFile = tavernaExecutor.new ByteArraySourceFile(
-            workflow.getFullname(), workflow.getData().getData());
+            FileUtils.makeFilename(workflow.getFullname()), workflow.getData().getData());
         tavernaExecutor.setWorkflow(workflowFile);
 
         // Input
         HashMap<String, Object> inputData = new HashMap<String, Object>();
         SSHTavernaExecutor.ByteArraySourceFile sourceFile = tavernaExecutor.new ByteArraySourceFile(
-            digitalObject.getFullname(), digitalObject.getData().getData());
+            FileUtils.makeFilename(digitalObject.getFullname()), digitalObject.getData().getData());
         inputData.put("source", sourceFile);
         tavernaExecutor.setInputData(inputData);
 
@@ -103,7 +104,7 @@ public class SSHGeneratedTavernaMigrationService implements IMigrationAction {
             for (Entry<String, ?> entry : outputFiles.entrySet()) {
                 SSHInMemoryTempFile resultFile = (SSHInMemoryTempFile) entry.getValue();
                 migrated.getData().setData(resultFile.getData());
-                migrated.setFullname("migrated-" + digitalObject.getFullname());
+                migrated.setFullname(alternative.getAction().getShortname() + " - " + digitalObject.getFullname());
             }
             result.setMigratedObject(migrated);
             result.setTargetFormat(migrated.getFormatInfo());
