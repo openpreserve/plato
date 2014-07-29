@@ -54,13 +54,9 @@ public class SCAPEDataConnectorClient implements RepositoryConnectorApi {
     public InputStream downloadFile(String identifier) throws RepositoryConnectorException{
         // /file/<entity-id>/<representation-id>/<file-id>/<version-id>
         try {
-        	String internalIdentifier = endpoint.toString() + "file/";
+        	
+        	String internalIdentifier = identifier.replaceFirst("([\\S]*/)?([^/]+/[^/]+/[^/]+)$", "$2");
         
-        	if (identifier.startsWith(internalIdentifier)) {
-        		internalIdentifier = identifier.substring(internalIdentifier.length());
-        	} else {
-        		internalIdentifier = identifier;
-        	}
             return endpoint.path("file/" + internalIdentifier).get(InputStream.class);
         } catch (Exception e) {
             throw new RepositoryConnectorException(e);            
