@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");

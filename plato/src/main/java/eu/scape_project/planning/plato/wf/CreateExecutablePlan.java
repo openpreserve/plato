@@ -37,7 +37,6 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.services.taverna.parser.T2FlowParser;
-import eu.scape_project.planning.services.taverna.parser.T2FlowParserFallback;
 import eu.scape_project.planning.services.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.xml.PlanXMLConstants;
@@ -101,13 +100,7 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
             throw new PlanningException("An error occurred while storing the executable plan");
         }
 
-        T2FlowParser parser = T2FlowParserFallback.createParser(new ByteArrayInputStream(bsData.getData()));
-
-        if (!T2FlowParser.ComponentProfile.ExecutablePlan.equals(parser.getProfile())) {
-            // TODO: Throw exception, this is commented for test purposes
-            // throw new
-            // PlanningException("The provided profile does not adhere to the Executable Plan Profile.");
-        }
+        T2FlowParser parser = T2FlowParser.createParser(new ByteArrayInputStream(bsData.getData()));
 
         String name = parser.getName();
         storeExecutablePlan(FileUtils.makeFilename(name) + ".t2flow", bsData);
