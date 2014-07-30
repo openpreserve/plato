@@ -56,7 +56,7 @@ rm -r $JBOSS_HOME/modules/org/picketlink/main/*
 cp /tmp/plato/provisional/picketlink/* $JBOSS_HOME/modules/org/picketlink/main/
 
 # add utf8 valve as jboss module
-mkdir -p $JBOSS_HOME/modules/eu/scape_project/planning/util/
+mkdir -p $JBOSS_HOME/modules/eu/scape_project/planning/util/main
 cd /tmp/plato/jboss-util
 mvn package
 cp target/*.jar  $JBOSS_HOME/modules/eu/scape_project/planning/util/main
