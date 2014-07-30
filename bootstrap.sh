@@ -40,7 +40,7 @@ apt-get install -y maven
 cd /tmp
 git clone https://github.com/openplanets/plato.git
 cd plato
-git checkout vagrant-dev
+git checkout master
 
 # exit
 wget http://download.jboss.org/jbossas/7.1/jboss-as-7.1.0.Final/jboss-as-7.1.0.Final.tar.gz
