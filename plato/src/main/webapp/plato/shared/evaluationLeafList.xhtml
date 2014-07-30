@@ -1,258 +1,164 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-	xmlns:p="http://java.sun.com/jsf/composite/plato"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<h:dataTable id="evaluationLeafList" style="width:100%"
-		value="#{leaves}" var="leaf">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://java.sun.com/jsf/composite/plato" xmlns:a4j="http://richfaces.org/a4j">
 
-		<h:column style="width:100%">
+  <h:dataTable id="evaluationLeafList" style="width:100%" value="#{leaves}" var="leaf">
+    <h:column style="width:100%">
+      <h3><h:graphicImage library="gfx" name="treetable/add-leaf.png" width="16" height="16" alt="leaf"/><h:outputText value="#{leaf.parent.name} > #{leaf.name}" /></h3>
 
-			<h:graphicImage value="../img/treetable/add-leaf.png" width="16"
-				height="16" />
-			<h:outputText style="font-weight:bold;padding-left:10px"
-				value="#{leaf.parent.name} > #{leaf.name}" />
-			<br />
-			<h:outputText value="#{leaf.scale.displayName}" />
-			<h:outputText value="(#{leaf.scale.readableRestriction})"
-				rendered="#{leaf.scale.restricted and not empty leaf.scale.readableRestriction}" />
+      <h:outputText value="#{leaf.scale.displayName}" />
+      <h:outputText value="(#{leaf.scale.readableRestriction})"
+        rendered="#{leaf.scale.restricted and not empty leaf.scale.readableRestriction}" />
 
+      <h:dataTable id="alternatives" value="#{consideredAlternatives}" var="alter" headerClass="tableStyle-header"
+        styleClass="tableStyle" rowClasses="" columnClasses="column-fte-aso,column-fte-rac,column-fte-unit" border="0">
+        <h:column>
+          <f:facet name="header">
+            <h:outputText value="Alternatives and sample objects" />
+          </f:facet>
+          <h:outputText style="font-weight:bold;" value="#{alter.name}" />
+        </h:column>
 
-			<h:dataTable id="alternatives" value="#{consideredAlternatives}"
-				var="alter" headerClass="tableStyle-header" styleClass="tableStyle"
-				rowClasses=""
-				columnClasses="column-fte-aso,column-fte-rac,column-fte-unit"
-				border="0">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Alternatives and sample objects" />
-					</f:facet>
-					<h:outputText style="font-weight:bold;" value="#{alter.name}" />
-				</h:column>
+        <!-- Single result value for this leaf -->
+        <h:column rendered="#{leaf.single}">
+          <f:facet name="header">
+            <h:outputText value="Results and comments" />
+          </f:facet>
+          <table style="width: 100%" border="0">
+            <tr>
+              <td style="width: 80px"></td>
+              <td style="width: 350px">
+                <!-- Ordinal --> <a4j:outputPanel id="singleOrdinal"
+                  rendered='#{leaf.scale.type == "ordinal" and leaf.single}'>
+                  <!-- For ordinal scales, we use the dropdown -->
+                  <h:selectOneMenu rendered="#{leaf.scale.restricted}" disabled="#{readOnly}" id="ordinalMenu"
+                    value="#{leaf.valueMap[alter.name].list[0].value}" converter="#{emptyStringToNullConverter}">
+                    <f:selectItem itemValue="" />
+                    <f:selectItems value="#{leaf.scale.list}" />
+                    <a4j:ajax onbeforesubmit="changed()" event="change"
+                      listener="#{workflowstep.touch(leaf.valueMap[alter.name].list[0])}" render="evalstatus" />
+                  </h:selectOneMenu>
+                  <!-- For free text we use an input field -->
+                  <p:inputText id="freeText" helpLink="true" input="#{leaf.valueMap[alter.name].list[0].value}"
+                    rendered="#{not leaf.scale.restricted}" touchable="#{leaf.valueMap[alter.name].list[0]}"
+                    rerender="evalstatus" />
+                  <!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
+                  <ui:remove>
+                    <p:inputTextArea id="valuecommentO" helpLink="true"
+                      input="#{leaf.valueMap[alter.name].list[0].comment}" touchable="#{leaf}" />
+                  </ui:remove>
+                </a4j:outputPanel> <!-- Numerical --> <a4j:outputPanel id="singleNumeric"
+                  rendered='#{leaf.single and not (leaf.scale.type == "ordinal")}'>
+                  <div class="nonwrapped">
+                    <p:inputNumber id="number" helpLink="false" labelText="Evaluation value:"
+                      input="#{leaf.valueMap[alter.name].list[0].value}" maxlength="20"
+                      rendered="#{not leaf.scale.integer}" touchable="#{leaf.valueMap[alter.name].list[0]}"
+                      rerender="evalstatus" />
+                    <p:inputInteger id="integer" helpLink="false" input="#{leaf.valueMap[alter.name].list[0].value}"
+                      maxlength="20" rendered="#{leaf.scale.integer}" touchable="#{leaf.valueMap[alter.name].list[0]}"
+                      rerender="evalstatus" />
 
-				<!-- Single result value for this leaf -->
-				<h:column rendered="#{leaf.single}">
-					<f:facet name="header">
-						<h:outputText value="Results and comments" />
-					</f:facet>
-					<table style="width: 100%" border="0">
-						<tr>
-							<td style="width: 80px"></td>
-							<td style="width: 350px">
-								<!-- Ordinal --> <x:div id="singleOrdinal"
-									renderthis='#{leaf.scale.type == "ordinal" and leaf.single}'>
-									<!-- For ordinal scales, we use the dropdown -->
-									<h:selectOneMenu rendered="#{leaf.scale.restricted}" disabled="#{readOnly}"
-										id="ordinalMenu"
-										value="#{leaf.valueMap[alter.name].list[0].value}"
-										converter="#{emptyStringToNullConverter}" >
-										<f:selectItem itemValue="" />
-										<f:selectItems value="#{leaf.scale.list}" />
-										<a4j:ajax onbeforesubmit="changed()" event="change"
-											listener="#{workflowstep.touch(leaf.valueMap[alter.name].list[0])}"
-											render="evalstatus" />
-									</h:selectOneMenu>
-									<!-- For free text we use an input field -->
-									<p:inputText id="freeText" helpLink="true"
-										input="#{leaf.valueMap[alter.name].list[0].value}"
-										rendered="#{not leaf.scale.restricted}"
-										touchable="#{leaf.valueMap[alter.name].list[0]}"
-										rerender="evalstatus" />
-									<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-									<ui:remove>
-									<p:inputTextArea id="valuecommentO" helpLink="true"
-										input="#{leaf.valueMap[alter.name].list[0].comment}"
-										touchable="#{leaf}" />
-									</ui:remove>										
-								</x:div> 
-								<!-- Numerical --> 
-								<x:div id="singleNumeric"
-									renderthis='#{leaf.single and not (leaf.scale.type == "ordinal")}'>
-									<div class="nonwrapped">
-										<p:inputNumber id="number" helpLink="false"
-											labelText="Evaluation value:"
-											input="#{leaf.valueMap[alter.name].list[0].value}"
-											maxlength="20" rendered="#{not leaf.scale.integer}"
-											touchable="#{leaf.valueMap[alter.name].list[0]}"
-											rerender="evalstatus" />
-										<p:inputInteger id="integer" helpLink="false"
-											input="#{leaf.valueMap[alter.name].list[0].value}"
-											maxlength="20" rendered="#{leaf.scale.integer}"
-											touchable="#{leaf.valueMap[alter.name].list[0]}"
-											rerender="evalstatus" />
-										<h:panelGroup id="evalstatus">
-											<h:outputText
-												rendered="#{not leaf.valueMap[alter.name].list[0].evaluated}"
-												value="* &nbsp;" />
-										</h:panelGroup>
+                    <h:outputText rendered='#{leaf.scale.type == "restricted"}'
+                      value="#{leaf.scale.readableRestriction}" />
+                    <h:outputText rendered="#{leaf.scale.unit != null}" value="#{leaf.scale.unit}" />
+                  </div>
+                </a4j:outputPanel> <!-- Evaluation status --> <h:panelGroup id="evalstatus">
+                  <h:outputText rendered="#{not leaf.valueMap[alter.name].list[0].evaluated}" value="* &nbsp;" />
+                </h:panelGroup> <!-- we touch the leaf, not the value - the latter would mean that the value was approved --> <p:inputTextArea
+                  id="valuecomment" helpLink="true" input="#{leaf.valueMap[alter.name].list[0].comment}"
+                  touchable="#{leaf}" />
+              </td>
+            </tr>
+          </table>
+        </h:column>
 
-										<h:outputText rendered='#{leaf.scale.type == "restricted"}'
-											value="#{leaf.scale.readableRestriction}" />
-										<h:outputText rendered="#{leaf.scale.unit != null}"
-											value="#{leaf.scale.unit}" />
-									</div>
-									<ui:remove>
-										<!-- 
-									<h:message rendered="#{not leaf.scale.integer}"
-										styleClass="discreet-error" for="singlenumber" />
-									<h:message rendered="#{leaf.scale.integer}"
-										styleClass="discreet-error" for="singleInteger" />
-                                 -->
-									</ui:remove>
-								</x:div>
-								<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-								<p:inputTextArea id="valuecomment" helpLink="true"
-									input="#{leaf.valueMap[alter.name].list[0].comment}"
-									touchable="#{leaf}" />
-							</td>
-						</tr>
-					</table>
-				</h:column>
+        <!-- Not a single leaf: Different results for every sample object -->
 
-				<!-- Not a single leaf: Different results for every sample object -->
+        <h:column rendered="#{not leaf.single}">
+          <f:facet name="header">
+            <h:outputText value="Results and comments" />
+          </f:facet>
+          <table style="width: 100%">
+            <ui:repeat id="samples" value="#{samples}" var="record" varStatus="status">
 
-				<h:column rendered="#{not leaf.single}">
-					<f:facet name="header">
-						<h:outputText value="Results and comments" />
-					</f:facet>
-					<table style="width: 100%">
-						<c:forEach items="#{samples}" var="record" varStatus="status">
+              <tr class="margin-bottom-big-nocolor">
+                <td style="width: 80px; padding-right: 10px;"><h:outputText value="#{record.shortName}" /></td>
+                <td style="width: 350px;">
+                  <!-- Ordinal --> <a4j:outputPanel id="multiOrdinal"
+                    rendered='#{leaf.scale.type == "ordinal" and (not leaf.single)}'>
+                    <!-- For ordinal scales, we use the dropdown -->
+                    <h:selectOneMenu rendered="#{leaf.scale.type == 'ordinal' and leaf.scale.restricted}"
+                      disabled="#{readOnly}" id="ordinalMenu"
+                      value="#{leaf.valueMap[alter.name].list[status.index].value}"
+                      converter="#{emptyStringToNullConverter}">
+                      <f:selectItem itemValue="" />
+                      <f:selectItems value="#{leaf.scale.list}" />
+                      <a4j:ajax onbeforesubmit="changed()" event="change"
+                        listener="#{workflowstep.touch(leaf.valueMap[alter.name].list[status.index])}"
+                        render="evalstatus" />
+                    </h:selectOneMenu>
 
-							<tr class="margin-bottom-big-nocolor">
-								<td style="width: 80px; padding-right: 10px;"><h:outputText
-										value="#{record.shortName}" /></td>
-								<td style="width: 350px;">
-									<!-- Ordinal --> <x:div id="multiOrdinal_ix#{status.index}"
-										renderthis='#{leaf.scale.type == "ordinal" and (not leaf.single)}'>
-										<!-- Empty String to Null-Conversion doesn't work smoothly when using
-                                                   s:selectItems with the "noSelectionLabel"-attribute, therefore custom fix. -->
-										<!-- DON'T ADD COMMENTS INSIDE THE selectOneMenu, DOING SO BREAKS IT!!11 -->
-										<!-- For ordinal scales, we use the dropdown -->
-										<h:selectOneMenu
-											rendered="#{leaf.scale.type == 'ordinal' and leaf.scale.restricted}" 
-											disabled="#{readOnly}"
-											id="ordinalMenu"
-											value="#{leaf.valueMap[alter.name].list[status.index].value}"
-											converter="#{emptyStringToNullConverter}">
-											<f:selectItem itemValue="" />
-											<f:selectItems value="#{leaf.scale.list}" />
+                    <!-- For free text we use an input field -->
+                    <p:inputText id="freeText" helpLink="false"
+                      input="#{leaf.valueMap[alter.name].list[status.index].value}"
+                      rendered="#{not leaf.scale.restricted}"
+                      touchable="#{leaf.valueMap[alter.name].list[status.index]}" rerender="evalstatus" />
+                  </a4j:outputPanel> <!-- Numerical --> <a4j:outputPanel id="multiNumeric"
+                    rendered='#{not (leaf.scale.type == "ordinal")  and (not leaf.single)}'>
+                    <p:inputNumber id="number" helpLink="false" labelText="Evaluation value:"
+                      input="#{leaf.valueMap[alter.name].list[status.index].value}" required="true" maxlength="20"
+                      rendered="#{not leaf.scale.integer}" touchable="#{leaf.valueMap[alter.name].list[status.index]}"
+                      rerender="evalstatus" />
+                    <p:inputInteger id="integer" helpLink="false" labelText="Evaluation value:"
+                      input="#{leaf.valueMap[alter.name].list[status.index].value}" required="true" maxlength="20"
+                      rendered="#{leaf.scale.integer}" touchable="#{leaf.valueMap[alter.name].list[status.index]}"
+                      rerender="evalstatus" />
+                    <h:outputText rendered='#{leaf.scale.type == "restricted"}'
+                      value="#{leaf.scale.readableRestriction}" />
+                  </a4j:outputPanel> <!-- Evaluation status --> <h:panelGroup id="evalstatus">
+                    <h:outputText rendered="#{not leaf.valueMap[alter.name].list[0].evaluated}" style="color:red"
+                      value="* &nbsp;" />
+                  </h:panelGroup> <p:inputTextArea id="valuecomment_#{status.index}" helpLink="false"
+                    input="#{leaf.valueMap[alter.name].list[status.index].comment}" touchable="#{leaf}" />
+                </td>
+              </tr>
+            </ui:repeat>
+          </table>
+        </h:column>
 
-											<a4j:ajax onbeforesubmit="changed()" event="change"
-												listener="#{workflowstep.touch(leaf.valueMap[alter.name].list[status.index])}"
-												render="evalstatus" />
-										</h:selectOneMenu>
+        <!-- Unit column -->
+        <h:column>
+          <f:facet name="header">
+            <h:outputText value="Unit" />
+          </f:facet>
+          <h:outputText value="#{leaf.scale.unit}" />
+        </h:column>
+      </h:dataTable>
 
-										<!-- For free text we use an input field -->
-										<p:inputText id="freeText" helpLink="false"
-											input="#{leaf.valueMap[alter.name].list[status.index].value}"
-											rendered="#{not leaf.scale.restricted}"
-											touchable="#{leaf.valueMap[alter.name].list[status.index]}"
-											rerender="evalstatus" />
-										<!-- define changed-flag separately, to control line break -->
-										<h:panelGroup id="evalstatus">
-											<h:outputText
-												rendered="#{not leaf.valueMap[alter.name].list[status.index].evaluated}"
-												style="color:red" value="* &nbsp;" />
-										</h:panelGroup>
-										<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-									</x:div> <!-- Numerical --> <x:div id="multiNumeric_ix#{status.index}"
-										renderthis='#{not (leaf.scale.type == "ordinal")  and (not leaf.single)}'>
-										<p:inputNumber id="number" helpLink="false"
-											labelText="Evaluation value:"
-											input="#{leaf.valueMap[alter.name].list[status.index].value}"
-											required="true" maxlength="20"
-											rendered="#{not leaf.scale.integer}"
-											touchable="#{leaf.valueMap[alter.name].list[status.index]}"
-											rerender="evalstatus" />
-										<p:inputInteger id="integer" helpLink="false"
-											input="#{leaf.valueMap[alter.name].list[status.index].value}"
-											required="true" maxlength="20"
-											rendered="#{leaf.scale.integer}"
-											touchable="#{leaf.valueMap[alter.name].list[status.index]}"
-											rerender="evalstatus" />
-										<!-- define changed-flag separately, to control line break -->
-										<h:panelGroup id="evalstatus">
-											<ui:remove>
-												<h:outputText
-													rendered="#{not leaf.valueMap[alter.name].list[status.index].evaluated}"
-													value="* &nbsp;" />
-											</ui:remove>
-										</h:panelGroup>
-										<h:outputText rendered='#{leaf.scale.type == "restricted"}'
-											value="#{leaf.scale.readableRestriction}" />
-										<br />
-										<ui:remove>
-											<!-- 			
-										<h:message rendered="#{not leaf.scale.integer}" styleClass="discreet-error" for="_num#{status.index}" />
-										<h:message rendered="#{leaf.scale.integer}" styleClass="discreet-error" for="_int#{status.index}" />
-									 -->
-										</ui:remove>
-										<!-- we touch the leaf, not the value - the latter would mean that the value was approved -->
-									</x:div>
-									<p:inputTextArea id="valuecomment_#{status.index}"
-										helpLink="false"
-										input="#{leaf.valueMap[alter.name].list[status.index].comment}"
-										touchable="#{leaf}" />
-								</td>
-							</tr>
-						</c:forEach>
-					</table>
-
-				</h:column>
-
-
-
-
-				<!-- Unit column -->
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Unit" />
-					</f:facet>
-					<h:outputText value="#{leaf.scale.unit}" />
-				</h:column>
-
-				<!-- Evaluation status: not so easy to do it here, for all non-singles we need the iterator
-				<h:column>
-					<f:facet name="header">
-						<h:outputText style="font-weight:normal;padding-left:20px;" value="Status" />
-					</f:facet>
-					<s:div rendered="#{leaf.single and not leaf.valueMap[alter.name].list[0].evaluated}">
-						<h:outputText style="font-weight:bold;padding-left:20px;" value="missing" />
-					</s:div>					
-				</h:column>
-				-->
-			</h:dataTable>
-			<!-- auto-evaluation -->
-			<h:panelGroup rendered="#{leaf.mapped}">
-				<div
-					style="border-width: 1px; border-style: dotted; background: rgb(204, 222, 255); padding-left: 5px;">
-					<table class="fullTable">
-						<tr>
-							<td><b>Measure</b></td>
-							<td><b><a href="#{leaf.measure.uri}">#{leaf.measure.name}</a></b></td>
-						</tr>
-						<tr>
-							<td>Attribute</td>
-							<td><a href="#{leaf.measure.attribute.uri}">#{leaf.measure.attribute.description}</a></td>
-						</tr>
-						<tr>
-							<td>Description</td>
-							<td>#{leaf.measure.description}</td>
-						</tr>
-					</table>
-					<a4j:commandButton id="evaluate" rendered="#{leaf.mapped}"
-						value="Evaluate" action="#{workflowstep.evaluate(leaf)}"
-						render="@form" type="button" />
-				</div>
-			</h:panelGroup>
-			<hr />
-
-		</h:column>
-	</h:dataTable>
-
+      <!-- auto-evaluation -->
+      <h:panelGroup rendered="#{leaf.mapped}">
+        <div style="border-width: 1px; border-style: dotted; background: rgb(204, 222, 255); padding-left: 5px;">
+          <table class="fullTable">
+            <tr>
+              <td><b>Measure</b></td>
+              <td><b><a href="#{leaf.measure.uri}">#{leaf.measure.name}</a></b></td>
+            </tr>
+            <tr>
+              <td>Attribute</td>
+              <td><a href="#{leaf.measure.attribute.uri}">#{leaf.measure.attribute.description}</a></td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td>#{leaf.measure.description}</td>
+            </tr>
+          </table>
+          <a4j:commandButton id="evaluate" rendered="#{leaf.mapped}" value="Evaluate"
+            action="#{workflowstep.evaluate(leaf)}" render="@form" type="button" />
+        </div>
+      </h:panelGroup>
+      <hr />
+    </h:column>
+  </h:dataTable>
 
 </ui:composition>

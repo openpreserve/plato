@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,14 @@ package eu.scape_project.planning.plato.wf;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
+import javax.inject.Inject;
 
-import eu.scape_project.planning.model.AlternativesDefinition;
+import org.slf4j.Logger;
+
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.manager.StorageException;
+import eu.scape_project.planning.model.Alternative;
+import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.PlanState;
 
 /**
@@ -33,6 +39,9 @@ public class DevelopExperiments extends AbstractWorkflowStep {
 
     private static final long serialVersionUID = 3224826109130261298L;
 
+    @Inject
+    private Logger log;
+
     /**
      * Default constructor.
      */
@@ -43,7 +52,36 @@ public class DevelopExperiments extends AbstractWorkflowStep {
 
     @Override
     protected void saveStepSpecific() {
-        plan.setAlternativesDefinition((AlternativesDefinition) saveEntity(plan.getAlternativesDefinition()));
+        saveEntity(plan.getTree());
+        saveEntity(plan.getAlternativesDefinition());
     }
 
+    /**
+     * Sets the experiment workflow to the alternative.
+     * 
+     * @param alternative
+     *            the alternative
+     * @param workflow
+     *            the workflow to add
+     * @throws PlanningException
+     *             if an error occurred during storage
+     */
+    public void setAlternativeWorkflow(final Alternative alternative, final DigitalObject workflow)
+        throws PlanningException {
+        try {
+            digitalObjectManager.moveDataToStorage(workflow);
+
+            DigitalObject oldWorkflow = alternative.getExperiment().getWorkflow();
+            if (oldWorkflow != null && oldWorkflow.isDataExistent()) {
+                bytestreamsToRemove.add(oldWorkflow.getPid());
+            }
+
+            plan.setExperimentWorkflow(alternative, workflow);
+            alternative.getAction().setActionIdentifier("myExperiment-plan");
+            addedBytestreams.add(workflow.getPid());
+        } catch (StorageException e) {
+            log.error("An error occurred while storing the executable plan: {}", e.getMessage());
+            throw new PlanningException("An error occurred while storing the profile", e);
+        }
+    }
 }

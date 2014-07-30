@@ -1,5 +1,22 @@
+/*******************************************************************************
+ * Copyright 2006 - 2014 Vienna University of Technology,
+ * Department of Software Technology and Interactive Systems, IFS
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.scape_project.planning.services.myexperiment;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -45,7 +62,9 @@ import eu.scape_project.planning.utils.ConfigurationLoader;
 /**
  * Client to access the REST interface of a myExperiment instance.
  */
-public class MyExperimentRESTClient {
+public class MyExperimentRESTClient implements Serializable {
+
+    private static final long serialVersionUID = -569647899543358671L;
 
     private static final Logger LOG = LoggerFactory.getLogger(MyExperimentRESTClient.class);
 
@@ -62,34 +81,34 @@ public class MyExperimentRESTClient {
     private static final int WORKFLOW_URL_GROUP = 1;
 
     /**
-     * Pattern for guessing descriptor URL
+     * Pattern for guessing descriptor URL.
      */
     private static final Pattern WORKFLOW_DL_PATTERN = Pattern
         .compile("(.+\\:\\/\\/.+)workflows\\/(\\d+)(\\.html|/download)(/.+?)?([?&]version=(\\d+))?");
 
     /**
-     * Pattern group number for id
+     * Pattern group number for id.
      */
     private static final int WORKFLOW_PATH_ID_GROUP = 2;
 
     /**
-     * Pattern group number for version
+     * Pattern group number for version.
      */
     private static final int WORKFLOW_PATH_VERSION_GROUP = 4;
 
     /**
-     * Pattern for guessing descriptor URL
+     * Pattern for guessing descriptor URL.
      */
     private static final Pattern WORKFLOW_PATH_PATTERN = Pattern
         .compile("(.+\\:\\/\\/.+)workflows\\/(\\d+)(/versions/(\\d+))?/?");
 
     /**
-     * Pattern group number for id
+     * Pattern group number for id.
      */
     private static final int WORKFLOW_DL_ID_GROUP = 2;
 
     /**
-     * Pattern group number for version
+     * Pattern group number for version.
      */
     private static final int WORKFLOW_DL_VERSION_GROUP = 6;
 
@@ -97,19 +116,24 @@ public class MyExperimentRESTClient {
      * Describes a query for components using the myExperiment REST endpoint.
      */
     public final class ComponentQuery {
-
         private static final String PREFIX_NAME = "prefixes";
         private static final String QUERY_NAME = "query";
 
         private static final String ONTOLOGY_IRI = "http://purl.org/DP/components#";
+        private static final String ONTOLOGY_PREFIX = "dpc";
 
         private static final String WFDESC_IRI = "http://purl.org/wf4ever/wfdesc#";
+        private static final String WFDESC_PREFIX = "wfdesc";
 
         private static final String SKOS_IRI = "http://www.w3.org/2004/02/skos/core#";
         private static final String SKOS_LABEL = SKOS_IRI + "prefLabel";
 
-        private static final String RDFS_IRI = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-        private static final String TYPE_IRI = RDFS_IRI + "type";
+        private static final String RDF_IRI = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+        private static final String RDF_PREFIX = "rdf";
+        private static final String TYPE_IRI = RDF_IRI + "type";
+
+        private static final String RDFS_IRI = "http://www.w3.org/2000/01/rdf-schema#";
+        private static final String RDFS_PREFIX = "rdfs";
 
         private WebResource resource = null;
         private String prefixes = "";
@@ -131,7 +155,11 @@ public class MyExperimentRESTClient {
         private ComponentQuery(WebResource resource) {
             this.resource = resource.path(COMPONENTS_PATH);
             wfNode = NodeFactory.createVariable("w");
-            addPrefix("dpc", ONTOLOGY_IRI);
+            addPrefix(RDF_PREFIX, RDF_IRI);
+            addPrefix(ONTOLOGY_PREFIX, ONTOLOGY_IRI);
+            // Add prefixes already specified in the myExperiment API
+            prefixMapping.setNsPrefix(WFDESC_PREFIX, WFDESC_IRI);
+            prefixMapping.setNsPrefix(RDFS_PREFIX, RDFS_IRI);
         }
 
         /**

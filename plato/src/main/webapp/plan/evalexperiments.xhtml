@@ -1,43 +1,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-	xmlns:p="http://java.sun.com/jsf/composite/plato"
-	template="/WEB-INF/templates/default.xhtml"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:p="http://java.sun.com/jsf/composite/plato"
+	template="/WEB-INF/templates/default.xhtml" xmlns:a4j="http://richfaces.org/a4j" xmlns:rich="http://richfaces.org/rich">
 
 	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
 	<ui:define name="content">
 		<h1>#{viewWorkflow.currentView.name}</h1>
 		<div class="wfstepinfo">
 			<div class="wfdescription">
-				The results of the experiments are evaluated to determine the degree
-				to which the requirements defined in the objective tree were met.
-				Therefore, the leaf objectives defined in the objective tree are
-				evaluated with the defined measurement unit. For each alternative,
-				the outcomes of this stage are measured performance values for each
-				leaf in the objective tree.
+				The results of the experiments are evaluated to determine the degree to which the requirements defined in the
+				objective tree were met. Therefore, the leaf objectives defined in the objective tree are evaluated with the defined
+				measurement unit. For each alternative, the outcomes of this stage are measured performance values for each leaf in
+				the objective tree.
 				<div class="more">
-					<a href="../help/workflow.html#evaluate_experiments"
-						target="_blank">more</a>
+					<a href="../help/workflow.html#evaluate_experiments" target="_blank">more</a>
 				</div>
 			</div>
 			<p:help url="/plato/help/evaluate.html" text="What is the task here?" />
 		</div>
 
 		<h:form id="mainform">
-			<h:inputText id="changedflag" value="#{evalexperiments.changed}"
-				style="display:none" />
+			<h:inputText id="changedflag" value="#{evalexperiments.changed}" style="display:none" />
 
 			<div class="full-size">
 				<div style="float: right;">
 					<ui:include src="/plato/shared/fileMatrix.xhtml">
-						<ui:param name="samples"
-							value="#{evalexperiments.plan.sampleRecordsDefinition.records}" />
+						<ui:param name="samples" value="#{evalexperiments.plan.sampleRecordsDefinition.records}" />
 						<ui:param name="consideredAlternatives"
 							value="#{evalexperiments.plan.alternativesDefinition.consideredAlternatives}" />
 						<ui:param name="workflowstep" value="#{evalexperiments}" />
@@ -45,48 +35,32 @@
 				</div>
 			</div>
 
-			<fieldset id="navigationtreeSet" style="width: 50%;"
-				class="size-full">
-				<legend class="fieldset-full-size-legend">
-					Select the tree parts to display
-				</legend>
+			<fieldset id="navigationtreeSet" style="width: 50%;" class="size-full">
+				<legend class="fieldset-full-size-legend"> Select the tree parts to display </legend>
 				<rich:tree id="navigationtree" selectionType="client" immediate="true" var="node">
-					<rich:treeModelRecursiveAdaptor id="model"
-						roots="#{evalexperiments.treeRoot}" nodes="#{node.children}"
+					<rich:treeModelRecursiveAdaptor id="model" roots="#{evalexperiments.treeRoot}" nodes="#{node.children}"
 						leaf="#{node.leaf}">
-						<rich:treeNode highlightedClass="highlighted"
-							expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
-							<a4j:commandLink id="select" value="#{node.name}" render="leavesLists"
-								action="#{evalexperiments.select(node)}"
+						<rich:treeNode highlightedClass="highlighted" expanded="#{evalexperiments.treeHelper.expandedNodes[node]}">
+							<a4j:commandLink id="select" value="#{node.name}" render="leavesLists" action="#{evalexperiments.select(node)}"
 								oncomplete="onPageUpdated()" />
 						</rich:treeNode>
 					</rich:treeModelRecursiveAdaptor>
 				</rich:tree>
 			</fieldset>
 			<div style="clear: both;" />
-			<h:outputLink target="_blank"
-				value="showmigrationresult-metadata.jsf"
-				rendered="#{not empty(evalexperiments.measurableProperties)}">
-                 Show measured properties
-             </h:outputLink>
-
+			<h:outputLink target="_blank" value="showmigrationresult-metadata.jsf"
+				rendered="#{not empty(evalexperiments.measurableProperties)}">Show measured properties</h:outputLink>
 
 			<fieldset id="leafSet" class="size-full">
-				<legend class="fieldset-full-size-legend">
-					Leaves to evaluate
-				</legend>
+				<legend class="fieldset-full-size-legend">Leaves to evaluate</legend>
 				<a4j:outputPanel id="leavesLists">
-					<h:outputText value="No leaves selected"
-						rendered="#{empty evalexperiments.leaves}" />
+					<h:outputText value="No leaves selected" rendered="#{empty evalexperiments.leaves}" />
 
-
-					<ui:include src="/plato/shared/evaluationLeafList.xhtml"
-						rendered="#{not empty evalexperiments.leaves}">
+					<ui:include src="/plato/shared/evaluationLeafList.xhtml" rendered="#{not empty evalexperiments.leaves}">
 						<ui:param name="leaves" value="#{evalexperiments.leaves}" />
 						<ui:param name="consideredAlternatives"
 							value="#{evalexperiments.plan.alternativesDefinition.consideredAlternatives}" />
-						<ui:param name="samples"
-							value="#{evalexperiments.plan.sampleRecordsDefinition.records}" />
+						<ui:param name="samples" value="#{evalexperiments.plan.sampleRecordsDefinition.records}" />
 						<ui:param name="workflowstep" value="#{evalexperiments}" />
 						<ui:param name="readOnly" value="#{evalexperiments.plan.readOnly}" />
 					</ui:include>
@@ -95,33 +69,24 @@
 			<fieldset id="autoEval" class="size-full">
 				<x:div renderthis="#{evalexperiments.autoEvaluationAvailable}">
 					<p>
-						Since your tree contains criteria that are mapped to measures, you
-						can call the evaluation plugins here.<br />
-						<a4j:commandButton value="Evaluate all criteria"
-							action="#{evalexperiments.evaluateAll}" render="@form"
+						Since your tree contains criteria that are mapped to measures, you can call the evaluation plugins here.<br />
+						<a4j:commandButton value="Evaluate all criteria" action="#{evalexperiments.evaluateAll}" render="@form"
 							ignoreDupResponses="true" />
 						<br />
 					</p>
 				</x:div>
 				<hr />
 				<p>
-					Please make sure you check all evaluation results and approve them.
-					Values that have not been evaluated or not yet approved are marked
-					with a star (*). The planning process requires you to either enter
-					by yourself or confirm all evaluation results. In order to confirm
-					values that you have not entered yourself, please select<br />
-					<a4j:commandButton value="Approve all values"
-						action="#{evalexperiments.approve}" render="@form" />
+					Please make sure you check all evaluation results and approve them. Values that have not been evaluated or not yet
+					approved are marked with a star (*). The planning process requires you to either enter by yourself or confirm all
+					evaluation results. In order to confirm values that you have not entered yourself, please select<br />
+					<a4j:commandButton value="Approve all values" action="#{evalexperiments.approve}" render="@form" />
 				</p>
 			</fieldset>
 			<fieldset id="comments" class="size-full">
-				<legend class="fieldset-full-size-legend">
-					Comments
-				</legend>
-				<p:inputTextArea id="evaluateExperimentComments"
-					labelText="Comments:"
-					input="#{evalexperiments.plan.evaluation.comment}"
-					touchable="#{evalexperiments.plan.evaluation}" />
+				<legend class="fieldset-full-size-legend"> Comments </legend>
+				<p:inputTextArea id="evaluateExperimentComments" labelText="Comments:"
+					input="#{evalexperiments.plan.evaluation.comment}" touchable="#{evalexperiments.plan.evaluation}" />
 			</fieldset>
 
 			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
@@ -129,15 +94,13 @@
 
 		<h:form>
 			<!-- characterisationReports -->
-			<rich:popupPanel id="characterisationReports" minWidth="996"
-				minHeight="700" resizeable="true" domElementAttachment="form">
-
+			<rich:popupPanel id="characterisationReports" minWidth="996" minHeight="700" resizeable="true"
+				domElementAttachment="form">
 				<f:facet name="header">
 					Comparison of characterisation info
 				</f:facet>
 				<f:facet name="controls">
-					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png"
-						title="Close" width="16" height="16"
+					<h:graphicImage id="close" value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
 						onclick="#{rich:component('characterisationReports')}.hide()" />
 				</f:facet>
 				<div class="container">
@@ -145,14 +108,10 @@
 						<button type="button">Toggle Toolinfo</button>
 					</div>
 					<div class="leftcolumn" style="max-width: 470px;">
-						<h:outputText
-							value="#{evalexperiments.sampleCharacterisationReportAsHTML}"
-							escape="false" />
+						<h:outputText value="#{evalexperiments.sampleCharacterisationReportAsHTML}" escape="false" />
 					</div>
 					<div class="rightcolumn">
-						<h:outputText
-							value="#{evalexperiments.resultCharacterisationReportAsHTML}"
-							escape="false" />
+						<h:outputText value="#{evalexperiments.resultCharacterisationReportAsHTML}" escape="false" />
 					</div>
 					<div class="clear"></div>
 				</div>

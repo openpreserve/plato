@@ -1,74 +1,169 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:x="http://java.sun.com/jsf/composite/htmlx"
-	xmlns:p="http://java.sun.com/jsf/composite/plato"
-	template="/WEB-INF/templates/default.xhtml"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
-	xmlns:c="http://java.sun.com/jstl/core">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:x="http://java.sun.com/jsf/composite/htmlx" xmlns:p="http://java.sun.com/jsf/composite/plato"
+  template="/WEB-INF/templates/default.xhtml" xmlns:a4j="http://richfaces.org/a4j"
+  xmlns:rich="http://richfaces.org/rich" xmlns:c="http://java.sun.com/jstl/core">
 
-	<ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
-	<ui:define name="content">
-		<h1>#{viewWorkflow.currentView.name}</h1>
-		<div class="wfstepinfo">
-			<div class="wfdescription">
-				In the experiments, the preservation alternatives are applied to the
-				previous defined sample records. The results of the experiments are
-				later evaluated against the goals and requirements of the objective
-				tree.
-				<div class="more">
-					<a href="../help/workflow.html#develop_experiments" target="_blank">more</a>
-				</div>
-			</div>
-		</div>
+  <ui:define name="title">SCAPE Planning Suite - #{viewWorkflow.currentView.name}</ui:define>
+  <ui:define name="content">
+    <h1>#{viewWorkflow.currentView.name}</h1>
+    <div class="wfstepinfo">
+      <div class="wfdescription">
+        In the experiments, the preservation alternatives are applied to the previous defined sample records. The
+        results of the experiments are later evaluated against the goals and requirements of the objective tree.
+        <div class="more">
+          <a href="../help/workflow.html#develop_experiments" target="_blank">more</a>
+        </div>
+      </div>
+    </div>
 
-		<h:form id="mainform">
-			<div class="full-size">
-				<rich:dataTable value="#{developExperiments.alternatives}"
-					var="alternative" id="alternativesTable" styleClass="tableStyle"
-					headerClass="tableStyle-header" rowClasses="tableStyle-row">
-					<rich:column
-						styleClass="service-marker service-marker-#{alternative.action.actionIdentifier}">
-					</rich:column>
-					<rich:column styleClass="service-info">
-						<div class="service-info-panel">
-							<div class="service-info-header">#{alternative.name}</div>
-							<div class="service-info-info">
-								<p:inputTextArea id="developExperimentDescription"
-									labelText="Description:"
-									input="#{alternative.experiment.description}" required="false"
-									touchable="#{alternative.experiment}" />
-								<a4j:outputPanel id="settings"
-									rendered="#{alternative.action.actionIdentifier ne 'myExperiment' or ( not empty alternative.experiment.settings and alternative.experiment.settings eq '' )}">
-									<p:inputTextArea id="developExperimentSettings"
-										labelText="Settings:"
-										input="#{alternative.experiment.settings}" required="false"
-										touchable="#{alternative.experiment}" />
-									<h:panelGroup
-										rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}"
-										layout="block">
+    <h:form id="mainform">
+      <h:inputText id="changedflag" value="#{developExperiments.changed}" style="display:none" />
+
+      <div class="full-size">
+        <rich:dataTable value="#{developExperiments.alternatives}" var="alternative" id="alternativesTable"
+          styleClass="tableStyle" headerClass="tableStyle-header" rowClasses="tableStyle-row">
+          <rich:column styleClass="service-marker service-marker-#{alternative.action.actionIdentifier}">
+          </rich:column>
+          <rich:column styleClass="service-info">
+            <div class="service-info-panel">
+              <div class="service-info-header">#{alternative.name}</div>
+              <div class="service-info-info">
+                <p:inputTextArea id="developExperimentDescription" labelText="Description:"
+                  input="#{alternative.experiment.description}" required="false" touchable="#{alternative.experiment}" />
+                <a4j:outputPanel id="settings"
+                  rendered="#{(alternative.action.actionIdentifier ne 'myExperiment' and alternative.action.actionIdentifier ne 'myExperiment-plan') or ( not empty alternative.experiment.settings and alternative.experiment.settings eq '' )}">
+                  <p:inputTextArea id="developExperimentSettings" labelText="Settings:"
+                    input="#{alternative.experiment.settings}" required="false" touchable="#{alternative.experiment}" />
+                  <h:panelGroup
+                    rendered="#{(alternative.action != null) and (alternative.action.parameterInfo != null) and (alternative.action.parameterInfo != '')}"
+                    layout="block">
 		                			Information about parameters:              
 		                			<pre class="overflow-s" style="width: 58%;"> #{alernative.action.parameterInfo}" </pre>
-									</h:panelGroup>
-								</a4j:outputPanel>
+                  </h:panelGroup>
+                </a4j:outputPanel>
 
-								<p:service-parameters id="developExperimentParameters"
-									data="#{developExperiments.myExperimentServices}"
-									serviceInfo="#{developExperiments.actionInfos[alternative]}"
-									alternative="#{alternative}"
-									rendered="#{alternative.action.actionIdentifier eq 'myExperiment'}" />
-							</div>
-						</div>
-					</rich:column>
-				</rich:dataTable>
-			</div>
+                <p:service-parameters id="developExperimentParameters" data="#{developExperiments.myExperimentServices}"
+                  serviceInfo="#{developExperiments.actionInfos[alternative]}" alternative="#{alternative}"
+                  rendered="#{alternative.action.actionIdentifier eq 'myExperiment' or alternative.action.actionIdentifier eq 'myExperiment-plan'}" />
+              </div>
 
-			<p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
-		</h:form>
+              <a4j:outputPanel id="generate-experiment"
+                rendered="#{alternative.action.actionIdentifier eq 'myExperiment' or alternative.action.actionIdentifier eq 'myExperiment-plan'}">
+                <fieldset class="size-full">
+                  <legend class="fieldset-full-size-legend">
+                    <h:outputText value="Experiment workflow" />
+                  </legend>
+                  <div>
+                    <h:outputText value="#{developExperiments.sourceMimetype}" />
+                    &#8605;
+                    <h:inputText value="#{developExperiments.targetMimetypes[alternative]}"/>
+                  </div>
+                  <div>
+                    <span><a4j:commandButton value="Automatically generate experiment workflow"
+                        onclick="toggleLoadingOverlay(); changed();" oncomplete="toggleLoadingOverlay();"
+                        action="#{developExperiments.generateExperimentWorkflow(alternative)}"
+                        render="alternativesTable" /></span>
+                    <span class="separator-or-vertical">or</span>
+                    <span><a4j:commandButton
+                        value="Manually build experiment workflow" action="#{developExperiments.selectAlternative(alternative)}"
+                        render="createWorkflowPanel" oncomplete="if (#{developExperiments.targetMimetypeValid(alternative)}) #{rich:component('createWorkflowPanel')}.show()" /></span>
+                  </div>
+                  <p>
+                    <h:commandLink action="#{developExperiments.downloadExperimentWorkflow(alternative)}"
+                      value="Download Experiment Workflow" styleClass="download-link"
+                      rendered="#{not empty alternative.experiment.workflow}" />
+                  </p>
 
-	</ui:define>
+                </fieldset>
+              </a4j:outputPanel>
+            </div>
+          </rich:column>
+        </rich:dataTable>
+      </div>
+
+      <p:savediscardproceed bean="#{viewWorkflow}" id="savediscardproceed" />
+    </h:form>
+
+    <h:form id="createWorkflowForm">
+      <rich:popupPanel id="createWorkflowPanel" width="900" height="600" domElementAttachment="form">
+        <f:facet name="header">
+          <h:outputText value="Create Experiment Workflow" />
+        </f:facet>
+        <f:facet name="controls">
+          <h:graphicImage id="closeMapping" value="/resources/gfx/icons/cancel.png" title="Close" width="16" height="16"
+            onclick="#{rich:component('createWorkflowPanel')}.hide()" />
+        </f:facet>
+
+        <!-- Use subview to avoid error with rich:tree and rich:datascroller in the same naming context -->
+        <f:subview id="navigationView">
+          <rich:tree id="navigationtree" selectionType="client" immediate="true" var="node">
+            <rich:treeModelRecursiveAdaptor id="model" roots="#{developExperiments.treeRoot}" nodes="#{node.children}"
+              leaf="#{node.leaf}">
+              <rich:treeNode highlightedClass="highlighted"
+                expanded="#{developExperiments.treeHelper.expandedNodes[node]}">
+								<h:graphicImage
+									rendered="#{node.leaf and not developExperiments.openMeasures.contains(node.measure.uri)}"
+									value="/resources/gfx/icons/icomoon/checkmark.svg" styleClass="icon-textsize" />
+                <a4j:commandLink value="#{node.name}" action="#{developExperiments.selectLeaf(node)}" render="leafPanel" rendered="#{node.leaf}"
+                  onclick="toggleLoadingOverlay();" oncomplete="toggleLoadingOverlay();"/>
+                <h:outputText value="#{node.name}" rendered="#{not node.leaf}"/>
+              </rich:treeNode>
+            </rich:treeModelRecursiveAdaptor>
+          </rich:tree>
+        </f:subview>
+
+        <a4j:outputPanel id="leafPanel">
+          <a4j:outputPanel rendered="#{empty developExperiments.selectedLeaf}">
+            <fieldset>No leaf selected.</fieldset>
+          </a4j:outputPanel>
+
+          <a4j:outputPanel rendered="#{not empty developExperiments.selectedLeaf}">
+            <h3>
+              <h:graphicImage library="gfx" name="treetable/add-leaf.png" width="16" height="16" alt="leaf" />
+              <h:outputText value="#{developExperiments.selectedLeaf.name}" />
+            </h3>
+
+            <a4j:outputPanel rendered="#{developExperiments.serviceInfoData.rowCount == 0}" styleClass="paged-list"
+              layout="block">
+              <fieldset>No services found matching your criteria.</fieldset>
+            </a4j:outputPanel>
+
+            <a4j:outputPanel rendered="#{developExperiments.serviceInfoData.rowCount > 0}" styleClass="paged-list"
+              layout="block">
+              <a4j:queue />
+
+              <rich:dataScroller for="lookupResults" maxPages="5" boundaryControls="show" fastControls="hide"
+                renderIfSinglePage="false" stepControls="show" />
+              <rich:dataTable id="lookupResults" value="#{developExperiments.serviceInfoData}" var="serviceInfo" rows="3"
+                styleClass="service-results">
+                <rich:column styleClass="service-marker service-marker-#{serviceInfo.serviceIdentifier}" />
+                <rich:column styleClass="service-action">
+                  <a4j:commandButton id="add" value="+" immediate="true"
+                    action="#{developExperiments.addComponent(serviceInfo)}" render="navigationtree" 
+                    onclick="toggleLoadingOverlay();" oncomplete="toggleLoadingOverlay();"/>
+                </rich:column>
+                <rich:column styleClass="service-info" id="service-info">
+                  <p:service-myExperiment id="service-myExperiment" actionInfo="#{serviceInfo}"
+                    data="#{developExperiments.myExperimentServices}"
+                    rendered="#{serviceInfo.serviceIdentifier eq 'myExperiment'}" />
+                  <p:service id="service" actionInfo="#{serviceInfo}"
+                    rendered="#{serviceInfo.serviceIdentifier ne 'myExperiment'}" />
+                </rich:column>
+              </rich:dataTable>
+
+            </a4j:outputPanel>
+          </a4j:outputPanel>
+        </a4j:outputPanel>
+        
+        <p>
+          <a4j:commandButton value="Build Workflow" action="#{developExperiments.buildExperimentWorkflow()}"
+            render="alternativesTable"
+            onclick="toggleLoadingOverlay();" oncomplete="toggleLoadingOverlay(); #{rich:component('createWorkflowPanel')}.hide();"/>
+        </p>
+      </rich:popupPanel>
+    </h:form>
+  </ui:define>
 </ui:composition>

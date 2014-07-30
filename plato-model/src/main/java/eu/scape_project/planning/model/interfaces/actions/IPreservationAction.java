@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,  
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,25 @@
  ******************************************************************************/
 package eu.scape_project.planning.model.interfaces.actions;
 
+import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.SampleObject;
 
+/**
+ * A preservation action capable of performing the action on a sample object.
+ */
 public interface IPreservationAction {
-    boolean perform(PreservationActionDefinition action, SampleObject sampleObject) throws PlatoException ;
+
+    /**
+     * Perform the preservation action.
+     * 
+     * @param alternative
+     *            the alternative
+     * @param sampleObject
+     *            the sample object to perform the action on
+     * @return true if the action succeeded, false otherwise
+     * @throws PlatoException
+     *             if an exception occurred while performing the action
+     */
+    boolean perform(Alternative alternative, SampleObject sampleObject) throws PlatoException;
 }

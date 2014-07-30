@@ -82,7 +82,7 @@ public abstract class AbstractView implements Serializable {
 
     /**
      * Initializes the view with the given plan. This includes initializing the
-     * corresponding BL
+     * corresponding BL.
      * 
      * @param plan
      *            plan used to initialize

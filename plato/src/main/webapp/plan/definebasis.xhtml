@@ -40,10 +40,6 @@
 		<h:form id="mainform">
 			<h:inputText id="changedflag" value="#{defineBasis.changed}"
 				style="display:none" />
-			<h:inputText value="#{defineBasis.plan.planProperties.name}"
-				onchange="changed()" style="display:none" />
-			<h:commandLink action="#{defineBasis.discard}" value="Test Changed"
-				onclick="return mayExit_noClick();" style="display:none" />
 
 			<h:panelGroup id="all_fields_panel">
 				<fieldset id="preservationCases_fieldset" class="size-full">
@@ -73,7 +69,6 @@
 				</fieldset>
 				<fieldset id="identification_fieldset" class="size-full">
 					<legend class="fieldset-full-size-legend">
-						mainform
 						<ui:include src="/plato/shared/legend_nav.xhtml" />
 						<h:outputText value="Identification" />
 					</legend>

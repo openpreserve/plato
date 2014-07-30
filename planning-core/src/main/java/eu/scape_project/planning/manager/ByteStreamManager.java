@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,11 +46,10 @@ import eu.scape_project.planning.utils.OS;
  * multiple threads.
  * 
  * @author Michael Kraxner
- * 
  */
-
-// FIXME: It would be nice to use one instance for the whole conversation, but that is not possible due to ExperimentRunner's async call
-//@ConversationScoped 
+// FIXME: It would be nice to use one instance for the whole conversation, but
+// that is not possible due to ExperimentRunner's async call
+// @ConversationScoped
 public class ByteStreamManager implements Serializable, IByteStreamManager {
 
     private static final long serialVersionUID = 7205715730617180554L;
@@ -65,13 +64,13 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
 
     private File tempDir = null;
 
+    /**
+     * Constructs a new object.
+     */
     public ByteStreamManager() {
     }
 
-    /**
-     * 
-     * @see IByteStreamManager#store(String, byte[])
-     */
+    @Override
     public String store(String pid, byte[] bytestream) throws StorageException {
         if ("".equals(pid)) {
             pid = null;
@@ -86,6 +85,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
         return pid;
     }
 
+    @Override
     public byte[] load(String pid) throws StorageException {
         // try to load it from the cache
         byte[] data = loadFromCache(pid);
@@ -102,10 +102,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
         return data;
     }
 
-    /**
-     * 
-     * @see IByteStreamManager#getTempFile(String)
-     */
+    @Override
     public File getTempFile(String pid) {
         File tmp = tempDigitalObjects.get(pid);
         if (tmp == null) {
@@ -120,6 +117,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
         return tmp;
     }
 
+    @Override
     public void delete(String pid) throws StorageException {
         if ((pid == null) || (pid.isEmpty())) {
             return;
@@ -136,7 +134,11 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
      * use.
      * 
      * @param pid
+     *            the pid of the object
      * @param bitstream
+     *            the object data
+     * @throws IOException
+     *             if the object could not be stored
      */
     private void cacheObject(String pid, byte[] bitstream) throws IOException {
         String filename = pid;
@@ -146,7 +148,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
             fileExtension = filename.substring(bodyEnd);
         }
 
-        String tempFileName = tempDir.getAbsolutePath()  + File.separator + System.nanoTime() + fileExtension;
+        String tempFileName = tempDir.getAbsolutePath() + File.separator + System.nanoTime() + fileExtension;
         File tempFile = new File(tempFileName);
 
         OutputStream fileStream;
@@ -166,7 +168,8 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
      * Loads the bytestream from the cache.
      * 
      * @param pid
-     * @return
+     *            the pid of the object
+     * @return the object data
      */
     private byte[] loadFromCache(String pid) {
         File tmp = tempDigitalObjects.get(pid);
@@ -181,7 +184,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     }
 
     /**
-     * Creates a new temp directory for this ByteStreamManager
+     * Creates a new temp directory for this ByteStreamManager.
      */
     @PostConstruct
     public void init() {
@@ -191,7 +194,7 @@ public class ByteStreamManager implements Serializable, IByteStreamManager {
     }
 
     /**
-     * Cleanup of tempfiles, and handles to loaded digital objects
+     * Cleanup of tempfiles, and handles to loaded digital objects.
      */
     @PreDestroy
     public void destroy() {

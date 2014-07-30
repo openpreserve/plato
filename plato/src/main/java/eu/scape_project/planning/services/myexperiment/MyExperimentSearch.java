@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,9 +40,9 @@ public class MyExperimentSearch {
      */
     private String profile;
 
-    private String fromMimetype;
+    private String sourceMimetype;
 
-    private String migrationPathTo;
+    private String targetMimetype;
 
     private String dependencyLabel;
 
@@ -50,22 +50,103 @@ public class MyExperimentSearch {
 
     private String environmentType;
 
+    private String measure;
+
     /**
-     * Searches for components using the set search parameters.
+     * Searches for migration components using the set search parameters.
      * 
      * @return a list of service infos that match the search parameters
      */
-    public List<IServiceInfo> search() {
+    public List<IServiceInfo> searchMigrationAction() {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 
         // Create query
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();
-        query.addProfile(profile).addMigrationPath(fromMimetype).setMigrationPathTargetPattern(migrationPathTo)
+        query.addProfile(profile).addMigrationPath(sourceMimetype).setMigrationPathTargetPattern(targetMimetype)
             .addInputPort(ComponentConstants.VALUE_SOURCE_OBJECT).addOutputPort(ComponentConstants.VALUE_TARGET_OBJECT)
             .addInstallationEnvironment(environment).addInstallationEnvironmentType(environmentType);
 
         query.setDependencyLabelPattern(dependencyLabel);
         query.finishQuery();
+
+        List<WorkflowInfo> workflows = myExperimentRESTClient.searchComponents(query);
+        for (WorkflowInfo workflow : workflows) {
+            MyExperimentActionInfo service = new MyExperimentActionInfo();
+
+            service.setShortname(workflow.getName());
+            service.setDescriptor(workflow.getDescriptor());
+            service.setInfo(workflow.getDescription());
+            service.setUrl(workflow.getContentUri());
+            service.setContentType(workflow.getContentType());
+
+            services.add(service);
+        }
+
+        return services;
+    }
+
+    /**
+     * Searches for object QA components using the set search parameters.
+     * 
+     * @return a list of service infos that match the search parameters
+     */
+    public List<IServiceInfo> searchObjectQa() {
+        List<IServiceInfo> services = new ArrayList<IServiceInfo>();
+
+        ComponentQuery query = myExperimentRESTClient.createComponentQuery();
+        query.addProfile(profile);
+
+        query.addHandlesMimetype(sourceMimetype, targetMimetype)
+            .addHandlesMimetypeWildcard(sourceMimetype, targetMimetype)
+            .addHandlesMimetypes(sourceMimetype, targetMimetype)
+            .addHandlesMimetypesWildcard(sourceMimetype, targetMimetype);
+
+        if (sourceMimetype != null && !sourceMimetype.equals(targetMimetype)) {
+            query.addHandlesMimetypes(targetMimetype, sourceMimetype).addHandlesMimetypesWildcard(targetMimetype,
+                sourceMimetype);
+        }
+        query.addInputPort(ComponentConstants.VALUE_LEFT_OBJECT).addInputPort(ComponentConstants.VALUE_RIGHT_OBJECT);
+        if (measure != null) {
+            query.addMeasureOutputPort(measure);
+        }
+
+        query.addInstallationEnvironment(environment).addInstallationEnvironmentType(environmentType)
+            .setDependencyLabelPattern(dependencyLabel).finishQuery();
+
+        List<WorkflowInfo> workflows = myExperimentRESTClient.searchComponents(query);
+        for (WorkflowInfo workflow : workflows) {
+            MyExperimentActionInfo service = new MyExperimentActionInfo();
+
+            service.setShortname(workflow.getName());
+            service.setDescriptor(workflow.getDescriptor());
+            service.setInfo(workflow.getDescription());
+            service.setUrl(workflow.getContentUri());
+            service.setContentType(workflow.getContentType());
+
+            services.add(service);
+        }
+
+        return services;
+    }
+
+    /**
+     * Searches for characterisation components using the set search parameters.
+     * 
+     * @return a list of service infos that match the search parameters
+     */
+    public List<IServiceInfo> searchCc() {
+        List<IServiceInfo> services = new ArrayList<IServiceInfo>();
+
+        ComponentQuery query = myExperimentRESTClient.createComponentQuery();
+        query.addProfile(profile).addHandlesMimetype(targetMimetype).addHandlesMimetypeWildcard(targetMimetype)
+            .addInputPort(ComponentConstants.VALUE_SOURCE_OBJECT);
+
+        if (measure != null) {
+            query.addMeasureOutputPort(measure);
+        }
+
+        query.addInstallationEnvironment(environment).addInstallationEnvironmentType(environmentType)
+            .setDependencyLabelPattern(dependencyLabel).finishQuery();
 
         List<WorkflowInfo> workflows = myExperimentRESTClient.searchComponents(query);
         for (WorkflowInfo workflow : workflows) {
@@ -92,20 +173,20 @@ public class MyExperimentSearch {
         this.profile = profile;
     }
 
-    public String getFromMimetype() {
-        return fromMimetype;
+    public String getSourceMimetype() {
+        return sourceMimetype;
     }
 
-    public void setFromMimetype(String fromMimetype) {
-        this.fromMimetype = fromMimetype;
+    public void setSourceMimetype(String sourceMimetype) {
+        this.sourceMimetype = sourceMimetype;
     }
 
-    public String getMigrationPathTo() {
-        return migrationPathTo;
+    public String getTargetMimetype() {
+        return targetMimetype;
     }
 
-    public void setMigrationPathTo(String migrationPathTo) {
-        this.migrationPathTo = migrationPathTo;
+    public void setTargetMimetype(String targetMimetype) {
+        this.targetMimetype = targetMimetype;
     }
 
     public String getDependencyLabel() {
@@ -130,5 +211,13 @@ public class MyExperimentSearch {
 
     public void setEnvironmentType(String environmentType) {
         this.environmentType = environmentType;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
     }
 }

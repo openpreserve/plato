@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -54,8 +53,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Installation.Dependency;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port.PredefinedParameter;
+import eu.scape_project.planning.services.myexperiment.domain.Installation.Dependency;
+import eu.scape_project.planning.services.myexperiment.domain.Port.PredefinedParameter;
 
 /**
  * Description of a workflow of a myExperiment REST API response.
@@ -67,330 +66,18 @@ public class WorkflowDescription extends WorkflowInfo {
 
     private static final Logger LOG = LoggerFactory.getLogger(WorkflowDescription.class);
 
-    /**
-     * Type of a workflow.
-     */
-    @XmlRootElement(name = "type")
-    public static class Type extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * Uploader of a workflow.
-     */
-    @XmlRootElement(name = "uploader")
-    public static class Uploader extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String content) {
-            this.name = content;
-        }
-    }
-
-    /**
-     * License type of a workflow.
-     */
-    @XmlRootElement(name = "license-type")
-    public static class LicenseType extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * Tag of a workflow.
-     */
-    @XmlRootElement(name = "tag")
-    public static class Tag extends ResourceDescription {
-        @XmlValue
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * License type of a workflow.
-     */
-    @XmlRootElement(name = "rating")
-    public static class Rating extends ResourceDescription {
-        @XmlValue
-        private String rating;
-
-        public String getRating() {
-            return rating;
-        }
-
-        public void setRating(String rating) {
-            this.rating = rating;
-        }
-    }
-
-    /**
-     * Migration path.
-     */
-    public static class MigrationPath {
-        private String sourceMimetype;
-        private String targetMimetype;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public MigrationPath() {
-        }
-
-        /**
-         * Creates a new migration path.
-         * 
-         * @param sourceMimetype
-         *            the source mimetype
-         * @param targetMimetype
-         *            the target mimetype
-         */
-        public MigrationPath(String sourceMimetype, String targetMimetype) {
-            this.sourceMimetype = sourceMimetype;
-            this.targetMimetype = targetMimetype;
-        }
-
-        public String getSourceMimetype() {
-            return sourceMimetype;
-        }
-
-        public String getTargetMimetype() {
-            return targetMimetype;
-        }
-    }
-
-    /**
-     * Installation.
-     */
-    public static class Installation {
-
-        /**
-         * Dependency.
-         */
-        public static class Dependency {
-            private String name;
-            private String version;
-            private String license;
-
-            /**
-             * Empty constructor needed for JAXB.
-             */
-            public Dependency() {
-            }
-
-            /**
-             * Creates a new dependency.
-             * 
-             * @param name
-             *            the dependency name
-             * @param version
-             *            the version
-             * @param license
-             *            the license
-             */
-            public Dependency(String name, String version, String license) {
-                this.name = name;
-                this.version = version;
-                this.license = license;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public String getVersion() {
-                return version;
-            }
-
-            public String getLicense() {
-                return license;
-            }
-        }
-
-        private List<Dependency> dependencies;
-        private String environment;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public Installation() {
-        }
-
-        /**
-         * Creates a new installation.
-         * 
-         * @param dependencies
-         *            the dependencies
-         * @param environment
-         *            the environment
-         */
-        public Installation(List<Dependency> dependencies, String environment) {
-            this.dependencies = dependencies;
-            this.environment = environment;
-        }
-
-        public List<Dependency> getDependencies() {
-            return dependencies;
-        }
-
-        public String getEnvironment() {
-            return environment;
-        }
-    }
-
-    /**
-     * Port.
-     */
-    public static class Port {
-
-        /**
-         * Predefined parameters.
-         */
-        public static class PredefinedParameter {
-            private String value;
-            private String description;
-
-            /**
-             * Empty constructor needed for JAXB.
-             */
-            public PredefinedParameter() {
-            }
-
-            /**
-             * Creates a new predefined parameter.
-             * 
-             * @param value
-             *            the value of the parameter
-             * @param description
-             *            the description of the parameter
-             */
-            public PredefinedParameter(String value, String description) {
-                this.value = value;
-                this.description = description;
-            }
-
-            public String getValue() {
-                return value;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-
-        }
-
-        private String name;
-
-        private String description;
-
-        private String value;
-
-        private List<PredefinedParameter> predefinedParameters;
-
-        /**
-         * Empty constructor needed for JAXB.
-         */
-        public Port() {
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         */
-        public Port(String name, String description) {
-            this.name = name;
-            this.description = description;
-        }
-
-        /**
-         * Creates a new port.
-         * 
-         * @param name
-         *            the port name
-         * @param description
-         *            the port description
-         * @param value
-         *            port type
-         */
-        public Port(String name, String description, String value) {
-            this(name, description);
-            this.value = value;
-        }
-
-        /**
-         * Checks if this port is a parameter port.
-         * 
-         * @return true if this port is a parameter port, false otherwise
-         */
-        public boolean isParameterPort() {
-            return ComponentConstants.VALUE_PARAMETER.equals(value) || predefinedParameters != null;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public List<PredefinedParameter> getPredefinedParameters() {
-            return predefinedParameters;
-        }
-
-        private void setPredefinedParameters(List<PredefinedParameter> predefinedParameters) {
-            this.predefinedParameters = predefinedParameters;
-        }
-    }
+    @XmlElement
+    private Type type;
 
     @XmlElement
-    private WorkflowDescription.Type type;
-
-    @XmlElement
-    private WorkflowDescription.Uploader uploader;
+    private Uploader uploader;
 
     private String preview;
 
     private String svg;
 
     @XmlElement(name = "license-type")
-    private WorkflowDescription.LicenseType licenseType;
+    private LicenseType licenseType;
 
     @XmlElementWrapper
     @XmlElement(name = "tag")
@@ -405,6 +92,8 @@ public class WorkflowDescription extends WorkflowInfo {
 
     private String profile = null;
     private List<MigrationPath> migrationPaths = null;
+    private List<String> acceptedMimetype = null;
+    private List<AcceptedMimetypes> acceptedMimetypes = null;
     private List<Installation> installations = null;
     private List<Port> inputPorts = null;
     private List<Port> outputPorts = null;
@@ -420,6 +109,8 @@ public class WorkflowDescription extends WorkflowInfo {
         readOutputPorts();
         readInstallations();
         readMigrationPaths();
+        readAcceptedMimetype();
+        readAcceptedMimetypes();
     }
 
     /**
@@ -502,9 +193,6 @@ public class WorkflowDescription extends WorkflowInfo {
 
     /**
      * Reads the migration paths of the top dataflow.
-     * 
-     * @throws XPathExpressionException
-     * @throws IOException
      */
     public void readMigrationPaths() {
         migrationPaths = new ArrayList<MigrationPath>();
@@ -563,10 +251,121 @@ public class WorkflowDescription extends WorkflowInfo {
     }
 
     /**
+     * Reads the handled mimetype of the top dataflow.
+     */
+    public void readAcceptedMimetype() {
+        acceptedMimetype = new ArrayList<String>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate(
+                        "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
+                        XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+
+                        Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+                        String semanticAnnotation = pel.getTextContent();
+                        semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
+                        Reader reader = new StringReader(semanticAnnotation);
+                        model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+                        reader.close();
+
+                        // @formatter:off
+                        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                            + "PREFIX dpc: <http://purl.org/DP/components#> "
+                            + "SELECT ?mimetype WHERE { "
+                            + "?wf dpc:handlesMimetype ?mimetype }";
+                        // @formatter:on
+
+                        Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
+                        QueryExecution qe = QueryExecutionFactory.create(q, model);
+                        ResultSet results = qe.execSelect();
+                        try {
+                            while ((results != null) && (results.hasNext())) {
+                                QuerySolution orgQs = results.next();
+                                String mimetype = orgQs.getLiteral("mimetype").getString();
+
+                                acceptedMimetype.add(mimetype);
+                            }
+                        } finally {
+                            qe.close();
+                        }
+
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting accepted mimetype from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading accepted mimetype annotations from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads the handled mimetype of the top dataflow.
+     */
+    public void readAcceptedMimetypes() {
+        acceptedMimetypes = new ArrayList<AcceptedMimetypes>();
+
+        for (Element el : components) {
+            if (el.getNodeName().equals("components")) {
+                try {
+                    Document doc = el.getOwnerDocument();
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+                    NodeList nodes = (NodeList) xPath.evaluate(
+                        "/components//dataflow[@role='top']/semantic_annotation/content", doc.getDocumentElement(),
+                        XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); ++i) {
+                        Element pel = (Element) nodes.item(i);
+
+                        Model model = ModelFactory.createMemModelMaker().createDefaultModel();
+                        String semanticAnnotation = pel.getTextContent();
+                        semanticAnnotation = semanticAnnotation.replaceAll("<>", "_:wf");
+                        Reader reader = new StringReader(semanticAnnotation);
+                        model = model.read(reader, null, SEMANTIC_ANNOTATION_LANG);
+                        reader.close();
+
+                        // @formatter:off
+                        String statement = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+                            + "PREFIX dpc: <http://purl.org/DP/components#> "
+                            + "SELECT ?leftMimetype ?rightMimetype WHERE { "
+                            + "?acceptedMimetypes rdf:type dpc:AcceptedMimetypes ."
+                            + "?acceptedMimetypes dpc:handlesLeftMimetype ?leftMimetype ."
+                            + "?acceptedMimetypes dpc:handlesRightMimetype ?rightMimetype } ";
+                        // @formatter:on
+
+                        Query q = QueryFactory.create(statement, Syntax.syntaxARQ);
+                        QueryExecution qe = QueryExecutionFactory.create(q, model);
+                        ResultSet results = qe.execSelect();
+                        try {
+                            while ((results != null) && (results.hasNext())) {
+                                QuerySolution orgQs = results.next();
+                                String leftMimetype = orgQs.getLiteral("leftMimetype").getString();
+                                String rightMimetype = orgQs.getLiteral("rightMimetype").getString();
+
+                                AcceptedMimetypes m = new AcceptedMimetypes(leftMimetype, rightMimetype);
+                                acceptedMimetypes.add(m);
+                            }
+                        } finally {
+                            qe.close();
+                        }
+
+                    }
+                } catch (XPathExpressionException e) {
+                    LOG.warn("Error extracting accepted mimetypes from myExperiment response", e);
+                } catch (IOException e) {
+                    LOG.warn("Error reading accepted mimetypes annotations from myExperiment response", e);
+                }
+            }
+        }
+    }
+
+    /**
      * Reads the found installations paths of all workflows.
-     * 
-     * @throws XPathExpressionException
-     * @throws IOException
      */
     public void readInstallations() {
         installations = new ArrayList<Installation>();
@@ -726,8 +525,8 @@ public class WorkflowDescription extends WorkflowInfo {
             String portDescription = (String) xPath
                 .evaluate("descriptions/description", element, XPathConstants.STRING);
 
-            String semanticAnnotations = (String) xPath.evaluate("semantic_annotation/content", element,
-                XPathConstants.STRING);
+            String semanticAnnotations = replaceBlankNodes((String) xPath.evaluate("semantic_annotation/content",
+                element, XPathConstants.STRING));
 
             Model model = ModelFactory.createMemModelMaker().createDefaultModel();
             Reader reader = new StringReader(semanticAnnotations);
@@ -738,11 +537,12 @@ public class WorkflowDescription extends WorkflowInfo {
                 + "PREFIX dpc: <http://purl.org/DP/components#> "
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> "
                 + "PREFIX cc: <http://creativecommons.org/ns#> " 
-                + "SELECT ?port ?value ?type WHERE { { "
+                + "SELECT ?port ?value ?relatedObject WHERE { { { "
                 + "  ?port dpc:accepts ?value ." 
                 + "} UNION { "
                 + "  ?port dpc:provides ?value ."
-                + "}. "
+                + "} } "
+                + "OPTIONAL { ?port dpc:relatesTo ?relatedObject }"
                 + "FILTER (!isBlank(?value))"
                 + "}";
             // @formatter:on
@@ -757,6 +557,10 @@ public class WorkflowDescription extends WorkflowInfo {
                         QuerySolution qs = results.next();
                         Resource value = qs.getResource("value");
                         port = new Port(portName, portDescription, value.getURI());
+                        Resource relatedObject = qs.getResource("relatedObject");
+                        if (relatedObject != null) {
+                            port.relatedObject = relatedObject.getURI();
+                        }
                     }
                 } else {
                     port = new Port(portName, portDescription);
@@ -880,12 +684,136 @@ public class WorkflowDescription extends WorkflowInfo {
         return null;
     }
 
+    /**
+     * Checks whether the provided workflow accepts the left and right mimetype.
+     * 
+     * @param leftMimetype
+     *            left mimetype to check
+     * @param rightMimetype
+     *            right mimetype to check
+     * @return true if the workflow accepts the mimetypes, false otherwise
+     */
+    public boolean acceptsMimetypes(final String leftMimetype, final String rightMimetype) {
+        String leftWildcard = getMimetypeWildcard(leftMimetype);
+        String rightWildcard = getMimetypeWildcard(leftMimetype);
+
+        if ((leftMimetype == null || acceptedMimetype.contains(leftMimetype) || acceptedMimetype.contains(leftWildcard))
+            && (rightMimetype == null || acceptedMimetype.contains(rightMimetype) || acceptedMimetype
+                .contains(rightWildcard))) {
+            return true;
+        }
+
+        for (AcceptedMimetypes m : acceptedMimetypes) {
+            if ((leftMimetype == null || m.getLeftMimetype().equals(leftMimetype) || m.getLeftMimetype().equals(
+                leftWildcard))
+                && (rightMimetype == null || m.getRightMimetype().equals(rightMimetype) || m.getRightMimetype().equals(
+                    rightWildcard))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the left part of the provided workflow can handle the mimetype.
+     * 
+     * @param mimetype
+     *            the mimetype
+     * @return true if the left part can handle the mimetype, false otherwise
+     */
+    public boolean acceptsLeftMimetype(final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
+        String wildcardMimetype = getMimetypeWildcard(mimetype);
+
+        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
+            return true;
+        }
+
+        for (AcceptedMimetypes m : acceptedMimetypes) {
+            if (m.getLeftMimetype().equals(mimetype) || m.getLeftMimetype().equals(wildcardMimetype)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the right part of the provided workflow can handle the
+     * mimetype.
+     * 
+     * @param mimetype
+     *            the mimetype
+     * @return true if the right part can handle the mimetype, false otherwise
+     */
+    public boolean acceptsRightMimetype(final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
+        String wildcardMimetype = getMimetypeWildcard(mimetype);
+
+        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
+            return true;
+        }
+
+        for (AcceptedMimetypes m : acceptedMimetypes) {
+            if (m.getRightMimetype().equals(mimetype) || m.getRightMimetype().equals(wildcardMimetype)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the provided workflow can handle the mimetype.
+     * 
+     * @param mimetype
+     *            the mimetype
+     * @return true if the left part can handle the mimetype, false otherwise
+     */
+    public boolean handlesMimetype(final String mimetype) {
+        if (mimetype == null) {
+            return true;
+        }
+
+        String wildcardMimetype = getMimetypeWildcard(mimetype);
+
+        if (acceptedMimetype.contains(mimetype) || acceptedMimetype.contains(wildcardMimetype)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Creates a wildcard mimetype by using the type of the provided mimetype
+     * and '*' as subtype.
+     * 
+     * @param mimetype
+     *            the base mimetype
+     * @return the wildcard mimetype
+     */
+    private String getMimetypeWildcard(String mimetype) {
+        if (mimetype == null) {
+            return null;
+        } else if ("".equals(mimetype)) {
+            return "";
+        }
+
+        int position = mimetype.indexOf('/');
+        return mimetype.substring(0, position >= 0 ? position : mimetype.length()) + "/*";
+    }
+
     // ---------- getter/setter ----------
-    public WorkflowDescription.Type getType() {
+
+    public Type getType() {
         return type;
     }
 
-    public WorkflowDescription.Uploader getUploader() {
+    public Uploader getUploader() {
         return uploader;
     }
 
@@ -897,7 +825,7 @@ public class WorkflowDescription extends WorkflowInfo {
         return svg;
     }
 
-    public WorkflowDescription.LicenseType getLicenseType() {
+    public LicenseType getLicenseType() {
         return licenseType;
     }
 
@@ -923,6 +851,14 @@ public class WorkflowDescription extends WorkflowInfo {
 
     public List<MigrationPath> getMigrationPaths() {
         return migrationPaths;
+    }
+
+    public List<String> getAcceptedMimetype() {
+        return acceptedMimetype;
+    }
+
+    public List<AcceptedMimetypes> getAcceptedMimetypes() {
+        return acceptedMimetypes;
     }
 
     public List<Installation> getInstallations() {

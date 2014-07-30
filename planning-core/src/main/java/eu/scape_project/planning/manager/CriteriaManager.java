@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,6 @@ import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Remove;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Named;
@@ -63,12 +62,12 @@ import eu.scape_project.planning.model.scales.RestrictedScale;
 import eu.scape_project.planning.model.scales.Scale;
 
 /**
- * For administration of metrics, measurable properties and criteria This should
- * be the interface to a Measurement Property Registry (MPR) - the registry
- * should be queried for all measurement entities - this would prevent entities
- * being overwritten by accident, and ease notification on changed entities -
- * changes to already known entities should trigger events for preservation
- * watch
+ * For administration of metrics, measurable properties and criteria. This
+ * should be the interface to a Measurement Property Registry (MPR) - the
+ * registry should be queried for all measurement entities - this would prevent
+ * entities being overwritten by accident, and ease notification on changed
+ * entities - changes to already known entities should trigger events for
+ * preservation watch
  * 
  * @author kraxner
  */
@@ -87,23 +86,26 @@ public class CriteriaManager implements Serializable {
 
     private Model model;
 
+    /**
+     * Constructs a new criteria manager.
+     */
     public CriteriaManager() {
         model = ModelFactory.createMemModelMaker().createDefaultModel();
     }
 
     /**
-     * cache for looking up CriterionCategories by their uri
+     * Cache for looking up CriterionCategories by their URI.
      */
     private Map<String, CriterionCategory> knownCategories = new HashMap<String, CriterionCategory>();
 
     /**
-     * cache for lookup of all currently known measures by their uri
+     * Cache for lookup of all currently known measures by their URI.
      * 
      */
     private Map<String, Measure> knownMeasures = new HashMap<String, Measure>();
 
     /**
-     * cache for lookup of all currently known attributes by their uri
+     * Cache for lookup of all currently known attributes by their URI.
      */
     private Map<String, Attribute> knownAttributes = new HashMap<String, Attribute>();
 
@@ -111,7 +113,7 @@ public class CriteriaManager implements Serializable {
      * Returns a list of all known categories IMPORTANT: this list can not (and
      * must not) be altered!
      * 
-     * @return
+     * @return a collection of categories
      */
     public Collection<CriterionCategory> getAllCriterionCategories() {
         return Collections.unmodifiableCollection(knownCategories.values());
@@ -121,7 +123,7 @@ public class CriteriaManager implements Serializable {
      * Returns a list of all known criteria IMPORTANT: this list can not (and
      * must not) be altered!
      * 
-     * @return
+     * @return a collection of measures
      */
     @Lock(LockType.READ)
     public Collection<Measure> getAllMeasures() {
@@ -129,10 +131,10 @@ public class CriteriaManager implements Serializable {
     }
 
     /**
-     * returns a list of all known properties IMPORTANT: this list can not (and
+     * Returns a list of all known properties IMPORTANT: this list can not (and
      * must not) be altered!
      * 
-     * @return
+     * @return a collection of attributes
      */
     @Lock(LockType.READ)
     public Collection<Attribute> getAllAttributes() {
@@ -140,21 +142,36 @@ public class CriteriaManager implements Serializable {
     }
 
     /**
-     * Returns the criterion for the given criterionUri
+     * Returns the criterion for the given criterionUri.
      * 
-     * @param uri
-     * @return
+     * @param measureUri
+     *            the URI of the measure
+     * @return the measure or null if no measure could be found
      */
     @Lock(LockType.READ)
     public Measure getMeasure(String measureUri) {
         return knownMeasures.get(measureUri);
     }
 
+    /**
+     * Returns the attribute for the given attributeUri.
+     * 
+     * @param attributeUri
+     *            the URI of the attribute
+     * @return the attribute of null if no attribute could be found
+     */
     @Lock(LockType.READ)
     public Attribute getAttribute(String attributeUri) {
         return knownAttributes.get(attributeUri);
     }
 
+    /**
+     * Builds the hierarchy of the measure.
+     * 
+     * @param measureUri
+     *            the URI of the measure
+     * @return a list of URIs ordered from measure upwards
+     */
     @Lock(LockType.READ)
     public List<String> getCategoryHierachy(String measureUri) {
         List<String> hierarchy = new ArrayList<String>();
@@ -184,15 +201,21 @@ public class CriteriaManager implements Serializable {
         return hierarchy;
     }
 
+    /**
+     * measureUri categories from the model.
+     */
     private void resolveCriterionCategories() {
         knownCategories.clear();
-        
-        String statement = "SELECT ?c ?cn ?scope WHERE { " + "?c rdf:type quality:CriterionCategory . "
-            + "?c skos:prefLabel ?cn . " + "?c quality:scope ?scope }";
+
+        // @formatter:off
+        String statement = "SELECT ?c ?cn ?scope WHERE { " 
+                         + "?c rdf:type quality:CriterionCategory . "
+                         + "?c skos:prefLabel ?cn . " + "?c quality:scope ?scope }";
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX quality: <http://purl.org/DP/quality#>";
+                        + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
+                        + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " 
+                        + "PREFIX quality: <http://purl.org/DP/quality#>";
+        // @formatter:on
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -220,17 +243,25 @@ public class CriteriaManager implements Serializable {
         }
     }
 
+    /**
+     * Resolves attributes from the model.
+     */
     private void resolveAttributes() {
         knownAttributes.clear();
-        
-        String statement = "SELECT ?a ?an ?ad ?ac WHERE { " + "?a rdf:type quality:Attribute . " + "?a skos:prefLabel ?an . "
-            + "?a dct:description ?ad . " + "?a quality:criterionCategory ?ac }";
+
+        // @formatter:off
+        String statement = "SELECT ?a ?an ?ad ?ac WHERE { " 
+                         + "?a rdf:type quality:Attribute . "
+                         + "?a skos:prefLabel ?an . " 
+                         + "?a dct:description ?ad . " 
+                         + "?a quality:criterionCategory ?ac }";
 
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX dct:<http://purl.org/dc/terms/> "
-            + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX quality: <http://purl.org/DP/quality#>";
+                        + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> " 
+                        + "PREFIX dct:<http://purl.org/dc/terms/> "
+                        + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " 
+                        + "PREFIX quality: <http://purl.org/DP/quality#>";
+        // @formatter:on
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -252,18 +283,27 @@ public class CriteriaManager implements Serializable {
 
     }
 
+    /**
+     * Resolves measures from the model.
+     */
     private void resolveMeasures() {
         knownMeasures.clear();
-        
-        String statement = "SELECT ?m ?mn ?md ?a ?s ?r WHERE { " + "?m rdf:type quality:Measure . "
-            + "?m quality:attribute ?a . " + "?m skos:prefLabel ?mn . " + "?m dct:description ?md . " + "?m quality:scale ?s . "
-            + "optional{?m quality:restriction ?r} }";
+
+        // @formatter:off
+        String statement = "SELECT ?m ?mn ?md ?a ?s ?r WHERE { " 
+                         + "?m rdf:type quality:Measure . "
+                         + "?m quality:attribute ?a . " 
+                         + "?m skos:prefLabel ?mn . " 
+                         + "?m dct:description ?md . "
+                         + "?m quality:scale ?s . " 
+                         + "optional{?m quality:restriction ?r} }";
 
         String commonNS = "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-            + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> "
-            + "PREFIX dct:<http://purl.org/dc/terms/> "
-            + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> "
-            + "PREFIX quality: <http://purl.org/DP/quality#>";
+                        + "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#> " 
+                        + "PREFIX dct:<http://purl.org/dc/terms/> "
+                        + "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " 
+                        + "PREFIX quality: <http://purl.org/DP/quality#>";
+        // @formatter:on
 
         Query query = QueryFactory.create(commonNS + statement, Syntax.syntaxARQ);
         QueryExecution qe = QueryExecutionFactory.create(query, model);
@@ -293,7 +333,7 @@ public class CriteriaManager implements Serializable {
             Attribute a = knownAttributes.get(attributeUri);
 
             m.setAttribute(a);
-            
+
             if ((a != null) && (s != null)) {
                 // only add completely defined measures
                 knownMeasures.put(m.getUri(), m);
@@ -301,6 +341,13 @@ public class CriteriaManager implements Serializable {
         }
     }
 
+    /**
+     * Creates a scale from the provided scale name.
+     * 
+     * @param scaleName
+     *            the name of the scale
+     * @return the scale or null if no scale could be found
+     */
     private Scale createScale(String scaleName) {
 
         if ("Boolean".equalsIgnoreCase(scaleName)) {
@@ -328,33 +375,29 @@ public class CriteriaManager implements Serializable {
      * (as designated by URI), the information is updated.
      * 
      * @see eu.scape_project.planning.application.ICriteriaManager#reload()
-     *      ATTENTION: From all available CRUD operation only CReate and Update
+     *      ATTENTION: From all available CRUD operation only Create and Update
      *      are covered. Delete operations are not executed. Thus, if you have
-     *      deleted Properties in your XML they are not deleted in database as
-     *      well.
+     *      deleted Properties in your XML they are not deleted from the
+     *      database.
      */
     @Lock(LockType.WRITE)
     public void reload() {
         model = FileManager.get().loadModel(CATEGORIES_FILE);
         model.add(FileManager.get().loadModel(ATTRIBUTES_FILE));
         model.add(FileManager.get().loadModel(MEASURES_FILE));
-        
 
         resolveCriterionCategories();
         resolveAttributes();
         resolveMeasures();
     }
 
+    /**
+     * Initialises this criteria manager.
+     */
     @PostConstruct
     public void init() {
         if (knownMeasures.isEmpty()) {
             reload();
         }
-
     }
-
-    @Remove
-    public void destroy() {
-    }
-
 }

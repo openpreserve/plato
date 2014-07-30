@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,8 +49,8 @@ import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.myexperiment.MyExperimentSearch;
+import eu.scape_project.planning.services.myexperiment.domain.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
 import eu.scape_project.planning.services.pa.PreservationActionRegistryDefinition;
 import eu.scape_project.planning.services.pa.taverna.MyExperimentActionInfo;
 import eu.scape_project.planning.utils.FacesMessages;
@@ -190,6 +190,7 @@ public class DefineAlternativesView extends AbstractView {
         }
 
         serviceLoaders.put("myExperiment", myExperimentServices);
+        serviceLoaders.put("myExperiment-plan", myExperimentServices);
         myExperimentServices.clear();
 
         showCustomAlternatives();
@@ -341,7 +342,7 @@ public class DefineAlternativesView extends AbstractView {
         clearAvailableServices();
         selectedRegistry = SelectedRegistry.MY_EXPERIMENT;
 
-        myExperimentSearch.setFromMimetype(getSampleWithFormat().getFormatInfo().getMimeType());
+        myExperimentSearch.setSourceMimetype(getSampleWithFormat().getFormatInfo().getMimeType());
         filterMyExperimentAlternatives();
     }
 
@@ -350,7 +351,7 @@ public class DefineAlternativesView extends AbstractView {
      */
     public void filterMyExperimentAlternatives() {
         availableActions.clear();
-        availableActions.addAll(myExperimentSearch.search());
+        availableActions.addAll(myExperimentSearch.searchMigrationAction());
         serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
     }
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,9 +34,9 @@ import eu.scape_project.planning.model.CollectionProfile;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.ExecutablePlanDefinition;
 import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.services.taverna.parser.T2FlowParser;
+import eu.scape_project.planning.services.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.sla.QLDGenerator;
-import eu.scape_project.planning.taverna.parser.T2FlowParser;
-import eu.scape_project.planning.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.ParserException;
 
 /**

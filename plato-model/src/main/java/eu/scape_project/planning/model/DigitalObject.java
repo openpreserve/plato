@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,  
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,11 +83,6 @@ public class DigitalObject implements Serializable, ITouchable {
     @Column(length = 2000000)
     protected String fitsXMLString;
 
-//    /**
-//     * Size of the digital object in bytes.
-//     */
-//    private double sizeInBytes = 0.0;
-
     @OneToOne(cascade = CascadeType.ALL)
     protected XcdlDescription xcdlDescription = null;
 
@@ -97,26 +92,10 @@ public class DigitalObject implements Serializable, ITouchable {
     @OneToOne(cascade = CascadeType.ALL)
     protected FormatInfo formatInfo = new FormatInfo();
 
-    public ByteStream getData() {
-        return data;
-    }
-
-    public void setData(ByteStream data) {
-        this.data = data;
-    }
-
-    public String getFitsXMLString() {
-        return fitsXMLString;
-    }
-
-    public void setFitsXMLString(String fitsXMLString) {
-        this.fitsXMLString = fitsXMLString;
-    }
-
     /**
      * Method responsible for indicating if the DigitalObject contains data.
      * 
-     * @return true if the upload contains data.
+     * @return true if the upload contains data
      */
     public boolean isDataExistent() {
         // pid indicates associated data
@@ -128,13 +107,116 @@ public class DigitalObject implements Serializable, ITouchable {
         return data.isDataExistent();
     }
 
-    public String getFullname() {
-        return fullname;
+    /**
+     * Assigns relevant values from the provided {@code source} to this object.
+     * 
+     * @param source
+     *            the source of the values
+     */
+    public void assignValues(DigitalObject source) {
+        contentType = source.getContentType();
+        fullname = source.getFullname();
+        data = source.getData().clone();
+        pid = source.getPid();
+        fitsXMLString = source.getFitsXMLString();
+        formatInfo.assignValues(source.getFormatInfo());
+        jhoveXMLString = source.getJhoveXMLString();
+        xcdlDescription = source.getXcdlDescription();
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    /**
+     * Creates a copy of this object assigning relevant values.
+     * 
+     * @return a copy of this object
+     * 
+     * @see assignValues(DigitalObject)
+     */
+    @Override
+    public DigitalObject clone() {
+        DigitalObject u = new DigitalObject();
+        u.assignValues(this);
+        return u;
     }
+
+    /**
+     * @see ITouchable#isChanged()
+     */
+    @Override
+    public boolean isChanged() {
+        return changeLog.isAltered();
+    }
+
+    /**
+     * @see ITouchable#touch()
+     */
+    @Override
+    public void touch() {
+        changeLog.touch();
+    }
+
+    /**
+     * @see ITouchable#handleChanges(IChangesHandler)
+     */
+    @Override
+    public void handleChanges(IChangesHandler h) {
+        h.visit(this);
+        formatInfo.handleChanges(h);
+        if (xcdlDescription != null) {
+            xcdlDescription.handleChanges(h);
+        }
+    }
+
+    /**
+     * Checks only the ID, if it exists, otherwise checks object identity.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (o instanceof DigitalObject) {
+            int id2 = ((DigitalObject) o).getId();
+            return ((id != 0) && (id == id2));
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return new Long(id).hashCode();
+    }
+
+    /**
+     * Returns the size of this object in mebibyte.
+     * 
+     * @return the size in MB
+     */
+    public double getSizeInMB() {
+        return (Math.round(getSizeInBytes() / (1024.0d * 1024.0d / 100.0d)) / 100.0d);
+    }
+
+    /**
+     * Sets the size of this object in bytes.
+     * 
+     * @param sizeInBytes
+     *            the size in bytes
+     */
+    public void setSizeInBytes(final long sizeInBytes) {
+        this.data.setSize(sizeInBytes);
+    }
+
+    /**
+     * Returns the size of this objects data in bytes.
+     * 
+     * @return the size in bytes
+     */
+    public long getSizeInBytes() {
+        return data.getSize();
+    }
+
+    // ---------- getter/setter ----------
 
     public int getId() {
         return id;
@@ -142,6 +224,22 @@ public class DigitalObject implements Serializable, ITouchable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getContentType() {
@@ -152,21 +250,6 @@ public class DigitalObject implements Serializable, ITouchable {
         this.contentType = contentType;
     }
 
-    public void assignValues(DigitalObject source) {
-        contentType = source.getContentType();
-        fullname = source.getFullname();
-        data = source.getData().clone();
-        pid = source.getPid();
-        fitsXMLString = source.getFitsXMLString();
-        formatInfo.assignValues(source.getFormatInfo());
-    }
-
-    public DigitalObject clone() {
-        DigitalObject u = new DigitalObject();
-        u.assignValues(this);
-        return u;
-    }
-
     public ChangeLog getChangeLog() {
         return changeLog;
     }
@@ -175,23 +258,12 @@ public class DigitalObject implements Serializable, ITouchable {
         changeLog = value;
     }
 
-    public boolean isChanged() {
-        return changeLog.isAltered();
+    public ByteStream getData() {
+        return data;
     }
 
-    public void touch() {
-        changeLog.touch();
-    }
-
-    /**
-     * @see ITouchable#handleChanges(IChangesHandler)
-     */
-    public void handleChanges(IChangesHandler h) {
-        h.visit(this);
-        formatInfo.handleChanges(h);
-        if (xcdlDescription != null) {
-            xcdlDescription.handleChanges(h);
-        }
+    public void setData(ByteStream data) {
+        this.data = data;
     }
 
     public String getJhoveXMLString() {
@@ -200,6 +272,14 @@ public class DigitalObject implements Serializable, ITouchable {
 
     public void setJhoveXMLString(String jhoveXMLString) {
         this.jhoveXMLString = jhoveXMLString;
+    }
+
+    public String getFitsXMLString() {
+        return fitsXMLString;
+    }
+
+    public void setFitsXMLString(String fitsXMLString) {
+        this.fitsXMLString = fitsXMLString;
     }
 
     public XcdlDescription getXcdlDescription() {
@@ -218,46 +298,4 @@ public class DigitalObject implements Serializable, ITouchable {
         formatInfo = value;
     }
 
-    @Override
-    /**
-     * checks only the ID, if it exists - if it doesnt exist, it checks object identity.
-     */
-    public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-
-        if (o instanceof DigitalObject) {
-            int id2 = ((DigitalObject) o).getId();
-            boolean result = ((id != 0) && (id == id2));
-            return result;
-        }
-
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return new Long(id).hashCode();
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public double getSizeInMB() {
-        return (Math.round(getSizeInBytes() / (1024.0d * 1024.0d / 100.0d)) / 100.0d);
-    }
-
-    public void setSizeInBytes(final long sizeInBytes) {
-        this.data.setSize(sizeInBytes);
-    }
-
-    public long getSizeInBytes() {
-        return data.getSize();
-    }
 }

@@ -151,7 +151,17 @@ h1 {
 h2 {
 	margin-left: 10px;
 	margin-top: 10px;
-	font-size: medium;
+	font-size: 16px;
+}
+
+h3 {
+	margin-left: 10px;
+	margin-top: 10px;
+	font-size: 14px;
+}
+
+h1 img, h2 img, h3 img {
+	vertical-align: middle;
 }
 
 ul.anchors {
@@ -230,23 +240,26 @@ fieldset.size-full {
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	/*background:yellow;*/
 	padding-top: 0px;
 }
 
 .label {
 	width: 30%;
-	/*position: relative;
-	display: inline-block; 
-	top: 0;
-	left: 0;*/
-	/*background:red;*/
 	text-align: right;
 	margin-left: 0px;
 	margin-right: 0px;
 	margin-top: 0px;
 	float: left;
 	padding-right: 5px;
+}
+
+.icon {
+	width: 28px;
+	height: 28px;
+}
+
+.icon-textsize {
+	height: 1em;
 }
 
 /* 
@@ -335,7 +348,7 @@ input[type="text"],input[type="password"],select,textarea {
 }
 
 /* Standard submit button */
-input[type=submit],input[type=button],.default-button,.download-link,.show-meta-data,.trash {
+input[type=submit],input[type=button],.default-button,.download-link,.show-meta-data,.trash,.play {
 	-moz-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #D9D6D6;
 	box-shadow: inset 0px 1px 0px 0px #D9D6D6;
@@ -364,66 +377,63 @@ input[type=submit],input[type=button],.default-button,.download-link,.show-meta-
 
 }
 
-input[type=submit]:hover,input[type=button]:hover,.default-button:hover,.download-link:hover,.show-meta-data:hover,.trash:hover
-	{
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
-		), color-stop(1, #CFCDCD) );
+input[type=submit]:hover,input[type=button]:hover,.default-button:hover,.download-link:hover,.show-meta-data:hover,.trash:hover,.play:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B0AEAE',
-		endColorstr='#CFCDCD' );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B0AEAE', endColorstr='#CFCDCD' );
 	background-color: #999898;
 	color: #525151;
 }
-.download-link{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
-		), color-stop(1, #B0AEAE) );
+
+a.download-link, input.download-link {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-.download-link:hover{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
-		), color-stop(1, #CFCDCD) );
+a.download-link:hover, input.download-link:hover {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/download.svg) no-repeat 5px 2px, linear-gradient(top, #B0AEAE, #CFCDCD);
-
-	padding: 0px 5px 0px 38px;
 }
 
-.show-meta-data{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
-		), color-stop(1, #B0AEAE) );
+a.show-meta-data, input.show-meta-data {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-.show-meta-data:hover{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
-		), color-stop(1, #CFCDCD) );
+a.show-meta-data:hover, .show-meta-data:hover {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/viewer_text.svg) no-repeat 5px 0px, linear-gradient(top, #B0AEAE, #CFCDCD);
-
-	padding: 0px 5px 0px 38px;
 }
-.trash{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD
-		), color-stop(1, #B0AEAE) );
+
+a.trash, .trash {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, linear-gradient(top, #CFCDCD, #B0AEAE);
-
-	padding: 0px 5px 0px 38px;
 }
-.trash:hover{
-	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE
-		), color-stop(1, #CFCDCD) );
+a.trash:hover, .trash:hover {
+	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
 	background: url(#{request.contextPath}/resources/gfx/icons/picol/cancel.svg) no-repeat 5px 0px, linear-gradient(top, #B0AEAE, #CFCDCD);
-
-	padding: 0px 5px 0px 38px;
 }
 
+a.play, input.play {
+	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #CFCDCD), color-stop(1, #B0AEAE) );
+	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #CFCDCD 5%, #B0AEAE 100%);
+	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, linear-gradient(top, #CFCDCD, #B0AEAE);
+}
+a.play:hover, input.play:hover {
+	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #B0AEAE), color-stop(1, #CFCDCD) );
+	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, -moz-linear-gradient(center top, #B0AEAE 5%, #CFCDCD 100%);
+	background: url(#{request.contextPath}/resources/gfx/icons/icomoon/play2-32.svg) no-repeat 5px 0px, linear-gradient(top, #B0AEAE, #CFCDCD);
+}
+
+a.download-link, a.show-meta-data, a.trash, a.play, input.download-link, input.show-meta-data, input.trash, input.play,
+a.download-link:hover, a.show-meta-data:hover, a.trash:hover, a.play:hover, input.download-link:hover, input.show-meta-data:hover, input.trash:hover, input.play:hover {
+	padding: 0px 5px 0px 38px;
+	background-size: contain;
+}
 
 /*
 Do we need this?
@@ -1030,6 +1040,10 @@ td.service-marker-myExperiment {
 	background-color: #ce0434;
 }
 
+td.service-marker-myExperiment-plan {
+	background-color: #940325;
+}
+
 td.service-marker-MiniMEE-migration {
 	background-color: white;
 }
@@ -1038,16 +1052,20 @@ td.service-marker-P2 {
 	background-color: #005eb2;
 }
 
-.service-addservice {
+.service-action {
 	width: 26px;
 	padding: 4px;
 }
 
-input.service-addservice-add {
+.service-action input {
 	font-size: 30px;
 	padding: 3px;
 	height: 100%;
 	width: 26px;
+}
+
+.service-action input.run {
+	font-size: 24px;
 }
 
 td.service-info {
@@ -1158,31 +1176,15 @@ td.service-info {
 	overflow: hidden;
 }
 
-.service-parameter-or {
-	position: relative;
+.separator-or-vertical {
 	display: inline-block;
-	width: 100%;
 	text-align: center;
-}
-
-.service-parameter-or:before {
-	position: absolute;
-	left: 0%;
-	top: 50%;
-	height: 1px;
-	background: #ccc;
-	content: "";
-	width: 100%;
-}
-
-.service-parameter-or:after {
-	position: absolute;
-	top: 0%;
-	left: 46%;
-	background: #fff;
-	display: block;
 	content: 'or';
-	width: 8%;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border:1px solid #C4C0B9;
+	border-radius:100%;
 }
 
 /* Confirmation panel */

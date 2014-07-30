@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/**
- * 
- */
 package eu.scape_project.planning.plato.wf;
 
 import java.io.ByteArrayInputStream;
@@ -39,9 +36,8 @@ import eu.scape_project.planning.model.ByteStream;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
-import eu.scape_project.planning.taverna.parser.T2FlowParser;
-import eu.scape_project.planning.taverna.parser.T2FlowParserFallback;
-import eu.scape_project.planning.taverna.parser.TavernaParserException;
+import eu.scape_project.planning.services.taverna.parser.T2FlowParser;
+import eu.scape_project.planning.services.taverna.parser.TavernaParserException;
 import eu.scape_project.planning.utils.FileUtils;
 import eu.scape_project.planning.xml.PlanXMLConstants;
 import eu.scape_project.planning.xml.PreservationActionPlanGenerator;
@@ -63,7 +59,7 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
     private PreservationActionPlanGenerator generator;
 
     /**
-     * Default constructor.
+     * Constructs a new create executable plan object.
      */
     public CreateExecutablePlan() {
         requiredPlanState = PlanState.ANALYSED;
@@ -104,16 +100,82 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
             throw new PlanningException("An error occurred while storing the executable plan");
         }
 
-        T2FlowParser parser = T2FlowParserFallback.createParser(new ByteArrayInputStream(bsData.getData()));
-
-        if (!T2FlowParser.ComponentProfile.ExecutablePlan.equals(parser.getProfile())) {
-            // TODO: Throw exception, this is commented for test purposes
-            // throw new
-            // PlanningException("The provided profile does not adhere to the Executable Plan Profile.");
-        }
+        T2FlowParser parser = T2FlowParser.createParser(new ByteArrayInputStream(bsData.getData()));
 
         String name = parser.getName();
         storeExecutablePlan(FileUtils.makeFilename(name) + ".t2flow", bsData);
+    }
+
+    /**
+     * Generates the preservation action plan other plan information and stores
+     * it in the plan.
+     * 
+     * @throws PlanningException
+     *             if an error occurred
+     */
+    public void generatePreservationActionPlan() throws PlanningException {
+        try {
+            Document papDoc = generator.generatePreservationActionPlanDocument(plan.getSampleRecordsDefinition()
+                .getCollectionProfile(), plan.getExecutablePlanDefinition(), plan);
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+            outputFormat.setEncoding(PlanXMLConstants.ENCODING);
+
+            XMLWriter writer = new XMLWriter(out, outputFormat);
+
+            writer.write(papDoc);
+            writer.close();
+
+            ByteStream bs = new ByteStream();
+            bs.setData(out.toByteArray());
+            bs.setSize(out.size());
+
+            DigitalObject digitalObject = new DigitalObject();
+            digitalObject.setFullname(PreservationActionPlanGenerator.FULL_NAME);
+            digitalObject.setContentType("application/xml");
+            digitalObject.setData(bs);
+
+            digitalObjectManager.moveDataToStorage(digitalObject);
+
+            if (plan.getPreservationActionPlan() != null && plan.getPreservationActionPlan().isDataExistent()) {
+                bytestreamsToRemove.add(plan.getPreservationActionPlan().getPid());
+            }
+
+            plan.setPreservationActionPlan(digitalObject);
+            addedBytestreams.add(digitalObject.getPid());
+            plan.getPreservationActionPlan().touch();
+        } catch (IOException e) {
+            log.error("Error generating preservation action plan {}.", e.getMessage());
+            throw new PlanningException("Error generating preservation action plan.", e);
+        } catch (StorageException e) {
+            log.error("An error occurred while storing the executable plan: {}", e.getMessage());
+            throw new PlanningException("An error occurred while storing the profile", e);
+        }
+    }
+
+    /**
+     * Uses the experiment workflow from the recommended alternative as
+     * executable plan.
+     * 
+     * @throws PlanningException
+     *             if an error occurred during storing
+     */
+    public void copyRecommendedExperimentWorkflow() throws PlanningException {
+        if (plan.getRecommendation().getAlternative().getExperiment() == null) {
+            throw new PlanningException("The recommendation has no experiment defined.");
+        }
+        if (plan.getRecommendation().getAlternative().getExperiment().getWorkflow() == null) {
+            throw new PlanningException("The recommendation experiment has no workflow defined.");
+        }
+
+        DigitalObject workflow = plan.getRecommendation().getAlternative().getExperiment().getWorkflow();
+        DigitalObject copy = digitalObjectManager.getCopyOfDataFilledDigitalObject(workflow);
+        digitalObjectManager.moveDataToStorage(copy);
+        addedBytestreams.add(copy.getPid());
+        plan.getExecutablePlanDefinition().setT2flowExecutablePlan(copy);
+        plan.getExecutablePlanDefinition().getT2flowExecutablePlan().touch();
     }
 
     /**
@@ -157,56 +219,8 @@ public class CreateExecutablePlan extends AbstractWorkflowStep {
         try {
             digitalObjectManager.moveDataToStorage(object);
             plan.getExecutablePlanDefinition().setT2flowExecutablePlan(object);
+            plan.getExecutablePlanDefinition().getT2flowExecutablePlan().touch();
             addedBytestreams.add(object.getPid());
-        } catch (StorageException e) {
-            log.error("An error occurred while storing the executable plan: {}", e.getMessage());
-            throw new PlanningException("An error occurred while storing the profile", e);
-        }
-    }
-
-    /**
-     * Generates the preservation action plan other plan information and stores
-     * it in the plan.
-     * 
-     * @throws PlanningException
-     *             if an error occurred
-     */
-    public void generatePreservationActionPlan() throws PlanningException {
-        try {
-            Document papDoc = generator.generatePreservationActionPlanDocument(plan.getSampleRecordsDefinition()
-                .getCollectionProfile(), plan.getExecutablePlanDefinition(), plan);
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-            OutputFormat outputFormat = OutputFormat.createPrettyPrint();
-            outputFormat.setEncoding(PlanXMLConstants.ENCODING);
-
-            XMLWriter writer = new XMLWriter(out, outputFormat);
-
-            writer.write(papDoc);
-            writer.close();
-
-            ByteStream bs = new ByteStream();
-            bs.setData(out.toByteArray());
-            bs.setSize(out.size());
-
-            DigitalObject digitalObject = new DigitalObject();
-            digitalObject.setFullname(PreservationActionPlanGenerator.FULL_NAME);
-            digitalObject.setContentType("application/xml");
-            digitalObject.setData(bs);
-
-            digitalObjectManager.moveDataToStorage(digitalObject);
-
-            if (plan.getPreservationActionPlan() != null && plan.getPreservationActionPlan().isDataExistent()) {
-                bytestreamsToRemove.add(plan.getPreservationActionPlan().getPid());
-            }
-
-            plan.setPreservationActionPlan(digitalObject);
-            addedBytestreams.add(digitalObject.getPid());
-
-        } catch (IOException e) {
-            log.error("Error generating preservation action plan {}.", e.getMessage());
-            throw new PlanningException("Error generating preservation action plan.", e);
         } catch (StorageException e) {
             log.error("An error occurred while storing the executable plan: {}", e.getMessage());
             throw new PlanningException("An error occurred while storing the profile", e);

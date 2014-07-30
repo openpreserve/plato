@@ -9,6 +9,9 @@
  www.planets-project.eu
  www.ifs.tuwien.ac.at/dp 
 
+Changes in V4.0.3
+  * added optional attribute workflow to experiment
+  * removed numberOfObjects
  Changes in V4.0.2:
   * added optional attribute: repositoryidentifier to projectPropertiesType
   * planType (FULL, FTE) is now optional (there will be no more FTE plans )
@@ -16,7 +19,6 @@
   * added freeStringResultType, corrected reference to intRangeResultType, intRangeValueType
  
  Changes in V4.0.0:
- 
   * new model for measuring significant properties: 
     - measure and attributes based on the new quality model as replacement for criterion, measureableproperty, and metric
     - MeasurementType: refers to measureId instead of MeasureableProperty
@@ -28,7 +30,7 @@
     The version attribute of this schema reflects the exact version of corresponding plans. 
  
  -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ifs.tuwien.ac.at/dp/plato" targetNamespace="http://ifs.tuwien.ac.at/dp/plato" elementFormDefault="qualified" version="4.0.2">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ifs.tuwien.ac.at/dp/plato" targetNamespace="http://ifs.tuwien.ac.at/dp/plato" elementFormDefault="qualified" version="4.0.3">
 	<xs:include schemaLocation="preservationActionPlan-V1.xsd"/>
 	<xs:element name="plans" type="Plans"/>
 	<xs:complexType name="Plans">
@@ -104,6 +106,7 @@
 		<xs:all>
 			<xs:element name="description" type="hugeString" minOccurs="0"/>
 			<xs:element name="settings" type="maxLengthString" minOccurs="0"/>
+			<xs:element name="workflow" type="digitalObjectType" minOccurs="0"/>
 			<xs:element name="results" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
@@ -321,7 +324,6 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="policyTree" type="policyTreeType" minOccurs="0"/>
-			<xs:element name="numberOfObjects" type="xs:string" minOccurs="0"/>
 			<xs:element name="changelog" type="changeLogType"/>
 		</xs:all>
 		<xs:attribute name="identificationCode" type="xs:string"/>

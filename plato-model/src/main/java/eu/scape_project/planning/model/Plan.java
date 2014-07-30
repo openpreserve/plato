@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,  
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,7 +55,6 @@ import eu.scape_project.planning.model.values.Value;
  * explanation of terms.
  * 
  * @author Christoph Becker
- * 
  */
 @Entity
 public class Plan implements Serializable, ITouchable {
@@ -115,13 +114,12 @@ public class Plan implements Serializable, ITouchable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChangeLog changeLog = new ChangeLog();
-    
+
     /**
      * States if the plan was opened in read only mode
      */
     @Transient
     private boolean readOnly = false;
-    
 
     public Plan() {
         TreeNode root = new Node();
@@ -373,6 +371,21 @@ public class Plan implements Serializable, ITouchable {
 
         // also update the alternative names in the tree
         tree.updateAlternativeName(oldName, newName);
+    }
+
+    /**
+     * Sets the experiment workflow and removes associated evaluation values of
+     * the alternative.
+     * 
+     * @param alternative
+     *            alternative to modify
+     * @param workflow
+     *            the workflow to set
+     */
+    public void setExperimentWorkflow(Alternative alternative, DigitalObject workflow) {
+        alternative.getExperiment().setWorkflow(workflow);
+        alternative.getExperiment().touch();
+//        tree.removeValues(alternative);
     }
 
     /**

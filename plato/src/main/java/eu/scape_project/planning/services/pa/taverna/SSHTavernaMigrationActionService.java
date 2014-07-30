@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
@@ -35,11 +36,11 @@ import eu.scape_project.planning.model.beans.MigrationResult;
 import eu.scape_project.planning.model.interfaces.actions.IMigrationAction;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient;
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
+import eu.scape_project.planning.services.myexperiment.domain.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
-import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription.Port;
-import eu.scape_project.planning.taverna.executor.SSHInMemoryTempFile;
-import eu.scape_project.planning.taverna.executor.SSHTavernaExecutor;
-import eu.scape_project.planning.taverna.executor.TavernaExecutorException;
+import eu.scape_project.planning.services.taverna.executor.SSHInMemoryTempFile;
+import eu.scape_project.planning.services.taverna.executor.SSHTavernaExecutor;
+import eu.scape_project.planning.services.taverna.executor.TavernaExecutorException;
 import eu.scape_project.planning.utils.FileUtils;
 
 /**
@@ -49,20 +50,15 @@ import eu.scape_project.planning.utils.FileUtils;
 public class SSHTavernaMigrationActionService implements IMigrationAction {
     private static Logger log = LoggerFactory.getLogger(SSHTavernaMigrationActionService.class);
 
-    private MigrationResult lastResult;
-
     @Override
-    public boolean perform(PreservationActionDefinition action, SampleObject sampleObject) throws PlatoException {
-        // TODO: Copied from
-        // at.tuwien.minimee.migration.MiniMeeMigrationService.
-        // Always return true?
-        migrate(action, sampleObject);
-        return true;
+    public boolean perform(Alternative alternative, SampleObject sampleObject) throws PlatoException {
+        MigrationResult result = migrate(alternative, sampleObject);
+        return result.isSuccessful();
     }
 
     @Override
-    public MigrationResult migrate(PreservationActionDefinition action, DigitalObject digitalObject)
-        throws PlatoException {
+    public MigrationResult migrate(Alternative alternative, DigitalObject digitalObject) throws PlatoException {
+        PreservationActionDefinition action = alternative.getAction();
 
         SSHTavernaExecutor tavernaExecutor = new SSHTavernaExecutor();
         tavernaExecutor.init();
@@ -102,7 +98,7 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
         tavernaExecutor.setInputData(inputData);
 
         // Workflow
-        tavernaExecutor.setWorkflowUrl(action.getUrl());
+        tavernaExecutor.setWorkflow(action.getUrl());
 
         // Output ports to receive
         List<Port> outputPorts = workflowDescription.getOutputPorts();
@@ -158,13 +154,6 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
         result.setTargetFormat(tFormat);
         result.setMigratedObject(u);
 
-        lastResult = result;
         return result;
     }
-
-    @Override
-    public MigrationResult getLastResult() {
-        return lastResult;
-    }
-
 }

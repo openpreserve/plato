@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright 2006 - 2014 Vienna University of Technology,
+ * Department of Software Technology and Interactive Systems, IFS
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.scape_project.planning.xml;
 
 import java.io.IOException;
@@ -6,15 +22,6 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-
-import eu.scape_project.planning.exception.PlanningException;
-import eu.scape_project.planning.model.Plan;
-import eu.scape_project.planning.model.PlatoException;
-import eu.scape_project.planning.xml.PlanParser;
-import eu.scape_project.planning.xml.PlanXMLConstants;
-import eu.scape_project.planning.xml.ProjectExporter;
-import eu.scape_project.planning.xml.SchemaResolver;
-import eu.scape_project.planning.xml.ValidatingParserFactory;
 
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
@@ -30,9 +37,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import eu.scape_project.planning.exception.PlanningException;
+import eu.scape_project.planning.model.Plan;
+import eu.scape_project.planning.model.PlatoException;
+
+/**
+ * Roundtrip tests for parsing a plan from a file and exporting it again.
+ */
 public class PlanParserProjectExporterTest {
 
-    final Logger log = LoggerFactory.getLogger(PlanParserProjectExporterTest.class);
+    private final Logger log = LoggerFactory.getLogger(PlanParserProjectExporterTest.class);
 
     @Test
     public void importProjectsExportToXmlMinimal() throws PlatoException, ParserConfigurationException, SAXException,
@@ -129,7 +143,6 @@ public class PlanParserProjectExporterTest {
      * @throws DocumentException
      */
     private Document parsePlan(InputStream in) throws ParserConfigurationException, SAXException, DocumentException {
-
         ValidatingParserFactory vpf = new ValidatingParserFactory();
 
         SAXParser parser = vpf.getValidatingParser();

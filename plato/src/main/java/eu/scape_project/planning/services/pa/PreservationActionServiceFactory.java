@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,9 @@
  ******************************************************************************/
 package eu.scape_project.planning.services.pa;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
@@ -28,47 +26,33 @@ import eu.scape_project.planning.model.interfaces.actions.IPreservationAction;
 /**
  * Factory for preservation actions.
  */
-public class PreservationActionServiceFactory {
-    private static Logger log = LoggerFactory.getLogger(PreservationActionServiceFactory.class);
-
-    private static Map<String, String> preservationActionServices;
-
-    private static PreservationActionServiceFactory me;
+public final class PreservationActionServiceFactory {
+    private static final Map<String, String> PRESERVATION_ACTION_SERVICES;
 
     /**
-     * create an instance of this factory, in the constructor it is populated
+     * Create an instance of this factory, in the constructor it is populated
      * with services. this instance is never accessed directly, only by
-     * getPreservationAction
+     * getPreservationAction.
      */
     static {
-        me = new PreservationActionServiceFactory();
+        Map<String, String> services = new HashMap<String, String>();
+        services.put("CRiB", "eu.scape_project.planning.services.action.crib_integration.CRiBActionServiceLocator");
+        services.put("CRiB-local",
+            "eu.scape_project.planning.services.action.crib_integration.TUCRiBActionServiceLocator");
+        services.put("Planets-local", "eu.scape_project.planning.services.action.planets.PlanetsMigrationService");
+        services.put("Planets-Viewer-local",
+            "eu.scape_project.planning.services.action.planets.PlanetsEmulationService");
+        services.put("MiniMEE-migration", "at.tuwien.minimee.migration.MiniMeeMigrationService");
+        services.put("myExperiment", "eu.scape_project.planning.services.pa.taverna.SSHTavernaMigrationActionService");
+        services.put("myExperiment-plan",
+            "eu.scape_project.planning.services.pa.taverna.SSHGeneratedTavernaMigrationService");
+        PRESERVATION_ACTION_SERVICES = Collections.unmodifiableMap(services);
     }
 
     /**
-     * Creates a mapping of service locator names to corresponding preservation
-     * actions for all known preservation action remote-endpoints.
-     * 
+     * Private constructor to avoid instantiation.
      */
     private PreservationActionServiceFactory() {
-        // this map is populated once, then only read - it needs not to be a
-        // synchronised map
-        preservationActionServices = new HashMap<String, String>();
-        preservationActionServices.put("CRiB",
-            "eu.scape_project.planning.services.action.crib_integration.CRiBActionServiceLocator");
-        preservationActionServices.put("CRiB-local",
-            "eu.scape_project.planning.services.action.crib_integration.TUCRiBActionServiceLocator");
-        preservationActionServices.put("Planets-local",
-            "eu.scape_project.planning.services.action.planets.PlanetsMigrationService");
-        preservationActionServices.put("Planets-Viewer-local",
-            "eu.scape_project.planning.services.action.planets.PlanetsEmulationService");
-        preservationActionServices.put("MiniMEE-migration", "at.tuwien.minimee.migration.MiniMeeMigrationService");
-        preservationActionServices.put("MiniMEE-emulation",
-            "eu.scape_project.planning.services.action.minimee.MiniMeeEmulationService");
-        // preservationActionServices.put("myExperiment",
-        // "eu.scape_project.planning.taverna.migrationaction.SSHTavernaMigrationActionService");
-        preservationActionServices.put("myExperiment",
-            "eu.scape_project.planning.services.pa.taverna.SSHTavernaMigrationActionService");
-
     }
 
     /**
@@ -80,9 +64,9 @@ public class PreservationActionServiceFactory {
      *            action definition
      * @return {@link IPreservationAction}
      */
-    public static IPreservationAction getPreservationAction(PreservationActionDefinition action) {
+    public static IPreservationAction getPreservationAction(final PreservationActionDefinition action) {
         try {
-            String actionClassname = preservationActionServices.get(action.getActionIdentifier());
+            String actionClassname = PRESERVATION_ACTION_SERVICES.get(action.getActionIdentifier());
 
             Object serviceLocator = null;
             try {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,20 @@
  ******************************************************************************/
 package eu.scape_project.planning.evaluation;
 
-
 /**
- * an interface to be used in several places in Plato
- * where longer-running processes should provide feedback
- * on the go.
- * @author cb
+ * An interface to be used in several places in Plato where longer-running
+ * processes should provide feedback on the go.
+ * 
  * @see RunExperimentsAction#run(Object)
  * @see EvaluateExperimentsAction#evaluateAll()
  */
 public interface IStatusListener {
-    public void updateStatus(String msg);
+
+    /**
+     * Updates the status of this listener.
+     * 
+     * @param msg
+     *            the status message
+     */
+    void updateStatus(String msg);
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@ public class DigitalObjectManager implements Serializable {
     private ByteStreamManager byteStreamManager;
 
     /**
-     * Method responsible for moving DigitalObject data to IByteStreamStorage.
+     * Method responsible for moving a DigitalObject data to IByteStreamStorage.
      * The INPUT object will be MODIFIED the following way: - No data is set any
      * more - Instead the field pid is filled which represents the identifier to
      * fetch data from a storage again. - sizeInMB is set corresponding to the
@@ -68,10 +68,10 @@ public class DigitalObjectManager implements Serializable {
      * independent object with this usually big amount of data.)
      * 
      * @param object
-     *            DigitalObject with pid set, where data if of interest.
-     * @return A copy of the DigitalObject filled with data.
+     *            DigitalObject with pid set, where data is of interest.
+     * @return a copy of the DigitalObject filled with data.
      * @throws StorageException
-     *             If any error occurs at retrieving the data from a storage.
+     *             if any error occurs at retrieving the data from a storage.
      */
     public DigitalObject getCopyOfDataFilledDigitalObject(DigitalObject object) throws StorageException {
         // parameter check

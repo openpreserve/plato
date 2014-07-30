@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,4 +38,12 @@ public final class ComponentConstants {
     public static final String VALUE_PARAMETER = "http://purl.org/DP/components#Parameter";
 
     public static final String VALUE_STATUS = "http://purl.org/DP/components#StatusValue";
+
+    public static final String PROFILE_MIGRATION = "http://purl.org/DP/components#MigrationAction";
+
+    public static final String PROFILE_CC = "http://purl.org/DP/components#Characterisation";
+
+    public static final String PROFILE_OBJECT_QA = "http://purl.org/DP/components#QAObjectComparison";
+
+    public static final String PROFILE_PROPERTY_QA = "http://purl.org/DP/components#QAPropertyComparison";
 }
