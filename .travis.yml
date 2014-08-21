@@ -14,6 +14,7 @@ branches:
 jdk:
 # Sun/Oracle JDK 6 is EOL since November 2012, and is no longer supported. Please consider upgrading...
 #  - oraclejdk6
+  - oraclejdk8
   - oraclejdk7
 # Build timeout with openjdk7 - Travis issue? https://travis-ci.org/openplanets/plato/builds/31240216
 #  - openjdk7
