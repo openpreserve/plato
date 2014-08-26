@@ -165,8 +165,10 @@ public class FITSEvaluator implements IObjectEvaluator {
                             || ("Uncompressed".equals(resultImageCompressionScheme))) {
                             v.parse("none");
                         } else if ("LZW".equals(resultImageCompressionScheme)
-                            || "Deflate".equals(resultImageCompressionScheme)) {
+                            || "Deflate".equals(resultImageCompressionScheme)
+                            || "JPEG 2000 Lossless".equals(resultImageCompressionScheme)) {
                             v.parse("lossless");
+                            v.setComment("compression scheme: " + resultImageCompressionScheme);
                         } else {
                             v.parse("lossy");
                             v.setComment("compression scheme: " + resultImageCompressionScheme);
