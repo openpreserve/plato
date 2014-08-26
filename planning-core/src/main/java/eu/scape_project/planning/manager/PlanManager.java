@@ -116,6 +116,8 @@ public class PlanManager implements Serializable {
         private List<Predicate> nameFilterPredicates;
         private Predicate mappedFilterPredicate;
         
+        private Predicate playgroundFilterPredicate;
+        
 
         /**
          * Initializes the query.
@@ -165,6 +167,7 @@ public class PlanManager implements Serializable {
 
             return this;
         }
+        
 
         /**
          * Adds plan states as criteria to the query.
@@ -254,6 +257,16 @@ public class PlanManager implements Serializable {
         }
 
         /**
+         * Adds a filter excluding all plans marked as playground 
+         * 
+         * @return this query
+         */
+        public PlanQuery filterPlayground() {
+            playgroundFilterPredicate = builder.isFalse(fromPP.<Boolean> get("playground"));
+            return this;
+        }
+        
+        /**
          * Finishes the query.
          */
         private void finishQuery() {
@@ -269,6 +282,9 @@ public class PlanManager implements Serializable {
             }
             if (mappedFilterPredicate != null) {
                 predicates.add(mappedFilterPredicate);
+            }
+            if (playgroundFilterPredicate != null) {
+                predicates.add(playgroundFilterPredicate);
             }
             cq.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 

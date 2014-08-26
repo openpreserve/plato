@@ -11,6 +11,7 @@
 
 Changes in V4.0.3
   * added optional attribute workflow to experiment
+  * added optional attribute playground to projectPropertiesType
   * removed numberOfObjects
  Changes in V4.0.2:
   * added optional attribute: repositoryidentifier to projectPropertiesType
@@ -301,6 +302,7 @@ Changes in V4.0.3
 		<xs:attribute name="reportPublic" type="xs:boolean"/>
 		<xs:attribute name="planType" type="planTypeType" use="optional"/>
 		<xs:attribute name="repositoryIdentifier" type="xs:string"/>
+		<xs:attribute name="playground" type="xs:boolean" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="projectBasisType">
 		<xs:all>
