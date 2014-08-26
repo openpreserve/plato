@@ -27,7 +27,7 @@ Plato is for:
 
 * Content holders: academic and national libraries, archives, galleries, museums
 * Preservation experts
-* Practicioners who wants to get familiar with the preservation planning workflow
+* Practitioners who want to gain familiarity with the preservation planning workflow
 
 
 ## More information
