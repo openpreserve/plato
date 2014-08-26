@@ -643,7 +643,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         addColumn("lengthTriggersChangedEnvironment", new LUndef());
         addColumn("lengthTriggersChangedObjective", new LUndef());
         addColumn("lengthTriggersChangedCollectionProfile", new LUndef());
-        addColumn("lengthColändere das noch mit lectionProfileDescription", new LUndef());
+        addColumn("lengthCollectionProfileDescription", new LUndef());
         addColumn("lengthCollectionProfileTypeOfObjects", new LUndef());
         addColumn("lengthCollectionProfileExpectedGrowthRate", new LUndef());
         addColumn("lengthCollectionProfileRetentionPeriod", new LUndef());
