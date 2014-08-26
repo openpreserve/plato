@@ -224,6 +224,8 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         String name = id + "_" + key + ".xml";
 
         log.info("Storing profile");
+        CollectionProfile collectionProfile = plan.getSampleRecordsDefinition().getCollectionProfile();
+
         this.storeProfile(name, bsData);
 
         log.info("processing sample objects information");
@@ -249,7 +251,8 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
             profile.setCollectionID(id + "?" + key);
             profile.setNumberOfObjects(count);
             profile.setTypeOfObjects(typeOfObjects);
-            this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
+            // TODO: confirm: why setting it when it was retrieved 4 lines above?
+            // this.plan.getSampleRecordsDefinition().setCollectionProfile(profile);
             this.plan.getSampleRecordsDefinition().touch();
             this.plan.touch();
         } catch (Exception e) {
@@ -297,8 +300,14 @@ public class DefineSampleObjects extends AbstractWorkflowStep {
         object.setData(profile);
 
         try {
+            CollectionProfile collectionProfile = plan.getSampleRecordsDefinition().getCollectionProfile();
+            
+            // remove the old collection profile file if existent
+            if (collectionProfile.getProfile() != null) {
+                bytestreamsToRemove.add(collectionProfile.getProfile().getPid());
+            }
             digitalObjectManager.moveDataToStorage(object);
-            plan.getSampleRecordsDefinition().getCollectionProfile().setProfile(object);
+            collectionProfile.setProfile(object);
             addedBytestreams.add(object.getPid());
         } catch (StorageException e) {
             log.error("An error occurred while storing the profile: {}", e);
