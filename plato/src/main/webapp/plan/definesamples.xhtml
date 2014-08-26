@@ -155,51 +155,65 @@
 					<a4j:commandButton value="Add sample" id="addRecord" action="#{defineSampleRecords.newSample}" onclick="changed()"
 						render="sampleRecordsList" />
 					<span class="separator-or-vertical">or</span>
-					<input onclick="$('#uploadSample').toggle('normal');$('#uploadProfile').hide('normal');" type="button"
+					<input onclick="$('.modal-background, #uploadSample').toggleClass('active');" type="button"
 						value="Upload sample" />
 					<span class="separator-or-vertical">or</span>
-					<input onclick="$('#uploadSample').hide('normal');$('#uploadProfile').toggle('normal');" type="button"
+					<input onclick="$('.modal-background, #uploadProfile').toggleClass('active');" type="button"
 						value="Upload profile" />
 				</div>
 				<div id="sampleforms">
-					<div id="uploadSample" class="sampleform">
-						<h3>Upload Sample</h3>
-						<rich:fileUpload fileUploadListener="#{defineSampleRecords.uploadSample}" render="sampleRecordsList" />
+					
+					<div id="uploadSample" class="modal-content">
+						<div class="modal-header">
+							<h3>Upload Sample</h3>
+							<a class="confirmation-close" onclick="$('.modal-background, #uploadSample').toggleClass('active');">X</a>							
+						</div>
+						<p>Select one or more sample objects:</p>
+						<rich:fileUpload fileUploadListener="#{defineSampleRecords.uploadSample}" render="sampleRecordsList"
+						                 autoclear="true"
+						                 onuploadcomplete="$('.modal-background, #uploadSample').toggleClass('active');"
+						                 listHeight="200px"
+						                 maxFilesQuantity="1"/>
+					
 					</div>
 
-					<div id="uploadProfile" class="sampleform">
-						<div>
+					<div id="uploadProfile" class="modal-content">
+						<div class="modal-header">
 							<h3>Upload Profile</h3>
-							<p>Please provide username and password if you want to create samples from the representatives in the
-								profile.</p>
-							<p>Objects are downloaded from repository: #{defineSampleRecords.user.userGroup.repository.url}</p>
-							<div class="component">
-								<div class="label">
-									<h:outputText value="Username" class="label-text" />
-								</div>
-								<div class="input">
-									<h:inputText id="repositoryUsername_input" value="#{defineSampleRecords.repositoryUsername}"
-										class="p-input-text" label="Username">
-										<a4j:ajax event="change" />
-									</h:inputText>
-								</div>
+							<a class="confirmation-close" onclick="$('.modal-background, #uploadProfile').toggleClass('active');">X</a>
+						</div>
+						<p>Please provide username and password if you want to create samples from the representatives in the
+							profile.</p>
+						<p>Objects are downloaded from repository: #{defineSampleRecords.user.userGroup.repository.url}</p>
+						<div class="component">
+							<div class="label">
+								<h:outputText value="Username" class="label-text" />
 							</div>
-
-							<div class="component">
-								<div class="label">
-									<h:outputText value="Password" class="label-text" />
-								</div>
-								<div class="input">
-									<h:inputSecret id="repositoryPassword_input" value="#{defineSampleRecords.repositoryPassword}"
-										class="p-input-text" label="Password">
-										<a4j:ajax event="change" />
-									</h:inputSecret>
-								</div>
+							<div class="input">
+								<h:inputText id="repositoryUsername_input" value="#{defineSampleRecords.repositoryUsername}"
+									class="p-input-text" label="Username">
+									<a4j:ajax event="change" />
+								</h:inputText>
 							</div>
 						</div>
 
+						<div class="component">
+							<div class="label">
+								<h:outputText value="Password" class="label-text" />
+							</div>
+							<div class="input">
+								<h:inputSecret id="repositoryPassword_input" value="#{defineSampleRecords.repositoryPassword}"
+									class="p-input-text" label="Password">
+									<a4j:ajax event="change" />
+								</h:inputSecret>
+							</div>
+						</div>
+						<br/>
+						<p>Select a content profile:</p>
 						<rich:fileUpload id="uploadProfile" fileUploadListener="#{defineSampleRecords.uploadCollectionProfile}"
-							acceptedTypes="xml" render="profile samplesDescription sampleRecordsList" />
+							acceptedTypes="xml" render="profile samplesDescription sampleRecordsList" 
+							onuploadcomplete="$('.modal-background, #uploadProfile').toggleClass('active');"
+							listHeight="80px"/>
 					</div>
 				</div>
 			</fieldset>

@@ -71,7 +71,7 @@
 					<p>
 						Since your tree contains criteria that are mapped to measures, you can call the evaluation plugins here.<br />
 						<a4j:commandButton value="Evaluate all criteria" action="#{evalexperiments.evaluateAll}" render="@form"
-							ignoreDupResponses="true" />
+							ignoreDupResponses="true"  onclick="toggleLoadingOverlay(); return true;" oncomplete="toggleLoadingOverlay();"/>
 						<br />
 					</p>
 				</x:div>

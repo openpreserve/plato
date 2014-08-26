@@ -154,7 +154,8 @@
             </tr>
           </table>
           <a4j:commandButton id="evaluate" rendered="#{leaf.mapped}" value="Evaluate"
-            action="#{workflowstep.evaluate(leaf)}" render="@form" type="button" />
+            action="#{workflowstep.evaluate(leaf)}" render="@form" type="button" 
+             onclick="toggleLoadingOverlay(); return true;" oncomplete="toggleLoadingOverlay();"/>
         </div>
       </h:panelGroup>
       <hr />
