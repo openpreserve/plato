@@ -16,8 +16,8 @@ jdk:
 #  - oraclejdk6
   - oraclejdk8
   - oraclejdk7
-# Build timeout with openjdk7 - Travis issue? https://travis-ci.org/openplanets/plato/builds/31240216
-#  - openjdk7
+# Build timeout with openjdk7 was a Travis issue, is resolved
+  - openjdk7
 
 before_script:
   - mysql -e 'create database idpdbtest;'
