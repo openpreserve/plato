@@ -41,5 +41,4 @@ Plato is for:
 ### Official Website
 Please check out the [Plato website](http://ifs.tuwien.ac.at/dp/plato/documentation/) where you can find more information on Plato in general, its documentation, and case studies.
 
-There is also the link to the [public test instance](http://plato.ifs.tuwien.ac.at/plato) where you take a look at existing plans,
-or create your own preservation plans.
+There is also the link to the [public test instance](http://plato.ifs.tuwien.ac.at/plato) where you take a look at existing plans, or create your own preservation plans.

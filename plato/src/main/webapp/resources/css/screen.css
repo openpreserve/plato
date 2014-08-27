@@ -826,14 +826,6 @@ ul#messages {
 	cursor: hand;
 }
 
-.sampleform {
-	display: none;
-	margin-top: 10px;
-	margin-right: 10px;
-	position: relative;
-	float: left;
-}
-
 .multi-buttons input[type="submit"],.multi-buttons input[type="button"],.multi-buttons a.default-button
 	{
 	margin-right: 10px;
@@ -920,25 +912,6 @@ div.rightcolumn {
 
 div.clear {
 	clear: both;
-}
-
-.div-overlay {
-	display: none;
-	font-size: 3em;
-	text-align: center;
-	padding-top: 0.2em;
-	color: white;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #000;
-	filter: alpha(opacity =                                                 50);
-	-moz-opacity: 0.5;
-	-khtml-opacity: 0.5;
-	opacity: 0.5;
-	z-index: 10000;
 }
 
 .rf-fu-lst {
@@ -1093,7 +1066,7 @@ td.service-info {
 
 .service-info-panel:after {
 	clear: both;
-}
+}.modal-content
 
 .service-info-header {
 	padding: 3px;
@@ -1215,9 +1188,87 @@ td.service-info {
 
 .confirmation-close:hover {
 	color: white;
+	cursor: pointer;	
 }
 
 /* General text */
 .text-understate {
 	color: #BABABA;
 }
+
+.div-overlay {
+	display: none;
+	font-size: 3em;
+	text-align: center;
+	padding-top: 0.2em;
+	color: white;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	filter: alpha(opacity =                                                 50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	z-index: 10000;
+}
+
+.modal-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: .50;
+    -webkit-opacity: .5;
+    -moz-opacity: .5;
+    filter: alpha(opacity=50);
+    z-index: 1000;
+}
+.modal-background.active, .modal-content.active {
+    display: block;
+}
+
+
+.modal-content {
+    background-color: white;
+/*     border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+ */ 
+    box-shadow: 0 0 20px 0 #222;
+    -webkit-box-shadow: 0 0 20px 0 #222;
+    -moz-box-shadow: 0 0 20px 0 #222;
+    display: none;
+    margin: -120px 0 0 -160px;
+    padding: 10px;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    /* height: 240px;
+    width: 320px; */
+    z-index: 1000;
+}
+.modal-header {
+	background-color: #0D709E;
+	color: white;
+	padding: 4px;
+	margin: -10px -10px 0px;
+}
+.modal-header h3{
+	margin: 0px;
+}
+
+
+.sampleform {
+	display: none;
+	margin-top: 10px;
+	margin-right: 10px;
+	position: relative;
+	float: left;
+}
+

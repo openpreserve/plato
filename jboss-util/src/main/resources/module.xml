@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.1" name="eu.scape_project.planning.util">
+  <resources>
+    <resource-root path="jboss-util-0.0.1.jar"/>
+  </resources>
+
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.servlet.api"/>
+    <module name="org.jboss.common-core"/>
+    <module name="org.jboss.as.web"/>
+</dependencies>
+</module>

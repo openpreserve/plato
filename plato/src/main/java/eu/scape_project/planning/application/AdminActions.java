@@ -110,7 +110,7 @@ public class AdminActions implements Serializable {
     /**
      * Method responsible for deleting all plans from database.
      */
-    
+
     public boolean deleteAllPlans() {
         @SuppressWarnings("unchecked")
         List<Plan> planList = em.createQuery("select p from Plan p").getResultList();
@@ -182,34 +182,41 @@ public class AdminActions implements Serializable {
         boolean success = false;
         Plan selectedPlan;
         try {
-            selectedPlan = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId).getSingleResult();
+            selectedPlan = (Plan) em
+                .createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId).getSingleResult();
 
             String binarydataTempPath = OS.getTmpPath() + "cloneplan_" + System.currentTimeMillis() + "/";
             File binarydataTempDir = new File(binarydataTempPath);
             binarydataTempDir.mkdirs();
             try {
-                String tempFile= binarydataTempPath + "plan.xml";
-                projectExportAction.exportComplete(planPropertiesId, new FileOutputStream(tempFile), binarydataTempPath);
+                String tempFile = binarydataTempPath + "plan.xml";
+                projectExportAction
+                    .exportComplete(planPropertiesId, new FileOutputStream(tempFile), binarydataTempPath);
                 List<Plan> plans = projectImporter.importPlans(new FileInputStream(tempFile));
                 Notification notification = null;
                 if (newOwner != null) {
-                    User user = em.createQuery("Select u from User u where u.username = :username", User.class).
-                        setParameter("username", newOwner).getSingleResult();
-                        
+                    User user = em.createQuery("Select u from User u where u.username = :username", User.class)
+                        .setParameter("username", newOwner).getSingleResult();
+
                     for (Plan p : plans) {
                         PlanProperties prop = p.getPlanProperties();
-                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription() + " (originally created by " + prop.getOwner() +")");
+                        prop.setDescription(newOwner + "'s copy of: " + prop.getDescription()
+                            + " (originally created by " + prop.getOwner() + ")");
                         prop.setOwner(newOwner);
                         // mark this plan as a playground copy
                         prop.setPlayground(true);
                         prop.touch();
                         PrepareChangesForPersist prep = new PrepareChangesForPersist(newOwner);
                         prep.prepare(prop);
-                        
-                        String message = 
-                            "A copy has been created: <em>" + prop.getName() + " - " + prop.getDescription() + "</em>" +
-                            "<br/>It is marked as playground. If you want to use it for serious planning, please change this in Plan Settings.";
-                        notification = new Notification(UUID.randomUUID().toString(), new Date(), "PLATO", message, user);
+
+                        String message = "A copy has been created: <em>"
+                            + prop.getName()
+                            + " - "
+                            + prop.getDescription()
+                            + "</em>"
+                            + "<br/>It is marked as playground. If you want to use it for serious planning, please change this in Plan Settings.";
+                        notification = new Notification(UUID.randomUUID().toString(), new Date(), "PLATO", message,
+                            user);
                     }
                 }
                 // store project
@@ -240,9 +247,10 @@ public class AdminActions implements Serializable {
      *            PlanPropertiesId of the plan to delete.
      * @return True if deletion was successful, false otherwise.
      */
-    public boolean deletePlan(int planPropertiesId)  {
+    public boolean deletePlan(int planPropertiesId) {
         try {
-            Plan plan = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId).getSingleResult();
+            Plan plan = (Plan) em.createQuery("select p from Plan p where p.planProperties.id = " + planPropertiesId)
+                .getSingleResult();
             planManager.deletePlan(plan);
             return true;
         } catch (Exception e) {
@@ -330,10 +338,12 @@ public class AdminActions implements Serializable {
         try {
             plansToImport = projectImporter.importPlans(new ByteArrayInputStream(fileData));
             nrOrPlans = plansToImport.size();
-            // if the plans are imported by a NORMAL USER in the web interface, they
+            // if the plans are imported by a NORMAL USER in the web interface,
+            // they
             // will be
             // assigned to this user, i.e. the owner is set to the current user.
-            // If they are imported by an ADMIN, they stay property of the original
+            // If they are imported by an ADMIN, they stay property of the
+            // original
             // user,
             // unless the admin uses a different button
             if (!user.isAdmin() || changeUser) {
@@ -341,7 +351,7 @@ public class AdminActions implements Serializable {
                     p.getPlanProperties().setOwner(user.getUsername());
                 }
             }
-            
+
             // store plans
             storePlans(plansToImport);
         } catch (Exception e) {
@@ -365,14 +375,14 @@ public class AdminActions implements Serializable {
         List<Plan> plansToImport = new ArrayList<Plan>();
 
         try {
-            plansToImport = projectImporter.importPlans(new ByteArrayInputStream(xml.getBytes(PlanXMLConstants.ENCODING)));
+            plansToImport = projectImporter.importPlans(new ByteArrayInputStream(xml
+                .getBytes(PlanXMLConstants.ENCODING)));
             importedPlans = plansToImport.size();
             storePlans(plansToImport);
         } catch (Exception e) {
             log.error("failed to import plans from xml.", e);
             return 0;
         }
-
 
         return importedPlans;
     }
@@ -387,33 +397,34 @@ public class AdminActions implements Serializable {
      */
     private int cleanupProject(int pid) {
         try {
-            Plan p = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
+            Plan p = (Plan) em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
             List<String> alternativeNames = new ArrayList<String>();
-            
+
             for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
                 alternativeNames.add(a.getName());
             }
-            
-            int number = p.getTree()
-                .removeLooseValues(alternativeNames, p.getSampleRecordsDefinition().getRecords().size());
-            log.info("cleaned up values for plan " + p.getPlanProperties().getName() + " - removed " + number + " Value(s) instances.");
-            
+
+            int number = p.getTree().removeLooseValues(alternativeNames,
+                p.getSampleRecordsDefinition().getRecords().size());
+            log.info("cleaned up values for plan " + p.getPlanProperties().getName() + " - removed " + number
+                + " Value(s) instances.");
+
             if (number > 0) {
                 em.persist(p.getTree());
             }
             em.clear();
-            
+
             return number;
         } catch (Exception e) {
             log.error("Failed to retrieve plan for clean-up. id: " + pid, e);
             return 0;
         }
     }
-    
+
     public boolean fixAlternativeNames(int pid) {
-        Plan p = (Plan)em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
-        log.debug("fixing alternative names of plan {}, {}",pid, p.getPlanProperties().getName());
-        
+        Plan p = (Plan) em.createQuery("select p from Plan p where p.planProperties.id = " + pid).getSingleResult();
+        log.debug("fixing alternative names of plan {}, {}", pid, p.getPlanProperties().getName());
+
         boolean fixed = false;
         for (Alternative a : p.getAlternativesDefinition().getAlternatives()) {
             String oldName = a.getName();
@@ -423,33 +434,33 @@ public class AdminActions implements Serializable {
                 try {
                     log.debug("Renaming alternative {} to {}", oldName, name);
                     p.renameAlternative(a, name);
-                    a.setDescription(a.getDescription() + "\r\n(PLATO: Alternative name normalization: '" +oldName+"' to '" + name +"')");
+                    a.setDescription(a.getDescription() + "\r\n(PLATO: Alternative name normalization: '" + oldName
+                        + "' to '" + name + "')");
                     fixed = true;
                 } catch (PlanningException e) {
                     log.error("Failed to rename alternative for plan " + pid, e);
                     return false;
                 }
             }
-        }            
+        }
         if (fixed) {
             em.persist(p.getAlternativesDefinition());
             em.persist(p.getTree());
         }
         return true;
     }
-    
 
     /**
      * Method responsible for storing plans in database.
      * 
      * @param plans
      *            Plans to store.
-     * @throws PlatoException 
+     * @throws PlatoException
      */
     private void storePlans(List<Plan> plans) throws PlatoException {
         while (!plans.isEmpty()) {
             Plan plan = plans.get(0);
-            projectImporter.storeDigitalObjects(plan);            
+            projectImporter.storeDigitalObjects(plan);
             em.persist(plan);
             em.flush();
 
@@ -468,16 +479,18 @@ public class AdminActions implements Serializable {
             Notification note = new Notification(uuid, now, source, message, u);
             em.persist(note);
         }
-        
+
     }
-    
+
     public void removeNotification(String uuid) {
-        int numRemoved = em.createQuery("delete from Notification where uuid = :uuid").setParameter("uuid", uuid).executeUpdate();
+        int numRemoved = em.createQuery("delete from Notification where uuid = :uuid").setParameter("uuid", uuid)
+            .executeUpdate();
         log.debug("Removed {} notifications with uuid = {}", numRemoved, uuid);
     }
-    
+
     public List<Notification> getNotifications() {
-        return em.createQuery("select n from Notification n group by n.uuid order by n.timestamp", Notification.class).getResultList();
+        return em.createQuery("select n from Notification n group by n.uuid order by n.timestamp", Notification.class)
+            .getResultList();
     }
-    
+
 }

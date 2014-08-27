@@ -76,7 +76,8 @@ public class PlanSelector implements Serializable {
 
         PlanManager.PlanQuery pq = planManager.createQuery();
         pq.filterMinState(PlanState.WEIGHTS_SET).filterNameUnlike("MY DEMO PLAN%")
-            .filterMapped();
+            .filterMapped()
+            .filterPlayground();
 
         if (user.isAdmin()) {
             pq.addVisibility(WhichProjects.ALLPROJECTS);

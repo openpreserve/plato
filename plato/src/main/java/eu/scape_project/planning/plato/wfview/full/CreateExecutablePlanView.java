@@ -34,6 +34,7 @@ import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.manager.DigitalObjectManager;
 import eu.scape_project.planning.manager.StorageException;
 import eu.scape_project.planning.model.DigitalObject;
+import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.CreateExecutablePlan;
@@ -82,6 +83,12 @@ public class CreateExecutablePlanView extends AbstractView {
     protected AbstractWorkflowStep getWfStep() {
         return createExecutablePlan;
     }
+    
+    @Override
+    public void init(Plan plan) {
+        super.init(plan);
+        collectionProfileElements = null;        
+    }    
 
     /**
      * Checks if a collection profile is defined for the plan.

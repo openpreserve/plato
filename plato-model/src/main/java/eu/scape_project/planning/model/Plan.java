@@ -498,6 +498,9 @@ public class Plan implements Serializable, ITouchable {
         list.addAll(getSampleRecordsDefinition().getRecords());
         list.addAll(getRequirementsDefinition().getUploads());
         for (Alternative a : getAlternativesDefinition().getAlternatives()) {
+        	if (a.getExperiment().getWorkflow() != null) {
+        		list.add(a.getExperiment().getWorkflow());
+        	}
             for (DigitalObject r : a.getExperiment().getResults().values()) {
                 list.add(r);
             }
