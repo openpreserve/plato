@@ -520,6 +520,7 @@ public class PlanParser {
         digester.addSetNext("*/experiment", "setExperiment");
         digester.addCallMethod("*/experiment/description", "setDescription", 0);
         digester.addCallMethod("*/experiment/settings", "setSettings", 0);
+        PlanParser.addCreateUpload(digester, "*/experiment/workflow", "setWorkflow", DigitalObject.class);        
 
         PlanParser.addCreateUpload(digester, "*/experiment/results/result", null, DigitalObject.class);
         PlanParser.addCreateUpload(digester, "*/result/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
