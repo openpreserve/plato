@@ -8,6 +8,11 @@
         <session-timeout>60</session-timeout>
     </session-config>
     
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>    
+    
     <listener>
     	<display-name>SessionTimoutListener</display-name>
     	<listener-class>eu.scape_project.planning.application.SessionTimeoutListener</listener-class>
@@ -41,7 +46,9 @@
         <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
         <param-value>true</param-value>
     </context-param>
+    
 
+    
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -66,6 +73,14 @@
             <role-name>authenticated</role-name>
         </auth-constraint>
     </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Plato-REST</web-resource-name>
+            <url-pattern>/rest/*</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+    
     <security-role>
         <description>
 			The role that is required to log in to Plato

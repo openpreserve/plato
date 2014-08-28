@@ -7,10 +7,6 @@
 		<converter-id>NumberConverter</converter-id>
 		<converter-class>eu.scape_project.planning.converters.NumberConverter</converter-class>
 	</converter>
-	<converter>
-		<converter-id>fastTrackTemplateConverter</converter-id>
-		<converter-class>eu.scape_project.planning.converters.FastTrackTemplateConverter</converter-class>
-	</converter>
 	<validator>
 		<validator-id>TargetValueValidator</validator-id>
 		<validator-class>eu.scape_project.planning.validators.TargetValueValidator</validator-class>
