@@ -360,4 +360,5 @@ public class NumericTransformer extends Transformer {
     public void setThreshold5(Double threshold5) {
         this.threshold5 = threshold5;
     }
+
 }

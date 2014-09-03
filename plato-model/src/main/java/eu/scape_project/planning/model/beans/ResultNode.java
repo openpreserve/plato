@@ -33,9 +33,8 @@ import eu.scape_project.planning.model.tree.ITreeNode;
 import eu.scape_project.planning.model.tree.ITreeWalker;
 import eu.scape_project.planning.model.tree.TreeNode;
 
+public class ResultNode implements ITreeNode, Serializable {
 
-public class ResultNode implements ITreeNode, Serializable{
-    
     /**
      * 
      */
@@ -48,25 +47,20 @@ public class ResultNode implements ITreeNode, Serializable{
     private HashMap<String, String> resultStrings = new HashMap<String, String>();
     private HashMap<String, Double> results = new HashMap<String, Double>();
     private static DecimalFormat format = new DecimalFormat("#0.00");
-    
+
     private ResultNode parent = null;
     private int id;
-    
- private ISensitivityAnalysisResult sensitivityAnalysisResult;
-    
+
+    private ISensitivityAnalysisResult sensitivityAnalysisResult;
+
     private HashMap<TreeNode, Double> nodeWeights = new HashMap<TreeNode, Double>();
 
     private TreeNode treeNode;
-    
 
-    public String getStyle () {
-        return (isSensitive() ? "sensitiveNode" :
-             (isAnyChildSensitive() ? "sensitiveNodeChildren"
-                     : ""));
+    public String getStyle() {
+        return (isSensitive() ? "sensitiveNode" : (isAnyChildSensitive() ? "sensitiveNodeChildren" : ""));
     }
-    
-//    private List<Alternative> alternatives;
-    
+
     public int getId() {
         return id;
     }
@@ -97,12 +91,11 @@ public class ResultNode implements ITreeNode, Serializable{
     }
 
     public ResultNode() {
-    
+
     }
-    
+
     private boolean leaf;
-    
-    
+
     public boolean isLeaf() {
         return leaf;
     }
@@ -112,9 +105,10 @@ public class ResultNode implements ITreeNode, Serializable{
     }
 
     /**
-     * Creates a result node for the given TreeNode, applying the given aggregator a.
-     * - applied to the root node of an objective tree this calculates the overall result for each alternative.
-     *   
+     * Creates a result node for the given TreeNode, applying the given
+     * aggregator a. - applied to the root node of an objective tree this
+     * calculates the overall result for each alternative.
+     * 
      * @param n
      * @param a
      * @param alternatives
@@ -124,15 +118,16 @@ public class ResultNode implements ITreeNode, Serializable{
         setName(n.getName());
         setId(n.getId());
         setLeaf(n.isLeaf());
-          for (Alternative alt : alternatives) {
-             resultStrings.put(alt.getName(), format.format(a.getAggregatedValue(n,alt)));
-             results.put(alt.getName(), a.getAggregatedValue(n,alt));
-          }
-        for (TreeNode node: n.getChildren()) {
-            addChild(new ResultNode(node,a,alternatives));
+        for (Alternative alt : alternatives) {
+            double aggregated = a.getAggregatedValue(n, alt);
+            resultStrings.put(alt.getName(), format.format(aggregated));
+            results.put(alt.getName(), aggregated);
+        }
+        for (TreeNode node : n.getChildren()) {
+            addChild(new ResultNode(node, a, alternatives));
         }
     }
-    
+
     public ResultNode getParent() {
         return parent;
     }
@@ -144,47 +139,48 @@ public class ResultNode implements ITreeNode, Serializable{
     public HashMap<String, Double> getResults() {
         return results;
     }
+
     public HashMap<String, String> getResultStrings() {
         return resultStrings;
     }
 
     public void analyseSensitivity(IWeightModifier modificator, ISensitivityTest test) {
-        if(treeNode.isLeaf()) {
+        if (treeNode.isLeaf()) {
             return;
         }
-        
+
         saveNodeWeights(treeNode);
         test.beforeNode(this);
-        while(true) {
+        while (true) {
             test.beforeIteration(this);
             boolean repeat = modificator.performModification(treeNode);
             treeNode.normalizeWeights(false);
             test.afterIteration(this);
             restoreNodeWeights(treeNode);
-            if(!repeat) {
+            if (!repeat) {
                 break;
             }
         }
         test.afterNode(this);
-        for(ResultNode child : children) {
+        for (ResultNode child : children) {
             child.analyseSensitivity(modificator, test);
         }
 
     }
-    
+
     private void saveNodeWeights(TreeNode n) {
         nodeWeights.clear();
-        for(TreeNode child : n.getChildren()) {
+        for (TreeNode child : n.getChildren()) {
             nodeWeights.put(child, child.getWeight());
         }
     }
-    
+
     private void restoreNodeWeights(TreeNode n) {
-        for(TreeNode child : n.getChildren()) {
+        for (TreeNode child : n.getChildren()) {
             child.setWeight(nodeWeights.get(child));
         }
     }
-    
+
     /**
      * Equivalent to isSensitive(false).
      * 
@@ -195,23 +191,23 @@ public class ResultNode implements ITreeNode, Serializable{
     public boolean isSensitive() {
         return isSensitive(false);
     }
-    
 
     /**
-     * @param recoursive if true the direct and indirect children are also inspected.
+     * @param recoursive
+     *            if true the direct and indirect children are also inspected.
      * 
      * @return true if the importance factors (weights) of this node are
      *         unstable. This means that small changes can result in change in
      *         ordering of the alternatives. Otherwise false.
      */
     public boolean isSensitive(boolean recursive) {
-        if(sensitivityAnalysisResult != null) {
-            if(sensitivityAnalysisResult.isSensitive()) {
+        if (sensitivityAnalysisResult != null) {
+            if (sensitivityAnalysisResult.isSensitive()) {
                 return true;
             }
             boolean result = false;
-            if(recursive) {
-                for(ResultNode child : children) {
+            if (recursive) {
+                for (ResultNode child : children) {
                     result |= child.isAnyChildSensitive();
                 }
             }
@@ -220,14 +216,14 @@ public class ResultNode implements ITreeNode, Serializable{
             return false;
         }
     }
-    
+
     /**
      * @return True if any of the children of this node is sensitive.
      */
     public boolean isAnyChildSensitive() {
-        if(sensitivityAnalysisResult != null) {
+        if (sensitivityAnalysisResult != null) {
             boolean result = false;
-            for(ResultNode child : children) {
+            for (ResultNode child : children) {
                 result |= child.isSensitive(true);
             }
             return result;
@@ -239,7 +235,7 @@ public class ResultNode implements ITreeNode, Serializable{
     public void setSensitivityAnalysisResult(ISensitivityAnalysisResult analysisResult) {
         this.sensitivityAnalysisResult = analysisResult;
     }
-        
+
     public ISensitivityAnalysisResult getSensitivityAnalysisResult() {
         return sensitivityAnalysisResult;
     }
@@ -248,11 +244,11 @@ public class ResultNode implements ITreeNode, Serializable{
         return treeNode;
     }
 
-	@Override
-	public void walkTree(ITreeWalker treeWalker) {
-    	treeWalker.walk(this);
-    	for (ResultNode node : children) {
-    		node.walkTree(treeWalker);
-    	}
-	}
+    @Override
+    public void walkTree(ITreeWalker treeWalker) {
+        treeWalker.walk(this);
+        for (ResultNode node : children) {
+            node.walkTree(treeWalker);
+        }
+    }
 }

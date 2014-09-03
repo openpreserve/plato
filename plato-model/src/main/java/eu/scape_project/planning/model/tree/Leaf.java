@@ -71,50 +71,45 @@ import eu.scape_project.planning.model.values.Value;
 import eu.scape_project.planning.validation.ValidationError;
 
 /**
- * A leaf node in the objective tree does not contain any children,
- * but instead defines the actual measurement scale to be used and points
- * to conforming valueMap. Part of the implementation of the Composite
- * design pattern, cf. TreeNode, Node - Leaf corresponds to the
- * <code>Leaf</code>, surprise!
+ * A leaf node in the objective tree does not contain any children, but instead
+ * defines the actual measurement scale to be used and points to conforming
+ * valueMap. Part of the implementation of the Composite design pattern, cf.
+ * TreeNode, Node - Leaf corresponds to the <code>Leaf</code>, surprise!
+ * 
  * @author Christoph Becker
  */
 @Entity
-@NamedQuery(
-    name="getLaevesById",
-    query="SELECT l from Leaf l WHERE id IN (:leafList)"
-)
+@NamedQuery(name = "getLaevesById", query = "SELECT l from Leaf l WHERE id IN (:leafList)")
 @DiscriminatorValue("L")
 public class Leaf extends TreeNode {
 
     private static final long serialVersionUID = -6561945098296876384L;
-    
+
     private static final Logger log = LoggerFactory.getLogger(Leaf.class);
 
     /**
-     * The {@link Transformer} stores the user-set transformation rules.
-     * There are two types:
+     * The {@link Transformer} stores the user-set transformation rules. There
+     * are two types:
      * <ul>
-     * <li>numeric transformation (thresholds) </li>
-     * <li>ordinal transformation: direct mapping from values to numeric
-     * values. This also applies to boolean scales. </li>
+     * <li>numeric transformation (thresholds)</li>
+     * <li>ordinal transformation: direct mapping from values to numeric values.
+     * This also applies to boolean scales.</li>
      */
     @OneToOne(cascade = CascadeType.ALL)
     private Transformer transformer;
 
-
     /**
      * determines the aggregation mode for the values of the sample records(!)
      * WITHIN one alternative. The overall aggregation method over the tree is a
-     * different beer!
-     * Is initialised with {@link SampleAggregationMode#WORST}, but later initialised
-     * according to the {@link Scale} in {@link #setDefaultAggregation()}
+     * different beer! Is initialised with {@link SampleAggregationMode#WORST},
+     * but later initialised according to the {@link Scale} in
+     * {@link #setDefaultAggregation()}
      */
     @Enumerated
     private SampleAggregationMode aggregationMode = SampleAggregationMode.WORST;
 
     /**
-     * specifies the {@link Scale} to be used for evaluating experiment
-     * outcomes
+     * specifies the {@link Scale} to be used for evaluating experiment outcomes
      */
     @Valid
     @OneToOne(cascade = CascadeType.ALL)
@@ -123,30 +118,31 @@ public class Leaf extends TreeNode {
     /**
      * We have values actually per
      * <ul>
-     * <li> preservation strategy ({@link Alternative}),</li>
-     * <li> decision criteria (leaf node), AND </li>
-     * <li> sample record.</li>
+     * <li>preservation strategy ({@link Alternative}),</li>
+     * <li>decision criteria (leaf node), AND</li>
+     * <li>sample record.</li>
      * </ul>
      * So we have another encapsulation: {@link Values}
-     *
-     * Note: For some databases it might be necessary to rename the key member of Map, 
-     *       as it might be a reserved keyword, e.g.: Derby
+     * 
+     * Note: For some databases it might be necessary to rename the key member
+     * of Map, as it might be a reserved keyword, e.g.: Derby
      */
-//    @IndexColumn(name = "key_name")
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
+    // @IndexColumn(name = "key_name")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Map<String, Values> valueMap = new HashMap<String, Values>();
 
     /**
      * The measure this decision criterion is mapped to.
      * 
-     * Note that orphanRemoval does not work on OneToOne relationships 
-     * if the orphan is replaced by a new entity ({@link https://hibernate.onjira.com/browse/HHH-6484}  
-     * If you want to do so, you have to take care of deleting the orphan yourself
+     * Note that orphanRemoval does not work on OneToOne relationships if the
+     * orphan is replaced by a new entity ({@link https
+     * ://hibernate.onjira.com/browse/HHH-6484} If you want to do so, you have
+     * to take care of deleting the orphan yourself
      * 
      */
-    @OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Measure measure;
-    
+
     public Map<String, Values> getValueMap() {
         return valueMap;
     }
@@ -156,8 +152,8 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * @return the <b>unweighted</b> result value for an Alternative. This is the aggregation of
-     *         all transformed evaluation values
+     * @return the <b>unweighted</b> result value for an Alternative. This is
+     *         the aggregation of all transformed evaluation values
      * @see #aggregateValues(TargetValues)
      * @see #transformValues(Alternative)
      */
@@ -166,11 +162,14 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * Aggregates values of one Alternative, depending on the {@link #aggregationMode}
-     * @param values the TargetValue element over which aggregation shall be
-     * performed according to the {@link #aggregationMode}
+     * Aggregates values of one Alternative, depending on the
+     * {@link #aggregationMode}
+     * 
+     * @param values
+     *            the TargetValue element over which aggregation shall be
+     *            performed according to the {@link #aggregationMode}
      * @return a single number denoting the aggregated, transformed, unweighted
-     * result value of this Leaf.
+     *         result value of this Leaf.
      */
     private double aggregateValues(TargetValues values) {
         if (aggregationMode == SampleAggregationMode.WORST) {
@@ -181,11 +180,14 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * Returns the {@link TargetValues evaluation values} for each SampleObject for one {@link Alternative}
-     * already transformed from the measurement scale to the final scale used for ranking.
-     *
+     * Returns the {@link TargetValues evaluation values} for each SampleObject
+     * for one {@link Alternative} already transformed from the measurement
+     * scale to the final scale used for ranking.
+     * 
      * @see #getResult(Alternative)
-     * @param a the {@link Alternative} for which evaluation values shall be returned
+     * @param a
+     *            the {@link Alternative} for which evaluation values shall be
+     *            returned
      * @return {@link TargetValues}
      */
     public TargetValues transformValues(Alternative a) {
@@ -215,20 +217,21 @@ public class Leaf extends TreeNode {
         return valueMap.get(alternative);
     }
 
-
     public Scale getScale() {
         return scale;
     }
 
     /**
-     * The standard setter sets the scale of the leaf to the given instance <code>scale</code>,
-     * but leaves {@link #transformer} and {@link #aggregationMode} unchanged.
-     *
-     * <b>Important: If you want to change the type of the scale, e.g. from Boolean to Numeric,
-     * you have to take transformation settings and aggregation mode into account.
-     *  Thus you need to use {@link #changeScale(Scale)} instead, which also takes care
-     *  of the transformer and aggregationMode.</b>
-     *
+     * The standard setter sets the scale of the leaf to the given instance
+     * <code>scale</code>, but leaves {@link #transformer} and
+     * {@link #aggregationMode} unchanged.
+     * 
+     * <b>Important: If you want to change the type of the scale, e.g. from
+     * Boolean to Numeric, you have to take transformation settings and
+     * aggregation mode into account. Thus you need to use
+     * {@link #changeScale(Scale)} instead, which also takes care of the
+     * transformer and aggregationMode.</b>
+     * 
      * @param scale
      */
     public void setScale(Scale scale) {
@@ -236,18 +239,17 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * When a scale is changed e.g. from Boolean to a number,
-     * all evaluation values that have already been associated become
-     * invalid and need to be removed.
-     *
-     * This function resets all evaluation {@link Values} associated with
-     * this Leaf, which depend on the {@link Scale} that is set.
-     * This means that if the scale is not set, all Values are removed.
-     * If the scale is set, we iterate into all values for all alternatives
-     * and samplerecords and check if the scale in there differs from the
-     * scale that has been set. If yes, we remove the values.
-     * Furthermore, if this Leaf has been changed from an Object criterion
-     * to an Action criterion, all excess values are removed.
+     * When a scale is changed e.g. from Boolean to a number, all evaluation
+     * values that have already been associated become invalid and need to be
+     * removed.
+     * 
+     * This function resets all evaluation {@link Values} associated with this
+     * Leaf, which depend on the {@link Scale} that is set. This means that if
+     * the scale is not set, all Values are removed. If the scale is set, we
+     * iterate into all values for all alternatives and samplerecords and check
+     * if the scale in there differs from the scale that has been set. If yes,
+     * we remove the values. Furthermore, if this Leaf has been changed from an
+     * Object criterion to an Action criterion, all excess values are removed.
      */
     public void resetValues(List<Alternative> list) {
         if (scale == null) {
@@ -261,38 +263,45 @@ public class Leaf extends TreeNode {
         for (Alternative a : list) {
             Values values = valueMap.get(a.getName());
             if (values == null) {
-                log.debug("values is null for alternative "+ a.getName()+ " in Leaf "+name);
+                log.debug("values is null for alternative " + a.getName() + " in Leaf " + name);
                 continue;
             }
             // Check value of each sample object for conformance with Scale -
             // if we find a changed scale, we reset everything.
             // It might be faster not to check ALL values, but this is safer.
             for (Value value : values.getList()) {
-                // If the scale has changed, we reset all evaluation values of this Alternative:
-                // this may look strange, but it is OK that the scale of a value is null.
-                // If there have been values before, you change the scale and then save - the linkage is lost                
+                // If the scale has changed, we reset all evaluation values of
+                // this Alternative:
+                // this may look strange, but it is OK that the scale of a value
+                // is null.
+                // If there have been values before, you change the scale and
+                // then save - the linkage is lost
                 // if (value.getScale() == null) {
-                //      LogFactory.getLog(Leaf.class).error("WHAT THE...?? no scale for value"+getName());
+                // LogFactory.getLog(Leaf.class).error("WHAT THE...?? no scale for value"+getName());
                 // } else {
-                    if ((value.getScale() == null) ||
-                        (!value.getScale().getClass().equals(scale.getClass())) ) {
-                        if (!a.isDiscarded()) { // for discarded alternatives, that's ok.
-                            log.debug(
-                                    "Leaf "+this.getName()+" Class: " + value.getClass() + " not like "
-                                            + scale.getClass()+". RESETTING the valuemap now!");
-                            valueMap.clear(); // reset all values
-                            return;
-                        }
+                if ((value.getScale() == null) || (!value.getScale().getClass().equals(scale.getClass()))) {
+                    if (!a.isDiscarded()) { // for discarded alternatives,
+                                            // that's ok.
+                        log.debug("Leaf " + this.getName() + " Class: " + value.getClass() + " not like "
+                            + scale.getClass() + ". RESETTING the valuemap now!");
+                        valueMap.clear(); // reset all values
+                        return;
                     }
+                }
                 // }
                 // PLEASE NOTE- WRT ORDINAL RESTRICTIONS:
-                // we do NOT reset values when the restriction has changed, such as 
+                // we do NOT reset values when the restriction has changed, such
+                // as
                 // the ordinal values or the boundaries.
-                // Instead, those values that are still valid remain, the others will be checked
+                // Instead, those values that are still valid remain, the others
+                // will be checked
                 // and need to be corrected anyway in the evaluate step.
-                // Should be nicer for the user. If we find out this leads to validation problems
-                // (which shouldnt be the case because the data types are valid as long as the scale
-                // doesnt change) then we will reset the values even if just the restriction changes.
+                // Should be nicer for the user. If we find out this leads to
+                // validation problems
+                // (which shouldnt be the case because the data types are valid
+                // as long as the scale
+                // doesnt change) then we will reset the values even if just the
+                // restriction changes.
             }
             /*
              * maybe this leaf was set to single, reset all values
@@ -307,13 +316,12 @@ public class Leaf extends TreeNode {
     /**
      * Sets a default transformer corresponding to the current scale of this
      * leaf. The transformer is initialized with default-values.
-     *
+     * 
      * If no scale is set, the current transformer will be set to null!
      */
     public void setDefaultTransformer() {
         if (scale == null) {
-            log.warn(
-                    "Can't set DefaultTransformer, no scale set!");
+            log.warn("Can't set DefaultTransformer, no scale set!");
             this.setTransformer(null);
             return;
         }
@@ -334,7 +342,9 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * Returns the fully qualified class-name ("canonical name") of the current scale
+     * Returns the fully qualified class-name ("canonical name") of the current
+     * scale
+     * 
      * @return the canonical classname of the scale, or null if no scale is set
      */
     public String getScaleByClassName() {
@@ -345,12 +355,13 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * Sets the Scale according to the provided name, IF the name differs from the
-     * classname of the currently set {@link #scale}
+     * Sets the Scale according to the provided name, IF the name differs from
+     * the classname of the currently set {@link #scale}
      * 
      * resets property mappings, if present.
      * 
-     * @param className canonical class name of the new scale
+     * @param className
+     *            canonical class name of the new scale
      */
     public void setScaleByClassName(String className) {
         Scale scaleType = null;
@@ -366,14 +377,15 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * Changes the {@link Scale} to the provided one.
-     * if the new scale differs from the type of the current scale,
-     * it also:
+     * Changes the {@link Scale} to the provided one. if the new scale differs
+     * from the type of the current scale, it also:
      * <ul>
-     *     <li>sets: default aggregators and transformers.</li>
+     * <li>sets: default aggregators and transformers.</li>
      * </ul>
      * It does not set a reference to the provided scale, but clones it instead!
-     * @param newScale the new Scale to be set
+     * 
+     * @param newScale
+     *            the new Scale to be set
      */
     public void changeScale(Scale newScale) {
         if (newScale == null) {
@@ -383,26 +395,27 @@ public class Leaf extends TreeNode {
             setMeasure(null);
         } else {
             // If
-            if ((this.scale == null) //we don't have a scale yet
-               || (!scale.getClass().getName().equals(newScale.getClass().getName())))
-                // the new scale is not the same as ours
+            if ((this.scale == null) // we don't have a scale yet
+                || (!scale.getClass().getName().equals(newScale.getClass().getName())))
+            // the new scale is not the same as ours
             {
                 // a new scale was chosen, remove mapping
-                setMeasure(null);//new Criterion());
+                setMeasure(null);// new Criterion());
 
                 setScale(newScale.clone());
                 setDefaultAggregation();
-                
+
                 if (scale != null) {
                     setDefaultTransformer();
                 }
             }
         }
     }
-    
+
     /**
-     * Applies the given measure to this leaf, and adjusts scale and single properly
-     *  
+     * Applies the given measure to this leaf, and adjusts scale and single
+     * properly
+     * 
      * @param m
      */
     public void applyMeasure(final Measure m) {
@@ -413,14 +426,14 @@ public class Leaf extends TreeNode {
             setName(m.getName());
         }
         touchIncludingScale();
-        
+
     }
 
     /**
-     * is used to adjust the scale of this leaf to its mapping
-     * - the type of the new scale has already been checked, mapping information is not discarded.
-     * - a new scale is created, even the types of the current and the new Scale match 
-     *   (to get clean aggregation and transformer values)
+     * is used to adjust the scale of this leaf to its mapping - the type of the
+     * new scale has already been checked, mapping information is not discarded.
+     * - a new scale is created, even the types of the current and the new Scale
+     * match (to get clean aggregation and transformer values)
      * 
      * @param newScale
      */
@@ -428,9 +441,9 @@ public class Leaf extends TreeNode {
         if (newScale == null) {
             log.debug("CHECK THIS: try to setg scale to null due to measurement info: this should NOT happen at all.");
         } else {
-            if ((this.scale == null) //we don't have a scale yet
-               || (!scale.getClass().getName().equals(newScale.getClass().getName())))
-                // the new scale is not the same as ours
+            if ((this.scale == null) // we don't have a scale yet
+                || (!scale.getClass().getName().equals(newScale.getClass().getName())))
+            // the new scale is not the same as ours
             {
                 setScale(newScale.clone());
                 setDefaultAggregation();
@@ -442,9 +455,10 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * sets the {@link #aggregationMode} depending on {@link #scale}.
-     * For all ordinal scales we set it to using the worst result,
-     * and for numeric scales we use the average result
+     * sets the {@link #aggregationMode} depending on {@link #scale}. For all
+     * ordinal scales we set it to using the worst result, and for numeric
+     * scales we use the average result
+     * 
      * @see SampleAggregationMode
      */
     private void setDefaultAggregation() {
@@ -473,46 +487,50 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * unused at the moment.
-     * TODO checking the size of the valuemap is not enough.
+     * unused at the moment. TODO checking the size of the valuemap is not
+     * enough.
      */
     public EvaluationStatus getEvaluationStatus() {
-        return (valueMap.size() > 0) ? EvaluationStatus.COMPLETE
-                : EvaluationStatus.NONE;
+        return (valueMap.size() > 0) ? EvaluationStatus.COMPLETE : EvaluationStatus.NONE;
     }
 
     /**
      * Unused at the moment.
-     * @return the transformation status.
-     * TODO checking transformer for null state is NOT enough
+     * 
+     * @return the transformation status. TODO checking transformer for null
+     *         state is NOT enough
      */
     public EvaluationStatus getTransformationStatus() {
-        return (transformer != null) ? EvaluationStatus.COMPLETE
-                : EvaluationStatus.NONE;
+        return (transformer != null) ? EvaluationStatus.COMPLETE : EvaluationStatus.NONE;
     }
 
     /**
-     * removes associated evaluation {@link Values} for a given list of alternatives
-     * and a give record index.
-     * @param list list of Alternatives for which values shall be removed
-     * @param record index of the record for which  values shall be removed
+     * removes associated evaluation {@link Values} for a given list of
+     * alternatives and a give record index.
+     * 
+     * @param list
+     *            list of Alternatives for which values shall be removed
+     * @param record
+     *            index of the record for which values shall be removed
      */
     public void removeValues(List<Alternative> list, int record) {
         for (Alternative a : list) {
             Values v = getValues(a.getName());
-            // maybe this alternative has no values at all - e.g. because it was just created
-            if ((v != null)  // there is a Values object
-                && (v.getList().size() > record) // there can be a value for this sample record
+            // maybe this alternative has no values at all - e.g. because it was
+            // just created
+            if ((v != null) // there is a Values object
+                && (v.getList().size() > record) // there can be a value for
+                                                 // this sample record
                 && (v.getList().get(record) != null)) { // there is a value
-                log.debug("removing values:: "+getName()+" ,"+record+", "+a.getName());
+                log.debug("removing values:: " + getName() + " ," + record + ", " + a.getName());
                 v.getList().remove(record);
             }
         }
     }
-    
+
     /**
-     * The value map is properly initialized if its size equals the number of alternatives and the 
-     * number of values equals the number of records. 
+     * The value map is properly initialized if its size equals the number of
+     * alternatives and the number of values equals the number of records.
      * 
      * @return true if value map is properly initialized
      */
@@ -521,13 +539,13 @@ public class Leaf extends TreeNode {
         if (valueMap.size() != alternatives.size()) {
             return false;
         }
-        
+
         for (Alternative a : alternatives) {
             if (!valueMap.keySet().contains(a.getName())) {
                 return false;
             }
         }
-        
+
         for (String a : valueMap.keySet()) {
             if (!isSingle() && valueMap.get(a).size() != numberRecords) {
                 return false;
@@ -535,7 +553,7 @@ public class Leaf extends TreeNode {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -543,27 +561,32 @@ public class Leaf extends TreeNode {
      * Creates empty Values for all Alternatives and SampleRecords as provided
      * in the parameters, PLUS ensures that values are linked to scales if the
      * parameter addLinkage is true
-     *
-     * An assumption here is that other methods take care of removing values when
-     * removing records ({@link #removeValues(List, int)}),
-     * and of resetting values when changing scales and from object
-     * to action criterion. ({@link #resetValues()})
-     * These methods need to be called when manipulating the object model.
-     *
-     * @param list of Alternatives
-     * @param records The number of records determines how many {@link Values} are
-     * created and associated for every {@link Alternative}
-     * @param addLinkage If true, ensure that values are linked to scales
-     * by calling {@link #initScaleValueLinkage(List, int)}
+     * 
+     * An assumption here is that other methods take care of removing values
+     * when removing records ({@link #removeValues(List, int)}), and of
+     * resetting values when changing scales and from object to action
+     * criterion. ({@link #resetValues()}) These methods need to be called when
+     * manipulating the object model.
+     * 
+     * @param list
+     *            of Alternatives
+     * @param records
+     *            The number of records determines how many {@link Values} are
+     *            created and associated for every {@link Alternative}
+     * @param addLinkage
+     *            If true, ensure that values are linked to scales by calling
+     *            {@link #initScaleValueLinkage(List, int)}
      */
-    public void initValues(List<Alternative> list, int records,
-            boolean addLinkage) {
-        /** maybe we have not completed the step identify requirements yet -
-         * so there might be no scales! **/
+    public void initValues(List<Alternative> list, int records, boolean addLinkage) {
+        /**
+         * maybe we have not completed the step identify requirements yet - so
+         * there might be no scales!
+         **/
         if (scale == null)
             return;
         for (Alternative a : list) {
-            // for every Alternative we get the container of the values of each sample object
+            // for every Alternative we get the container of the values of each
+            // sample object
             // from the map
             Values v = valueMap.get(a.getName());
 
@@ -578,8 +601,10 @@ public class Leaf extends TreeNode {
                 }
             }
 
-            // 20090217, hotfix CB: if a Leaf is set to SINGLE *after* initValues has been called,
-            // the Value object at position 0 of the ValueS object might not be properly initialised.
+            // 20090217, hotfix CB: if a Leaf is set to SINGLE *after*
+            // initValues has been called,
+            // the Value object at position 0 of the ValueS object might not be
+            // properly initialised.
             // Check and initialise if needed:
             if (isSingle()) {
                 if (v.size() == 0) {
@@ -587,27 +612,31 @@ public class Leaf extends TreeNode {
                     v.getList().add(scale.createValue());
                 } else {
                     if (v.getValue(0) == null) {
-                        log.warn("adding value to a SINGLE LEAF WITH A VALUES OBJECT WITHOUT A PROPER VALUE:" + getName());
-                        v.setValue(0,scale.createValue());
+                        log.warn("adding value to a SINGLE LEAF WITH A VALUES OBJECT WITHOUT A PROPER VALUE:"
+                            + getName());
+                        v.setValue(0, scale.createValue());
                     }
                 }
             }
             // end hotfix 20090217
-            
+
             // So we can be sure now that we have a value container and
             // that it is linked and that for Action criteria, i.e. single
             // values, we have the one value.
             // For Object criteria we have to be sure that the number of values
-            // corresponds to the number of sample objects, so we fill the list up
+            // corresponds to the number of sample objects, so we fill the list
+            // up
             if (!isSingle()) {
                 // this is to add MISSING values for records.
                 // it doesnt make a difference for this condition
                 // whether we just created a new valuemap or are
                 // refilling an existing one
 
-                // Note that the index here starts at the size of the values array
+                // Note that the index here starts at the size of the values
+                // array
                 // and runs to the total number of records.
-                // so if we have enough - nothing happens; if some are missing, they are
+                // so if we have enough - nothing happens; if some are missing,
+                // they are
                 // added at the end
                 for (int i = v.size(); i < records; i++) {
                     v.add(scale.createValue());
@@ -622,17 +651,18 @@ public class Leaf extends TreeNode {
     /**
      * ensures that values are linked to scales by setting all of them
      * explicitly. We need that especially for export/import
-     *
-     * @param list List of Alternatives over which to iterate
-     * @param records denotes the number of records for the iteration
+     * 
+     * @param list
+     *            List of Alternatives over which to iterate
+     * @param records
+     *            denotes the number of records for the iteration
      */
     public void initScaleValueLinkage(List<Alternative> list, int records) {
         for (Alternative a : list) {
             Values v = valueMap.get(a.getName());
             if (v == null) {
                 throw new IllegalStateException("initScaleLinkage called,"
-                        + " but the valueMap is still empty - that's a bug."
-                        + " Leaf:" + getName());
+                    + " but the valueMap is still empty - that's a bug." + " Leaf:" + getName());
             }
             if (isSingle()) {
                 v.getValue(0).setScale(scale);
@@ -645,48 +675,57 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * Checks if the Scale of this Leaf is existent and correctly specified.
-     * To achieve this, it calls {@link Scale#isCorrectlySpecified(String, List)}
+     * Checks if the Scale of this Leaf is existent and correctly specified. To
+     * achieve this, it calls {@link Scale#isCorrectlySpecified(String, List)}
      * if there is a scale, or returns false otherwise.
+     * 
      * @see TreeNode#isCompletelySpecified(List<ValidationError>)
      * @see Scale#isCorrectlySpecified(String, List)
      */
     @Override
     public boolean isCompletelySpecified(List<ValidationError> errors) {
         if (this.scale == null) {
-        	errors.add(new ValidationError("Leaf " + this.getName() + " has no scale", this));
+            errors.add(new ValidationError("Leaf " + this.getName() + " has no scale", this));
             return false;
         }
         if (scale instanceof YanScale) {
-        	errors.add(new ValidationError("Criterion "+getName()+" is associated with a 'Yes/Acceptable/No' scale, which is discouraged. We recommend to refine the criterion to be as objective as possible.", this));
+            errors
+                .add(new ValidationError(
+                    "Criterion "
+                        + getName()
+                        + " is associated with a 'Yes/Acceptable/No' scale, which is discouraged. We recommend to refine the criterion to be as objective as possible.",
+                    this));
         }
         return this.scale.isCorrectlySpecified(this.getName(), errors);
     }
 
     /**
-     * Checks if this Leaf is completely evaluated, i.e. we have correct
-     * values for all Alternatives and samples.
-     * For this means we need to iterate over all alternatives and check
-     * all values. This is done by calling {@link Scale#isEvaluated(Value)}
-     * @param alternatives the list of Alternatives over which to iterate when checking
-     * for evaluation values
-     * @param errorMessages This is the <b>list of messages</b> where we add a message about this Leaf in case validation
-     * fails, i.e. it is not completely evaluated.
-     * @see eu.scape_project.planning.model.tree.TreeNode#isCompletelyEvaluated(List, List)
+     * Checks if this Leaf is completely evaluated, i.e. we have correct values
+     * for all Alternatives and samples. For this means we need to iterate over
+     * all alternatives and check all values. This is done by calling
+     * {@link Scale#isEvaluated(Value)}
+     * 
+     * @param alternatives
+     *            the list of Alternatives over which to iterate when checking
+     *            for evaluation values
+     * @param errorMessages
+     *            This is the <b>list of messages</b> where we add a message
+     *            about this Leaf in case validation fails, i.e. it is not
+     *            completely evaluated.
+     * @see eu.scape_project.planning.model.tree.TreeNode#isCompletelyEvaluated(List,
+     *      List)
      * @see Scale#isEvaluated(Value)
      */
     @Override
-    public boolean isCompletelyEvaluated(List<Alternative> alternatives,
-            List<ValidationError> errors) {
+    public boolean isCompletelyEvaluated(List<Alternative> alternatives, List<ValidationError> errors) {
         boolean validates = true;
-        log.debug("checking complete evaluation for leaf " +getName());
+        log.debug("checking complete evaluation for leaf " + getName());
         for (Alternative a : alternatives) {
             Values values = valueMap.get(a.getName());
-            log.debug("checking values for "+a.getName());
+            log.debug("checking values for " + a.getName());
             if (this.isSingle()) {
                 if (values.size() < 1) {
-                    log.warn(
-                            "Not Enough Value Objects in Values");
+                    log.warn("Not Enough Value Objects in Values");
                     validates = false;
                 } else {
                     if (!scale.isEvaluated(values.getValue(0))) {
@@ -696,7 +735,7 @@ public class Leaf extends TreeNode {
             } else {
                 int i = 0;
                 for (Value value : values.getList()) {
-                    log.debug("checking value for "+(i));
+                    log.debug("checking value for " + (i));
                     if (!scale.isEvaluated(value)) {
                         validates = false;
                         break;
@@ -706,26 +745,29 @@ public class Leaf extends TreeNode {
             }
         }
         if (!validates) {
-            // I add an error message to the list, and myself to the list of error nodes
-        	errors.add(new ValidationError("Leaf " + this.getName() + " is not properly evaluated", this));
+            // I add an error message to the list, and myself to the list of
+            // error nodes
+            errors.add(new ValidationError("Leaf " + this.getName() + " is not properly evaluated", this));
         }
         return validates;
     }
 
     /**
-     * Checks if the transformation settings for this Leaf are complete and correct.
+     * Checks if the transformation settings for this Leaf are complete and
+     * correct.
+     * 
      * @see Transformer#isTransformable(List)
      * @see TreeNode#isCompletelyTransformed(List)
      */
     @Override
     public boolean isCompletelyTransformed(List<ValidationError> errors) {
         if (this.transformer == null) {
-        	errors.add(new ValidationError("Leaf " + this.getName()+" is not properly transformed", this));
-            log.error("Transformer is NULL in Leaf "+getParent().getName()+" > "+getName());
+            errors.add(new ValidationError("Leaf " + this.getName() + " is not properly transformed", this));
+            log.error("Transformer is NULL in Leaf " + getParent().getName() + " > " + getName());
             return false;
         }
         if (!this.transformer.isTransformable(errors) || !this.transformer.isChanged()) {
-        	errors.add(new ValidationError("Leaf " + this.getName()+" is not properly transformed", this));
+            errors.add(new ValidationError("Leaf " + this.getName() + " is not properly transformed", this));
             return false;
         }
         return true;
@@ -741,10 +783,10 @@ public class Leaf extends TreeNode {
         if (this.weight >= 0 && this.weight <= 1) {
             return true;
         }
-        errors.add(new ValidationError("Leaf " + this.getName() + " has an illegal weight (" + this.weight + ")", this));
+        errors
+            .add(new ValidationError("Leaf " + this.getName() + " has an illegal weight (" + this.weight + ")", this));
         return false;
     }
-
 
     @Override
     /**
@@ -761,7 +803,7 @@ public class Leaf extends TreeNode {
             clone.setScale(this.getScale().clone());
         }
         clone.setValueMap(new HashMap<String, Values>());
-        
+
         Transformer newTransformer = null;
         if (transformer != null) {
             newTransformer = transformer.clone();
@@ -777,7 +819,7 @@ public class Leaf extends TreeNode {
     /**
      * @see ITouchable#handleChanges(IChangesHandler)
      */
-      public void handleChanges(IChangesHandler h) {
+    public void handleChanges(IChangesHandler h) {
         super.handleChanges(h);
 
         // call handleChanges of all properties
@@ -799,67 +841,67 @@ public class Leaf extends TreeNode {
     }
 
     /**
-     * this method updates the value map, changing the name of the alternative to the new one.
-     * @param oldName old name to be updated
-     * @param newName new name to be used instead of oldName
+     * this method updates the value map, changing the name of the alternative
+     * to the new one.
+     * 
+     * @param oldName
+     *            old name to be updated
+     * @param newName
+     *            new name to be used instead of oldName
      */
     public void updateAlternativeName(String oldName, String newName) {
         if (valueMap.containsKey(oldName))
             valueMap.put(newName, valueMap.remove(oldName));
-        
+
         /*
-         for (String name: valueMap.keySet()) {
-            if (name.equals(oldName)) {
-                valueMap.put(newName, valueMap.get(oldName));
-                valueMap.remove(oldName);
-            }
-        }
-        */       
-        
+         * for (String name: valueMap.keySet()) { if (name.equals(oldName)) {
+         * valueMap.put(newName, valueMap.get(oldName));
+         * valueMap.remove(oldName); } }
+         */
+
     }
 
     /**
      * <ul>
      * <li>
-     * removes all {@link Values} from the {@link #valueMap} which are not mapped by one of the 
-     * names provided in the list
-     * </li>
+     * removes all {@link Values} from the {@link #valueMap} which are not
+     * mapped by one of the names provided in the list</li>
      * <li>
-     * removes all {@link Value} objects in the {@link Values} which are out of the index of 
-     * the sample records (which should not happen, but apparently we have some projects where this
-     * is the case), or where a leaf is single and there is more than one {@link Value}
-     * </li>
+     * removes all {@link Value} objects in the {@link Values} which are out of
+     * the index of the sample records (which should not happen, but apparently
+     * we have some projects where this is the case), or where a leaf is single
+     * and there is more than one {@link Value}</li>
      * </ul>
-     * @param alternatives list of names of alternatives
+     * 
+     * @param alternatives
+     *            list of names of alternatives
      * @return number of {@link Values} objects removed
      */
     public int removeLooseValues(List<String> alternatives, int records) {
         int number = 0;
-        Iterator<String> it =  valueMap.keySet().iterator();
+        Iterator<String> it = valueMap.keySet().iterator();
         List<String> namesToRemove = new ArrayList<String>();
         while (it.hasNext()) {
             String altName = it.next();
             if (!alternatives.contains(altName)) {
-                log.warn("removing Values for "+altName+" at leaf "
-                        +getName());
+                log.warn("removing Values for " + altName + " at leaf " + getName());
                 namesToRemove.add(altName);
                 number++;
             } else {
                 Values v = valueMap.get(altName);
-                int removed  = v.removeLooseValues(isSingle() ? 1 : records);
-                log.warn("removed "+removed+" Value objects " +
-                                "for "+altName+" at leaf "+getName());
+                int removed = v.removeLooseValues(isSingle() ? 1 : records);
+                log.warn("removed " + removed + " Value objects " + "for " + altName + " at leaf " + getName());
                 number += removed;
             }
         }
-        for (String s: namesToRemove) { 
+        for (String s : namesToRemove) {
             valueMap.remove(s);
         }
         return number;
     }
-    
+
     public void normalizeWeights(boolean recoursive) {
-        // this is a leaf which means there are no children 
+        // this is a leaf which means there are no children
         // and therefore there is nothing to do
     }
 
@@ -870,22 +912,24 @@ public class Leaf extends TreeNode {
     public void setMeasure(Measure measure) {
         this.measure = measure;
     }
-    
-    /**
-     * initialises the ordinal transformer for free text scales
-     * AND has a side effect: textual values in free text scales
-     * with equalsIgnoreCase=true to an existing mapping are changed
-     * to the case of the mapping string!
 
+    /**
+     * initialises the ordinal transformer for free text scales AND has a side
+     * effect: textual values in free text scales with equalsIgnoreCase=true to
+     * an existing mapping are changed to the case of the mapping string!
      */
     public void initTransformer() {
         initTransformer(null);
     }
-    
+
     /**
-     * initialises the ordinal transformer for free text scales, @see #initTransformer()
-     * @param defaultTarget if this is used (must be 0.0<=defaultTarget<=5.0, unchecked)
-     * then for each newly added mapping, the default target is set as provided.
+     * initialises the ordinal transformer for free text scales, @see
+     * #initTransformer()
+     * 
+     * @param defaultTarget
+     *            if this is used (must be 0.0<=defaultTarget<=5.0, unchecked)
+     *            then for each newly added mapping, the default target is set
+     *            as provided.
      */
     public void initTransformer(Double defaultTarget) {
 
@@ -896,13 +940,15 @@ public class Leaf extends TreeNode {
             Map<String, TargetValueObject> map = t.getMapping();
 
             HashSet<String> allValues = new HashSet<String>();
-            for (Values values: valueMap.values()) {
+            for (Values values : valueMap.values()) {
                 for (Value v : values.getList()) {
                     FreeStringValue text = (FreeStringValue) v;
                     if (!text.toString().equals("")) {
-                        for (String s: map.keySet()) {
-                            // if the value is NOT the same, but IS the same with other case, 
-                            // we replace the value with the cases predefined by the mapping
+                        for (String s : map.keySet()) {
+                            // if the value is NOT the same, but IS the same
+                            // with other case,
+                            // we replace the value with the cases predefined by
+                            // the mapping
                             if (text.getValue().equalsIgnoreCase(s) && !text.getValue().equals(s)) {
                                 text.setValue(s);
                             }
@@ -911,23 +957,26 @@ public class Leaf extends TreeNode {
                     }
                 }
             }
-            
-            // We remove all values from the transformer that do not actually occur (anymore)
-            // I am disabling this for now - why would we want to remove known mappings?
-            // They don't do harm because for the lookup, we use the actually encountered values
+
+            // We remove all values from the transformer that do not actually
+            // occur (anymore)
+            // I am disabling this for now - why would we want to remove known
+            // mappings?
+            // They don't do harm because for the lookup, we use the actually
+            // encountered values
             // (see below)
-//            HashSet<String> keysToRemove = new HashSet<String>(); 
-//           for (String s: map.keySet()) {
-//               if (!allValues.contains(s)) {
-//                   keysToRemove.add(s);
-//               }
-//           }
-//           for (String s: keysToRemove) {
-//               map.remove(s);
-//           }
-           
-            // We add all values that occur, but dont are not in the map yet:
-            for (String s: allValues) {
+            // HashSet<String> keysToRemove = new HashSet<String>();
+            // for (String s: map.keySet()) {
+            // if (!allValues.contains(s)) {
+            // keysToRemove.add(s);
+            // }
+            // }
+            // for (String s: keysToRemove) {
+            // map.remove(s);
+            // }
+
+            // We add all values that occur, but are not in the map yet:
+            for (String s : allValues) {
                 if (!map.containsKey(s)) {
                     if (defaultTarget == null) {
                         map.put(s, new TargetValueObject());
@@ -935,40 +984,42 @@ public class Leaf extends TreeNode {
                         map.put(s, new TargetValueObject(defaultTarget.doubleValue()));
                     }
                 }
-            }      
-            
+            }
+
             // We also have to publish the known values
             // to the SCALE because it provides the reference lookup
             // for iterating and defining the transformation
             freeScale.setPossibleValues(allValues);
         }
     }
-    
+
     /**
-     * Method responsible for assessing the potential output range of this requirement.
-     * Calculation rule:
-     * if (minPossibleTransformedValue == 0) koFactor = 1; else koFactor = 0;
-     * potentialOutputRange = relativeWeight * (maxPossibleTransformedValue - minPossibleTransformedValue) + koFactor;
+     * Method responsible for assessing the potential output range of this
+     * requirement. Calculation rule: if (minPossibleTransformedValue == 0)
+     * koFactor = 1; else koFactor = 0; potentialOutputRange = relativeWeight *
+     * (maxPossibleTransformedValue - minPossibleTransformedValue) + koFactor;
      * 
-     * @return potential output range. 
-     *         If the plan is not yet at a evaluation stage where potential output range can be calculated 0 is returned.
+     * @return potential output range. If the plan is not yet at a evaluation
+     *         stage where potential output range can be calculated 0 is
+     *         returned.
      */
     public double getPotentialOutputRange() {
-        // If the plan is not yet at a evaluation stage where potential output range can be calculated - return 0.
+        // If the plan is not yet at a evaluation stage where potential output
+        // range can be calculated - return 0.
         if (transformer == null) {
             return 0;
         }
-        
+
         double outputLowerBound = 10;
         double outputUpperBound = -10;
-        
+
         // Check OrdinalTransformer
         if (transformer instanceof OrdinalTransformer) {
             OrdinalTransformer ot = (OrdinalTransformer) transformer;
             Map<String, TargetValueObject> otMapping = ot.getMapping();
 
-            // set upper- and lower-bound  
-            for(TargetValueObject tv : otMapping.values()) {
+            // set upper- and lower-bound
+            for (TargetValueObject tv : otMapping.values()) {
                 if (tv.getValue() > outputUpperBound) {
                     outputUpperBound = tv.getValue();
                 }
@@ -977,10 +1028,11 @@ public class Leaf extends TreeNode {
                 }
             }
         }
-        
+
         // Check OrdinalTransformer
         if (transformer instanceof NumericTransformer) {
-            // I have to identify the scale bounds before I can calculate the output bounds.   
+            // I have to identify the scale bounds before I can calculate the
+            // output bounds.
             double scaleLowerBound = Double.MIN_VALUE;
             double scaleUpperBound = Double.MAX_VALUE;
 
@@ -993,9 +1045,9 @@ public class Leaf extends TreeNode {
             if (scale instanceof PositiveFloatScale) {
                 PositiveFloatScale s = (PositiveFloatScale) scale;
                 scaleLowerBound = 0;
-                scaleUpperBound = s.getUpperBound();                
+                scaleUpperBound = s.getUpperBound();
             }
-            
+
             // At Range Scales lowerBound and upperBound have to be fetched
             if (scale instanceof IntRangeScale) {
                 IntRangeScale s = (IntRangeScale) scale;
@@ -1015,121 +1067,116 @@ public class Leaf extends TreeNode {
             double transformerT3 = nt.getThreshold3();
             double transformerT4 = nt.getThreshold4();
             double transformerT5 = nt.getThreshold5();
-            
+
             // calculate output bounds
-            // FIXME This uses internal logic of the transformer, should be reused instead: at least the check for increasing/decreasing
-            // increasing thresholds
-            if (transformerT1 <= transformerT5) {
+            if (nt.hasIncreasingOrder()) {
+                // increasing thresholds
                 // lower bound
                 if (scaleLowerBound < transformerT1) {
                     outputLowerBound = 0;
-                }
-                else if (scaleLowerBound < transformerT2) {
+                } else if (scaleLowerBound < transformerT2) {
                     outputLowerBound = 1;
-                }
-                else if (scaleLowerBound < transformerT3) {
+                } else if (scaleLowerBound < transformerT3) {
                     outputLowerBound = 2;
-                }
-                else if (scaleLowerBound < transformerT4) {
+                } else if (scaleLowerBound < transformerT4) {
                     outputLowerBound = 3;
-                }
-                else if (scaleLowerBound < transformerT5) {
+                } else if (scaleLowerBound < transformerT5) {
                     outputLowerBound = 4;
-                }
-                else {
+                } else {
                     outputLowerBound = 5;
                 }
-                
+
                 // upper bound
                 if (scaleUpperBound < transformerT1) {
                     outputUpperBound = 0;
-                }
-                else if (scaleUpperBound < transformerT2) {
+                } else if (scaleUpperBound < transformerT2) {
                     outputUpperBound = 1;
-                }
-                else if (scaleUpperBound < transformerT3) {
+                } else if (scaleUpperBound < transformerT3) {
                     outputUpperBound = 2;
-                }
-                else if (scaleUpperBound < transformerT4) {
+                } else if (scaleUpperBound < transformerT4) {
                     outputUpperBound = 3;
-                }
-                else if (scaleUpperBound < transformerT5) {
+                } else if (scaleUpperBound < transformerT5) {
                     outputUpperBound = 4;
-                }
-                else {
+                } else {
                     outputUpperBound = 5;
                 }
-            }
-            
-            // decreasing thresholds
-            if (transformerT1 > transformerT5) {
+            } else {
+                // decreasing thresholds
                 // lower bound
                 if (scaleUpperBound > transformerT1) {
                     outputLowerBound = 0;
-                }
-                else if (scaleUpperBound > transformerT2) {
+                } else if (scaleUpperBound > transformerT2) {
                     outputLowerBound = 1;
-                }
-                else if (scaleUpperBound > transformerT3) {
+                } else if (scaleUpperBound > transformerT3) {
                     outputLowerBound = 2;
-                }
-                else if (scaleUpperBound > transformerT4) {
+                } else if (scaleUpperBound > transformerT4) {
                     outputLowerBound = 3;
-                }
-                else if (scaleUpperBound > transformerT5) {
+                } else if (scaleUpperBound > transformerT5) {
                     outputLowerBound = 4;
-                }
-                else {
+                } else {
                     outputLowerBound = 5;
                 }
-                
+
                 // upper bound
                 if (scaleLowerBound > transformerT1) {
                     outputUpperBound = 0;
-                }
-                else if (scaleLowerBound > transformerT2) {
+                } else if (scaleLowerBound > transformerT2) {
                     outputUpperBound = 1;
-                }
-                else if (scaleLowerBound > transformerT3) {
+                } else if (scaleLowerBound > transformerT3) {
                     outputUpperBound = 2;
-                }
-                else if (scaleLowerBound > transformerT4) {
+                } else if (scaleLowerBound > transformerT4) {
                     outputUpperBound = 3;
-                }
-                else if (scaleLowerBound > transformerT5) {
+                } else if (scaleLowerBound > transformerT5) {
                     outputUpperBound = 4;
-                }
-                else {
+                } else {
                     outputUpperBound = 5;
                 }
             }
         }
-        
+
         double koFactor = 0;
         if (outputLowerBound == 0) {
             koFactor = 1;
         }
-        
+
         double potentialOutputRange = getTotalWeight() * (outputUpperBound - outputLowerBound) + koFactor;
-                
+
         return potentialOutputRange;
     }
 
+    public double getPotentialImpact() {
+        if (transformer == null) {
+            return 0.0;
+        }
+        double maxRating = 0.0;
+        if (transformer instanceof OrdinalTransformer) {
+            for (TargetValueObject tv : ((OrdinalTransformer) transformer).getMapping().values()) {
+                if (tv.getValue() > maxRating) {
+                    maxRating = tv.getValue();
+                }
+            }
+        } else {
+            maxRating = 5.0;
+        }
+        return this.getTotalWeight() * maxRating;
+    }
+
     /**
-     * Method responsible for assessing the actual output range of this requirement.
-     * Calculation rule:
-     * if (minActualTransformedValue == 0) koFactor = 1; else koFactor = 0;
-     * actualOutputRange = relativeWeight * (maxActualTransformedValue - minActualTransformedValue) + koFactor;
+     * Method responsible for assessing the actual output range of this
+     * requirement. Calculation rule: if (minActualTransformedValue == 0)
+     * koFactor = 1; else koFactor = 0; actualOutputRange = relativeWeight *
+     * (maxActualTransformedValue - minActualTransformedValue) + koFactor;
      * 
-     * @return actual output range.
-     *         If the plan is not yet at a evaluation stage where actual output range can be calculated 0 is returned.
+     * @return actual output range. If the plan is not yet at a evaluation stage
+     *         where actual output range can be calculated 0 is returned.
      */
     public double getActualOutputRange() {
-        // If the plan is not yet at a evaluation stage where actual output range can be calculated - return 0.
+        // If the plan is not yet at a evaluation stage where actual output
+        // range can be calculated - return 0.
         if (transformer == null) {
             return 0;
         }
-        
+
         // Collect all measured values from all alternatives
         List<Value> valueList = new ArrayList<Value>();
         Collection<Values> valuesCollection = valueMap.values();
@@ -1138,33 +1185,31 @@ public class Leaf extends TreeNode {
                 valueList.add(value);
             }
         }
-        
+
         // if nothing is measured yet - return 0
         if (valueList.size() == 0) {
             return 0;
         }
-               
+
         // transform measured values
         List<Double> transformedValues = new ArrayList<Double>();
         for (Value val : valueList) {
             TargetValue targetValue;
-            
+
             // do ordinal transformationCriterion
             if (transformer instanceof OrdinalTransformer) {
                 OrdinalTransformer ordTrans = (OrdinalTransformer) transformer;
-                
+
                 if (val instanceof IOrdinalValue) {
                     try {
                         targetValue = ordTrans.transform((IOrdinalValue) val);
-                    }
-                    catch (NullPointerException e) {
+                    } catch (NullPointerException e) {
                         log.warn("Measurement of leaf doesn't match with OrdinalTransformer! Ignoring it!");
                         log.warn("MeasuredValue-id: " + val.getId() + "; Transformer-id: " + ordTrans.getId());
                         continue;
                     }
                     transformedValues.add(targetValue.getValue());
-                }
-                else {
+                } else {
                     log.warn("getActualOutputRange(): INumericValue value passed to OrdinalTransformer - ignore value");
                 }
             }
@@ -1172,17 +1217,16 @@ public class Leaf extends TreeNode {
             // do numeric transformation
             if (transformer instanceof NumericTransformer) {
                 NumericTransformer numericTrans = (NumericTransformer) transformer;
-                
+
                 if (val instanceof INumericValue) {
                     targetValue = numericTrans.transform((INumericValue) val);
                     transformedValues.add(targetValue.getValue());
-                }
-                else {
+                } else {
                     log.warn("getActualOutputRange(): IOrdinalValue value passed to NumericTransformer - ignore value");
                 }
             }
         }
-        
+
         // if nothing could be transformed successfully - return 0
         if (transformedValues.size() == 0) {
             return 0;
@@ -1200,16 +1244,17 @@ public class Leaf extends TreeNode {
                 outputLowerBound = tVal;
             }
         }
-        
+
         double koFactor = 0;
         if (outputLowerBound == 0) {
             koFactor = 1;
         }
-        
+
         double actualOutputRange = getTotalWeight() * (outputUpperBound - outputLowerBound) + koFactor;
-        
+
         return actualOutputRange;
     }
+
     /**
      * touches everything: this, the scale and the transformer (if existing)
      */
@@ -1223,15 +1268,14 @@ public class Leaf extends TreeNode {
             transformer.touch(username);
         }
     }
-    
+
     /**
      * Method responsible for touching this Leaf and its Scale.
      */
     public void touchIncludingScale() {
         touch();
         if (scale != null) {
-                scale.touch();
+            scale.touch();
         }
     }
-    
 }

@@ -85,7 +85,7 @@ public abstract class Transformer implements ITransformer, Serializable, IToucha
         }
         return result;
     }
-
+    
     public ChangeLog getChangeLog() {
         return this.changeLog;
     }

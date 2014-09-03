@@ -72,9 +72,9 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
      * @throws IOException
      */
     public PlanStatisticsGenerator(Writer writer, EntityManager em) throws IOException {
-    	super(writer, em);
+        super(writer, em);
 
-        setupColumns(); 
+        setupColumns();
 
         // write the header
         listWriter.writeHeader(headers);
@@ -120,7 +120,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         double percentageDefinedTransformers = 0.0;
         List<String> consideredAltNames = new ArrayList<String>();
         for (Alternative alt : plan.getAlternativesDefinition().getConsideredAlternatives()) {
-        	consideredAltNames.add(alt.getName());
+            consideredAltNames.add(alt.getName());
         }
         List<ValidationError> errors = new ArrayList<ValidationError>();
         for (Iterator<Leaf> iter = leaves.iterator(); iter.hasNext();) {
@@ -140,12 +140,12 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
                 String alt = alts.next();
                 Values values = l.getValues(alt);
                 if (values != null) {
-	                for (Iterator<Value> valueiter = values.getList().iterator(); valueiter.hasNext();) {
-	                    Value value = valueiter.next();
-	                    if ((value != null) && (value.getScale() != null) && value.isEvaluated()) {
-	                        numEvaluated++;
-	                    }
-	                }
+                    for (Iterator<Value> valueiter = values.getList().iterator(); valueiter.hasNext();) {
+                        Value value = valueiter.next();
+                        if ((value != null) && (value.getScale() != null) && value.isEvaluated()) {
+                            numEvaluated++;
+                        }
+                    }
                 }
             }
 
@@ -156,7 +156,8 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
             }
         }
         percentageDefinedTransformers = percentageDefinedTransformers / numLeaves;
-        double percentagePopulatedValues = (numMeasuresNeededTotal == 0)? 0.0 : numEvaluated / (double) numMeasuresNeededTotal;
+        double percentagePopulatedValues = (numMeasuresNeededTotal == 0) ? 0.0 : numEvaluated
+            / (double) numMeasuresNeededTotal;
 
         String creatorUsername = properties.getOwner();
         String creatorEmail = null;
@@ -228,7 +229,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
             percentagePopulatedValues, percentageDefinedTransformers, numDistinctUsers, numPlansCreated);
         // and add information on changelogs
         analyseChangelogs(statistics, plan);
-        
+
         return statistics;
 
     }
@@ -259,14 +260,14 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         long minCL = plan.getSampleRecordsDefinition().getChangeLog().getChanged();
         long maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
 
         for (SampleObject sample : plan.getSampleRecordsDefinition().getRecords()) {
             ChangeLog sampleCL = sample.getChangeLog();
             if (sampleCL.getChanged() > maxCL) {
                 maxCL = sampleCL.getChanged();
-            } 
+            }
             if (sampleCL.getCreated() < minCL) {
                 minCL = sampleCL.getCreated();
             }
@@ -281,7 +282,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getRequirementsDefinition().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
 
         List<TreeNode> nodes = plan.getTree().getRoot().getAllChildren();
@@ -320,7 +321,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getAlternativesDefinition().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         for (Alternative alternative : plan.getAlternativesDefinition().getAlternatives()) {
             ChangeLog altCL = alternative.getChangeLog();
@@ -342,7 +343,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getDecision().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         // for (Alternative alternative :
         // plan.getAlternativesDefinition().getAlternatives()) {
@@ -381,15 +382,16 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         for (Alternative alternative : plan.getAlternativesDefinition().getAlternatives()) {
             Experiment experiment = alternative.getExperiment();
             // - detailedExperimentInfo
-//            for (DetailedExperimentInfo detailedInfo : experiment.getDetailedInfo().values()) {
-//                ChangeLog diCL = detailedInfo.getChangeLog();
-//                if (maxCL < diCL.getChanged()) {
-//                    maxCL = diCL.getChanged();
-//                }
-//                if (minCL > diCL.getChanged()) {
-//                    minCL = diCL.getChanged();
-//                }
-//            }
+            // for (DetailedExperimentInfo detailedInfo :
+            // experiment.getDetailedInfo().values()) {
+            // ChangeLog diCL = detailedInfo.getChangeLog();
+            // if (maxCL < diCL.getChanged()) {
+            // maxCL = diCL.getChanged();
+            // }
+            // if (minCL > diCL.getChanged()) {
+            // minCL = diCL.getChanged();
+            // }
+            // }
             // - result files (alternative.experiment.results)
             for (DigitalObject result : experiment.getResults().values()) {
                 ChangeLog resultCL = result.getChangeLog();
@@ -428,7 +430,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getEvaluation().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         for (TreeNode treeNode : nodes) {
             if (treeNode instanceof Leaf) {
@@ -457,7 +459,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getTransformation().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         for (TreeNode treeNode : nodes) {
             if (treeNode instanceof Leaf) {
@@ -468,7 +470,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
                         maxCL = tCL.getChanged();
                     }
                     if (minCL > tCL.getChanged()) {
-                    	minCL = tCL.getChanged();
+                        minCL = tCL.getChanged();
                     }
                 }
             }
@@ -482,7 +484,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getImportanceWeighting().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
 
         minChangeLogs[11] = minCL;
@@ -493,7 +495,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         minCL = plan.getRecommendation().getChangeLog().getChanged();
         maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         minChangeLogs[12] = minCL;
         maxChangeLogs[12] = maxCL;
@@ -502,9 +504,9 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         // "Executable Plan Created")
         // - ExecutablePlanDefinition
         minCL = plan.getExecutablePlanDefinition().getChangeLog().getChanged();
-        maxCL = minCL;        
+        maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         minChangeLogs[13] = minCL;
         maxChangeLogs[13] = maxCL;
@@ -513,9 +515,9 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         // 14. Define Plan - PLAN_DEFINED(14, "Plan Defined")
         // - PlanDefinition
         minCL = plan.getPlanDefinition().getChangeLog().getChanged();
-        maxCL = minCL;        
+        maxCL = minCL;
         if (minCL <= createdAt) {
-        	minCL = Long.MAX_VALUE;
+            minCL = Long.MAX_VALUE;
         }
         minChangeLogs[14] = minCL;
         maxChangeLogs[14] = maxCL;
@@ -544,30 +546,31 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
             long exit = minChangeLogs[stage + 1];
             if (LUndef.isDefined(enter) && LUndef.isDefined(exit)) {
                 // in minutes, not milliseconds!
-                long duration = exit - enter;
-                statistics.getPhaseDurations()[stage] = duration / 60000;
+                // long duration = exit - enter;
+                // from plan creation to exit - in hours
+                long duration = exit - createdAt;
+                statistics.getPhaseDurations()[stage] = duration / (60 * 60 * 1000);
             } else {
                 statistics.getPhaseDurations()[stage] = Long.MAX_VALUE;
             }
         }
 
-        
         minCL = minChangeLogs[PlanState.GO_CHOSEN.getValue()];
         if (LUndef.isDefined(minCL)) {
-            statistics.setToDecision( (minCL-createdAt) / 60000 );
+            statistics.setToDecision((minCL - createdAt) / (60 * 60 * 1000));
         } else {
-            statistics.setToDecision( Long.MIN_VALUE );            
+            statistics.setToDecision(Long.MIN_VALUE);
         }
-        
+
         minCL = minChangeLogs[PlanState.PLAN_VALIDATED.getValue()];
         if (LUndef.isDefined(minCL)) {
-            statistics.setToCompletion((minCL-createdAt) / 60000 );
+            statistics.setToCompletion((minCL - createdAt) / (60 * 60 * 1000));
         } else {
-            statistics.setToCompletion( Long.MIN_VALUE );            
+            statistics.setToCompletion(Long.MIN_VALUE);
         }
 
         if (maxState != PlanState.PLAN_VALIDATED) {
-            for (int i = PlanStatistics.MAX_STATE-1; i >= 1; i--) {
+            for (int i = PlanStatistics.MAX_STATE - 1; i >= 1; i--) {
                 if (LUndef.isDefined(maxChangeLogs[i]) && (maxChangeLogs[i] > createdAt) && (i > maxState.getValue())) {
                     maxState = PlanState.valueOf(i);
                 }
@@ -575,7 +578,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         }
         statistics.setHighestStateAchieved(maxState.getValue());
     }
-    
+
     protected void setupColumns() {
         addColumn("id", new LUndef());
         addColumn("propertyId", new LUndef());
@@ -621,7 +624,7 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         addColumn("lengthAlternativesDefinitionDescription", new LUndef());
 
         addColumn("lengthDecision", new LUndef());
-        
+
         addColumn("lengthEvaluationComment", new LUndef());
         addColumn("lengthImportanceWeightingComment", new LUndef());
         addColumn("lengthRecommendationReasoning", new LUndef());
@@ -650,8 +653,8 @@ public class PlanStatisticsGenerator extends StatisticsGenerator {
         addColumn("lengthSamplesDescription", new LUndef());
         addColumn("lengthDecisionReason", new LUndef());
         addColumn("lengthDecisionActionNeeded", new LUndef());
-        
+
         finishColumns();
 
-    }    
+    }
 }
