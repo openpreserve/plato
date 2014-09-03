@@ -274,9 +274,11 @@ public class PlanParser {
                 String projectName = plan.getPlanProperties().getName();
                 if ((projectName != null) && (!"".equals(projectName))) {
                     /*
-                     * establish links from values to scales
+                     * establish links from values to scales. For all(!)
+                     * alternatives: An alternative could have be discarded
+                     * after some measurements have already been added.
                      */
-                    plan.getTree().initValues(plan.getAlternativesDefinition().getConsideredAlternatives(),
+                    plan.getTree().initValues(plan.getAlternativesDefinition().getAlternatives(),
                         plan.getSampleRecordsDefinition().getRecords().size(), true);
                     /*
                      * establish references of Experiment.uploads
@@ -520,7 +522,7 @@ public class PlanParser {
         digester.addSetNext("*/experiment", "setExperiment");
         digester.addCallMethod("*/experiment/description", "setDescription", 0);
         digester.addCallMethod("*/experiment/settings", "setSettings", 0);
-        PlanParser.addCreateUpload(digester, "*/experiment/workflow", "setWorkflow", DigitalObject.class);        
+        PlanParser.addCreateUpload(digester, "*/experiment/workflow", "setWorkflow", DigitalObject.class);
 
         PlanParser.addCreateUpload(digester, "*/experiment/results/result", null, DigitalObject.class);
         PlanParser.addCreateUpload(digester, "*/result/xcdlDescription", "setXcdlDescription", XcdlDescription.class);
