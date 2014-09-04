@@ -34,6 +34,7 @@ import eu.scape_project.planning.model.DigitalObject;
 import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.measurement.Measure;
 import eu.scape_project.planning.model.values.Value;
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient.ComponentQuery;
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
@@ -49,7 +50,7 @@ import eu.scape_project.planning.utils.FileUtils;
  * via SSH.
  */
 public class SSHTavernaEvaluationService implements IObjectEvaluator {
-    private static Logger log = LoggerFactory.getLogger(SSHTavernaEvaluationService.class);
+    private static Logger LOG = LoggerFactory.getLogger(SSHTavernaEvaluationService.class);
 
     private final CriteriaManager cm = new CriteriaManager();
     private MyExperimentRESTClient myExperiment = new MyExperimentRESTClient();
@@ -72,15 +73,20 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
 
         Set<String> processedMeasures = new HashSet<String>(measureUris.size());
 
-        for (String measure : measureUris) {
-            if (!processedMeasures.contains(measure)) {
-                List<WorkflowInfo> wfs = queryMyExperiment(sample, result, measure);
-                for (WorkflowInfo wf : wfs) {
-                    Map<String, Value> wfResults = evaluate(sample, result, wf, measureUris, listener);
-                    results.putAll(wfResults);
-                    processedMeasures.addAll(results.keySet());
+        try {
+            for (String measure : measureUris) {
+                if (!processedMeasures.contains(measure)) {
+                    List<WorkflowInfo> wfs = queryMyExperiment(sample, result, measure);
+                    for (WorkflowInfo wf : wfs) {
+                        Map<String, Value> wfResults = evaluate(sample, result, wf, measureUris, listener);
+                        results.putAll(wfResults);
+                        processedMeasures.addAll(results.keySet());
+                    }
                 }
             }
+        } catch (PlanningServiceException e) {
+            // if the query fails for one, most likely myExperiment is not available, so skip all measures
+            LOG.error("Failed to evaluate measures.", e);
         }
 
         return results;
@@ -117,7 +123,7 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
 
         if (!workflowDescription.getProfile().equals("http://purl.org/DP/components#Characterisation")
             && !workflowDescription.getProfile().equals("http://purl.org/DP/components#QAObjectComparison")) {
-            log.warn("The workflow {} is no CC or QA component.", service.getDescriptor());
+            LOG.warn("The workflow {} is no CC or QA component.", service.getDescriptor());
             throw new EvaluatorException("The workflow " + service.getDescriptor() + " is no CC or QA component.");
         }
 
@@ -143,10 +149,10 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
         try {
             tavernaExecutor.execute();
         } catch (IOException e) {
-            log.error("Error connecting to execution server", e);
+            LOG.error("Error connecting to execution server", e);
             throw new EvaluatorException("Error connecting to execution server", e);
         } catch (TavernaExecutorException e) {
-            log.error("Error executing taverna workflow", e);
+            LOG.error("Error executing taverna workflow", e);
             throw new EvaluatorException("Error executing taverna workflow", e);
         }
 
@@ -191,7 +197,7 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
                     tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject.getFullname()),
                         digitalObject.getData().getData()));
             } else {
-                log.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getValue());
+                LOG.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getValue());
                 throw new EvaluatorException("The workflow has an unsupported port " + p.getName() + " that accepts "
                     + p.getValue());
             }
@@ -231,7 +237,7 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
                         tavernaExecutor.new ByteArraySourceFile(FileUtils.makeFilename(digitalObject2.getFullname()),
                             digitalObject2.getData().getData()));
                 } else {
-                    log.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getValue());
+                    LOG.warn("The workflow has an unsupported port {} of type {}", p.getName(), p.getValue());
                     throw new EvaluatorException("The workflow has an unsupported port " + p.getName()
                         + " that accepts " + p.getValue());
                 }
@@ -251,8 +257,9 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
      * @param measure
      *            the required measure
      * @return a list of workflows
+     * @throws PlanningServiceException 
      */
-    private List<WorkflowInfo> queryMyExperiment(DigitalObject sample, DigitalObject result, String measure) {
+    private List<WorkflowInfo> queryMyExperiment(DigitalObject sample, DigitalObject result, String measure) throws PlanningServiceException {
         ComponentQuery q = myExperiment.createComponentQuery();
 
         String sampleMimetype = sample.getFormatInfo().getMimeType();

@@ -48,12 +48,14 @@ import com.hp.hpl.jena.sparql.syntax.ElementFilter;
 import com.hp.hpl.jena.sparql.syntax.ElementGroup;
 import com.hp.hpl.jena.sparql.syntax.ElementUnion;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.myexperiment.domain.SearchResult;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
@@ -699,14 +701,19 @@ public class MyExperimentRESTClient implements Serializable {
      * @param query
      *            the query to use
      * @return a list of workflows
+     * @throws PlanningServiceException 
      */
-    public List<WorkflowInfo> searchComponents(ComponentQuery query) {
+    public List<WorkflowInfo> searchComponents(ComponentQuery query) throws PlanningServiceException {
         GenericType<JAXBElement<SearchResult>> searchResultType = new GenericType<JAXBElement<SearchResult>>() {
         };
 
-        LOG.debug("Querying myExperiments with [{}]", query.resource.getURI());
-        return query.resource.queryParam("elements", QUERY_ELEMENTS).accept(MediaType.APPLICATION_XML_TYPE)
-            .get(searchResultType).getValue().getWorkflows();
+        try {
+            LOG.debug("Querying myExperiments with [{}]", query.resource.getURI());
+            return query.resource.queryParam("elements", QUERY_ELEMENTS).accept(MediaType.APPLICATION_XML_TYPE)
+                .get(searchResultType).getValue().getWorkflows();
+        } catch (Exception e) {
+            throw new PlanningServiceException("Querying myExperiments failed.", e);
+        }
     }
 
     /**

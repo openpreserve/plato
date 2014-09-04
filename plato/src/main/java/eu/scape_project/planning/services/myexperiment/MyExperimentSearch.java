@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.scape_project.planning.services.IServiceInfo;
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.myexperiment.MyExperimentRESTClient.ComponentQuery;
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowInfo;
@@ -57,7 +58,7 @@ public class MyExperimentSearch {
      * 
      * @return a list of service infos that match the search parameters
      */
-    public List<IServiceInfo> searchMigrationAction() {
+    public List<IServiceInfo> searchMigrationAction() throws PlanningServiceException {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 
         // Create query
@@ -89,8 +90,9 @@ public class MyExperimentSearch {
      * Searches for object QA components using the set search parameters.
      * 
      * @return a list of service infos that match the search parameters
+     * @throws PlanningServiceException 
      */
-    public List<IServiceInfo> searchObjectQa() {
+    public List<IServiceInfo> searchObjectQa() throws PlanningServiceException {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();
@@ -133,8 +135,9 @@ public class MyExperimentSearch {
      * Searches for characterisation components using the set search parameters.
      * 
      * @return a list of service infos that match the search parameters
+     * @throws PlanningServiceException 
      */
-    public List<IServiceInfo> searchCc() {
+    public List<IServiceInfo> searchCc() throws PlanningServiceException {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();

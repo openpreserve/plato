@@ -31,6 +31,9 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
 import eu.scape_project.planning.model.Alternative;
@@ -50,6 +53,7 @@ import eu.scape_project.planning.plato.wf.AbstractWorkflowStep;
 import eu.scape_project.planning.plato.wf.DevelopExperiments;
 import eu.scape_project.planning.plato.wfview.AbstractView;
 import eu.scape_project.planning.services.IServiceInfo;
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.ActionInfoFactory;
 import eu.scape_project.planning.services.myexperiment.MyExperimentAsyncBuilder;
@@ -68,6 +72,7 @@ import eu.scape_project.planning.utils.Downloader;
 public class DevelopExperimentsView extends AbstractView {
 
     private static final long serialVersionUID = -4042576732990053101L;
+    private static final Logger LOG = LoggerFactory.getLogger(DevelopExperimentsView.class);
 
     @Inject
     private DevelopExperiments developExperiments;
@@ -252,8 +257,13 @@ public class DevelopExperimentsView extends AbstractView {
         myExperimentSearch.setSourceMimetype(sourceMimetype);
         myExperimentSearch.setTargetMimetype(targetMimetypes.get(selectedAlternative));
         Set<IServiceInfo> searchResults = new HashSet<IServiceInfo>();
-        searchResults.addAll(myExperimentSearch.searchObjectQa());
-        searchResults.addAll(myExperimentSearch.searchCc());
+        try {
+            searchResults.addAll(myExperimentSearch.searchObjectQa());
+            searchResults.addAll(myExperimentSearch.searchCc());
+        } catch (PlanningServiceException e) {
+            facesMessages.addError("Failed to retrieve components, registry unavailable.");
+            LOG.error("Failed to retrieve components, registry unavailable.", e);
+        }
         serviceInfoData = new ServiceInfoDataModel(new ArrayList<IServiceInfo>(searchResults), serviceLoaders);
     }
 

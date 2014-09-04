@@ -42,6 +42,7 @@ import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.PreservationActionDefinition;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.services.IServiceInfo;
+import eu.scape_project.planning.services.PlanningServiceException;
 import eu.scape_project.planning.services.myexperiment.domain.ComponentConstants;
 import eu.scape_project.planning.services.myexperiment.domain.Port;
 import eu.scape_project.planning.services.myexperiment.domain.WorkflowDescription;
@@ -198,56 +199,61 @@ public class MyExperimentAsyncBuilder {
         List<RecommendedComponent> recommendedComponents = new ArrayList<RecommendedComponent>();
         Set<String> processedMeasures = new HashSet<String>();
 
-        for (String measure : measures) {
-            if (!processedMeasures.contains(measure)) {
-                List<IServiceInfo> qaWfs = queryQaComponents(measure, sourceMimetype, targetMimetype);
-                Iterator<IServiceInfo> qaIt = qaWfs.iterator();
-                if (qaIt.hasNext()) {
-                    IServiceInfo wfi = qaIt.next();
-                    WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(wfi.getDescriptor());
-                    wfd.readMetadata();
-                    List<Port> outputPorts = wfd.getOutputPorts();
+        try {
+            for (String measure : measures) {
+                if (!processedMeasures.contains(measure)) {
+                    List<IServiceInfo> qaWfs = queryQaComponents(measure, sourceMimetype, targetMimetype);
+                    Iterator<IServiceInfo> qaIt = qaWfs.iterator();
+                    if (qaIt.hasNext()) {
+                        IServiceInfo wfi = qaIt.next();
+                        WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(wfi.getDescriptor());
+                        wfd.readMetadata();
+                        List<Port> outputPorts = wfd.getOutputPorts();
 
-                    List<String> leftMeasures = new ArrayList<String>();
-                    List<String> rightMeasures = new ArrayList<String>();
+                        List<String> leftMeasures = new ArrayList<String>();
+                        List<String> rightMeasures = new ArrayList<String>();
 
-                    for (Port port : outputPorts) {
-                        if (measures.contains(port.getValue())) {
-                            if (port.getRelatedObject() == null) {
-                                leftMeasures.add(port.getValue());
-                                rightMeasures.add(port.getValue());
-                            } else if (ComponentConstants.VALUE_LEFT_OBJECT.equals(port.getRelatedObject())) {
-                                leftMeasures.add(port.getValue());
-                            } else if (ComponentConstants.VALUE_RIGHT_OBJECT.equals(port.getRelatedObject())) {
-                                rightMeasures.add(port.getValue());
+                        for (Port port : outputPorts) {
+                            if (measures.contains(port.getValue())) {
+                                if (port.getRelatedObject() == null) {
+                                    leftMeasures.add(port.getValue());
+                                    rightMeasures.add(port.getValue());
+                                } else if (ComponentConstants.VALUE_LEFT_OBJECT.equals(port.getRelatedObject())) {
+                                    leftMeasures.add(port.getValue());
+                                } else if (ComponentConstants.VALUE_RIGHT_OBJECT.equals(port.getRelatedObject())) {
+                                    rightMeasures.add(port.getValue());
+                                }
                             }
                         }
-                    }
-                    boolean acceptsLeftMimetype = wfd.acceptsLeftMimetype(targetMimetype);
-                    boolean acceptsRightMimetype = wfd.acceptsRightMimetype(targetMimetype);
-                    if (acceptsLeftMimetype && acceptsRightMimetype) {
-                        if (leftMeasures.size() > rightMeasures.size()) {
+                        boolean acceptsLeftMimetype = wfd.acceptsLeftMimetype(targetMimetype);
+                        boolean acceptsRightMimetype = wfd.acceptsRightMimetype(targetMimetype);
+                        if (acceptsLeftMimetype && acceptsRightMimetype) {
+                            if (leftMeasures.size() > rightMeasures.size()) {
+                                processedMeasures.addAll(leftMeasures);
+                                recommendedComponents.add(new RecommendedComponent(wfd, leftMeasures,
+                                    InputSource.TARGET_OBJECT, InputSource.SOURCE_OBJECT, RelatedObject.LEFT_OBJECT));
+                            } else {
+                                processedMeasures.addAll(rightMeasures);
+                                recommendedComponents.add(new RecommendedComponent(wfd, rightMeasures,
+                                    InputSource.SOURCE_OBJECT, InputSource.TARGET_OBJECT, RelatedObject.RIGHT_OBJECT));
+                            }
+                        } else if (acceptsLeftMimetype) {
                             processedMeasures.addAll(leftMeasures);
                             recommendedComponents.add(new RecommendedComponent(wfd, leftMeasures,
                                 InputSource.TARGET_OBJECT, InputSource.SOURCE_OBJECT, RelatedObject.LEFT_OBJECT));
-                        } else {
+                        } else if (acceptsRightMimetype) {
                             processedMeasures.addAll(rightMeasures);
                             recommendedComponents.add(new RecommendedComponent(wfd, rightMeasures,
                                 InputSource.SOURCE_OBJECT, InputSource.TARGET_OBJECT, RelatedObject.RIGHT_OBJECT));
                         }
-                    } else if (acceptsLeftMimetype) {
-                        processedMeasures.addAll(leftMeasures);
-                        recommendedComponents.add(new RecommendedComponent(wfd, leftMeasures,
-                            InputSource.TARGET_OBJECT, InputSource.SOURCE_OBJECT, RelatedObject.LEFT_OBJECT));
-                    } else if (acceptsRightMimetype) {
-                        processedMeasures.addAll(rightMeasures);
-                        recommendedComponents.add(new RecommendedComponent(wfd, rightMeasures,
-                            InputSource.SOURCE_OBJECT, InputSource.TARGET_OBJECT, RelatedObject.RIGHT_OBJECT));
+                    } else {
+                        recommendCcComponents(recommendedComponents, processedMeasures, measures, measure, targetMimetype);
                     }
-                } else {
-                    recommendCcComponents(recommendedComponents, processedMeasures, measures, measure, targetMimetype);
                 }
             }
+        } catch (PlanningServiceException e) {
+            // If querying myExperiment fails, it is probably not available, so skip all measures.
+            e.printStackTrace();
         }
 
         return recommendedComponents;
@@ -267,9 +273,10 @@ public class MyExperimentAsyncBuilder {
      *            measure to find
      * @param targetMimetype
      *            the target mimetype
+     * @throws PlanningServiceException 
      */
     private void recommendCcComponents(List<RecommendedComponent> recommendedComponents, Set<String> processedMeasures,
-        final List<String> measures, final String measure, final String targetMimetype) {
+        final List<String> measures, final String measure, final String targetMimetype) throws PlanningServiceException {
         List<IServiceInfo> ccWfs = queryCcComponents(measure, targetMimetype);
         Iterator<IServiceInfo> ccIt = ccWfs.iterator();
         if (ccIt.hasNext()) {
@@ -300,8 +307,9 @@ public class MyExperimentAsyncBuilder {
      * @param targetMimetype
      *            the target mimetype
      * @return a list of workflows
+     * @throws PlanningServiceException 
      */
-    private List<IServiceInfo> queryQaComponents(String measure, String sourceMimetype, String targetMimetype) {
+    private List<IServiceInfo> queryQaComponents(String measure, String sourceMimetype, String targetMimetype) throws PlanningServiceException {
         myExperimentSearch.setMeasure(measure);
         myExperimentSearch.setSourceMimetype(sourceMimetype);
         myExperimentSearch.setTargetMimetype(targetMimetype);
@@ -317,8 +325,9 @@ public class MyExperimentAsyncBuilder {
      * @param targetMimetype
      *            the target mimetype
      * @return a list of workflows
+     * @throws PlanningServiceException 
      */
-    private List<IServiceInfo> queryCcComponents(String measure, String targetMimetype) {
+    private List<IServiceInfo> queryCcComponents(String measure, String targetMimetype) throws PlanningServiceException {
         myExperimentSearch.setMeasure(measure);
         myExperimentSearch.setTargetMimetype(targetMimetype);
         return myExperimentSearch.searchObjectQa();

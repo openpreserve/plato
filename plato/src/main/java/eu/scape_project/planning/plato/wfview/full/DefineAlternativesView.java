@@ -350,9 +350,14 @@ public class DefineAlternativesView extends AbstractView {
      * Filters myExperiment alternatives.
      */
     public void filterMyExperimentAlternatives() {
-        availableActions.clear();
-        availableActions.addAll(myExperimentSearch.searchMigrationAction());
-        serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
+        try {
+            availableActions.clear();
+            availableActions.addAll(myExperimentSearch.searchMigrationAction());
+            serviceInfoData = new ServiceInfoDataModel(availableActions, serviceLoaders);
+        } catch (PlanningServiceException e) {
+            facesMessages.addError("Failed to filter alternatives, registry unavailable.");
+            log.error("Failed to filter alternatives, registry unavailable.", e);
+        }
     }
 
     /**
