@@ -814,7 +814,7 @@
 							rendered="#{not empty kBrowser.dominatedSets}">
 							<div class="full-list">
 								<rich:dataGrid value="#{kBrowser.dominatedSets}" var="set"
-									id="dominatedSets2" rowKeyVar="dominatedSetIndex">
+									id="dominatedSets" rowKeyVar="dominatedSetIndex">
 
 									<rich:collapsiblePanel switchType="ajax" expanded="false"
 										toggleListener="#{kBrowser.loadDominatedSetPlans(dominatedSetIndex)}"
@@ -825,8 +825,6 @@
 												<ul>
 													<a4j:repeat value="#{set}" var="measure">
 														<li><h:outputText value="#{measure.name}" /></li>
-														<li><h:outputText value="#{measure.name}" /></li>
-														<li><h:outputText value="#{measure.name}" /></li>
 													</a4j:repeat>
 												</ul>
 											</div>
@@ -835,8 +833,6 @@
 											<div class="setoutput">
 												<ul>
 													<a4j:repeat value="#{set}" var="measure">
-														<li><h:outputText value="#{measure.name}" /></li>
-														<li><h:outputText value="#{measure.name}" /></li>
 														<li><h:outputText value="#{measure.name}" /></li>
 													</a4j:repeat>
 												</ul>

@@ -109,7 +109,7 @@ public abstract class DominatedSets {
      * index.
      * 
      * Note: For performance reasons the sets are stored in lists. Thus
-     * allMeasureUris should not duplicates.
+     * allMeasureUris should not contain duplicates.
      * 
      * @param allMeasureUris
      *            all measures that should be considered
