@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,7 +11,8 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and limitations under the License.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package eu.scape_project.planning.services.taverna.executor;
 
@@ -74,11 +75,6 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private static final String OUTPUT_DOC_FILENAME = "output_data.xml";
 
     /**
-     * Taverna command.
-     */
-    private static final String TAVERNA_COMMAND = "$TAVERNA_HOME/executeworkflow.sh -inputdoc %%inputdoc%% -outputdoc %%outputdoc%% %%workflow%%";
-
-    /**
      * Baclava XML namespace.
      */
     private static final Namespace NAMESPACE = Namespace.getNamespace("b",
@@ -93,6 +89,11 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * Timeout for remote commands.
      */
     private Integer commandTimeout;
+
+    /**
+     * Taverna command to call.
+     */
+    private String tavernaCommand;
 
     /*
      * Executor parameters
@@ -134,6 +135,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
         ConfigurationLoader configurationLoader = new ConfigurationLoader();
         sshConfig = configurationLoader.load();
         commandTimeout = sshConfig.getInt("tavernaserver.ssh.command.timeout");
+        tavernaCommand = sshConfig.getString("tavernaserver.ssh.command");
 
         clear();
     }
@@ -412,7 +414,7 @@ public class SSHTavernaExecutor implements TavernaExecutor {
      * @throws IOException
      *             if the server communication failed
      * @throws TavernaExecutorException
-     *             if the directory cannot be createdo
+     *             if the directory cannot be created
      */
     private String createWorkingDir() throws IOException, TavernaExecutorException {
         final Session session = ssh.startSession();
@@ -477,8 +479,9 @@ public class SSHTavernaExecutor implements TavernaExecutor {
     private void executeWorkflow() throws IOException, TavernaExecutorException {
         final Session session = ssh.startSession();
         try {
-            String command = TAVERNA_COMMAND.replace("%%inputdoc%%", inputDocPath)
-                .replace("%%outputdoc%%", outputDocPath).replace("%%workflow%%", workflowPath);
+            String command = tavernaCommand.replace("%%inputdoc%%", inputDocPath)
+                .replace("%%outputdoc%%", outputDocPath).replace("%%workflow%%", workflowPath)
+                .replace("%%working_dir%%", workingDir);
             final Command cmd = session.exec(command);
             cmd.join(commandTimeout, TimeUnit.SECONDS);
 
