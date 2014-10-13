@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,  
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,8 +13,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * This work originates from the Planets project, co-funded by the European Union under the Sixth Framework Programme.
  ******************************************************************************/
 package eu.scape_project.planning.model;
 
@@ -32,8 +30,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
- * Holds attributes of a preservation plan. Attributes such as the plans
- * author or whether the plan is read-only.
+ * Holds attributes of a preservation plan. Attributes such as the plans author
+ * or whether the plan is read-only.
  * 
  * @author Hannes Kulovits
  */
@@ -50,7 +48,7 @@ public class PlanProperties implements Serializable, ITouchable {
      * Identifies this plan in a repository.
      */
     private String repositoryIdentifier;
-    
+
     /**
      * Author of the preservation project.
      */
@@ -115,31 +113,65 @@ public class PlanProperties implements Serializable, ITouchable {
 
     @Enumerated(EnumType.STRING)
     private PlanState state = PlanState.CREATED;
-    
+
     /**
-     * Indicates that this plan is only for playing around.
-     * Note: This property is not exported/imported, as soon as it is stored externally, it is seen as important.  
+     * Indicates that this plan is only for playing around. Note: This property
+     * is not exported/imported, as soon as it is stored externally, it is seen
+     * as important.
      */
     private boolean playground = false;
 
     /**
-     * Indicates whether the plan may be unlocked. As the plan is
-     * locked when a user is working with it we needed a mechanism to prevent a
-     * plan from being permanently locked. This may occur when the user
-     * doesn't logout properly or some unexpected error occurs. 
-     * If a plan may be unlocked is determined in
+     * Indicates whether the plan may be unlocked. As the plan is locked when a
+     * user is working with it we needed a mechanism to prevent a plan from
+     * being permanently locked. This may occur when the user doesn't logout
+     * properly or some unexpected error occurs. If a plan may be unlocked is
+     * determined in
      * {@link eu.scape_project.planning.action.project.LoadPlanAction#list()}
      */
     @Transient
     private boolean allowUnlock = false;
-    
+
     @Transient
     private boolean mayEdit = false;
 
+    /**
+     * Constructs a new plan properties entity.
+     */
     public PlanProperties() {
         this.reportUpload = new DigitalObject();
     }
 
+    /**
+     * @see ITouchable#handleChanges(IChangesHandler)
+     */
+    @Override
+    public void handleChanges(IChangesHandler h) {
+        h.visit(this);
+
+        reportUpload.handleChanges(h);
+    }
+
+    @Override
+    public void touch() {
+        this.changeLog.touch();
+    }
+
+    @Override
+    public boolean isChanged() {
+        return changeLog.isAltered();
+    }
+
+    /**
+     * States if the plan is currently closed.
+     * 
+     * @return
+     */
+    public boolean isClosed() {
+        return (openHandle == 0);
+    }
+
+    // ********** getter/setter **********
     public PlanState getState() {
         return state;
     }
@@ -176,36 +208,32 @@ public class PlanProperties implements Serializable, ITouchable {
         return author;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getOrganization() {
-        return organization;
-    }
-
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void touch() {
-        this.changeLog.touch();
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     public ChangeLog getChangeLog() {
@@ -214,28 +242,6 @@ public class PlanProperties implements Serializable, ITouchable {
 
     public void setChangeLog(ChangeLog value) {
         changeLog = value;
-    }
-
-    public boolean isChanged() {
-        return changeLog.isAltered();
-    }
-
-    /**
-     * @see ITouchable#handleChanges(IChangesHandler)
-     */
-    public void handleChanges(IChangesHandler h) {
-        h.visit(this);
-
-        reportUpload.handleChanges(h);
-    }
-
-    /**
-     * States if the plan is currently closed.
-     * 
-     * @return 
-     */
-    public boolean isClosed() {
-        return (openHandle == 0);
     }
 
     public int getOpenHandle() {

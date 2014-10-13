@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,14 +53,23 @@ public abstract class AbstractView implements Serializable {
     protected Plan plan;
 
     /**
-     * Plan state this viewWorkflow step is responsible for.
+     * Plan state this workflow step view is responsible for.
      */
     protected PlanState currentPlanState;
 
+    /**
+     * Name of the workflow step.
+     */
     protected String name;
 
+    /**
+     * View URL of the workflow step.
+     */
     protected String viewUrl;
 
+    /**
+     * Group of the workflow step.
+     */
     protected String group;
 
     /**
@@ -208,16 +217,16 @@ public abstract class AbstractView implements Serializable {
         return plan;
     }
 
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
     public String getChanged() {
         return changed;
     }
 
     public void setChanged(String changed) {
         this.changed = changed;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
     }
 
     public String getGroup() {

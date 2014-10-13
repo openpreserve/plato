@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -35,7 +34,9 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
-import javax.transaction.UserTransaction;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -70,7 +71,9 @@ public class PlanManager implements Serializable {
      * Selection of projects to query.
      */
     public enum WhichProjects {
-        ALLPROJECTS, PUBLICPROJECTS, MYPROJECTS;
+        ALLPROJECTS,
+        PUBLICPROJECTS,
+        MYPROJECTS;
     }
 
     @Inject
@@ -90,14 +93,11 @@ public class PlanManager implements Serializable {
     @Inject
     private FacesMessages facesMessages;
 
-    @Inject
-    UserTransaction userTx;
-
     /**
-     * Plan properties of all loaded plans in this session
+     * Plan properties of all loaded plans in this session.
      */
     private HashSet<Integer> sessionPlans;
-    
+
     /**
      * Query to get PlanProperties.
      */
@@ -115,9 +115,8 @@ public class PlanManager implements Serializable {
         private List<Predicate> stateFilterPredicates;
         private List<Predicate> nameFilterPredicates;
         private Predicate mappedFilterPredicate;
-        
+
         private Predicate playgroundFilterPredicate;
-        
 
         /**
          * Initializes the query.
@@ -144,7 +143,7 @@ public class PlanManager implements Serializable {
          * 
          * @param whichProjects
          *            criteria to add
-         * @return this planquery
+         * @return this plan query
          */
         public PlanQuery addVisibility(WhichProjects whichProjects) {
             // Select usernames of the users group
@@ -167,7 +166,6 @@ public class PlanManager implements Serializable {
 
             return this;
         }
-        
 
         /**
          * Adds plan states as criteria to the query.
@@ -257,7 +255,7 @@ public class PlanManager implements Serializable {
         }
 
         /**
-         * Adds a filter excluding all plans marked as playground 
+         * Adds a filter excluding all plans marked as playground.
          * 
          * @return this query
          */
@@ -265,7 +263,7 @@ public class PlanManager implements Serializable {
             playgroundFilterPredicate = builder.isFalse(fromPP.<Boolean> get("playground"));
             return this;
         }
-        
+
         /**
          * Finishes the query.
          */
@@ -290,31 +288,24 @@ public class PlanManager implements Serializable {
 
             // Order by
             cq.orderBy(builder.asc(fromPP.get("id")));
-            //            cq.orderBy(builder.asc(fromPP.<ChangeLog> get("changeLog").get("created")));
         }
-    }    
+    }
 
+    /**
+     * Constructs a new plan manager.
+     */
     public PlanManager() {
         sessionPlans = new HashSet<Integer>();
     }
 
-    @Remove
-    public void destroy() {
-    }
-    
+    /**
+     * Unlocks all plans opened in this session.
+     */
     public void unlockSessionPlans() {
         HashSet<Integer> lockedPlans = new HashSet<Integer>(sessionPlans);
         for (Integer planPropertiesId : lockedPlans) {
             unlockPlan(planPropertiesId);
         }
-    }
-
-    public WhichProjects getLastLoadMode() {
-        return lastLoadMode;
-    }
-
-    public void setLastLoadMode(WhichProjects lastLoadMode) {
-        this.lastLoadMode = lastLoadMode;
     }
 
     /**
@@ -348,12 +339,12 @@ public class PlanManager implements Serializable {
         for (PlanProperties pp : planProperties) {
 
             // A plan may be edited:
-            //     user currently logged in is administrator
-            //     or user currently logged in is the owner
-            //     or user currently logged in is in the group of the owner
-            boolean mayEdit = pp.isClosed() && ( user.isAdmin() || user.getUsername().equals(pp.getOwner()) ||
-                  usernames.contains(pp.getOwner()));
-                
+            // user currently logged in is administrator
+            // or user currently logged in is the owner
+            // or user currently logged in is in the group of the owner
+            boolean mayEdit = pp.isClosed()
+                && (user.isAdmin() || user.getUsername().equals(pp.getOwner()) || usernames.contains(pp.getOwner()));
+
             pp.setMayEdit(mayEdit);
             pp.setAllowUnlock(pp.getOpenedByUser().equals(user.getUsername()) || user.isAdmin());
         }
@@ -428,7 +419,8 @@ public class PlanManager implements Serializable {
             if (num < 1) {
                 throw new PlanningException("The plan has been loaded by another user. Please choose another plan.");
             }
-            // and add it to the list of loaded plans, so we can unlock it in any case
+            // and add it to the list of loaded plans, so we can unlock it in
+            // any case
             sessionPlans.add(propertyId);
         }
         // then load the plan
@@ -437,24 +429,12 @@ public class PlanManager implements Serializable {
         if (result != null) {
             Plan plan = loadPlan((Integer) result);
             plan.setReadOnly(readOnly);
-            log.info("Plan {} : {} loaded.",  propertyId, plan.getPlanProperties().getName() );
+            log.info("Plan {} : {} loaded.", propertyId, plan.getPlanProperties().getName());
             return plan;
         } else {
             throw new PlanningException("An unexpected error has occured while loading the plan.");
         }
     }
-
-//    /**
-//     * Stores the provided plan.
-//     * 
-//     * @param plan
-//     *            the plan to store
-//     * @throws PlanningException
-//     *             if an error occured
-//     */
-//    public void store(Plan plan) throws PlanningException {
-//        em.persist(em.merge(plan));
-//    }
 
     /**
      * Hibernate initializes project and its parts.
@@ -521,7 +501,7 @@ public class PlanManager implements Serializable {
     public void unlockPlan(int planPropertiesId) {
         // remove from list of locked plans
         sessionPlans.remove(planPropertiesId);
-        
+
         unlockQuery(planPropertiesId);
     }
 
@@ -565,7 +545,7 @@ public class PlanManager implements Serializable {
     public void save(Plan plan, PlanState currentState, Object entity) {
 
         log.debug("Persisting plan " + entity.getClass().getName());
-
+        
         plan.getPlanProperties().setState(currentState);
 
         if (plan.getPlanProperties().getReportUpload().isDataExistent()) {
@@ -627,5 +607,14 @@ public class PlanManager implements Serializable {
                 + plan.getPlanProperties().getId(), e);
         }
 
+    }
+
+    // ********** getter/setter **********
+    public WhichProjects getLastLoadMode() {
+        return lastLoadMode;
+    }
+
+    public void setLastLoadMode(WhichProjects lastLoadMode) {
+        this.lastLoadMode = lastLoadMode;
     }
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +25,8 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.slf4j.Logger;
+
 import eu.scape_project.planning.bean.PrepareChangesForPersist;
 import eu.scape_project.planning.exception.PlanningException;
 import eu.scape_project.planning.manager.ByteStreamManager;
@@ -42,13 +44,10 @@ import eu.scape_project.planning.utils.XmlXPathEvaluator;
 import eu.scape_project.planning.validation.PlanValidator;
 import eu.scape_project.planning.validation.ValidationError;
 
-import org.slf4j.Logger;
-
 /**
  * Base class for steps of the workflow.
  * 
  * @author Markus Hamm, Michael Kraxner
- * 
  */
 public abstract class AbstractWorkflowStep implements Serializable {
 
@@ -102,7 +101,7 @@ public abstract class AbstractWorkflowStep implements Serializable {
     protected PlanState correspondingPlanState;
 
     /**
-     * Default constructor.
+     * Empty constructor.
      */
     public AbstractWorkflowStep() {
     }
@@ -118,21 +117,14 @@ public abstract class AbstractWorkflowStep implements Serializable {
         prepareChangesForPersist.setUser(user.getUsername());
     }
 
-    public void setPlan(Plan p) {
-        this.plan = p;
-    }
-
-    public Plan getPlan() {
-        return this.plan;
-    }
-
     /**
-     * Checks if the plan has progressed far enough to continue to the next
-     * step. - if it is complete, the plans' state is set accordingly - if not,
-     * the plan state is set to this step, the plan is stored, and explanations
-     * are added to errors
+     * Saves the plan. Updates the plan state if the current step is complete.
+     * Otherwise the plan state is reset to the current state and errors are
+     * added to the error list.
      * 
-     * @return list of errors if check fails, otherwise an empty list
+     * @param errors
+     *            a list of errors
+     * @return true if there were no errors, false otherwise
      */
     public boolean proceed(List<ValidationError> errors) {
         // save the plan - this way the state is reset to the requiredPlanState,
@@ -147,15 +139,25 @@ public abstract class AbstractWorkflowStep implements Serializable {
         return false;
     }
 
+    /**
+     * Checks if the plan may proceed to the next step.
+     * 
+     * @param errors
+     *            a list of errors
+     * @return true if the plan may proceed, false otherwise
+     */
     protected boolean mayProceed(List<ValidationError> errors) {
         return planValidator.isPlanStateSatisfied(plan, correspondingPlanState, errors);
     }
 
     /**
-     * Stores all changes made in a step. - it resets the plan's state to
-     * requiredPlanState and persist it. - then only step-specific changes are
-     * saved. - clean-up added/deleted bytestreams Note: derived steps have to
-     * store their changes in {@link AbstractWorkflowStep#saveStepSpecific()}
+     * Stores all changes made in a step.
+     * 
+     * Resets the plan's state to requiredPlanState and persist it. Saves
+     * step-specific changes and cleans up added or deleted bytestreams.
+     * 
+     * Note: derived steps have to store their changes in
+     * {@link AbstractWorkflowStep#saveStepSpecific()}
      */
     public void save() {
         plan.getPlanProperties().setState(requiredPlanState);
@@ -167,19 +169,20 @@ public abstract class AbstractWorkflowStep implements Serializable {
     /**
      * Stores all changes made in a step WITHOUT modifying the plan-state. This
      * method is often required at re-using the business-logic of a
-     * workflow-step. Steps executed: - save plan properties - save
-     * step-specific changes - clean-up added/deleted bytestreams
+     * workflow-step.
+     * 
+     * Saves plan properties, step-specific changes and cleans-up added/deleted
+     * bytestreams.
      */
     public void saveWithoutModifyingPlanState() {
         saveEntity(plan.getPlanProperties());
 
-        // now the step specific changes can be saved
         saveStepSpecific();
 
-        // added bytestreams are accepted
+        // Added bytestreams are accepted
         addedBytestreams.clear();
 
-        // delete bytestreams marked to remove
+        // Delete bytestreams marked to remove
         for (String pid : bytestreamsToRemove) {
             try {
                 bytestreamManager.delete(pid);
@@ -191,11 +194,11 @@ public abstract class AbstractWorkflowStep implements Serializable {
     }
 
     /**
-     * Method responsible for persisting a given Entity.
+     * Persists the provided entity.
      * 
      * @param entity
      *            Entity to persist
-     * @return The Entity merged into current persistence context.
+     * @return The entity merged into current persistence context.
      */
     protected Object saveEntity(Object entity) {
         prepareChangesForPersist.prepare(entity);
@@ -206,10 +209,10 @@ public abstract class AbstractWorkflowStep implements Serializable {
     }
 
     /**
-     * Method responsible for removing a given Entity from database.
+     * Removes the provided entity from the database.
      * 
      * @param entity
-     *            Entity to remove.
+     *            Entity to remove
      */
     protected void removeEntity(Object entity) {
         Object merged = em.merge(entity);
@@ -217,20 +220,23 @@ public abstract class AbstractWorkflowStep implements Serializable {
     }
 
     /**
-     * Discards all changes which have not been persisted so far.
+     * Discards all changes that have not been persisted so far.
+     * 
+     * @throws PlanningException
+     *             if the reload failed
      */
     public void discard() throws PlanningException {
-        // delete list of added bytestreams
+        // Delete added bytestreams
         for (String pid : addedBytestreams) {
             try {
                 bytestreamManager.delete(pid);
             } catch (StorageException e) {
-                log.error("failed to delete discarded bytestream: " + pid);
+                log.error("Failed to delete discarded bytestream: " + pid);
             }
         }
         addedBytestreams.clear();
 
-        // changes are discarded - so nothing has to be discarded
+        // Clear discarded bytestreams
         bytestreamsToRemove.clear();
 
         plan = planManager.reloadPlan(plan);
@@ -247,12 +253,12 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * file.
      * 
      * @param alternative
-     *            Alternative the file was uploaded for.
+     *            Alternative the file was uploaded for
      * @param sampleObject
-     *            Sample the file was uploaded for.
-     * @return A copy of the result file as DigitalObject.
+     *            Sample the file was uploaded for
+     * @return A copy of the result file as DigitalObject
      * @throws StorageException
-     *             is thrown if any error occurs at retrieving the result file.
+     *             if any error occurred retrieving the result file
      */
     public DigitalObject fetchResultFile(Alternative alternative, SampleObject sampleObject) throws StorageException {
         DigitalObject digitalObject = alternative.getExperiment().getResults().get(sampleObject);
@@ -260,6 +266,15 @@ public abstract class AbstractWorkflowStep implements Serializable {
         return digitalObjectManager.getCopyOfDataFilledDigitalObject(digitalObject);
     }
 
+    /**
+     * Fetches a copy of the provided digital object filled with data.
+     * 
+     * @param object
+     *            the object to fetch
+     * @return a data filled digital object
+     * @throws StorageException
+     *             if any error occurred fetching data
+     */
     public DigitalObject fetchDigitalObject(DigitalObject object) throws StorageException {
         return digitalObjectManager.getCopyOfDataFilledDigitalObject(object);
     }
@@ -268,10 +283,10 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * Characterizes a digital object with FITS tool.
      * 
      * @param digitalObject
-     *            digital object to characterize.
+     *            digital object to characterize
      * @param updateFormatInfo
      *            true to update the format info, false otherwise
-     * @return true if characterization was successful, false otherwise.
+     * @return true if characterization was successful, false otherwise
      */
     public boolean characteriseFits(DigitalObject digitalObject, boolean updateFormatInfo) {
         if (fits == null) {
@@ -305,20 +320,19 @@ public abstract class AbstractWorkflowStep implements Serializable {
      * info.
      * 
      * @param digitalObject
-     *            digital object to characterize.
-     * @return true if characterization was successful, false otherwise.
+     *            digital object to characterize
+     * @return true if characterization was successful, false otherwise
      */
     public boolean characteriseFits(DigitalObject digitalObject) {
         return characteriseFits(digitalObject, true);
     }
 
     /**
-     * Method responsible for updating SampleFile format-information based on
-     * its extracted Fits characteristics.
+     * Updates the format info of the digital object based on the FITS string.
      * 
-     * @param sampleObject
-     *            SampleObject to update.
-     * @return True if format-information was updated, false otherwise
+     * @param digitalObject
+     *            digital object to update
+     * @return true if the format information was updated, false otherwise
      */
     private boolean updateFormatInformationBasedOnFits(DigitalObject digitalObject) {
         if (digitalObject == null || digitalObject.getFitsXMLString() == null
@@ -354,24 +368,30 @@ public abstract class AbstractWorkflowStep implements Serializable {
     }
 
     /**
-     * Method responsible for extracting the file-extension out of a given
-     * filename.
+     * Extracts the file extension of a given filename.
      * 
      * @param fileName
-     *            Filename to parse.
-     * @return File extension of the given filename, or an empty string if the
-     *         filename has no extension.
+     *            filename to parse
+     * @return file extension or an empty string if the filename has no
+     *         extension
      */
     private String extractFileExtension(String fileName) {
-        int stringLength = fileName.length();
         int separatorIndex = fileName.lastIndexOf('.');
 
         // if no extension is present in the filename
-        if (separatorIndex == -1 || separatorIndex == (stringLength - 1)) {
+        if (separatorIndex == -1 || separatorIndex == (fileName.length() - 1)) {
             return "";
         }
 
         return fileName.substring(separatorIndex + 1);
     }
 
+    // ********** getter/setter **********
+    public void setPlan(Plan p) {
+        this.plan = p;
+    }
+
+    public Plan getPlan() {
+        return this.plan;
+    }
 }
