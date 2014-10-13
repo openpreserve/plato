@@ -165,7 +165,13 @@ public abstract class AbstractView implements Serializable {
      * @return true, if plan state could be advanced
      */
     protected boolean tryProceed(List<ValidationError> errors) {
-        return getWfStep().proceed(errors);
+        try {
+            return getWfStep().proceed(errors);
+        } catch (Exception e) {
+            errors.add(new ValidationError("Failed to save changes."));
+            log.error("Failed to save changes.", e);
+        }
+        return false;
     }
 
     /**
