@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import eu.scape_project.planning.model.Alternative;
 import eu.scape_project.planning.model.Plan;
@@ -64,9 +61,6 @@ public class PlanValidator implements Serializable {
      */
     public boolean isPlanStateSatisfied(final Plan plan, final PlanState state, List<ValidationError> errors) {
         boolean result = true;
-
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
 
         switch (state) {
             case BASIS_DEFINED:
