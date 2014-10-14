@@ -161,11 +161,6 @@ public class SSHGeneratedTavernaMigrationService implements IMigrationAction {
             }
         }
 
-        if (measurement == null) {
-            if (!"target".equals(measureId)) {
-                measurement = new Measurement(measureId, value.toString());
-            }
-        }
         return measurement;
     }
 }
