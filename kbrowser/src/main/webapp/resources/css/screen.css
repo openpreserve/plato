@@ -644,12 +644,12 @@ div.warning {
 	font-family: Helvetica;
 }
 
-ul#messages {
+ul#messages, .messages {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 20px;
 	padding: 10px;
-	width: 900px;
+	width: 90%;
 	background-color: #a9daeb;
 	border-bottom: 1px solid gray;
 	border-right: 1px solid gray;
@@ -660,22 +660,22 @@ ul#messages {
 	font-family: Helvetica;
 }
 
-#messages .error {
+#messages .error, .messages .error {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/error.png.jsf?ln=org.richfaces);
 	margin-left: 30px;
 }
 
-#messages .warning {
+#messages .warning, .messages .warning {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/warning.png.jsf?ln=org.richfaces);
-	margin-left: 20px;
+	margin-left: 30px;
 }
 
-#messages .info {
+#messages .info, .messages .info {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/info.png.jsf?ln=org.richfaces);
-	margin-left: 20px;
+	margin-left: 30px;
 }
 
 #data {

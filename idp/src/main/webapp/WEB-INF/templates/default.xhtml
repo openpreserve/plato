@@ -10,15 +10,24 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href="http://fonts.googleapis.com/css?family=Audiowide"
 		rel="stylesheet" type="text/css" />
-	<h:outputStylesheet library="css" name="screen.css" />
+	<h:outputStylesheet library="css" name="screen.css" />	
 </h:head>
 <h:body>
 	<div id="header">SCAPE-PW Identity provider</div>
 
+	<noscript>
+		<ul class="messages">
+			<li class="error">
+				You seem to have disabled JavaScript in your browser. Plato requires JavaScript to function property. Please enable JavaScript or whitelist the Plato domain.
+			</li>
+		</ul>
+	</noscript>
+
 	<div id="content">
 		<h:messages id="messages" globalOnly="true" showDetail="true"
-			errorClass="error" warnClass="warning" infoClass="info" />
-
+			errorClass="error" warnClass="warning" infoClass="info">
+		</h:messages>
+		
 		<ui:insert name="content">
                     [Template content will be inserted here]
         </ui:insert>

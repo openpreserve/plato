@@ -5,7 +5,6 @@ body {
 	background: #DADADA;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 0.9em;
-	/*width: 1024px;*/
 }
 
 #main-div {
@@ -276,7 +275,7 @@ fieldset.size-full {
 	color: red;
 }
 
-ul#messages {
+ul#messages, .messages {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 20px;
@@ -292,19 +291,19 @@ ul#messages {
 	font-family: Helvetica;
 }
 
-#messages .error {
+#messages .error, .messages .error {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/error.png.jsf?ln=org.richfaces);
 	margin-left: 30px;
 }
 
-#messages .warning {
+#messages .warning, .messages .warning {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/warning.png.jsf?ln=org.richfaces);
 	margin-left: 30px;
 }
 
-#messages .info {
+#messages .info, .messages .info {
 	list-style-image:
 		url(#{request.contextPath}/javax.faces.resource/info.png.jsf?ln=org.richfaces);
 	margin-left: 30px;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2006 - 2012 Vienna University of Technology,
+ * Copyright 2006 - 2014 Vienna University of Technology,
  * Department of Software Technology and Interactive Systems, IFS
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,6 +60,9 @@ public class ReCaptchaValidator implements Validator {
 
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");
+        if (challenge == null || uresponse == null) {
+        	throw new ValidatorException(new FacesMessage("No ReCaptcha text. Maybe you have JavaScript disabled. Please enable and retry."));
+        }
         ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
 
         if (reCaptchaResponse.isValid()) {

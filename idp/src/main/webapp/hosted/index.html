@@ -119,12 +119,42 @@ body {
 	font-size: 0.85em;
 	padding: 1em 0 0 0;
 }
+
+.messages {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+	padding: 10px;
+	width: 90%;
+	background-color: #a9daeb;
+	border-bottom: 1px solid gray;
+	border-right: 1px solid gray;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+	border-radius: 5px;
+	box-shadow: 0px 2px 10px 2px #888;
+	font-family: Helvetica;
+}
+
+#messages .error, .messages .error {
+	list-style-image:
+		url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAtNJREFUeNpsk11IFFEUx//zsbO7szs7u+oa9lCBmZq4JtU+hKJlREQEFVT4IELvhZjRQz4JShoE2YM+BGEgiYGYET6kvYQPJlSKm7ZqYajraqn7vTs7M907xVrqgcM5c+75nXvPnXuY4f5+7BRhcvId9pCUx3N6Z4xPKwou1tZmAqPNzbq3zAOFYXYV+Pjps36mpSWz8Lq3F7ySSm3DDbf08mNl2AgGwHDcrgK08NumRj1cUsperq/XKcv0dXXRNcY969NKD+cjurUFoegIUjNfSZHtU5gKCqD4/RDtDkzNzWOt8ChPwiqbTCQ4CpfIEsKL3yB7vci7fB3Oykpo6wFD5VMVRsxx/KSR43E7kT3vTxNW4BOx2AFxdRkRxW7spESihpUrqkl9ddv/u6ZHNxHWFDgCQSy4sg/SAjYtSRYimpG03v0QaZJAd5SrajItrAz0IfS8E7y8D6yqIB2LgLJ8Ih4XVdK3FgqSDZOgXW+03oa92AOpqNiAwzNfsNXRCMGVBQRDUE126CkOlGVTpA8ocQMWLAxMrIL9TW0ZmAr18+60Gj4n8GCZBLn2KAgr8uQizKwNMDOCkeBuuA/pwjXD//6ix7CHbtRBvlIH3ibi57MH4DQBZp1FkhYgVayMmAWLFkJKSyOS1CERaOnNINjBzj/9O53IO38JoZgKnjdBIJrSeHoCG+ctLHT5YJ0riUXPOnNEJCfHsDrrh3XiFaRcFyzk9+oz4whM+SCMD8Am2RBcS6CHdd9TVdXHncjPX9LIBXxgxZVyVqnOdouwhH7AItnBkOcsimZYrQKE0DLsBF79peBxxN5CmFGi71mFzMKToaEJYvs7Ns1t6xHAJssGJOU4SN8WQx3k8SwTuH2FaSe5g4QZo6wxTFS6h4enb9bUdLcugrvK8ncZgb7U9H+z8NIff0RMz9ORkWn6TVmmvqpq58zkEj2HvWWM6MK/gd8CDADwjENdFObsUgAAAABJRU5ErkJggg==');
+	margin-left: 30px;
+}
 </style>
 
 </head>
 <body>
 
 	<div id="header">SCAPE-PW Identity provider</div>
+	
+	<noscript>
+		<ul class="messages">
+			<li class="error">
+				You seem to have disabled JavaScript in your browser. Plato requires JavaScript to function property. Please enable JavaScript or whitelist the Plato domain.
+			</li>
+		</ul>
+	</noscript>
 
 	<div id="content">
 		<div id="menu-container">
