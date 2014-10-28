@@ -147,6 +147,7 @@ public class MyExperimentRESTClient implements Serializable {
 
         private ElementGroup query = new ElementGroup();
         private ElementUnion handlesMimetypes = new ElementUnion();
+        private ElementUnion migrationPathSource = new ElementUnion();
 
         /**
          * Creates a new component query for the provided web resource.
@@ -213,9 +214,9 @@ public class MyExperimentRESTClient implements Serializable {
          * Adds a migration path restriction to the query.
          * 
          * @param sourceMimetype
-         *            the from mimetype
+         *            the source mimetype
          * @param targetMimetype
-         *            the to mimetype
+         *            the target mimetype
          * @return this query
          */
         public ComponentQuery addMigrationPath(String sourceMimetype, String targetMimetype) {
@@ -240,14 +241,45 @@ public class MyExperimentRESTClient implements Serializable {
         }
 
         /**
-         * Adds a migration path from restriction to the query.
+         * Adds a migration path source restriction to the query.
+         * 
+         * Note that all mimetypes added using the methods
+         * {@link #addMigrationPath(String)},
+         * {@link #addMigrationPathWildcard(String)} will be concatenated using
+         * UNION.
          * 
          * @param sourceMimetype
-         *            the from mimetype
+         *            the source mimetype
          * @return this query
          */
         public ComponentQuery addMigrationPath(String sourceMimetype) {
-            return addMigrationPath(sourceMimetype, null);
+            if (sourceMimetype != null && !sourceMimetype.isEmpty()) {
+                Node node = NodeFactory.createAnon();
+                ElementGroup group = new ElementGroup();
+                group.addTriplePattern(new Triple(wfNode, NodeFactory.createURI(ONTOLOGY_IRI + "migrates"), node));
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(TYPE_IRI), NodeFactory
+                    .createURI(ONTOLOGY_IRI + "MigrationPath")));
+                group.addTriplePattern(new Triple(node, NodeFactory.createURI(ONTOLOGY_IRI + "sourceMimetype"),
+                    NodeFactory.createLiteral(sourceMimetype)));
+                migrationPathSource.addElement(group);
+            }
+            return this;
+        }
+
+        /**
+         * Adds a migration path source wildcard restriction to the query.
+         * 
+         * Note that all mimetypes added using the methods
+         * {@link #addMigrationPath(String)},
+         * {@link #addMigrationPathWildcard(String)} will be concatenated using
+         * UNION.
+         * 
+         * @param sourceMimetype
+         *            the source mimetype
+         * @return this query
+         */
+        public ComponentQuery addMigrationPathWildcard(String sourceMimetype) {
+            return addMigrationPath(getMimetypeWildcard(sourceMimetype));
         }
 
         /**
@@ -598,7 +630,20 @@ public class MyExperimentRESTClient implements Serializable {
         }
 
         /**
-         * Finishes the dependency label filter.
+         * Finishes the source migration path filter.
+         */
+        private void finishMigrationPathSource() {
+            if (migrationPathSource != null && !migrationPathSource.getElements().isEmpty()) {
+                if (migrationPathSource.getElements().size() > 1) {
+                    query.addElement(migrationPathSource);
+                } else {
+                    query.addElement(migrationPathSource.getElements().get(0));
+                }
+            }
+        }
+
+        /**
+         * Finishes the handles mimetype filter
          */
         private void finishHandlesMimetypes() {
             if (handlesMimetypes != null && !handlesMimetypes.getElements().isEmpty()) {
@@ -616,6 +661,7 @@ public class MyExperimentRESTClient implements Serializable {
         public void finishQuery() {
             finishMigrationPathFilter();
             finishDependencyLabelFilter();
+            finishMigrationPathSource();
             finishHandlesMimetypes();
 
             IndentedLineBuffer formatBuffer = new IndentedLineBuffer();
@@ -701,7 +747,8 @@ public class MyExperimentRESTClient implements Serializable {
      * @param query
      *            the query to use
      * @return a list of workflows
-     * @throws PlanningServiceException 
+     * @throws PlanningServiceException
+     *             if the query failed
      */
     public List<WorkflowInfo> searchComponents(ComponentQuery query) throws PlanningServiceException {
         GenericType<JAXBElement<SearchResult>> searchResultType = new GenericType<JAXBElement<SearchResult>>() {

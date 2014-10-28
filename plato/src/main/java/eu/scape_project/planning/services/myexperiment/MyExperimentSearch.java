@@ -57,15 +57,18 @@ public class MyExperimentSearch {
      * Searches for migration components using the set search parameters.
      * 
      * @return a list of service infos that match the search parameters
+     * @throws PlanningServiceException
+     *             if the search failed
      */
     public List<IServiceInfo> searchMigrationAction() throws PlanningServiceException {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
 
         // Create query
         ComponentQuery query = myExperimentRESTClient.createComponentQuery();
-        query.addProfile(profile).addMigrationPath(sourceMimetype).setMigrationPathTargetPattern(targetMimetype)
-            .addInputPort(ComponentConstants.VALUE_SOURCE_OBJECT).addOutputPort(ComponentConstants.VALUE_TARGET_OBJECT)
-            .addInstallationEnvironment(environment).addInstallationEnvironmentType(environmentType);
+        query.addProfile(profile).addMigrationPath(sourceMimetype).addMigrationPathWildcard(sourceMimetype)
+            .setMigrationPathTargetPattern(targetMimetype).addInputPort(ComponentConstants.VALUE_SOURCE_OBJECT)
+            .addOutputPort(ComponentConstants.VALUE_TARGET_OBJECT).addInstallationEnvironment(environment)
+            .addInstallationEnvironmentType(environmentType);
 
         query.setDependencyLabelPattern(dependencyLabel);
         query.finishQuery();
@@ -90,7 +93,8 @@ public class MyExperimentSearch {
      * Searches for object QA components using the set search parameters.
      * 
      * @return a list of service infos that match the search parameters
-     * @throws PlanningServiceException 
+     * @throws PlanningServiceException
+     *             if the query failed
      */
     public List<IServiceInfo> searchObjectQa() throws PlanningServiceException {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
@@ -135,7 +139,8 @@ public class MyExperimentSearch {
      * Searches for characterisation components using the set search parameters.
      * 
      * @return a list of service infos that match the search parameters
-     * @throws PlanningServiceException 
+     * @throws PlanningServiceException
+     *             if the query failed
      */
     public List<IServiceInfo> searchCc() throws PlanningServiceException {
         List<IServiceInfo> services = new ArrayList<IServiceInfo>();
