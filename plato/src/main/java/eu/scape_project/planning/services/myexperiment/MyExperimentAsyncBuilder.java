@@ -330,6 +330,6 @@ public class MyExperimentAsyncBuilder {
     private List<IServiceInfo> queryCcComponents(String measure, String targetMimetype) throws PlanningServiceException {
         myExperimentSearch.setMeasure(measure);
         myExperimentSearch.setTargetMimetype(targetMimetype);
-        return myExperimentSearch.searchObjectQa();
+        return myExperimentSearch.searchCc();
     }
 }
