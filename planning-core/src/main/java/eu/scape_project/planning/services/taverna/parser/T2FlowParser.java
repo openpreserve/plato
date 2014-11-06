@@ -135,7 +135,7 @@ public class T2FlowParser {
             parser.setProperty(ValidatingParserFactory.JAXP_SCHEMA_SOURCE, ProjectImporter.TAVERNA_SCHEMA_URI);
 
             SAXReader reader = new SAXReader(parser.getXMLReader());
-            reader.setValidation(true);
+            reader.setValidation(false);
 
             SchemaResolver schemaResolver = new SchemaResolver();
             schemaResolver.addSchemaLocation(ProjectImporter.TAVERNA_SCHEMA_URI, SCHEMA_LOCATION
