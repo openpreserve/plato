@@ -327,7 +327,7 @@
 				<site>
 					<id>opf.jenkins.site</id>
 					<name>OPF Labs Maven Local Website</name>
-					<url>file:///var/www/projects/scape/plato</url>
+					<url>file:///var/www/projects.opf-labs.org/scape/plato</url>
 				</site>
 			</distributionManagement>
 		</profile>	</profiles>
