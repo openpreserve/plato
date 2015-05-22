@@ -99,21 +99,18 @@ public class MiniMeeRegistry {
         }
         return
         // one of the puids is null OR they are equal
-        (isEmptyOrNull(srcFormat.getPuid()) || isEmptyOrNull(regInfo.getPuid()) || srcFormat.getPuid().equals(
-            regInfo.getPuid()))
-
-            // one of the formats is null OR one of them is contained in the
-            // other
-            && (isEmptyOrNull(srcFormat.getName()) || isEmptyOrNull(regInfo.getName())
-                || regInfo.getName().toUpperCase().contains(srcFormat.getName().toUpperCase()) || srcFormat.getName()
-                .toUpperCase().contains(regInfo.getName().toUpperCase())) &&
-            // one of the extensions is null OR they are equal
-            (isEmptyOrNull(srcFormat.getDefaultExtension()) || isEmptyOrNull(regInfo.getDefaultExtension()) || srcFormat
-                .getDefaultExtension().toUpperCase().equals(regInfo.getDefaultExtension().toUpperCase()));
-    }
-
-    private static boolean isEmptyOrNull(String value) {
-        return (value == null) || ("".equals(value));
+        (StringUtils.isEmpty(srcFormat.getPuid()) || 
+         StringUtils.isEmpty(regInfo.getPuid()) || 
+         srcFormat.getPuid().equals(regInfo.getPuid())) &&
+        // one of the formats is null OR one of them is contained in the other
+        (StringUtils.isEmpty(srcFormat.getName()) || 
+         StringUtils.isEmpty(regInfo.getName()) || 
+         regInfo.getName().toUpperCase().contains(srcFormat.getName().toUpperCase()) || 
+         srcFormat.getName().toUpperCase().contains(regInfo.getName().toUpperCase())) &&
+        // one of the extensions is null OR they are equal
+        (StringUtils.isEmpty(srcFormat.getDefaultExtension()) || 
+         StringUtils.isEmpty(regInfo.getDefaultExtension()) || 
+         srcFormat.getDefaultExtension().toUpperCase().equals(regInfo.getDefaultExtension().toUpperCase()));
     }
 
     /**

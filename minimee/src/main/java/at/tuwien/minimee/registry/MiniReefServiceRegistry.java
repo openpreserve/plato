@@ -21,23 +21,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import at.tuwien.minireef.MiniREEFResolver;
 import at.tuwien.minireef.ResultSet;
-
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * demonstration registry to query miniREEF (using the P2 knowledge base) for
