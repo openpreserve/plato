@@ -80,7 +80,8 @@
 					Please make sure you check all evaluation results and approve them. Values that have not been evaluated or not yet
 					approved are marked with a star (*). The planning process requires you to either enter by yourself or confirm all
 					evaluation results. In order to confirm values that you have not entered yourself, please select<br />
-					<a4j:commandButton value="Approve all values" action="#{evalexperiments.approve}" render="@form" />
+					<a4j:commandButton value="Approve all values" action="#{evalexperiments.approve}" render="@form"
+						ignoreDupResponses="true"  onclick="toggleLoadingOverlay(); return true;" oncomplete="toggleLoadingOverlay();" />
 				</p>
 			</fieldset>
 			<fieldset id="comments" class="size-full">
