@@ -48,6 +48,23 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<artifactId>xercesImpl</artifactId>
+			<groupId>xerces</groupId>
+			<version>2.10.0</version>
+			<scope>test</scope>
+		</dependency>		
 
 	</dependencies>
 </project>
