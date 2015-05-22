@@ -42,6 +42,7 @@ import eu.scape_project.planning.model.Parameter;
 import eu.scape_project.planning.model.Plan;
 import eu.scape_project.planning.model.PlanState;
 import eu.scape_project.planning.model.PreservationActionDefinition;
+import eu.scape_project.planning.model.SampleObject;
 import eu.scape_project.planning.model.User;
 import eu.scape_project.planning.model.tree.Leaf;
 import eu.scape_project.planning.model.tree.TreeNode;
@@ -173,7 +174,10 @@ public class DevelopExperimentsView extends AbstractView {
             }
         }
 
-        sourceMimetype = plan.getSampleRecordsDefinition().getFirstSampleWithFormat().getFormatInfo().getMimeType();
+        SampleObject sampleWithFormat = plan.getSampleRecordsDefinition().getFirstSampleWithFormat();
+        if (sampleWithFormat != null) {
+            sourceMimetype = sampleWithFormat.getFormatInfo().getMimeType();
+        }
         myExperimentSearch.setSourceMimetype(sourceMimetype);
 
         serviceLoaders.put("myExperiment", myExperimentServices);
@@ -253,7 +257,9 @@ public class DevelopExperimentsView extends AbstractView {
      */
     public void selectLeaf(Leaf leaf) {
         this.selectedLeaf = leaf;
-        myExperimentSearch.setMeasure(leaf.getMeasure().getUri());
+        if (leaf.isMapped()) {
+            myExperimentSearch.setMeasure(leaf.getMeasure().getUri());
+        }
         myExperimentSearch.setSourceMimetype(sourceMimetype);
         myExperimentSearch.setTargetMimetype(targetMimetypes.get(selectedAlternative));
         Set<IServiceInfo> searchResults = new HashSet<IServiceInfo>();
@@ -274,16 +280,19 @@ public class DevelopExperimentsView extends AbstractView {
      *            the component info to add
      */
     public void addComponent(IServiceInfo serviceInfo) {
-        String currentMeasure = selectedLeaf.getMeasure().getUri();
-        if (!openMeasures.contains(currentMeasure)) {
-            openMeasures.add(currentMeasure);
+        if (selectedLeaf.isMapped()) {
+            String currentMeasure = selectedLeaf.getMeasure().getUri();
+            if (!openMeasures.contains(currentMeasure)) {
+                openMeasures.add(currentMeasure);
+            }
+            RecommendedComponent recommendedComponent = MyExperimentExecutablePlanGenerator.recommendComponent(serviceInfo,
+                openMeasures, targetMimetypes.get(selectedAlternative));
+            if (recommendedComponent != null) {
+                removeMeasureRecommendation(currentMeasure);
+                recommendedComponents.add(recommendedComponent);
+                openMeasures.removeAll(recommendedComponent.measures);
+            }
         }
-        RecommendedComponent recommendedComponent = MyExperimentExecutablePlanGenerator.recommendComponent(serviceInfo,
-            openMeasures, targetMimetypes.get(selectedAlternative));
-
-        removeMeasureRecommendation(currentMeasure);
-        recommendedComponents.add(recommendedComponent);
-        openMeasures.removeAll(recommendedComponent.measures);
     }
 
     /**

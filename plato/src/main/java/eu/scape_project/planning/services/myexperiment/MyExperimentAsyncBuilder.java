@@ -105,15 +105,18 @@ public class MyExperimentAsyncBuilder {
         if (action != null) {
             try {
                 WorkflowDescription wf = MyExperimentRESTClient.getWorkflow(action.getDescriptor());
-                HashMap<String, String> parameters = new HashMap<String, String>();
-                for (Parameter p : action.getParams()) {
-                    parameters.put(p.getName(), p.getValue());
+                if (wf != null) {
+                    HashMap<String, String> parameters = new HashMap<String, String>();
+                    for (Parameter p : action.getParams()) {
+                        parameters.put(p.getName(), p.getValue());
+                    }
+                    wf.readMetadata();
+                    String workflowContent = MyExperimentRESTClient.getWorkflowContent(wf);
+                    generator.setMigrationComponent(wf, workflowContent, parameters);
+                } else {
+                    log.warn(String.format("The workflow [%s] could not be found.", action.getDescriptor()));
                 }
-                wf.readMetadata();
-                String workflowContent = MyExperimentRESTClient.getWorkflowContent(wf);
-                generator.setMigrationComponent(wf, workflowContent, parameters);
             } catch (Exception e) {
-                log.warn("An error occured querying myExperiment migration component.", e.getMessage());
                 throw new PlanningException("An error occured querying myExperiment migration component", e);
             }
         }
@@ -207,44 +210,46 @@ public class MyExperimentAsyncBuilder {
                     if (qaIt.hasNext()) {
                         IServiceInfo wfi = qaIt.next();
                         WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(wfi.getDescriptor());
-                        wfd.readMetadata();
-                        List<Port> outputPorts = wfd.getOutputPorts();
-
-                        List<String> leftMeasures = new ArrayList<String>();
-                        List<String> rightMeasures = new ArrayList<String>();
-
-                        for (Port port : outputPorts) {
-                            if (measures.contains(port.getValue())) {
-                                if (port.getRelatedObject() == null) {
-                                    leftMeasures.add(port.getValue());
-                                    rightMeasures.add(port.getValue());
-                                } else if (ComponentConstants.VALUE_LEFT_OBJECT.equals(port.getRelatedObject())) {
-                                    leftMeasures.add(port.getValue());
-                                } else if (ComponentConstants.VALUE_RIGHT_OBJECT.equals(port.getRelatedObject())) {
-                                    rightMeasures.add(port.getValue());
+                        if (wfd != null) {
+                            wfd.readMetadata();
+                            List<Port> outputPorts = wfd.getOutputPorts();
+    
+                            List<String> leftMeasures = new ArrayList<String>();
+                            List<String> rightMeasures = new ArrayList<String>();
+    
+                            for (Port port : outputPorts) {
+                                if (measures.contains(port.getValue())) {
+                                    if (port.getRelatedObject() == null) {
+                                        leftMeasures.add(port.getValue());
+                                        rightMeasures.add(port.getValue());
+                                    } else if (ComponentConstants.VALUE_LEFT_OBJECT.equals(port.getRelatedObject())) {
+                                        leftMeasures.add(port.getValue());
+                                    } else if (ComponentConstants.VALUE_RIGHT_OBJECT.equals(port.getRelatedObject())) {
+                                        rightMeasures.add(port.getValue());
+                                    }
                                 }
                             }
-                        }
-                        boolean acceptsLeftMimetype = wfd.acceptsLeftMimetype(targetMimetype);
-                        boolean acceptsRightMimetype = wfd.acceptsRightMimetype(targetMimetype);
-                        if (acceptsLeftMimetype && acceptsRightMimetype) {
-                            if (leftMeasures.size() > rightMeasures.size()) {
+                            boolean acceptsLeftMimetype = wfd.acceptsLeftMimetype(targetMimetype);
+                            boolean acceptsRightMimetype = wfd.acceptsRightMimetype(targetMimetype);
+                            if (acceptsLeftMimetype && acceptsRightMimetype) {
+                                if (leftMeasures.size() > rightMeasures.size()) {
+                                    processedMeasures.addAll(leftMeasures);
+                                    recommendedComponents.add(new RecommendedComponent(wfd, leftMeasures,
+                                        InputSource.TARGET_OBJECT, InputSource.SOURCE_OBJECT, RelatedObject.LEFT_OBJECT));
+                                } else {
+                                    processedMeasures.addAll(rightMeasures);
+                                    recommendedComponents.add(new RecommendedComponent(wfd, rightMeasures,
+                                        InputSource.SOURCE_OBJECT, InputSource.TARGET_OBJECT, RelatedObject.RIGHT_OBJECT));
+                                }
+                            } else if (acceptsLeftMimetype) {
                                 processedMeasures.addAll(leftMeasures);
                                 recommendedComponents.add(new RecommendedComponent(wfd, leftMeasures,
                                     InputSource.TARGET_OBJECT, InputSource.SOURCE_OBJECT, RelatedObject.LEFT_OBJECT));
-                            } else {
+                            } else if (acceptsRightMimetype) {
                                 processedMeasures.addAll(rightMeasures);
                                 recommendedComponents.add(new RecommendedComponent(wfd, rightMeasures,
                                     InputSource.SOURCE_OBJECT, InputSource.TARGET_OBJECT, RelatedObject.RIGHT_OBJECT));
                             }
-                        } else if (acceptsLeftMimetype) {
-                            processedMeasures.addAll(leftMeasures);
-                            recommendedComponents.add(new RecommendedComponent(wfd, leftMeasures,
-                                InputSource.TARGET_OBJECT, InputSource.SOURCE_OBJECT, RelatedObject.LEFT_OBJECT));
-                        } else if (acceptsRightMimetype) {
-                            processedMeasures.addAll(rightMeasures);
-                            recommendedComponents.add(new RecommendedComponent(wfd, rightMeasures,
-                                InputSource.SOURCE_OBJECT, InputSource.TARGET_OBJECT, RelatedObject.RIGHT_OBJECT));
                         }
                     } else {
                         recommendCcComponents(recommendedComponents, processedMeasures, measures, measure, targetMimetype);
@@ -282,16 +287,18 @@ public class MyExperimentAsyncBuilder {
         if (ccIt.hasNext()) {
             IServiceInfo wfi = ccIt.next();
             WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(wfi.getDescriptor());
-            wfd.readMetadata();
-            List<Port> outputPorts = wfd.getOutputPorts();
-            List<String> ccMeasures = new ArrayList<String>();
-            for (Port port : outputPorts) {
-                if (measures.contains(port.getValue())) {
-                    ccMeasures.add(port.getValue());
+            if (wfd != null) {
+                wfd.readMetadata();
+                List<Port> outputPorts = wfd.getOutputPorts();
+                List<String> ccMeasures = new ArrayList<String>();
+                for (Port port : outputPorts) {
+                    if (measures.contains(port.getValue())) {
+                        ccMeasures.add(port.getValue());
+                    }
                 }
+                processedMeasures.addAll(ccMeasures);
+                recommendedComponents.add(new RecommendedComponent(wfd, ccMeasures, null, null, null));
             }
-            processedMeasures.addAll(ccMeasures);
-            recommendedComponents.add(new RecommendedComponent(wfd, ccMeasures, null, null, null));
         }
 
     }

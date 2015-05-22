@@ -110,7 +110,7 @@ or refer to [github](https://github.com/openplanets/plato/issues)
 
 ### Licence
 
-Plato is released under [Apache version 2.0 license](LICENSE.txt).
+Plato is released under [Apache version 2.0 license](LICENSE).
 
 ### Acknowledgements
 

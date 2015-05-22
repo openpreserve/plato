@@ -119,6 +119,9 @@ public class SSHTavernaEvaluationService implements IObjectEvaluator {
 
         // Get description
         WorkflowDescription workflowDescription = MyExperimentRESTClient.getWorkflow(service.getDescriptor());
+        if (workflowDescription == null) {
+            throw new EvaluatorException(String.format("The workflow [%s] could not be found.", service.getDescriptor()));
+        }
         workflowDescription.readMetadata();
 
         if (!workflowDescription.getProfile().equals("http://purl.org/DP/components#Characterisation")

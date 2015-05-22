@@ -68,6 +68,11 @@ public class SSHTavernaMigrationActionService implements IMigrationAction {
         HashMap<String, Object> inputData = new HashMap<String, Object>();
 
         WorkflowDescription workflowDescription = MyExperimentRESTClient.getWorkflow(action.getDescriptor());
+        if (workflowDescription == null) {
+            result.setSuccessful(false);
+            result.setReport("The workflow " + action.getDescriptor() + " could not be found.");
+            return result;
+        }
         workflowDescription.readMetadata();
         if (!workflowDescription.getProfile().equals("http://purl.org/DP/components#MigrationAction")) {
             result.setSuccessful(false);

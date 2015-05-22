@@ -21,20 +21,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.rpc.ServiceException;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import at.tuwien.minireef.MiniREEFResolver;
 import at.tuwien.minireef.ResultSet;
-
 import eu.scape_project.planning.model.FormatInfo;
 import eu.scape_project.planning.model.PlatoException;
 import eu.scape_project.planning.services.IServiceInfo;
 import eu.scape_project.planning.services.action.ActionInfo;
 import eu.scape_project.planning.services.action.IPreservationActionRegistry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * demonstration registry to query miniREEF (using the P2 knowledge base) for
@@ -46,6 +47,8 @@ import org.slf4j.LoggerFactory;
  */
 public class MiniReefServiceRegistry implements IPreservationActionRegistry {
     private static final Logger log = LoggerFactory.getLogger(MiniReefServiceRegistry.class);
+    
+    private static Pattern puidPattern = Pattern.compile("(x-)?fmt/[a-z0-9]+");
 
     public void connect(String URL) throws ServiceException, MalformedURLException {
 
@@ -60,7 +63,16 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
     }
 
     public List<IServiceInfo> getAvailableActions(FormatInfo sourceFormat) throws PlatoException {
-
+        if ((sourceFormat == null) || (StringUtils.isEmpty(sourceFormat.getPuid()))) {
+            throw new PlatoException("No source format defined.");
+        }
+        
+        String puid = sourceFormat.getPuid();
+        
+        if (!puidPattern.matcher(puid).matches()) {
+            throw new PlatoException("Invalid Pronom Unique ID");
+        }
+        
         String statement = "SELECT distinct ?swname ?swversion ?formatname ?formatversion ?released ?vendorname "
             + "WHERE { ?sw ?link1 ?format . "
             +
@@ -87,10 +99,6 @@ public class MiniReefServiceRegistry implements IPreservationActionRegistry {
         // prepare commonly used parameters
         Map<String, String> params = new HashMap<String, String>();
 
-        String puid = "Target format PUID undefined for this action";
-        if (sourceFormat != null && !"".equals(sourceFormat.getPuid())) {
-            puid = sourceFormat.getPuid();
-        }
         params.put("PUID", puid);
 
         ResultSet resultSet = MiniREEFResolver.getInstance().resolve(statement, params);

@@ -271,7 +271,7 @@ public class ManageCriteriaSets implements Serializable {
 
         // Test which leaves match
         for (VPlanLeaf leaf : planSelection.getSelectionPlanLeaves()) {
-            if (leaf.getMeasure() != null) {
+            if (leaf.isMapped()) {
                 if (leaf.getMeasure().getUri().equals(measure.getUri())) {
                     matchingLeaves.add(leaf);
                 }

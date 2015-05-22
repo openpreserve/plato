@@ -1,7 +1,6 @@
 package eu.scape_project.planning.utils;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import eu.scape_project.planning.utils.JGet;
