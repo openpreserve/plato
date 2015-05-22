@@ -16,6 +16,10 @@
 package eu.scape_project.planning.services.taverna.executor;
 
 public class TavernaExecutorException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     public TavernaExecutorException() {
         super();

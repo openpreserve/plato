@@ -121,13 +121,20 @@ public class MyExperimentExecutablePlanGenerator {
      */
     public void setMigrationAction(IServiceInfo migrationAction, Map<String, String> parameters)
         throws PlanningException {
+        WorkflowDescription wf = null;
         try {
-            WorkflowDescription wf = MyExperimentRESTClient.getWorkflow(migrationAction.getDescriptor());
+            wf = MyExperimentRESTClient.getWorkflow(migrationAction.getDescriptor());
+        } catch (Exception e) {
+            throw new PlanningException("An error occurred querying myExperiment migration component", e);
+        }
+        if (wf == null) {
+            throw new PlanningException("Could not retrieve workflow of migration component.");
+        }
+        try {
             wf.readMetadata();
             String workflowContent = MyExperimentRESTClient.getWorkflowContent(wf);
             generator.setMigrationComponent(wf, workflowContent, parameters);
         } catch (Exception e) {
-            log.warn("An error occured querying myExperiment migration component.", e.getMessage());
             throw new PlanningException("An error occurred querying myExperiment migration component", e);
         }
     }
@@ -174,13 +181,16 @@ public class MyExperimentExecutablePlanGenerator {
      *            a list of measures required
      * @param targetMimetype
      *            the target mimetype
-     * @return a component recommendation
+     * @return a component recommendation, or null if component could not be found
      */
     public static RecommendedComponent recommendComponent(IServiceInfo component, List<String> measures,
         String targetMimetype) {
         RecommendedComponent recommendedComponent = null;
 
         WorkflowDescription wfd = MyExperimentRESTClient.getWorkflow(component.getDescriptor());
+        if (wfd == null) {
+            return null;
+        }
         wfd.readMetadata();
         List<Port> outputPorts = wfd.getOutputPorts();
 

@@ -287,10 +287,11 @@ public class DevelopExperimentsView extends AbstractView {
             }
             RecommendedComponent recommendedComponent = MyExperimentExecutablePlanGenerator.recommendComponent(serviceInfo,
                 openMeasures, targetMimetypes.get(selectedAlternative));
-            
-            removeMeasureRecommendation(currentMeasure);
-            recommendedComponents.add(recommendedComponent);
-            openMeasures.removeAll(recommendedComponent.measures);
+            if (recommendedComponent != null) {
+                removeMeasureRecommendation(currentMeasure);
+                recommendedComponents.add(recommendedComponent);
+                openMeasures.removeAll(recommendedComponent.measures);
+            }
         }
     }
 

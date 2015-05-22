@@ -834,13 +834,16 @@ public class MyExperimentRESTClient implements Serializable {
      * 
      * @param descriptor
      *            the descriptor URL of the workflow
-     * @return a workflow description
+     * @return a workflow description, or null if the workflow could not be found 
      */
     public static WorkflowDescription getWorkflow(String descriptor) {
         GenericType<JAXBElement<WorkflowDescription>> workflowType = new GenericType<JAXBElement<WorkflowDescription>>() {
         };
 
         String likelyDescriptor = guessDescriptor(descriptor);
+        if (likelyDescriptor == null) {
+            return null;
+        }
         Client client = Client.create();
         WebResource resource = client.resource(likelyDescriptor).queryParam("elements", WORKFLOW_ELEMENTS);
 
@@ -889,6 +892,9 @@ public class MyExperimentRESTClient implements Serializable {
      * @return the likely descriptor URL or the reference if no match was found
      */
     private static String guessDescriptor(String reference) {
+        if (reference == null) {
+            return reference;
+        }
         if (reference.matches("(.+\\:\\/\\/.+workflow.xml)(.*[?&]id=\\d+)")) {
             return reference;
         } else {
