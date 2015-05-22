@@ -4,7 +4,7 @@ Efficient and trustworthy preservation planning.
 
 ## Develop
 
-[![Build Status](https://travis-ci.org/openplanets/plato.png)](https://travis-ci.org/openplanets/plato)
+[![Build Status](https://travis-ci.org/openpreserve/plato.png)](https://travis-ci.org/openpreserve/plato)
 
 ### Requirements
 
