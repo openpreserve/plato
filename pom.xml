@@ -66,7 +66,7 @@
 		<idp.url>http://${idp.domain}:${ps.port}/idp/</idp.url>
 		<sp.domain>localhost</sp.domain>
 
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<jboss-javaee.version>3.0.2.Final</jboss-javaee.version>
 
 		<!-- timestamp is used for archives and manifest entries -->
